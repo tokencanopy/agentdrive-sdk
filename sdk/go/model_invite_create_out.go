@@ -17,10 +17,11 @@ import (
 // checks if the InviteCreateOut type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &InviteCreateOut{}
 
-// InviteCreateOut POST /v0/members/invite response. `already_member` is True when the email was already a live member (no invite created — a no-op success).
+// InviteCreateOut POST /v0/members/invite response. `already_member` is True when the email was already a live member (no invite created — a no-op success). `email_delivered` is False when the invite row was created but the notification email failed to send — the invite is still valid and can be resent, but the invitee has not yet received a link.
 type InviteCreateOut struct {
 	Invitation NullableInvitationOut `json:"invitation,omitempty"`
 	AlreadyMember *bool `json:"already_member,omitempty"`
+	EmailDelivered *bool `json:"email_delivered,omitempty"`
 }
 
 // NewInviteCreateOut instantiates a new InviteCreateOut object
@@ -31,6 +32,8 @@ func NewInviteCreateOut() *InviteCreateOut {
 	this := InviteCreateOut{}
 	var alreadyMember bool = false
 	this.AlreadyMember = &alreadyMember
+	var emailDelivered bool = true
+	this.EmailDelivered = &emailDelivered
 	return &this
 }
 
@@ -41,6 +44,8 @@ func NewInviteCreateOutWithDefaults() *InviteCreateOut {
 	this := InviteCreateOut{}
 	var alreadyMember bool = false
 	this.AlreadyMember = &alreadyMember
+	var emailDelivered bool = true
+	this.EmailDelivered = &emailDelivered
 	return &this
 }
 
@@ -118,6 +123,38 @@ func (o *InviteCreateOut) SetAlreadyMember(v bool) {
 	o.AlreadyMember = &v
 }
 
+// GetEmailDelivered returns the EmailDelivered field value if set, zero value otherwise.
+func (o *InviteCreateOut) GetEmailDelivered() bool {
+	if o == nil || IsNil(o.EmailDelivered) {
+		var ret bool
+		return ret
+	}
+	return *o.EmailDelivered
+}
+
+// GetEmailDeliveredOk returns a tuple with the EmailDelivered field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InviteCreateOut) GetEmailDeliveredOk() (*bool, bool) {
+	if o == nil || IsNil(o.EmailDelivered) {
+		return nil, false
+	}
+	return o.EmailDelivered, true
+}
+
+// HasEmailDelivered returns a boolean if a field has been set.
+func (o *InviteCreateOut) HasEmailDelivered() bool {
+	if o != nil && !IsNil(o.EmailDelivered) {
+		return true
+	}
+
+	return false
+}
+
+// SetEmailDelivered gets a reference to the given bool and assigns it to the EmailDelivered field.
+func (o *InviteCreateOut) SetEmailDelivered(v bool) {
+	o.EmailDelivered = &v
+}
+
 func (o InviteCreateOut) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -133,6 +170,9 @@ func (o InviteCreateOut) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.AlreadyMember) {
 		toSerialize["already_member"] = o.AlreadyMember
+	}
+	if !IsNil(o.EmailDelivered) {
+		toSerialize["email_delivered"] = o.EmailDelivered
 	}
 	return toSerialize, nil
 }

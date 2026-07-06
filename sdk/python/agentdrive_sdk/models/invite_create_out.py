@@ -26,11 +26,12 @@ from pydantic_core import to_jsonable_python
 
 class InviteCreateOut(BaseModel):
     """
-    POST /v0/members/invite response. `already_member` is True when the email was already a live member (no invite created — a no-op success).
+    POST /v0/members/invite response. `already_member` is True when the email was already a live member (no invite created — a no-op success). `email_delivered` is False when the invite row was created but the notification email failed to send — the invite is still valid and can be resent, but the invitee has not yet received a link.
     """ # noqa: E501
     invitation: Optional[InvitationOut] = None
     already_member: Optional[StrictBool] = False
-    __properties: ClassVar[List[str]] = ["invitation", "already_member"]
+    email_delivered: Optional[StrictBool] = True
+    __properties: ClassVar[List[str]] = ["invitation", "already_member", "email_delivered"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -92,7 +93,8 @@ class InviteCreateOut(BaseModel):
 
         _obj = cls.model_validate({
             "invitation": InvitationOut.from_dict(obj["invitation"]) if obj.get("invitation") is not None else None,
-            "already_member": obj.get("already_member") if obj.get("already_member") is not None else False
+            "already_member": obj.get("already_member") if obj.get("already_member") is not None else False,
+            "email_delivered": obj.get("email_delivered") if obj.get("email_delivered") is not None else True
         })
         return _obj
 

@@ -24,6 +24,9 @@ import {
 /**
  * POST /v0/members/invite response. `already_member` is True when the
  * email was already a live member (no invite created — a no-op success).
+ * `email_delivered` is False when the invite row was created but the
+ * notification email failed to send — the invite is still valid and can be
+ * resent, but the invitee has not yet received a link.
  * @export
  * @interface InviteCreateOut
  */
@@ -40,6 +43,12 @@ export interface InviteCreateOut {
      * @memberof InviteCreateOut
      */
     alreadyMember?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof InviteCreateOut
+     */
+    emailDelivered?: boolean;
 }
 
 /**
@@ -61,6 +70,7 @@ export function InviteCreateOutFromJSONTyped(json: any, ignoreDiscriminator: boo
         
         'invitation': json['invitation'] == null ? undefined : InvitationOutFromJSON(json['invitation']),
         'alreadyMember': json['already_member'] == null ? undefined : json['already_member'],
+        'emailDelivered': json['email_delivered'] == null ? undefined : json['email_delivered'],
     };
 }
 
@@ -77,6 +87,7 @@ export function InviteCreateOutToJSONTyped(value?: InviteCreateOut | null, ignor
         
         'invitation': InvitationOutToJSON(value['invitation']),
         'already_member': value['alreadyMember'],
+        'email_delivered': value['emailDelivered'],
     };
 }
 
