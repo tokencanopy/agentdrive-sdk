@@ -4,9 +4,9 @@ All URIs are relative to *https://api.agentdrive.run*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateWorkspaceRouteV0WorkspacesPost**](WorkspacesAPI.md#CreateWorkspaceRouteV0WorkspacesPost) | **Post** /v0/workspaces | Create a new workspace
-[**ListWorkspacesRouteV0WorkspacesGet**](WorkspacesAPI.md#ListWorkspacesRouteV0WorkspacesGet) | **Get** /v0/workspaces | List the workspaces you belong to
-[**RenameWorkspaceRouteV0WorkspacesOrgIdPatch**](WorkspacesAPI.md#RenameWorkspaceRouteV0WorkspacesOrgIdPatch) | **Patch** /v0/workspaces/{org_id} | Rename a workspace you administer
+[**CreateWorkspaceRouteV0WorkspacesPost**](WorkspacesAPI.md#CreateWorkspaceRouteV0WorkspacesPost) | **Post** /v0/workspaces | Create a new shared drive
+[**ListWorkspacesRouteV0WorkspacesGet**](WorkspacesAPI.md#ListWorkspacesRouteV0WorkspacesGet) | **Get** /v0/workspaces | List the spaces you belong to
+[**RenameWorkspaceRouteV0WorkspacesOrgIdPatch**](WorkspacesAPI.md#RenameWorkspaceRouteV0WorkspacesOrgIdPatch) | **Patch** /v0/workspaces/{org_id} | Rename a shared drive you administer
 
 
 
@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 > WorkspaceCreateOut CreateWorkspaceRouteV0WorkspacesPost(ctx).WorkspaceCreateIn(workspaceCreateIn).Authorization(authorization).Execute()
 
-Create a new workspace
+Create a new shared drive
 
 
 
@@ -82,7 +82,7 @@ No authorization required
 
 > WorkspaceList ListWorkspacesRouteV0WorkspacesGet(ctx).Authorization(authorization).Execute()
 
-List the workspaces you belong to
+List the spaces you belong to
 
 
 
@@ -148,7 +148,7 @@ No authorization required
 
 > WorkspaceOut RenameWorkspaceRouteV0WorkspacesOrgIdPatch(ctx, orgId).WorkspaceRenameIn(workspaceRenameIn).Authorization(authorization).Execute()
 
-Rename a workspace you administer
+Rename a shared drive you administer
 
 
 

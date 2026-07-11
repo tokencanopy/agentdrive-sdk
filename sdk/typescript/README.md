@@ -71,9 +71,11 @@ All URIs are relative to *https://api.agentdrive.run*
 *DefaultApi* | [**commitUploadV0UploadsUploadIdCommitPost**](docs/DefaultApi.md#commituploadv0uploadsuploadidcommitpost) | **POST** /v0/uploads/{upload_id}/commit | Commit a large (direct-to-GCS) upload
 *DefaultApi* | [**connectorsPageConnectorsGet**](docs/DefaultApi.md#connectorspageconnectorsget) | **GET** /connectors | Connectors Page
 *DefaultApi* | [**copyArtifactRouteV0ArtifactsArtIdCopyPost**](docs/DefaultApi.md#copyartifactroutev0artifactsartidcopypost) | **POST** /v0/artifacts/{art_id}/copy | Duplicate an artifact to a new path (CAS-shared, new ID)
+*DefaultApi* | [**createDriveKeyWebWebDrivesDriveIdKeysCreatePost**](docs/DefaultApi.md#createdrivekeywebwebdrivesdriveidkeyscreatepost) | **POST** /web/drives/{drive_id}/keys/create | Create Drive Key Web
 *DefaultApi* | [**createDriveWebWebDrivesPost**](docs/DefaultApi.md#createdrivewebwebdrivespost) | **POST** /web/drives | Create Drive Web
 *DefaultApi* | [**createFolderByPathV0FoldersPathPost**](docs/DefaultApi.md#createfolderbypathv0folderspathpost) | **POST** /v0/folders/{path} | Create a folder (idempotent)
 *DefaultApi* | [**createGrantRouteV0GrantsPost**](docs/DefaultApi.md#creategrantroutev0grantspost) | **POST** /v0/grants | Create (or fetch) a per-principal grant on a resource
+*DefaultApi* | [**createKeyWebKeysCreatePost**](docs/DefaultApi.md#createkeywebkeyscreatepost) | **POST** /web/keys/create | Create Key
 *DefaultApi* | [**createLinkWebShareRidLinkPost**](docs/DefaultApi.md#createlinkwebshareridlinkpost) | **POST** /web/share/{rid}/link | Create Link
 *DefaultApi* | [**createShareRouteV0SharesPost**](docs/DefaultApi.md#createshareroutev0sharespost) | **POST** /v0/shares | Mint a share link (returns the share_key once)
 *DefaultApi* | [**createUserTokenWebTokensCreatePost**](docs/DefaultApi.md#createusertokenwebtokenscreatepost) | **POST** /web/tokens/create | Create User Token
@@ -89,7 +91,6 @@ All URIs are relative to *https://api.agentdrive.run*
 *DefaultApi* | [**deleteFolderByIdV0FoldersFldIdDelete**](docs/DefaultApi.md#deletefolderbyidv0foldersfldiddelete) | **DELETE** /v0/folders/{fld_id} | Soft-delete a folder by stable ID (cascade with ?recursive&#x3D;true)
 *DefaultApi* | [**deleteFolderByPathV0FoldersPathDelete**](docs/DefaultApi.md#deletefolderbypathv0folderspathdelete) | **DELETE** /v0/folders/{path} | Soft-delete a folder (cascade with ?recursive&#x3D;true)
 *DefaultApi* | [**deleteGrantRouteV0GrantsGrnIdDelete**](docs/DefaultApi.md#deletegrantroutev0grantsgrniddelete) | **DELETE** /v0/grants/{grn_id} | Revoke a grant (can_manage, or self-revoke own grant)
-*DefaultApi* | [**deleteKeyWebKeysDeletePost**](docs/DefaultApi.md#deletekeywebkeysdeletepost) | **POST** /web/keys/delete | Delete Key
 *DefaultApi* | [**deleteShareRouteV0SharesShrIdDelete**](docs/DefaultApi.md#deleteshareroutev0sharesshriddelete) | **DELETE** /v0/shares/{shr_id} | Revoke a share link (requires can_manage)
 *DefaultApi* | [**deleteWorkspaceWebWebWorkspacesOrgIdDeletePost**](docs/DefaultApi.md#deleteworkspacewebwebworkspacesorgiddeletepost) | **POST** /web/workspaces/{org_id}/delete | Delete Workspace Web
 *DefaultApi* | [**downloadArtifactByIdV0ArtifactsArtIdDownloadGet**](docs/DefaultApi.md#downloadartifactbyidv0artifactsartiddownloadget) | **GET** /v0/artifacts/{art_id}/download | Stream the artifact bytes by stable ID (never rendered HTML)
@@ -162,10 +163,9 @@ All URIs are relative to *https://api.agentdrive.run*
 *DefaultApi* | [**restoreDriveRouteV0DrivesDriveIdRestorePost**](docs/DefaultApi.md#restoredriveroutev0drivesdriveidrestorepost) | **POST** /v0/drives/{drive_id}/restore | Restore a soft-deleted drive
 *DefaultApi* | [**revokeGrantWebShareRidGrantGrnIdRevokePost**](docs/DefaultApi.md#revokegrantwebshareridgrantgrnidrevokepost) | **POST** /web/share/{rid}/grant/{grn_id}/revoke | Revoke Grant
 *DefaultApi* | [**revokeInvitationWebWebInvitationsInvitationIdRevokePost**](docs/DefaultApi.md#revokeinvitationwebwebinvitationsinvitationidrevokepost) | **POST** /web/invitations/{invitation_id}/revoke | Revoke Invitation Web
+*DefaultApi* | [**revokeKeyWebKeysRevokePost**](docs/DefaultApi.md#revokekeywebkeysrevokepost) | **POST** /web/keys/revoke | Revoke Key
 *DefaultApi* | [**revokeLinkWebShareRidLinkShrIdRevokePost**](docs/DefaultApi.md#revokelinkwebshareridlinkshridrevokepost) | **POST** /web/share/{rid}/link/{shr_id}/revoke | Revoke Link
 *DefaultApi* | [**revokeUserTokenWebTokensRevokePost**](docs/DefaultApi.md#revokeusertokenwebtokensrevokepost) | **POST** /web/tokens/revoke | Revoke User Token
-*DefaultApi* | [**rotateDriveKeyWebWebDrivesDriveIdKeysRotatePost**](docs/DefaultApi.md#rotatedrivekeywebwebdrivesdriveidkeysrotatepost) | **POST** /web/drives/{drive_id}/keys/rotate | Rotate Drive Key Web
-*DefaultApi* | [**rotateKeyWebKeysRotatePost**](docs/DefaultApi.md#rotatekeywebkeysrotatepost) | **POST** /web/keys/rotate | Rotate Key
 *DefaultApi* | [**rotateShareRouteV0SharesShrIdRotatePost**](docs/DefaultApi.md#rotateshareroutev0sharesshridrotatepost) | **POST** /v0/shares/{shr_id}/rotate | Revoke + reissue a share link\&#39;s key (requires can_share)
 *DefaultApi* | [**searchV0SearchGet**](docs/DefaultApi.md#searchv0searchget) | **GET** /v0/search | Full-text search over artifacts in the drive
 *DefaultApi* | [**setMemberRoleWebWebMembersTargetUserIdRolePost**](docs/DefaultApi.md#setmemberrolewebwebmemberstargetuseridrolepost) | **POST** /web/members/{target_user_id}/role | Set Member Role Web
@@ -203,10 +203,13 @@ All URIs are relative to *https://api.agentdrive.run*
 *DefaultApi* | [**webUploadWebUploadPost**](docs/DefaultApi.md#webuploadwebuploadpost) | **POST** /web/upload | Web Upload
 *DefaultApi* | [**webhooksPageWebhooksGet**](docs/DefaultApi.md#webhookspagewebhooksget) | **GET** /webhooks | Webhooks Page
 *DefaultApi* | [**welcomeWelcomeGet**](docs/DefaultApi.md#welcomewelcomeget) | **GET** /welcome | Welcome
-*DrivesApi* | [**createDriveRouteV0DrivesPost**](docs/DrivesApi.md#createdriveroutev0drivespost) | **POST** /v0/drives | Create a drive in your active workspace
+*DrivesApi* | [**createDriveKeyRouteV0DrivesDriveIdKeysPost**](docs/DrivesApi.md#createdrivekeyroutev0drivesdriveidkeyspost) | **POST** /v0/drives/{drive_id}/keys | Create a drive API key
+*DrivesApi* | [**createDriveRouteV0DrivesPost**](docs/DrivesApi.md#createdriveroutev0drivespost) | **POST** /v0/drives | Create a drive in your active space
+*DrivesApi* | [**listDriveKeysRouteV0DrivesDriveIdKeysGet**](docs/DrivesApi.md#listdrivekeysroutev0drivesdriveidkeysget) | **GET** /v0/drives/{drive_id}/keys | List a drive\&#39;s API keys
 *DrivesApi* | [**listDrivesRouteV0DrivesGet**](docs/DrivesApi.md#listdrivesroutev0drivesget) | **GET** /v0/drives | List the drives you can see
 *DrivesApi* | [**renameDriveRouteV0DrivesDriveIdPatch**](docs/DrivesApi.md#renamedriveroutev0drivesdriveidpatch) | **PATCH** /v0/drives/{drive_id} | Rename a drive you own
-*DrivesApi* | [**rotateDriveKeyRouteV0DrivesDriveIdKeysRotatePost**](docs/DrivesApi.md#rotatedrivekeyroutev0drivesdriveidkeysrotatepost) | **POST** /v0/drives/{drive_id}/keys/rotate | Rotate a drive\&#39;s API key
+*DrivesApi* | [**revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost**](docs/DrivesApi.md#revokedrivekeyroutev0drivesdriveidkeyskeyidrevokepost) | **POST** /v0/drives/{drive_id}/keys/{key_id}/revoke | Revoke a drive API key
+*DrivesApi* | [**rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost**](docs/DrivesApi.md#rotateonekeyroutev0drivesdriveidkeyskeyidrotatepost) | **POST** /v0/drives/{drive_id}/keys/{key_id}/rotate | Rotate one API key
 *McpOauthApi* | [**oauth2RegisterOauth2RegisterPost**](docs/McpOauthApi.md#oauth2registeroauth2registerpost) | **POST** /oauth2/register | Dynamic Client Registration (RFC 7591)
 *McpOauthApi* | [**oauth2RevokeOauth2RevokePost**](docs/McpOauthApi.md#oauth2revokeoauth2revokepost) | **POST** /oauth2/revoke | Token revocation (RFC 7009)
 *McpOauthUiApi* | [**authorizeDecisionOauth2AuthorizePost**](docs/McpOauthUiApi.md#authorizedecisionoauth2authorizepost) | **POST** /oauth2/authorize | Authorize Decision
@@ -219,9 +222,9 @@ All URIs are relative to *https://api.agentdrive.run*
 *MembersApi* | [**setMemberRoleV0MembersTargetUserIdPatch**](docs/MembersApi.md#setmemberrolev0memberstargetuseridpatch) | **PATCH** /v0/members/{target_user_id} | Change a member\&#39;s role
 *TokensApi* | [**listTokensV0TokensGet**](docs/TokensApi.md#listtokensv0tokensget) | **GET** /v0/tokens | List your user-identity tokens
 *TokensApi* | [**revokeTokenV0TokensTokenIdRevokePost**](docs/TokensApi.md#revoketokenv0tokenstokenidrevokepost) | **POST** /v0/tokens/{token_id}/revoke | Revoke one of your user-identity tokens
-*WorkspacesApi* | [**createWorkspaceRouteV0WorkspacesPost**](docs/WorkspacesApi.md#createworkspaceroutev0workspacespost) | **POST** /v0/workspaces | Create a new workspace
-*WorkspacesApi* | [**listWorkspacesRouteV0WorkspacesGet**](docs/WorkspacesApi.md#listworkspacesroutev0workspacesget) | **GET** /v0/workspaces | List the workspaces you belong to
-*WorkspacesApi* | [**renameWorkspaceRouteV0WorkspacesOrgIdPatch**](docs/WorkspacesApi.md#renameworkspaceroutev0workspacesorgidpatch) | **PATCH** /v0/workspaces/{org_id} | Rename a workspace you administer
+*WorkspacesApi* | [**createWorkspaceRouteV0WorkspacesPost**](docs/WorkspacesApi.md#createworkspaceroutev0workspacespost) | **POST** /v0/workspaces | Create a new shared drive
+*WorkspacesApi* | [**listWorkspacesRouteV0WorkspacesGet**](docs/WorkspacesApi.md#listworkspacesroutev0workspacesget) | **GET** /v0/workspaces | List the spaces you belong to
+*WorkspacesApi* | [**renameWorkspaceRouteV0WorkspacesOrgIdPatch**](docs/WorkspacesApi.md#renameworkspaceroutev0workspacesorgidpatch) | **PATCH** /v0/workspaces/{org_id} | Rename a shared drive you administer
 
 
 ### Models
@@ -237,9 +240,12 @@ All URIs are relative to *https://api.agentdrive.run*
 - [CopyIn](docs/CopyIn.md)
 - [DescribeIn](docs/DescribeIn.md)
 - [DownloadUrlOut](docs/DownloadUrlOut.md)
+- [DriveApiKeyCreateIn](docs/DriveApiKeyCreateIn.md)
+- [DriveApiKeyCreateOut](docs/DriveApiKeyCreateOut.md)
+- [DriveApiKeyListOut](docs/DriveApiKeyListOut.md)
+- [DriveApiKeyOut](docs/DriveApiKeyOut.md)
 - [DriveCreateIn](docs/DriveCreateIn.md)
 - [DriveCreateOut](docs/DriveCreateOut.md)
-- [DriveKeyRotateOut](docs/DriveKeyRotateOut.md)
 - [DriveList](docs/DriveList.md)
 - [DriveOut](docs/DriveOut.md)
 - [DriveRenameIn](docs/DriveRenameIn.md)

@@ -103,6 +103,13 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_create_drive_key_web_web_drives_drive_id_keys_create_post(self) -> None:
+        """Test case for create_drive_key_web_web_drives_drive_id_keys_create_post
+
+        Create Drive Key Web
+        """
+        pass
+
     def test_create_drive_web_web_drives_post(self) -> None:
         """Test case for create_drive_web_web_drives_post
 
@@ -121,6 +128,13 @@ class TestDefaultApi(unittest.TestCase):
         """Test case for create_grant_route_v0_grants_post
 
         Create (or fetch) a per-principal grant on a resource
+        """
+        pass
+
+    def test_create_key_web_keys_create_post(self) -> None:
+        """Test case for create_key_web_keys_create_post
+
+        Create Key
         """
         pass
 
@@ -226,13 +240,6 @@ class TestDefaultApi(unittest.TestCase):
         """Test case for delete_grant_route_v0_grants_grn_id_delete
 
         Revoke a grant (can_manage, or self-revoke own grant)
-        """
-        pass
-
-    def test_delete_key_web_keys_delete_post(self) -> None:
-        """Test case for delete_key_web_keys_delete_post
-
-        Delete Key
         """
         pass
 
@@ -740,6 +747,13 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_revoke_key_web_keys_revoke_post(self) -> None:
+        """Test case for revoke_key_web_keys_revoke_post
+
+        Revoke Key
+        """
+        pass
+
     def test_revoke_link_web_share_rid_link_shr_id_revoke_post(self) -> None:
         """Test case for revoke_link_web_share_rid_link_shr_id_revoke_post
 
@@ -751,20 +765,6 @@ class TestDefaultApi(unittest.TestCase):
         """Test case for revoke_user_token_web_tokens_revoke_post
 
         Revoke User Token
-        """
-        pass
-
-    def test_rotate_drive_key_web_web_drives_drive_id_keys_rotate_post(self) -> None:
-        """Test case for rotate_drive_key_web_web_drives_drive_id_keys_rotate_post
-
-        Rotate Drive Key Web
-        """
-        pass
-
-    def test_rotate_key_web_keys_rotate_post(self) -> None:
-        """Test case for rotate_key_web_keys_rotate_post
-
-        Rotate Key
         """
         pass
 

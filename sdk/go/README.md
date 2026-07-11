@@ -92,9 +92,11 @@ Class | Method | HTTP request | Description
 *DefaultAPI* | [**CommitUploadV0UploadsUploadIdCommitPost**](docs/DefaultAPI.md#commituploadv0uploadsuploadidcommitpost) | **Post** /v0/uploads/{upload_id}/commit | Commit a large (direct-to-GCS) upload
 *DefaultAPI* | [**ConnectorsPageConnectorsGet**](docs/DefaultAPI.md#connectorspageconnectorsget) | **Get** /connectors | Connectors Page
 *DefaultAPI* | [**CopyArtifactRouteV0ArtifactsArtIdCopyPost**](docs/DefaultAPI.md#copyartifactroutev0artifactsartidcopypost) | **Post** /v0/artifacts/{art_id}/copy | Duplicate an artifact to a new path (CAS-shared, new ID)
+*DefaultAPI* | [**CreateDriveKeyWebWebDrivesDriveIdKeysCreatePost**](docs/DefaultAPI.md#createdrivekeywebwebdrivesdriveidkeyscreatepost) | **Post** /web/drives/{drive_id}/keys/create | Create Drive Key Web
 *DefaultAPI* | [**CreateDriveWebWebDrivesPost**](docs/DefaultAPI.md#createdrivewebwebdrivespost) | **Post** /web/drives | Create Drive Web
 *DefaultAPI* | [**CreateFolderByPathV0FoldersPathPost**](docs/DefaultAPI.md#createfolderbypathv0folderspathpost) | **Post** /v0/folders/{path} | Create a folder (idempotent)
 *DefaultAPI* | [**CreateGrantRouteV0GrantsPost**](docs/DefaultAPI.md#creategrantroutev0grantspost) | **Post** /v0/grants | Create (or fetch) a per-principal grant on a resource
+*DefaultAPI* | [**CreateKeyWebKeysCreatePost**](docs/DefaultAPI.md#createkeywebkeyscreatepost) | **Post** /web/keys/create | Create Key
 *DefaultAPI* | [**CreateLinkWebShareRidLinkPost**](docs/DefaultAPI.md#createlinkwebshareridlinkpost) | **Post** /web/share/{rid}/link | Create Link
 *DefaultAPI* | [**CreateShareRouteV0SharesPost**](docs/DefaultAPI.md#createshareroutev0sharespost) | **Post** /v0/shares | Mint a share link (returns the share_key once)
 *DefaultAPI* | [**CreateUserTokenWebTokensCreatePost**](docs/DefaultAPI.md#createusertokenwebtokenscreatepost) | **Post** /web/tokens/create | Create User Token
@@ -110,7 +112,6 @@ Class | Method | HTTP request | Description
 *DefaultAPI* | [**DeleteFolderByIdV0FoldersFldIdDelete**](docs/DefaultAPI.md#deletefolderbyidv0foldersfldiddelete) | **Delete** /v0/folders/{fld_id} | Soft-delete a folder by stable ID (cascade with ?recursive&#x3D;true)
 *DefaultAPI* | [**DeleteFolderByPathV0FoldersPathDelete**](docs/DefaultAPI.md#deletefolderbypathv0folderspathdelete) | **Delete** /v0/folders/{path} | Soft-delete a folder (cascade with ?recursive&#x3D;true)
 *DefaultAPI* | [**DeleteGrantRouteV0GrantsGrnIdDelete**](docs/DefaultAPI.md#deletegrantroutev0grantsgrniddelete) | **Delete** /v0/grants/{grn_id} | Revoke a grant (can_manage, or self-revoke own grant)
-*DefaultAPI* | [**DeleteKeyWebKeysDeletePost**](docs/DefaultAPI.md#deletekeywebkeysdeletepost) | **Post** /web/keys/delete | Delete Key
 *DefaultAPI* | [**DeleteShareRouteV0SharesShrIdDelete**](docs/DefaultAPI.md#deleteshareroutev0sharesshriddelete) | **Delete** /v0/shares/{shr_id} | Revoke a share link (requires can_manage)
 *DefaultAPI* | [**DeleteWorkspaceWebWebWorkspacesOrgIdDeletePost**](docs/DefaultAPI.md#deleteworkspacewebwebworkspacesorgiddeletepost) | **Post** /web/workspaces/{org_id}/delete | Delete Workspace Web
 *DefaultAPI* | [**DownloadArtifactByIdV0ArtifactsArtIdDownloadGet**](docs/DefaultAPI.md#downloadartifactbyidv0artifactsartiddownloadget) | **Get** /v0/artifacts/{art_id}/download | Stream the artifact bytes by stable ID (never rendered HTML)
@@ -183,10 +184,9 @@ Class | Method | HTTP request | Description
 *DefaultAPI* | [**RestoreDriveRouteV0DrivesDriveIdRestorePost**](docs/DefaultAPI.md#restoredriveroutev0drivesdriveidrestorepost) | **Post** /v0/drives/{drive_id}/restore | Restore a soft-deleted drive
 *DefaultAPI* | [**RevokeGrantWebShareRidGrantGrnIdRevokePost**](docs/DefaultAPI.md#revokegrantwebshareridgrantgrnidrevokepost) | **Post** /web/share/{rid}/grant/{grn_id}/revoke | Revoke Grant
 *DefaultAPI* | [**RevokeInvitationWebWebInvitationsInvitationIdRevokePost**](docs/DefaultAPI.md#revokeinvitationwebwebinvitationsinvitationidrevokepost) | **Post** /web/invitations/{invitation_id}/revoke | Revoke Invitation Web
+*DefaultAPI* | [**RevokeKeyWebKeysRevokePost**](docs/DefaultAPI.md#revokekeywebkeysrevokepost) | **Post** /web/keys/revoke | Revoke Key
 *DefaultAPI* | [**RevokeLinkWebShareRidLinkShrIdRevokePost**](docs/DefaultAPI.md#revokelinkwebshareridlinkshridrevokepost) | **Post** /web/share/{rid}/link/{shr_id}/revoke | Revoke Link
 *DefaultAPI* | [**RevokeUserTokenWebTokensRevokePost**](docs/DefaultAPI.md#revokeusertokenwebtokensrevokepost) | **Post** /web/tokens/revoke | Revoke User Token
-*DefaultAPI* | [**RotateDriveKeyWebWebDrivesDriveIdKeysRotatePost**](docs/DefaultAPI.md#rotatedrivekeywebwebdrivesdriveidkeysrotatepost) | **Post** /web/drives/{drive_id}/keys/rotate | Rotate Drive Key Web
-*DefaultAPI* | [**RotateKeyWebKeysRotatePost**](docs/DefaultAPI.md#rotatekeywebkeysrotatepost) | **Post** /web/keys/rotate | Rotate Key
 *DefaultAPI* | [**RotateShareRouteV0SharesShrIdRotatePost**](docs/DefaultAPI.md#rotateshareroutev0sharesshridrotatepost) | **Post** /v0/shares/{shr_id}/rotate | Revoke + reissue a share link&#39;s key (requires can_share)
 *DefaultAPI* | [**SearchV0SearchGet**](docs/DefaultAPI.md#searchv0searchget) | **Get** /v0/search | Full-text search over artifacts in the drive
 *DefaultAPI* | [**SetMemberRoleWebWebMembersTargetUserIdRolePost**](docs/DefaultAPI.md#setmemberrolewebwebmemberstargetuseridrolepost) | **Post** /web/members/{target_user_id}/role | Set Member Role Web
@@ -224,10 +224,13 @@ Class | Method | HTTP request | Description
 *DefaultAPI* | [**WebUploadWebUploadPost**](docs/DefaultAPI.md#webuploadwebuploadpost) | **Post** /web/upload | Web Upload
 *DefaultAPI* | [**WebhooksPageWebhooksGet**](docs/DefaultAPI.md#webhookspagewebhooksget) | **Get** /webhooks | Webhooks Page
 *DefaultAPI* | [**WelcomeWelcomeGet**](docs/DefaultAPI.md#welcomewelcomeget) | **Get** /welcome | Welcome
-*DrivesAPI* | [**CreateDriveRouteV0DrivesPost**](docs/DrivesAPI.md#createdriveroutev0drivespost) | **Post** /v0/drives | Create a drive in your active workspace
+*DrivesAPI* | [**CreateDriveKeyRouteV0DrivesDriveIdKeysPost**](docs/DrivesAPI.md#createdrivekeyroutev0drivesdriveidkeyspost) | **Post** /v0/drives/{drive_id}/keys | Create a drive API key
+*DrivesAPI* | [**CreateDriveRouteV0DrivesPost**](docs/DrivesAPI.md#createdriveroutev0drivespost) | **Post** /v0/drives | Create a drive in your active space
+*DrivesAPI* | [**ListDriveKeysRouteV0DrivesDriveIdKeysGet**](docs/DrivesAPI.md#listdrivekeysroutev0drivesdriveidkeysget) | **Get** /v0/drives/{drive_id}/keys | List a drive&#39;s API keys
 *DrivesAPI* | [**ListDrivesRouteV0DrivesGet**](docs/DrivesAPI.md#listdrivesroutev0drivesget) | **Get** /v0/drives | List the drives you can see
 *DrivesAPI* | [**RenameDriveRouteV0DrivesDriveIdPatch**](docs/DrivesAPI.md#renamedriveroutev0drivesdriveidpatch) | **Patch** /v0/drives/{drive_id} | Rename a drive you own
-*DrivesAPI* | [**RotateDriveKeyRouteV0DrivesDriveIdKeysRotatePost**](docs/DrivesAPI.md#rotatedrivekeyroutev0drivesdriveidkeysrotatepost) | **Post** /v0/drives/{drive_id}/keys/rotate | Rotate a drive&#39;s API key
+*DrivesAPI* | [**RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost**](docs/DrivesAPI.md#revokedrivekeyroutev0drivesdriveidkeyskeyidrevokepost) | **Post** /v0/drives/{drive_id}/keys/{key_id}/revoke | Revoke a drive API key
+*DrivesAPI* | [**RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost**](docs/DrivesAPI.md#rotateonekeyroutev0drivesdriveidkeyskeyidrotatepost) | **Post** /v0/drives/{drive_id}/keys/{key_id}/rotate | Rotate one API key
 *McpOauthAPI* | [**Oauth2RegisterOauth2RegisterPost**](docs/McpOauthAPI.md#oauth2registeroauth2registerpost) | **Post** /oauth2/register | Dynamic Client Registration (RFC 7591)
 *McpOauthAPI* | [**Oauth2RevokeOauth2RevokePost**](docs/McpOauthAPI.md#oauth2revokeoauth2revokepost) | **Post** /oauth2/revoke | Token revocation (RFC 7009)
 *McpOauthUiAPI* | [**AuthorizeDecisionOauth2AuthorizePost**](docs/McpOauthUiAPI.md#authorizedecisionoauth2authorizepost) | **Post** /oauth2/authorize | Authorize Decision
@@ -240,9 +243,9 @@ Class | Method | HTTP request | Description
 *MembersAPI* | [**SetMemberRoleV0MembersTargetUserIdPatch**](docs/MembersAPI.md#setmemberrolev0memberstargetuseridpatch) | **Patch** /v0/members/{target_user_id} | Change a member&#39;s role
 *TokensAPI* | [**ListTokensV0TokensGet**](docs/TokensAPI.md#listtokensv0tokensget) | **Get** /v0/tokens | List your user-identity tokens
 *TokensAPI* | [**RevokeTokenV0TokensTokenIdRevokePost**](docs/TokensAPI.md#revoketokenv0tokenstokenidrevokepost) | **Post** /v0/tokens/{token_id}/revoke | Revoke one of your user-identity tokens
-*WorkspacesAPI* | [**CreateWorkspaceRouteV0WorkspacesPost**](docs/WorkspacesAPI.md#createworkspaceroutev0workspacespost) | **Post** /v0/workspaces | Create a new workspace
-*WorkspacesAPI* | [**ListWorkspacesRouteV0WorkspacesGet**](docs/WorkspacesAPI.md#listworkspacesroutev0workspacesget) | **Get** /v0/workspaces | List the workspaces you belong to
-*WorkspacesAPI* | [**RenameWorkspaceRouteV0WorkspacesOrgIdPatch**](docs/WorkspacesAPI.md#renameworkspaceroutev0workspacesorgidpatch) | **Patch** /v0/workspaces/{org_id} | Rename a workspace you administer
+*WorkspacesAPI* | [**CreateWorkspaceRouteV0WorkspacesPost**](docs/WorkspacesAPI.md#createworkspaceroutev0workspacespost) | **Post** /v0/workspaces | Create a new shared drive
+*WorkspacesAPI* | [**ListWorkspacesRouteV0WorkspacesGet**](docs/WorkspacesAPI.md#listworkspacesroutev0workspacesget) | **Get** /v0/workspaces | List the spaces you belong to
+*WorkspacesAPI* | [**RenameWorkspaceRouteV0WorkspacesOrgIdPatch**](docs/WorkspacesAPI.md#renameworkspaceroutev0workspacesorgidpatch) | **Patch** /v0/workspaces/{org_id} | Rename a shared drive you administer
 
 
 ## Documentation For Models
@@ -258,9 +261,12 @@ Class | Method | HTTP request | Description
  - [CopyIn](docs/CopyIn.md)
  - [DescribeIn](docs/DescribeIn.md)
  - [DownloadUrlOut](docs/DownloadUrlOut.md)
+ - [DriveApiKeyCreateIn](docs/DriveApiKeyCreateIn.md)
+ - [DriveApiKeyCreateOut](docs/DriveApiKeyCreateOut.md)
+ - [DriveApiKeyListOut](docs/DriveApiKeyListOut.md)
+ - [DriveApiKeyOut](docs/DriveApiKeyOut.md)
  - [DriveCreateIn](docs/DriveCreateIn.md)
  - [DriveCreateOut](docs/DriveCreateOut.md)
- - [DriveKeyRotateOut](docs/DriveKeyRotateOut.md)
  - [DriveList](docs/DriveList.md)
  - [DriveOut](docs/DriveOut.md)
  - [DriveRenameIn](docs/DriveRenameIn.md)

@@ -15,9 +15,11 @@ Method | HTTP request | Description
 [**CommitUploadV0UploadsUploadIdCommitPost**](DefaultAPI.md#CommitUploadV0UploadsUploadIdCommitPost) | **Post** /v0/uploads/{upload_id}/commit | Commit a large (direct-to-GCS) upload
 [**ConnectorsPageConnectorsGet**](DefaultAPI.md#ConnectorsPageConnectorsGet) | **Get** /connectors | Connectors Page
 [**CopyArtifactRouteV0ArtifactsArtIdCopyPost**](DefaultAPI.md#CopyArtifactRouteV0ArtifactsArtIdCopyPost) | **Post** /v0/artifacts/{art_id}/copy | Duplicate an artifact to a new path (CAS-shared, new ID)
+[**CreateDriveKeyWebWebDrivesDriveIdKeysCreatePost**](DefaultAPI.md#CreateDriveKeyWebWebDrivesDriveIdKeysCreatePost) | **Post** /web/drives/{drive_id}/keys/create | Create Drive Key Web
 [**CreateDriveWebWebDrivesPost**](DefaultAPI.md#CreateDriveWebWebDrivesPost) | **Post** /web/drives | Create Drive Web
 [**CreateFolderByPathV0FoldersPathPost**](DefaultAPI.md#CreateFolderByPathV0FoldersPathPost) | **Post** /v0/folders/{path} | Create a folder (idempotent)
 [**CreateGrantRouteV0GrantsPost**](DefaultAPI.md#CreateGrantRouteV0GrantsPost) | **Post** /v0/grants | Create (or fetch) a per-principal grant on a resource
+[**CreateKeyWebKeysCreatePost**](DefaultAPI.md#CreateKeyWebKeysCreatePost) | **Post** /web/keys/create | Create Key
 [**CreateLinkWebShareRidLinkPost**](DefaultAPI.md#CreateLinkWebShareRidLinkPost) | **Post** /web/share/{rid}/link | Create Link
 [**CreateShareRouteV0SharesPost**](DefaultAPI.md#CreateShareRouteV0SharesPost) | **Post** /v0/shares | Mint a share link (returns the share_key once)
 [**CreateUserTokenWebTokensCreatePost**](DefaultAPI.md#CreateUserTokenWebTokensCreatePost) | **Post** /web/tokens/create | Create User Token
@@ -33,7 +35,6 @@ Method | HTTP request | Description
 [**DeleteFolderByIdV0FoldersFldIdDelete**](DefaultAPI.md#DeleteFolderByIdV0FoldersFldIdDelete) | **Delete** /v0/folders/{fld_id} | Soft-delete a folder by stable ID (cascade with ?recursive&#x3D;true)
 [**DeleteFolderByPathV0FoldersPathDelete**](DefaultAPI.md#DeleteFolderByPathV0FoldersPathDelete) | **Delete** /v0/folders/{path} | Soft-delete a folder (cascade with ?recursive&#x3D;true)
 [**DeleteGrantRouteV0GrantsGrnIdDelete**](DefaultAPI.md#DeleteGrantRouteV0GrantsGrnIdDelete) | **Delete** /v0/grants/{grn_id} | Revoke a grant (can_manage, or self-revoke own grant)
-[**DeleteKeyWebKeysDeletePost**](DefaultAPI.md#DeleteKeyWebKeysDeletePost) | **Post** /web/keys/delete | Delete Key
 [**DeleteShareRouteV0SharesShrIdDelete**](DefaultAPI.md#DeleteShareRouteV0SharesShrIdDelete) | **Delete** /v0/shares/{shr_id} | Revoke a share link (requires can_manage)
 [**DeleteWorkspaceWebWebWorkspacesOrgIdDeletePost**](DefaultAPI.md#DeleteWorkspaceWebWebWorkspacesOrgIdDeletePost) | **Post** /web/workspaces/{org_id}/delete | Delete Workspace Web
 [**DownloadArtifactByIdV0ArtifactsArtIdDownloadGet**](DefaultAPI.md#DownloadArtifactByIdV0ArtifactsArtIdDownloadGet) | **Get** /v0/artifacts/{art_id}/download | Stream the artifact bytes by stable ID (never rendered HTML)
@@ -106,10 +107,9 @@ Method | HTTP request | Description
 [**RestoreDriveRouteV0DrivesDriveIdRestorePost**](DefaultAPI.md#RestoreDriveRouteV0DrivesDriveIdRestorePost) | **Post** /v0/drives/{drive_id}/restore | Restore a soft-deleted drive
 [**RevokeGrantWebShareRidGrantGrnIdRevokePost**](DefaultAPI.md#RevokeGrantWebShareRidGrantGrnIdRevokePost) | **Post** /web/share/{rid}/grant/{grn_id}/revoke | Revoke Grant
 [**RevokeInvitationWebWebInvitationsInvitationIdRevokePost**](DefaultAPI.md#RevokeInvitationWebWebInvitationsInvitationIdRevokePost) | **Post** /web/invitations/{invitation_id}/revoke | Revoke Invitation Web
+[**RevokeKeyWebKeysRevokePost**](DefaultAPI.md#RevokeKeyWebKeysRevokePost) | **Post** /web/keys/revoke | Revoke Key
 [**RevokeLinkWebShareRidLinkShrIdRevokePost**](DefaultAPI.md#RevokeLinkWebShareRidLinkShrIdRevokePost) | **Post** /web/share/{rid}/link/{shr_id}/revoke | Revoke Link
 [**RevokeUserTokenWebTokensRevokePost**](DefaultAPI.md#RevokeUserTokenWebTokensRevokePost) | **Post** /web/tokens/revoke | Revoke User Token
-[**RotateDriveKeyWebWebDrivesDriveIdKeysRotatePost**](DefaultAPI.md#RotateDriveKeyWebWebDrivesDriveIdKeysRotatePost) | **Post** /web/drives/{drive_id}/keys/rotate | Rotate Drive Key Web
-[**RotateKeyWebKeysRotatePost**](DefaultAPI.md#RotateKeyWebKeysRotatePost) | **Post** /web/keys/rotate | Rotate Key
 [**RotateShareRouteV0SharesShrIdRotatePost**](DefaultAPI.md#RotateShareRouteV0SharesShrIdRotatePost) | **Post** /v0/shares/{shr_id}/rotate | Revoke + reissue a share link&#39;s key (requires can_share)
 [**SearchV0SearchGet**](DefaultAPI.md#SearchV0SearchGet) | **Get** /v0/search | Full-text search over artifacts in the drive
 [**SetMemberRoleWebWebMembersTargetUserIdRolePost**](DefaultAPI.md#SetMemberRoleWebWebMembersTargetUserIdRolePost) | **Post** /web/members/{target_user_id}/role | Set Member Role Web
@@ -895,6 +895,80 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## CreateDriveKeyWebWebDrivesDriveIdKeysCreatePost
+
+> interface{} CreateDriveKeyWebWebDrivesDriveIdKeysCreatePost(ctx, driveId).Csrf(csrf).Label(label).Execute()
+
+Create Drive Key Web
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+	driveId := "driveId_example" // string | 
+	csrf := "csrf_example" // string | 
+	label := "label_example" // string |  (optional) (default to "")
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.CreateDriveKeyWebWebDrivesDriveIdKeysCreatePost(context.Background(), driveId).Csrf(csrf).Label(label).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.CreateDriveKeyWebWebDrivesDriveIdKeysCreatePost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CreateDriveKeyWebWebDrivesDriveIdKeysCreatePost`: interface{}
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.CreateDriveKeyWebWebDrivesDriveIdKeysCreatePost`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**driveId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateDriveKeyWebWebDrivesDriveIdKeysCreatePostRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **csrf** | **string** |  | 
+ **label** | **string** |  | [default to &quot;&quot;]
+
+### Return type
+
+**interface{}**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## CreateDriveWebWebDrivesPost
 
 > interface{} CreateDriveWebWebDrivesPost(ctx).Name(name).Csrf(csrf).Execute()
@@ -1100,6 +1174,74 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## CreateKeyWebKeysCreatePost
+
+> interface{} CreateKeyWebKeysCreatePost(ctx).Csrf(csrf).Label(label).Execute()
+
+Create Key
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+	csrf := "csrf_example" // string | 
+	label := "label_example" // string |  (optional) (default to "")
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.CreateKeyWebKeysCreatePost(context.Background()).Csrf(csrf).Label(label).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.CreateKeyWebKeysCreatePost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CreateKeyWebKeysCreatePost`: interface{}
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.CreateKeyWebKeysCreatePost`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateKeyWebKeysCreatePostRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **csrf** | **string** |  | 
+ **label** | **string** |  | [default to &quot;&quot;]
+
+### Return type
+
+**interface{}**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -2166,70 +2308,6 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## DeleteKeyWebKeysDeletePost
-
-> interface{} DeleteKeyWebKeysDeletePost(ctx).Csrf(csrf).Execute()
-
-Delete Key
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
-)
-
-func main() {
-	csrf := "csrf_example" // string | 
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.DeleteKeyWebKeysDeletePost(context.Background()).Csrf(csrf).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.DeleteKeyWebKeysDeletePost``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `DeleteKeyWebKeysDeletePost`: interface{}
-	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.DeleteKeyWebKeysDeletePost`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiDeleteKeyWebKeysDeletePostRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **csrf** | **string** |  | 
-
-### Return type
-
-**interface{}**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -7308,6 +7386,74 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## RevokeKeyWebKeysRevokePost
+
+> interface{} RevokeKeyWebKeysRevokePost(ctx).KeyId(keyId).Csrf(csrf).Execute()
+
+Revoke Key
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+	keyId := "keyId_example" // string | 
+	csrf := "csrf_example" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.RevokeKeyWebKeysRevokePost(context.Background()).KeyId(keyId).Csrf(csrf).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.RevokeKeyWebKeysRevokePost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `RevokeKeyWebKeysRevokePost`: interface{}
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.RevokeKeyWebKeysRevokePost`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiRevokeKeyWebKeysRevokePostRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **keyId** | **string** |  | 
+ **csrf** | **string** |  | 
+
+### Return type
+
+**interface{}**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## RevokeLinkWebShareRidLinkShrIdRevokePost
 
 > interface{} RevokeLinkWebShareRidLinkShrIdRevokePost(ctx, rid, shrId).XCsrfToken(xCsrfToken).Execute()
@@ -7429,142 +7575,6 @@ Other parameters are passed through a pointer to a apiRevokeUserTokenWebTokensRe
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **tokenId** | **string** |  | 
- **csrf** | **string** |  | 
-
-### Return type
-
-**interface{}**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: application/x-www-form-urlencoded
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## RotateDriveKeyWebWebDrivesDriveIdKeysRotatePost
-
-> interface{} RotateDriveKeyWebWebDrivesDriveIdKeysRotatePost(ctx, driveId).Csrf(csrf).Execute()
-
-Rotate Drive Key Web
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
-)
-
-func main() {
-	driveId := "driveId_example" // string | 
-	csrf := "csrf_example" // string | 
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.RotateDriveKeyWebWebDrivesDriveIdKeysRotatePost(context.Background(), driveId).Csrf(csrf).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.RotateDriveKeyWebWebDrivesDriveIdKeysRotatePost``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `RotateDriveKeyWebWebDrivesDriveIdKeysRotatePost`: interface{}
-	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.RotateDriveKeyWebWebDrivesDriveIdKeysRotatePost`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**driveId** | **string** |  | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiRotateDriveKeyWebWebDrivesDriveIdKeysRotatePostRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **csrf** | **string** |  | 
-
-### Return type
-
-**interface{}**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: application/x-www-form-urlencoded
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## RotateKeyWebKeysRotatePost
-
-> interface{} RotateKeyWebKeysRotatePost(ctx).Csrf(csrf).Execute()
-
-Rotate Key
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
-)
-
-func main() {
-	csrf := "csrf_example" // string | 
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.RotateKeyWebKeysRotatePost(context.Background()).Csrf(csrf).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.RotateKeyWebKeysRotatePost``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `RotateKeyWebKeysRotatePost`: interface{}
-	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.RotateKeyWebKeysRotatePost`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiRotateKeyWebKeysRotatePostRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
  **csrf** | **string** |  | 
 
 ### Return type

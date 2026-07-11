@@ -47,9 +47,12 @@ __all__ = [
     "CopyIn",
     "DescribeIn",
     "DownloadUrlOut",
+    "DriveApiKeyCreateIn",
+    "DriveApiKeyCreateOut",
+    "DriveApiKeyListOut",
+    "DriveApiKeyOut",
     "DriveCreateIn",
     "DriveCreateOut",
-    "DriveKeyRotateOut",
     "DriveList",
     "DriveOut",
     "DriveRenameIn",
@@ -143,9 +146,12 @@ from agentdrive_sdk.models.compile_options import CompileOptions as CompileOptio
 from agentdrive_sdk.models.copy_in import CopyIn as CopyIn
 from agentdrive_sdk.models.describe_in import DescribeIn as DescribeIn
 from agentdrive_sdk.models.download_url_out import DownloadUrlOut as DownloadUrlOut
+from agentdrive_sdk.models.drive_api_key_create_in import DriveApiKeyCreateIn as DriveApiKeyCreateIn
+from agentdrive_sdk.models.drive_api_key_create_out import DriveApiKeyCreateOut as DriveApiKeyCreateOut
+from agentdrive_sdk.models.drive_api_key_list_out import DriveApiKeyListOut as DriveApiKeyListOut
+from agentdrive_sdk.models.drive_api_key_out import DriveApiKeyOut as DriveApiKeyOut
 from agentdrive_sdk.models.drive_create_in import DriveCreateIn as DriveCreateIn
 from agentdrive_sdk.models.drive_create_out import DriveCreateOut as DriveCreateOut
-from agentdrive_sdk.models.drive_key_rotate_out import DriveKeyRotateOut as DriveKeyRotateOut
 from agentdrive_sdk.models.drive_list import DriveList as DriveList
 from agentdrive_sdk.models.drive_out import DriveOut as DriveOut
 from agentdrive_sdk.models.drive_rename_in import DriveRenameIn as DriveRenameIn

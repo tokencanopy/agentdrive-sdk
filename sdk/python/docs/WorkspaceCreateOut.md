@@ -1,6 +1,6 @@
 # WorkspaceCreateOut
 
-POST /v0/workspaces response. Carries the new workspace + its starter drive's `ad_live_` key **once** (`starter_drive_api_key`) — reveal-once, store it now (rotate via `POST /v0/drives/{id}/keys/rotate`).
+POST /v0/workspaces response. Carries the new workspace + its starter drive's `ad_live_` key **once** (`starter_drive_api_key`) — reveal-once, store it now (mint more keys via `POST /v0/drives/{id}/keys`).
 
 ## Properties
 

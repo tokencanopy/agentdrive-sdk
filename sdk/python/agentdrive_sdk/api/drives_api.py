@@ -17,9 +17,11 @@ from typing_extensions import Annotated
 
 from pydantic import StrictStr
 from typing import Optional
+from agentdrive_sdk.models.drive_api_key_create_in import DriveApiKeyCreateIn
+from agentdrive_sdk.models.drive_api_key_create_out import DriveApiKeyCreateOut
+from agentdrive_sdk.models.drive_api_key_list_out import DriveApiKeyListOut
 from agentdrive_sdk.models.drive_create_in import DriveCreateIn
 from agentdrive_sdk.models.drive_create_out import DriveCreateOut
-from agentdrive_sdk.models.drive_key_rotate_out import DriveKeyRotateOut
 from agentdrive_sdk.models.drive_list import DriveList
 from agentdrive_sdk.models.drive_out import DriveOut
 from agentdrive_sdk.models.drive_rename_in import DriveRenameIn
@@ -43,6 +45,312 @@ class DrivesApi:
 
 
     @validate_call
+    def create_drive_key_route_v0_drives_drive_id_keys_post(
+        self,
+        drive_id: StrictStr,
+        drive_api_key_create_in: DriveApiKeyCreateIn,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DriveApiKeyCreateOut:
+        """Create a drive API key
+
+        Mint a new `ad_live_` key for a drive you manage — a drive may hold several (one per agent/integration). A `label` (a name for the key) is **required**. **Manager only** (404 no-leak otherwise), `full`-scope user token. The raw key is returned **once** — store it now.
+
+        :param drive_id: (required)
+        :type drive_id: str
+        :param drive_api_key_create_in: (required)
+        :type drive_api_key_create_in: DriveApiKeyCreateIn
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._create_drive_key_route_v0_drives_drive_id_keys_post_serialize(
+            drive_id=drive_id,
+            drive_api_key_create_in=drive_api_key_create_in,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DriveApiKeyCreateOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def create_drive_key_route_v0_drives_drive_id_keys_post_with_http_info(
+        self,
+        drive_id: StrictStr,
+        drive_api_key_create_in: DriveApiKeyCreateIn,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DriveApiKeyCreateOut]:
+        """Create a drive API key
+
+        Mint a new `ad_live_` key for a drive you manage — a drive may hold several (one per agent/integration). A `label` (a name for the key) is **required**. **Manager only** (404 no-leak otherwise), `full`-scope user token. The raw key is returned **once** — store it now.
+
+        :param drive_id: (required)
+        :type drive_id: str
+        :param drive_api_key_create_in: (required)
+        :type drive_api_key_create_in: DriveApiKeyCreateIn
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._create_drive_key_route_v0_drives_drive_id_keys_post_serialize(
+            drive_id=drive_id,
+            drive_api_key_create_in=drive_api_key_create_in,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DriveApiKeyCreateOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def create_drive_key_route_v0_drives_drive_id_keys_post_without_preload_content(
+        self,
+        drive_id: StrictStr,
+        drive_api_key_create_in: DriveApiKeyCreateIn,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create a drive API key
+
+        Mint a new `ad_live_` key for a drive you manage — a drive may hold several (one per agent/integration). A `label` (a name for the key) is **required**. **Manager only** (404 no-leak otherwise), `full`-scope user token. The raw key is returned **once** — store it now.
+
+        :param drive_id: (required)
+        :type drive_id: str
+        :param drive_api_key_create_in: (required)
+        :type drive_api_key_create_in: DriveApiKeyCreateIn
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._create_drive_key_route_v0_drives_drive_id_keys_post_serialize(
+            drive_id=drive_id,
+            drive_api_key_create_in=drive_api_key_create_in,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DriveApiKeyCreateOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _create_drive_key_route_v0_drives_drive_id_keys_post_serialize(
+        self,
+        drive_id,
+        drive_api_key_create_in,
+        authorization,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if drive_id is not None:
+            _path_params['drive_id'] = drive_id
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+        if drive_api_key_create_in is not None:
+            _body_params = drive_api_key_create_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v0/drives/{drive_id}/keys',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def create_drive_route_v0_drives_post(
         self,
         drive_create_in: DriveCreateIn,
@@ -60,9 +368,9 @@ class DrivesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> DriveCreateOut:
-        """Create a drive in your active workspace
+        """Create a drive in your active space
 
-        Create a named drive. Any **member** of the workspace may create one; the creator becomes its **owner**. Requires a `full`-scope user token. The response carries the drive's `ad_live_` API key **once** (`api_key`) — store it now, it is never returned again (rotate via `POST /v0/drives/{id}/keys/rotate`).  The target workspace is the user's active organization (`users.default_org`); cross-workspace creation names no other workspace in v0.  A member may own at most a fixed number of drives per workspace (workspaces-design §4.5). A caller at the limit is blocked with `403 DRIVE_LIMIT_REACHED`; this is a hard cap, not a paywall.
+        Create a named drive. Any **member** of the space may create one; the creator becomes its **owner**. Requires a `full`-scope user token. The response carries the drive's `ad_live_` API key **once** (`api_key`) — store it now, it is never returned again (mint more keys via `POST /v0/drives/{id}/keys`).  The target workspace is the user's active organization (`users.default_org`); cross-workspace creation names no other workspace in v0.  A space may hold up to its plan's drive limit (workspaces-v2 §4.6; seat-aware for shared drives). A caller at the limit is blocked with `403 DRIVE_LIMIT_REACHED`; the limit is tier-governed, not a hard cap.
 
         :param drive_create_in: (required)
         :type drive_create_in: DriveCreateIn
@@ -132,9 +440,9 @@ class DrivesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[DriveCreateOut]:
-        """Create a drive in your active workspace
+        """Create a drive in your active space
 
-        Create a named drive. Any **member** of the workspace may create one; the creator becomes its **owner**. Requires a `full`-scope user token. The response carries the drive's `ad_live_` API key **once** (`api_key`) — store it now, it is never returned again (rotate via `POST /v0/drives/{id}/keys/rotate`).  The target workspace is the user's active organization (`users.default_org`); cross-workspace creation names no other workspace in v0.  A member may own at most a fixed number of drives per workspace (workspaces-design §4.5). A caller at the limit is blocked with `403 DRIVE_LIMIT_REACHED`; this is a hard cap, not a paywall.
+        Create a named drive. Any **member** of the space may create one; the creator becomes its **owner**. Requires a `full`-scope user token. The response carries the drive's `ad_live_` API key **once** (`api_key`) — store it now, it is never returned again (mint more keys via `POST /v0/drives/{id}/keys`).  The target workspace is the user's active organization (`users.default_org`); cross-workspace creation names no other workspace in v0.  A space may hold up to its plan's drive limit (workspaces-v2 §4.6; seat-aware for shared drives). A caller at the limit is blocked with `403 DRIVE_LIMIT_REACHED`; the limit is tier-governed, not a hard cap.
 
         :param drive_create_in: (required)
         :type drive_create_in: DriveCreateIn
@@ -204,9 +512,9 @@ class DrivesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Create a drive in your active workspace
+        """Create a drive in your active space
 
-        Create a named drive. Any **member** of the workspace may create one; the creator becomes its **owner**. Requires a `full`-scope user token. The response carries the drive's `ad_live_` API key **once** (`api_key`) — store it now, it is never returned again (rotate via `POST /v0/drives/{id}/keys/rotate`).  The target workspace is the user's active organization (`users.default_org`); cross-workspace creation names no other workspace in v0.  A member may own at most a fixed number of drives per workspace (workspaces-design §4.5). A caller at the limit is blocked with `403 DRIVE_LIMIT_REACHED`; this is a hard cap, not a paywall.
+        Create a named drive. Any **member** of the space may create one; the creator becomes its **owner**. Requires a `full`-scope user token. The response carries the drive's `ad_live_` API key **once** (`api_key`) — store it now, it is never returned again (mint more keys via `POST /v0/drives/{id}/keys`).  The target workspace is the user's active organization (`users.default_org`); cross-workspace creation names no other workspace in v0.  A space may hold up to its plan's drive limit (workspaces-v2 §4.6; seat-aware for shared drives). A caller at the limit is blocked with `403 DRIVE_LIMIT_REACHED`; the limit is tier-governed, not a hard cap.
 
         :param drive_create_in: (required)
         :type drive_create_in: DriveCreateIn
@@ -318,6 +626,284 @@ class DrivesApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v0/drives',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def list_drive_keys_route_v0_drives_drive_id_keys_get(
+        self,
+        drive_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DriveApiKeyListOut:
+        """List a drive's API keys
+
+        List the `ad_live_` keys for a drive you manage (newest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.
+
+        :param drive_id: (required)
+        :type drive_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._list_drive_keys_route_v0_drives_drive_id_keys_get_serialize(
+            drive_id=drive_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DriveApiKeyListOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def list_drive_keys_route_v0_drives_drive_id_keys_get_with_http_info(
+        self,
+        drive_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DriveApiKeyListOut]:
+        """List a drive's API keys
+
+        List the `ad_live_` keys for a drive you manage (newest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.
+
+        :param drive_id: (required)
+        :type drive_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._list_drive_keys_route_v0_drives_drive_id_keys_get_serialize(
+            drive_id=drive_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DriveApiKeyListOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def list_drive_keys_route_v0_drives_drive_id_keys_get_without_preload_content(
+        self,
+        drive_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """List a drive's API keys
+
+        List the `ad_live_` keys for a drive you manage (newest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.
+
+        :param drive_id: (required)
+        :type drive_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._list_drive_keys_route_v0_drives_drive_id_keys_get_serialize(
+            drive_id=drive_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DriveApiKeyListOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _list_drive_keys_route_v0_drives_drive_id_keys_get_serialize(
+        self,
+        drive_id,
+        authorization,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if drive_id is not None:
+            _path_params['drive_id'] = drive_id
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v0/drives/{drive_id}/keys',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -903,9 +1489,10 @@ class DrivesApi:
 
 
     @validate_call
-    def rotate_drive_key_route_v0_drives_drive_id_keys_rotate_post(
+    def revoke_drive_key_route_v0_drives_drive_id_keys_key_id_revoke_post(
         self,
         drive_id: StrictStr,
+        key_id: StrictStr,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -919,13 +1506,15 @@ class DrivesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DriveKeyRotateOut:
-        """Rotate a drive's API key
+    ) -> None:
+        """Revoke a drive API key
 
-        Generate a fresh `ad_live_` key for a drive you own and invalidate the old one immediately. **Owner only** (404 no-leak otherwise) and requires a `full`-scope user token. The new key is returned **once** — store it now.
+        Revoke one `ad_live_` key of a drive you manage — anything using it loses access immediately. **Manager only** (404 no-leak otherwise), `full`-scope user token. Idempotent: revoking an unknown/already-revoked key returns 204 too (no existence oracle).
 
         :param drive_id: (required)
         :type drive_id: str
+        :param key_id: (required)
+        :type key_id: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -950,8 +1539,9 @@ class DrivesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._rotate_drive_key_route_v0_drives_drive_id_keys_rotate_post_serialize(
+        _param = self._revoke_drive_key_route_v0_drives_drive_id_keys_key_id_revoke_post_serialize(
             drive_id=drive_id,
+            key_id=key_id,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -960,7 +1550,7 @@ class DrivesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DriveKeyRotateOut",
+            '204': None,
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -975,9 +1565,10 @@ class DrivesApi:
 
 
     @validate_call
-    def rotate_drive_key_route_v0_drives_drive_id_keys_rotate_post_with_http_info(
+    def revoke_drive_key_route_v0_drives_drive_id_keys_key_id_revoke_post_with_http_info(
         self,
         drive_id: StrictStr,
+        key_id: StrictStr,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -991,13 +1582,15 @@ class DrivesApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DriveKeyRotateOut]:
-        """Rotate a drive's API key
+    ) -> ApiResponse[None]:
+        """Revoke a drive API key
 
-        Generate a fresh `ad_live_` key for a drive you own and invalidate the old one immediately. **Owner only** (404 no-leak otherwise) and requires a `full`-scope user token. The new key is returned **once** — store it now.
+        Revoke one `ad_live_` key of a drive you manage — anything using it loses access immediately. **Manager only** (404 no-leak otherwise), `full`-scope user token. Idempotent: revoking an unknown/already-revoked key returns 204 too (no existence oracle).
 
         :param drive_id: (required)
         :type drive_id: str
+        :param key_id: (required)
+        :type key_id: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1022,8 +1615,9 @@ class DrivesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._rotate_drive_key_route_v0_drives_drive_id_keys_rotate_post_serialize(
+        _param = self._revoke_drive_key_route_v0_drives_drive_id_keys_key_id_revoke_post_serialize(
             drive_id=drive_id,
+            key_id=key_id,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1032,7 +1626,7 @@ class DrivesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DriveKeyRotateOut",
+            '204': None,
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1047,9 +1641,10 @@ class DrivesApi:
 
 
     @validate_call
-    def rotate_drive_key_route_v0_drives_drive_id_keys_rotate_post_without_preload_content(
+    def revoke_drive_key_route_v0_drives_drive_id_keys_key_id_revoke_post_without_preload_content(
         self,
         drive_id: StrictStr,
+        key_id: StrictStr,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -1064,12 +1659,14 @@ class DrivesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Rotate a drive's API key
+        """Revoke a drive API key
 
-        Generate a fresh `ad_live_` key for a drive you own and invalidate the old one immediately. **Owner only** (404 no-leak otherwise) and requires a `full`-scope user token. The new key is returned **once** — store it now.
+        Revoke one `ad_live_` key of a drive you manage — anything using it loses access immediately. **Manager only** (404 no-leak otherwise), `full`-scope user token. Idempotent: revoking an unknown/already-revoked key returns 204 too (no existence oracle).
 
         :param drive_id: (required)
         :type drive_id: str
+        :param key_id: (required)
+        :type key_id: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1094,8 +1691,9 @@ class DrivesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._rotate_drive_key_route_v0_drives_drive_id_keys_rotate_post_serialize(
+        _param = self._revoke_drive_key_route_v0_drives_drive_id_keys_key_id_revoke_post_serialize(
             drive_id=drive_id,
+            key_id=key_id,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1104,7 +1702,7 @@ class DrivesApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DriveKeyRotateOut",
+            '204': None,
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1114,9 +1712,10 @@ class DrivesApi:
         return response_data.response
 
 
-    def _rotate_drive_key_route_v0_drives_drive_id_keys_rotate_post_serialize(
+    def _revoke_drive_key_route_v0_drives_drive_id_keys_key_id_revoke_post_serialize(
         self,
         drive_id,
+        key_id,
         authorization,
         _request_auth,
         _content_type,
@@ -1141,6 +1740,8 @@ class DrivesApi:
         # process the path parameters
         if drive_id is not None:
             _path_params['drive_id'] = drive_id
+        if key_id is not None:
+            _path_params['key_id'] = key_id
         # process the query parameters
         # process the header parameters
         if authorization is not None:
@@ -1164,7 +1765,300 @@ class DrivesApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v0/drives/{drive_id}/keys/rotate',
+            resource_path='/v0/drives/{drive_id}/keys/{key_id}/revoke',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def rotate_one_key_route_v0_drives_drive_id_keys_key_id_rotate_post(
+        self,
+        drive_id: StrictStr,
+        key_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DriveApiKeyCreateOut:
+        """Rotate one API key
+
+        Rotate a single `ad_live_` key: revoke `key_id` and mint a replacement that inherits its label. **Only that key** is affected — the drive's other keys keep working. **Manager only** (404 no-leak otherwise), `full`-scope user token. The new key is returned **once** — store it now. A `key_id` that isn't a live key of this drive is a 404.
+
+        :param drive_id: (required)
+        :type drive_id: str
+        :param key_id: (required)
+        :type key_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._rotate_one_key_route_v0_drives_drive_id_keys_key_id_rotate_post_serialize(
+            drive_id=drive_id,
+            key_id=key_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DriveApiKeyCreateOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def rotate_one_key_route_v0_drives_drive_id_keys_key_id_rotate_post_with_http_info(
+        self,
+        drive_id: StrictStr,
+        key_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DriveApiKeyCreateOut]:
+        """Rotate one API key
+
+        Rotate a single `ad_live_` key: revoke `key_id` and mint a replacement that inherits its label. **Only that key** is affected — the drive's other keys keep working. **Manager only** (404 no-leak otherwise), `full`-scope user token. The new key is returned **once** — store it now. A `key_id` that isn't a live key of this drive is a 404.
+
+        :param drive_id: (required)
+        :type drive_id: str
+        :param key_id: (required)
+        :type key_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._rotate_one_key_route_v0_drives_drive_id_keys_key_id_rotate_post_serialize(
+            drive_id=drive_id,
+            key_id=key_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DriveApiKeyCreateOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def rotate_one_key_route_v0_drives_drive_id_keys_key_id_rotate_post_without_preload_content(
+        self,
+        drive_id: StrictStr,
+        key_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Rotate one API key
+
+        Rotate a single `ad_live_` key: revoke `key_id` and mint a replacement that inherits its label. **Only that key** is affected — the drive's other keys keep working. **Manager only** (404 no-leak otherwise), `full`-scope user token. The new key is returned **once** — store it now. A `key_id` that isn't a live key of this drive is a 404.
+
+        :param drive_id: (required)
+        :type drive_id: str
+        :param key_id: (required)
+        :type key_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._rotate_one_key_route_v0_drives_drive_id_keys_key_id_rotate_post_serialize(
+            drive_id=drive_id,
+            key_id=key_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DriveApiKeyCreateOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _rotate_one_key_route_v0_drives_drive_id_keys_key_id_rotate_post_serialize(
+        self,
+        drive_id,
+        key_id,
+        authorization,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if drive_id is not None:
+            _path_params['drive_id'] = drive_id
+        if key_id is not None:
+            _path_params['key_id'] = key_id
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v0/drives/{drive_id}/keys/{key_id}/rotate',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

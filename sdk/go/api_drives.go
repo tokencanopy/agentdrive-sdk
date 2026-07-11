@@ -23,6 +23,139 @@ import (
 // DrivesAPIService DrivesAPI service
 type DrivesAPIService service
 
+type ApiCreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest struct {
+	ctx context.Context
+	ApiService *DrivesAPIService
+	driveId string
+	driveApiKeyCreateIn *DriveApiKeyCreateIn
+	authorization *string
+}
+
+func (r ApiCreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest) DriveApiKeyCreateIn(driveApiKeyCreateIn DriveApiKeyCreateIn) ApiCreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest {
+	r.driveApiKeyCreateIn = &driveApiKeyCreateIn
+	return r
+}
+
+func (r ApiCreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest) Authorization(authorization string) ApiCreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiCreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest) Execute() (*DriveApiKeyCreateOut, *http.Response, error) {
+	return r.ApiService.CreateDriveKeyRouteV0DrivesDriveIdKeysPostExecute(r)
+}
+
+/*
+CreateDriveKeyRouteV0DrivesDriveIdKeysPost Create a drive API key
+
+Mint a new `ad_live_` key for a drive you manage — a drive may hold several (one per agent/integration). A `label` (a name for the key) is **required**. **Manager only** (404 no-leak otherwise), `full`-scope user token. The raw key is returned **once** — store it now.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param driveId
+ @return ApiCreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest
+*/
+func (a *DrivesAPIService) CreateDriveKeyRouteV0DrivesDriveIdKeysPost(ctx context.Context, driveId string) ApiCreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest {
+	return ApiCreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest{
+		ApiService: a,
+		ctx: ctx,
+		driveId: driveId,
+	}
+}
+
+// Execute executes the request
+//  @return DriveApiKeyCreateOut
+func (a *DrivesAPIService) CreateDriveKeyRouteV0DrivesDriveIdKeysPostExecute(r ApiCreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest) (*DriveApiKeyCreateOut, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *DriveApiKeyCreateOut
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DrivesAPIService.CreateDriveKeyRouteV0DrivesDriveIdKeysPost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v0/drives/{drive_id}/keys"
+	localVarPath = strings.Replace(localVarPath, "{"+"drive_id"+"}", url.PathEscape(parameterValueToString(r.driveId, "driveId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.driveApiKeyCreateIn == nil {
+		return localVarReturnValue, nil, reportError("driveApiKeyCreateIn is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
+	}
+	// body params
+	localVarPostBody = r.driveApiKeyCreateIn
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiCreateDriveRouteV0DrivesPostRequest struct {
 	ctx context.Context
 	ApiService *DrivesAPIService
@@ -45,13 +178,13 @@ func (r ApiCreateDriveRouteV0DrivesPostRequest) Execute() (*DriveCreateOut, *htt
 }
 
 /*
-CreateDriveRouteV0DrivesPost Create a drive in your active workspace
+CreateDriveRouteV0DrivesPost Create a drive in your active space
 
-Create a named drive. Any **member** of the workspace may create one; the creator becomes its **owner**. Requires a `full`-scope user token. The response carries the drive's `ad_live_` API key **once** (`api_key`) — store it now, it is never returned again (rotate via `POST /v0/drives/{id}/keys/rotate`).
+Create a named drive. Any **member** of the space may create one; the creator becomes its **owner**. Requires a `full`-scope user token. The response carries the drive's `ad_live_` API key **once** (`api_key`) — store it now, it is never returned again (mint more keys via `POST /v0/drives/{id}/keys`).
 
 The target workspace is the user's active organization (`users.default_org`); cross-workspace creation names no other workspace in v0.
 
-A member may own at most a fixed number of drives per workspace (workspaces-design §4.5). A caller at the limit is blocked with `403 DRIVE_LIMIT_REACHED`; this is a hard cap, not a paywall.
+A space may hold up to its plan's drive limit (workspaces-v2 §4.6; seat-aware for shared drives). A caller at the limit is blocked with `403 DRIVE_LIMIT_REACHED`; the limit is tier-governed, not a hard cap.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateDriveRouteV0DrivesPostRequest
@@ -109,6 +242,128 @@ func (a *DrivesAPIService) CreateDriveRouteV0DrivesPostExecute(r ApiCreateDriveR
 	}
 	// body params
 	localVarPostBody = r.driveCreateIn
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest struct {
+	ctx context.Context
+	ApiService *DrivesAPIService
+	driveId string
+	authorization *string
+}
+
+func (r ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest) Authorization(authorization string) ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest) Execute() (*DriveApiKeyListOut, *http.Response, error) {
+	return r.ApiService.ListDriveKeysRouteV0DrivesDriveIdKeysGetExecute(r)
+}
+
+/*
+ListDriveKeysRouteV0DrivesDriveIdKeysGet List a drive's API keys
+
+List the `ad_live_` keys for a drive you manage (newest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param driveId
+ @return ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest
+*/
+func (a *DrivesAPIService) ListDriveKeysRouteV0DrivesDriveIdKeysGet(ctx context.Context, driveId string) ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest {
+	return ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest{
+		ApiService: a,
+		ctx: ctx,
+		driveId: driveId,
+	}
+}
+
+// Execute executes the request
+//  @return DriveApiKeyListOut
+func (a *DrivesAPIService) ListDriveKeysRouteV0DrivesDriveIdKeysGetExecute(r ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest) (*DriveApiKeyListOut, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *DriveApiKeyListOut
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DrivesAPIService.ListDriveKeysRouteV0DrivesDriveIdKeysGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v0/drives/{drive_id}/keys"
+	localVarPath = strings.Replace(localVarPath, "{"+"drive_id"+"}", url.PathEscape(parameterValueToString(r.driveId, "driveId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
+	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -407,56 +662,175 @@ func (a *DrivesAPIService) RenameDriveRouteV0DrivesDriveIdPatchExecute(r ApiRena
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiRotateDriveKeyRouteV0DrivesDriveIdKeysRotatePostRequest struct {
+type ApiRevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest struct {
 	ctx context.Context
 	ApiService *DrivesAPIService
 	driveId string
+	keyId string
 	authorization *string
 }
 
-func (r ApiRotateDriveKeyRouteV0DrivesDriveIdKeysRotatePostRequest) Authorization(authorization string) ApiRotateDriveKeyRouteV0DrivesDriveIdKeysRotatePostRequest {
+func (r ApiRevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest) Authorization(authorization string) ApiRevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest {
 	r.authorization = &authorization
 	return r
 }
 
-func (r ApiRotateDriveKeyRouteV0DrivesDriveIdKeysRotatePostRequest) Execute() (*DriveKeyRotateOut, *http.Response, error) {
-	return r.ApiService.RotateDriveKeyRouteV0DrivesDriveIdKeysRotatePostExecute(r)
+func (r ApiRevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest) Execute() (*http.Response, error) {
+	return r.ApiService.RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostExecute(r)
 }
 
 /*
-RotateDriveKeyRouteV0DrivesDriveIdKeysRotatePost Rotate a drive's API key
+RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost Revoke a drive API key
 
-Generate a fresh `ad_live_` key for a drive you own and invalidate the old one immediately. **Owner only** (404 no-leak otherwise) and requires a `full`-scope user token. The new key is returned **once** — store it now.
+Revoke one `ad_live_` key of a drive you manage — anything using it loses access immediately. **Manager only** (404 no-leak otherwise), `full`-scope user token. Idempotent: revoking an unknown/already-revoked key returns 204 too (no existence oracle).
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param driveId
- @return ApiRotateDriveKeyRouteV0DrivesDriveIdKeysRotatePostRequest
+ @param keyId
+ @return ApiRevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest
 */
-func (a *DrivesAPIService) RotateDriveKeyRouteV0DrivesDriveIdKeysRotatePost(ctx context.Context, driveId string) ApiRotateDriveKeyRouteV0DrivesDriveIdKeysRotatePostRequest {
-	return ApiRotateDriveKeyRouteV0DrivesDriveIdKeysRotatePostRequest{
+func (a *DrivesAPIService) RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost(ctx context.Context, driveId string, keyId string) ApiRevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest {
+	return ApiRevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest{
 		ApiService: a,
 		ctx: ctx,
 		driveId: driveId,
+		keyId: keyId,
 	}
 }
 
 // Execute executes the request
-//  @return DriveKeyRotateOut
-func (a *DrivesAPIService) RotateDriveKeyRouteV0DrivesDriveIdKeysRotatePostExecute(r ApiRotateDriveKeyRouteV0DrivesDriveIdKeysRotatePostRequest) (*DriveKeyRotateOut, *http.Response, error) {
+func (a *DrivesAPIService) RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostExecute(r ApiRevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *DriveKeyRotateOut
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DrivesAPIService.RotateDriveKeyRouteV0DrivesDriveIdKeysRotatePost")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DrivesAPIService.RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v0/drives/{drive_id}/keys/{key_id}/revoke"
+	localVarPath = strings.Replace(localVarPath, "{"+"drive_id"+"}", url.PathEscape(parameterValueToString(r.driveId, "driveId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"key_id"+"}", url.PathEscape(parameterValueToString(r.keyId, "keyId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiRotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest struct {
+	ctx context.Context
+	ApiService *DrivesAPIService
+	driveId string
+	keyId string
+	authorization *string
+}
+
+func (r ApiRotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest) Authorization(authorization string) ApiRotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiRotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest) Execute() (*DriveApiKeyCreateOut, *http.Response, error) {
+	return r.ApiService.RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostExecute(r)
+}
+
+/*
+RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost Rotate one API key
+
+Rotate a single `ad_live_` key: revoke `key_id` and mint a replacement that inherits its label. **Only that key** is affected — the drive's other keys keep working. **Manager only** (404 no-leak otherwise), `full`-scope user token. The new key is returned **once** — store it now. A `key_id` that isn't a live key of this drive is a 404.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param driveId
+ @param keyId
+ @return ApiRotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest
+*/
+func (a *DrivesAPIService) RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost(ctx context.Context, driveId string, keyId string) ApiRotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest {
+	return ApiRotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest{
+		ApiService: a,
+		ctx: ctx,
+		driveId: driveId,
+		keyId: keyId,
+	}
+}
+
+// Execute executes the request
+//  @return DriveApiKeyCreateOut
+func (a *DrivesAPIService) RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostExecute(r ApiRotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest) (*DriveApiKeyCreateOut, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *DriveApiKeyCreateOut
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DrivesAPIService.RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v0/drives/{drive_id}/keys/rotate"
+	localVarPath := localBasePath + "/v0/drives/{drive_id}/keys/{key_id}/rotate"
 	localVarPath = strings.Replace(localVarPath, "{"+"drive_id"+"}", url.PathEscape(parameterValueToString(r.driveId, "driveId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"key_id"+"}", url.PathEscape(parameterValueToString(r.keyId, "keyId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

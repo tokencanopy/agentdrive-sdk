@@ -226,6 +226,12 @@ export interface CopyArtifactRouteV0ArtifactsArtIdCopyPostRequest {
     authorization?: string | null;
 }
 
+export interface CreateDriveKeyWebWebDrivesDriveIdKeysCreatePostRequest {
+    driveId: string;
+    csrf: string;
+    label?: string;
+}
+
 export interface CreateDriveWebWebDrivesPostRequest {
     name: string;
     csrf: string;
@@ -242,6 +248,11 @@ export interface CreateGrantRouteV0GrantsPostRequest {
     grantCreateIn: GrantCreateIn;
     xAgentdriveActor?: string | null;
     authorization?: string | null;
+}
+
+export interface CreateKeyWebKeysCreatePostRequest {
+    csrf: string;
+    label?: string;
 }
 
 export interface CreateLinkWebShareRidLinkPostRequest {
@@ -328,10 +339,6 @@ export interface DeleteGrantRouteV0GrantsGrnIdDeleteRequest {
     grnId: string;
     xAgentdriveActor?: string | null;
     authorization?: string | null;
-}
-
-export interface DeleteKeyWebKeysDeletePostRequest {
-    csrf: string;
 }
 
 export interface DeleteShareRouteV0SharesShrIdDeleteRequest {
@@ -709,6 +716,11 @@ export interface RevokeInvitationWebWebInvitationsInvitationIdRevokePostRequest 
     csrf: string;
 }
 
+export interface RevokeKeyWebKeysRevokePostRequest {
+    keyId: string;
+    csrf: string;
+}
+
 export interface RevokeLinkWebShareRidLinkShrIdRevokePostRequest {
     rid: string;
     shrId: string;
@@ -717,15 +729,6 @@ export interface RevokeLinkWebShareRidLinkShrIdRevokePostRequest {
 
 export interface RevokeUserTokenWebTokensRevokePostRequest {
     tokenId: string;
-    csrf: string;
-}
-
-export interface RotateDriveKeyWebWebDrivesDriveIdKeysRotatePostRequest {
-    driveId: string;
-    csrf: string;
-}
-
-export interface RotateKeyWebKeysRotatePostRequest {
     csrf: string;
 }
 
@@ -1465,6 +1468,87 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * Creates request options for createDriveKeyWebWebDrivesDriveIdKeysCreatePost without sending the request
+     */
+    async createDriveKeyWebWebDrivesDriveIdKeysCreatePostRequestOpts(requestParameters: CreateDriveKeyWebWebDrivesDriveIdKeysCreatePostRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['driveId'] == null) {
+            throw new runtime.RequiredError(
+                'driveId',
+                'Required parameter "driveId" was null or undefined when calling createDriveKeyWebWebDrivesDriveIdKeysCreatePost().'
+            );
+        }
+
+        if (requestParameters['csrf'] == null) {
+            throw new runtime.RequiredError(
+                'csrf',
+                'Required parameter "csrf" was null or undefined when calling createDriveKeyWebWebDrivesDriveIdKeysCreatePost().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const consumes: runtime.Consume[] = [
+            { contentType: 'application/x-www-form-urlencoded' },
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
+        if (requestParameters['label'] != null) {
+            formParams.append('label', requestParameters['label'] as any);
+        }
+
+        if (requestParameters['csrf'] != null) {
+            formParams.append('csrf', requestParameters['csrf'] as any);
+        }
+
+
+        let urlPath = `/web/drives/{drive_id}/keys/create`;
+        urlPath = urlPath.replace('{drive_id}', encodeURIComponent(String(requestParameters['driveId'])));
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: formParams,
+        };
+    }
+
+    /**
+     * Mint a new `ad_live_` key for a specific owned drive + reveal once (workspaces-design §5.6). Manager-only (no-leak no-op otherwise).  The per-drive twin of `/web/keys/create` (which acts on the active drive). Pins the target drive active so the reveal on the api-keys tab shows the key for the drive the user just minted on.
+     * Create Drive Key Web
+     */
+    async createDriveKeyWebWebDrivesDriveIdKeysCreatePostRaw(requestParameters: CreateDriveKeyWebWebDrivesDriveIdKeysCreatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        const requestOptions = await this.createDriveKeyWebWebDrivesDriveIdKeysCreatePostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Mint a new `ad_live_` key for a specific owned drive + reveal once (workspaces-design §5.6). Manager-only (no-leak no-op otherwise).  The per-drive twin of `/web/keys/create` (which acts on the active drive). Pins the target drive active so the reveal on the api-keys tab shows the key for the drive the user just minted on.
+     * Create Drive Key Web
+     */
+    async createDriveKeyWebWebDrivesDriveIdKeysCreatePost(requestParameters: CreateDriveKeyWebWebDrivesDriveIdKeysCreatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.createDriveKeyWebWebDrivesDriveIdKeysCreatePostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Creates request options for createDriveWebWebDrivesPost without sending the request
      */
     async createDriveWebWebDrivesPostRequestOpts(requestParameters: CreateDriveWebWebDrivesPostRequest): Promise<runtime.RequestOpts> {
@@ -1654,6 +1738,79 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async createGrantRouteV0GrantsPost(requestParameters: CreateGrantRouteV0GrantsPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GrantOut> {
         const response = await this.createGrantRouteV0GrantsPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for createKeyWebKeysCreatePost without sending the request
+     */
+    async createKeyWebKeysCreatePostRequestOpts(requestParameters: CreateKeyWebKeysCreatePostRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['csrf'] == null) {
+            throw new runtime.RequiredError(
+                'csrf',
+                'Required parameter "csrf" was null or undefined when calling createKeyWebKeysCreatePost().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const consumes: runtime.Consume[] = [
+            { contentType: 'application/x-www-form-urlencoded' },
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
+        if (requestParameters['label'] != null) {
+            formParams.append('label', requestParameters['label'] as any);
+        }
+
+        if (requestParameters['csrf'] != null) {
+            formParams.append('csrf', requestParameters['csrf'] as any);
+        }
+
+
+        let urlPath = `/web/keys/create`;
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: formParams,
+        };
+    }
+
+    /**
+     * Mint a new `ad_live_` key for the active drive (reveal-once).  A drive may hold several keys — this appends one rather than replacing. Management gate (workspaces-v2 §4.4): personal → owner, team → admin. Without it a team MEMBER (who now reaches the shared drive) could mint a shared key. No-leak redirect on non-manage.
+     * Create Key
+     */
+    async createKeyWebKeysCreatePostRaw(requestParameters: CreateKeyWebKeysCreatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        const requestOptions = await this.createKeyWebKeysCreatePostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Mint a new `ad_live_` key for the active drive (reveal-once).  A drive may hold several keys — this appends one rather than replacing. Management gate (workspaces-v2 §4.4): personal → owner, team → admin. Without it a team MEMBER (who now reaches the shared drive) could mint a shared key. No-leak redirect on non-manage.
+     * Create Key
+     */
+    async createKeyWebKeysCreatePost(requestParameters: CreateKeyWebKeysCreatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.createKeyWebKeysCreatePostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -1911,7 +2068,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a new workspace, set it active, reveal its starter key once (workspaces-design §4.7).  The web (session+CSRF) twin of `POST /v0/workspaces`. A user may administer at most a fixed number of workspaces (`core.entitlements. can_create_workspace`, a hard cap — §4.7/O2); a blocked create bounces to the dashboard with a limit-reached affordance (`?err=workspace_limit`) rather than silently allowing. On success the new workspace + its starter drive become active and we land on the api-keys tab so the user sees the one-time key reveal.
+     * Create a new workspace, set it active, reveal its starter key once (workspaces-design §4.7).  The web (session+CSRF) twin of `POST /v0/workspaces`. A user may administer up to their plan\'s number of TEAM workspaces (`core.entitlements.can_create_workspace`, tier-governed — workspaces-v2 §4.6); a blocked create bounces to the dashboard with a limit-reached affordance (`?err=workspace_limit`). On success the new workspace + its starter drive become active and we land on the api-keys tab so the user sees the one-time key reveal.
      * Create Workspace Web
      */
     async createWorkspaceWebWebWorkspacesPostRaw(requestParameters: CreateWorkspaceWebWebWorkspacesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
@@ -1926,7 +2083,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a new workspace, set it active, reveal its starter key once (workspaces-design §4.7).  The web (session+CSRF) twin of `POST /v0/workspaces`. A user may administer at most a fixed number of workspaces (`core.entitlements. can_create_workspace`, a hard cap — §4.7/O2); a blocked create bounces to the dashboard with a limit-reached affordance (`?err=workspace_limit`) rather than silently allowing. On success the new workspace + its starter drive become active and we land on the api-keys tab so the user sees the one-time key reveal.
+     * Create a new workspace, set it active, reveal its starter key once (workspaces-design §4.7).  The web (session+CSRF) twin of `POST /v0/workspaces`. A user may administer up to their plan\'s number of TEAM workspaces (`core.entitlements.can_create_workspace`, tier-governed — workspaces-v2 §4.6); a blocked create bounces to the dashboard with a limit-reached affordance (`?err=workspace_limit`). On success the new workspace + its starter drive become active and we land on the api-keys tab so the user sees the one-time key reveal.
      * Create Workspace Web
      */
     async createWorkspaceWebWebWorkspacesPost(requestParameters: CreateWorkspaceWebWebWorkspacesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
@@ -2607,73 +2764,6 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async deleteGrantRouteV0GrantsGrnIdDelete(requestParameters: DeleteGrantRouteV0GrantsGrnIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
         const response = await this.deleteGrantRouteV0GrantsGrnIdDeleteRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Creates request options for deleteKeyWebKeysDeletePost without sending the request
-     */
-    async deleteKeyWebKeysDeletePostRequestOpts(requestParameters: DeleteKeyWebKeysDeletePostRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['csrf'] == null) {
-            throw new runtime.RequiredError(
-                'csrf',
-                'Required parameter "csrf" was null or undefined when calling deleteKeyWebKeysDeletePost().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const consumes: runtime.Consume[] = [
-            { contentType: 'application/x-www-form-urlencoded' },
-        ];
-        // @ts-ignore: canConsumeForm may be unused
-        const canConsumeForm = runtime.canConsumeForm(consumes);
-
-        let formParams: { append(param: string, value: any): any };
-        let useForm = false;
-        if (useForm) {
-            formParams = new FormData();
-        } else {
-            formParams = new URLSearchParams();
-        }
-
-        if (requestParameters['csrf'] != null) {
-            formParams.append('csrf', requestParameters['csrf'] as any);
-        }
-
-
-        let urlPath = `/web/keys/delete`;
-
-        return {
-            path: urlPath,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: formParams,
-        };
-    }
-
-    /**
-     * Delete Key
-     */
-    async deleteKeyWebKeysDeletePostRaw(requestParameters: DeleteKeyWebKeysDeletePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
-        const requestOptions = await this.deleteKeyWebKeysDeletePostRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
-
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<any>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
-    }
-
-    /**
-     * Delete Key
-     */
-    async deleteKeyWebKeysDeletePost(requestParameters: DeleteKeyWebKeysDeletePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
-        const response = await this.deleteKeyWebKeysDeletePostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -6926,6 +7016,86 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * Creates request options for revokeKeyWebKeysRevokePost without sending the request
+     */
+    async revokeKeyWebKeysRevokePostRequestOpts(requestParameters: RevokeKeyWebKeysRevokePostRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['keyId'] == null) {
+            throw new runtime.RequiredError(
+                'keyId',
+                'Required parameter "keyId" was null or undefined when calling revokeKeyWebKeysRevokePost().'
+            );
+        }
+
+        if (requestParameters['csrf'] == null) {
+            throw new runtime.RequiredError(
+                'csrf',
+                'Required parameter "csrf" was null or undefined when calling revokeKeyWebKeysRevokePost().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const consumes: runtime.Consume[] = [
+            { contentType: 'application/x-www-form-urlencoded' },
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
+        if (requestParameters['keyId'] != null) {
+            formParams.append('key_id', requestParameters['keyId'] as any);
+        }
+
+        if (requestParameters['csrf'] != null) {
+            formParams.append('csrf', requestParameters['csrf'] as any);
+        }
+
+
+        let urlPath = `/web/keys/revoke`;
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: formParams,
+        };
+    }
+
+    /**
+     * Revoke one of the active drive\'s `ad_live_` keys.  Management gate (workspaces-v2 §4.4): revoking a shared drive\'s key is admin-for-team / owner-for-personal — a mere member must not revoke a key out from under the team. `drive_keys.revoke` is additionally scoped by drive_id, so the form\'s `key_id` can\'t reach another drive\'s key.
+     * Revoke Key
+     */
+    async revokeKeyWebKeysRevokePostRaw(requestParameters: RevokeKeyWebKeysRevokePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        const requestOptions = await this.revokeKeyWebKeysRevokePostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Revoke one of the active drive\'s `ad_live_` keys.  Management gate (workspaces-v2 §4.4): revoking a shared drive\'s key is admin-for-team / owner-for-personal — a mere member must not revoke a key out from under the team. `drive_keys.revoke` is additionally scoped by drive_id, so the form\'s `key_id` can\'t reach another drive\'s key.
+     * Revoke Key
+     */
+    async revokeKeyWebKeysRevokePost(requestParameters: RevokeKeyWebKeysRevokePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.revokeKeyWebKeysRevokePostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Creates request options for revokeLinkWebShareRidLinkShrIdRevokePost without sending the request
      */
     async revokeLinkWebShareRidLinkShrIdRevokePostRequestOpts(requestParameters: RevokeLinkWebShareRidLinkShrIdRevokePostRequest): Promise<runtime.RequestOpts> {
@@ -7063,150 +7233,6 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async revokeUserTokenWebTokensRevokePost(requestParameters: RevokeUserTokenWebTokensRevokePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
         const response = await this.revokeUserTokenWebTokensRevokePostRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Creates request options for rotateDriveKeyWebWebDrivesDriveIdKeysRotatePost without sending the request
-     */
-    async rotateDriveKeyWebWebDrivesDriveIdKeysRotatePostRequestOpts(requestParameters: RotateDriveKeyWebWebDrivesDriveIdKeysRotatePostRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['driveId'] == null) {
-            throw new runtime.RequiredError(
-                'driveId',
-                'Required parameter "driveId" was null or undefined when calling rotateDriveKeyWebWebDrivesDriveIdKeysRotatePost().'
-            );
-        }
-
-        if (requestParameters['csrf'] == null) {
-            throw new runtime.RequiredError(
-                'csrf',
-                'Required parameter "csrf" was null or undefined when calling rotateDriveKeyWebWebDrivesDriveIdKeysRotatePost().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const consumes: runtime.Consume[] = [
-            { contentType: 'application/x-www-form-urlencoded' },
-        ];
-        // @ts-ignore: canConsumeForm may be unused
-        const canConsumeForm = runtime.canConsumeForm(consumes);
-
-        let formParams: { append(param: string, value: any): any };
-        let useForm = false;
-        if (useForm) {
-            formParams = new FormData();
-        } else {
-            formParams = new URLSearchParams();
-        }
-
-        if (requestParameters['csrf'] != null) {
-            formParams.append('csrf', requestParameters['csrf'] as any);
-        }
-
-
-        let urlPath = `/web/drives/{drive_id}/keys/rotate`;
-        urlPath = urlPath.replace('{drive_id}', encodeURIComponent(String(requestParameters['driveId'])));
-
-        return {
-            path: urlPath,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: formParams,
-        };
-    }
-
-    /**
-     * Rotate a specific owned drive\'s `ad_live_` key + reveal once (workspaces-design §5.6). Owner-only (no-leak no-op otherwise).  The per-drive twin of `/web/keys/rotate` (which acts on the active drive). Pins the rotated drive active so the reveal on the api-keys tab shows the key for the drive the user just rotated.
-     * Rotate Drive Key Web
-     */
-    async rotateDriveKeyWebWebDrivesDriveIdKeysRotatePostRaw(requestParameters: RotateDriveKeyWebWebDrivesDriveIdKeysRotatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
-        const requestOptions = await this.rotateDriveKeyWebWebDrivesDriveIdKeysRotatePostRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
-
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<any>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
-    }
-
-    /**
-     * Rotate a specific owned drive\'s `ad_live_` key + reveal once (workspaces-design §5.6). Owner-only (no-leak no-op otherwise).  The per-drive twin of `/web/keys/rotate` (which acts on the active drive). Pins the rotated drive active so the reveal on the api-keys tab shows the key for the drive the user just rotated.
-     * Rotate Drive Key Web
-     */
-    async rotateDriveKeyWebWebDrivesDriveIdKeysRotatePost(requestParameters: RotateDriveKeyWebWebDrivesDriveIdKeysRotatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
-        const response = await this.rotateDriveKeyWebWebDrivesDriveIdKeysRotatePostRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Creates request options for rotateKeyWebKeysRotatePost without sending the request
-     */
-    async rotateKeyWebKeysRotatePostRequestOpts(requestParameters: RotateKeyWebKeysRotatePostRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['csrf'] == null) {
-            throw new runtime.RequiredError(
-                'csrf',
-                'Required parameter "csrf" was null or undefined when calling rotateKeyWebKeysRotatePost().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const consumes: runtime.Consume[] = [
-            { contentType: 'application/x-www-form-urlencoded' },
-        ];
-        // @ts-ignore: canConsumeForm may be unused
-        const canConsumeForm = runtime.canConsumeForm(consumes);
-
-        let formParams: { append(param: string, value: any): any };
-        let useForm = false;
-        if (useForm) {
-            formParams = new FormData();
-        } else {
-            formParams = new URLSearchParams();
-        }
-
-        if (requestParameters['csrf'] != null) {
-            formParams.append('csrf', requestParameters['csrf'] as any);
-        }
-
-
-        let urlPath = `/web/keys/rotate`;
-
-        return {
-            path: urlPath,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: formParams,
-        };
-    }
-
-    /**
-     * Rotate Key
-     */
-    async rotateKeyWebKeysRotatePostRaw(requestParameters: RotateKeyWebKeysRotatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
-        const requestOptions = await this.rotateKeyWebKeysRotatePostRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
-
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<any>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
-    }
-
-    /**
-     * Rotate Key
-     */
-    async rotateKeyWebKeysRotatePost(requestParameters: RotateKeyWebKeysRotatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
-        const response = await this.rotateKeyWebKeysRotatePostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -7622,7 +7648,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * API key tab. Also where reveal_key is rendered after rotation; the reveal is consumed (removed from session) on first read.  Surfaces two credential classes (workspaces-design §5.6):   * the drive\'s `ad_live_` per-drive key (`drive.api_key_prefix`,     rotate/delete) — unchanged from v0.   * the user\'s `ad_user_` identity tokens (`user_tokens`, mint/list/     revoke). Minting reveals the raw token once via the same     `reveal_key`-in-session mechanism as the drive key.
+     * API key tab. Also where `reveal_key` is rendered once after a key is minted; the reveal is consumed (removed from session) on first read.  Surfaces two credential classes (workspaces-design §5.6):   * the drive\'s `ad_live_` per-drive keys (`drive_keys.list_for_drive`) —     a drive may hold several, each created/revoked individually.   * the user\'s `ad_user_` identity tokens (`user_tokens`, mint/list/     revoke). Minting reveals the raw token once via the same     `reveal_key`-in-session mechanism as the drive keys.
      * Settings Api Keys
      */
     async settingsApiKeysSettingsApiKeysGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
@@ -7637,7 +7663,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * API key tab. Also where reveal_key is rendered after rotation; the reveal is consumed (removed from session) on first read.  Surfaces two credential classes (workspaces-design §5.6):   * the drive\'s `ad_live_` per-drive key (`drive.api_key_prefix`,     rotate/delete) — unchanged from v0.   * the user\'s `ad_user_` identity tokens (`user_tokens`, mint/list/     revoke). Minting reveals the raw token once via the same     `reveal_key`-in-session mechanism as the drive key.
+     * API key tab. Also where `reveal_key` is rendered once after a key is minted; the reveal is consumed (removed from session) on first read.  Surfaces two credential classes (workspaces-design §5.6):   * the drive\'s `ad_live_` per-drive keys (`drive_keys.list_for_drive`) —     a drive may hold several, each created/revoked individually.   * the user\'s `ad_user_` identity tokens (`user_tokens`, mint/list/     revoke). Minting reveals the raw token once via the same     `reveal_key`-in-session mechanism as the drive keys.
      * Settings Api Keys
      */
     async settingsApiKeysSettingsApiKeysGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {

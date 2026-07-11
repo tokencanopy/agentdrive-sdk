@@ -29,21 +29,21 @@ class TestWorkspacesApi(unittest.TestCase):
     def test_create_workspace_route_v0_workspaces_post(self) -> None:
         """Test case for create_workspace_route_v0_workspaces_post
 
-        Create a new workspace
+        Create a new shared drive
         """
         pass
 
     def test_list_workspaces_route_v0_workspaces_get(self) -> None:
         """Test case for list_workspaces_route_v0_workspaces_get
 
-        List the workspaces you belong to
+        List the spaces you belong to
         """
         pass
 
     def test_rename_workspace_route_v0_workspaces_org_id_patch(self) -> None:
         """Test case for rename_workspace_route_v0_workspaces_org_id_patch
 
-        Rename a workspace you administer
+        Rename a shared drive you administer
         """
         pass
 

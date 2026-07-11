@@ -98,8 +98,8 @@ export class WorkspacesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a new **workspace** (the user-facing name for an organization). You become its **admin** and get a starter drive; the starter drive\'s `ad_live_` key is returned **once** (`starter_drive_api_key`).  A user may administer at most a fixed number of workspaces (workspaces-design §4.7). A caller at the limit is blocked with `403 WORKSPACE_LIMIT_REACHED`. Requires a `full`-scope user token.
-     * Create a new workspace
+     * Create a new **shared drive** — a shared, multi-member space (the `workspaces` path is retained for API stability). You become its **admin** and get a starter drive; the starter drive\'s `ad_live_` key is returned **once** (`starter_drive_api_key`).  A user may administer up to their plan\'s number of shared drives (workspaces-v2 §4.6). A caller at the limit is blocked with `403 WORKSPACE_LIMIT_REACHED`. Requires a `full`-scope user token.
+     * Create a new shared drive
      */
     async createWorkspaceRouteV0WorkspacesPostRaw(requestParameters: CreateWorkspaceRouteV0WorkspacesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkspaceCreateOut>> {
         const requestOptions = await this.createWorkspaceRouteV0WorkspacesPostRequestOpts(requestParameters);
@@ -109,8 +109,8 @@ export class WorkspacesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a new **workspace** (the user-facing name for an organization). You become its **admin** and get a starter drive; the starter drive\'s `ad_live_` key is returned **once** (`starter_drive_api_key`).  A user may administer at most a fixed number of workspaces (workspaces-design §4.7). A caller at the limit is blocked with `403 WORKSPACE_LIMIT_REACHED`. Requires a `full`-scope user token.
-     * Create a new workspace
+     * Create a new **shared drive** — a shared, multi-member space (the `workspaces` path is retained for API stability). You become its **admin** and get a starter drive; the starter drive\'s `ad_live_` key is returned **once** (`starter_drive_api_key`).  A user may administer up to their plan\'s number of shared drives (workspaces-v2 §4.6). A caller at the limit is blocked with `403 WORKSPACE_LIMIT_REACHED`. Requires a `full`-scope user token.
+     * Create a new shared drive
      */
     async createWorkspaceRouteV0WorkspacesPost(requestParameters: CreateWorkspaceRouteV0WorkspacesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WorkspaceCreateOut> {
         const response = await this.createWorkspaceRouteV0WorkspacesPostRaw(requestParameters, initOverrides);
@@ -141,8 +141,8 @@ export class WorkspacesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Return every workspace the caller is a member of, each carrying the caller\'s `role` in it. Metadata only. A `read`-scope token is sufficient.
-     * List the workspaces you belong to
+     * Return every space the caller is a member of, each carrying the caller\'s `role` in it. Metadata only. A `read`-scope token is sufficient.
+     * List the spaces you belong to
      */
     async listWorkspacesRouteV0WorkspacesGetRaw(requestParameters: ListWorkspacesRouteV0WorkspacesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkspaceList>> {
         const requestOptions = await this.listWorkspacesRouteV0WorkspacesGetRequestOpts(requestParameters);
@@ -152,8 +152,8 @@ export class WorkspacesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Return every workspace the caller is a member of, each carrying the caller\'s `role` in it. Metadata only. A `read`-scope token is sufficient.
-     * List the workspaces you belong to
+     * Return every space the caller is a member of, each carrying the caller\'s `role` in it. Metadata only. A `read`-scope token is sufficient.
+     * List the spaces you belong to
      */
     async listWorkspacesRouteV0WorkspacesGet(requestParameters: ListWorkspacesRouteV0WorkspacesGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WorkspaceList> {
         const response = await this.listWorkspacesRouteV0WorkspacesGetRaw(requestParameters, initOverrides);
@@ -202,8 +202,8 @@ export class WorkspacesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Rename a workspace. **Admin only** — a workspace you don\'t administer (or aren\'t a member of) returns 404 (no-leak). Requires a `full`-scope user token.
-     * Rename a workspace you administer
+     * Rename a shared drive. **Admin only** — one you don\'t administer (or aren\'t a member of) returns 404 (no-leak). Requires a `full`-scope user token.
+     * Rename a shared drive you administer
      */
     async renameWorkspaceRouteV0WorkspacesOrgIdPatchRaw(requestParameters: RenameWorkspaceRouteV0WorkspacesOrgIdPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkspaceOut>> {
         const requestOptions = await this.renameWorkspaceRouteV0WorkspacesOrgIdPatchRequestOpts(requestParameters);
@@ -213,8 +213,8 @@ export class WorkspacesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Rename a workspace. **Admin only** — a workspace you don\'t administer (or aren\'t a member of) returns 404 (no-leak). Requires a `full`-scope user token.
-     * Rename a workspace you administer
+     * Rename a shared drive. **Admin only** — one you don\'t administer (or aren\'t a member of) returns 404 (no-leak). Requires a `full`-scope user token.
+     * Rename a shared drive you administer
      */
     async renameWorkspaceRouteV0WorkspacesOrgIdPatch(requestParameters: RenameWorkspaceRouteV0WorkspacesOrgIdPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WorkspaceOut> {
         const response = await this.renameWorkspaceRouteV0WorkspacesOrgIdPatchRaw(requestParameters, initOverrides);

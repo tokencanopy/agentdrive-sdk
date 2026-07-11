@@ -15,9 +15,11 @@ All URIs are relative to *https://api.agentdrive.run*
 | [**commitUploadV0UploadsUploadIdCommitPost**](DefaultApi.md#commituploadv0uploadsuploadidcommitpost) | **POST** /v0/uploads/{upload_id}/commit | Commit a large (direct-to-GCS) upload |
 | [**connectorsPageConnectorsGet**](DefaultApi.md#connectorspageconnectorsget) | **GET** /connectors | Connectors Page |
 | [**copyArtifactRouteV0ArtifactsArtIdCopyPost**](DefaultApi.md#copyartifactroutev0artifactsartidcopypost) | **POST** /v0/artifacts/{art_id}/copy | Duplicate an artifact to a new path (CAS-shared, new ID) |
+| [**createDriveKeyWebWebDrivesDriveIdKeysCreatePost**](DefaultApi.md#createdrivekeywebwebdrivesdriveidkeyscreatepost) | **POST** /web/drives/{drive_id}/keys/create | Create Drive Key Web |
 | [**createDriveWebWebDrivesPost**](DefaultApi.md#createdrivewebwebdrivespost) | **POST** /web/drives | Create Drive Web |
 | [**createFolderByPathV0FoldersPathPost**](DefaultApi.md#createfolderbypathv0folderspathpost) | **POST** /v0/folders/{path} | Create a folder (idempotent) |
 | [**createGrantRouteV0GrantsPost**](DefaultApi.md#creategrantroutev0grantspost) | **POST** /v0/grants | Create (or fetch) a per-principal grant on a resource |
+| [**createKeyWebKeysCreatePost**](DefaultApi.md#createkeywebkeyscreatepost) | **POST** /web/keys/create | Create Key |
 | [**createLinkWebShareRidLinkPost**](DefaultApi.md#createlinkwebshareridlinkpost) | **POST** /web/share/{rid}/link | Create Link |
 | [**createShareRouteV0SharesPost**](DefaultApi.md#createshareroutev0sharespost) | **POST** /v0/shares | Mint a share link (returns the share_key once) |
 | [**createUserTokenWebTokensCreatePost**](DefaultApi.md#createusertokenwebtokenscreatepost) | **POST** /web/tokens/create | Create User Token |
@@ -33,7 +35,6 @@ All URIs are relative to *https://api.agentdrive.run*
 | [**deleteFolderByIdV0FoldersFldIdDelete**](DefaultApi.md#deletefolderbyidv0foldersfldiddelete) | **DELETE** /v0/folders/{fld_id} | Soft-delete a folder by stable ID (cascade with ?recursive&#x3D;true) |
 | [**deleteFolderByPathV0FoldersPathDelete**](DefaultApi.md#deletefolderbypathv0folderspathdelete) | **DELETE** /v0/folders/{path} | Soft-delete a folder (cascade with ?recursive&#x3D;true) |
 | [**deleteGrantRouteV0GrantsGrnIdDelete**](DefaultApi.md#deletegrantroutev0grantsgrniddelete) | **DELETE** /v0/grants/{grn_id} | Revoke a grant (can_manage, or self-revoke own grant) |
-| [**deleteKeyWebKeysDeletePost**](DefaultApi.md#deletekeywebkeysdeletepost) | **POST** /web/keys/delete | Delete Key |
 | [**deleteShareRouteV0SharesShrIdDelete**](DefaultApi.md#deleteshareroutev0sharesshriddelete) | **DELETE** /v0/shares/{shr_id} | Revoke a share link (requires can_manage) |
 | [**deleteWorkspaceWebWebWorkspacesOrgIdDeletePost**](DefaultApi.md#deleteworkspacewebwebworkspacesorgiddeletepost) | **POST** /web/workspaces/{org_id}/delete | Delete Workspace Web |
 | [**downloadArtifactByIdV0ArtifactsArtIdDownloadGet**](DefaultApi.md#downloadartifactbyidv0artifactsartiddownloadget) | **GET** /v0/artifacts/{art_id}/download | Stream the artifact bytes by stable ID (never rendered HTML) |
@@ -106,10 +107,9 @@ All URIs are relative to *https://api.agentdrive.run*
 | [**restoreDriveRouteV0DrivesDriveIdRestorePost**](DefaultApi.md#restoredriveroutev0drivesdriveidrestorepost) | **POST** /v0/drives/{drive_id}/restore | Restore a soft-deleted drive |
 | [**revokeGrantWebShareRidGrantGrnIdRevokePost**](DefaultApi.md#revokegrantwebshareridgrantgrnidrevokepost) | **POST** /web/share/{rid}/grant/{grn_id}/revoke | Revoke Grant |
 | [**revokeInvitationWebWebInvitationsInvitationIdRevokePost**](DefaultApi.md#revokeinvitationwebwebinvitationsinvitationidrevokepost) | **POST** /web/invitations/{invitation_id}/revoke | Revoke Invitation Web |
+| [**revokeKeyWebKeysRevokePost**](DefaultApi.md#revokekeywebkeysrevokepost) | **POST** /web/keys/revoke | Revoke Key |
 | [**revokeLinkWebShareRidLinkShrIdRevokePost**](DefaultApi.md#revokelinkwebshareridlinkshridrevokepost) | **POST** /web/share/{rid}/link/{shr_id}/revoke | Revoke Link |
 | [**revokeUserTokenWebTokensRevokePost**](DefaultApi.md#revokeusertokenwebtokensrevokepost) | **POST** /web/tokens/revoke | Revoke User Token |
-| [**rotateDriveKeyWebWebDrivesDriveIdKeysRotatePost**](DefaultApi.md#rotatedrivekeywebwebdrivesdriveidkeysrotatepost) | **POST** /web/drives/{drive_id}/keys/rotate | Rotate Drive Key Web |
-| [**rotateKeyWebKeysRotatePost**](DefaultApi.md#rotatekeywebkeysrotatepost) | **POST** /web/keys/rotate | Rotate Key |
 | [**rotateShareRouteV0SharesShrIdRotatePost**](DefaultApi.md#rotateshareroutev0sharesshridrotatepost) | **POST** /v0/shares/{shr_id}/rotate | Revoke + reissue a share link\&#39;s key (requires can_share) |
 | [**searchV0SearchGet**](DefaultApi.md#searchv0searchget) | **GET** /v0/search | Full-text search over artifacts in the drive |
 | [**setMemberRoleWebWebMembersTargetUserIdRolePost**](DefaultApi.md#setmemberrolewebwebmemberstargetuseridrolepost) | **POST** /web/members/{target_user_id}/role | Set Member Role Web |
@@ -901,6 +901,80 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
+## createDriveKeyWebWebDrivesDriveIdKeysCreatePost
+
+> any createDriveKeyWebWebDrivesDriveIdKeysCreatePost(driveId, csrf, label)
+
+Create Drive Key Web
+
+Mint a new &#x60;ad_live_&#x60; key for a specific owned drive + reveal once (workspaces-design §5.6). Manager-only (no-leak no-op otherwise).  The per-drive twin of &#x60;/web/keys/create&#x60; (which acts on the active drive). Pins the target drive active so the reveal on the api-keys tab shows the key for the drive the user just minted on.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '@mnexa-ai/agentdrive-sdk';
+import type { CreateDriveKeyWebWebDrivesDriveIdKeysCreatePostRequest } from '@mnexa-ai/agentdrive-sdk';
+
+async function example() {
+  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
+  const api = new DefaultApi();
+
+  const body = {
+    // string
+    driveId: driveId_example,
+    // string
+    csrf: csrf_example,
+    // string (optional)
+    label: label_example,
+  } satisfies CreateDriveKeyWebWebDrivesDriveIdKeysCreatePostRequest;
+
+  try {
+    const data = await api.createDriveKeyWebWebDrivesDriveIdKeysCreatePost(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **driveId** | `string` |  | [Defaults to `undefined`] |
+| **csrf** | `string` |  | [Defaults to `undefined`] |
+| **label** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
+
+### Return type
+
+**any**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/x-www-form-urlencoded`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  -  |
+| **422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
 ## createDriveWebWebDrivesPost
 
 > any createDriveWebWebDrivesPost(name, csrf)
@@ -1116,6 +1190,77 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **201** | Successful Response |  -  |
+| **422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## createKeyWebKeysCreatePost
+
+> any createKeyWebKeysCreatePost(csrf, label)
+
+Create Key
+
+Mint a new &#x60;ad_live_&#x60; key for the active drive (reveal-once).  A drive may hold several keys — this appends one rather than replacing. Management gate (workspaces-v2 §4.4): personal → owner, team → admin. Without it a team MEMBER (who now reaches the shared drive) could mint a shared key. No-leak redirect on non-manage.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '@mnexa-ai/agentdrive-sdk';
+import type { CreateKeyWebKeysCreatePostRequest } from '@mnexa-ai/agentdrive-sdk';
+
+async function example() {
+  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
+  const api = new DefaultApi();
+
+  const body = {
+    // string
+    csrf: csrf_example,
+    // string (optional)
+    label: label_example,
+  } satisfies CreateKeyWebKeysCreatePostRequest;
+
+  try {
+    const data = await api.createKeyWebKeysCreatePost(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **csrf** | `string` |  | [Defaults to `undefined`] |
+| **label** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
+
+### Return type
+
+**any**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/x-www-form-urlencoded`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  -  |
 | **422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
@@ -1347,7 +1492,7 @@ No authorization required
 
 Create Workspace Web
 
-Create a new workspace, set it active, reveal its starter key once (workspaces-design §4.7).  The web (session+CSRF) twin of &#x60;POST /v0/workspaces&#x60;. A user may administer at most a fixed number of workspaces (&#x60;core.entitlements. can_create_workspace&#x60;, a hard cap — §4.7/O2); a blocked create bounces to the dashboard with a limit-reached affordance (&#x60;?err&#x3D;workspace_limit&#x60;) rather than silently allowing. On success the new workspace + its starter drive become active and we land on the api-keys tab so the user sees the one-time key reveal.
+Create a new workspace, set it active, reveal its starter key once (workspaces-design §4.7).  The web (session+CSRF) twin of &#x60;POST /v0/workspaces&#x60;. A user may administer up to their plan\&#39;s number of TEAM workspaces (&#x60;core.entitlements.can_create_workspace&#x60;, tier-governed — workspaces-v2 §4.6); a blocked create bounces to the dashboard with a limit-reached affordance (&#x60;?err&#x3D;workspace_limit&#x60;). On success the new workspace + its starter drive become active and we land on the api-keys tab so the user sees the one-time key reveal.
 
 ### Example
 
@@ -2199,72 +2344,6 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## deleteKeyWebKeysDeletePost
-
-> any deleteKeyWebKeysDeletePost(csrf)
-
-Delete Key
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { DeleteKeyWebKeysDeletePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    csrf: csrf_example,
-  } satisfies DeleteKeyWebKeysDeletePostRequest;
-
-  try {
-    const data = await api.deleteKeyWebKeysDeletePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
 - **Accept**: `application/json`
 
 
@@ -7389,6 +7468,77 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
+## revokeKeyWebKeysRevokePost
+
+> any revokeKeyWebKeysRevokePost(keyId, csrf)
+
+Revoke Key
+
+Revoke one of the active drive\&#39;s &#x60;ad_live_&#x60; keys.  Management gate (workspaces-v2 §4.4): revoking a shared drive\&#39;s key is admin-for-team / owner-for-personal — a mere member must not revoke a key out from under the team. &#x60;drive_keys.revoke&#x60; is additionally scoped by drive_id, so the form\&#39;s &#x60;key_id&#x60; can\&#39;t reach another drive\&#39;s key.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '@mnexa-ai/agentdrive-sdk';
+import type { RevokeKeyWebKeysRevokePostRequest } from '@mnexa-ai/agentdrive-sdk';
+
+async function example() {
+  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
+  const api = new DefaultApi();
+
+  const body = {
+    // string
+    keyId: keyId_example,
+    // string
+    csrf: csrf_example,
+  } satisfies RevokeKeyWebKeysRevokePostRequest;
+
+  try {
+    const data = await api.revokeKeyWebKeysRevokePost(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **keyId** | `string` |  | [Defaults to `undefined`] |
+| **csrf** | `string` |  | [Defaults to `undefined`] |
+
+### Return type
+
+**any**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/x-www-form-urlencoded`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  -  |
+| **422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
 ## revokeLinkWebShareRidLinkShrIdRevokePost
 
 > any revokeLinkWebShareRidLinkShrIdRevokePost(rid, shrId, xCsrfToken)
@@ -7507,143 +7657,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **tokenId** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## rotateDriveKeyWebWebDrivesDriveIdKeysRotatePost
-
-> any rotateDriveKeyWebWebDrivesDriveIdKeysRotatePost(driveId, csrf)
-
-Rotate Drive Key Web
-
-Rotate a specific owned drive\&#39;s &#x60;ad_live_&#x60; key + reveal once (workspaces-design §5.6). Owner-only (no-leak no-op otherwise).  The per-drive twin of &#x60;/web/keys/rotate&#x60; (which acts on the active drive). Pins the rotated drive active so the reveal on the api-keys tab shows the key for the drive the user just rotated.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { RotateDriveKeyWebWebDrivesDriveIdKeysRotatePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    driveId: driveId_example,
-    // string
-    csrf: csrf_example,
-  } satisfies RotateDriveKeyWebWebDrivesDriveIdKeysRotatePostRequest;
-
-  try {
-    const data = await api.rotateDriveKeyWebWebDrivesDriveIdKeysRotatePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **driveId** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## rotateKeyWebKeysRotatePost
-
-> any rotateKeyWebKeysRotatePost(csrf)
-
-Rotate Key
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { RotateKeyWebKeysRotatePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    csrf: csrf_example,
-  } satisfies RotateKeyWebKeysRotatePostRequest;
-
-  try {
-    const data = await api.rotateKeyWebKeysRotatePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
 | **csrf** | `string` |  | [Defaults to `undefined`] |
 
 ### Return type
@@ -8117,7 +8130,7 @@ No authorization required
 
 Settings Api Keys
 
-API key tab. Also where reveal_key is rendered after rotation; the reveal is consumed (removed from session) on first read.  Surfaces two credential classes (workspaces-design §5.6):   * the drive\&#39;s &#x60;ad_live_&#x60; per-drive key (&#x60;drive.api_key_prefix&#x60;,     rotate/delete) — unchanged from v0.   * the user\&#39;s &#x60;ad_user_&#x60; identity tokens (&#x60;user_tokens&#x60;, mint/list/     revoke). Minting reveals the raw token once via the same     &#x60;reveal_key&#x60;-in-session mechanism as the drive key.
+API key tab. Also where &#x60;reveal_key&#x60; is rendered once after a key is minted; the reveal is consumed (removed from session) on first read.  Surfaces two credential classes (workspaces-design §5.6):   * the drive\&#39;s &#x60;ad_live_&#x60; per-drive keys (&#x60;drive_keys.list_for_drive&#x60;) —     a drive may hold several, each created/revoked individually.   * the user\&#39;s &#x60;ad_user_&#x60; identity tokens (&#x60;user_tokens&#x60;, mint/list/     revoke). Minting reveals the raw token once via the same     &#x60;reveal_key&#x60;-in-session mechanism as the drive keys.
 
 ### Example
 

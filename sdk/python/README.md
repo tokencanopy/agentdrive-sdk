@@ -106,9 +106,11 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**commit_upload_v0_uploads_upload_id_commit_post**](docs/DefaultApi.md#commit_upload_v0_uploads_upload_id_commit_post) | **POST** /v0/uploads/{upload_id}/commit | Commit a large (direct-to-GCS) upload
 *DefaultApi* | [**connectors_page_connectors_get**](docs/DefaultApi.md#connectors_page_connectors_get) | **GET** /connectors | Connectors Page
 *DefaultApi* | [**copy_artifact_route_v0_artifacts_art_id_copy_post**](docs/DefaultApi.md#copy_artifact_route_v0_artifacts_art_id_copy_post) | **POST** /v0/artifacts/{art_id}/copy | Duplicate an artifact to a new path (CAS-shared, new ID)
+*DefaultApi* | [**create_drive_key_web_web_drives_drive_id_keys_create_post**](docs/DefaultApi.md#create_drive_key_web_web_drives_drive_id_keys_create_post) | **POST** /web/drives/{drive_id}/keys/create | Create Drive Key Web
 *DefaultApi* | [**create_drive_web_web_drives_post**](docs/DefaultApi.md#create_drive_web_web_drives_post) | **POST** /web/drives | Create Drive Web
 *DefaultApi* | [**create_folder_by_path_v0_folders_path_post**](docs/DefaultApi.md#create_folder_by_path_v0_folders_path_post) | **POST** /v0/folders/{path} | Create a folder (idempotent)
 *DefaultApi* | [**create_grant_route_v0_grants_post**](docs/DefaultApi.md#create_grant_route_v0_grants_post) | **POST** /v0/grants | Create (or fetch) a per-principal grant on a resource
+*DefaultApi* | [**create_key_web_keys_create_post**](docs/DefaultApi.md#create_key_web_keys_create_post) | **POST** /web/keys/create | Create Key
 *DefaultApi* | [**create_link_web_share_rid_link_post**](docs/DefaultApi.md#create_link_web_share_rid_link_post) | **POST** /web/share/{rid}/link | Create Link
 *DefaultApi* | [**create_share_route_v0_shares_post**](docs/DefaultApi.md#create_share_route_v0_shares_post) | **POST** /v0/shares | Mint a share link (returns the share_key once)
 *DefaultApi* | [**create_user_token_web_tokens_create_post**](docs/DefaultApi.md#create_user_token_web_tokens_create_post) | **POST** /web/tokens/create | Create User Token
@@ -124,7 +126,6 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**delete_folder_by_id_v0_folders_fld_id_delete**](docs/DefaultApi.md#delete_folder_by_id_v0_folders_fld_id_delete) | **DELETE** /v0/folders/{fld_id} | Soft-delete a folder by stable ID (cascade with ?recursive&#x3D;true)
 *DefaultApi* | [**delete_folder_by_path_v0_folders_path_delete**](docs/DefaultApi.md#delete_folder_by_path_v0_folders_path_delete) | **DELETE** /v0/folders/{path} | Soft-delete a folder (cascade with ?recursive&#x3D;true)
 *DefaultApi* | [**delete_grant_route_v0_grants_grn_id_delete**](docs/DefaultApi.md#delete_grant_route_v0_grants_grn_id_delete) | **DELETE** /v0/grants/{grn_id} | Revoke a grant (can_manage, or self-revoke own grant)
-*DefaultApi* | [**delete_key_web_keys_delete_post**](docs/DefaultApi.md#delete_key_web_keys_delete_post) | **POST** /web/keys/delete | Delete Key
 *DefaultApi* | [**delete_share_route_v0_shares_shr_id_delete**](docs/DefaultApi.md#delete_share_route_v0_shares_shr_id_delete) | **DELETE** /v0/shares/{shr_id} | Revoke a share link (requires can_manage)
 *DefaultApi* | [**delete_workspace_web_web_workspaces_org_id_delete_post**](docs/DefaultApi.md#delete_workspace_web_web_workspaces_org_id_delete_post) | **POST** /web/workspaces/{org_id}/delete | Delete Workspace Web
 *DefaultApi* | [**download_artifact_by_id_v0_artifacts_art_id_download_get**](docs/DefaultApi.md#download_artifact_by_id_v0_artifacts_art_id_download_get) | **GET** /v0/artifacts/{art_id}/download | Stream the artifact bytes by stable ID (never rendered HTML)
@@ -197,10 +198,9 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**restore_drive_route_v0_drives_drive_id_restore_post**](docs/DefaultApi.md#restore_drive_route_v0_drives_drive_id_restore_post) | **POST** /v0/drives/{drive_id}/restore | Restore a soft-deleted drive
 *DefaultApi* | [**revoke_grant_web_share_rid_grant_grn_id_revoke_post**](docs/DefaultApi.md#revoke_grant_web_share_rid_grant_grn_id_revoke_post) | **POST** /web/share/{rid}/grant/{grn_id}/revoke | Revoke Grant
 *DefaultApi* | [**revoke_invitation_web_web_invitations_invitation_id_revoke_post**](docs/DefaultApi.md#revoke_invitation_web_web_invitations_invitation_id_revoke_post) | **POST** /web/invitations/{invitation_id}/revoke | Revoke Invitation Web
+*DefaultApi* | [**revoke_key_web_keys_revoke_post**](docs/DefaultApi.md#revoke_key_web_keys_revoke_post) | **POST** /web/keys/revoke | Revoke Key
 *DefaultApi* | [**revoke_link_web_share_rid_link_shr_id_revoke_post**](docs/DefaultApi.md#revoke_link_web_share_rid_link_shr_id_revoke_post) | **POST** /web/share/{rid}/link/{shr_id}/revoke | Revoke Link
 *DefaultApi* | [**revoke_user_token_web_tokens_revoke_post**](docs/DefaultApi.md#revoke_user_token_web_tokens_revoke_post) | **POST** /web/tokens/revoke | Revoke User Token
-*DefaultApi* | [**rotate_drive_key_web_web_drives_drive_id_keys_rotate_post**](docs/DefaultApi.md#rotate_drive_key_web_web_drives_drive_id_keys_rotate_post) | **POST** /web/drives/{drive_id}/keys/rotate | Rotate Drive Key Web
-*DefaultApi* | [**rotate_key_web_keys_rotate_post**](docs/DefaultApi.md#rotate_key_web_keys_rotate_post) | **POST** /web/keys/rotate | Rotate Key
 *DefaultApi* | [**rotate_share_route_v0_shares_shr_id_rotate_post**](docs/DefaultApi.md#rotate_share_route_v0_shares_shr_id_rotate_post) | **POST** /v0/shares/{shr_id}/rotate | Revoke + reissue a share link&#39;s key (requires can_share)
 *DefaultApi* | [**search_v0_search_get**](docs/DefaultApi.md#search_v0_search_get) | **GET** /v0/search | Full-text search over artifacts in the drive
 *DefaultApi* | [**set_member_role_web_web_members_target_user_id_role_post**](docs/DefaultApi.md#set_member_role_web_web_members_target_user_id_role_post) | **POST** /web/members/{target_user_id}/role | Set Member Role Web
@@ -238,10 +238,13 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**web_upload_web_upload_post**](docs/DefaultApi.md#web_upload_web_upload_post) | **POST** /web/upload | Web Upload
 *DefaultApi* | [**webhooks_page_webhooks_get**](docs/DefaultApi.md#webhooks_page_webhooks_get) | **GET** /webhooks | Webhooks Page
 *DefaultApi* | [**welcome_welcome_get**](docs/DefaultApi.md#welcome_welcome_get) | **GET** /welcome | Welcome
-*DrivesApi* | [**create_drive_route_v0_drives_post**](docs/DrivesApi.md#create_drive_route_v0_drives_post) | **POST** /v0/drives | Create a drive in your active workspace
+*DrivesApi* | [**create_drive_key_route_v0_drives_drive_id_keys_post**](docs/DrivesApi.md#create_drive_key_route_v0_drives_drive_id_keys_post) | **POST** /v0/drives/{drive_id}/keys | Create a drive API key
+*DrivesApi* | [**create_drive_route_v0_drives_post**](docs/DrivesApi.md#create_drive_route_v0_drives_post) | **POST** /v0/drives | Create a drive in your active space
+*DrivesApi* | [**list_drive_keys_route_v0_drives_drive_id_keys_get**](docs/DrivesApi.md#list_drive_keys_route_v0_drives_drive_id_keys_get) | **GET** /v0/drives/{drive_id}/keys | List a drive&#39;s API keys
 *DrivesApi* | [**list_drives_route_v0_drives_get**](docs/DrivesApi.md#list_drives_route_v0_drives_get) | **GET** /v0/drives | List the drives you can see
 *DrivesApi* | [**rename_drive_route_v0_drives_drive_id_patch**](docs/DrivesApi.md#rename_drive_route_v0_drives_drive_id_patch) | **PATCH** /v0/drives/{drive_id} | Rename a drive you own
-*DrivesApi* | [**rotate_drive_key_route_v0_drives_drive_id_keys_rotate_post**](docs/DrivesApi.md#rotate_drive_key_route_v0_drives_drive_id_keys_rotate_post) | **POST** /v0/drives/{drive_id}/keys/rotate | Rotate a drive&#39;s API key
+*DrivesApi* | [**revoke_drive_key_route_v0_drives_drive_id_keys_key_id_revoke_post**](docs/DrivesApi.md#revoke_drive_key_route_v0_drives_drive_id_keys_key_id_revoke_post) | **POST** /v0/drives/{drive_id}/keys/{key_id}/revoke | Revoke a drive API key
+*DrivesApi* | [**rotate_one_key_route_v0_drives_drive_id_keys_key_id_rotate_post**](docs/DrivesApi.md#rotate_one_key_route_v0_drives_drive_id_keys_key_id_rotate_post) | **POST** /v0/drives/{drive_id}/keys/{key_id}/rotate | Rotate one API key
 *McpOauthApi* | [**oauth2_register_oauth2_register_post**](docs/McpOauthApi.md#oauth2_register_oauth2_register_post) | **POST** /oauth2/register | Dynamic Client Registration (RFC 7591)
 *McpOauthApi* | [**oauth2_revoke_oauth2_revoke_post**](docs/McpOauthApi.md#oauth2_revoke_oauth2_revoke_post) | **POST** /oauth2/revoke | Token revocation (RFC 7009)
 *McpOauthUiApi* | [**authorize_decision_oauth2_authorize_post**](docs/McpOauthUiApi.md#authorize_decision_oauth2_authorize_post) | **POST** /oauth2/authorize | Authorize Decision
@@ -254,9 +257,9 @@ Class | Method | HTTP request | Description
 *MembersApi* | [**set_member_role_v0_members_target_user_id_patch**](docs/MembersApi.md#set_member_role_v0_members_target_user_id_patch) | **PATCH** /v0/members/{target_user_id} | Change a member&#39;s role
 *TokensApi* | [**list_tokens_v0_tokens_get**](docs/TokensApi.md#list_tokens_v0_tokens_get) | **GET** /v0/tokens | List your user-identity tokens
 *TokensApi* | [**revoke_token_v0_tokens_token_id_revoke_post**](docs/TokensApi.md#revoke_token_v0_tokens_token_id_revoke_post) | **POST** /v0/tokens/{token_id}/revoke | Revoke one of your user-identity tokens
-*WorkspacesApi* | [**create_workspace_route_v0_workspaces_post**](docs/WorkspacesApi.md#create_workspace_route_v0_workspaces_post) | **POST** /v0/workspaces | Create a new workspace
-*WorkspacesApi* | [**list_workspaces_route_v0_workspaces_get**](docs/WorkspacesApi.md#list_workspaces_route_v0_workspaces_get) | **GET** /v0/workspaces | List the workspaces you belong to
-*WorkspacesApi* | [**rename_workspace_route_v0_workspaces_org_id_patch**](docs/WorkspacesApi.md#rename_workspace_route_v0_workspaces_org_id_patch) | **PATCH** /v0/workspaces/{org_id} | Rename a workspace you administer
+*WorkspacesApi* | [**create_workspace_route_v0_workspaces_post**](docs/WorkspacesApi.md#create_workspace_route_v0_workspaces_post) | **POST** /v0/workspaces | Create a new shared drive
+*WorkspacesApi* | [**list_workspaces_route_v0_workspaces_get**](docs/WorkspacesApi.md#list_workspaces_route_v0_workspaces_get) | **GET** /v0/workspaces | List the spaces you belong to
+*WorkspacesApi* | [**rename_workspace_route_v0_workspaces_org_id_patch**](docs/WorkspacesApi.md#rename_workspace_route_v0_workspaces_org_id_patch) | **PATCH** /v0/workspaces/{org_id} | Rename a shared drive you administer
 
 
 ## Documentation For Models
@@ -272,9 +275,12 @@ Class | Method | HTTP request | Description
  - [CopyIn](docs/CopyIn.md)
  - [DescribeIn](docs/DescribeIn.md)
  - [DownloadUrlOut](docs/DownloadUrlOut.md)
+ - [DriveApiKeyCreateIn](docs/DriveApiKeyCreateIn.md)
+ - [DriveApiKeyCreateOut](docs/DriveApiKeyCreateOut.md)
+ - [DriveApiKeyListOut](docs/DriveApiKeyListOut.md)
+ - [DriveApiKeyOut](docs/DriveApiKeyOut.md)
  - [DriveCreateIn](docs/DriveCreateIn.md)
  - [DriveCreateOut](docs/DriveCreateOut.md)
- - [DriveKeyRotateOut](docs/DriveKeyRotateOut.md)
  - [DriveList](docs/DriveList.md)
  - [DriveOut](docs/DriveOut.md)
  - [DriveRenameIn](docs/DriveRenameIn.md)

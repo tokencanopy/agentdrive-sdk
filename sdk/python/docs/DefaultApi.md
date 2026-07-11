@@ -15,9 +15,11 @@ Method | HTTP request | Description
 [**commit_upload_v0_uploads_upload_id_commit_post**](DefaultApi.md#commit_upload_v0_uploads_upload_id_commit_post) | **POST** /v0/uploads/{upload_id}/commit | Commit a large (direct-to-GCS) upload
 [**connectors_page_connectors_get**](DefaultApi.md#connectors_page_connectors_get) | **GET** /connectors | Connectors Page
 [**copy_artifact_route_v0_artifacts_art_id_copy_post**](DefaultApi.md#copy_artifact_route_v0_artifacts_art_id_copy_post) | **POST** /v0/artifacts/{art_id}/copy | Duplicate an artifact to a new path (CAS-shared, new ID)
+[**create_drive_key_web_web_drives_drive_id_keys_create_post**](DefaultApi.md#create_drive_key_web_web_drives_drive_id_keys_create_post) | **POST** /web/drives/{drive_id}/keys/create | Create Drive Key Web
 [**create_drive_web_web_drives_post**](DefaultApi.md#create_drive_web_web_drives_post) | **POST** /web/drives | Create Drive Web
 [**create_folder_by_path_v0_folders_path_post**](DefaultApi.md#create_folder_by_path_v0_folders_path_post) | **POST** /v0/folders/{path} | Create a folder (idempotent)
 [**create_grant_route_v0_grants_post**](DefaultApi.md#create_grant_route_v0_grants_post) | **POST** /v0/grants | Create (or fetch) a per-principal grant on a resource
+[**create_key_web_keys_create_post**](DefaultApi.md#create_key_web_keys_create_post) | **POST** /web/keys/create | Create Key
 [**create_link_web_share_rid_link_post**](DefaultApi.md#create_link_web_share_rid_link_post) | **POST** /web/share/{rid}/link | Create Link
 [**create_share_route_v0_shares_post**](DefaultApi.md#create_share_route_v0_shares_post) | **POST** /v0/shares | Mint a share link (returns the share_key once)
 [**create_user_token_web_tokens_create_post**](DefaultApi.md#create_user_token_web_tokens_create_post) | **POST** /web/tokens/create | Create User Token
@@ -33,7 +35,6 @@ Method | HTTP request | Description
 [**delete_folder_by_id_v0_folders_fld_id_delete**](DefaultApi.md#delete_folder_by_id_v0_folders_fld_id_delete) | **DELETE** /v0/folders/{fld_id} | Soft-delete a folder by stable ID (cascade with ?recursive&#x3D;true)
 [**delete_folder_by_path_v0_folders_path_delete**](DefaultApi.md#delete_folder_by_path_v0_folders_path_delete) | **DELETE** /v0/folders/{path} | Soft-delete a folder (cascade with ?recursive&#x3D;true)
 [**delete_grant_route_v0_grants_grn_id_delete**](DefaultApi.md#delete_grant_route_v0_grants_grn_id_delete) | **DELETE** /v0/grants/{grn_id} | Revoke a grant (can_manage, or self-revoke own grant)
-[**delete_key_web_keys_delete_post**](DefaultApi.md#delete_key_web_keys_delete_post) | **POST** /web/keys/delete | Delete Key
 [**delete_share_route_v0_shares_shr_id_delete**](DefaultApi.md#delete_share_route_v0_shares_shr_id_delete) | **DELETE** /v0/shares/{shr_id} | Revoke a share link (requires can_manage)
 [**delete_workspace_web_web_workspaces_org_id_delete_post**](DefaultApi.md#delete_workspace_web_web_workspaces_org_id_delete_post) | **POST** /web/workspaces/{org_id}/delete | Delete Workspace Web
 [**download_artifact_by_id_v0_artifacts_art_id_download_get**](DefaultApi.md#download_artifact_by_id_v0_artifacts_art_id_download_get) | **GET** /v0/artifacts/{art_id}/download | Stream the artifact bytes by stable ID (never rendered HTML)
@@ -106,10 +107,9 @@ Method | HTTP request | Description
 [**restore_drive_route_v0_drives_drive_id_restore_post**](DefaultApi.md#restore_drive_route_v0_drives_drive_id_restore_post) | **POST** /v0/drives/{drive_id}/restore | Restore a soft-deleted drive
 [**revoke_grant_web_share_rid_grant_grn_id_revoke_post**](DefaultApi.md#revoke_grant_web_share_rid_grant_grn_id_revoke_post) | **POST** /web/share/{rid}/grant/{grn_id}/revoke | Revoke Grant
 [**revoke_invitation_web_web_invitations_invitation_id_revoke_post**](DefaultApi.md#revoke_invitation_web_web_invitations_invitation_id_revoke_post) | **POST** /web/invitations/{invitation_id}/revoke | Revoke Invitation Web
+[**revoke_key_web_keys_revoke_post**](DefaultApi.md#revoke_key_web_keys_revoke_post) | **POST** /web/keys/revoke | Revoke Key
 [**revoke_link_web_share_rid_link_shr_id_revoke_post**](DefaultApi.md#revoke_link_web_share_rid_link_shr_id_revoke_post) | **POST** /web/share/{rid}/link/{shr_id}/revoke | Revoke Link
 [**revoke_user_token_web_tokens_revoke_post**](DefaultApi.md#revoke_user_token_web_tokens_revoke_post) | **POST** /web/tokens/revoke | Revoke User Token
-[**rotate_drive_key_web_web_drives_drive_id_keys_rotate_post**](DefaultApi.md#rotate_drive_key_web_web_drives_drive_id_keys_rotate_post) | **POST** /web/drives/{drive_id}/keys/rotate | Rotate Drive Key Web
-[**rotate_key_web_keys_rotate_post**](DefaultApi.md#rotate_key_web_keys_rotate_post) | **POST** /web/keys/rotate | Rotate Key
 [**rotate_share_route_v0_shares_shr_id_rotate_post**](DefaultApi.md#rotate_share_route_v0_shares_shr_id_rotate_post) | **POST** /v0/shares/{shr_id}/rotate | Revoke + reissue a share link&#39;s key (requires can_share)
 [**search_v0_search_get**](DefaultApi.md#search_v0_search_get) | **GET** /v0/search | Full-text search over artifacts in the drive
 [**set_member_role_web_web_members_target_user_id_role_post**](DefaultApi.md#set_member_role_web_web_members_target_user_id_role_post) | **POST** /web/members/{target_user_id}/role | Set Member Role Web
@@ -930,6 +930,83 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **create_drive_key_web_web_drives_drive_id_keys_create_post**
+> object create_drive_key_web_web_drives_drive_id_keys_create_post(drive_id, csrf, label=label)
+
+Create Drive Key Web
+
+Mint a new `ad_live_` key for a specific owned drive + reveal once
+(workspaces-design §5.6). Manager-only (no-leak no-op otherwise).
+
+The per-drive twin of `/web/keys/create` (which acts on the active
+drive). Pins the target drive active so the reveal on the api-keys
+tab shows the key for the drive the user just minted on.
+
+### Example
+
+
+```python
+import agentdrive_sdk
+from agentdrive_sdk.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.agentdrive.run
+# See configuration.py for a list of all supported configuration parameters.
+configuration = agentdrive_sdk.Configuration(
+    host = "https://api.agentdrive.run"
+)
+
+
+# Enter a context with an instance of the API client
+with agentdrive_sdk.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = agentdrive_sdk.DefaultApi(api_client)
+    drive_id = 'drive_id_example' # str | 
+    csrf = 'csrf_example' # str | 
+    label = '' # str |  (optional) (default to '')
+
+    try:
+        # Create Drive Key Web
+        api_response = api_instance.create_drive_key_web_web_drives_drive_id_keys_create_post(drive_id, csrf, label=label)
+        print("The response of DefaultApi->create_drive_key_web_web_drives_drive_id_keys_create_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->create_drive_key_web_web_drives_drive_id_keys_create_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **drive_id** | **str**|  | 
+ **csrf** | **str**|  | 
+ **label** | **str**|  | [optional] [default to &#39;&#39;]
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **create_drive_web_web_drives_post**
 > object create_drive_web_web_drives_post(name, csrf)
 
@@ -1162,6 +1239,81 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **201** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **create_key_web_keys_create_post**
+> object create_key_web_keys_create_post(csrf, label=label)
+
+Create Key
+
+Mint a new `ad_live_` key for the active drive (reveal-once).
+
+A drive may hold several keys — this appends one rather than replacing.
+Management gate (workspaces-v2 §4.4): personal → owner, team → admin.
+Without it a team MEMBER (who now reaches the shared drive) could mint a
+shared key. No-leak redirect on non-manage.
+
+### Example
+
+
+```python
+import agentdrive_sdk
+from agentdrive_sdk.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.agentdrive.run
+# See configuration.py for a list of all supported configuration parameters.
+configuration = agentdrive_sdk.Configuration(
+    host = "https://api.agentdrive.run"
+)
+
+
+# Enter a context with an instance of the API client
+with agentdrive_sdk.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = agentdrive_sdk.DefaultApi(api_client)
+    csrf = 'csrf_example' # str | 
+    label = '' # str |  (optional) (default to '')
+
+    try:
+        # Create Key
+        api_response = api_instance.create_key_web_keys_create_post(csrf, label=label)
+        print("The response of DefaultApi->create_key_web_keys_create_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->create_key_web_keys_create_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **csrf** | **str**|  | 
+ **label** | **str**|  | [optional] [default to &#39;&#39;]
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
 **422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1402,10 +1554,10 @@ Create a new workspace, set it active, reveal its starter key once
 (workspaces-design §4.7).
 
 The web (session+CSRF) twin of `POST /v0/workspaces`. A user may
-administer at most a fixed number of workspaces (`core.entitlements.
-can_create_workspace`, a hard cap — §4.7/O2); a blocked create bounces to
-the dashboard with a limit-reached affordance (`?err=workspace_limit`)
-rather than silently allowing. On success the new workspace + its starter
+administer up to their plan's number of TEAM workspaces
+(`core.entitlements.can_create_workspace`, tier-governed — workspaces-v2
+§4.6); a blocked create bounces to the dashboard with a limit-reached
+affordance (`?err=workspace_limit`). On success the new workspace + its starter
 drive become active and we land on the api-keys tab so the user sees the
 one-time key reveal.
 
@@ -2267,72 +2419,6 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **delete_key_web_keys_delete_post**
-> object delete_key_web_keys_delete_post(csrf)
-
-Delete Key
-
-### Example
-
-
-```python
-import agentdrive_sdk
-from agentdrive_sdk.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://api.agentdrive.run
-# See configuration.py for a list of all supported configuration parameters.
-configuration = agentdrive_sdk.Configuration(
-    host = "https://api.agentdrive.run"
-)
-
-
-# Enter a context with an instance of the API client
-with agentdrive_sdk.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = agentdrive_sdk.DefaultApi(api_client)
-    csrf = 'csrf_example' # str | 
-
-    try:
-        # Delete Key
-        api_response = api_instance.delete_key_web_keys_delete_post(csrf)
-        print("The response of DefaultApi->delete_key_web_keys_delete_post:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling DefaultApi->delete_key_web_keys_delete_post: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **csrf** | **str**|  | 
-
-### Return type
-
-**object**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: application/json
 
 ### HTTP response details
@@ -7589,6 +7675,81 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **revoke_key_web_keys_revoke_post**
+> object revoke_key_web_keys_revoke_post(key_id, csrf)
+
+Revoke Key
+
+Revoke one of the active drive's `ad_live_` keys.
+
+Management gate (workspaces-v2 §4.4): revoking a shared drive's key is
+admin-for-team / owner-for-personal — a mere member must not revoke a key
+out from under the team. `drive_keys.revoke` is additionally scoped by
+drive_id, so the form's `key_id` can't reach another drive's key.
+
+### Example
+
+
+```python
+import agentdrive_sdk
+from agentdrive_sdk.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.agentdrive.run
+# See configuration.py for a list of all supported configuration parameters.
+configuration = agentdrive_sdk.Configuration(
+    host = "https://api.agentdrive.run"
+)
+
+
+# Enter a context with an instance of the API client
+with agentdrive_sdk.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = agentdrive_sdk.DefaultApi(api_client)
+    key_id = 'key_id_example' # str | 
+    csrf = 'csrf_example' # str | 
+
+    try:
+        # Revoke Key
+        api_response = api_instance.revoke_key_web_keys_revoke_post(key_id, csrf)
+        print("The response of DefaultApi->revoke_key_web_keys_revoke_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->revoke_key_web_keys_revoke_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **key_id** | **str**|  | 
+ **csrf** | **str**|  | 
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **revoke_link_web_share_rid_link_shr_id_revoke_post**
 > object revoke_link_web_share_rid_link_shr_id_revoke_post(rid, shr_id, x_csrf_token=x_csrf_token)
 
@@ -7709,147 +7870,6 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **token_id** | **str**|  | 
- **csrf** | **str**|  | 
-
-### Return type
-
-**object**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **rotate_drive_key_web_web_drives_drive_id_keys_rotate_post**
-> object rotate_drive_key_web_web_drives_drive_id_keys_rotate_post(drive_id, csrf)
-
-Rotate Drive Key Web
-
-Rotate a specific owned drive's `ad_live_` key + reveal once
-(workspaces-design §5.6). Owner-only (no-leak no-op otherwise).
-
-The per-drive twin of `/web/keys/rotate` (which acts on the active
-drive). Pins the rotated drive active so the reveal on the api-keys
-tab shows the key for the drive the user just rotated.
-
-### Example
-
-
-```python
-import agentdrive_sdk
-from agentdrive_sdk.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://api.agentdrive.run
-# See configuration.py for a list of all supported configuration parameters.
-configuration = agentdrive_sdk.Configuration(
-    host = "https://api.agentdrive.run"
-)
-
-
-# Enter a context with an instance of the API client
-with agentdrive_sdk.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = agentdrive_sdk.DefaultApi(api_client)
-    drive_id = 'drive_id_example' # str | 
-    csrf = 'csrf_example' # str | 
-
-    try:
-        # Rotate Drive Key Web
-        api_response = api_instance.rotate_drive_key_web_web_drives_drive_id_keys_rotate_post(drive_id, csrf)
-        print("The response of DefaultApi->rotate_drive_key_web_web_drives_drive_id_keys_rotate_post:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling DefaultApi->rotate_drive_key_web_web_drives_drive_id_keys_rotate_post: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **drive_id** | **str**|  | 
- **csrf** | **str**|  | 
-
-### Return type
-
-**object**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **rotate_key_web_keys_rotate_post**
-> object rotate_key_web_keys_rotate_post(csrf)
-
-Rotate Key
-
-### Example
-
-
-```python
-import agentdrive_sdk
-from agentdrive_sdk.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://api.agentdrive.run
-# See configuration.py for a list of all supported configuration parameters.
-configuration = agentdrive_sdk.Configuration(
-    host = "https://api.agentdrive.run"
-)
-
-
-# Enter a context with an instance of the API client
-with agentdrive_sdk.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = agentdrive_sdk.DefaultApi(api_client)
-    csrf = 'csrf_example' # str | 
-
-    try:
-        # Rotate Key
-        api_response = api_instance.rotate_key_web_keys_rotate_post(csrf)
-        print("The response of DefaultApi->rotate_key_web_keys_rotate_post:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling DefaultApi->rotate_key_web_keys_rotate_post: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
  **csrf** | **str**|  | 
 
 ### Return type
@@ -8340,15 +8360,15 @@ No authorization required
 
 Settings Api Keys
 
-API key tab. Also where reveal_key is rendered after rotation; the
-reveal is consumed (removed from session) on first read.
+API key tab. Also where `reveal_key` is rendered once after a key is
+minted; the reveal is consumed (removed from session) on first read.
 
 Surfaces two credential classes (workspaces-design §5.6):
-  * the drive's `ad_live_` per-drive key (`drive.api_key_prefix`,
-    rotate/delete) — unchanged from v0.
+  * the drive's `ad_live_` per-drive keys (`drive_keys.list_for_drive`) —
+    a drive may hold several, each created/revoked individually.
   * the user's `ad_user_` identity tokens (`user_tokens`, mint/list/
     revoke). Minting reveals the raw token once via the same
-    `reveal_key`-in-session mechanism as the drive key.
+    `reveal_key`-in-session mechanism as the drive keys.
 
 ### Example
 

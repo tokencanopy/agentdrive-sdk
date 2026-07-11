@@ -1345,6 +1345,143 @@ func (a *DefaultAPIService) CopyArtifactRouteV0ArtifactsArtIdCopyPostExecute(r A
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiCreateDriveKeyWebWebDrivesDriveIdKeysCreatePostRequest struct {
+	ctx context.Context
+	ApiService *DefaultAPIService
+	driveId string
+	csrf *string
+	label *string
+}
+
+func (r ApiCreateDriveKeyWebWebDrivesDriveIdKeysCreatePostRequest) Csrf(csrf string) ApiCreateDriveKeyWebWebDrivesDriveIdKeysCreatePostRequest {
+	r.csrf = &csrf
+	return r
+}
+
+func (r ApiCreateDriveKeyWebWebDrivesDriveIdKeysCreatePostRequest) Label(label string) ApiCreateDriveKeyWebWebDrivesDriveIdKeysCreatePostRequest {
+	r.label = &label
+	return r
+}
+
+func (r ApiCreateDriveKeyWebWebDrivesDriveIdKeysCreatePostRequest) Execute() (interface{}, *http.Response, error) {
+	return r.ApiService.CreateDriveKeyWebWebDrivesDriveIdKeysCreatePostExecute(r)
+}
+
+/*
+CreateDriveKeyWebWebDrivesDriveIdKeysCreatePost Create Drive Key Web
+
+Mint a new `ad_live_` key for a specific owned drive + reveal once
+(workspaces-design §5.6). Manager-only (no-leak no-op otherwise).
+
+The per-drive twin of `/web/keys/create` (which acts on the active
+drive). Pins the target drive active so the reveal on the api-keys
+tab shows the key for the drive the user just minted on.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param driveId
+ @return ApiCreateDriveKeyWebWebDrivesDriveIdKeysCreatePostRequest
+*/
+func (a *DefaultAPIService) CreateDriveKeyWebWebDrivesDriveIdKeysCreatePost(ctx context.Context, driveId string) ApiCreateDriveKeyWebWebDrivesDriveIdKeysCreatePostRequest {
+	return ApiCreateDriveKeyWebWebDrivesDriveIdKeysCreatePostRequest{
+		ApiService: a,
+		ctx: ctx,
+		driveId: driveId,
+	}
+}
+
+// Execute executes the request
+//  @return interface{}
+func (a *DefaultAPIService) CreateDriveKeyWebWebDrivesDriveIdKeysCreatePostExecute(r ApiCreateDriveKeyWebWebDrivesDriveIdKeysCreatePostRequest) (interface{}, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  interface{}
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.CreateDriveKeyWebWebDrivesDriveIdKeysCreatePost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/web/drives/{drive_id}/keys/create"
+	localVarPath = strings.Replace(localVarPath, "{"+"drive_id"+"}", url.PathEscape(parameterValueToString(r.driveId, "driveId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.csrf == nil {
+		return localVarReturnValue, nil, reportError("csrf is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.label != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "label", r.label, "", "")
+	}
+	parameterAddToHeaderOrQuery(localVarFormParams, "csrf", r.csrf, "", "")
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiCreateDriveWebWebDrivesPostRequest struct {
 	ctx context.Context
 	ApiService *DefaultAPIService
@@ -1720,6 +1857,139 @@ func (a *DefaultAPIService) CreateGrantRouteV0GrantsPostExecute(r ApiCreateGrant
 	}
 	// body params
 	localVarPostBody = r.grantCreateIn
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiCreateKeyWebKeysCreatePostRequest struct {
+	ctx context.Context
+	ApiService *DefaultAPIService
+	csrf *string
+	label *string
+}
+
+func (r ApiCreateKeyWebKeysCreatePostRequest) Csrf(csrf string) ApiCreateKeyWebKeysCreatePostRequest {
+	r.csrf = &csrf
+	return r
+}
+
+func (r ApiCreateKeyWebKeysCreatePostRequest) Label(label string) ApiCreateKeyWebKeysCreatePostRequest {
+	r.label = &label
+	return r
+}
+
+func (r ApiCreateKeyWebKeysCreatePostRequest) Execute() (interface{}, *http.Response, error) {
+	return r.ApiService.CreateKeyWebKeysCreatePostExecute(r)
+}
+
+/*
+CreateKeyWebKeysCreatePost Create Key
+
+Mint a new `ad_live_` key for the active drive (reveal-once).
+
+A drive may hold several keys — this appends one rather than replacing.
+Management gate (workspaces-v2 §4.4): personal → owner, team → admin.
+Without it a team MEMBER (who now reaches the shared drive) could mint a
+shared key. No-leak redirect on non-manage.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiCreateKeyWebKeysCreatePostRequest
+*/
+func (a *DefaultAPIService) CreateKeyWebKeysCreatePost(ctx context.Context) ApiCreateKeyWebKeysCreatePostRequest {
+	return ApiCreateKeyWebKeysCreatePostRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return interface{}
+func (a *DefaultAPIService) CreateKeyWebKeysCreatePostExecute(r ApiCreateKeyWebKeysCreatePostRequest) (interface{}, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  interface{}
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.CreateKeyWebKeysCreatePost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/web/keys/create"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.csrf == nil {
+		return localVarReturnValue, nil, reportError("csrf is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.label != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "label", r.label, "", "")
+	}
+	parameterAddToHeaderOrQuery(localVarFormParams, "csrf", r.csrf, "", "")
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -2211,10 +2481,10 @@ Create a new workspace, set it active, reveal its starter key once
 (workspaces-design §4.7).
 
 The web (session+CSRF) twin of `POST /v0/workspaces`. A user may
-administer at most a fixed number of workspaces (`core.entitlements.
-can_create_workspace`, a hard cap — §4.7/O2); a blocked create bounces to
-the dashboard with a limit-reached affordance (`?err=workspace_limit`)
-rather than silently allowing. On success the new workspace + its starter
+administer up to their plan's number of TEAM workspaces
+(`core.entitlements.can_create_workspace`, tier-governed — workspaces-v2
+§4.6); a blocked create bounces to the dashboard with a limit-reached
+affordance (`?err=workspace_limit`). On success the new workspace + its starter
 drive become active and we land on the api-keys tab so the user sees the
 one-time key reveal.
 
@@ -3809,123 +4079,6 @@ func (a *DefaultAPIService) DeleteGrantRouteV0GrantsGrnIdDeleteExecute(r ApiDele
 	if r.authorization != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 422 {
-			var v HTTPValidationError
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiDeleteKeyWebKeysDeletePostRequest struct {
-	ctx context.Context
-	ApiService *DefaultAPIService
-	csrf *string
-}
-
-func (r ApiDeleteKeyWebKeysDeletePostRequest) Csrf(csrf string) ApiDeleteKeyWebKeysDeletePostRequest {
-	r.csrf = &csrf
-	return r
-}
-
-func (r ApiDeleteKeyWebKeysDeletePostRequest) Execute() (interface{}, *http.Response, error) {
-	return r.ApiService.DeleteKeyWebKeysDeletePostExecute(r)
-}
-
-/*
-DeleteKeyWebKeysDeletePost Delete Key
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDeleteKeyWebKeysDeletePostRequest
-*/
-func (a *DefaultAPIService) DeleteKeyWebKeysDeletePost(ctx context.Context) ApiDeleteKeyWebKeysDeletePostRequest {
-	return ApiDeleteKeyWebKeysDeletePostRequest{
-		ApiService: a,
-		ctx: ctx,
-	}
-}
-
-// Execute executes the request
-//  @return interface{}
-func (a *DefaultAPIService) DeleteKeyWebKeysDeletePostExecute(r ApiDeleteKeyWebKeysDeletePostRequest) (interface{}, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  interface{}
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.DeleteKeyWebKeysDeletePost")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/web/keys/delete"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.csrf == nil {
-		return localVarReturnValue, nil, reportError("csrf is required and must be specified")
-	}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "csrf", r.csrf, "", "")
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -13361,6 +13514,140 @@ func (a *DefaultAPIService) RevokeInvitationWebWebInvitationsInvitationIdRevokeP
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiRevokeKeyWebKeysRevokePostRequest struct {
+	ctx context.Context
+	ApiService *DefaultAPIService
+	keyId *string
+	csrf *string
+}
+
+func (r ApiRevokeKeyWebKeysRevokePostRequest) KeyId(keyId string) ApiRevokeKeyWebKeysRevokePostRequest {
+	r.keyId = &keyId
+	return r
+}
+
+func (r ApiRevokeKeyWebKeysRevokePostRequest) Csrf(csrf string) ApiRevokeKeyWebKeysRevokePostRequest {
+	r.csrf = &csrf
+	return r
+}
+
+func (r ApiRevokeKeyWebKeysRevokePostRequest) Execute() (interface{}, *http.Response, error) {
+	return r.ApiService.RevokeKeyWebKeysRevokePostExecute(r)
+}
+
+/*
+RevokeKeyWebKeysRevokePost Revoke Key
+
+Revoke one of the active drive's `ad_live_` keys.
+
+Management gate (workspaces-v2 §4.4): revoking a shared drive's key is
+admin-for-team / owner-for-personal — a mere member must not revoke a key
+out from under the team. `drive_keys.revoke` is additionally scoped by
+drive_id, so the form's `key_id` can't reach another drive's key.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiRevokeKeyWebKeysRevokePostRequest
+*/
+func (a *DefaultAPIService) RevokeKeyWebKeysRevokePost(ctx context.Context) ApiRevokeKeyWebKeysRevokePostRequest {
+	return ApiRevokeKeyWebKeysRevokePostRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return interface{}
+func (a *DefaultAPIService) RevokeKeyWebKeysRevokePostExecute(r ApiRevokeKeyWebKeysRevokePostRequest) (interface{}, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  interface{}
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.RevokeKeyWebKeysRevokePost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/web/keys/revoke"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.keyId == nil {
+		return localVarReturnValue, nil, reportError("keyId is required and must be specified")
+	}
+	if r.csrf == nil {
+		return localVarReturnValue, nil, reportError("csrf is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarFormParams, "key_id", r.keyId, "", "")
+	parameterAddToHeaderOrQuery(localVarFormParams, "csrf", r.csrf, "", "")
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiRevokeLinkWebShareRidLinkShrIdRevokePostRequest struct {
 	ctx context.Context
 	ApiService *DefaultAPIService
@@ -13570,251 +13857,6 @@ func (a *DefaultAPIService) RevokeUserTokenWebTokensRevokePostExecute(r ApiRevok
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	parameterAddToHeaderOrQuery(localVarFormParams, "token_id", r.tokenId, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "csrf", r.csrf, "", "")
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 422 {
-			var v HTTPValidationError
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiRotateDriveKeyWebWebDrivesDriveIdKeysRotatePostRequest struct {
-	ctx context.Context
-	ApiService *DefaultAPIService
-	driveId string
-	csrf *string
-}
-
-func (r ApiRotateDriveKeyWebWebDrivesDriveIdKeysRotatePostRequest) Csrf(csrf string) ApiRotateDriveKeyWebWebDrivesDriveIdKeysRotatePostRequest {
-	r.csrf = &csrf
-	return r
-}
-
-func (r ApiRotateDriveKeyWebWebDrivesDriveIdKeysRotatePostRequest) Execute() (interface{}, *http.Response, error) {
-	return r.ApiService.RotateDriveKeyWebWebDrivesDriveIdKeysRotatePostExecute(r)
-}
-
-/*
-RotateDriveKeyWebWebDrivesDriveIdKeysRotatePost Rotate Drive Key Web
-
-Rotate a specific owned drive's `ad_live_` key + reveal once
-(workspaces-design §5.6). Owner-only (no-leak no-op otherwise).
-
-The per-drive twin of `/web/keys/rotate` (which acts on the active
-drive). Pins the rotated drive active so the reveal on the api-keys
-tab shows the key for the drive the user just rotated.
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param driveId
- @return ApiRotateDriveKeyWebWebDrivesDriveIdKeysRotatePostRequest
-*/
-func (a *DefaultAPIService) RotateDriveKeyWebWebDrivesDriveIdKeysRotatePost(ctx context.Context, driveId string) ApiRotateDriveKeyWebWebDrivesDriveIdKeysRotatePostRequest {
-	return ApiRotateDriveKeyWebWebDrivesDriveIdKeysRotatePostRequest{
-		ApiService: a,
-		ctx: ctx,
-		driveId: driveId,
-	}
-}
-
-// Execute executes the request
-//  @return interface{}
-func (a *DefaultAPIService) RotateDriveKeyWebWebDrivesDriveIdKeysRotatePostExecute(r ApiRotateDriveKeyWebWebDrivesDriveIdKeysRotatePostRequest) (interface{}, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  interface{}
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.RotateDriveKeyWebWebDrivesDriveIdKeysRotatePost")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/web/drives/{drive_id}/keys/rotate"
-	localVarPath = strings.Replace(localVarPath, "{"+"drive_id"+"}", url.PathEscape(parameterValueToString(r.driveId, "driveId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.csrf == nil {
-		return localVarReturnValue, nil, reportError("csrf is required and must be specified")
-	}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "csrf", r.csrf, "", "")
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 422 {
-			var v HTTPValidationError
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiRotateKeyWebKeysRotatePostRequest struct {
-	ctx context.Context
-	ApiService *DefaultAPIService
-	csrf *string
-}
-
-func (r ApiRotateKeyWebKeysRotatePostRequest) Csrf(csrf string) ApiRotateKeyWebKeysRotatePostRequest {
-	r.csrf = &csrf
-	return r
-}
-
-func (r ApiRotateKeyWebKeysRotatePostRequest) Execute() (interface{}, *http.Response, error) {
-	return r.ApiService.RotateKeyWebKeysRotatePostExecute(r)
-}
-
-/*
-RotateKeyWebKeysRotatePost Rotate Key
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiRotateKeyWebKeysRotatePostRequest
-*/
-func (a *DefaultAPIService) RotateKeyWebKeysRotatePost(ctx context.Context) ApiRotateKeyWebKeysRotatePostRequest {
-	return ApiRotateKeyWebKeysRotatePostRequest{
-		ApiService: a,
-		ctx: ctx,
-	}
-}
-
-// Execute executes the request
-//  @return interface{}
-func (a *DefaultAPIService) RotateKeyWebKeysRotatePostExecute(r ApiRotateKeyWebKeysRotatePostRequest) (interface{}, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  interface{}
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.RotateKeyWebKeysRotatePost")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/web/keys/rotate"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.csrf == nil {
-		return localVarReturnValue, nil, reportError("csrf is required and must be specified")
-	}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
 	parameterAddToHeaderOrQuery(localVarFormParams, "csrf", r.csrf, "", "")
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
@@ -14728,15 +14770,15 @@ func (r ApiSettingsApiKeysSettingsApiKeysGetRequest) Execute() (string, *http.Re
 /*
 SettingsApiKeysSettingsApiKeysGet Settings Api Keys
 
-API key tab. Also where reveal_key is rendered after rotation; the
-reveal is consumed (removed from session) on first read.
+API key tab. Also where `reveal_key` is rendered once after a key is
+minted; the reveal is consumed (removed from session) on first read.
 
 Surfaces two credential classes (workspaces-design §5.6):
-  * the drive's `ad_live_` per-drive key (`drive.api_key_prefix`,
-    rotate/delete) — unchanged from v0.
+  * the drive's `ad_live_` per-drive keys (`drive_keys.list_for_drive`) —
+    a drive may hold several, each created/revoked individually.
   * the user's `ad_user_` identity tokens (`user_tokens`, mint/list/
     revoke). Minting reveals the raw token once via the same
-    `reveal_key`-in-session mechanism as the drive key.
+    `reveal_key`-in-session mechanism as the drive keys.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiSettingsApiKeysSettingsApiKeysGetRequest

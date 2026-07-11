@@ -24,9 +24,12 @@ from agentdrive_sdk.models.compile_options import CompileOptions
 from agentdrive_sdk.models.copy_in import CopyIn
 from agentdrive_sdk.models.describe_in import DescribeIn
 from agentdrive_sdk.models.download_url_out import DownloadUrlOut
+from agentdrive_sdk.models.drive_api_key_create_in import DriveApiKeyCreateIn
+from agentdrive_sdk.models.drive_api_key_create_out import DriveApiKeyCreateOut
+from agentdrive_sdk.models.drive_api_key_list_out import DriveApiKeyListOut
+from agentdrive_sdk.models.drive_api_key_out import DriveApiKeyOut
 from agentdrive_sdk.models.drive_create_in import DriveCreateIn
 from agentdrive_sdk.models.drive_create_out import DriveCreateOut
-from agentdrive_sdk.models.drive_key_rotate_out import DriveKeyRotateOut
 from agentdrive_sdk.models.drive_list import DriveList
 from agentdrive_sdk.models.drive_out import DriveOut
 from agentdrive_sdk.models.drive_rename_in import DriveRenameIn

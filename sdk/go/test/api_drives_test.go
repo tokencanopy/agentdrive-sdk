@@ -22,11 +22,39 @@ func Test_agentdrive_DrivesAPIService(t *testing.T) {
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
+	t.Run("Test DrivesAPIService CreateDriveKeyRouteV0DrivesDriveIdKeysPost", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var driveId string
+
+		resp, httpRes, err := apiClient.DrivesAPI.CreateDriveKeyRouteV0DrivesDriveIdKeysPost(context.Background(), driveId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test DrivesAPIService CreateDriveRouteV0DrivesPost", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.DrivesAPI.CreateDriveRouteV0DrivesPost(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test DrivesAPIService ListDriveKeysRouteV0DrivesDriveIdKeysGet", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var driveId string
+
+		resp, httpRes, err := apiClient.DrivesAPI.ListDriveKeysRouteV0DrivesDriveIdKeysGet(context.Background(), driveId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -60,13 +88,28 @@ func Test_agentdrive_DrivesAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test DrivesAPIService RotateDriveKeyRouteV0DrivesDriveIdKeysRotatePost", func(t *testing.T) {
+	t.Run("Test DrivesAPIService RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		var driveId string
+		var keyId string
 
-		resp, httpRes, err := apiClient.DrivesAPI.RotateDriveKeyRouteV0DrivesDriveIdKeysRotatePost(context.Background(), driveId).Execute()
+		httpRes, err := apiClient.DrivesAPI.RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost(context.Background(), driveId, keyId).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test DrivesAPIService RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var driveId string
+		var keyId string
+
+		resp, httpRes, err := apiClient.DrivesAPI.RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost(context.Background(), driveId, keyId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

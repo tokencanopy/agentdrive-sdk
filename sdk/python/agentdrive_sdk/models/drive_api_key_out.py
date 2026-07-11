@@ -17,21 +17,24 @@ import pprint
 import re  # noqa: F401
 import json
 
+from datetime import datetime
 from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, List
-from agentdrive_sdk.models.workspace_out import WorkspaceOut
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class WorkspaceCreateOut(BaseModel):
+class DriveApiKeyOut(BaseModel):
     """
-    POST /v0/workspaces response. Carries the new workspace + its starter drive's `ad_live_` key **once** (`starter_drive_api_key`) — reveal-once, store it now (mint more keys via `POST /v0/drives/{id}/keys`).
+    One per-drive `ad_live_` key — metadata only (never the raw key or hash). Item shape for `GET /v0/drives/{id}/keys`.
     """ # noqa: E501
-    workspace: WorkspaceOut
-    starter_drive_id: StrictStr
-    starter_drive_api_key: StrictStr
-    __properties: ClassVar[List[str]] = ["workspace", "starter_drive_id", "starter_drive_api_key"]
+    id: StrictStr
+    prefix: StrictStr
+    label: Optional[StrictStr]
+    last_used_at: Optional[datetime]
+    created_at: datetime
+    revoked_at: Optional[datetime]
+    __properties: ClassVar[List[str]] = ["id", "prefix", "label", "last_used_at", "created_at", "revoked_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -51,7 +54,7 @@ class WorkspaceCreateOut(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of WorkspaceCreateOut from a JSON string"""
+        """Create an instance of DriveApiKeyOut from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -72,14 +75,26 @@ class WorkspaceCreateOut(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of workspace
-        if self.workspace:
-            _dict['workspace'] = self.workspace.to_dict()
+        # set to None if label (nullable) is None
+        # and model_fields_set contains the field
+        if self.label is None and "label" in self.model_fields_set:
+            _dict['label'] = None
+
+        # set to None if last_used_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.last_used_at is None and "last_used_at" in self.model_fields_set:
+            _dict['last_used_at'] = None
+
+        # set to None if revoked_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.revoked_at is None and "revoked_at" in self.model_fields_set:
+            _dict['revoked_at'] = None
+
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of WorkspaceCreateOut from a dict"""
+        """Create an instance of DriveApiKeyOut from a dict"""
         if obj is None:
             return None
 
@@ -87,9 +102,12 @@ class WorkspaceCreateOut(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "workspace": WorkspaceOut.from_dict(obj["workspace"]) if obj.get("workspace") is not None else None,
-            "starter_drive_id": obj.get("starter_drive_id"),
-            "starter_drive_api_key": obj.get("starter_drive_api_key")
+            "id": obj.get("id"),
+            "prefix": obj.get("prefix"),
+            "label": obj.get("label"),
+            "last_used_at": obj.get("last_used_at"),
+            "created_at": obj.get("created_at"),
+            "revoked_at": obj.get("revoked_at")
         })
         return _obj
 

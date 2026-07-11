@@ -4,9 +4,9 @@ All URIs are relative to *https://api.agentdrive.run*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**createWorkspaceRouteV0WorkspacesPost**](WorkspacesApi.md#createworkspaceroutev0workspacespost) | **POST** /v0/workspaces | Create a new workspace |
-| [**listWorkspacesRouteV0WorkspacesGet**](WorkspacesApi.md#listworkspacesroutev0workspacesget) | **GET** /v0/workspaces | List the workspaces you belong to |
-| [**renameWorkspaceRouteV0WorkspacesOrgIdPatch**](WorkspacesApi.md#renameworkspaceroutev0workspacesorgidpatch) | **PATCH** /v0/workspaces/{org_id} | Rename a workspace you administer |
+| [**createWorkspaceRouteV0WorkspacesPost**](WorkspacesApi.md#createworkspaceroutev0workspacespost) | **POST** /v0/workspaces | Create a new shared drive |
+| [**listWorkspacesRouteV0WorkspacesGet**](WorkspacesApi.md#listworkspacesroutev0workspacesget) | **GET** /v0/workspaces | List the spaces you belong to |
+| [**renameWorkspaceRouteV0WorkspacesOrgIdPatch**](WorkspacesApi.md#renameworkspaceroutev0workspacesorgidpatch) | **PATCH** /v0/workspaces/{org_id} | Rename a shared drive you administer |
 
 
 
@@ -14,9 +14,9 @@ All URIs are relative to *https://api.agentdrive.run*
 
 > WorkspaceCreateOut createWorkspaceRouteV0WorkspacesPost(workspaceCreateIn, authorization)
 
-Create a new workspace
+Create a new shared drive
 
-Create a new **workspace** (the user-facing name for an organization). You become its **admin** and get a starter drive; the starter drive\&#39;s &#x60;ad_live_&#x60; key is returned **once** (&#x60;starter_drive_api_key&#x60;).  A user may administer at most a fixed number of workspaces (workspaces-design §4.7). A caller at the limit is blocked with &#x60;403 WORKSPACE_LIMIT_REACHED&#x60;. Requires a &#x60;full&#x60;-scope user token.
+Create a new **shared drive** — a shared, multi-member space (the &#x60;workspaces&#x60; path is retained for API stability). You become its **admin** and get a starter drive; the starter drive\&#39;s &#x60;ad_live_&#x60; key is returned **once** (&#x60;starter_drive_api_key&#x60;).  A user may administer up to their plan\&#39;s number of shared drives (workspaces-v2 §4.6). A caller at the limit is blocked with &#x60;403 WORKSPACE_LIMIT_REACHED&#x60;. Requires a &#x60;full&#x60;-scope user token.
 
 ### Example
 
@@ -85,9 +85,9 @@ No authorization required
 
 > WorkspaceList listWorkspacesRouteV0WorkspacesGet(authorization)
 
-List the workspaces you belong to
+List the spaces you belong to
 
-Return every workspace the caller is a member of, each carrying the caller\&#39;s &#x60;role&#x60; in it. Metadata only. A &#x60;read&#x60;-scope token is sufficient.
+Return every space the caller is a member of, each carrying the caller\&#39;s &#x60;role&#x60; in it. Metadata only. A &#x60;read&#x60;-scope token is sufficient.
 
 ### Example
 
@@ -153,9 +153,9 @@ No authorization required
 
 > WorkspaceOut renameWorkspaceRouteV0WorkspacesOrgIdPatch(orgId, workspaceRenameIn, authorization)
 
-Rename a workspace you administer
+Rename a shared drive you administer
 
-Rename a workspace. **Admin only** — a workspace you don\&#39;t administer (or aren\&#39;t a member of) returns 404 (no-leak). Requires a &#x60;full&#x60;-scope user token.
+Rename a shared drive. **Admin only** — one you don\&#39;t administer (or aren\&#39;t a member of) returns 404 (no-leak). Requires a &#x60;full&#x60;-scope user token.
 
 ### Example
 

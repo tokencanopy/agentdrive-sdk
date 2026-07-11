@@ -17,21 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar, Dict, List
-from agentdrive_sdk.models.workspace_out import WorkspaceOut
+from agentdrive_sdk.models.drive_api_key_out import DriveApiKeyOut
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class WorkspaceCreateOut(BaseModel):
+class DriveApiKeyListOut(BaseModel):
     """
-    POST /v0/workspaces response. Carries the new workspace + its starter drive's `ad_live_` key **once** (`starter_drive_api_key`) — reveal-once, store it now (mint more keys via `POST /v0/drives/{id}/keys`).
+    `GET /v0/drives/{id}/keys` response — the drive's keys, newest first, including recently-revoked rows (filter on `revoked_at` for live only).
     """ # noqa: E501
-    workspace: WorkspaceOut
-    starter_drive_id: StrictStr
-    starter_drive_api_key: StrictStr
-    __properties: ClassVar[List[str]] = ["workspace", "starter_drive_id", "starter_drive_api_key"]
+    keys: List[DriveApiKeyOut]
+    __properties: ClassVar[List[str]] = ["keys"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -51,7 +49,7 @@ class WorkspaceCreateOut(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of WorkspaceCreateOut from a JSON string"""
+        """Create an instance of DriveApiKeyListOut from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -72,14 +70,18 @@ class WorkspaceCreateOut(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of workspace
-        if self.workspace:
-            _dict['workspace'] = self.workspace.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in keys (list)
+        _items = []
+        if self.keys:
+            for _item_keys in self.keys:
+                if _item_keys:
+                    _items.append(_item_keys.to_dict())
+            _dict['keys'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of WorkspaceCreateOut from a dict"""
+        """Create an instance of DriveApiKeyListOut from a dict"""
         if obj is None:
             return None
 
@@ -87,9 +89,7 @@ class WorkspaceCreateOut(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "workspace": WorkspaceOut.from_dict(obj["workspace"]) if obj.get("workspace") is not None else None,
-            "starter_drive_id": obj.get("starter_drive_id"),
-            "starter_drive_api_key": obj.get("starter_drive_api_key")
+            "keys": [DriveApiKeyOut.from_dict(_item) for _item in obj["keys"]] if obj.get("keys") is not None else None
         })
         return _obj
 

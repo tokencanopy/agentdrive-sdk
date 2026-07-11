@@ -4,19 +4,19 @@ All URIs are relative to *https://api.agentdrive.run*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**create_workspace_route_v0_workspaces_post**](WorkspacesApi.md#create_workspace_route_v0_workspaces_post) | **POST** /v0/workspaces | Create a new workspace
-[**list_workspaces_route_v0_workspaces_get**](WorkspacesApi.md#list_workspaces_route_v0_workspaces_get) | **GET** /v0/workspaces | List the workspaces you belong to
-[**rename_workspace_route_v0_workspaces_org_id_patch**](WorkspacesApi.md#rename_workspace_route_v0_workspaces_org_id_patch) | **PATCH** /v0/workspaces/{org_id} | Rename a workspace you administer
+[**create_workspace_route_v0_workspaces_post**](WorkspacesApi.md#create_workspace_route_v0_workspaces_post) | **POST** /v0/workspaces | Create a new shared drive
+[**list_workspaces_route_v0_workspaces_get**](WorkspacesApi.md#list_workspaces_route_v0_workspaces_get) | **GET** /v0/workspaces | List the spaces you belong to
+[**rename_workspace_route_v0_workspaces_org_id_patch**](WorkspacesApi.md#rename_workspace_route_v0_workspaces_org_id_patch) | **PATCH** /v0/workspaces/{org_id} | Rename a shared drive you administer
 
 
 # **create_workspace_route_v0_workspaces_post**
 > WorkspaceCreateOut create_workspace_route_v0_workspaces_post(workspace_create_in, authorization=authorization)
 
-Create a new workspace
+Create a new shared drive
 
-Create a new **workspace** (the user-facing name for an organization). You become its **admin** and get a starter drive; the starter drive's `ad_live_` key is returned **once** (`starter_drive_api_key`).
+Create a new **shared drive** — a shared, multi-member space (the `workspaces` path is retained for API stability). You become its **admin** and get a starter drive; the starter drive's `ad_live_` key is returned **once** (`starter_drive_api_key`).
 
-A user may administer at most a fixed number of workspaces (workspaces-design §4.7). A caller at the limit is blocked with `403 WORKSPACE_LIMIT_REACHED`. Requires a `full`-scope user token.
+A user may administer up to their plan's number of shared drives (workspaces-v2 §4.6). A caller at the limit is blocked with `403 WORKSPACE_LIMIT_REACHED`. Requires a `full`-scope user token.
 
 ### Example
 
@@ -43,7 +43,7 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     authorization = 'authorization_example' # str |  (optional)
 
     try:
-        # Create a new workspace
+        # Create a new shared drive
         api_response = api_instance.create_workspace_route_v0_workspaces_post(workspace_create_in, authorization=authorization)
         print("The response of WorkspacesApi->create_workspace_route_v0_workspaces_post:\n")
         pprint(api_response)
@@ -86,9 +86,9 @@ No authorization required
 # **list_workspaces_route_v0_workspaces_get**
 > WorkspaceList list_workspaces_route_v0_workspaces_get(authorization=authorization)
 
-List the workspaces you belong to
+List the spaces you belong to
 
-Return every workspace the caller is a member of, each carrying the caller's `role` in it. Metadata only. A `read`-scope token is sufficient.
+Return every space the caller is a member of, each carrying the caller's `role` in it. Metadata only. A `read`-scope token is sufficient.
 
 ### Example
 
@@ -113,7 +113,7 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     authorization = 'authorization_example' # str |  (optional)
 
     try:
-        # List the workspaces you belong to
+        # List the spaces you belong to
         api_response = api_instance.list_workspaces_route_v0_workspaces_get(authorization=authorization)
         print("The response of WorkspacesApi->list_workspaces_route_v0_workspaces_get:\n")
         pprint(api_response)
@@ -155,9 +155,9 @@ No authorization required
 # **rename_workspace_route_v0_workspaces_org_id_patch**
 > WorkspaceOut rename_workspace_route_v0_workspaces_org_id_patch(org_id, workspace_rename_in, authorization=authorization)
 
-Rename a workspace you administer
+Rename a shared drive you administer
 
-Rename a workspace. **Admin only** — a workspace you don't administer (or aren't a member of) returns 404 (no-leak). Requires a `full`-scope user token.
+Rename a shared drive. **Admin only** — one you don't administer (or aren't a member of) returns 404 (no-leak). Requires a `full`-scope user token.
 
 ### Example
 
@@ -185,7 +185,7 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     authorization = 'authorization_example' # str |  (optional)
 
     try:
-        # Rename a workspace you administer
+        # Rename a shared drive you administer
         api_response = api_instance.rename_workspace_route_v0_workspaces_org_id_patch(org_id, workspace_rename_in, authorization=authorization)
         print("The response of WorkspacesApi->rename_workspace_route_v0_workspaces_org_id_patch:\n")
         pprint(api_response)

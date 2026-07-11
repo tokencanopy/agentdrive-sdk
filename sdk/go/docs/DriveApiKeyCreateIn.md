@@ -1,0 +1,51 @@
+# DriveApiKeyCreateIn
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**Label** | **string** |  | 
+
+## Methods
+
+### NewDriveApiKeyCreateIn
+
+`func NewDriveApiKeyCreateIn(label string, ) *DriveApiKeyCreateIn`
+
+NewDriveApiKeyCreateIn instantiates a new DriveApiKeyCreateIn object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewDriveApiKeyCreateInWithDefaults
+
+`func NewDriveApiKeyCreateInWithDefaults() *DriveApiKeyCreateIn`
+
+NewDriveApiKeyCreateInWithDefaults instantiates a new DriveApiKeyCreateIn object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
+### GetLabel
+
+`func (o *DriveApiKeyCreateIn) GetLabel() string`
+
+GetLabel returns the Label field if non-nil, zero value otherwise.
+
+### GetLabelOk
+
+`func (o *DriveApiKeyCreateIn) GetLabelOk() (*string, bool)`
+
+GetLabelOk returns a tuple with the Label field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLabel
+
+`func (o *DriveApiKeyCreateIn) SetLabel(v string)`
+
+SetLabel sets Label field to given value.
+
+
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

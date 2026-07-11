@@ -26,10 +26,24 @@ class TestDrivesApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
+    def test_create_drive_key_route_v0_drives_drive_id_keys_post(self) -> None:
+        """Test case for create_drive_key_route_v0_drives_drive_id_keys_post
+
+        Create a drive API key
+        """
+        pass
+
     def test_create_drive_route_v0_drives_post(self) -> None:
         """Test case for create_drive_route_v0_drives_post
 
-        Create a drive in your active workspace
+        Create a drive in your active space
+        """
+        pass
+
+    def test_list_drive_keys_route_v0_drives_drive_id_keys_get(self) -> None:
+        """Test case for list_drive_keys_route_v0_drives_drive_id_keys_get
+
+        List a drive's API keys
         """
         pass
 
@@ -47,10 +61,17 @@ class TestDrivesApi(unittest.TestCase):
         """
         pass
 
-    def test_rotate_drive_key_route_v0_drives_drive_id_keys_rotate_post(self) -> None:
-        """Test case for rotate_drive_key_route_v0_drives_drive_id_keys_rotate_post
+    def test_revoke_drive_key_route_v0_drives_drive_id_keys_key_id_revoke_post(self) -> None:
+        """Test case for revoke_drive_key_route_v0_drives_drive_id_keys_key_id_revoke_post
 
-        Rotate a drive's API key
+        Revoke a drive API key
+        """
+        pass
+
+    def test_rotate_one_key_route_v0_drives_drive_id_keys_key_id_rotate_post(self) -> None:
+        """Test case for rotate_one_key_route_v0_drives_drive_id_keys_key_id_rotate_post
+
+        Rotate one API key
         """
         pass
 

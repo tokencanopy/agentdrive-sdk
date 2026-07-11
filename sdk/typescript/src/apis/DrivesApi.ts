@@ -14,6 +14,21 @@
 
 import * as runtime from '../runtime';
 import {
+    type DriveApiKeyCreateIn,
+    DriveApiKeyCreateInFromJSON,
+    DriveApiKeyCreateInToJSON,
+} from '../models/DriveApiKeyCreateIn';
+import {
+    type DriveApiKeyCreateOut,
+    DriveApiKeyCreateOutFromJSON,
+    DriveApiKeyCreateOutToJSON,
+} from '../models/DriveApiKeyCreateOut';
+import {
+    type DriveApiKeyListOut,
+    DriveApiKeyListOutFromJSON,
+    DriveApiKeyListOutToJSON,
+} from '../models/DriveApiKeyListOut';
+import {
     type DriveCreateIn,
     DriveCreateInFromJSON,
     DriveCreateInToJSON,
@@ -23,11 +38,6 @@ import {
     DriveCreateOutFromJSON,
     DriveCreateOutToJSON,
 } from '../models/DriveCreateOut';
-import {
-    type DriveKeyRotateOut,
-    DriveKeyRotateOutFromJSON,
-    DriveKeyRotateOutToJSON,
-} from '../models/DriveKeyRotateOut';
 import {
     type DriveList,
     DriveListFromJSON,
@@ -49,8 +59,19 @@ import {
     HTTPValidationErrorToJSON,
 } from '../models/HTTPValidationError';
 
+export interface CreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest {
+    driveId: string;
+    driveApiKeyCreateIn: DriveApiKeyCreateIn;
+    authorization?: string | null;
+}
+
 export interface CreateDriveRouteV0DrivesPostRequest {
     driveCreateIn: DriveCreateIn;
+    authorization?: string | null;
+}
+
+export interface ListDriveKeysRouteV0DrivesDriveIdKeysGetRequest {
+    driveId: string;
     authorization?: string | null;
 }
 
@@ -64,8 +85,15 @@ export interface RenameDriveRouteV0DrivesDriveIdPatchRequest {
     authorization?: string | null;
 }
 
-export interface RotateDriveKeyRouteV0DrivesDriveIdKeysRotatePostRequest {
+export interface RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest {
     driveId: string;
+    keyId: string;
+    authorization?: string | null;
+}
+
+export interface RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest {
+    driveId: string;
+    keyId: string;
     authorization?: string | null;
 }
 
@@ -73,6 +101,67 @@ export interface RotateDriveKeyRouteV0DrivesDriveIdKeysRotatePostRequest {
  * 
  */
 export class DrivesApi extends runtime.BaseAPI {
+
+    /**
+     * Creates request options for createDriveKeyRouteV0DrivesDriveIdKeysPost without sending the request
+     */
+    async createDriveKeyRouteV0DrivesDriveIdKeysPostRequestOpts(requestParameters: CreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['driveId'] == null) {
+            throw new runtime.RequiredError(
+                'driveId',
+                'Required parameter "driveId" was null or undefined when calling createDriveKeyRouteV0DrivesDriveIdKeysPost().'
+            );
+        }
+
+        if (requestParameters['driveApiKeyCreateIn'] == null) {
+            throw new runtime.RequiredError(
+                'driveApiKeyCreateIn',
+                'Required parameter "driveApiKeyCreateIn" was null or undefined when calling createDriveKeyRouteV0DrivesDriveIdKeysPost().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
+
+        let urlPath = `/v0/drives/{drive_id}/keys`;
+        urlPath = urlPath.replace('{drive_id}', encodeURIComponent(String(requestParameters['driveId'])));
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: DriveApiKeyCreateInToJSON(requestParameters['driveApiKeyCreateIn']),
+        };
+    }
+
+    /**
+     * Mint a new `ad_live_` key for a drive you manage — a drive may hold several (one per agent/integration). A `label` (a name for the key) is **required**. **Manager only** (404 no-leak otherwise), `full`-scope user token. The raw key is returned **once** — store it now.
+     * Create a drive API key
+     */
+    async createDriveKeyRouteV0DrivesDriveIdKeysPostRaw(requestParameters: CreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveApiKeyCreateOut>> {
+        const requestOptions = await this.createDriveKeyRouteV0DrivesDriveIdKeysPostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DriveApiKeyCreateOutFromJSON(jsonValue));
+    }
+
+    /**
+     * Mint a new `ad_live_` key for a drive you manage — a drive may hold several (one per agent/integration). A `label` (a name for the key) is **required**. **Manager only** (404 no-leak otherwise), `full`-scope user token. The raw key is returned **once** — store it now.
+     * Create a drive API key
+     */
+    async createDriveKeyRouteV0DrivesDriveIdKeysPost(requestParameters: CreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveApiKeyCreateOut> {
+        const response = await this.createDriveKeyRouteV0DrivesDriveIdKeysPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Creates request options for createDriveRouteV0DrivesPost without sending the request
@@ -108,8 +197,8 @@ export class DrivesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a named drive. Any **member** of the workspace may create one; the creator becomes its **owner**. Requires a `full`-scope user token. The response carries the drive\'s `ad_live_` API key **once** (`api_key`) — store it now, it is never returned again (rotate via `POST /v0/drives/{id}/keys/rotate`).  The target workspace is the user\'s active organization (`users.default_org`); cross-workspace creation names no other workspace in v0.  A member may own at most a fixed number of drives per workspace (workspaces-design §4.5). A caller at the limit is blocked with `403 DRIVE_LIMIT_REACHED`; this is a hard cap, not a paywall.
-     * Create a drive in your active workspace
+     * Create a named drive. Any **member** of the space may create one; the creator becomes its **owner**. Requires a `full`-scope user token. The response carries the drive\'s `ad_live_` API key **once** (`api_key`) — store it now, it is never returned again (mint more keys via `POST /v0/drives/{id}/keys`).  The target workspace is the user\'s active organization (`users.default_org`); cross-workspace creation names no other workspace in v0.  A space may hold up to its plan\'s drive limit (workspaces-v2 §4.6; seat-aware for shared drives). A caller at the limit is blocked with `403 DRIVE_LIMIT_REACHED`; the limit is tier-governed, not a hard cap.
+     * Create a drive in your active space
      */
     async createDriveRouteV0DrivesPostRaw(requestParameters: CreateDriveRouteV0DrivesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveCreateOut>> {
         const requestOptions = await this.createDriveRouteV0DrivesPostRequestOpts(requestParameters);
@@ -119,11 +208,62 @@ export class DrivesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a named drive. Any **member** of the workspace may create one; the creator becomes its **owner**. Requires a `full`-scope user token. The response carries the drive\'s `ad_live_` API key **once** (`api_key`) — store it now, it is never returned again (rotate via `POST /v0/drives/{id}/keys/rotate`).  The target workspace is the user\'s active organization (`users.default_org`); cross-workspace creation names no other workspace in v0.  A member may own at most a fixed number of drives per workspace (workspaces-design §4.5). A caller at the limit is blocked with `403 DRIVE_LIMIT_REACHED`; this is a hard cap, not a paywall.
-     * Create a drive in your active workspace
+     * Create a named drive. Any **member** of the space may create one; the creator becomes its **owner**. Requires a `full`-scope user token. The response carries the drive\'s `ad_live_` API key **once** (`api_key`) — store it now, it is never returned again (mint more keys via `POST /v0/drives/{id}/keys`).  The target workspace is the user\'s active organization (`users.default_org`); cross-workspace creation names no other workspace in v0.  A space may hold up to its plan\'s drive limit (workspaces-v2 §4.6; seat-aware for shared drives). A caller at the limit is blocked with `403 DRIVE_LIMIT_REACHED`; the limit is tier-governed, not a hard cap.
+     * Create a drive in your active space
      */
     async createDriveRouteV0DrivesPost(requestParameters: CreateDriveRouteV0DrivesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveCreateOut> {
         const response = await this.createDriveRouteV0DrivesPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for listDriveKeysRouteV0DrivesDriveIdKeysGet without sending the request
+     */
+    async listDriveKeysRouteV0DrivesDriveIdKeysGetRequestOpts(requestParameters: ListDriveKeysRouteV0DrivesDriveIdKeysGetRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['driveId'] == null) {
+            throw new runtime.RequiredError(
+                'driveId',
+                'Required parameter "driveId" was null or undefined when calling listDriveKeysRouteV0DrivesDriveIdKeysGet().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
+
+        let urlPath = `/v0/drives/{drive_id}/keys`;
+        urlPath = urlPath.replace('{drive_id}', encodeURIComponent(String(requestParameters['driveId'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * List the `ad_live_` keys for a drive you manage (newest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.
+     * List a drive\'s API keys
+     */
+    async listDriveKeysRouteV0DrivesDriveIdKeysGetRaw(requestParameters: ListDriveKeysRouteV0DrivesDriveIdKeysGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveApiKeyListOut>> {
+        const requestOptions = await this.listDriveKeysRouteV0DrivesDriveIdKeysGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DriveApiKeyListOutFromJSON(jsonValue));
+    }
+
+    /**
+     * List the `ad_live_` keys for a drive you manage (newest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.
+     * List a drive\'s API keys
+     */
+    async listDriveKeysRouteV0DrivesDriveIdKeysGet(requestParameters: ListDriveKeysRouteV0DrivesDriveIdKeysGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveApiKeyListOut> {
+        const response = await this.listDriveKeysRouteV0DrivesDriveIdKeysGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -232,13 +372,20 @@ export class DrivesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for rotateDriveKeyRouteV0DrivesDriveIdKeysRotatePost without sending the request
+     * Creates request options for revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost without sending the request
      */
-    async rotateDriveKeyRouteV0DrivesDriveIdKeysRotatePostRequestOpts(requestParameters: RotateDriveKeyRouteV0DrivesDriveIdKeysRotatePostRequest): Promise<runtime.RequestOpts> {
+    async revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequestOpts(requestParameters: RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['driveId'] == null) {
             throw new runtime.RequiredError(
                 'driveId',
-                'Required parameter "driveId" was null or undefined when calling rotateDriveKeyRouteV0DrivesDriveIdKeysRotatePost().'
+                'Required parameter "driveId" was null or undefined when calling revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost().'
+            );
+        }
+
+        if (requestParameters['keyId'] == null) {
+            throw new runtime.RequiredError(
+                'keyId',
+                'Required parameter "keyId" was null or undefined when calling revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost().'
             );
         }
 
@@ -251,8 +398,9 @@ export class DrivesApi extends runtime.BaseAPI {
         }
 
 
-        let urlPath = `/v0/drives/{drive_id}/keys/rotate`;
+        let urlPath = `/v0/drives/{drive_id}/keys/{key_id}/revoke`;
         urlPath = urlPath.replace('{drive_id}', encodeURIComponent(String(requestParameters['driveId'])));
+        urlPath = urlPath.replace('{key_id}', encodeURIComponent(String(requestParameters['keyId'])));
 
         return {
             path: urlPath,
@@ -263,22 +411,80 @@ export class DrivesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Generate a fresh `ad_live_` key for a drive you own and invalidate the old one immediately. **Owner only** (404 no-leak otherwise) and requires a `full`-scope user token. The new key is returned **once** — store it now.
-     * Rotate a drive\'s API key
+     * Revoke one `ad_live_` key of a drive you manage — anything using it loses access immediately. **Manager only** (404 no-leak otherwise), `full`-scope user token. Idempotent: revoking an unknown/already-revoked key returns 204 too (no existence oracle).
+     * Revoke a drive API key
      */
-    async rotateDriveKeyRouteV0DrivesDriveIdKeysRotatePostRaw(requestParameters: RotateDriveKeyRouteV0DrivesDriveIdKeysRotatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveKeyRotateOut>> {
-        const requestOptions = await this.rotateDriveKeyRouteV0DrivesDriveIdKeysRotatePostRequestOpts(requestParameters);
+    async revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRaw(requestParameters: RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => DriveKeyRotateOutFromJSON(jsonValue));
+        return new runtime.VoidApiResponse(response);
     }
 
     /**
-     * Generate a fresh `ad_live_` key for a drive you own and invalidate the old one immediately. **Owner only** (404 no-leak otherwise) and requires a `full`-scope user token. The new key is returned **once** — store it now.
-     * Rotate a drive\'s API key
+     * Revoke one `ad_live_` key of a drive you manage — anything using it loses access immediately. **Manager only** (404 no-leak otherwise), `full`-scope user token. Idempotent: revoking an unknown/already-revoked key returns 204 too (no existence oracle).
+     * Revoke a drive API key
      */
-    async rotateDriveKeyRouteV0DrivesDriveIdKeysRotatePost(requestParameters: RotateDriveKeyRouteV0DrivesDriveIdKeysRotatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveKeyRotateOut> {
-        const response = await this.rotateDriveKeyRouteV0DrivesDriveIdKeysRotatePostRaw(requestParameters, initOverrides);
+    async revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost(requestParameters: RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Creates request options for rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost without sending the request
+     */
+    async rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequestOpts(requestParameters: RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['driveId'] == null) {
+            throw new runtime.RequiredError(
+                'driveId',
+                'Required parameter "driveId" was null or undefined when calling rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost().'
+            );
+        }
+
+        if (requestParameters['keyId'] == null) {
+            throw new runtime.RequiredError(
+                'keyId',
+                'Required parameter "keyId" was null or undefined when calling rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
+
+        let urlPath = `/v0/drives/{drive_id}/keys/{key_id}/rotate`;
+        urlPath = urlPath.replace('{drive_id}', encodeURIComponent(String(requestParameters['driveId'])));
+        urlPath = urlPath.replace('{key_id}', encodeURIComponent(String(requestParameters['keyId'])));
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Rotate a single `ad_live_` key: revoke `key_id` and mint a replacement that inherits its label. **Only that key** is affected — the drive\'s other keys keep working. **Manager only** (404 no-leak otherwise), `full`-scope user token. The new key is returned **once** — store it now. A `key_id` that isn\'t a live key of this drive is a 404.
+     * Rotate one API key
+     */
+    async rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRaw(requestParameters: RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveApiKeyCreateOut>> {
+        const requestOptions = await this.rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DriveApiKeyCreateOutFromJSON(jsonValue));
+    }
+
+    /**
+     * Rotate a single `ad_live_` key: revoke `key_id` and mint a replacement that inherits its label. **Only that key** is affected — the drive\'s other keys keep working. **Manager only** (404 no-leak otherwise), `full`-scope user token. The new key is returned **once** — store it now. A `key_id` that isn\'t a live key of this drive is a 404.
+     * Rotate one API key
+     */
+    async rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost(requestParameters: RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveApiKeyCreateOut> {
+        const response = await this.rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

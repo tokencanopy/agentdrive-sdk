@@ -17,19 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List
+from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class DriveKeyRotateOut(BaseModel):
+class DriveApiKeyCreateIn(BaseModel):
     """
-    POST /v0/drives/{id}/keys/rotate response — the rotated drive's new `ad_live_` key, reveal-once. The old key is invalidated immediately.
+    `POST /v0/drives/{id}/keys` body — a required human label (a name for the key, e.g. the agent/integration it's for).
     """ # noqa: E501
-    id: StrictStr
-    api_key: StrictStr
-    __properties: ClassVar[List[str]] = ["id", "api_key"]
+    label: Annotated[str, Field(min_length=1, strict=True, max_length=80)]
+    __properties: ClassVar[List[str]] = ["label"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -49,7 +49,7 @@ class DriveKeyRotateOut(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of DriveKeyRotateOut from a JSON string"""
+        """Create an instance of DriveApiKeyCreateIn from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,7 +74,7 @@ class DriveKeyRotateOut(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of DriveKeyRotateOut from a dict"""
+        """Create an instance of DriveApiKeyCreateIn from a dict"""
         if obj is None:
             return None
 
@@ -82,8 +82,7 @@ class DriveKeyRotateOut(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "id": obj.get("id"),
-            "api_key": obj.get("api_key")
+            "label": obj.get("label")
         })
         return _obj
 

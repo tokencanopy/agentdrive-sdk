@@ -2440,11 +2440,11 @@ paths:
       - drives
     post:
       description: |-
-        Create a named drive. Any **member** of the workspace may create one; the creator becomes its **owner**. Requires a `full`-scope user token. The response carries the drive's `ad_live_` API key **once** (`api_key`) — store it now, it is never returned again (rotate via `POST /v0/drives/{id}/keys/rotate`).
+        Create a named drive. Any **member** of the space may create one; the creator becomes its **owner**. Requires a `full`-scope user token. The response carries the drive's `ad_live_` API key **once** (`api_key`) — store it now, it is never returned again (mint more keys via `POST /v0/drives/{id}/keys`).
 
         The target workspace is the user's active organization (`users.default_org`); cross-workspace creation names no other workspace in v0.
 
-        A member may own at most a fixed number of drives per workspace (workspaces-design §4.5). A caller at the limit is blocked with `403 DRIVE_LIMIT_REACHED`; this is a hard cap, not a paywall.
+        A space may hold up to its plan's drive limit (workspaces-v2 §4.6; seat-aware for shared drives). A caller at the limit is blocked with `403 DRIVE_LIMIT_REACHED`; the limit is tier-governed, not a hard cap.
       operationId: create_drive_route_v0_drives_post
       parameters:
       - explode: false
@@ -2474,15 +2474,17 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
-      summary: Create a drive in your active workspace
+      summary: Create a drive in your active space
       tags:
       - drives
-  /v0/drives/{drive_id}/keys/rotate:
-    post:
-      description: Generate a fresh `ad_live_` key for a drive you own and invalidate
-        the old one immediately. **Owner only** (404 no-leak otherwise) and requires
-        a `full`-scope user token. The new key is returned **once** — store it now.
-      operationId: rotate_drive_key_route_v0_drives__drive_id__keys_rotate_post
+  /v0/drives/{drive_id}/keys:
+    get:
+      description: "List the `ad_live_` keys for a drive you manage (newest first,\
+        \ including recently-revoked rows — filter on `revoked_at` for live only).\
+        \ **Manager only** (404 no-leak otherwise). A `read`-scope user token may\
+        \ list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata\
+        \ only — the raw key is never returned after mint."
+      operationId: list_drive_keys_route_v0_drives__drive_id__keys_get
       parameters:
       - explode: false
         in: path
@@ -2505,7 +2507,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DriveKeyRotateOut"
+                $ref: "#/components/schemas/DriveApiKeyListOut"
           description: Successful Response
         "422":
           content:
@@ -2513,7 +2515,145 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
-      summary: Rotate a drive's API key
+      summary: List a drive's API keys
+      tags:
+      - drives
+    post:
+      description: "Mint a new `ad_live_` key for a drive you manage — a drive may\
+        \ hold several (one per agent/integration). A `label` (a name for the key)\
+        \ is **required**. **Manager only** (404 no-leak otherwise), `full`-scope\
+        \ user token. The raw key is returned **once** — store it now."
+      operationId: create_drive_key_route_v0_drives__drive_id__keys_post
+      parameters:
+      - explode: false
+        in: path
+        name: drive_id
+        required: true
+        schema:
+          title: Drive Id
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DriveApiKeyCreateIn"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DriveApiKeyCreateOut"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Create a drive API key
+      tags:
+      - drives
+  /v0/drives/{drive_id}/keys/{key_id}/revoke:
+    post:
+      description: "Revoke one `ad_live_` key of a drive you manage — anything using\
+        \ it loses access immediately. **Manager only** (404 no-leak otherwise), `full`-scope\
+        \ user token. Idempotent: revoking an unknown/already-revoked key returns\
+        \ 204 too (no existence oracle)."
+      operationId: revoke_drive_key_route_v0_drives__drive_id__keys__key_id__revoke_post
+      parameters:
+      - explode: false
+        in: path
+        name: drive_id
+        required: true
+        schema:
+          title: Drive Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: key_id
+        required: true
+        schema:
+          title: Key Id
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Revoke a drive API key
+      tags:
+      - drives
+  /v0/drives/{drive_id}/keys/{key_id}/rotate:
+    post:
+      description: "Rotate a single `ad_live_` key: revoke `key_id` and mint a replacement\
+        \ that inherits its label. **Only that key** is affected — the drive's other\
+        \ keys keep working. **Manager only** (404 no-leak otherwise), `full`-scope\
+        \ user token. The new key is returned **once** — store it now. A `key_id`\
+        \ that isn't a live key of this drive is a 404."
+      operationId: rotate_one_key_route_v0_drives__drive_id__keys__key_id__rotate_post
+      parameters:
+      - explode: false
+        in: path
+        name: drive_id
+        required: true
+        schema:
+          title: Drive Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: key_id
+        required: true
+        schema:
+          title: Key Id
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DriveApiKeyCreateOut"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Rotate one API key
       tags:
       - drives
   /v0/members:
@@ -2741,8 +2881,8 @@ paths:
       - members
   /v0/workspaces:
     get:
-      description: "Return every workspace the caller is a member of, each carrying\
-        \ the caller's `role` in it. Metadata only. A `read`-scope token is sufficient."
+      description: "Return every space the caller is a member of, each carrying the\
+        \ caller's `role` in it. Metadata only. A `read`-scope token is sufficient."
       operationId: list_workspaces_route_v0_workspaces_get
       parameters:
       - explode: false
@@ -2766,14 +2906,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
-      summary: List the workspaces you belong to
+      summary: List the spaces you belong to
       tags:
       - workspaces
     post:
       description: |-
-        Create a new **workspace** (the user-facing name for an organization). You become its **admin** and get a starter drive; the starter drive's `ad_live_` key is returned **once** (`starter_drive_api_key`).
+        Create a new **shared drive** — a shared, multi-member space (the `workspaces` path is retained for API stability). You become its **admin** and get a starter drive; the starter drive's `ad_live_` key is returned **once** (`starter_drive_api_key`).
 
-        A user may administer at most a fixed number of workspaces (workspaces-design §4.7). A caller at the limit is blocked with `403 WORKSPACE_LIMIT_REACHED`. Requires a `full`-scope user token.
+        A user may administer up to their plan's number of shared drives (workspaces-v2 §4.6). A caller at the limit is blocked with `403 WORKSPACE_LIMIT_REACHED`. Requires a `full`-scope user token.
       operationId: create_workspace_route_v0_workspaces_post
       parameters:
       - explode: false
@@ -2803,12 +2943,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
-      summary: Create a new workspace
+      summary: Create a new shared drive
       tags:
       - workspaces
   /v0/workspaces/{org_id}:
     patch:
-      description: Rename a workspace. **Admin only** — a workspace you don't administer
+      description: Rename a shared drive. **Admin only** — one you don't administer
         (or aren't a member of) returns 404 (no-leak). Requires a `full`-scope user
         token.
       operationId: rename_workspace_route_v0_workspaces__org_id__patch
@@ -2848,7 +2988,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
-      summary: Rename a workspace you administer
+      summary: Rename a shared drive you administer
       tags:
       - workspaces
   /v0/upload/{token}:
@@ -4966,15 +5106,15 @@ paths:
   /settings/api-keys:
     get:
       description: |-
-        API key tab. Also where reveal_key is rendered after rotation; the
-        reveal is consumed (removed from session) on first read.
+        API key tab. Also where `reveal_key` is rendered once after a key is
+        minted; the reveal is consumed (removed from session) on first read.
 
         Surfaces two credential classes (workspaces-design §5.6):
-          * the drive's `ad_live_` per-drive key (`drive.api_key_prefix`,
-            rotate/delete) — unchanged from v0.
+          * the drive's `ad_live_` per-drive keys (`drive_keys.list_for_drive`) —
+            a drive may hold several, each created/revoked individually.
           * the user's `ad_user_` identity tokens (`user_tokens`, mint/list/
             revoke). Minting reveals the raw token once via the same
-            `reveal_key`-in-session mechanism as the drive key.
+            `reveal_key`-in-session mechanism as the drive keys.
       operationId: settings_api_keys_settings_api_keys_get
       responses:
         "200":
@@ -5212,16 +5352,16 @@ paths:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
       summary: Delete Drive Web
-  /web/drives/{drive_id}/keys/rotate:
+  /web/drives/{drive_id}/keys/create:
     post:
       description: |-
-        Rotate a specific owned drive's `ad_live_` key + reveal once
-        (workspaces-design §5.6). Owner-only (no-leak no-op otherwise).
+        Mint a new `ad_live_` key for a specific owned drive + reveal once
+        (workspaces-design §5.6). Manager-only (no-leak no-op otherwise).
 
-        The per-drive twin of `/web/keys/rotate` (which acts on the active
-        drive). Pins the rotated drive active so the reveal on the api-keys
-        tab shows the key for the drive the user just rotated.
-      operationId: rotate_drive_key_web_web_drives__drive_id__keys_rotate_post
+        The per-drive twin of `/web/keys/create` (which acts on the active
+        drive). Pins the target drive active so the reveal on the api-keys
+        tab shows the key for the drive the user just minted on.
+      operationId: create_drive_key_web_web_drives__drive_id__keys_create_post
       parameters:
       - explode: false
         in: path
@@ -5235,7 +5375,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: "#/components/schemas/Body_rotate_drive_key_web_web_drives__drive_id__keys_rotate_post"
+              $ref: "#/components/schemas/Body_create_drive_key_web_web_drives__drive_id__keys_create_post"
         required: true
       responses:
         "200":
@@ -5249,15 +5389,22 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
-      summary: Rotate Drive Key Web
-  /web/keys/rotate:
+      summary: Create Drive Key Web
+  /web/keys/create:
     post:
-      operationId: rotate_key_web_keys_rotate_post
+      description: |-
+        Mint a new `ad_live_` key for the active drive (reveal-once).
+
+        A drive may hold several keys — this appends one rather than replacing.
+        Management gate (workspaces-v2 §4.4): personal → owner, team → admin.
+        Without it a team MEMBER (who now reaches the shared drive) could mint a
+        shared key. No-leak redirect on non-manage.
+      operationId: create_key_web_keys_create_post
       requestBody:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: "#/components/schemas/Body_rotate_key_web_keys_rotate_post"
+              $ref: "#/components/schemas/Body_create_key_web_keys_create_post"
         required: true
       responses:
         "200":
@@ -5271,15 +5418,22 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
-      summary: Rotate Key
-  /web/keys/delete:
+      summary: Create Key
+  /web/keys/revoke:
     post:
-      operationId: delete_key_web_keys_delete_post
+      description: |-
+        Revoke one of the active drive's `ad_live_` keys.
+
+        Management gate (workspaces-v2 §4.4): revoking a shared drive's key is
+        admin-for-team / owner-for-personal — a mere member must not revoke a key
+        out from under the team. `drive_keys.revoke` is additionally scoped by
+        drive_id, so the form's `key_id` can't reach another drive's key.
+      operationId: revoke_key_web_keys_revoke_post
       requestBody:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: "#/components/schemas/Body_delete_key_web_keys_delete_post"
+              $ref: "#/components/schemas/Body_revoke_key_web_keys_revoke_post"
         required: true
       responses:
         "200":
@@ -5293,7 +5447,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
-      summary: Delete Key
+      summary: Revoke Key
   /web/tokens/create:
     post:
       description: |-
@@ -5590,10 +5744,10 @@ paths:
         (workspaces-design §4.7).
 
         The web (session+CSRF) twin of `POST /v0/workspaces`. A user may
-        administer at most a fixed number of workspaces (`core.entitlements.
-        can_create_workspace`, a hard cap — §4.7/O2); a blocked create bounces to
-        the dashboard with a limit-reached affordance (`?err=workspace_limit`)
-        rather than silently allowing. On success the new workspace + its starter
+        administer up to their plan's number of TEAM workspaces
+        (`core.entitlements.can_create_workspace`, tier-governed — workspaces-v2
+        §4.6); a blocked create bounces to the dashboard with a limit-reached
+        affordance (`?err=workspace_limit`). On success the new workspace + its starter
         drive become active and we land on the api-keys tab so the user sees the
         one-time key reveal.
       operationId: create_workspace_web_web_workspaces_post
@@ -6451,6 +6605,18 @@ components:
       - csrf
       - user_code
       title: Body_claim_complete_agent_identity_claim_complete_post
+    Body_create_drive_key_web_web_drives__drive_id__keys_create_post:
+      properties:
+        label:
+          default: ""
+          title: Label
+          type: string
+        csrf:
+          title: Csrf
+          type: string
+      required:
+      - csrf
+      title: Body_create_drive_key_web_web_drives__drive_id__keys_create_post
     Body_create_drive_web_web_drives_post:
       properties:
         name:
@@ -6463,6 +6629,18 @@ components:
       - csrf
       - name
       title: Body_create_drive_web_web_drives_post
+    Body_create_key_web_keys_create_post:
+      properties:
+        label:
+          default: ""
+          title: Label
+          type: string
+        csrf:
+          title: Csrf
+          type: string
+      required:
+      - csrf
+      title: Body_create_key_web_keys_create_post
     Body_create_user_token_web_tokens_create_post:
       properties:
         label:
@@ -6511,14 +6689,6 @@ components:
       required:
       - csrf
       title: Body_delete_drive_web_web_drives__drive_id__delete_post
-    Body_delete_key_web_keys_delete_post:
-      properties:
-        csrf:
-          title: Csrf
-          type: string
-      required:
-      - csrf
-      title: Body_delete_key_web_keys_delete_post
     Body_delete_workspace_web_web_workspaces__org_id__delete_post:
       properties:
         confirm:
@@ -6695,6 +6865,18 @@ components:
       required:
       - csrf
       title: Body_revoke_invitation_web_web_invitations__invitation_id__revoke_post
+    Body_revoke_key_web_keys_revoke_post:
+      properties:
+        key_id:
+          title: Key Id
+          type: string
+        csrf:
+          title: Csrf
+          type: string
+      required:
+      - csrf
+      - key_id
+      title: Body_revoke_key_web_keys_revoke_post
     Body_revoke_user_token_web_tokens_revoke_post:
       properties:
         token_id:
@@ -6707,22 +6889,6 @@ components:
       - csrf
       - token_id
       title: Body_revoke_user_token_web_tokens_revoke_post
-    Body_rotate_drive_key_web_web_drives__drive_id__keys_rotate_post:
-      properties:
-        csrf:
-          title: Csrf
-          type: string
-      required:
-      - csrf
-      title: Body_rotate_drive_key_web_web_drives__drive_id__keys_rotate_post
-    Body_rotate_key_web_keys_rotate_post:
-      properties:
-        csrf:
-          title: Csrf
-          type: string
-      required:
-      - csrf
-      title: Body_rotate_key_web_keys_rotate_post
     Body_set_member_role_web_web_members__target_user_id__role_post:
       properties:
         role:
@@ -7144,6 +7310,125 @@ components:
       - filename
       - size_bytes
       title: DownloadUrlOut
+    DriveApiKeyCreateIn:
+      description: |-
+        `POST /v0/drives/{id}/keys` body — a required human label (a name for
+        the key, e.g. the agent/integration it's for).
+      example:
+        label: label
+      properties:
+        label:
+          maxLength: 80
+          minLength: 1
+          title: Label
+          type: string
+      required:
+      - label
+      title: DriveApiKeyCreateIn
+    DriveApiKeyCreateOut:
+      description: |-
+        `POST /v0/drives/{id}/keys` response — the new key's metadata PLUS the
+        raw `ad_live_` value, returned **once**. Store `api_key` now; only its hash
+        is persisted.
+      example:
+        id: id
+        api_key: api_key
+        prefix: prefix
+        label: label
+        created_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          title: Id
+          type: string
+        api_key:
+          title: Api Key
+          type: string
+        prefix:
+          title: Prefix
+          type: string
+        label:
+          nullable: true
+          type: string
+        created_at:
+          format: date-time
+          title: Created At
+          type: string
+      required:
+      - api_key
+      - created_at
+      - id
+      - label
+      - prefix
+      title: DriveApiKeyCreateOut
+    DriveApiKeyListOut:
+      description: |-
+        `GET /v0/drives/{id}/keys` response — the drive's keys, newest first,
+        including recently-revoked rows (filter on `revoked_at` for live only).
+      example:
+        keys:
+        - id: id
+          prefix: prefix
+          label: label
+          last_used_at: 2000-01-23T04:56:07.000+00:00
+          created_at: 2000-01-23T04:56:07.000+00:00
+          revoked_at: 2000-01-23T04:56:07.000+00:00
+        - id: id
+          prefix: prefix
+          label: label
+          last_used_at: 2000-01-23T04:56:07.000+00:00
+          created_at: 2000-01-23T04:56:07.000+00:00
+          revoked_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        keys:
+          items:
+            $ref: "#/components/schemas/DriveApiKeyOut"
+          title: Keys
+          type: array
+          default: null
+      required:
+      - keys
+      title: DriveApiKeyListOut
+    DriveApiKeyOut:
+      description: |-
+        One per-drive `ad_live_` key — metadata only (never the raw key or hash).
+        Item shape for `GET /v0/drives/{id}/keys`.
+      example:
+        id: id
+        prefix: prefix
+        label: label
+        last_used_at: 2000-01-23T04:56:07.000+00:00
+        created_at: 2000-01-23T04:56:07.000+00:00
+        revoked_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          title: Id
+          type: string
+        prefix:
+          title: Prefix
+          type: string
+        label:
+          nullable: true
+          type: string
+        last_used_at:
+          format: date-time
+          nullable: true
+          type: string
+        created_at:
+          format: date-time
+          title: Created At
+          type: string
+        revoked_at:
+          format: date-time
+          nullable: true
+          type: string
+      required:
+      - created_at
+      - id
+      - label
+      - last_used_at
+      - prefix
+      - revoked_at
+      title: DriveApiKeyOut
     DriveCreateIn:
       description: |-
         POST /v0/drives body. `name` is the user-facing drive label; the
@@ -7208,24 +7493,6 @@ components:
       - owner_user_id
       - storage_bytes
       title: DriveCreateOut
-    DriveKeyRotateOut:
-      description: |-
-        POST /v0/drives/{id}/keys/rotate response — the rotated drive's new
-        `ad_live_` key, reveal-once. The old key is invalidated immediately.
-      example:
-        id: id
-        api_key: api_key
-      properties:
-        id:
-          title: Id
-          type: string
-        api_key:
-          title: Api Key
-          type: string
-      required:
-      - api_key
-      - id
-      title: DriveKeyRotateOut
     DriveList:
       example:
         items:
@@ -9094,7 +9361,7 @@ components:
       description: |-
         POST /v0/workspaces response. Carries the new workspace + its starter
         drive's `ad_live_` key **once** (`starter_drive_api_key`) — reveal-once,
-        store it now (rotate via `POST /v0/drives/{id}/keys/rotate`).
+        store it now (mint more keys via `POST /v0/drives/{id}/keys`).
       example:
         workspace:
           id: id

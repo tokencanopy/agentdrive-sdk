@@ -1,25 +1,23 @@
 
-# DriveKeyRotateOut
+# DriveApiKeyListOut
 
-POST /v0/drives/{id}/keys/rotate response — the rotated drive\'s new `ad_live_` key, reveal-once. The old key is invalidated immediately.
+`GET /v0/drives/{id}/keys` response — the drive\'s keys, newest first, including recently-revoked rows (filter on `revoked_at` for live only).
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`id` | string
-`apiKey` | string
+`keys` | [Array&lt;DriveApiKeyOut&gt;](DriveApiKeyOut.md)
 
 ## Example
 
 ```typescript
-import type { DriveKeyRotateOut } from '@mnexa-ai/agentdrive-sdk'
+import type { DriveApiKeyListOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "id": null,
-  "apiKey": null,
-} satisfies DriveKeyRotateOut
+  "keys": null,
+} satisfies DriveApiKeyListOut
 
 console.log(example)
 
@@ -28,7 +26,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as DriveKeyRotateOut
+const exampleParsed = JSON.parse(exampleJSON) as DriveApiKeyListOut
 console.log(exampleParsed)
 ```
 

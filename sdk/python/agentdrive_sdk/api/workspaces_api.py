@@ -59,9 +59,9 @@ class WorkspacesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> WorkspaceCreateOut:
-        """Create a new workspace
+        """Create a new shared drive
 
-        Create a new **workspace** (the user-facing name for an organization). You become its **admin** and get a starter drive; the starter drive's `ad_live_` key is returned **once** (`starter_drive_api_key`).  A user may administer at most a fixed number of workspaces (workspaces-design §4.7). A caller at the limit is blocked with `403 WORKSPACE_LIMIT_REACHED`. Requires a `full`-scope user token.
+        Create a new **shared drive** — a shared, multi-member space (the `workspaces` path is retained for API stability). You become its **admin** and get a starter drive; the starter drive's `ad_live_` key is returned **once** (`starter_drive_api_key`).  A user may administer up to their plan's number of shared drives (workspaces-v2 §4.6). A caller at the limit is blocked with `403 WORKSPACE_LIMIT_REACHED`. Requires a `full`-scope user token.
 
         :param workspace_create_in: (required)
         :type workspace_create_in: WorkspaceCreateIn
@@ -131,9 +131,9 @@ class WorkspacesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[WorkspaceCreateOut]:
-        """Create a new workspace
+        """Create a new shared drive
 
-        Create a new **workspace** (the user-facing name for an organization). You become its **admin** and get a starter drive; the starter drive's `ad_live_` key is returned **once** (`starter_drive_api_key`).  A user may administer at most a fixed number of workspaces (workspaces-design §4.7). A caller at the limit is blocked with `403 WORKSPACE_LIMIT_REACHED`. Requires a `full`-scope user token.
+        Create a new **shared drive** — a shared, multi-member space (the `workspaces` path is retained for API stability). You become its **admin** and get a starter drive; the starter drive's `ad_live_` key is returned **once** (`starter_drive_api_key`).  A user may administer up to their plan's number of shared drives (workspaces-v2 §4.6). A caller at the limit is blocked with `403 WORKSPACE_LIMIT_REACHED`. Requires a `full`-scope user token.
 
         :param workspace_create_in: (required)
         :type workspace_create_in: WorkspaceCreateIn
@@ -203,9 +203,9 @@ class WorkspacesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Create a new workspace
+        """Create a new shared drive
 
-        Create a new **workspace** (the user-facing name for an organization). You become its **admin** and get a starter drive; the starter drive's `ad_live_` key is returned **once** (`starter_drive_api_key`).  A user may administer at most a fixed number of workspaces (workspaces-design §4.7). A caller at the limit is blocked with `403 WORKSPACE_LIMIT_REACHED`. Requires a `full`-scope user token.
+        Create a new **shared drive** — a shared, multi-member space (the `workspaces` path is retained for API stability). You become its **admin** and get a starter drive; the starter drive's `ad_live_` key is returned **once** (`starter_drive_api_key`).  A user may administer up to their plan's number of shared drives (workspaces-v2 §4.6). A caller at the limit is blocked with `403 WORKSPACE_LIMIT_REACHED`. Requires a `full`-scope user token.
 
         :param workspace_create_in: (required)
         :type workspace_create_in: WorkspaceCreateIn
@@ -349,9 +349,9 @@ class WorkspacesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> WorkspaceList:
-        """List the workspaces you belong to
+        """List the spaces you belong to
 
-        Return every workspace the caller is a member of, each carrying the caller's `role` in it. Metadata only. A `read`-scope token is sufficient.
+        Return every space the caller is a member of, each carrying the caller's `role` in it. Metadata only. A `read`-scope token is sufficient.
 
         :param authorization:
         :type authorization: str
@@ -417,9 +417,9 @@ class WorkspacesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[WorkspaceList]:
-        """List the workspaces you belong to
+        """List the spaces you belong to
 
-        Return every workspace the caller is a member of, each carrying the caller's `role` in it. Metadata only. A `read`-scope token is sufficient.
+        Return every space the caller is a member of, each carrying the caller's `role` in it. Metadata only. A `read`-scope token is sufficient.
 
         :param authorization:
         :type authorization: str
@@ -485,9 +485,9 @@ class WorkspacesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """List the workspaces you belong to
+        """List the spaces you belong to
 
-        Return every workspace the caller is a member of, each carrying the caller's `role` in it. Metadata only. A `read`-scope token is sufficient.
+        Return every space the caller is a member of, each carrying the caller's `role` in it. Metadata only. A `read`-scope token is sufficient.
 
         :param authorization:
         :type authorization: str
@@ -614,9 +614,9 @@ class WorkspacesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> WorkspaceOut:
-        """Rename a workspace you administer
+        """Rename a shared drive you administer
 
-        Rename a workspace. **Admin only** — a workspace you don't administer (or aren't a member of) returns 404 (no-leak). Requires a `full`-scope user token.
+        Rename a shared drive. **Admin only** — one you don't administer (or aren't a member of) returns 404 (no-leak). Requires a `full`-scope user token.
 
         :param org_id: (required)
         :type org_id: str
@@ -690,9 +690,9 @@ class WorkspacesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[WorkspaceOut]:
-        """Rename a workspace you administer
+        """Rename a shared drive you administer
 
-        Rename a workspace. **Admin only** — a workspace you don't administer (or aren't a member of) returns 404 (no-leak). Requires a `full`-scope user token.
+        Rename a shared drive. **Admin only** — one you don't administer (or aren't a member of) returns 404 (no-leak). Requires a `full`-scope user token.
 
         :param org_id: (required)
         :type org_id: str
@@ -766,9 +766,9 @@ class WorkspacesApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Rename a workspace you administer
+        """Rename a shared drive you administer
 
-        Rename a workspace. **Admin only** — a workspace you don't administer (or aren't a member of) returns 404 (no-leak). Requires a `full`-scope user token.
+        Rename a shared drive. **Admin only** — one you don't administer (or aren't a member of) returns 404 (no-leak). Requires a `full`-scope user token.
 
         :param org_id: (required)
         :type org_id: str
