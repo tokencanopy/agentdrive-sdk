@@ -5,7 +5,7 @@ description: Save and retrieve artifacts via AgentDrive — a personal MCP-backe
 
 # AgentDrive · using AgentDrive as your knowledge layer
 
-AgentDrive is an MCP-accessible drive that gives you a place to stash and retrieve artifacts. Every uploaded artifact gets a public URL, full-text search, and an LLM-extracted summary + entity/concept list. Per-drive `_wiki/` pages aggregate facts across artifacts so you can look up "everything we know about X" without rereading every one.
+AgentDrive is an MCP-accessible drive that gives you a place to stash and retrieve artifacts. Every uploaded artifact gets a public URL and full-text search. (The LLM wiki/indexer subsystem is paused in this deployment — `overview()` returns artifact shape only, and there are no `_wiki/` entity or concept pages to read.)
 
 ## Service map
 
@@ -44,7 +44,7 @@ exact tool names and parameter schemas on connect (`tools/list`) — treat
 that as the source of truth for signatures. This skill covers *when* and
 *how* to use them. The map:
 
-- **Orient** — `overview` for drive stats and shape. Start here to see the knowledge base (top entities/concepts).
+- **Orient** — `overview` for drive stats and shape.
 - **Browse & read** — `list` (filter by prefix / label / file_type),
   `read` (by path or stable `art_…` id, optionally a past version),
   `lookup` (resolve an id ↔ its path + metadata).
@@ -57,7 +57,6 @@ that as the source of truth for signatures. This skill covers *when* and
 - **Versions** — every overwrite keeps history: `versions` lists it,
   `read_version` fetches a past one.
 - **Audit** — `activity` for the recent drive event log.
-- **Wiki** — `wiki_search` / `wiki_ls` / `wiki_grep` over the auto-maintained `_wiki/` entity & concept pages.
 
 Call `tools/list` for exact parameters; reach for the right tool using
 the conventions and patterns below.
@@ -85,9 +84,9 @@ the conventions and patterns below.
 
 - **Content type.** Inferred from the path extension if omitted. For markdown, set `content_type: "text/markdown"` so the viewer renders it as a styled page instead of plain text.
 
-- **Auto-indexing.** Every upload goes through the LLM indexer in the background. Within a few seconds the artifact gets a `llm_index` populated with `{summary, outline, entities, concepts}`, and the per-drive `_wiki/` aggregates update — entities you mentioned (people, orgs, products, places) show up at `_wiki/entities/{slug}.md`; concepts at `_wiki/concepts/{slug}.md`.
+- **No auto-indexing in this deployment.** Uploads are stored, made searchable via Postgres FTS, and served at the public URL. No LLM extraction runs; no wiki pages are generated.
 
-- **Idempotent re-upload.** Re-uploading the same path overwrites in place. Same content (same hash) is a no-op for the indexer (it dedupes on `(drive, path, hash)`).
+- **Idempotent re-upload.** Re-uploading the same path overwrites in place.
 
 ## Patterns
 
@@ -104,40 +103,35 @@ upload(
 
 ### Looking up prior context
 
-Always start with `overview()`:
+`overview()` gives you the folder shape:
 
 ```
 o = overview()
-# o["top_entities"] → list of {name, slug, summary, mention_count, url}
-# o["top_concepts"] → same shape
-# o["by_folder"]    → {"reports": 5, "datasets": 3, ...}
-# o["recent_activity"] → last few indexing events
+# o["by_folder"] → {"reports": 5, "datasets": 3, ...}
+# o["stats"]     → {"artifacts": N, "entities": 0, "concepts": 0}
 ```
 
-Then narrow with `search` (or `grep`), or hop directly to a wiki page:
+Then narrow with `search` for ranked full-text matching, or `grep` for literal patterns; `read` the hits:
 
 ```
-# What do we know about Acme Industries?
-acme_page = read("_wiki/entities/acme-industries.md")
-# Returns the wiki page listing every fact about Acme + links to the source artifacts.
-
 # Natural-language ranked search across all artifacts
 hits = search("brand voice OR tone of voice", prefix="reports/")
 for h in hits["items"]:
     body = read(h["path"])
     # ... synthesize
+
+# Literal pattern (regex, exact symbols) — different tool, different job
+hits = grep("TODO\\(security\\):", prefix="code/")
 ```
 
-### Cross-referencing entities
-
-Wiki pages are themselves artifacts — they show up in `list(prefix="_wiki/")` and link back to the source artifacts they were extracted from. When working with an entity, follow the back-links to grab full context.
+Entity/concept aggregation is not available in this deployment — synthesize from the source artifacts themselves.
 
 ## Constraints
 
 - **Max artifact size:** 50 MB per upload (`ARTIFACT_TOO_LARGE` error above that).
 - **Max path length:** 256 chars; allowed chars `[A-Za-z0-9_./-]` only (no spaces, no Unicode, no `+` or `=`).
 - **Per-drive storage:** 500 MB default (v0 free tier). Check `overview().stats` for usage.
-- **Indexer rate limits:** Gemini-backed; if the user uploads many large artifacts quickly, indexing falls behind but uploads always succeed (the wiki catches up in the background).## Anti-patterns
+## Anti-patterns
 
 - Don't upload temporary scratch state every turn — the drive is for things worth keeping. Use your own context for working memory.
 - Don't write to `_wiki/` — that path is reserved and returns `WIKI_RESERVED` if you try.
