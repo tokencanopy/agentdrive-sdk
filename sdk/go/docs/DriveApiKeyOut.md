@@ -6,16 +6,16 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **string** |  | 
 **Prefix** | **string** |  | 
-**Label** | **NullableString** |  | 
-**LastUsedAt** | **NullableTime** |  | 
+**Label** | Pointer to **NullableString** |  | [optional] 
+**LastUsedAt** | Pointer to **NullableTime** |  | [optional] 
 **CreatedAt** | **time.Time** |  | 
-**RevokedAt** | **NullableTime** |  | 
+**RevokedAt** | Pointer to **NullableTime** |  | [optional] 
 
 ## Methods
 
 ### NewDriveApiKeyOut
 
-`func NewDriveApiKeyOut(id string, prefix string, label NullableString, lastUsedAt NullableTime, createdAt time.Time, revokedAt NullableTime, ) *DriveApiKeyOut`
+`func NewDriveApiKeyOut(id string, prefix string, createdAt time.Time, ) *DriveApiKeyOut`
 
 NewDriveApiKeyOut instantiates a new DriveApiKeyOut object
 This constructor will assign default values to properties that have it defined,
@@ -89,6 +89,11 @@ and a boolean to check if the value has been set.
 
 SetLabel sets Label field to given value.
 
+### HasLabel
+
+`func (o *DriveApiKeyOut) HasLabel() bool`
+
+HasLabel returns a boolean if a field has been set.
 
 ### SetLabelNil
 
@@ -119,6 +124,11 @@ and a boolean to check if the value has been set.
 
 SetLastUsedAt sets LastUsedAt field to given value.
 
+### HasLastUsedAt
+
+`func (o *DriveApiKeyOut) HasLastUsedAt() bool`
+
+HasLastUsedAt returns a boolean if a field has been set.
 
 ### SetLastUsedAtNil
 
@@ -169,6 +179,11 @@ and a boolean to check if the value has been set.
 
 SetRevokedAt sets RevokedAt field to given value.
 
+### HasRevokedAt
+
+`func (o *DriveApiKeyOut) HasRevokedAt() bool`
+
+HasRevokedAt returns a boolean if a field has been set.
 
 ### SetRevokedAtNil
 

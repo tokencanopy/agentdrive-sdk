@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **items** | [**List[WorkspaceOut]**](WorkspaceOut.md) |  | 
+**next_cursor** | **str** |  | [optional] 
 
 ## Example
 

@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **items** | [**List[GrantOut]**](GrantOut.md) |  | 
+**next_cursor** | **str** |  | [optional] 
 
 ## Example
 

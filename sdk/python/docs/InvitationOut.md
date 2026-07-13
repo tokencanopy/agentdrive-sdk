@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **email** | **str** |  | 
 **role** | **str** |  | 
 **status** | **str** |  | 
-**invited_by** | **str** |  | 
+**invited_by** | **str** |  | [optional] 
 **expires_at** | **datetime** |  | 
 **created_at** | **datetime** |  | 
 

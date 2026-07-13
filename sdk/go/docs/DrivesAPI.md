@@ -158,7 +158,7 @@ No authorization required
 
 ## ListDriveKeysRouteV0DrivesDriveIdKeysGet
 
-> DriveApiKeyListOut ListDriveKeysRouteV0DrivesDriveIdKeysGet(ctx, driveId).Authorization(authorization).Execute()
+> DriveApiKeyListOut ListDriveKeysRouteV0DrivesDriveIdKeysGet(ctx, driveId).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
 
 List a drive's API keys
 
@@ -178,11 +178,13 @@ import (
 
 func main() {
 	driveId := "driveId_example" // string | 
+	cursor := "cursor_example" // string |  (optional)
+	limit := int32(56) // int32 |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DrivesAPI.ListDriveKeysRouteV0DrivesDriveIdKeysGet(context.Background(), driveId).Authorization(authorization).Execute()
+	resp, r, err := apiClient.DrivesAPI.ListDriveKeysRouteV0DrivesDriveIdKeysGet(context.Background(), driveId).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DrivesAPI.ListDriveKeysRouteV0DrivesDriveIdKeysGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -208,6 +210,8 @@ Other parameters are passed through a pointer to a apiListDriveKeysRouteV0Drives
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+ **cursor** | **string** |  | 
+ **limit** | **int32** |  | 
  **authorization** | **string** |  | 
 
 ### Return type
@@ -230,7 +234,7 @@ No authorization required
 
 ## ListDrivesRouteV0DrivesGet
 
-> DriveList ListDrivesRouteV0DrivesGet(ctx).Authorization(authorization).Execute()
+> DriveList ListDrivesRouteV0DrivesGet(ctx).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
 
 List the drives you can see
 
@@ -249,11 +253,13 @@ import (
 )
 
 func main() {
+	cursor := "cursor_example" // string |  (optional)
+	limit := int32(56) // int32 |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DrivesAPI.ListDrivesRouteV0DrivesGet(context.Background()).Authorization(authorization).Execute()
+	resp, r, err := apiClient.DrivesAPI.ListDrivesRouteV0DrivesGet(context.Background()).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DrivesAPI.ListDrivesRouteV0DrivesGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -274,6 +280,8 @@ Other parameters are passed through a pointer to a apiListDrivesRouteV0DrivesGet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **cursor** | **string** |  | 
+ **limit** | **int32** |  | 
  **authorization** | **string** |  | 
 
 ### Return type

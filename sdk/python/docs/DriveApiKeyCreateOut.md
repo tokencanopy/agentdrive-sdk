@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **id** | **str** |  | 
 **api_key** | **str** |  | 
 **prefix** | **str** |  | 
-**label** | **str** |  | 
+**label** | **str** |  | [optional] 
 **created_at** | **datetime** |  | 
 
 ## Example

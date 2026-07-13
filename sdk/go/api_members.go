@@ -155,7 +155,19 @@ func (a *MembersAPIService) InviteMemberV0MembersInvitePostExecute(r ApiInviteMe
 type ApiListInvitationsV0InvitationsGetRequest struct {
 	ctx context.Context
 	ApiService *MembersAPIService
+	cursor *string
+	limit *int32
 	authorization *string
+}
+
+func (r ApiListInvitationsV0InvitationsGetRequest) Cursor(cursor string) ApiListInvitationsV0InvitationsGetRequest {
+	r.cursor = &cursor
+	return r
+}
+
+func (r ApiListInvitationsV0InvitationsGetRequest) Limit(limit int32) ApiListInvitationsV0InvitationsGetRequest {
+	r.limit = &limit
+	return r
 }
 
 func (r ApiListInvitationsV0InvitationsGetRequest) Authorization(authorization string) ApiListInvitationsV0InvitationsGetRequest {
@@ -171,6 +183,8 @@ func (r ApiListInvitationsV0InvitationsGetRequest) Execute() (*InvitationList, *
 ListInvitationsV0InvitationsGet List pending invitations
 
 List the pending invitations for the caller's active workspace. **Admin only.** Metadata only — the raw invite token is never surfaced.
+
+Newest first (`created_at` descending, tie-broken by `id`). Paginated: `limit` is clamped to [1, 100] (default 50, never a 422); pass the response's `next_cursor` back as `cursor` for the next page (`null` when the listing is complete).
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiListInvitationsV0InvitationsGetRequest
@@ -203,6 +217,12 @@ func (a *MembersAPIService) ListInvitationsV0InvitationsGetExecute(r ApiListInvi
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.cursor != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
+	}
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -273,7 +293,19 @@ func (a *MembersAPIService) ListInvitationsV0InvitationsGetExecute(r ApiListInvi
 type ApiListMembersV0MembersGetRequest struct {
 	ctx context.Context
 	ApiService *MembersAPIService
+	cursor *string
+	limit *int32
 	authorization *string
+}
+
+func (r ApiListMembersV0MembersGetRequest) Cursor(cursor string) ApiListMembersV0MembersGetRequest {
+	r.cursor = &cursor
+	return r
+}
+
+func (r ApiListMembersV0MembersGetRequest) Limit(limit int32) ApiListMembersV0MembersGetRequest {
+	r.limit = &limit
+	return r
 }
 
 func (r ApiListMembersV0MembersGetRequest) Authorization(authorization string) ApiListMembersV0MembersGetRequest {
@@ -289,6 +321,8 @@ func (r ApiListMembersV0MembersGetRequest) Execute() (*MemberList, *http.Respons
 ListMembersV0MembersGet List the members of your active workspace
 
 List live members (email, role, joined-at) of the caller's active workspace. Any **member** may list; a `read`-scope token is sufficient.
+
+Ordered by join time (`created_at`, tie-broken by `user_id`) — **no role grouping is promised**; a dashboard that wants admins-first sorts client-side. Paginated: `limit` is clamped to [1, 100] (default 50, never a 422); pass the response's `next_cursor` back as `cursor` for the next page (`null` when the listing is complete).
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiListMembersV0MembersGetRequest
@@ -321,6 +355,12 @@ func (a *MembersAPIService) ListMembersV0MembersGetExecute(r ApiListMembersV0Mem
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.cursor != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
+	}
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -392,7 +432,13 @@ type ApiRemoveMemberV0MembersTargetUserIdDeleteRequest struct {
 	ctx context.Context
 	ApiService *MembersAPIService
 	targetUserId string
+	confirm *string
 	authorization *string
+}
+
+func (r ApiRemoveMemberV0MembersTargetUserIdDeleteRequest) Confirm(confirm string) ApiRemoveMemberV0MembersTargetUserIdDeleteRequest {
+	r.confirm = &confirm
+	return r
 }
 
 func (r ApiRemoveMemberV0MembersTargetUserIdDeleteRequest) Authorization(authorization string) ApiRemoveMemberV0MembersTargetUserIdDeleteRequest {
@@ -400,7 +446,7 @@ func (r ApiRemoveMemberV0MembersTargetUserIdDeleteRequest) Authorization(authori
 	return r
 }
 
-func (r ApiRemoveMemberV0MembersTargetUserIdDeleteRequest) Execute() (interface{}, *http.Response, error) {
+func (r ApiRemoveMemberV0MembersTargetUserIdDeleteRequest) Execute() (*MemberRemoveOut, *http.Response, error) {
 	return r.ApiService.RemoveMemberV0MembersTargetUserIdDeleteExecute(r)
 }
 
@@ -408,6 +454,10 @@ func (r ApiRemoveMemberV0MembersTargetUserIdDeleteRequest) Execute() (interface{
 RemoveMemberV0MembersTargetUserIdDelete Remove a member (or leave)
 
 Remove a member from the caller's active workspace, soft-deleting every drive that member owns there (workspaces-design §4.4 — no ownership transfer in v0; their `ad_live_` keys then stop working). **Admin** may remove anyone; **any member** may remove themselves (self-leave). `full` scope. Removing the **last/sole admin** is rejected with 409 `LAST_ADMIN` (promote someone first, or delete the workspace).
+
+**Explicit confirmation required:** pass `?confirm=DELETE` or the request is rejected with 400 `CONFIRM_REQUIRED` — removal cascades a soft-delete of every drive the member owns, so it carries tenant-level blast radius (uniform with `DELETE /v0/drives/{id}`).
+
+Deliberately takes NO `If-Match`: membership rows carry no generation/metageneration axis to pin (there is no ETag to echo), so `?confirm=DELETE` is the sole mutation guard here.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param targetUserId
@@ -422,13 +472,13 @@ func (a *MembersAPIService) RemoveMemberV0MembersTargetUserIdDelete(ctx context.
 }
 
 // Execute executes the request
-//  @return interface{}
-func (a *MembersAPIService) RemoveMemberV0MembersTargetUserIdDeleteExecute(r ApiRemoveMemberV0MembersTargetUserIdDeleteRequest) (interface{}, *http.Response, error) {
+//  @return MemberRemoveOut
+func (a *MembersAPIService) RemoveMemberV0MembersTargetUserIdDeleteExecute(r ApiRemoveMemberV0MembersTargetUserIdDeleteRequest) (*MemberRemoveOut, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  interface{}
+		localVarReturnValue  *MemberRemoveOut
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MembersAPIService.RemoveMemberV0MembersTargetUserIdDelete")
@@ -443,6 +493,9 @@ func (a *MembersAPIService) RemoveMemberV0MembersTargetUserIdDeleteExecute(r Api
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.confirm != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "confirm", r.confirm, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -522,14 +575,14 @@ func (r ApiRevokeInvitationV0InvitationsInvitationIdDeleteRequest) Authorization
 	return r
 }
 
-func (r ApiRevokeInvitationV0InvitationsInvitationIdDeleteRequest) Execute() (interface{}, *http.Response, error) {
+func (r ApiRevokeInvitationV0InvitationsInvitationIdDeleteRequest) Execute() (*RevokeOut, *http.Response, error) {
 	return r.ApiService.RevokeInvitationV0InvitationsInvitationIdDeleteExecute(r)
 }
 
 /*
 RevokeInvitationV0InvitationsInvitationIdDelete Revoke a pending invitation
 
-Revoke a pending invitation in the caller's active workspace. **Admin only**, `full` scope. Org-scoped + idempotent: a forged id, an invite from another workspace, or an already-consumed invite all return 404 (no-leak).
+Revoke a pending invitation in the caller's active workspace. **Admin only**, `full` scope. Org-scoped + idempotent: `revoked` is a COUNT — 1 when a live invite was revoked, 0 when it was already gone (a forged id, an invite from another workspace, or an already-consumed invite all return `revoked: 0`, no-leak).
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param invitationId
@@ -544,13 +597,13 @@ func (a *MembersAPIService) RevokeInvitationV0InvitationsInvitationIdDelete(ctx 
 }
 
 // Execute executes the request
-//  @return interface{}
-func (a *MembersAPIService) RevokeInvitationV0InvitationsInvitationIdDeleteExecute(r ApiRevokeInvitationV0InvitationsInvitationIdDeleteRequest) (interface{}, *http.Response, error) {
+//  @return RevokeOut
+func (a *MembersAPIService) RevokeInvitationV0InvitationsInvitationIdDeleteExecute(r ApiRevokeInvitationV0InvitationsInvitationIdDeleteRequest) (*RevokeOut, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  interface{}
+		localVarReturnValue  *RevokeOut
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MembersAPIService.RevokeInvitationV0InvitationsInvitationIdDelete")

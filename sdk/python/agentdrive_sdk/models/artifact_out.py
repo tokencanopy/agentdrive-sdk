@@ -39,6 +39,8 @@ class ArtifactOut(BaseModel):
     size_bytes: StrictInt
     hash: StrictStr
     version_number: Optional[StrictInt] = 1
+    metageneration: Optional[StrictInt] = 1
+    etag: StrictStr
     labels: Optional[List[StrictStr]] = None
     metadata: Optional[Dict[str, Any]] = None
     source: Optional[ArtifactSource] = None
@@ -47,7 +49,7 @@ class ArtifactOut(BaseModel):
     created_at: datetime
     updated_at: datetime
     llm_index: Optional[Dict[str, Any]] = None
-    __properties: ClassVar[List[str]] = ["id", "drive_id", "path", "url", "permalink", "content_type", "file_type", "size_bytes", "hash", "version_number", "labels", "metadata", "source", "indexed_at", "embedded_at", "created_at", "updated_at", "llm_index"]
+    __properties: ClassVar[List[str]] = ["id", "drive_id", "path", "url", "permalink", "content_type", "file_type", "size_bytes", "hash", "version_number", "metageneration", "etag", "labels", "metadata", "source", "indexed_at", "embedded_at", "created_at", "updated_at", "llm_index"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -133,6 +135,8 @@ class ArtifactOut(BaseModel):
             "size_bytes": obj.get("size_bytes"),
             "hash": obj.get("hash"),
             "version_number": obj.get("version_number") if obj.get("version_number") is not None else 1,
+            "metageneration": obj.get("metageneration") if obj.get("metageneration") is not None else 1,
+            "etag": obj.get("etag"),
             "labels": obj.get("labels"),
             "metadata": obj.get("metadata"),
             "source": ArtifactSource.from_dict(obj["source"]) if obj.get("source") is not None else None,

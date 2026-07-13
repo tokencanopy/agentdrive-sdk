@@ -14,32 +14,35 @@
 
 import { mapValues } from '../runtime';
 /**
- * PATCH /v0/artifacts/{art_id} body — rename / move.
+ * POST /v0/artifacts/{art_id}/move body — rename / move to a new
+ * path on the same drive. Mirrors `FolderMoveIn`; its own schema (vs.
+ * reusing another body) keeps the move surface self-documenting in the
+ * OpenAPI spec.
  * @export
- * @interface RenameIn
+ * @interface ArtifactMoveIn
  */
-export interface RenameIn {
+export interface ArtifactMoveIn {
     /**
      * 
      * @type {string}
-     * @memberof RenameIn
+     * @memberof ArtifactMoveIn
      */
     path: string;
 }
 
 /**
- * Check if a given object implements the RenameIn interface.
+ * Check if a given object implements the ArtifactMoveIn interface.
  */
-export function instanceOfRenameIn(value: object): value is RenameIn {
+export function instanceOfArtifactMoveIn(value: object): value is ArtifactMoveIn {
     if (!('path' in value) || value['path'] === undefined) return false;
     return true;
 }
 
-export function RenameInFromJSON(json: any): RenameIn {
-    return RenameInFromJSONTyped(json, false);
+export function ArtifactMoveInFromJSON(json: any): ArtifactMoveIn {
+    return ArtifactMoveInFromJSONTyped(json, false);
 }
 
-export function RenameInFromJSONTyped(json: any, ignoreDiscriminator: boolean): RenameIn {
+export function ArtifactMoveInFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArtifactMoveIn {
     if (json == null) {
         return json;
     }
@@ -49,11 +52,11 @@ export function RenameInFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     };
 }
 
-export function RenameInToJSON(json: any): RenameIn {
-    return RenameInToJSONTyped(json, false);
+export function ArtifactMoveInToJSON(json: any): ArtifactMoveIn {
+    return ArtifactMoveInToJSONTyped(json, false);
 }
 
-export function RenameInToJSONTyped(value?: RenameIn | null, ignoreDiscriminator: boolean = false): any {
+export function ArtifactMoveInToJSONTyped(value?: ArtifactMoveIn | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

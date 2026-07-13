@@ -50,6 +50,8 @@ export interface CreateWorkspaceRouteV0WorkspacesPostRequest {
 }
 
 export interface ListWorkspacesRouteV0WorkspacesGetRequest {
+    cursor?: string | null;
+    limit?: number | null;
     authorization?: string | null;
 }
 
@@ -123,6 +125,14 @@ export class WorkspacesApi extends runtime.BaseAPI {
     async listWorkspacesRouteV0WorkspacesGetRequestOpts(requestParameters: ListWorkspacesRouteV0WorkspacesGetRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
+        if (requestParameters['cursor'] != null) {
+            queryParameters['cursor'] = requestParameters['cursor'];
+        }
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (requestParameters['authorization'] != null) {
@@ -141,7 +151,7 @@ export class WorkspacesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Return every space the caller is a member of, each carrying the caller\'s `role` in it. Metadata only. A `read`-scope token is sufficient.
+     * Return every space the caller is a member of, each carrying the caller\'s `role` in it. Metadata only. A `read`-scope token is sufficient.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
      * List the spaces you belong to
      */
     async listWorkspacesRouteV0WorkspacesGetRaw(requestParameters: ListWorkspacesRouteV0WorkspacesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkspaceList>> {
@@ -152,7 +162,7 @@ export class WorkspacesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Return every space the caller is a member of, each carrying the caller\'s `role` in it. Metadata only. A `read`-scope token is sufficient.
+     * Return every space the caller is a member of, each carrying the caller\'s `role` in it. Metadata only. A `read`-scope token is sufficient.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
      * List the spaces you belong to
      */
     async listWorkspacesRouteV0WorkspacesGet(requestParameters: ListWorkspacesRouteV0WorkspacesGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<WorkspaceList> {

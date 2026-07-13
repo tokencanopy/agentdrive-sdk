@@ -31,6 +31,7 @@ type UploadBeginIn struct {
 	ActorName NullableString `json:"actor_name,omitempty"`
 	ChangeSummary NullableString `json:"change_summary,omitempty"`
 	IfMatch NullableInt32 `json:"if_match,omitempty"`
+	IfNoneMatch *bool `json:"if_none_match,omitempty"`
 	// Web origin (scheme://host[:port]) of the browser that will PUT the bytes, e.g. `https://app.example.com`. Set this when the `upload_url` is handed to browser code: GCS binds CORS at session initiate, so the returned session only echoes `Access-Control-Allow-Origin` (and is thus PUT-able from a browser) when opened with the caller's origin. A trusted backend relaying a browser upload forwards the browser's `Origin` here. Omit for server/desktop uploads (no CORS enforcement).
 	CorsOrigin NullableString `json:"cors_origin,omitempty"`
 }
@@ -47,6 +48,8 @@ func NewUploadBeginIn(path string, sizeBytes int32) *UploadBeginIn {
 	var contentType string = "application/octet-stream"
 	this.ContentType = &contentType
 	this.SizeBytes = sizeBytes
+	var ifNoneMatch bool = false
+	this.IfNoneMatch = &ifNoneMatch
 	return &this
 }
 
@@ -57,6 +60,8 @@ func NewUploadBeginInWithDefaults() *UploadBeginIn {
 	this := UploadBeginIn{}
 	var contentType string = "application/octet-stream"
 	this.ContentType = &contentType
+	var ifNoneMatch bool = false
+	this.IfNoneMatch = &ifNoneMatch
 	return &this
 }
 
@@ -416,6 +421,38 @@ func (o *UploadBeginIn) UnsetIfMatch() {
 	o.IfMatch.Unset()
 }
 
+// GetIfNoneMatch returns the IfNoneMatch field value if set, zero value otherwise.
+func (o *UploadBeginIn) GetIfNoneMatch() bool {
+	if o == nil || IsNil(o.IfNoneMatch) {
+		var ret bool
+		return ret
+	}
+	return *o.IfNoneMatch
+}
+
+// GetIfNoneMatchOk returns a tuple with the IfNoneMatch field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *UploadBeginIn) GetIfNoneMatchOk() (*bool, bool) {
+	if o == nil || IsNil(o.IfNoneMatch) {
+		return nil, false
+	}
+	return o.IfNoneMatch, true
+}
+
+// HasIfNoneMatch returns a boolean if a field has been set.
+func (o *UploadBeginIn) HasIfNoneMatch() bool {
+	if o != nil && !IsNil(o.IfNoneMatch) {
+		return true
+	}
+
+	return false
+}
+
+// SetIfNoneMatch gets a reference to the given bool and assigns it to the IfNoneMatch field.
+func (o *UploadBeginIn) SetIfNoneMatch(v bool) {
+	o.IfNoneMatch = &v
+}
+
 // GetCorsOrigin returns the CorsOrigin field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *UploadBeginIn) GetCorsOrigin() string {
 	if o == nil || IsNil(o.CorsOrigin.Get()) {
@@ -493,6 +530,9 @@ func (o UploadBeginIn) ToMap() (map[string]interface{}, error) {
 	}
 	if o.IfMatch.IsSet() {
 		toSerialize["if_match"] = o.IfMatch.Get()
+	}
+	if !IsNil(o.IfNoneMatch) {
+		toSerialize["if_none_match"] = o.IfNoneMatch
 	}
 	if o.CorsOrigin.IsSet() {
 		toSerialize["cors_origin"] = o.CorsOrigin.Get()

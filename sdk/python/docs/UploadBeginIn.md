@@ -16,6 +16,7 @@ Name | Type | Description | Notes
 **actor_name** | **str** |  | [optional] 
 **change_summary** | **str** |  | [optional] 
 **if_match** | **int** |  | [optional] 
+**if_none_match** | **bool** |  | [optional] [default to False]
 **cors_origin** | **str** | Web origin (scheme://host[:port]) of the browser that will PUT the bytes, e.g. &#x60;https://app.example.com&#x60;. Set this when the &#x60;upload_url&#x60; is handed to browser code: GCS binds CORS at session initiate, so the returned session only echoes &#x60;Access-Control-Allow-Origin&#x60; (and is thus PUT-able from a browser) when opened with the caller&#39;s origin. A trusted backend relaying a browser upload forwards the browser&#39;s &#x60;Origin&#x60; here. Omit for server/desktop uploads (no CORS enforcement). | [optional] 
 
 ## Example

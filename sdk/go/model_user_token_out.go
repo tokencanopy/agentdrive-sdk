@@ -24,13 +24,13 @@ var _ MappedNullable = &UserTokenOut{}
 type UserTokenOut struct {
 	Id string `json:"id"`
 	Prefix string `json:"prefix"`
-	Label NullableString `json:"label"`
+	Label NullableString `json:"label,omitempty"`
 	Scope string `json:"scope"`
-	DefaultDriveId NullableString `json:"default_drive_id"`
-	LastUsedAt NullableTime `json:"last_used_at"`
-	ExpiresAt NullableTime `json:"expires_at"`
+	DefaultDriveId NullableString `json:"default_drive_id,omitempty"`
+	LastUsedAt NullableTime `json:"last_used_at,omitempty"`
+	ExpiresAt NullableTime `json:"expires_at,omitempty"`
 	CreatedAt time.Time `json:"created_at"`
-	RevokedAt NullableTime `json:"revoked_at"`
+	RevokedAt NullableTime `json:"revoked_at,omitempty"`
 }
 
 type _UserTokenOut UserTokenOut
@@ -39,17 +39,12 @@ type _UserTokenOut UserTokenOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUserTokenOut(id string, prefix string, label NullableString, scope string, defaultDriveId NullableString, lastUsedAt NullableTime, expiresAt NullableTime, createdAt time.Time, revokedAt NullableTime) *UserTokenOut {
+func NewUserTokenOut(id string, prefix string, scope string, createdAt time.Time) *UserTokenOut {
 	this := UserTokenOut{}
 	this.Id = id
 	this.Prefix = prefix
-	this.Label = label
 	this.Scope = scope
-	this.DefaultDriveId = defaultDriveId
-	this.LastUsedAt = lastUsedAt
-	this.ExpiresAt = expiresAt
 	this.CreatedAt = createdAt
-	this.RevokedAt = revokedAt
 	return &this
 }
 
@@ -109,18 +104,16 @@ func (o *UserTokenOut) SetPrefix(v string) {
 	o.Prefix = v
 }
 
-// GetLabel returns the Label field value
-// If the value is explicit nil, the zero value for string will be returned
+// GetLabel returns the Label field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *UserTokenOut) GetLabel() string {
-	if o == nil || o.Label.Get() == nil {
+	if o == nil || IsNil(o.Label.Get()) {
 		var ret string
 		return ret
 	}
-
 	return *o.Label.Get()
 }
 
-// GetLabelOk returns a tuple with the Label field value
+// GetLabelOk returns a tuple with the Label field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *UserTokenOut) GetLabelOk() (*string, bool) {
@@ -130,9 +123,27 @@ func (o *UserTokenOut) GetLabelOk() (*string, bool) {
 	return o.Label.Get(), o.Label.IsSet()
 }
 
-// SetLabel sets field value
+// HasLabel returns a boolean if a field has been set.
+func (o *UserTokenOut) HasLabel() bool {
+	if o != nil && o.Label.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetLabel gets a reference to the given NullableString and assigns it to the Label field.
 func (o *UserTokenOut) SetLabel(v string) {
 	o.Label.Set(&v)
+}
+// SetLabelNil sets the value for Label to be an explicit nil
+func (o *UserTokenOut) SetLabelNil() {
+	o.Label.Set(nil)
+}
+
+// UnsetLabel ensures that no value is present for Label, not even an explicit nil
+func (o *UserTokenOut) UnsetLabel() {
+	o.Label.Unset()
 }
 
 // GetScope returns the Scope field value
@@ -159,18 +170,16 @@ func (o *UserTokenOut) SetScope(v string) {
 	o.Scope = v
 }
 
-// GetDefaultDriveId returns the DefaultDriveId field value
-// If the value is explicit nil, the zero value for string will be returned
+// GetDefaultDriveId returns the DefaultDriveId field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *UserTokenOut) GetDefaultDriveId() string {
-	if o == nil || o.DefaultDriveId.Get() == nil {
+	if o == nil || IsNil(o.DefaultDriveId.Get()) {
 		var ret string
 		return ret
 	}
-
 	return *o.DefaultDriveId.Get()
 }
 
-// GetDefaultDriveIdOk returns a tuple with the DefaultDriveId field value
+// GetDefaultDriveIdOk returns a tuple with the DefaultDriveId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *UserTokenOut) GetDefaultDriveIdOk() (*string, bool) {
@@ -180,23 +189,39 @@ func (o *UserTokenOut) GetDefaultDriveIdOk() (*string, bool) {
 	return o.DefaultDriveId.Get(), o.DefaultDriveId.IsSet()
 }
 
-// SetDefaultDriveId sets field value
+// HasDefaultDriveId returns a boolean if a field has been set.
+func (o *UserTokenOut) HasDefaultDriveId() bool {
+	if o != nil && o.DefaultDriveId.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetDefaultDriveId gets a reference to the given NullableString and assigns it to the DefaultDriveId field.
 func (o *UserTokenOut) SetDefaultDriveId(v string) {
 	o.DefaultDriveId.Set(&v)
 }
+// SetDefaultDriveIdNil sets the value for DefaultDriveId to be an explicit nil
+func (o *UserTokenOut) SetDefaultDriveIdNil() {
+	o.DefaultDriveId.Set(nil)
+}
 
-// GetLastUsedAt returns the LastUsedAt field value
-// If the value is explicit nil, the zero value for time.Time will be returned
+// UnsetDefaultDriveId ensures that no value is present for DefaultDriveId, not even an explicit nil
+func (o *UserTokenOut) UnsetDefaultDriveId() {
+	o.DefaultDriveId.Unset()
+}
+
+// GetLastUsedAt returns the LastUsedAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *UserTokenOut) GetLastUsedAt() time.Time {
-	if o == nil || o.LastUsedAt.Get() == nil {
+	if o == nil || IsNil(o.LastUsedAt.Get()) {
 		var ret time.Time
 		return ret
 	}
-
 	return *o.LastUsedAt.Get()
 }
 
-// GetLastUsedAtOk returns a tuple with the LastUsedAt field value
+// GetLastUsedAtOk returns a tuple with the LastUsedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *UserTokenOut) GetLastUsedAtOk() (*time.Time, bool) {
@@ -206,23 +231,39 @@ func (o *UserTokenOut) GetLastUsedAtOk() (*time.Time, bool) {
 	return o.LastUsedAt.Get(), o.LastUsedAt.IsSet()
 }
 
-// SetLastUsedAt sets field value
+// HasLastUsedAt returns a boolean if a field has been set.
+func (o *UserTokenOut) HasLastUsedAt() bool {
+	if o != nil && o.LastUsedAt.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetLastUsedAt gets a reference to the given NullableTime and assigns it to the LastUsedAt field.
 func (o *UserTokenOut) SetLastUsedAt(v time.Time) {
 	o.LastUsedAt.Set(&v)
 }
+// SetLastUsedAtNil sets the value for LastUsedAt to be an explicit nil
+func (o *UserTokenOut) SetLastUsedAtNil() {
+	o.LastUsedAt.Set(nil)
+}
 
-// GetExpiresAt returns the ExpiresAt field value
-// If the value is explicit nil, the zero value for time.Time will be returned
+// UnsetLastUsedAt ensures that no value is present for LastUsedAt, not even an explicit nil
+func (o *UserTokenOut) UnsetLastUsedAt() {
+	o.LastUsedAt.Unset()
+}
+
+// GetExpiresAt returns the ExpiresAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *UserTokenOut) GetExpiresAt() time.Time {
-	if o == nil || o.ExpiresAt.Get() == nil {
+	if o == nil || IsNil(o.ExpiresAt.Get()) {
 		var ret time.Time
 		return ret
 	}
-
 	return *o.ExpiresAt.Get()
 }
 
-// GetExpiresAtOk returns a tuple with the ExpiresAt field value
+// GetExpiresAtOk returns a tuple with the ExpiresAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *UserTokenOut) GetExpiresAtOk() (*time.Time, bool) {
@@ -232,9 +273,27 @@ func (o *UserTokenOut) GetExpiresAtOk() (*time.Time, bool) {
 	return o.ExpiresAt.Get(), o.ExpiresAt.IsSet()
 }
 
-// SetExpiresAt sets field value
+// HasExpiresAt returns a boolean if a field has been set.
+func (o *UserTokenOut) HasExpiresAt() bool {
+	if o != nil && o.ExpiresAt.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetExpiresAt gets a reference to the given NullableTime and assigns it to the ExpiresAt field.
 func (o *UserTokenOut) SetExpiresAt(v time.Time) {
 	o.ExpiresAt.Set(&v)
+}
+// SetExpiresAtNil sets the value for ExpiresAt to be an explicit nil
+func (o *UserTokenOut) SetExpiresAtNil() {
+	o.ExpiresAt.Set(nil)
+}
+
+// UnsetExpiresAt ensures that no value is present for ExpiresAt, not even an explicit nil
+func (o *UserTokenOut) UnsetExpiresAt() {
+	o.ExpiresAt.Unset()
 }
 
 // GetCreatedAt returns the CreatedAt field value
@@ -261,18 +320,16 @@ func (o *UserTokenOut) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
-// GetRevokedAt returns the RevokedAt field value
-// If the value is explicit nil, the zero value for time.Time will be returned
+// GetRevokedAt returns the RevokedAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *UserTokenOut) GetRevokedAt() time.Time {
-	if o == nil || o.RevokedAt.Get() == nil {
+	if o == nil || IsNil(o.RevokedAt.Get()) {
 		var ret time.Time
 		return ret
 	}
-
 	return *o.RevokedAt.Get()
 }
 
-// GetRevokedAtOk returns a tuple with the RevokedAt field value
+// GetRevokedAtOk returns a tuple with the RevokedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *UserTokenOut) GetRevokedAtOk() (*time.Time, bool) {
@@ -282,9 +339,27 @@ func (o *UserTokenOut) GetRevokedAtOk() (*time.Time, bool) {
 	return o.RevokedAt.Get(), o.RevokedAt.IsSet()
 }
 
-// SetRevokedAt sets field value
+// HasRevokedAt returns a boolean if a field has been set.
+func (o *UserTokenOut) HasRevokedAt() bool {
+	if o != nil && o.RevokedAt.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetRevokedAt gets a reference to the given NullableTime and assigns it to the RevokedAt field.
 func (o *UserTokenOut) SetRevokedAt(v time.Time) {
 	o.RevokedAt.Set(&v)
+}
+// SetRevokedAtNil sets the value for RevokedAt to be an explicit nil
+func (o *UserTokenOut) SetRevokedAtNil() {
+	o.RevokedAt.Set(nil)
+}
+
+// UnsetRevokedAt ensures that no value is present for RevokedAt, not even an explicit nil
+func (o *UserTokenOut) UnsetRevokedAt() {
+	o.RevokedAt.Unset()
 }
 
 func (o UserTokenOut) MarshalJSON() ([]byte, error) {
@@ -299,13 +374,23 @@ func (o UserTokenOut) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["id"] = o.Id
 	toSerialize["prefix"] = o.Prefix
-	toSerialize["label"] = o.Label.Get()
+	if o.Label.IsSet() {
+		toSerialize["label"] = o.Label.Get()
+	}
 	toSerialize["scope"] = o.Scope
-	toSerialize["default_drive_id"] = o.DefaultDriveId.Get()
-	toSerialize["last_used_at"] = o.LastUsedAt.Get()
-	toSerialize["expires_at"] = o.ExpiresAt.Get()
+	if o.DefaultDriveId.IsSet() {
+		toSerialize["default_drive_id"] = o.DefaultDriveId.Get()
+	}
+	if o.LastUsedAt.IsSet() {
+		toSerialize["last_used_at"] = o.LastUsedAt.Get()
+	}
+	if o.ExpiresAt.IsSet() {
+		toSerialize["expires_at"] = o.ExpiresAt.Get()
+	}
 	toSerialize["created_at"] = o.CreatedAt
-	toSerialize["revoked_at"] = o.RevokedAt.Get()
+	if o.RevokedAt.IsSet() {
+		toSerialize["revoked_at"] = o.RevokedAt.Get()
+	}
 	return toSerialize, nil
 }
 
@@ -316,13 +401,8 @@ func (o *UserTokenOut) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"id",
 		"prefix",
-		"label",
 		"scope",
-		"default_drive_id",
-		"last_used_at",
-		"expires_at",
 		"created_at",
-		"revoked_at",
 	}
 
 	allProperties := make(map[string]interface{})

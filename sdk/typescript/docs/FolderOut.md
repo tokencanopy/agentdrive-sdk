@@ -12,6 +12,8 @@ Name | Type
 `path` | string
 `description` | string
 `inheritGrants` | boolean
+`metageneration` | number
+`etag` | string
 `createdAt` | Date
 `updatedAt` | Date
 `deletedAt` | Date
@@ -29,6 +31,8 @@ const example = {
   "path": null,
   "description": null,
   "inheritGrants": null,
+  "metageneration": null,
+  "etag": null,
   "createdAt": null,
   "updatedAt": null,
   "deletedAt": null,

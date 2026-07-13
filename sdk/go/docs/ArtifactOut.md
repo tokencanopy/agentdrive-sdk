@@ -14,6 +14,8 @@ Name | Type | Description | Notes
 **SizeBytes** | **int32** |  | 
 **Hash** | **string** |  | 
 **VersionNumber** | Pointer to **int32** |  | [optional] [default to 1]
+**Metageneration** | Pointer to **int32** |  | [optional] [default to 1]
+**Etag** | **string** |  | 
 **Labels** | Pointer to **[]string** |  | [optional] 
 **Metadata** | Pointer to **map[string]interface{}** |  | [optional] 
 **Source** | Pointer to [**NullableArtifactSource**](ArtifactSource.md) |  | [optional] 
@@ -27,7 +29,7 @@ Name | Type | Description | Notes
 
 ### NewArtifactOut
 
-`func NewArtifactOut(id string, driveId string, path string, url string, permalink string, contentType string, fileType string, sizeBytes int32, hash string, createdAt time.Time, updatedAt time.Time, ) *ArtifactOut`
+`func NewArtifactOut(id string, driveId string, path string, url string, permalink string, contentType string, fileType string, sizeBytes int32, hash string, etag string, createdAt time.Time, updatedAt time.Time, ) *ArtifactOut`
 
 NewArtifactOut instantiates a new ArtifactOut object
 This constructor will assign default values to properties that have it defined,
@@ -246,6 +248,51 @@ SetVersionNumber sets VersionNumber field to given value.
 `func (o *ArtifactOut) HasVersionNumber() bool`
 
 HasVersionNumber returns a boolean if a field has been set.
+
+### GetMetageneration
+
+`func (o *ArtifactOut) GetMetageneration() int32`
+
+GetMetageneration returns the Metageneration field if non-nil, zero value otherwise.
+
+### GetMetagenerationOk
+
+`func (o *ArtifactOut) GetMetagenerationOk() (*int32, bool)`
+
+GetMetagenerationOk returns a tuple with the Metageneration field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMetageneration
+
+`func (o *ArtifactOut) SetMetageneration(v int32)`
+
+SetMetageneration sets Metageneration field to given value.
+
+### HasMetageneration
+
+`func (o *ArtifactOut) HasMetageneration() bool`
+
+HasMetageneration returns a boolean if a field has been set.
+
+### GetEtag
+
+`func (o *ArtifactOut) GetEtag() string`
+
+GetEtag returns the Etag field if non-nil, zero value otherwise.
+
+### GetEtagOk
+
+`func (o *ArtifactOut) GetEtagOk() (*string, bool)`
+
+GetEtagOk returns a tuple with the Etag field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEtag
+
+`func (o *ArtifactOut) SetEtag(v string)`
+
+SetEtag sets Etag field to given value.
+
 
 ### GetLabels
 

@@ -86,11 +86,11 @@ No authorization required
 
 ## listInvitationsV0InvitationsGet
 
-> InvitationList listInvitationsV0InvitationsGet(authorization)
+> InvitationList listInvitationsV0InvitationsGet(cursor, limit, authorization)
 
 List pending invitations
 
-List the pending invitations for the caller\&#39;s active workspace. **Admin only.** Metadata only — the raw invite token is never surfaced.
+List the pending invitations for the caller\&#39;s active workspace. **Admin only.** Metadata only — the raw invite token is never surfaced.  Newest first (&#x60;created_at&#x60; descending, tie-broken by &#x60;id&#x60;). Paginated: &#x60;limit&#x60; is clamped to [1, 100] (default 50, never a 422); pass the response\&#39;s &#x60;next_cursor&#x60; back as &#x60;cursor&#x60; for the next page (&#x60;null&#x60; when the listing is complete).
 
 ### Example
 
@@ -106,6 +106,10 @@ async function example() {
   const api = new MembersApi();
 
   const body = {
+    // string (optional)
+    cursor: cursor_example,
+    // number (optional)
+    limit: 56,
     // string (optional)
     authorization: authorization_example,
   } satisfies ListInvitationsV0InvitationsGetRequest;
@@ -127,6 +131,8 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
+| **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **limit** | `number` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -154,11 +160,11 @@ No authorization required
 
 ## listMembersV0MembersGet
 
-> MemberList listMembersV0MembersGet(authorization)
+> MemberList listMembersV0MembersGet(cursor, limit, authorization)
 
 List the members of your active workspace
 
-List live members (email, role, joined-at) of the caller\&#39;s active workspace. Any **member** may list; a &#x60;read&#x60;-scope token is sufficient.
+List live members (email, role, joined-at) of the caller\&#39;s active workspace. Any **member** may list; a &#x60;read&#x60;-scope token is sufficient.  Ordered by join time (&#x60;created_at&#x60;, tie-broken by &#x60;user_id&#x60;) — **no role grouping is promised**; a dashboard that wants admins-first sorts client-side. Paginated: &#x60;limit&#x60; is clamped to [1, 100] (default 50, never a 422); pass the response\&#39;s &#x60;next_cursor&#x60; back as &#x60;cursor&#x60; for the next page (&#x60;null&#x60; when the listing is complete).
 
 ### Example
 
@@ -174,6 +180,10 @@ async function example() {
   const api = new MembersApi();
 
   const body = {
+    // string (optional)
+    cursor: cursor_example,
+    // number (optional)
+    limit: 56,
     // string (optional)
     authorization: authorization_example,
   } satisfies ListMembersV0MembersGetRequest;
@@ -195,6 +205,8 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
+| **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **limit** | `number` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -222,11 +234,11 @@ No authorization required
 
 ## removeMemberV0MembersTargetUserIdDelete
 
-> any removeMemberV0MembersTargetUserIdDelete(targetUserId, authorization)
+> MemberRemoveOut removeMemberV0MembersTargetUserIdDelete(targetUserId, confirm, authorization)
 
 Remove a member (or leave)
 
-Remove a member from the caller\&#39;s active workspace, soft-deleting every drive that member owns there (workspaces-design §4.4 — no ownership transfer in v0; their &#x60;ad_live_&#x60; keys then stop working). **Admin** may remove anyone; **any member** may remove themselves (self-leave). &#x60;full&#x60; scope. Removing the **last/sole admin** is rejected with 409 &#x60;LAST_ADMIN&#x60; (promote someone first, or delete the workspace).
+Remove a member from the caller\&#39;s active workspace, soft-deleting every drive that member owns there (workspaces-design §4.4 — no ownership transfer in v0; their &#x60;ad_live_&#x60; keys then stop working). **Admin** may remove anyone; **any member** may remove themselves (self-leave). &#x60;full&#x60; scope. Removing the **last/sole admin** is rejected with 409 &#x60;LAST_ADMIN&#x60; (promote someone first, or delete the workspace).  **Explicit confirmation required:** pass &#x60;?confirm&#x3D;DELETE&#x60; or the request is rejected with 400 &#x60;CONFIRM_REQUIRED&#x60; — removal cascades a soft-delete of every drive the member owns, so it carries tenant-level blast radius (uniform with &#x60;DELETE /v0/drives/{id}&#x60;).  Deliberately takes NO &#x60;If-Match&#x60;: membership rows carry no generation/metageneration axis to pin (there is no ETag to echo), so &#x60;?confirm&#x3D;DELETE&#x60; is the sole mutation guard here.
 
 ### Example
 
@@ -244,6 +256,8 @@ async function example() {
   const body = {
     // string
     targetUserId: targetUserId_example,
+    // string (optional)
+    confirm: confirm_example,
     // string (optional)
     authorization: authorization_example,
   } satisfies RemoveMemberV0MembersTargetUserIdDeleteRequest;
@@ -266,11 +280,12 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **targetUserId** | `string` |  | [Defaults to `undefined`] |
+| **confirm** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**any**
+[**MemberRemoveOut**](MemberRemoveOut.md)
 
 ### Authorization
 
@@ -293,11 +308,11 @@ No authorization required
 
 ## revokeInvitationV0InvitationsInvitationIdDelete
 
-> any revokeInvitationV0InvitationsInvitationIdDelete(invitationId, authorization)
+> RevokeOut revokeInvitationV0InvitationsInvitationIdDelete(invitationId, authorization)
 
 Revoke a pending invitation
 
-Revoke a pending invitation in the caller\&#39;s active workspace. **Admin only**, &#x60;full&#x60; scope. Org-scoped + idempotent: a forged id, an invite from another workspace, or an already-consumed invite all return 404 (no-leak).
+Revoke a pending invitation in the caller\&#39;s active workspace. **Admin only**, &#x60;full&#x60; scope. Org-scoped + idempotent: &#x60;revoked&#x60; is a COUNT — 1 when a live invite was revoked, 0 when it was already gone (a forged id, an invite from another workspace, or an already-consumed invite all return &#x60;revoked: 0&#x60;, no-leak).
 
 ### Example
 
@@ -341,7 +356,7 @@ example().catch(console.error);
 
 ### Return type
 
-**any**
+[**RevokeOut**](RevokeOut.md)
 
 ### Authorization
 

@@ -4,6 +4,7 @@ All URIs are relative to *https://api.agentdrive.run*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**AbortUploadV0UploadsUploadIdDelete**](DefaultAPI.md#AbortUploadV0UploadsUploadIdDelete) | **Delete** /v0/uploads/{upload_id} | Abort a large (direct-to-GCS) upload session
 [**AcceptInvitationInvitationsTokenGet**](DefaultAPI.md#AcceptInvitationInvitationsTokenGet) | **Get** /invitations/{token} | Accept Invitation
 [**ActivityFeedActivityGet**](DefaultAPI.md#ActivityFeedActivityGet) | **Get** /activity | Activity Feed
 [**AddGrantWebShareRidGrantPost**](DefaultAPI.md#AddGrantWebShareRidGrantPost) | **Post** /web/share/{rid}/grant | Add Grant
@@ -15,9 +16,10 @@ Method | HTTP request | Description
 [**CommitUploadV0UploadsUploadIdCommitPost**](DefaultAPI.md#CommitUploadV0UploadsUploadIdCommitPost) | **Post** /v0/uploads/{upload_id}/commit | Commit a large (direct-to-GCS) upload
 [**ConnectorsPageConnectorsGet**](DefaultAPI.md#ConnectorsPageConnectorsGet) | **Get** /connectors | Connectors Page
 [**CopyArtifactRouteV0ArtifactsArtIdCopyPost**](DefaultAPI.md#CopyArtifactRouteV0ArtifactsArtIdCopyPost) | **Post** /v0/artifacts/{art_id}/copy | Duplicate an artifact to a new path (CAS-shared, new ID)
+[**CopyFolderByIdV0FoldersFldIdCopyPost**](DefaultAPI.md#CopyFolderByIdV0FoldersFldIdCopyPost) | **Post** /v0/folders/{fld_id}/copy | Duplicate a folder subtree to a new path (CAS-shared, new IDs)
 [**CreateDriveKeyWebWebDrivesDriveIdKeysCreatePost**](DefaultAPI.md#CreateDriveKeyWebWebDrivesDriveIdKeysCreatePost) | **Post** /web/drives/{drive_id}/keys/create | Create Drive Key Web
 [**CreateDriveWebWebDrivesPost**](DefaultAPI.md#CreateDriveWebWebDrivesPost) | **Post** /web/drives | Create Drive Web
-[**CreateFolderByPathV0FoldersPathPost**](DefaultAPI.md#CreateFolderByPathV0FoldersPathPost) | **Post** /v0/folders/{path} | Create a folder (idempotent)
+[**CreateFolderByPathV0FoldersPathPut**](DefaultAPI.md#CreateFolderByPathV0FoldersPathPut) | **Put** /v0/folders/{path} | Create a folder (idempotent)
 [**CreateGrantRouteV0GrantsPost**](DefaultAPI.md#CreateGrantRouteV0GrantsPost) | **Post** /v0/grants | Create (or fetch) a per-principal grant on a resource
 [**CreateKeyWebKeysCreatePost**](DefaultAPI.md#CreateKeyWebKeysCreatePost) | **Post** /web/keys/create | Create Key
 [**CreateLinkWebShareRidLinkPost**](DefaultAPI.md#CreateLinkWebShareRidLinkPost) | **Post** /web/share/{rid}/link | Create Link
@@ -38,6 +40,7 @@ Method | HTTP request | Description
 [**DeleteShareRouteV0SharesShrIdDelete**](DefaultAPI.md#DeleteShareRouteV0SharesShrIdDelete) | **Delete** /v0/shares/{shr_id} | Revoke a share link (requires can_manage)
 [**DeleteWorkspaceWebWebWorkspacesOrgIdDeletePost**](DefaultAPI.md#DeleteWorkspaceWebWebWorkspacesOrgIdDeletePost) | **Post** /web/workspaces/{org_id}/delete | Delete Workspace Web
 [**DownloadArtifactByIdV0ArtifactsArtIdDownloadGet**](DefaultAPI.md#DownloadArtifactByIdV0ArtifactsArtIdDownloadGet) | **Get** /v0/artifacts/{art_id}/download | Stream the artifact bytes by stable ID (never rendered HTML)
+[**DownloadArtifactByPathV0ArtifactsPathDownloadGet**](DefaultAPI.md#DownloadArtifactByPathV0ArtifactsPathDownloadGet) | **Get** /v0/artifacts/{path}/download | Stream the artifact bytes by path (never rendered HTML)
 [**DownloadArtifactVersionV0ArtifactsArtIdVersionsVersionNumberDownloadGet**](DefaultAPI.md#DownloadArtifactVersionV0ArtifactsArtIdVersionsVersionNumberDownloadGet) | **Get** /v0/artifacts/{art_id}/versions/{version_number}/download | Stream bytes for a specific version (machine surface)
 [**DownloadUrlByIdV0ArtifactsArtIdDownloadUrlGet**](DefaultAPI.md#DownloadUrlByIdV0ArtifactsArtIdDownloadUrlGet) | **Get** /v0/artifacts/{art_id}/download-url | Signed direct-from-GCS download URL by stable ID
 [**DownloadUrlByPathV0ArtifactsPathDownloadUrlGet**](DefaultAPI.md#DownloadUrlByPathV0ArtifactsPathDownloadUrlGet) | **Get** /v0/artifacts/{path}/download-url | Signed direct-from-GCS download URL by path
@@ -52,15 +55,19 @@ Method | HTTP request | Description
 [**GetArtifactByIdV0ArtifactsArtIdGet**](DefaultAPI.md#GetArtifactByIdV0ArtifactsArtIdGet) | **Get** /v0/artifacts/{art_id} | Canonical lookup of an artifact by its stable ID
 [**GetArtifactMetaV0ArtifactsPathMetaGet**](DefaultAPI.md#GetArtifactMetaV0ArtifactsPathMetaGet) | **Get** /v0/artifacts/{path}/meta | Get Artifact Meta
 [**GetArtifactVersionV0ArtifactsArtIdVersionsVersionNumberGet**](DefaultAPI.md#GetArtifactVersionV0ArtifactsArtIdVersionsVersionNumberGet) | **Get** /v0/artifacts/{art_id}/versions/{version_number} | Metadata for a specific version of an artifact
+[**GetDriveRouteV0DrivesDriveIdGet**](DefaultAPI.md#GetDriveRouteV0DrivesDriveIdGet) | **Get** /v0/drives/{drive_id} | Drive overview by id (same shape as /drives/me)
 [**GetFeedbackStatusV0FeedbackFbkIdGet**](DefaultAPI.md#GetFeedbackStatusV0FeedbackFbkIdGet) | **Get** /v0/feedback/{fbk_id} | Get Feedback Status
 [**GetFolderByIdMetaV0FoldersFldIdMetaGet**](DefaultAPI.md#GetFolderByIdMetaV0FoldersFldIdMetaGet) | **Get** /v0/folders/{fld_id}/meta | Folder metadata by stable ID (same shape as the bare id route)
 [**GetFolderByIdV0FoldersFldIdGet**](DefaultAPI.md#GetFolderByIdV0FoldersFldIdGet) | **Get** /v0/folders/{fld_id} | Canonical lookup of a folder by its stable ID
 [**GetFolderByPathMetaV0FoldersPathMetaGet**](DefaultAPI.md#GetFolderByPathMetaV0FoldersPathMetaGet) | **Get** /v0/folders/{path}/meta | Folder metadata by path (same shape as the bare path route)
 [**GetFolderByPathV0FoldersPathGet**](DefaultAPI.md#GetFolderByPathV0FoldersPathGet) | **Get** /v0/folders/{path} | Read folder metadata by path
+[**GetGrantRouteV0GrantsGrnIdGet**](DefaultAPI.md#GetGrantRouteV0GrantsGrnIdGet) | **Get** /v0/grants/{grn_id} | Read a single grant (can_manage, or the grant&#39;s own principal)
 [**GetJobLogsV0JobsJobIdLogsGet**](DefaultAPI.md#GetJobLogsV0JobsJobIdLogsGet) | **Get** /v0/jobs/{job_id}/logs | Raw compile log (text/plain)
 [**GetJobV0JobsJobIdGet**](DefaultAPI.md#GetJobV0JobsJobIdGet) | **Get** /v0/jobs/{job_id} | Poll a job
 [**GetProjectV0ProjectsFldIdGet**](DefaultAPI.md#GetProjectV0ProjectsFldIdGet) | **Get** /v0/projects/{fld_id} | Get a project&#39;s compile config
+[**GetShareRouteV0SharesShrIdGet**](DefaultAPI.md#GetShareRouteV0SharesShrIdGet) | **Get** /v0/shares/{shr_id} | Read a single share link&#39;s metadata (requires can_manage)
 [**GetShareStateWebShareRidGet**](DefaultAPI.md#GetShareStateWebShareRidGet) | **Get** /web/share/{rid} | Get Share State
+[**GetUploadStatusV0UploadsUploadIdGet**](DefaultAPI.md#GetUploadStatusV0UploadsUploadIdGet) | **Get** /v0/uploads/{upload_id} | Get the status of a large (direct-to-GCS) upload session
 [**HealthHealthGet**](DefaultAPI.md#HealthHealthGet) | **Get** /health | Health
 [**InviteMemberWebWebMembersInvitePost**](DefaultAPI.md#InviteMemberWebWebMembersInvitePost) | **Post** /web/members/invite | Invite Member Web
 [**ListArtifactVersionsV0ArtifactsArtIdVersionsGet**](DefaultAPI.md#ListArtifactVersionsV0ArtifactsArtIdVersionsGet) | **Get** /v0/artifacts/{art_id}/versions | List versions of an artifact, newest first
@@ -77,9 +84,11 @@ Method | HTTP request | Description
 [**MarketplaceDetailMarketplaceSlugGet**](DefaultAPI.md#MarketplaceDetailMarketplaceSlugGet) | **Get** /marketplace/{slug} | Marketplace Detail
 [**MeUsageV0DrivesMeUsageGet**](DefaultAPI.md#MeUsageV0DrivesMeUsageGet) | **Get** /v0/drives/me/usage | Current-period usage + caps for the authenticated drive
 [**MeV0DrivesMeGet**](DefaultAPI.md#MeV0DrivesMeGet) | **Get** /v0/drives/me | Me
+[**MoveArtifactRouteV0ArtifactsArtIdMovePost**](DefaultAPI.md#MoveArtifactRouteV0ArtifactsArtIdMovePost) | **Post** /v0/artifacts/{art_id}/move | Rename / move an artifact to a new path
 [**MoveFolderByIdV0FoldersFldIdMovePost**](DefaultAPI.md#MoveFolderByIdV0FoldersFldIdMovePost) | **Post** /v0/folders/{fld_id}/move | Rename / move a folder by stable ID (cascade descendants)
 [**MoveFolderByPathV0FoldersPathMovePost**](DefaultAPI.md#MoveFolderByPathV0FoldersPathMovePost) | **Post** /v0/folders/{path}/move | Rename / move a folder (cascade-update descendants)
 [**OauthDisconnectWebOauthDisconnectPost**](DefaultAPI.md#OauthDisconnectWebOauthDisconnectPost) | **Post** /web/oauth/disconnect | Oauth Disconnect
+[**PatchArtifactRouteV0ArtifactsArtIdPatch**](DefaultAPI.md#PatchArtifactRouteV0ArtifactsArtIdPatch) | **Patch** /v0/artifacts/{art_id} | Edit artifact metadata (labels / metadata / source)
 [**PatchFolderByIdV0FoldersFldIdPatch**](DefaultAPI.md#PatchFolderByIdV0FoldersFldIdPatch) | **Patch** /v0/folders/{fld_id} | Update folder metadata by stable ID
 [**PatchFolderByPathV0FoldersPathPatch**](DefaultAPI.md#PatchFolderByPathV0FoldersPathPatch) | **Patch** /v0/folders/{path} | Update folder metadata by path
 [**PatchGrantRouteV0GrantsGrnIdPatch**](DefaultAPI.md#PatchGrantRouteV0GrantsGrnIdPatch) | **Patch** /v0/grants/{grn_id} | Update a grant&#39;s role and/or expiry (requires can_manage)
@@ -99,12 +108,13 @@ Method | HTTP request | Description
 [**RedeemShareSShareKeyGet**](DefaultAPI.md#RedeemShareSShareKeyGet) | **Get** /s/{share_key} | Redeem Share
 [**RedeemShareWithPasswordSShareKeyPost**](DefaultAPI.md#RedeemShareWithPasswordSShareKeyPost) | **Post** /s/{share_key} | Redeem Share With Password
 [**RemoveMemberWebWebMembersTargetUserIdRemovePost**](DefaultAPI.md#RemoveMemberWebWebMembersTargetUserIdRemovePost) | **Post** /web/members/{target_user_id}/remove | Remove Member Web
-[**RenameArtifactRouteV0ArtifactsArtIdPatch**](DefaultAPI.md#RenameArtifactRouteV0ArtifactsArtIdPatch) | **Patch** /v0/artifacts/{art_id} | Rename / move an artifact to a new path
 [**RenameDriveWebWebDrivesDriveIdRenamePost**](DefaultAPI.md#RenameDriveWebWebDrivesDriveIdRenamePost) | **Post** /web/drives/{drive_id}/rename | Rename Drive Web
 [**RenameWorkspaceWebWebWorkspacesOrgIdRenamePost**](DefaultAPI.md#RenameWorkspaceWebWebWorkspacesOrgIdRenamePost) | **Post** /web/workspaces/{org_id}/rename | Rename Workspace Web
 [**ResendInvitationWebWebInvitationsInvitationIdResendPost**](DefaultAPI.md#ResendInvitationWebWebInvitationsInvitationIdResendPost) | **Post** /web/invitations/{invitation_id}/resend | Resend Invitation Web
 [**RestoreArtifactV0ArtifactsArtIdRestorePost**](DefaultAPI.md#RestoreArtifactV0ArtifactsArtIdRestorePost) | **Post** /v0/artifacts/{art_id}/restore | Restore a soft-deleted artifact
+[**RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost**](DefaultAPI.md#RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost) | **Post** /v0/artifacts/{art_id}/versions/{version_number}/restore | Restore a previous version as a new head version
 [**RestoreDriveRouteV0DrivesDriveIdRestorePost**](DefaultAPI.md#RestoreDriveRouteV0DrivesDriveIdRestorePost) | **Post** /v0/drives/{drive_id}/restore | Restore a soft-deleted drive
+[**RestoreFolderByIdV0FoldersFldIdRestorePost**](DefaultAPI.md#RestoreFolderByIdV0FoldersFldIdRestorePost) | **Post** /v0/folders/{fld_id}/restore | Restore a soft-deleted folder (cascade)
 [**RevokeGrantWebShareRidGrantGrnIdRevokePost**](DefaultAPI.md#RevokeGrantWebShareRidGrantGrnIdRevokePost) | **Post** /web/share/{rid}/grant/{grn_id}/revoke | Revoke Grant
 [**RevokeInvitationWebWebInvitationsInvitationIdRevokePost**](DefaultAPI.md#RevokeInvitationWebWebInvitationsInvitationIdRevokePost) | **Post** /web/invitations/{invitation_id}/revoke | Revoke Invitation Web
 [**RevokeKeyWebKeysRevokePost**](DefaultAPI.md#RevokeKeyWebKeysRevokePost) | **Post** /web/keys/revoke | Revoke Key
@@ -120,12 +130,12 @@ Method | HTTP request | Description
 [**SettingsQuickstartSettingsQuickstartGet**](DefaultAPI.md#SettingsQuickstartSettingsQuickstartGet) | **Get** /settings/quickstart | Settings Quickstart
 [**SettingsWorkspaceSettingsWorkspaceGet**](DefaultAPI.md#SettingsWorkspaceSettingsWorkspaceGet) | **Get** /settings/workspace | Settings Workspace
 [**SharedFilesSharedGet**](DefaultAPI.md#SharedFilesSharedGet) | **Get** /shared | Shared Files
-[**StreamUploadV0UploadTokenPut**](DefaultAPI.md#StreamUploadV0UploadTokenPut) | **Put** /v0/upload/{token} | Proxied streaming upload (via an upload_url token)
 [**SwitchDriveWebSwitchPost**](DefaultAPI.md#SwitchDriveWebSwitchPost) | **Post** /web/switch | Switch Drive
 [**TermsPageTermsGet**](DefaultAPI.md#TermsPageTermsGet) | **Get** /terms | Terms Page
 [**ToggleIndexingWebAccountIndexingPost**](DefaultAPI.md#ToggleIndexingWebAccountIndexingPost) | **Post** /web/account/indexing | Toggle Indexing
 [**TrashWebTrashGet**](DefaultAPI.md#TrashWebTrashGet) | **Get** /web/trash | Trash
 [**ViewArtifactHeadAArtIdHeadGet**](DefaultAPI.md#ViewArtifactHeadAArtIdHeadGet) | **Get** /a/{art_id}/head | View Artifact Head
+[**ViewArtifactVersionVArtIdVersionGet**](DefaultAPI.md#ViewArtifactVersionVArtIdVersionGet) | **Get** /v/{art_id}/{version} | View Artifact Version
 [**ViewFileDriveIdPathGet**](DefaultAPI.md#ViewFileDriveIdPathGet) | **Get** /{drive_id}/{path} | View File
 [**ViewPermalinkArtifactAArtIdGet**](DefaultAPI.md#ViewPermalinkArtifactAArtIdGet) | **Get** /a/{art_id} | View Permalink Artifact
 [**ViewPermalinkFolderFFldIdGet**](DefaultAPI.md#ViewPermalinkFolderFFldIdGet) | **Get** /f/{fld_id} | View Permalink Folder
@@ -148,6 +158,78 @@ Method | HTTP request | Description
 [**WebhooksPageWebhooksGet**](DefaultAPI.md#WebhooksPageWebhooksGet) | **Get** /webhooks | Webhooks Page
 [**WelcomeWelcomeGet**](DefaultAPI.md#WelcomeWelcomeGet) | **Get** /welcome | Welcome
 
+
+
+## AbortUploadV0UploadsUploadIdDelete
+
+> UploadAbortOut AbortUploadV0UploadsUploadIdDelete(ctx, uploadId).Authorization(authorization).Execute()
+
+Abort a large (direct-to-GCS) upload session
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+	uploadId := "uploadId_example" // string | 
+	authorization := "authorization_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.AbortUploadV0UploadsUploadIdDelete(context.Background(), uploadId).Authorization(authorization).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.AbortUploadV0UploadsUploadIdDelete``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AbortUploadV0UploadsUploadIdDelete`: UploadAbortOut
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.AbortUploadV0UploadsUploadIdDelete`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**uploadId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAbortUploadV0UploadsUploadIdDeleteRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **authorization** | **string** |  | 
+
+### Return type
+
+[**UploadAbortOut**](UploadAbortOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## AcceptInvitationInvitationsTokenGet
@@ -821,7 +903,7 @@ No authorization required
 
 ## CopyArtifactRouteV0ArtifactsArtIdCopyPost
 
-> ArtifactOut CopyArtifactRouteV0ArtifactsArtIdCopyPost(ctx, artId).CopyIn(copyIn).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+> ArtifactOut CopyArtifactRouteV0ArtifactsArtIdCopyPost(ctx, artId).CopyIn(copyIn).XAgentdriveActor(xAgentdriveActor).IfNoneMatch(ifNoneMatch).Authorization(authorization).Execute()
 
 Duplicate an artifact to a new path (CAS-shared, new ID)
 
@@ -843,11 +925,12 @@ func main() {
 	artId := "artId_example" // string | 
 	copyIn := *openapiclient.NewCopyIn("Path_example") // CopyIn | 
 	xAgentdriveActor := "xAgentdriveActor_example" // string |  (optional)
+	ifNoneMatch := "ifNoneMatch_example" // string |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.CopyArtifactRouteV0ArtifactsArtIdCopyPost(context.Background(), artId).CopyIn(copyIn).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+	resp, r, err := apiClient.DefaultAPI.CopyArtifactRouteV0ArtifactsArtIdCopyPost(context.Background(), artId).CopyIn(copyIn).XAgentdriveActor(xAgentdriveActor).IfNoneMatch(ifNoneMatch).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.CopyArtifactRouteV0ArtifactsArtIdCopyPost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -875,11 +958,90 @@ Name | Type | Description  | Notes
 
  **copyIn** | [**CopyIn**](CopyIn.md) |  | 
  **xAgentdriveActor** | **string** |  | 
+ **ifNoneMatch** | **string** |  | 
  **authorization** | **string** |  | 
 
 ### Return type
 
 [**ArtifactOut**](ArtifactOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## CopyFolderByIdV0FoldersFldIdCopyPost
+
+> FolderCopyOut CopyFolderByIdV0FoldersFldIdCopyPost(ctx, fldId).FolderCopyIn(folderCopyIn).XAgentdriveActor(xAgentdriveActor).IfNoneMatch(ifNoneMatch).Authorization(authorization).Execute()
+
+Duplicate a folder subtree to a new path (CAS-shared, new IDs)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+	fldId := "fldId_example" // string | 
+	folderCopyIn := *openapiclient.NewFolderCopyIn("Path_example") // FolderCopyIn | 
+	xAgentdriveActor := "xAgentdriveActor_example" // string |  (optional)
+	ifNoneMatch := "ifNoneMatch_example" // string |  (optional)
+	authorization := "authorization_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.CopyFolderByIdV0FoldersFldIdCopyPost(context.Background(), fldId).FolderCopyIn(folderCopyIn).XAgentdriveActor(xAgentdriveActor).IfNoneMatch(ifNoneMatch).Authorization(authorization).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.CopyFolderByIdV0FoldersFldIdCopyPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CopyFolderByIdV0FoldersFldIdCopyPost`: FolderCopyOut
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.CopyFolderByIdV0FoldersFldIdCopyPost`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**fldId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCopyFolderByIdV0FoldersFldIdCopyPostRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **folderCopyIn** | [**FolderCopyIn**](FolderCopyIn.md) |  | 
+ **xAgentdriveActor** | **string** |  | 
+ **ifNoneMatch** | **string** |  | 
+ **authorization** | **string** |  | 
+
+### Return type
+
+[**FolderCopyOut**](FolderCopyOut.md)
 
 ### Authorization
 
@@ -1037,9 +1199,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## CreateFolderByPathV0FoldersPathPost
+## CreateFolderByPathV0FoldersPathPut
 
-> FolderOut CreateFolderByPathV0FoldersPathPost(ctx, path).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).FolderCreateIn(folderCreateIn).Execute()
+> FolderOut CreateFolderByPathV0FoldersPathPut(ctx, path).XAgentdriveActor(xAgentdriveActor).IfNoneMatch(ifNoneMatch).Authorization(authorization).FolderCreateIn(folderCreateIn).Execute()
 
 Create a folder (idempotent)
 
@@ -1060,18 +1222,19 @@ import (
 func main() {
 	path := "path_example" // string | 
 	xAgentdriveActor := "xAgentdriveActor_example" // string |  (optional)
+	ifNoneMatch := "ifNoneMatch_example" // string |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 	folderCreateIn := *openapiclient.NewFolderCreateIn() // FolderCreateIn |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.CreateFolderByPathV0FoldersPathPost(context.Background(), path).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).FolderCreateIn(folderCreateIn).Execute()
+	resp, r, err := apiClient.DefaultAPI.CreateFolderByPathV0FoldersPathPut(context.Background(), path).XAgentdriveActor(xAgentdriveActor).IfNoneMatch(ifNoneMatch).Authorization(authorization).FolderCreateIn(folderCreateIn).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.CreateFolderByPathV0FoldersPathPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.CreateFolderByPathV0FoldersPathPut``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateFolderByPathV0FoldersPathPost`: FolderOut
-	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.CreateFolderByPathV0FoldersPathPost`: %v\n", resp)
+	// response from `CreateFolderByPathV0FoldersPathPut`: FolderOut
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.CreateFolderByPathV0FoldersPathPut`: %v\n", resp)
 }
 ```
 
@@ -1085,13 +1248,14 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCreateFolderByPathV0FoldersPathPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiCreateFolderByPathV0FoldersPathPutRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **xAgentdriveActor** | **string** |  | 
+ **ifNoneMatch** | **string** |  | 
  **authorization** | **string** |  | 
  **folderCreateIn** | [**FolderCreateIn**](FolderCreateIn.md) |  | 
 
@@ -1875,9 +2039,11 @@ No authorization required
 
 ## DeleteArtifactV0ArtifactsPathDelete
 
-> interface{} DeleteArtifactV0ArtifactsPathDelete(ctx, path).IfMatch(ifMatch).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+> ArtifactDeleteOut DeleteArtifactV0ArtifactsPathDelete(ctx, path).IfMatch(ifMatch).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
 
 Delete Artifact
+
+
 
 ### Example
 
@@ -1904,7 +2070,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.DeleteArtifactV0ArtifactsPathDelete``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `DeleteArtifactV0ArtifactsPathDelete`: interface{}
+	// response from `DeleteArtifactV0ArtifactsPathDelete`: ArtifactDeleteOut
 	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.DeleteArtifactV0ArtifactsPathDelete`: %v\n", resp)
 }
 ```
@@ -1931,7 +2097,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**interface{}**
+[**ArtifactDeleteOut**](ArtifactDeleteOut.md)
 
 ### Authorization
 
@@ -1949,7 +2115,7 @@ No authorization required
 
 ## DeleteDriveRouteV0DrivesDriveIdDelete
 
-> interface{} DeleteDriveRouteV0DrivesDriveIdDelete(ctx, driveId).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+> DriveDeleteOut DeleteDriveRouteV0DrivesDriveIdDelete(ctx, driveId).Confirm(confirm).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
 
 Soft-delete a drive
 
@@ -1969,17 +2135,19 @@ import (
 
 func main() {
 	driveId := "driveId_example" // string | 
+	confirm := "confirm_example" // string |  (optional)
 	xAgentdriveActor := "xAgentdriveActor_example" // string |  (optional)
+	ifMatch := "ifMatch_example" // string |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.DeleteDriveRouteV0DrivesDriveIdDelete(context.Background(), driveId).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+	resp, r, err := apiClient.DefaultAPI.DeleteDriveRouteV0DrivesDriveIdDelete(context.Background(), driveId).Confirm(confirm).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.DeleteDriveRouteV0DrivesDriveIdDelete``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `DeleteDriveRouteV0DrivesDriveIdDelete`: interface{}
+	// response from `DeleteDriveRouteV0DrivesDriveIdDelete`: DriveDeleteOut
 	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.DeleteDriveRouteV0DrivesDriveIdDelete`: %v\n", resp)
 }
 ```
@@ -2000,12 +2168,14 @@ Other parameters are passed through a pointer to a apiDeleteDriveRouteV0DrivesDr
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+ **confirm** | **string** |  | 
  **xAgentdriveActor** | **string** |  | 
+ **ifMatch** | **string** |  | 
  **authorization** | **string** |  | 
 
 ### Return type
 
-**interface{}**
+[**DriveDeleteOut**](DriveDeleteOut.md)
 
 ### Authorization
 
@@ -2095,7 +2265,7 @@ No authorization required
 
 ## DeleteFolderByIdV0FoldersFldIdDelete
 
-> FolderDeleteOut DeleteFolderByIdV0FoldersFldIdDelete(ctx, fldId).Recursive(recursive).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+> FolderDeleteOut DeleteFolderByIdV0FoldersFldIdDelete(ctx, fldId).Recursive(recursive).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
 
 Soft-delete a folder by stable ID (cascade with ?recursive=true)
 
@@ -2115,11 +2285,12 @@ func main() {
 	fldId := "fldId_example" // string | 
 	recursive := true // bool |  (optional) (default to false)
 	xAgentdriveActor := "xAgentdriveActor_example" // string |  (optional)
+	ifMatch := "ifMatch_example" // string |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.DeleteFolderByIdV0FoldersFldIdDelete(context.Background(), fldId).Recursive(recursive).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+	resp, r, err := apiClient.DefaultAPI.DeleteFolderByIdV0FoldersFldIdDelete(context.Background(), fldId).Recursive(recursive).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.DeleteFolderByIdV0FoldersFldIdDelete``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -2147,6 +2318,7 @@ Name | Type | Description  | Notes
 
  **recursive** | **bool** |  | [default to false]
  **xAgentdriveActor** | **string** |  | 
+ **ifMatch** | **string** |  | 
  **authorization** | **string** |  | 
 
 ### Return type
@@ -2169,7 +2341,7 @@ No authorization required
 
 ## DeleteFolderByPathV0FoldersPathDelete
 
-> FolderDeleteOut DeleteFolderByPathV0FoldersPathDelete(ctx, path).Recursive(recursive).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+> FolderDeleteOut DeleteFolderByPathV0FoldersPathDelete(ctx, path).Recursive(recursive).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
 
 Soft-delete a folder (cascade with ?recursive=true)
 
@@ -2191,11 +2363,12 @@ func main() {
 	path := "path_example" // string | 
 	recursive := true // bool |  (optional) (default to false)
 	xAgentdriveActor := "xAgentdriveActor_example" // string |  (optional)
+	ifMatch := "ifMatch_example" // string |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.DeleteFolderByPathV0FoldersPathDelete(context.Background(), path).Recursive(recursive).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+	resp, r, err := apiClient.DefaultAPI.DeleteFolderByPathV0FoldersPathDelete(context.Background(), path).Recursive(recursive).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.DeleteFolderByPathV0FoldersPathDelete``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -2223,6 +2396,7 @@ Name | Type | Description  | Notes
 
  **recursive** | **bool** |  | [default to false]
  **xAgentdriveActor** | **string** |  | 
+ **ifMatch** | **string** |  | 
  **authorization** | **string** |  | 
 
 ### Return type
@@ -2245,7 +2419,7 @@ No authorization required
 
 ## DeleteGrantRouteV0GrantsGrnIdDelete
 
-> interface{} DeleteGrantRouteV0GrantsGrnIdDelete(ctx, grnId).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+> RevokeOut DeleteGrantRouteV0GrantsGrnIdDelete(ctx, grnId).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
 
 Revoke a grant (can_manage, or self-revoke own grant)
 
@@ -2273,7 +2447,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.DeleteGrantRouteV0GrantsGrnIdDelete``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `DeleteGrantRouteV0GrantsGrnIdDelete`: interface{}
+	// response from `DeleteGrantRouteV0GrantsGrnIdDelete`: RevokeOut
 	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.DeleteGrantRouteV0GrantsGrnIdDelete`: %v\n", resp)
 }
 ```
@@ -2299,7 +2473,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**interface{}**
+[**RevokeOut**](RevokeOut.md)
 
 ### Authorization
 
@@ -2317,7 +2491,7 @@ No authorization required
 
 ## DeleteShareRouteV0SharesShrIdDelete
 
-> interface{} DeleteShareRouteV0SharesShrIdDelete(ctx, shrId).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+> RevokeOut DeleteShareRouteV0SharesShrIdDelete(ctx, shrId).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
 
 Revoke a share link (requires can_manage)
 
@@ -2345,7 +2519,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.DeleteShareRouteV0SharesShrIdDelete``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `DeleteShareRouteV0SharesShrIdDelete`: interface{}
+	// response from `DeleteShareRouteV0SharesShrIdDelete`: RevokeOut
 	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.DeleteShareRouteV0SharesShrIdDelete`: %v\n", resp)
 }
 ```
@@ -2371,7 +2545,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**interface{}**
+[**RevokeOut**](RevokeOut.md)
 
 ### Authorization
 
@@ -2506,6 +2680,78 @@ Name | Type | Description  | Notes
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiDownloadArtifactByIdV0ArtifactsArtIdDownloadGetRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **authorization** | **string** |  | 
+
+### Return type
+
+**interface{}**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## DownloadArtifactByPathV0ArtifactsPathDownloadGet
+
+> interface{} DownloadArtifactByPathV0ArtifactsPathDownloadGet(ctx, path).Authorization(authorization).Execute()
+
+Stream the artifact bytes by path (never rendered HTML)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+	path := "path_example" // string | 
+	authorization := "authorization_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.DownloadArtifactByPathV0ArtifactsPathDownloadGet(context.Background(), path).Authorization(authorization).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.DownloadArtifactByPathV0ArtifactsPathDownloadGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `DownloadArtifactByPathV0ArtifactsPathDownloadGet`: interface{}
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.DownloadArtifactByPathV0ArtifactsPathDownloadGet`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**path** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDownloadArtifactByPathV0ArtifactsPathDownloadGetRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -3538,9 +3784,81 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## GetDriveRouteV0DrivesDriveIdGet
+
+> interface{} GetDriveRouteV0DrivesDriveIdGet(ctx, driveId).Authorization(authorization).Execute()
+
+Drive overview by id (same shape as /drives/me)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+	driveId := "driveId_example" // string | 
+	authorization := "authorization_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.GetDriveRouteV0DrivesDriveIdGet(context.Background(), driveId).Authorization(authorization).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.GetDriveRouteV0DrivesDriveIdGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetDriveRouteV0DrivesDriveIdGet`: interface{}
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.GetDriveRouteV0DrivesDriveIdGet`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**driveId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetDriveRouteV0DrivesDriveIdGetRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **authorization** | **string** |  | 
+
+### Return type
+
+**interface{}**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## GetFeedbackStatusV0FeedbackFbkIdGet
 
-> interface{} GetFeedbackStatusV0FeedbackFbkIdGet(ctx, fbkId).Authorization(authorization).Execute()
+> FeedbackStatusOut GetFeedbackStatusV0FeedbackFbkIdGet(ctx, fbkId).Authorization(authorization).Execute()
 
 Get Feedback Status
 
@@ -3569,7 +3887,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.GetFeedbackStatusV0FeedbackFbkIdGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetFeedbackStatusV0FeedbackFbkIdGet`: interface{}
+	// response from `GetFeedbackStatusV0FeedbackFbkIdGet`: FeedbackStatusOut
 	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.GetFeedbackStatusV0FeedbackFbkIdGet`: %v\n", resp)
 }
 ```
@@ -3594,7 +3912,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**interface{}**
+[**FeedbackStatusOut**](FeedbackStatusOut.md)
 
 ### Authorization
 
@@ -3890,6 +4208,78 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## GetGrantRouteV0GrantsGrnIdGet
+
+> GrantOut GetGrantRouteV0GrantsGrnIdGet(ctx, grnId).Authorization(authorization).Execute()
+
+Read a single grant (can_manage, or the grant's own principal)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+	grnId := "grnId_example" // string | 
+	authorization := "authorization_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.GetGrantRouteV0GrantsGrnIdGet(context.Background(), grnId).Authorization(authorization).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.GetGrantRouteV0GrantsGrnIdGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetGrantRouteV0GrantsGrnIdGet`: GrantOut
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.GetGrantRouteV0GrantsGrnIdGet`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**grnId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetGrantRouteV0GrantsGrnIdGetRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **authorization** | **string** |  | 
+
+### Return type
+
+[**GrantOut**](GrantOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## GetJobLogsV0JobsJobIdLogsGet
 
 > interface{} GetJobLogsV0JobsJobIdLogsGet(ctx, jobId).Authorization(authorization).Execute()
@@ -4100,6 +4490,78 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## GetShareRouteV0SharesShrIdGet
+
+> ShareOut GetShareRouteV0SharesShrIdGet(ctx, shrId).Authorization(authorization).Execute()
+
+Read a single share link's metadata (requires can_manage)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+	shrId := "shrId_example" // string | 
+	authorization := "authorization_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.GetShareRouteV0SharesShrIdGet(context.Background(), shrId).Authorization(authorization).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.GetShareRouteV0SharesShrIdGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetShareRouteV0SharesShrIdGet`: ShareOut
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.GetShareRouteV0SharesShrIdGet`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**shrId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetShareRouteV0SharesShrIdGetRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **authorization** | **string** |  | 
+
+### Return type
+
+[**ShareOut**](ShareOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## GetShareStateWebShareRidGet
 
 > interface{} GetShareStateWebShareRidGet(ctx, rid).Execute()
@@ -4153,6 +4615,78 @@ Name | Type | Description  | Notes
 ### Return type
 
 **interface{}**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetUploadStatusV0UploadsUploadIdGet
+
+> UploadStatusOut GetUploadStatusV0UploadsUploadIdGet(ctx, uploadId).Authorization(authorization).Execute()
+
+Get the status of a large (direct-to-GCS) upload session
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+	uploadId := "uploadId_example" // string | 
+	authorization := "authorization_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.GetUploadStatusV0UploadsUploadIdGet(context.Background(), uploadId).Authorization(authorization).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.GetUploadStatusV0UploadsUploadIdGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetUploadStatusV0UploadsUploadIdGet`: UploadStatusOut
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.GetUploadStatusV0UploadsUploadIdGet`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**uploadId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetUploadStatusV0UploadsUploadIdGetRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **authorization** | **string** |  | 
+
+### Return type
+
+[**UploadStatusOut**](UploadStatusOut.md)
 
 ### Authorization
 
@@ -4534,9 +5068,11 @@ No authorization required
 
 ## ListGrantsRouteV0GrantsGet
 
-> GrantList ListGrantsRouteV0GrantsGet(ctx).Resource(resource).Authorization(authorization).Execute()
+> GrantList ListGrantsRouteV0GrantsGet(ctx).Resource(resource).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
 
 List live grants on a resource (requires can_manage)
+
+
 
 ### Example
 
@@ -4552,11 +5088,13 @@ import (
 
 func main() {
 	resource := "resource_example" // string | art_*_/fld_* id or a path
+	cursor := "cursor_example" // string |  (optional)
+	limit := int32(56) // int32 |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.ListGrantsRouteV0GrantsGet(context.Background()).Resource(resource).Authorization(authorization).Execute()
+	resp, r, err := apiClient.DefaultAPI.ListGrantsRouteV0GrantsGet(context.Background()).Resource(resource).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.ListGrantsRouteV0GrantsGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -4578,6 +5116,8 @@ Other parameters are passed through a pointer to a apiListGrantsRouteV0GrantsGet
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **resource** | **string** | art_*_/fld_* id or a path | 
+ **cursor** | **string** |  | 
+ **limit** | **int32** |  | 
  **authorization** | **string** |  | 
 
 ### Return type
@@ -4674,9 +5214,11 @@ No authorization required
 
 ## ListSharesRouteV0SharesGet
 
-> ShareList ListSharesRouteV0SharesGet(ctx).Resource(resource).Authorization(authorization).Execute()
+> ShareList ListSharesRouteV0SharesGet(ctx).Resource(resource).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
 
 List live share links on a resource (requires can_manage)
+
+
 
 ### Example
 
@@ -4692,11 +5234,13 @@ import (
 
 func main() {
 	resource := "resource_example" // string | art_*_/fld_* id or a path
+	cursor := "cursor_example" // string |  (optional)
+	limit := int32(56) // int32 |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.ListSharesRouteV0SharesGet(context.Background()).Resource(resource).Authorization(authorization).Execute()
+	resp, r, err := apiClient.DefaultAPI.ListSharesRouteV0SharesGet(context.Background()).Resource(resource).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.ListSharesRouteV0SharesGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -4718,6 +5262,8 @@ Other parameters are passed through a pointer to a apiListSharesRouteV0SharesGet
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **resource** | **string** | art_*_/fld_* id or a path | 
+ **cursor** | **string** |  | 
+ **limit** | **int32** |  | 
  **authorization** | **string** |  | 
 
 ### Return type
@@ -5260,9 +5806,87 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## MoveArtifactRouteV0ArtifactsArtIdMovePost
+
+> ArtifactOut MoveArtifactRouteV0ArtifactsArtIdMovePost(ctx, artId).ArtifactMoveIn(artifactMoveIn).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
+
+Rename / move an artifact to a new path
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+	artId := "artId_example" // string | 
+	artifactMoveIn := *openapiclient.NewArtifactMoveIn("Path_example") // ArtifactMoveIn | 
+	xAgentdriveActor := "xAgentdriveActor_example" // string |  (optional)
+	ifMatch := "ifMatch_example" // string |  (optional)
+	authorization := "authorization_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.MoveArtifactRouteV0ArtifactsArtIdMovePost(context.Background(), artId).ArtifactMoveIn(artifactMoveIn).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.MoveArtifactRouteV0ArtifactsArtIdMovePost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `MoveArtifactRouteV0ArtifactsArtIdMovePost`: ArtifactOut
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.MoveArtifactRouteV0ArtifactsArtIdMovePost`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**artId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiMoveArtifactRouteV0ArtifactsArtIdMovePostRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **artifactMoveIn** | [**ArtifactMoveIn**](ArtifactMoveIn.md) |  | 
+ **xAgentdriveActor** | **string** |  | 
+ **ifMatch** | **string** |  | 
+ **authorization** | **string** |  | 
+
+### Return type
+
+[**ArtifactOut**](ArtifactOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## MoveFolderByIdV0FoldersFldIdMovePost
 
-> FolderOut MoveFolderByIdV0FoldersFldIdMovePost(ctx, fldId).FolderMoveIn(folderMoveIn).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+> FolderOut MoveFolderByIdV0FoldersFldIdMovePost(ctx, fldId).FolderMoveIn(folderMoveIn).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
 
 Rename / move a folder by stable ID (cascade descendants)
 
@@ -5282,11 +5906,12 @@ func main() {
 	fldId := "fldId_example" // string | 
 	folderMoveIn := *openapiclient.NewFolderMoveIn("Path_example") // FolderMoveIn | 
 	xAgentdriveActor := "xAgentdriveActor_example" // string |  (optional)
+	ifMatch := "ifMatch_example" // string |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.MoveFolderByIdV0FoldersFldIdMovePost(context.Background(), fldId).FolderMoveIn(folderMoveIn).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+	resp, r, err := apiClient.DefaultAPI.MoveFolderByIdV0FoldersFldIdMovePost(context.Background(), fldId).FolderMoveIn(folderMoveIn).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.MoveFolderByIdV0FoldersFldIdMovePost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -5314,6 +5939,7 @@ Name | Type | Description  | Notes
 
  **folderMoveIn** | [**FolderMoveIn**](FolderMoveIn.md) |  | 
  **xAgentdriveActor** | **string** |  | 
+ **ifMatch** | **string** |  | 
  **authorization** | **string** |  | 
 
 ### Return type
@@ -5336,7 +5962,7 @@ No authorization required
 
 ## MoveFolderByPathV0FoldersPathMovePost
 
-> FolderOut MoveFolderByPathV0FoldersPathMovePost(ctx, path).FolderMoveIn(folderMoveIn).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+> FolderOut MoveFolderByPathV0FoldersPathMovePost(ctx, path).FolderMoveIn(folderMoveIn).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
 
 Rename / move a folder (cascade-update descendants)
 
@@ -5358,11 +5984,12 @@ func main() {
 	path := "path_example" // string | 
 	folderMoveIn := *openapiclient.NewFolderMoveIn("Path_example") // FolderMoveIn | 
 	xAgentdriveActor := "xAgentdriveActor_example" // string |  (optional)
+	ifMatch := "ifMatch_example" // string |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.MoveFolderByPathV0FoldersPathMovePost(context.Background(), path).FolderMoveIn(folderMoveIn).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+	resp, r, err := apiClient.DefaultAPI.MoveFolderByPathV0FoldersPathMovePost(context.Background(), path).FolderMoveIn(folderMoveIn).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.MoveFolderByPathV0FoldersPathMovePost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -5390,6 +6017,7 @@ Name | Type | Description  | Notes
 
  **folderMoveIn** | [**FolderMoveIn**](FolderMoveIn.md) |  | 
  **xAgentdriveActor** | **string** |  | 
+ **ifMatch** | **string** |  | 
  **authorization** | **string** |  | 
 
 ### Return type
@@ -5478,9 +6106,87 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## PatchArtifactRouteV0ArtifactsArtIdPatch
+
+> ArtifactOut PatchArtifactRouteV0ArtifactsArtIdPatch(ctx, artId).ArtifactPatchIn(artifactPatchIn).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
+
+Edit artifact metadata (labels / metadata / source)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+	artId := "artId_example" // string | 
+	artifactPatchIn := *openapiclient.NewArtifactPatchIn() // ArtifactPatchIn | 
+	xAgentdriveActor := "xAgentdriveActor_example" // string |  (optional)
+	ifMatch := "ifMatch_example" // string |  (optional)
+	authorization := "authorization_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.PatchArtifactRouteV0ArtifactsArtIdPatch(context.Background(), artId).ArtifactPatchIn(artifactPatchIn).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.PatchArtifactRouteV0ArtifactsArtIdPatch``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `PatchArtifactRouteV0ArtifactsArtIdPatch`: ArtifactOut
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.PatchArtifactRouteV0ArtifactsArtIdPatch`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**artId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPatchArtifactRouteV0ArtifactsArtIdPatchRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **artifactPatchIn** | [**ArtifactPatchIn**](ArtifactPatchIn.md) |  | 
+ **xAgentdriveActor** | **string** |  | 
+ **ifMatch** | **string** |  | 
+ **authorization** | **string** |  | 
+
+### Return type
+
+[**ArtifactOut**](ArtifactOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## PatchFolderByIdV0FoldersFldIdPatch
 
-> FolderOut PatchFolderByIdV0FoldersFldIdPatch(ctx, fldId).FolderPatchIn(folderPatchIn).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+> FolderOut PatchFolderByIdV0FoldersFldIdPatch(ctx, fldId).FolderPatchIn(folderPatchIn).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
 
 Update folder metadata by stable ID
 
@@ -5500,11 +6206,12 @@ func main() {
 	fldId := "fldId_example" // string | 
 	folderPatchIn := *openapiclient.NewFolderPatchIn() // FolderPatchIn | 
 	xAgentdriveActor := "xAgentdriveActor_example" // string |  (optional)
+	ifMatch := "ifMatch_example" // string |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.PatchFolderByIdV0FoldersFldIdPatch(context.Background(), fldId).FolderPatchIn(folderPatchIn).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+	resp, r, err := apiClient.DefaultAPI.PatchFolderByIdV0FoldersFldIdPatch(context.Background(), fldId).FolderPatchIn(folderPatchIn).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.PatchFolderByIdV0FoldersFldIdPatch``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -5532,6 +6239,7 @@ Name | Type | Description  | Notes
 
  **folderPatchIn** | [**FolderPatchIn**](FolderPatchIn.md) |  | 
  **xAgentdriveActor** | **string** |  | 
+ **ifMatch** | **string** |  | 
  **authorization** | **string** |  | 
 
 ### Return type
@@ -5554,7 +6262,7 @@ No authorization required
 
 ## PatchFolderByPathV0FoldersPathPatch
 
-> FolderOut PatchFolderByPathV0FoldersPathPatch(ctx, path).FolderPatchIn(folderPatchIn).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+> FolderOut PatchFolderByPathV0FoldersPathPatch(ctx, path).FolderPatchIn(folderPatchIn).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
 
 Update folder metadata by path
 
@@ -5576,11 +6284,12 @@ func main() {
 	path := "path_example" // string | 
 	folderPatchIn := *openapiclient.NewFolderPatchIn() // FolderPatchIn | 
 	xAgentdriveActor := "xAgentdriveActor_example" // string |  (optional)
+	ifMatch := "ifMatch_example" // string |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.PatchFolderByPathV0FoldersPathPatch(context.Background(), path).FolderPatchIn(folderPatchIn).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+	resp, r, err := apiClient.DefaultAPI.PatchFolderByPathV0FoldersPathPatch(context.Background(), path).FolderPatchIn(folderPatchIn).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.PatchFolderByPathV0FoldersPathPatch``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -5608,6 +6317,7 @@ Name | Type | Description  | Notes
 
  **folderPatchIn** | [**FolderPatchIn**](FolderPatchIn.md) |  | 
  **xAgentdriveActor** | **string** |  | 
+ **ifMatch** | **string** |  | 
  **authorization** | **string** |  | 
 
 ### Return type
@@ -6167,7 +6877,7 @@ No authorization required
 
 ## PutArtifactV0ArtifactsPathPut
 
-> ArtifactOut PutArtifactV0ArtifactsPathPut(ctx, path).ContentType(contentType).XAgentdriveLabels(xAgentdriveLabels).XAgentdriveMetadata(xAgentdriveMetadata).XAgentdriveSource(xAgentdriveSource).XAgentdriveActor(xAgentdriveActor).XAgentdriveChangeSummary(xAgentdriveChangeSummary).IfMatch(ifMatch).Authorization(authorization).Execute()
+> ArtifactOut PutArtifactV0ArtifactsPathPut(ctx, path).ContentType(contentType).XAgentdriveLabels(xAgentdriveLabels).XAgentdriveMetadata(xAgentdriveMetadata).XAgentdriveSource(xAgentdriveSource).XAgentdriveActor(xAgentdriveActor).XAgentdriveChangeSummary(xAgentdriveChangeSummary).XAgentdriveChecksum(xAgentdriveChecksum).ContentMd5(contentMd5).IfMatch(ifMatch).IfNoneMatch(ifNoneMatch).Authorization(authorization).Execute()
 
 Upload (or overwrite) an artifact
 
@@ -6193,12 +6903,15 @@ func main() {
 	xAgentdriveSource := "xAgentdriveSource_example" // string |  (optional)
 	xAgentdriveActor := "xAgentdriveActor_example" // string |  (optional)
 	xAgentdriveChangeSummary := "xAgentdriveChangeSummary_example" // string |  (optional)
+	xAgentdriveChecksum := "xAgentdriveChecksum_example" // string |  (optional)
+	contentMd5 := "contentMd5_example" // string |  (optional)
 	ifMatch := "ifMatch_example" // string |  (optional)
+	ifNoneMatch := "ifNoneMatch_example" // string |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.PutArtifactV0ArtifactsPathPut(context.Background(), path).ContentType(contentType).XAgentdriveLabels(xAgentdriveLabels).XAgentdriveMetadata(xAgentdriveMetadata).XAgentdriveSource(xAgentdriveSource).XAgentdriveActor(xAgentdriveActor).XAgentdriveChangeSummary(xAgentdriveChangeSummary).IfMatch(ifMatch).Authorization(authorization).Execute()
+	resp, r, err := apiClient.DefaultAPI.PutArtifactV0ArtifactsPathPut(context.Background(), path).ContentType(contentType).XAgentdriveLabels(xAgentdriveLabels).XAgentdriveMetadata(xAgentdriveMetadata).XAgentdriveSource(xAgentdriveSource).XAgentdriveActor(xAgentdriveActor).XAgentdriveChangeSummary(xAgentdriveChangeSummary).XAgentdriveChecksum(xAgentdriveChecksum).ContentMd5(contentMd5).IfMatch(ifMatch).IfNoneMatch(ifNoneMatch).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.PutArtifactV0ArtifactsPathPut``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -6230,7 +6943,10 @@ Name | Type | Description  | Notes
  **xAgentdriveSource** | **string** |  | 
  **xAgentdriveActor** | **string** |  | 
  **xAgentdriveChangeSummary** | **string** |  | 
+ **xAgentdriveChecksum** | **string** |  | 
+ **contentMd5** | **string** |  | 
  **ifMatch** | **string** |  | 
+ **ifNoneMatch** | **string** |  | 
  **authorization** | **string** |  | 
 
 ### Return type
@@ -6791,84 +7507,6 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## RenameArtifactRouteV0ArtifactsArtIdPatch
-
-> ArtifactOut RenameArtifactRouteV0ArtifactsArtIdPatch(ctx, artId).RenameIn(renameIn).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
-
-Rename / move an artifact to a new path
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
-)
-
-func main() {
-	artId := "artId_example" // string | 
-	renameIn := *openapiclient.NewRenameIn("Path_example") // RenameIn | 
-	xAgentdriveActor := "xAgentdriveActor_example" // string |  (optional)
-	ifMatch := "ifMatch_example" // string |  (optional)
-	authorization := "authorization_example" // string |  (optional)
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.RenameArtifactRouteV0ArtifactsArtIdPatch(context.Background(), artId).RenameIn(renameIn).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.RenameArtifactRouteV0ArtifactsArtIdPatch``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `RenameArtifactRouteV0ArtifactsArtIdPatch`: ArtifactOut
-	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.RenameArtifactRouteV0ArtifactsArtIdPatch`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**artId** | **string** |  | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiRenameArtifactRouteV0ArtifactsArtIdPatchRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **renameIn** | [**RenameIn**](RenameIn.md) |  | 
- **xAgentdriveActor** | **string** |  | 
- **ifMatch** | **string** |  | 
- **authorization** | **string** |  | 
-
-### Return type
-
-[**ArtifactOut**](ArtifactOut.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: application/json
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
 ## RenameDriveWebWebDrivesDriveIdRenamePost
 
 > interface{} RenameDriveWebWebDrivesDriveIdRenamePost(ctx, driveId).Name(name).Csrf(csrf).Execute()
@@ -7091,7 +7729,7 @@ No authorization required
 
 ## RestoreArtifactV0ArtifactsArtIdRestorePost
 
-> ArtifactOut RestoreArtifactV0ArtifactsArtIdRestorePost(ctx, artId).Rename(rename).Overwrite(overwrite).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+> ArtifactOut RestoreArtifactV0ArtifactsArtIdRestorePost(ctx, artId).Rename(rename).Overwrite(overwrite).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
 
 Restore a soft-deleted artifact
 
@@ -7114,11 +7752,12 @@ func main() {
 	rename := "rename_example" // string | Restore at this path instead of the original. Soft-deletes the live occupant at the original path with audit `metadata.cause='restore_conflict_rename'`. Mutually exclusive with `overwrite`. (optional)
 	overwrite := true // bool | Soft-delete the live occupant at the original path and restore there. Audit `metadata.cause='restore_conflict_overwrite'`. Mutually exclusive with `rename`. (optional) (default to false)
 	xAgentdriveActor := "xAgentdriveActor_example" // string |  (optional)
+	ifMatch := "ifMatch_example" // string |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.RestoreArtifactV0ArtifactsArtIdRestorePost(context.Background(), artId).Rename(rename).Overwrite(overwrite).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+	resp, r, err := apiClient.DefaultAPI.RestoreArtifactV0ArtifactsArtIdRestorePost(context.Background(), artId).Rename(rename).Overwrite(overwrite).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.RestoreArtifactV0ArtifactsArtIdRestorePost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -7147,6 +7786,86 @@ Name | Type | Description  | Notes
  **rename** | **string** | Restore at this path instead of the original. Soft-deletes the live occupant at the original path with audit &#x60;metadata.cause&#x3D;&#39;restore_conflict_rename&#39;&#x60;. Mutually exclusive with &#x60;overwrite&#x60;. | 
  **overwrite** | **bool** | Soft-delete the live occupant at the original path and restore there. Audit &#x60;metadata.cause&#x3D;&#39;restore_conflict_overwrite&#39;&#x60;. Mutually exclusive with &#x60;rename&#x60;. | [default to false]
  **xAgentdriveActor** | **string** |  | 
+ **ifMatch** | **string** |  | 
+ **authorization** | **string** |  | 
+
+### Return type
+
+[**ArtifactOut**](ArtifactOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost
+
+> ArtifactOut RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost(ctx, artId, versionNumber).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
+
+Restore a previous version as a new head version
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+	artId := "artId_example" // string | 
+	versionNumber := int32(56) // int32 | 
+	xAgentdriveActor := "xAgentdriveActor_example" // string |  (optional)
+	ifMatch := "ifMatch_example" // string |  (optional)
+	authorization := "authorization_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost(context.Background(), artId, versionNumber).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost`: ArtifactOut
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**artId** | **string** |  | 
+**versionNumber** | **int32** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiRestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+ **xAgentdriveActor** | **string** |  | 
+ **ifMatch** | **string** |  | 
  **authorization** | **string** |  | 
 
 ### Return type
@@ -7169,7 +7888,7 @@ No authorization required
 
 ## RestoreDriveRouteV0DrivesDriveIdRestorePost
 
-> interface{} RestoreDriveRouteV0DrivesDriveIdRestorePost(ctx, driveId).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+> interface{} RestoreDriveRouteV0DrivesDriveIdRestorePost(ctx, driveId).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
 
 Restore a soft-deleted drive
 
@@ -7190,11 +7909,12 @@ import (
 func main() {
 	driveId := "driveId_example" // string | 
 	xAgentdriveActor := "xAgentdriveActor_example" // string |  (optional)
+	ifMatch := "ifMatch_example" // string |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.RestoreDriveRouteV0DrivesDriveIdRestorePost(context.Background(), driveId).XAgentdriveActor(xAgentdriveActor).Authorization(authorization).Execute()
+	resp, r, err := apiClient.DefaultAPI.RestoreDriveRouteV0DrivesDriveIdRestorePost(context.Background(), driveId).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.RestoreDriveRouteV0DrivesDriveIdRestorePost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -7221,11 +7941,88 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **xAgentdriveActor** | **string** |  | 
+ **ifMatch** | **string** |  | 
  **authorization** | **string** |  | 
 
 ### Return type
 
 **interface{}**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## RestoreFolderByIdV0FoldersFldIdRestorePost
+
+> FolderRestoreOut RestoreFolderByIdV0FoldersFldIdRestorePost(ctx, fldId).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
+
+Restore a soft-deleted folder (cascade)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+	fldId := "fldId_example" // string | 
+	xAgentdriveActor := "xAgentdriveActor_example" // string |  (optional)
+	ifMatch := "ifMatch_example" // string |  (optional)
+	authorization := "authorization_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.RestoreFolderByIdV0FoldersFldIdRestorePost(context.Background(), fldId).XAgentdriveActor(xAgentdriveActor).IfMatch(ifMatch).Authorization(authorization).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.RestoreFolderByIdV0FoldersFldIdRestorePost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `RestoreFolderByIdV0FoldersFldIdRestorePost`: FolderRestoreOut
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.RestoreFolderByIdV0FoldersFldIdRestorePost`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**fldId** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiRestoreFolderByIdV0FoldersFldIdRestorePostRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **xAgentdriveActor** | **string** |  | 
+ **ifMatch** | **string** |  | 
+ **authorization** | **string** |  | 
+
+### Return type
+
+[**FolderRestoreOut**](FolderRestoreOut.md)
 
 ### Authorization
 
@@ -8273,76 +9070,6 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## StreamUploadV0UploadTokenPut
-
-> ArtifactOut StreamUploadV0UploadTokenPut(ctx, token).Execute()
-
-Proxied streaming upload (via an upload_url token)
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
-)
-
-func main() {
-	token := "token_example" // string | 
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DefaultAPI.StreamUploadV0UploadTokenPut(context.Background(), token).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.StreamUploadV0UploadTokenPut``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `StreamUploadV0UploadTokenPut`: ArtifactOut
-	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.StreamUploadV0UploadTokenPut`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**token** | **string** |  | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiStreamUploadV0UploadTokenPutRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
-
-### Return type
-
-[**ArtifactOut**](ArtifactOut.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
 ## SwitchDriveWebSwitchPost
 
 > interface{} SwitchDriveWebSwitchPost(ctx).Csrf(csrf).DriveId(driveId).OrganizationId(organizationId).Execute()
@@ -8654,6 +9381,83 @@ Other parameters are passed through a pointer to a apiViewArtifactHeadAArtIdHead
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+
+### Return type
+
+**interface{}**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ViewArtifactVersionVArtIdVersionGet
+
+> interface{} ViewArtifactVersionVArtIdVersionGet(ctx, artId, version).Raw(raw).Download(download).Execute()
+
+View Artifact Version
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+	artId := "artId_example" // string | 
+	version := int32(56) // int32 | 
+	raw := int32(56) // int32 |  (optional) (default to 0)
+	download := int32(56) // int32 |  (optional) (default to 0)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.ViewArtifactVersionVArtIdVersionGet(context.Background(), artId, version).Raw(raw).Download(download).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.ViewArtifactVersionVArtIdVersionGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ViewArtifactVersionVArtIdVersionGet`: interface{}
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.ViewArtifactVersionVArtIdVersionGet`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**artId** | **string** |  | 
+**version** | **int32** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiViewArtifactVersionVArtIdVersionGetRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+ **raw** | **int32** |  | [default to 0]
+ **download** | **int32** |  | [default to 0]
 
 ### Return type
 

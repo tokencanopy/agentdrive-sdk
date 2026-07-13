@@ -13,6 +13,11 @@ servers:
 paths:
   /v0/artifacts/{path}:
     delete:
+      description: |-
+        Soft-delete the artifact at the given path.
+
+        A delete WITHOUT an `If-Match` precondition is last-writer-wins and will
+        silently remove a concurrently-modified artifact.
       operationId: delete_artifact_v0_artifacts__path__delete
       parameters:
       - explode: false
@@ -51,7 +56,8 @@ paths:
         "200":
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: "#/components/schemas/ArtifactDeleteOut"
           description: Successful Response
         "422":
           content:
@@ -62,7 +68,7 @@ paths:
       summary: Delete Artifact
     put:
       description: |-
-        Upload an artifact at the given path. The path is treated as the artifact's location in the drive — re-uploading the same path overwrites in place (idempotent).
+        Upload an artifact at the given path. The path is treated as the artifact's location in the drive — re-uploading the same path overwrites in place (idempotent). Returns 201 when the artifact is created (no prior live artifact at the path), 200 on overwrite — mirroring `PUT /v0/folders/{path}`.
 
         **Limits:** request body must not exceed **50 MB**. Path must be non-empty, ≤256 chars, only `[A-Za-z0-9_./-]`, no `..` segments, no leading/trailing slash. Per-token write rate limit: 100/hour.
 
@@ -71,6 +77,10 @@ paths:
         - `X-AgentDrive-Metadata`: JSON object of agent-attached fields.
         - `X-AgentDrive-Source`: JSON `{"refs": [...]}` source provenance (present, including `{"refs": []}`, replaces).
         - `X-AgentDrive-Actor`: caller-supplied actor name (≤64 chars) for event-log attribution. Untrusted; never used for authz.
+
+        **Preconditions.** `If-Match: "<id>.<gen>.<metagen>"` makes the write conditional on the current composite ETag (→ 412 PRECONDITION_FAILED). `If-None-Match: *` is create-only: it succeeds only if no live artifact occupies the path (→ 412 CREATE_CONFLICT if one does). The two are mutually exclusive (→ 400 BAD_PRECONDITION).
+
+        **Integrity (optional).** `X-AgentDrive-Checksum: <algo>:<value>` (`sha256:<hex>` or `crc32c:<base64>`) or the standard `Content-MD5` (base64 MD5) is verified against the received bytes before they land (→ 400 CHECKSUM_MISMATCH on mismatch); no artifact is created on failure.
       operationId: put_artifact_v0_artifacts__path__put
       parameters:
       - explode: false
@@ -132,7 +142,31 @@ paths:
         style: simple
       - explode: false
         in: header
+        name: x-agentdrive-checksum
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: content-md5
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
         name: if-match
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: if-none-match
         required: false
         schema:
           nullable: true
@@ -248,10 +282,19 @@ paths:
       summary: Canonical lookup of an artifact by its stable ID
     patch:
       description: |-
-        Move the artifact to a new path on the same drive. ID, version history, source refs, labels, metadata, and the underlying CAS blob are preserved — only `path` and `updated_at` change.
+        Metadata-only JSON-merge-patch update of a single artifact, keyed by its stable `art_…` ID. Every field in the body is optional; a field that is **omitted** is left unchanged, a field that is **present** is applied — with an explicit `null` / `[]` / `{}` meaning "clear". This mirrors the MCP `set_metadata` tool.
 
-        Returns 409 PATH_CONFLICT if the target path is already taken. Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.renamed` event.
-      operationId: rename_artifact_route_v0_artifacts__art_id__patch
+        Editable fields:
+          * `labels` — replace the label set (`[]`/`null` clears).
+          * `metadata` — replace the free-form metadata object (`{}`/`null` clears).
+          * `source` — replace provenance refs (`null` clears).
+
+        **To move/rename an artifact, use `POST /v0/artifacts/{art_id}/move`** — PATCH no longer accepts `path`. The body is `extra="forbid"`, so a stray field (notably a legacy `path`) is rejected with 422 rather than silently ignored.
+
+        Metadata edits do NOT create a new content version (no `version_number` / generation bump, no `artifact_versions` row) but DO bump the artifact's `metageneration` and `updated_at`.
+
+        Returns 400 BAD_LABELS / BAD_SOURCE for invalid metadata; 404 ARTIFACT_NOT_FOUND for an unknown id. Honors `If-Match`, which takes the composite ETag `"<art_id>.<generation>.<metageneration>"` and is compared as a whole tuple: ANY concurrent content **or** metadata change (a bumped generation OR metageneration) → 412 PRECONDITION_FAILED. There is no last-writer-wins gap for metadata-only edits. Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.metadata_updated` event.
+      operationId: patch_artifact_route_v0_artifacts__art_id__patch
       parameters:
       - explode: false
         in: path
@@ -289,7 +332,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/RenameIn"
+              $ref: "#/components/schemas/ArtifactPatchIn"
         required: true
       responses:
         "200":
@@ -304,7 +347,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
-      summary: Rename / move an artifact to a new path
+      summary: Edit artifact metadata (labels / metadata / source)
   /v0/artifacts/{art_id}/meta:
     get:
       operationId: get_artifact_by_id_meta_v0_artifacts__art_id__meta_get
@@ -339,12 +382,76 @@ paths:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
       summary: Artifact metadata by stable ID (same shape as path /meta)
+  /v0/artifacts/{art_id}/move:
+    post:
+      description: |-
+        Canonical artifact move/rename, keyed by the stable `art_…` ID (the artifact analogue of `POST /v0/folders/{fld_id}/move`). Moves the artifact to a new `path` on the same drive; ID, version history, source refs, labels, metadata, and the underlying CAS blob are all preserved — only `path` and `updated_at` change, and the move does NOT bump `version_number`.
+
+        The row UPDATE and the emitted `artifact.renamed` event commit in a SINGLE transaction — a failure leaves the artifact fully unchanged.
+
+        Returns 409 PATH_CONFLICT if the target `path` is already taken; 404 ARTIFACT_NOT_FOUND for an unknown id; 403 WIKI_RESERVED for a `_wiki/` / `_compiled/` target. Honors `If-Match` (→ 412 PRECONDITION_FAILED). Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.renamed` event.
+      operationId: move_artifact_route_v0_artifacts__art_id__move_post
+      parameters:
+      - explode: false
+        in: path
+        name: art_id
+        required: true
+        schema:
+          title: Art Id
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: x-agentdrive-actor
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: if-match
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ArtifactMoveIn"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArtifactOut"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Rename / move an artifact to a new path
   /v0/artifacts/{art_id}/copy:
     post:
       description: |-
         Create a new artifact at `path` whose bytes are identical to the source artifact's. The copy reuses the source's CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and — by default — `source.refs = [{type: 'artifact', id: '<source>'}]` so provenance is preserved.
 
         Quota: the copy's `size_bytes` is added to the drive's `storage_bytes` even though physical bytes are shared.
+
+        Source-version pin: pass `from_generation` in the body to require the source's current content generation (`version_number`) to equal it (→ 412 SOURCE_VERSION_MISMATCH); a concurrent source *metadata* edit does NOT fail the copy. Destination create-only: `If-None-Match: *` returns 412 CREATE_CONFLICT (instead of 409 PATH_CONFLICT) when the target path is occupied.
 
         Returns 409 PATH_CONFLICT if the target path is already taken; 413 STORAGE_QUOTA_EXCEEDED if the copy would push the drive over its limit.
       operationId: copy_artifact_route_v0_artifacts__art_id__copy_post
@@ -367,6 +474,14 @@ paths:
         style: simple
       - explode: false
         in: header
+        name: if-none-match
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
         name: authorization
         required: false
         schema:
@@ -380,7 +495,7 @@ paths:
               $ref: "#/components/schemas/CopyIn"
         required: true
       responses:
-        "200":
+        "201":
           content:
             application/json:
               schema:
@@ -568,6 +683,72 @@ paths:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
       summary: Stream bytes for a specific version (machine surface)
+  /v0/artifacts/{art_id}/versions/{version_number}/restore:
+    post:
+      description: |-
+        Roll the artifact forward to the content of version `version_number` by creating a **new head version** with identical bytes. History is preserved — this never rewrites or deletes past versions. The prior version's content-addressed blob is reused, so no bytes are re-uploaded. A change summary of `Restored version N` is recorded on the new version; `X-AgentDrive-Actor` attributes it.
+
+        Restoring a version whose content already matches the current head (including the head itself) is a **no-op**: it returns the current artifact unchanged, with no new version created.
+
+        Honors `If-Match` on the current head (roll forward only if the head is unchanged → 412 PRECONDITION_FAILED).
+
+        Errors: `404 ARTIFACT_NOT_FOUND`, `404 VERSION_NOT_FOUND`, and `410 VERSION_PRUNED` when the version existed but its bytes were retained out of existence.
+      operationId: restore_artifact_version_v0_artifacts__art_id__versions__version_number__restore_post
+      parameters:
+      - explode: false
+        in: path
+        name: art_id
+        required: true
+        schema:
+          title: Art Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: version_number
+        required: true
+        schema:
+          title: Version Number
+          type: integer
+        style: simple
+      - explode: false
+        in: header
+        name: x-agentdrive-actor
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: if-match
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArtifactOut"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Restore a previous version as a new head version
   /v0/artifacts/{art_id}/download-url:
     get:
       description: "Returns a URL for the artifact's bytes. For large artifacts (>=\
@@ -689,6 +870,43 @@ paths:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
       summary: Signed direct-from-GCS download URL by path
+  /v0/artifacts/{path}/download:
+    get:
+      description: "Same bytes-only machine surface as `/{art_id}/download` but resolves\
+        \ the artifact by path, so callers don't have to resolve path→id first. Applies\
+        \ the identical CSP `sandbox` + `nosniff` posture (never serves HTML inline\
+        \ as active content)."
+      operationId: download_artifact_by_path_v0_artifacts__path__download_get
+      parameters:
+      - explode: false
+        in: path
+        name: path
+        required: true
+        schema:
+          title: Path
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Stream the artifact bytes by path (never rendered HTML)
   /v0/artifacts/{path}/meta:
     get:
       operationId: get_artifact_meta_v0_artifacts__path__meta_get
@@ -727,7 +945,7 @@ paths:
     post:
       description: Clear `deleted_at` + `purge_at` on a soft-deleted artifact. Available
         only while the artifact is in trash (i.e. before the GC cleanup cron purges
-        it). Returns 404 if the artifact is live or already hard-deleted; 409 PATH_OCCUPIED
+        it). Returns 404 if the artifact is live or already hard-deleted; 409 PATH_CONFLICT
         if its path is now occupied by another live artifact. The 409 payload includes
         a `restore_options` block with `rename_to` and `force_overwrite` URLs the
         caller can follow to resolve the conflict — see deletion-design.md §5.4.
@@ -780,6 +998,14 @@ paths:
         style: simple
       - explode: false
         in: header
+        name: if-match
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
         name: authorization
         required: false
         schema:
@@ -806,6 +1032,10 @@ paths:
         Mark the drive for cleanup. All tenant data (artifacts, versions, wiki, embeddings, events) is hidden via the `live_*` views and CASCADE-removed by the GC cleanup cron at `purge_at`. Restore via `POST /v0/drives/{id}/restore` while the row is still in trash. The path-param `drive_id` MUST match the authenticated drive.
 
         Accepts either an `ad_live_` per-drive key (deletes that key's drive) or an `ad_user_` user token selecting an owned drive (workspaces-design §5.3); a `read`-scope user token is rejected with 403 `INSUFFICIENT_SCOPE`. **Guard (§8):** a workspace must retain at least one live drive — deleting the workspace's last live drive returns 409 `LAST_DRIVE`.
+
+        **Explicit confirmation required:** pass `?confirm=DELETE` or the request is rejected with 400 `CONFIRM_REQUIRED`. Tenant-level deletion is the largest-blast-radius operation on the API; the static token forces a deliberate act (soft-delete still gives a restore window on top).
+
+        **Optimistic concurrency:** send `If-Match` with the drive's composite ETag (`"<drv_id>.0.<metageneration>"`, from a drive read) to make the delete conditional — a stale token returns 412 PRECONDITION_FAILED. A delete WITHOUT an `If-Match` precondition is last-writer-wins and will silently trash a concurrently-modified drive.
       operationId: delete_drive_route_v0_drives__drive_id__delete
       parameters:
       - explode: false
@@ -816,12 +1046,68 @@ paths:
           title: Drive Id
           type: string
         style: simple
+      - explode: true
+        in: query
+        name: confirm
+        required: false
+        schema:
+          description: Restore at this path instead of the original. Soft-deletes
+            the live occupant at the original path with audit `metadata.cause='restore_conflict_rename'`.
+            Mutually exclusive with `overwrite`.
+          nullable: true
+          type: string
+        style: form
       - explode: false
         in: header
         name: x-agentdrive-actor
         required: false
         schema:
           nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: if-match
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DriveDeleteOut"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Soft-delete a drive
+    get:
+      description: Identical to `GET /v0/drives/me` — the by-id singleton so `Location`-style
+        URLs and scripted clients can address the drive canonically. The path-param
+        `drive_id` MUST match the authenticated drive (mirrors the delete/trash routes'
+        no-leak 404). Emits the drive's composite `ETag` header (`"<drv_id>.0.<metageneration>"`).
+      operationId: get_drive_route_v0_drives__drive_id__get
+      parameters:
+      - explode: false
+        in: path
+        name: drive_id
+        required: true
+        schema:
+          title: Drive Id
           type: string
         style: simple
       - explode: false
@@ -844,7 +1130,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
-      summary: Soft-delete a drive
+      summary: Drive overview by id (same shape as /drives/me)
     patch:
       description: Rename a drive. **Owner only** — a drive id that isn't yours returns
         404 (no-leak). Requires a `full`-scope user token.
@@ -890,10 +1176,10 @@ paths:
       - drives
   /v0/drives/{drive_id}/restore:
     post:
-      description: Clear `deleted_at` + `purge_at` on a soft-deleted drive. Soft-deleted
-        child artifacts get their retention window rebased to the drive-restore moment
-        (see deletion-design.md §5.2). Available only while the drive is in trash.
-        Returns 404 if the drive is live or already hard-deleted.
+      description: |-
+        Clear `deleted_at` + `purge_at` on a soft-deleted drive. Soft-deleted child artifacts get their retention window rebased to the drive-restore moment (see deletion-design.md §5.2). Available only while the drive is in trash. Returns 404 if the drive is live or already hard-deleted.
+
+        **Optimistic concurrency:** send `If-Match` with the trashed drive's composite ETag (`"<drv_id>.0.<metageneration>"`, e.g. from the delete response's `ETag` header) to make the restore conditional — a stale token returns 412 PRECONDITION_FAILED. A restore WITHOUT an `If-Match` precondition is last-writer-wins.
       operationId: restore_drive_route_v0_drives__drive_id__restore_post
       parameters:
       - explode: false
@@ -907,6 +1193,14 @@ paths:
       - explode: false
         in: header
         name: x-agentdrive-actor
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: if-match
         required: false
         schema:
           nullable: true
@@ -1335,6 +1629,14 @@ paths:
         style: simple
       - explode: false
         in: header
+        name: if-match
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
         name: authorization
         required: false
         schema:
@@ -1402,6 +1704,14 @@ paths:
       - explode: false
         in: header
         name: x-agentdrive-actor
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: if-match
         required: false
         schema:
           nullable: true
@@ -1491,6 +1801,14 @@ paths:
         style: simple
       - explode: false
         in: header
+        name: if-match
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
         name: authorization
         required: false
         schema:
@@ -1517,6 +1835,128 @@ paths:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
       summary: Rename / move a folder by stable ID (cascade descendants)
+  /v0/folders/{fld_id}/copy:
+    post:
+      description: |-
+        Clone the folder identified by URL id — and every descendant folder + artifact — under the body's `path` (canonical, trailing slash). Each copied artifact reuses the source's CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and `source.refs = [{type: 'artifact', id: '<source>'}]` provenance. The new folder gets a fresh `fld_…` ID and the source's description.
+
+        The entire subtree is copied in a SINGLE transaction — either every row lands or none does.
+
+        Quota: each copy's `size_bytes` counts against the drive's `storage_bytes` even though physical bytes are shared.
+
+        Source-version pin: pass `from_metageneration` in the body to require the source folder's current `metageneration` to equal it (→ 412 SOURCE_VERSION_MISMATCH). Destination create-only: `If-None-Match: *` returns 412 CREATE_CONFLICT (instead of 409 FOLDER_PATH_CONFLICT) when the destination folder is occupied.
+
+        Returns 409 `FOLDER_PATH_CONFLICT` if the destination collides with a live folder or artifact; 400 `FOLDER_PATH_INVALID` if `path` is non-canonical; 413 `SUBTREE_TOO_LARGE` if the source holds more than 5000 artifacts; 413 `STORAGE_QUOTA_EXCEEDED` if the copy would push the drive over its limit.
+      operationId: copy_folder_by_id_v0_folders__fld_id__copy_post
+      parameters:
+      - explode: false
+        in: path
+        name: fld_id
+        required: true
+        schema:
+          title: Fld Id
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: x-agentdrive-actor
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: if-none-match
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FolderCopyIn"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FolderCopyOut"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: "Duplicate a folder subtree to a new path (CAS-shared, new IDs)"
+  /v0/folders/{fld_id}/restore:
+    post:
+      description: |-
+        Mirrors `POST /v0/artifacts/{art_id}/restore` for folders: clear `deleted_at` + `purge_at` on a soft-deleted folder AND exactly the descendants soft-deleted in the same cascade (descendants trashed separately keep their trash state; restore those individually — the per-artifact restore remains for cherry-picking). Available only while the folder is in trash; returns 404 if it is live or already hard-purged.
+
+        Returns 409 `PATH_CONFLICT` when a live folder/artifact now occupies a path this restore would reinstate (`colliding_path` + `kind` identify it). Unlike artifact restore there are NO `rename`/`overwrite` escape hatches — the whole cascade aborts; free the colliding path (or cherry-pick artifacts) and retry.
+
+        `If-Match` (the trashed folder's composite ETag) makes the restore conditional → 412 PRECONDITION_FAILED on a stale token; omitted, the restore is last-writer-wins.
+      operationId: restore_folder_by_id_v0_folders__fld_id__restore_post
+      parameters:
+      - explode: false
+        in: path
+        name: fld_id
+        required: true
+        schema:
+          title: Fld Id
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: x-agentdrive-actor
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: if-match
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FolderRestoreOut"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Restore a soft-deleted folder (cascade)
   /v0/folders/{path}/move:
     post:
       description: |-
@@ -1536,6 +1976,14 @@ paths:
       - explode: false
         in: header
         name: x-agentdrive-actor
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: if-match
         required: false
         schema:
           nullable: true
@@ -1597,6 +2045,14 @@ paths:
       - explode: false
         in: header
         name: x-agentdrive-actor
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: if-match
         required: false
         schema:
           nullable: true
@@ -1681,6 +2137,14 @@ paths:
         style: simple
       - explode: false
         in: header
+        name: if-match
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
         name: authorization
         required: false
         schema:
@@ -1707,12 +2171,14 @@ paths:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
       summary: Update folder metadata by path
-    post:
+    put:
       description: |-
-        Create a folder at the URL path. Idempotent — a second call for the same live path returns the existing row unchanged (metadata updates require PATCH).
+        Create a folder at the URL path. Idempotent create-at-known-URI (mirrors `PUT /v0/artifacts/{path}`) — a second call for the same live path returns the existing row unchanged (metadata updates require PATCH). Returns 201 on create, 200 when the folder already exists.
+
+        Send `If-None-Match: *` to make it strictly create-only: an existing folder then returns 412 CREATE_CONFLICT instead of the idempotent 200.
 
         Returns 409 `FOLDER_PATH_CONFLICT` if a live artifact occupies the file form of the path (e.g. mkdir `/foo/` when an artifact lives at `/foo`).
-      operationId: create_folder_by_path_v0_folders__path__post
+      operationId: create_folder_by_path_v0_folders__path__put
       parameters:
       - explode: false
         in: path
@@ -1725,6 +2191,14 @@ paths:
       - explode: false
         in: header
         name: x-agentdrive-actor
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: if-none-match
         required: false
         schema:
           nullable: true
@@ -1892,7 +2366,8 @@ paths:
         owner's email" (via `drives.owner_user_id` → `users.email`, joined
         in `auth.resolve_drive`). For solo signups this equals v0 behavior —
         the email the user signed up with. Returns null if the owner has
-        been hard-purged. `organization_id` is a new additive field.
+        been hard-purged. `organization_id` is a new additive field, as are
+        `metageneration` / `etag` (also emitted as the `ETag` header).
       operationId: me_v0_drives_me_get
       parameters:
       - explode: false
@@ -2002,7 +2477,8 @@ paths:
         "200":
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: "#/components/schemas/FeedbackStatusOut"
           description: Successful Response
         "422":
           content:
@@ -2013,6 +2489,11 @@ paths:
       summary: Get Feedback Status
   /v0/grants:
     get:
+      description: "**Cursor pagination:** when more results exist, the response carries\
+        \ `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page;\
+        \ `null` means the listing is complete. `limit` is clamped to [1, 100] (default\
+        \ 50), never rejected. The `resource` filter must be re-sent on every page\
+        \ — the cursor encodes only the keyset position."
       operationId: list_grants_route_v0_grants_get
       parameters:
       - description: art_*/fld_* id or a path
@@ -2024,6 +2505,22 @@ paths:
           description: art_*/fld_* id or a path
           title: Resource
           type: string
+        style: form
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          nullable: true
+          type: integer
         style: form
       - explode: false
         in: header
@@ -2118,7 +2615,8 @@ paths:
         "200":
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: "#/components/schemas/RevokeOut"
           description: Successful Response
         "422":
           content:
@@ -2127,6 +2625,45 @@ paths:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
       summary: "Revoke a grant (can_manage, or self-revoke own grant)"
+    get:
+      description: |-
+        The `Location` target of `POST /v0/grants`. Authorization mirrors
+        DELETE: `can_manage` on the granted resource, or the caller IS the
+        grant's own principal (a grantee may read — like revoke — their own
+        grant). A revoked grant reads as 404 (same no-leak shape as a
+        foreign/absent id); DELETE stays idempotent on it.
+      operationId: get_grant_route_v0_grants__grn_id__get
+      parameters:
+      - explode: false
+        in: path
+        name: grn_id
+        required: true
+        schema:
+          title: Grn Id
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GrantOut"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: "Read a single grant (can_manage, or the grant's own principal)"
     patch:
       operationId: patch_grant_route_v0_grants__grn_id__patch
       parameters:
@@ -2176,6 +2713,11 @@ paths:
       summary: Update a grant's role and/or expiry (requires can_manage)
   /v0/shares:
     get:
+      description: "**Cursor pagination:** when more results exist, the response carries\
+        \ `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page;\
+        \ `null` means the listing is complete. `limit` is clamped to [1, 100] (default\
+        \ 50), never rejected. The `resource` filter must be re-sent on every page\
+        \ — the cursor encodes only the keyset position."
       operationId: list_shares_route_v0_shares_get
       parameters:
       - description: art_*/fld_* id or a path
@@ -2187,6 +2729,22 @@ paths:
           description: art_*/fld_* id or a path
           title: Resource
           type: string
+        style: form
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          nullable: true
+          type: integer
         style: form
       - explode: false
         in: header
@@ -2281,7 +2839,8 @@ paths:
         "200":
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: "#/components/schemas/RevokeOut"
           description: Successful Response
         "422":
           content:
@@ -2290,6 +2849,45 @@ paths:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
       summary: Revoke a share link (requires can_manage)
+    get:
+      description: |-
+        The `Location` target of `POST /v0/shares`. Metadata ONLY —
+        `ShareOut` never carries the raw `share_key`/URL (returned exactly
+        once at mint/rotate, §4.5). Authorization mirrors DELETE:
+        `can_manage` on the shared resource. A revoked share reads as 404
+        (same no-leak shape as a foreign/absent id).
+      operationId: get_share_route_v0_shares__shr_id__get
+      parameters:
+      - explode: false
+        in: path
+        name: shr_id
+        required: true
+        schema:
+          title: Shr Id
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShareOut"
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Read a single share link's metadata (requires can_manage)
   /v0/shares/{shr_id}/rotate:
     post:
       operationId: rotate_share_route_v0_shares__shr_id__rotate_post
@@ -2334,12 +2932,28 @@ paths:
       summary: Revoke + reissue a share link's key (requires can_share)
   /v0/tokens:
     get:
-      description: List the `ad_user_` tokens belonging to the authenticated user.
-        Metadata only — the raw token is shown once at mint (web only) and is never
-        returned here. Includes recently-revoked tokens (with `revoked_at` set) so
-        the caller can audit them; newest first.
+      description: |-
+        List the `ad_user_` tokens belonging to the authenticated user. Metadata only — the raw token is shown once at mint (web only) and is never returned here. Includes recently-revoked tokens (with `revoked_at` set) so the caller can audit them; newest first.
+
+        **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
       operationId: list_tokens_v0_tokens_get
       parameters:
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
       - explode: false
         in: header
         name: authorization
@@ -2407,13 +3021,28 @@ paths:
       - tokens
   /v0/drives:
     get:
-      description: "Returns drive **metadata** (workspaces-design §4.2): an **admin**\
-        \ sees the whole active workspace's drive inventory (every owner); a **member**\
-        \ sees only the drives they own. Metadata only — owner, size, timestamps —\
-        \ never a raw API key, and never an authorization to read a drive's contents.\
-        \ A `read`-scope token may call this; mutations require `full`."
+      description: |-
+        Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whole active workspace's drive inventory (every owner); a **member** sees only the drives they own. Metadata only — owner, size, timestamps — never a raw API key, and never an authorization to read a drive's contents. A `read`-scope token may call this; mutations require `full`.
+
+        **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
       operationId: list_drives_route_v0_drives_get
       parameters:
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
       - explode: false
         in: header
         name: authorization
@@ -2479,11 +3108,10 @@ paths:
       - drives
   /v0/drives/{drive_id}/keys:
     get:
-      description: "List the `ad_live_` keys for a drive you manage (newest first,\
-        \ including recently-revoked rows — filter on `revoked_at` for live only).\
-        \ **Manager only** (404 no-leak otherwise). A `read`-scope user token may\
-        \ list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata\
-        \ only — the raw key is never returned after mint."
+      description: |-
+        List the `ad_live_` keys for a drive you manage (oldest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.
+
+        **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
       operationId: list_drive_keys_route_v0_drives__drive_id__keys_get
       parameters:
       - explode: false
@@ -2494,6 +3122,22 @@ paths:
           title: Drive Id
           type: string
         style: simple
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
       - explode: false
         in: header
         name: authorization
@@ -2658,10 +3302,28 @@ paths:
       - drives
   /v0/members:
     get:
-      description: "List live members (email, role, joined-at) of the caller's active\
-        \ workspace. Any **member** may list; a `read`-scope token is sufficient."
+      description: |-
+        List live members (email, role, joined-at) of the caller's active workspace. Any **member** may list; a `read`-scope token is sufficient.
+
+        Ordered by join time (`created_at`, tie-broken by `user_id`) — **no role grouping is promised**; a dashboard that wants admins-first sorts client-side. Paginated: `limit` is clamped to [1, 100] (default 50, never a 422); pass the response's `next_cursor` back as `cursor` for the next page (`null` when the listing is complete).
       operationId: list_members_v0_members_get
       parameters:
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
       - explode: false
         in: header
         name: authorization
@@ -2728,12 +3390,12 @@ paths:
       - members
   /v0/members/{target_user_id}:
     delete:
-      description: "Remove a member from the caller's active workspace, soft-deleting\
-        \ every drive that member owns there (workspaces-design §4.4 — no ownership\
-        \ transfer in v0; their `ad_live_` keys then stop working). **Admin** may\
-        \ remove anyone; **any member** may remove themselves (self-leave). `full`\
-        \ scope. Removing the **last/sole admin** is rejected with 409 `LAST_ADMIN`\
-        \ (promote someone first, or delete the workspace)."
+      description: |-
+        Remove a member from the caller's active workspace, soft-deleting every drive that member owns there (workspaces-design §4.4 — no ownership transfer in v0; their `ad_live_` keys then stop working). **Admin** may remove anyone; **any member** may remove themselves (self-leave). `full` scope. Removing the **last/sole admin** is rejected with 409 `LAST_ADMIN` (promote someone first, or delete the workspace).
+
+        **Explicit confirmation required:** pass `?confirm=DELETE` or the request is rejected with 400 `CONFIRM_REQUIRED` — removal cascades a soft-delete of every drive the member owns, so it carries tenant-level blast radius (uniform with `DELETE /v0/drives/{id}`).
+
+        Deliberately takes NO `If-Match`: membership rows carry no generation/metageneration axis to pin (there is no ETag to echo), so `?confirm=DELETE` is the sole mutation guard here.
       operationId: remove_member_v0_members__target_user_id__delete
       parameters:
       - explode: false
@@ -2744,6 +3406,14 @@ paths:
           title: Target User Id
           type: string
         style: simple
+      - explode: true
+        in: query
+        name: confirm
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
       - explode: false
         in: header
         name: authorization
@@ -2756,7 +3426,8 @@ paths:
         "200":
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: "#/components/schemas/MemberRemoveOut"
           description: Successful Response
         "422":
           content:
@@ -2813,10 +3484,28 @@ paths:
       - members
   /v0/invitations:
     get:
-      description: List the pending invitations for the caller's active workspace.
-        **Admin only.** Metadata only — the raw invite token is never surfaced.
+      description: |-
+        List the pending invitations for the caller's active workspace. **Admin only.** Metadata only — the raw invite token is never surfaced.
+
+        Newest first (`created_at` descending, tie-broken by `id`). Paginated: `limit` is clamped to [1, 100] (default 50, never a 422); pass the response's `next_cursor` back as `cursor` for the next page (`null` when the listing is complete).
       operationId: list_invitations_v0_invitations_get
       parameters:
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
       - explode: false
         in: header
         name: authorization
@@ -2844,8 +3533,10 @@ paths:
   /v0/invitations/{invitation_id}:
     delete:
       description: "Revoke a pending invitation in the caller's active workspace.\
-        \ **Admin only**, `full` scope. Org-scoped + idempotent: a forged id, an invite\
-        \ from another workspace, or an already-consumed invite all return 404 (no-leak)."
+        \ **Admin only**, `full` scope. Org-scoped + idempotent: `revoked` is a COUNT\
+        \ — 1 when a live invite was revoked, 0 when it was already gone (a forged\
+        \ id, an invite from another workspace, or an already-consumed invite all\
+        \ return `revoked: 0`, no-leak)."
       operationId: revoke_invitation_v0_invitations__invitation_id__delete
       parameters:
       - explode: false
@@ -2868,7 +3559,8 @@ paths:
         "200":
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: "#/components/schemas/RevokeOut"
           description: Successful Response
         "422":
           content:
@@ -2881,10 +3573,28 @@ paths:
       - members
   /v0/workspaces:
     get:
-      description: "Return every space the caller is a member of, each carrying the\
-        \ caller's `role` in it. Metadata only. A `read`-scope token is sufficient."
+      description: |-
+        Return every space the caller is a member of, each carrying the caller's `role` in it. Metadata only. A `read`-scope token is sufficient.
+
+        **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
       operationId: list_workspaces_route_v0_workspaces_get
       parameters:
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          nullable: true
+          type: integer
+        style: form
       - explode: false
         in: header
         name: authorization
@@ -2991,54 +3701,6 @@ paths:
       summary: Rename a shared drive you administer
       tags:
       - workspaces
-  /v0/upload/{token}:
-    put:
-      description: |-
-        Streams an artifact body into AgentDrive using a single-use token that was previously minted by the `upload_url` MCP tool. The token encodes the artifact path, content type, size cap, labels, metadata, source, actor, change summary, and `if_match` — all frozen at mint time. The request carries only the raw bytes + a `Content-Type` header that must match the signed value.
-
-        **Auth.** No Authorization header — the token in the path is the credential.
-
-        **Single-use.** Replay returns 409 TOKEN_REPLAYED. Expiry returns 401 TOKEN_EXPIRED. Bodies exceeding the signed cap return 413 BYTES_LIMIT.
-      operationId: stream_upload_v0_upload__token__put
-      parameters:
-      - explode: false
-        in: path
-        name: token
-        required: true
-        schema:
-          title: Token
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ArtifactOut"
-          description: Successful Response
-        "400":
-          description: Content-Type mismatch or other validation failure
-        "401":
-          description: Token invalid / expired / drive deleted
-        "403":
-          description: Path reserved for the system (WIKI_RESERVED)
-        "409":
-          description: Token already consumed (replay)
-        "412":
-          description: If-Match precondition failed
-        "413":
-          description: Body exceeded signed max_bytes or drive quota
-        "429":
-          description: Drive's per-hour write budget exhausted
-        "503":
-          description: Storage backend unavailable (STORAGE_FAILURE)
-        "422":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HTTPValidationError"
-          description: Validation Error
-      summary: Proxied streaming upload (via an upload_url token)
   /v0/uploads:
     post:
       description: "Reserve quota and open a resumable upload session for a file larger\
@@ -3071,12 +3733,11 @@ paths:
           description: Successful Response
         "400":
           description: Invalid path / labels / metadata / source
-        "402":
-          description: Drive storage quota would be exceeded
         "403":
           description: Path reserved for the system (WIKI_RESERVED)
         "413":
-          description: size_bytes exceeds the drive's per-artifact cap
+          description: "size_bytes exceeds the drive's per-artifact cap, or drive\
+            \ storage quota would be exceeded"
         "429":
           description: Drive's per-hour write budget exhausted
         "422":
@@ -3124,7 +3785,7 @@ paths:
         "410":
           description: Upload session expired
         "412":
-          description: If-Match precondition failed
+          description: If-Match precondition failed / create-only conflict
         "429":
           description: Drive's per-hour write budget exhausted
         "422":
@@ -3134,6 +3795,88 @@ paths:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
       summary: Commit a large (direct-to-GCS) upload
+  /v0/uploads/{upload_id}:
+    delete:
+      description: "Release an open upload session: return its reserved quota to the\
+        \ drive and mark it aborted. Idempotent — aborting an already-aborted or already-expired\
+        \ session succeeds with `released_bytes: 0`. A committed session cannot be\
+        \ aborted (409 ALREADY_COMMITTED). No write budget is charged — this frees\
+        \ resources rather than consuming them."
+      operationId: abort_upload_v0_uploads__upload_id__delete
+      parameters:
+      - explode: false
+        in: path
+        name: upload_id
+        required: true
+        schema:
+          title: Upload Id
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadAbortOut"
+          description: Successful Response
+        "404":
+          description: No such upload for this drive
+        "409":
+          description: Upload already committed — cannot abort
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Abort a large (direct-to-GCS) upload session
+    get:
+      description: "Report the live state of an upload session begun at `/v0/uploads`.\
+        \ `state` is derived: `initiated` (open — PUT the bytes then commit), `committed`\
+        \ (artifact created), `aborted` (released via DELETE), or `expired` (past\
+        \ `expires_at` without a commit). Read-only; charges the read budget."
+      operationId: get_upload_status_v0_uploads__upload_id__get
+      parameters:
+      - explode: false
+        in: path
+        name: upload_id
+        required: true
+        schema:
+          title: Upload Id
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadStatusOut"
+          description: Successful Response
+        "404":
+          description: No such upload for this drive
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: Get the status of a large (direct-to-GCS) upload session
   /v0/projects/{fld_id}/jobs:
     get:
       operationId: list_project_jobs_v0_projects__fld_id__jobs_get
@@ -6335,6 +7078,68 @@ paths:
                 $ref: "#/components/schemas/HTTPValidationError"
           description: Validation Error
       summary: View Permalink Folder
+  /v/{art_id}/{version}:
+    get:
+      description: |-
+        Render version `version` of an artifact, read-only.
+
+        Authorization is byte-for-byte identical to viewing the artifact via
+        `/a/{art_id}`: the same drive-blind `can_read` gate runs, so a viewer
+        who can see the artifact can see its versions, and one who cannot gets
+        the identical sign-in-or-404 response (no existence leak). A pruned or
+        never-existed version renders a friendly unavailable state, never a 500.
+        `?raw=1` / `?download=1` stream the version's bytes (powering the bar's
+        Raw / Download buttons) with the same sandbox+nosniff headers as the
+        head raw path.
+      operationId: view_artifact_version_v__art_id___version__get
+      parameters:
+      - explode: false
+        in: path
+        name: art_id
+        required: true
+        schema:
+          title: Art Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: version
+        required: true
+        schema:
+          title: Version
+          type: integer
+        style: simple
+      - explode: true
+        in: query
+        name: raw
+        required: false
+        schema:
+          default: 0
+          title: Raw
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: download
+        required: false
+        schema:
+          default: 0
+          title: Download
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+          description: Validation Error
+      summary: View Artifact Version
   /{drive_id}/{path}:
     get:
       operationId: view_file__drive_id___path__get
@@ -6454,6 +7259,61 @@ components:
       - expires_at
       - identity_assertion
       title: AnonymousIdentityResponse
+    ArtifactDeleteOut:
+      description: |-
+        DELETE /v0/artifacts/{art_id} response — the soft-delete receipt.
+        Reversible until the GC cron hard-deletes at `purge_at`; `restore_url`
+        points at the by-id restore endpoint (deletion-design.md §5.3).
+      example:
+        ok: true
+        id: id
+        path: path
+        deleted_at: 2000-01-23T04:56:07.000+00:00
+        purge_at: 2000-01-23T04:56:07.000+00:00
+        restore_url: restore_url
+      properties:
+        ok:
+          default: true
+          title: Ok
+          type: boolean
+        id:
+          title: Id
+          type: string
+        path:
+          title: Path
+          type: string
+        deleted_at:
+          format: date-time
+          title: Deleted At
+          type: string
+        purge_at:
+          format: date-time
+          title: Purge At
+          type: string
+        restore_url:
+          nullable: true
+          type: string
+      required:
+      - deleted_at
+      - id
+      - path
+      - purge_at
+      title: ArtifactDeleteOut
+    ArtifactMoveIn:
+      description: |-
+        POST /v0/artifacts/{art_id}/move body — rename / move to a new
+        path on the same drive. Mirrors `FolderMoveIn`; its own schema (vs.
+        reusing another body) keeps the move surface self-documenting in the
+        OpenAPI spec.
+      example:
+        path: path
+      properties:
+        path:
+          title: Path
+          type: string
+      required:
+      - path
+      title: ArtifactMoveIn
     ArtifactOut:
       example:
         id: id
@@ -6466,6 +7326,8 @@ components:
         size_bytes: 0
         hash: hash
         version_number: 6
+        metageneration: 1
+        etag: etag
         labels:
         - labels
         - labels
@@ -6510,6 +7372,13 @@ components:
           default: 1
           title: Version Number
           type: integer
+        metageneration:
+          default: 1
+          title: Metageneration
+          type: integer
+        etag:
+          title: Etag
+          type: string
         labels:
           items:
             type: string
@@ -6548,6 +7417,7 @@ components:
       - content_type
       - created_at
       - drive_id
+      - etag
       - file_type
       - hash
       - id
@@ -6557,6 +7427,52 @@ components:
       - updated_at
       - url
       title: ArtifactOut
+    ArtifactPatchIn:
+      additionalProperties: {}
+      description: |-
+        PATCH /v0/artifacts/{art_id} body — metadata-only partial
+        (JSON-merge-patch) update.
+
+        Every field is optional. Presence is what matters, not the value:
+        a field left out of the body (per Pydantic `model_fields_set`) is
+        left unchanged; a field that IS present is applied — with an explicit
+        `null` / `[]` / `{}` meaning "clear it". This mirrors the MCP
+        `set_metadata` tool and the core `patch_artifact_metadata` sentinel
+        semantics (omitted = preserve, present = replace/clear).
+
+          * `labels`   — replace the label set; `[]` or `null` clears it.
+          * `metadata` — replace the free-form metadata object; `{}` or `null`
+                         clears it.
+          * `source`   — replace provenance refs; `null` (or `{"refs": []}`)
+                         clears them.
+
+        PATCH is metadata-only: to move/rename an artifact, use
+        `POST /v0/artifacts/{art_id}/move`. `extra="forbid"` makes a stray
+        field (notably a legacy `path`) a hard 422 rather than a silent
+        no-op — a clean-break signal to migrate to the move verb.
+      example:
+        labels:
+        - labels
+        - labels
+        metadata:
+          key: ""
+        source: ""
+      properties:
+        labels:
+          items:
+            type: string
+          nullable: true
+          type: array
+          default: null
+        metadata:
+          additionalProperties: true
+          nullable: true
+          type: object
+        source:
+          allOf:
+          - $ref: "#/components/schemas/ArtifactSource"
+          nullable: true
+      title: ArtifactPatchIn
     ArtifactSource:
       description: |-
         Caller-supplied provenance metadata, attached to an artifact.
@@ -7246,6 +8162,7 @@ components:
       example:
         path: path
         source: ""
+        from_generation: 0
       properties:
         path:
           title: Path
@@ -7254,6 +8171,9 @@ components:
           allOf:
           - $ref: "#/components/schemas/ArtifactSource"
           nullable: true
+        from_generation:
+          nullable: true
+          type: integer
       required:
       - path
       title: CopyIn
@@ -7357,14 +8277,31 @@ components:
       - api_key
       - created_at
       - id
-      - label
       - prefix
       title: DriveApiKeyCreateOut
     DriveApiKeyListOut:
       description: |-
-        `GET /v0/drives/{id}/keys` response — the drive's keys, newest first,
-        including recently-revoked rows (filter on `revoked_at` for live only).
+        `GET /v0/drives/{id}/keys` response — the drive's keys, oldest first
+        (keyset order, design §3), including recently-revoked rows (filter on
+        `revoked_at` for live only).
+
+        `items` is the canonical list field (B-3: one envelope key everywhere);
+        `keys` is a deprecated same-value alias kept for one release — the REST
+        twin of the grep `matches` / compile `jobs` aliases.
       example:
+        items:
+        - id: id
+          prefix: prefix
+          label: label
+          last_used_at: 2000-01-23T04:56:07.000+00:00
+          created_at: 2000-01-23T04:56:07.000+00:00
+          revoked_at: 2000-01-23T04:56:07.000+00:00
+        - id: id
+          prefix: prefix
+          label: label
+          last_used_at: 2000-01-23T04:56:07.000+00:00
+          created_at: 2000-01-23T04:56:07.000+00:00
+          revoked_at: 2000-01-23T04:56:07.000+00:00
         keys:
         - id: id
           prefix: prefix
@@ -7378,14 +8315,25 @@ components:
           last_used_at: 2000-01-23T04:56:07.000+00:00
           created_at: 2000-01-23T04:56:07.000+00:00
           revoked_at: 2000-01-23T04:56:07.000+00:00
+        next_cursor: next_cursor
       properties:
+        items:
+          items:
+            $ref: "#/components/schemas/DriveApiKeyOut"
+          title: Items
+          type: array
+          default: null
         keys:
           items:
             $ref: "#/components/schemas/DriveApiKeyOut"
           title: Keys
           type: array
           default: null
+        next_cursor:
+          nullable: true
+          type: string
       required:
+      - items
       - keys
       title: DriveApiKeyListOut
     DriveApiKeyOut:
@@ -7424,10 +8372,7 @@ components:
       required:
       - created_at
       - id
-      - label
-      - last_used_at
       - prefix
-      - revoked_at
       title: DriveApiKeyOut
     DriveCreateIn:
       description: |-
@@ -7489,10 +8434,43 @@ components:
       - id
       - name
       - organization_id
-      - owner_email
-      - owner_user_id
       - storage_bytes
       title: DriveCreateOut
+    DriveDeleteOut:
+      description: |-
+        DELETE /v0/drives/{drive_id} response — the drive soft-delete receipt.
+        Reversible until the GC cron hard-deletes at `purge_at`; `restore_url`
+        points at the drive restore endpoint (deletion-design.md §5.2).
+      example:
+        ok: true
+        id: id
+        deleted_at: 2000-01-23T04:56:07.000+00:00
+        purge_at: 2000-01-23T04:56:07.000+00:00
+        restore_url: restore_url
+      properties:
+        ok:
+          default: true
+          title: Ok
+          type: boolean
+        id:
+          title: Id
+          type: string
+        deleted_at:
+          format: date-time
+          title: Deleted At
+          type: string
+        purge_at:
+          format: date-time
+          title: Purge At
+          type: string
+        restore_url:
+          nullable: true
+          type: string
+      required:
+      - deleted_at
+      - id
+      - purge_at
+      title: DriveDeleteOut
     DriveList:
       example:
         items:
@@ -7510,6 +8488,7 @@ components:
           owner_email: owner_email
           storage_bytes: 0
           created_at: 2000-01-23T04:56:07.000+00:00
+        next_cursor: next_cursor
       properties:
         items:
           items:
@@ -7517,6 +8496,9 @@ components:
           title: Items
           type: array
           default: null
+        next_cursor:
+          nullable: true
+          type: string
       required:
       - items
       title: DriveList
@@ -7562,8 +8544,6 @@ components:
       - id
       - name
       - organization_id
-      - owner_email
-      - owner_user_id
       - storage_bytes
       title: DriveOut
     DriveRenameIn:
@@ -7600,6 +8580,7 @@ components:
           nullable: true
           type: string
         actor_name:
+          maxLength: 64
           nullable: true
           type: string
         action:
@@ -7714,6 +8695,55 @@ components:
       - expires_in
       - identity_assertion
       title: ExtensionExchangeResponse
+    FeedbackStatusOut:
+      description: |-
+        GET /v0/feedback/{fbk_id} response — lifecycle status of feedback THIS
+        drive filed.
+      example:
+        id: id
+        status: status
+        kind: kind
+        title: title
+        contact: true
+        duplicate_of: duplicate_of
+        created_at: 2000-01-23T04:56:07.000+00:00
+        status_changed_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          title: Id
+          type: string
+        status:
+          title: Status
+          type: string
+        kind:
+          title: Kind
+          type: string
+        title:
+          title: Title
+          type: string
+        contact:
+          title: Contact
+          type: boolean
+        duplicate_of:
+          nullable: true
+          type: string
+        created_at:
+          format: date-time
+          title: Created At
+          type: string
+        status_changed_at:
+          format: date-time
+          title: Status Changed At
+          type: string
+      required:
+      - contact
+      - created_at
+      - id
+      - kind
+      - status
+      - status_changed_at
+      - title
+      title: FeedbackStatusOut
     FindHitOut:
       description: |-
         One passage-level hit from `/v0/find` (hybrid chunk RAG over
@@ -7840,6 +8870,9 @@ components:
       - version_number
       title: FindHitOut
     FindPage:
+      description: |-
+        `/v0/find` response — single-shot top-N, deliberately unpaginated
+        (same contract + rationale as `SearchPage`).
       example:
         items:
         - art_id: art_id
@@ -7890,7 +8923,6 @@ components:
           page_end: 3
           time_start_ms: 2
           time_end_ms: 4
-        next_cursor: next_cursor
       properties:
         items:
           items:
@@ -7898,15 +8930,108 @@ components:
           title: Items
           type: array
           default: null
-        next_cursor:
-          nullable: true
-          type: string
       required:
       - items
       title: FindPage
+    FolderCopyIn:
+      description: |-
+        POST /v0/folders/{fld_id}/copy body — duplicate the subtree to a
+        new path. `path` is the target folder path (canonical, trailing
+        slash). Its own schema (vs. reusing `FolderMoveIn`) keeps the copy
+        surface self-documenting in the OpenAPI spec.
+      example:
+        path: path
+        from_metageneration: 0
+      properties:
+        path:
+          title: Path
+          type: string
+        from_metageneration:
+          nullable: true
+          type: integer
+      required:
+      - path
+      title: FolderCopyIn
+    FolderCopyOut:
+      description: |-
+        POST /v0/folders/{fld_id}/copy response — the newly-created folder
+        resource (same shape as `FolderOut`) plus copy-provenance fields:
+        `from_fld_id` is the source folder and `n_artifacts_copied` is the
+        number of descendant artifacts cloned into the new subtree. Mirrors
+        the MCP `copy` folder route's conceptual shape.
+      example:
+        id: id
+        drive_id: drive_id
+        path: path
+        description: description
+        inherit_grants: true
+        metageneration: 0
+        etag: etag
+        created_at: 2000-01-23T04:56:07.000+00:00
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        deleted_at: 2000-01-23T04:56:07.000+00:00
+        purge_at: 2000-01-23T04:56:07.000+00:00
+        from_fld_id: from_fld_id
+        n_artifacts_copied: 6
+      properties:
+        id:
+          title: Id
+          type: string
+        drive_id:
+          title: Drive Id
+          type: string
+        path:
+          title: Path
+          type: string
+        description:
+          nullable: true
+          type: string
+        inherit_grants:
+          default: true
+          title: Inherit Grants
+          type: boolean
+        metageneration:
+          default: 1
+          title: Metageneration
+          type: integer
+        etag:
+          title: Etag
+          type: string
+        created_at:
+          format: date-time
+          title: Created At
+          type: string
+        updated_at:
+          format: date-time
+          title: Updated At
+          type: string
+        deleted_at:
+          format: date-time
+          nullable: true
+          type: string
+        purge_at:
+          format: date-time
+          nullable: true
+          type: string
+        from_fld_id:
+          title: From Fld Id
+          type: string
+        n_artifacts_copied:
+          title: N Artifacts Copied
+          type: integer
+      required:
+      - created_at
+      - drive_id
+      - etag
+      - from_fld_id
+      - id
+      - n_artifacts_copied
+      - path
+      - updated_at
+      title: FolderCopyOut
     FolderCreateIn:
       description: |-
-        POST /v0/folders/{path}? body for the optional metadata params.
+        PUT /v0/folders/{path} body for the optional metadata params.
         Empty body is fine — `mkdir` with no description just creates the
         folder row.
       example:
@@ -7989,6 +9114,8 @@ components:
         path: path
         description: description
         inherit_grants: true
+        metageneration: 0
+        etag: etag
         created_at: 2000-01-23T04:56:07.000+00:00
         updated_at: 2000-01-23T04:56:07.000+00:00
         deleted_at: 2000-01-23T04:56:07.000+00:00
@@ -8010,6 +9137,13 @@ components:
           default: true
           title: Inherit Grants
           type: boolean
+        metageneration:
+          default: 1
+          title: Metageneration
+          type: integer
+        etag:
+          title: Etag
+          type: string
         created_at:
           format: date-time
           title: Created At
@@ -8029,6 +9163,7 @@ components:
       required:
       - created_at
       - drive_id
+      - etag
       - id
       - path
       - updated_at
@@ -8050,6 +9185,83 @@ components:
           nullable: true
           type: boolean
       title: FolderPatchIn
+    FolderRestoreOut:
+      description: |-
+        POST /v0/folders/{fld_id}/restore response — the restored (live)
+        folder resource (same shape as `FolderOut`) plus the cascade counts
+        from `core.folders.restore_cascade` (dashboard-file-operations-design
+        §4.5), so the caller can confirm the scope of what came back with
+        the root.
+      example:
+        id: id
+        drive_id: drive_id
+        path: path
+        description: description
+        inherit_grants: true
+        metageneration: 0
+        etag: etag
+        created_at: 2000-01-23T04:56:07.000+00:00
+        updated_at: 2000-01-23T04:56:07.000+00:00
+        deleted_at: 2000-01-23T04:56:07.000+00:00
+        purge_at: 2000-01-23T04:56:07.000+00:00
+        n_subfolders_restored: 6
+        n_artifacts_restored: 1
+      properties:
+        id:
+          title: Id
+          type: string
+        drive_id:
+          title: Drive Id
+          type: string
+        path:
+          title: Path
+          type: string
+        description:
+          nullable: true
+          type: string
+        inherit_grants:
+          default: true
+          title: Inherit Grants
+          type: boolean
+        metageneration:
+          default: 1
+          title: Metageneration
+          type: integer
+        etag:
+          title: Etag
+          type: string
+        created_at:
+          format: date-time
+          title: Created At
+          type: string
+        updated_at:
+          format: date-time
+          title: Updated At
+          type: string
+        deleted_at:
+          format: date-time
+          nullable: true
+          type: string
+        purge_at:
+          format: date-time
+          nullable: true
+          type: string
+        n_subfolders_restored:
+          title: N Subfolders Restored
+          type: integer
+        n_artifacts_restored:
+          title: N Artifacts Restored
+          type: integer
+      required:
+      - created_at
+      - drive_id
+      - etag
+      - id
+      - n_artifacts_restored
+      - n_subfolders_restored
+      - path
+      - updated_at
+      title: FolderRestoreOut
     GrantCreateIn:
       description: |-
         POST /v0/grants body. `resource` is an `art_*`/`fld_*` id or a path
@@ -8109,7 +9321,7 @@ components:
           principal_type: user
           principal_id: principal_id
           principal_email: principal_email
-          role: role
+          role: viewer
           granted_by_type: granted_by_type
           granted_by_id: granted_by_id
           on_behalf_of: on_behalf_of
@@ -8122,13 +9334,14 @@ components:
           principal_type: user
           principal_id: principal_id
           principal_email: principal_email
-          role: role
+          role: viewer
           granted_by_type: granted_by_type
           granted_by_id: granted_by_id
           on_behalf_of: on_behalf_of
           created_at: 2000-01-23T04:56:07.000+00:00
           expires_at: 2000-01-23T04:56:07.000+00:00
           artifacts_affected: 0
+        next_cursor: next_cursor
       properties:
         items:
           items:
@@ -8136,6 +9349,9 @@ components:
           title: Items
           type: array
           default: null
+        next_cursor:
+          nullable: true
+          type: string
       required:
       - items
       title: GrantList
@@ -8150,7 +9366,7 @@ components:
         principal_type: user
         principal_id: principal_id
         principal_email: principal_email
-        role: role
+        role: viewer
         granted_by_type: granted_by_type
         granted_by_id: granted_by_id
         on_behalf_of: on_behalf_of
@@ -8185,6 +9401,11 @@ components:
           nullable: true
           type: string
         role:
+          enum:
+          - viewer
+          - commenter
+          - editor
+          - manager
           title: Role
           type: string
         granted_by_type:
@@ -8310,6 +9531,7 @@ components:
           invited_by: invited_by
           expires_at: 2000-01-23T04:56:07.000+00:00
           created_at: 2000-01-23T04:56:07.000+00:00
+        next_cursor: next_cursor
       properties:
         items:
           items:
@@ -8317,6 +9539,9 @@ components:
           title: Items
           type: array
           default: null
+        next_cursor:
+          nullable: true
+          type: string
       required:
       - items
       title: InvitationList
@@ -8373,7 +9598,6 @@ components:
       - email
       - expires_at
       - id
-      - invited_by
       - organization_id
       - role
       - status
@@ -8472,6 +9696,7 @@ components:
           last_name: last_name
           role: admin
           created_at: 2000-01-23T04:56:07.000+00:00
+        next_cursor: next_cursor
       properties:
         items:
           items:
@@ -8479,6 +9704,9 @@ components:
           title: Items
           type: array
           default: null
+        next_cursor:
+          nullable: true
+          type: string
       required:
       - items
       title: MemberList
@@ -8519,11 +9747,32 @@ components:
       required:
       - created_at
       - email
-      - first_name
-      - last_name
       - role
       - user_id
       title: MemberOut
+    MemberRemoveOut:
+      description: |-
+        DELETE /v0/members/{user_id} response — the member-removal receipt.
+        `id` is the removed user's id (replaces the ad-hoc `removed` key).
+      example:
+        ok: true
+        id: id
+        organization_id: organization_id
+      properties:
+        ok:
+          default: true
+          title: Ok
+          type: boolean
+        id:
+          title: Id
+          type: string
+        organization_id:
+          title: Organization Id
+          type: string
+      required:
+      - id
+      - organization_id
+      title: MemberRemoveOut
     MemberRoleIn:
       description: "PATCH /v0/members/{user} body — promote/demote a member."
       example:
@@ -8551,6 +9800,8 @@ components:
           size_bytes: 0
           hash: hash
           version_number: 6
+          metageneration: 1
+          etag: etag
           labels:
           - labels
           - labels
@@ -8573,6 +9824,8 @@ components:
           size_bytes: 0
           hash: hash
           version_number: 6
+          metageneration: 1
+          etag: etag
           labels:
           - labels
           - labels
@@ -8649,17 +9902,31 @@ components:
       required:
       - sql
       title: QueryIn
-    RenameIn:
-      description: "PATCH /v0/artifacts/{art_id} body — rename / move."
+    RevokeOut:
+      description: |-
+        DELETE /v0/grants/{grn_id}, DELETE /v0/shares/{shr_id},
+        DELETE /v0/invitations/{invitation_id} response — the unified
+        revoke receipt. `revoked` is a COUNT: 1 when a live row was revoked,
+        0 when it was already gone (DELETE is idempotent).
       example:
-        path: path
+        ok: true
+        id: id
+        revoked: 0
       properties:
-        path:
-          title: Path
+        ok:
+          default: true
+          title: Ok
+          type: boolean
+        id:
+          title: Id
           type: string
+        revoked:
+          title: Revoked
+          type: integer
       required:
-      - path
-      title: RenameIn
+      - id
+      - revoked
+      title: RevokeOut
     SealIn:
       example:
         inherit_grants: true
@@ -8672,6 +9939,7 @@ components:
       title: SealIn
     SearchHitOut:
       example:
+        art_id: art_id
         drive_id: drive_id
         path: path
         url: url
@@ -8683,7 +9951,11 @@ components:
         snippet: snippet
         score: 0.8008281904610115
         updated_at: 2000-01-23T04:56:07.000+00:00
+        version_number: 6
       properties:
+        art_id:
+          title: Art Id
+          type: string
         drive_id:
           title: Drive Id
           type: string
@@ -8715,7 +9987,11 @@ components:
           format: date-time
           title: Updated At
           type: string
+        version_number:
+          title: Version Number
+          type: integer
       required:
+      - art_id
       - content_type
       - drive_id
       - file_type
@@ -8724,11 +10000,23 @@ components:
       - snippet
       - updated_at
       - url
+      - version_number
       title: SearchHitOut
     SearchPage:
+      description: |-
+        `/v0/search` response — single-shot top-N, deliberately unpaginated.
+
+        Ranked retrieval doesn't paginate meaningfully (the industry norm:
+        vector/RAG APIs are pure top-K; Algolia/GitHub cap ranked results
+        outright) — the correct "next page" of a relevance-ranked list is a
+        narrower query. Raise `limit` (≤100) for more hits. A `next_cursor`
+        field advertised here in the past was structurally always null and
+        was dropped; if deep retrieval is ever needed, an ES-`search_after`
+        style `(score, id)` keyset can be re-added additively.
       example:
         items:
-        - drive_id: drive_id
+        - art_id: art_id
+          drive_id: drive_id
           path: path
           url: url
           content_type: content_type
@@ -8739,7 +10027,9 @@ components:
           snippet: snippet
           score: 0.8008281904610115
           updated_at: 2000-01-23T04:56:07.000+00:00
-        - drive_id: drive_id
+          version_number: 6
+        - art_id: art_id
+          drive_id: drive_id
           path: path
           url: url
           content_type: content_type
@@ -8750,7 +10040,7 @@ components:
           snippet: snippet
           score: 0.8008281904610115
           updated_at: 2000-01-23T04:56:07.000+00:00
-        next_cursor: next_cursor
+          version_number: 6
       properties:
         items:
           items:
@@ -8758,9 +10048,6 @@ components:
           title: Items
           type: array
           default: null
-        next_cursor:
-          nullable: true
-          type: string
       required:
       - items
       title: SearchPage
@@ -8802,7 +10089,7 @@ components:
         - id: id
           resource_type: artifact
           resource_id: resource_id
-          role: role
+          role: viewer
           audience: audience
           has_password: true
           created_at: 2000-01-23T04:56:07.000+00:00
@@ -8812,13 +10099,14 @@ components:
         - id: id
           resource_type: artifact
           resource_id: resource_id
-          role: role
+          role: viewer
           audience: audience
           has_password: true
           created_at: 2000-01-23T04:56:07.000+00:00
           expires_at: 2000-01-23T04:56:07.000+00:00
           last_accessed_at: 2000-01-23T04:56:07.000+00:00
           access_count: 0
+        next_cursor: next_cursor
       properties:
         items:
           items:
@@ -8826,6 +10114,9 @@ components:
           title: Items
           type: array
           default: null
+        next_cursor:
+          nullable: true
+          type: string
       required:
       - items
       title: ShareList
@@ -8837,7 +10128,7 @@ components:
         id: id
         resource_type: artifact
         resource_id: resource_id
-        role: role
+        role: viewer
         audience: audience
         has_password: true
         created_at: 2000-01-23T04:56:07.000+00:00
@@ -8860,6 +10151,10 @@ components:
           title: Resource Id
           type: string
         role:
+          enum:
+          - viewer
+          - commenter
+          - editor
           title: Role
           type: string
         audience:
@@ -8909,7 +10204,7 @@ components:
         id: id
         resource_type: artifact
         resource_id: resource_id
-        role: role
+        role: viewer
         audience: audience
         has_password: true
         created_at: 2000-01-23T04:56:07.000+00:00
@@ -8930,6 +10225,10 @@ components:
           title: Resource Id
           type: string
         role:
+          enum:
+          - viewer
+          - commenter
+          - editor
           title: Role
           type: string
         audience:
@@ -9019,6 +10318,35 @@ components:
       - expires_in
       - scope
       title: TokenResponse
+    UploadAbortOut:
+      description: |-
+        Response of `DELETE /v0/uploads/{upload_id}` — the session is released.
+        `released_bytes` is the reservation returned to the drive's quota (the
+        session's `size_bytes` for a live `initiated` session; `0` when the
+        session was already aborted or already expired — the GC sweep owns an
+        expired session's release).
+      example:
+        upload_id: upload_id
+        state: aborted
+        released_bytes: 0
+      properties:
+        upload_id:
+          title: Upload Id
+          type: string
+        state:
+          default: aborted
+          enum:
+          - aborted
+          - expired
+          title: State
+          type: string
+        released_bytes:
+          title: Released Bytes
+          type: integer
+      required:
+      - released_bytes
+      - upload_id
+      title: UploadAbortOut
     UploadBeginIn:
       description: |-
         Body of `POST /v0/uploads` — the large-upload begin call (large-upload-
@@ -9040,7 +10368,8 @@ components:
         source: ""
         actor_name: actor_name
         change_summary: change_summary
-        if_match: 6
+        if_match: 1294386358
+        if_none_match: false
         cors_origin: cors_origin
       properties:
         path:
@@ -9072,14 +10401,21 @@ components:
           - $ref: "#/components/schemas/ArtifactSource"
           nullable: true
         actor_name:
+          maxLength: 64
           nullable: true
           type: string
         change_summary:
           nullable: true
           type: string
         if_match:
+          maximum: 2147483647
+          minimum: 0.0
           nullable: true
           type: integer
+        if_none_match:
+          default: false
+          title: If None Match
+          type: boolean
         cors_origin:
           description: "Web origin (scheme://host[:port]) of the browser that will\
             \ PUT the bytes, e.g. `https://app.example.com`. Set this when the `upload_url`\
@@ -9137,6 +10473,75 @@ components:
       - upload_id
       - upload_url
       title: UploadBeginOut
+    UploadStatusOut:
+      description: |-
+        Response of `GET /v0/uploads/{upload_id}` — the live state of a
+        direct-to-GCS upload session (large-upload-design.md §5).
+
+        `state` is derived, not a stored column:
+          * `initiated` — session open; PUT the bytes to the `upload_url`, then
+                          `POST /v0/uploads/{upload_id}/commit`.
+          * `committed` — the bytes landed and the artifact was created
+                          (`committed_at` is set).
+          * `aborted`   — released via `DELETE /v0/uploads/{upload_id}`.
+          * `expired`   — past `expires_at` without a commit; the reservation is
+                          reclaimed by the GC sweep.
+      example:
+        upload_id: upload_id
+        path: path
+        content_type: content_type
+        size_bytes: 0
+        state: initiated
+        max_bytes: 6
+        expires_at: 2000-01-23T04:56:07.000+00:00
+        created_at: 2000-01-23T04:56:07.000+00:00
+        committed_at: 2000-01-23T04:56:07.000+00:00
+      properties:
+        upload_id:
+          title: Upload Id
+          type: string
+        path:
+          title: Path
+          type: string
+        content_type:
+          title: Content Type
+          type: string
+        size_bytes:
+          title: Size Bytes
+          type: integer
+        state:
+          enum:
+          - initiated
+          - committed
+          - aborted
+          - expired
+          title: State
+          type: string
+        max_bytes:
+          title: Max Bytes
+          type: integer
+        expires_at:
+          format: date-time
+          title: Expires At
+          type: string
+        created_at:
+          format: date-time
+          title: Created At
+          type: string
+        committed_at:
+          format: date-time
+          nullable: true
+          type: string
+      required:
+      - content_type
+      - created_at
+      - expires_at
+      - max_bytes
+      - path
+      - size_bytes
+      - state
+      - upload_id
+      title: UploadStatusOut
     UserTokenList:
       example:
         items:
@@ -9158,6 +10563,7 @@ components:
           expires_at: 2000-01-23T04:56:07.000+00:00
           created_at: 2000-01-23T04:56:07.000+00:00
           revoked_at: 2000-01-23T04:56:07.000+00:00
+        next_cursor: next_cursor
       properties:
         items:
           items:
@@ -9165,6 +10571,9 @@ components:
           title: Items
           type: array
           default: null
+        next_cursor:
+          nullable: true
+          type: string
       required:
       - items
       title: UserTokenList
@@ -9220,13 +10629,8 @@ components:
           type: string
       required:
       - created_at
-      - default_drive_id
-      - expires_at
       - id
-      - label
-      - last_used_at
       - prefix
-      - revoked_at
       - scope
       title: UserTokenOut
     ValidationError:
@@ -9288,6 +10692,7 @@ components:
           title: Content Type
           type: string
         actor_name:
+          maxLength: 64
           nullable: true
           type: string
         change_summary:
@@ -9398,6 +10803,7 @@ components:
           role: admin
           tier_id: tier_id
           created_at: 2000-01-23T04:56:07.000+00:00
+        next_cursor: next_cursor
       properties:
         items:
           items:
@@ -9405,6 +10811,9 @@ components:
           title: Items
           type: array
           default: null
+        next_cursor:
+          nullable: true
+          type: string
       required:
       - items
       title: WorkspaceList

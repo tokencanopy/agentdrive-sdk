@@ -4,6 +4,7 @@ All URIs are relative to *https://api.agentdrive.run*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**abort_upload_v0_uploads_upload_id_delete**](DefaultApi.md#abort_upload_v0_uploads_upload_id_delete) | **DELETE** /v0/uploads/{upload_id} | Abort a large (direct-to-GCS) upload session
 [**accept_invitation_invitations_token_get**](DefaultApi.md#accept_invitation_invitations_token_get) | **GET** /invitations/{token} | Accept Invitation
 [**activity_feed_activity_get**](DefaultApi.md#activity_feed_activity_get) | **GET** /activity | Activity Feed
 [**add_grant_web_share_rid_grant_post**](DefaultApi.md#add_grant_web_share_rid_grant_post) | **POST** /web/share/{rid}/grant | Add Grant
@@ -15,9 +16,10 @@ Method | HTTP request | Description
 [**commit_upload_v0_uploads_upload_id_commit_post**](DefaultApi.md#commit_upload_v0_uploads_upload_id_commit_post) | **POST** /v0/uploads/{upload_id}/commit | Commit a large (direct-to-GCS) upload
 [**connectors_page_connectors_get**](DefaultApi.md#connectors_page_connectors_get) | **GET** /connectors | Connectors Page
 [**copy_artifact_route_v0_artifacts_art_id_copy_post**](DefaultApi.md#copy_artifact_route_v0_artifacts_art_id_copy_post) | **POST** /v0/artifacts/{art_id}/copy | Duplicate an artifact to a new path (CAS-shared, new ID)
+[**copy_folder_by_id_v0_folders_fld_id_copy_post**](DefaultApi.md#copy_folder_by_id_v0_folders_fld_id_copy_post) | **POST** /v0/folders/{fld_id}/copy | Duplicate a folder subtree to a new path (CAS-shared, new IDs)
 [**create_drive_key_web_web_drives_drive_id_keys_create_post**](DefaultApi.md#create_drive_key_web_web_drives_drive_id_keys_create_post) | **POST** /web/drives/{drive_id}/keys/create | Create Drive Key Web
 [**create_drive_web_web_drives_post**](DefaultApi.md#create_drive_web_web_drives_post) | **POST** /web/drives | Create Drive Web
-[**create_folder_by_path_v0_folders_path_post**](DefaultApi.md#create_folder_by_path_v0_folders_path_post) | **POST** /v0/folders/{path} | Create a folder (idempotent)
+[**create_folder_by_path_v0_folders_path_put**](DefaultApi.md#create_folder_by_path_v0_folders_path_put) | **PUT** /v0/folders/{path} | Create a folder (idempotent)
 [**create_grant_route_v0_grants_post**](DefaultApi.md#create_grant_route_v0_grants_post) | **POST** /v0/grants | Create (or fetch) a per-principal grant on a resource
 [**create_key_web_keys_create_post**](DefaultApi.md#create_key_web_keys_create_post) | **POST** /web/keys/create | Create Key
 [**create_link_web_share_rid_link_post**](DefaultApi.md#create_link_web_share_rid_link_post) | **POST** /web/share/{rid}/link | Create Link
@@ -38,6 +40,7 @@ Method | HTTP request | Description
 [**delete_share_route_v0_shares_shr_id_delete**](DefaultApi.md#delete_share_route_v0_shares_shr_id_delete) | **DELETE** /v0/shares/{shr_id} | Revoke a share link (requires can_manage)
 [**delete_workspace_web_web_workspaces_org_id_delete_post**](DefaultApi.md#delete_workspace_web_web_workspaces_org_id_delete_post) | **POST** /web/workspaces/{org_id}/delete | Delete Workspace Web
 [**download_artifact_by_id_v0_artifacts_art_id_download_get**](DefaultApi.md#download_artifact_by_id_v0_artifacts_art_id_download_get) | **GET** /v0/artifacts/{art_id}/download | Stream the artifact bytes by stable ID (never rendered HTML)
+[**download_artifact_by_path_v0_artifacts_path_download_get**](DefaultApi.md#download_artifact_by_path_v0_artifacts_path_download_get) | **GET** /v0/artifacts/{path}/download | Stream the artifact bytes by path (never rendered HTML)
 [**download_artifact_version_v0_artifacts_art_id_versions_version_number_download_get**](DefaultApi.md#download_artifact_version_v0_artifacts_art_id_versions_version_number_download_get) | **GET** /v0/artifacts/{art_id}/versions/{version_number}/download | Stream bytes for a specific version (machine surface)
 [**download_url_by_id_v0_artifacts_art_id_download_url_get**](DefaultApi.md#download_url_by_id_v0_artifacts_art_id_download_url_get) | **GET** /v0/artifacts/{art_id}/download-url | Signed direct-from-GCS download URL by stable ID
 [**download_url_by_path_v0_artifacts_path_download_url_get**](DefaultApi.md#download_url_by_path_v0_artifacts_path_download_url_get) | **GET** /v0/artifacts/{path}/download-url | Signed direct-from-GCS download URL by path
@@ -52,15 +55,19 @@ Method | HTTP request | Description
 [**get_artifact_by_id_v0_artifacts_art_id_get**](DefaultApi.md#get_artifact_by_id_v0_artifacts_art_id_get) | **GET** /v0/artifacts/{art_id} | Canonical lookup of an artifact by its stable ID
 [**get_artifact_meta_v0_artifacts_path_meta_get**](DefaultApi.md#get_artifact_meta_v0_artifacts_path_meta_get) | **GET** /v0/artifacts/{path}/meta | Get Artifact Meta
 [**get_artifact_version_v0_artifacts_art_id_versions_version_number_get**](DefaultApi.md#get_artifact_version_v0_artifacts_art_id_versions_version_number_get) | **GET** /v0/artifacts/{art_id}/versions/{version_number} | Metadata for a specific version of an artifact
+[**get_drive_route_v0_drives_drive_id_get**](DefaultApi.md#get_drive_route_v0_drives_drive_id_get) | **GET** /v0/drives/{drive_id} | Drive overview by id (same shape as /drives/me)
 [**get_feedback_status_v0_feedback_fbk_id_get**](DefaultApi.md#get_feedback_status_v0_feedback_fbk_id_get) | **GET** /v0/feedback/{fbk_id} | Get Feedback Status
 [**get_folder_by_id_meta_v0_folders_fld_id_meta_get**](DefaultApi.md#get_folder_by_id_meta_v0_folders_fld_id_meta_get) | **GET** /v0/folders/{fld_id}/meta | Folder metadata by stable ID (same shape as the bare id route)
 [**get_folder_by_id_v0_folders_fld_id_get**](DefaultApi.md#get_folder_by_id_v0_folders_fld_id_get) | **GET** /v0/folders/{fld_id} | Canonical lookup of a folder by its stable ID
 [**get_folder_by_path_meta_v0_folders_path_meta_get**](DefaultApi.md#get_folder_by_path_meta_v0_folders_path_meta_get) | **GET** /v0/folders/{path}/meta | Folder metadata by path (same shape as the bare path route)
 [**get_folder_by_path_v0_folders_path_get**](DefaultApi.md#get_folder_by_path_v0_folders_path_get) | **GET** /v0/folders/{path} | Read folder metadata by path
+[**get_grant_route_v0_grants_grn_id_get**](DefaultApi.md#get_grant_route_v0_grants_grn_id_get) | **GET** /v0/grants/{grn_id} | Read a single grant (can_manage, or the grant&#39;s own principal)
 [**get_job_logs_v0_jobs_job_id_logs_get**](DefaultApi.md#get_job_logs_v0_jobs_job_id_logs_get) | **GET** /v0/jobs/{job_id}/logs | Raw compile log (text/plain)
 [**get_job_v0_jobs_job_id_get**](DefaultApi.md#get_job_v0_jobs_job_id_get) | **GET** /v0/jobs/{job_id} | Poll a job
 [**get_project_v0_projects_fld_id_get**](DefaultApi.md#get_project_v0_projects_fld_id_get) | **GET** /v0/projects/{fld_id} | Get a project&#39;s compile config
+[**get_share_route_v0_shares_shr_id_get**](DefaultApi.md#get_share_route_v0_shares_shr_id_get) | **GET** /v0/shares/{shr_id} | Read a single share link&#39;s metadata (requires can_manage)
 [**get_share_state_web_share_rid_get**](DefaultApi.md#get_share_state_web_share_rid_get) | **GET** /web/share/{rid} | Get Share State
+[**get_upload_status_v0_uploads_upload_id_get**](DefaultApi.md#get_upload_status_v0_uploads_upload_id_get) | **GET** /v0/uploads/{upload_id} | Get the status of a large (direct-to-GCS) upload session
 [**health_health_get**](DefaultApi.md#health_health_get) | **GET** /health | Health
 [**invite_member_web_web_members_invite_post**](DefaultApi.md#invite_member_web_web_members_invite_post) | **POST** /web/members/invite | Invite Member Web
 [**list_artifact_versions_v0_artifacts_art_id_versions_get**](DefaultApi.md#list_artifact_versions_v0_artifacts_art_id_versions_get) | **GET** /v0/artifacts/{art_id}/versions | List versions of an artifact, newest first
@@ -77,9 +84,11 @@ Method | HTTP request | Description
 [**marketplace_detail_marketplace_slug_get**](DefaultApi.md#marketplace_detail_marketplace_slug_get) | **GET** /marketplace/{slug} | Marketplace Detail
 [**me_usage_v0_drives_me_usage_get**](DefaultApi.md#me_usage_v0_drives_me_usage_get) | **GET** /v0/drives/me/usage | Current-period usage + caps for the authenticated drive
 [**me_v0_drives_me_get**](DefaultApi.md#me_v0_drives_me_get) | **GET** /v0/drives/me | Me
+[**move_artifact_route_v0_artifacts_art_id_move_post**](DefaultApi.md#move_artifact_route_v0_artifacts_art_id_move_post) | **POST** /v0/artifacts/{art_id}/move | Rename / move an artifact to a new path
 [**move_folder_by_id_v0_folders_fld_id_move_post**](DefaultApi.md#move_folder_by_id_v0_folders_fld_id_move_post) | **POST** /v0/folders/{fld_id}/move | Rename / move a folder by stable ID (cascade descendants)
 [**move_folder_by_path_v0_folders_path_move_post**](DefaultApi.md#move_folder_by_path_v0_folders_path_move_post) | **POST** /v0/folders/{path}/move | Rename / move a folder (cascade-update descendants)
 [**oauth_disconnect_web_oauth_disconnect_post**](DefaultApi.md#oauth_disconnect_web_oauth_disconnect_post) | **POST** /web/oauth/disconnect | Oauth Disconnect
+[**patch_artifact_route_v0_artifacts_art_id_patch**](DefaultApi.md#patch_artifact_route_v0_artifacts_art_id_patch) | **PATCH** /v0/artifacts/{art_id} | Edit artifact metadata (labels / metadata / source)
 [**patch_folder_by_id_v0_folders_fld_id_patch**](DefaultApi.md#patch_folder_by_id_v0_folders_fld_id_patch) | **PATCH** /v0/folders/{fld_id} | Update folder metadata by stable ID
 [**patch_folder_by_path_v0_folders_path_patch**](DefaultApi.md#patch_folder_by_path_v0_folders_path_patch) | **PATCH** /v0/folders/{path} | Update folder metadata by path
 [**patch_grant_route_v0_grants_grn_id_patch**](DefaultApi.md#patch_grant_route_v0_grants_grn_id_patch) | **PATCH** /v0/grants/{grn_id} | Update a grant&#39;s role and/or expiry (requires can_manage)
@@ -99,12 +108,13 @@ Method | HTTP request | Description
 [**redeem_share_s_share_key_get**](DefaultApi.md#redeem_share_s_share_key_get) | **GET** /s/{share_key} | Redeem Share
 [**redeem_share_with_password_s_share_key_post**](DefaultApi.md#redeem_share_with_password_s_share_key_post) | **POST** /s/{share_key} | Redeem Share With Password
 [**remove_member_web_web_members_target_user_id_remove_post**](DefaultApi.md#remove_member_web_web_members_target_user_id_remove_post) | **POST** /web/members/{target_user_id}/remove | Remove Member Web
-[**rename_artifact_route_v0_artifacts_art_id_patch**](DefaultApi.md#rename_artifact_route_v0_artifacts_art_id_patch) | **PATCH** /v0/artifacts/{art_id} | Rename / move an artifact to a new path
 [**rename_drive_web_web_drives_drive_id_rename_post**](DefaultApi.md#rename_drive_web_web_drives_drive_id_rename_post) | **POST** /web/drives/{drive_id}/rename | Rename Drive Web
 [**rename_workspace_web_web_workspaces_org_id_rename_post**](DefaultApi.md#rename_workspace_web_web_workspaces_org_id_rename_post) | **POST** /web/workspaces/{org_id}/rename | Rename Workspace Web
 [**resend_invitation_web_web_invitations_invitation_id_resend_post**](DefaultApi.md#resend_invitation_web_web_invitations_invitation_id_resend_post) | **POST** /web/invitations/{invitation_id}/resend | Resend Invitation Web
 [**restore_artifact_v0_artifacts_art_id_restore_post**](DefaultApi.md#restore_artifact_v0_artifacts_art_id_restore_post) | **POST** /v0/artifacts/{art_id}/restore | Restore a soft-deleted artifact
+[**restore_artifact_version_v0_artifacts_art_id_versions_version_number_restore_post**](DefaultApi.md#restore_artifact_version_v0_artifacts_art_id_versions_version_number_restore_post) | **POST** /v0/artifacts/{art_id}/versions/{version_number}/restore | Restore a previous version as a new head version
 [**restore_drive_route_v0_drives_drive_id_restore_post**](DefaultApi.md#restore_drive_route_v0_drives_drive_id_restore_post) | **POST** /v0/drives/{drive_id}/restore | Restore a soft-deleted drive
+[**restore_folder_by_id_v0_folders_fld_id_restore_post**](DefaultApi.md#restore_folder_by_id_v0_folders_fld_id_restore_post) | **POST** /v0/folders/{fld_id}/restore | Restore a soft-deleted folder (cascade)
 [**revoke_grant_web_share_rid_grant_grn_id_revoke_post**](DefaultApi.md#revoke_grant_web_share_rid_grant_grn_id_revoke_post) | **POST** /web/share/{rid}/grant/{grn_id}/revoke | Revoke Grant
 [**revoke_invitation_web_web_invitations_invitation_id_revoke_post**](DefaultApi.md#revoke_invitation_web_web_invitations_invitation_id_revoke_post) | **POST** /web/invitations/{invitation_id}/revoke | Revoke Invitation Web
 [**revoke_key_web_keys_revoke_post**](DefaultApi.md#revoke_key_web_keys_revoke_post) | **POST** /web/keys/revoke | Revoke Key
@@ -120,12 +130,12 @@ Method | HTTP request | Description
 [**settings_quickstart_settings_quickstart_get**](DefaultApi.md#settings_quickstart_settings_quickstart_get) | **GET** /settings/quickstart | Settings Quickstart
 [**settings_workspace_settings_workspace_get**](DefaultApi.md#settings_workspace_settings_workspace_get) | **GET** /settings/workspace | Settings Workspace
 [**shared_files_shared_get**](DefaultApi.md#shared_files_shared_get) | **GET** /shared | Shared Files
-[**stream_upload_v0_upload_token_put**](DefaultApi.md#stream_upload_v0_upload_token_put) | **PUT** /v0/upload/{token} | Proxied streaming upload (via an upload_url token)
 [**switch_drive_web_switch_post**](DefaultApi.md#switch_drive_web_switch_post) | **POST** /web/switch | Switch Drive
 [**terms_page_terms_get**](DefaultApi.md#terms_page_terms_get) | **GET** /terms | Terms Page
 [**toggle_indexing_web_account_indexing_post**](DefaultApi.md#toggle_indexing_web_account_indexing_post) | **POST** /web/account/indexing | Toggle Indexing
 [**trash_web_trash_get**](DefaultApi.md#trash_web_trash_get) | **GET** /web/trash | Trash
 [**view_artifact_head_a_art_id_head_get**](DefaultApi.md#view_artifact_head_a_art_id_head_get) | **GET** /a/{art_id}/head | View Artifact Head
+[**view_artifact_version_v_art_id_version_get**](DefaultApi.md#view_artifact_version_v_art_id_version_get) | **GET** /v/{art_id}/{version} | View Artifact Version
 [**view_file_drive_id_path_get**](DefaultApi.md#view_file_drive_id_path_get) | **GET** /{drive_id}/{path} | View File
 [**view_permalink_artifact_a_art_id_get**](DefaultApi.md#view_permalink_artifact_a_art_id_get) | **GET** /a/{art_id} | View Permalink Artifact
 [**view_permalink_folder_f_fld_id_get**](DefaultApi.md#view_permalink_folder_f_fld_id_get) | **GET** /f/{fld_id} | View Permalink Folder
@@ -148,6 +158,79 @@ Method | HTTP request | Description
 [**webhooks_page_webhooks_get**](DefaultApi.md#webhooks_page_webhooks_get) | **GET** /webhooks | Webhooks Page
 [**welcome_welcome_get**](DefaultApi.md#welcome_welcome_get) | **GET** /welcome | Welcome
 
+
+# **abort_upload_v0_uploads_upload_id_delete**
+> UploadAbortOut abort_upload_v0_uploads_upload_id_delete(upload_id, authorization=authorization)
+
+Abort a large (direct-to-GCS) upload session
+
+Release an open upload session: return its reserved quota to the drive and mark it aborted. Idempotent — aborting an already-aborted or already-expired session succeeds with `released_bytes: 0`. A committed session cannot be aborted (409 ALREADY_COMMITTED). No write budget is charged — this frees resources rather than consuming them.
+
+### Example
+
+
+```python
+import agentdrive_sdk
+from agentdrive_sdk.models.upload_abort_out import UploadAbortOut
+from agentdrive_sdk.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.agentdrive.run
+# See configuration.py for a list of all supported configuration parameters.
+configuration = agentdrive_sdk.Configuration(
+    host = "https://api.agentdrive.run"
+)
+
+
+# Enter a context with an instance of the API client
+with agentdrive_sdk.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = agentdrive_sdk.DefaultApi(api_client)
+    upload_id = 'upload_id_example' # str | 
+    authorization = 'authorization_example' # str |  (optional)
+
+    try:
+        # Abort a large (direct-to-GCS) upload session
+        api_response = api_instance.abort_upload_v0_uploads_upload_id_delete(upload_id, authorization=authorization)
+        print("The response of DefaultApi->abort_upload_v0_uploads_upload_id_delete:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->abort_upload_v0_uploads_upload_id_delete: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **upload_id** | **str**|  | 
+ **authorization** | **str**|  | [optional] 
+
+### Return type
+
+[**UploadAbortOut**](UploadAbortOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**404** | No such upload for this drive |  -  |
+**409** | Upload already committed — cannot abort |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **accept_invitation_invitations_token_get**
 > str accept_invitation_invitations_token_get(token)
@@ -487,9 +570,8 @@ No authorization required
 |-------------|-------------|------------------|
 **200** | Successful Response |  -  |
 **400** | Invalid path / labels / metadata / source |  -  |
-**402** | Drive storage quota would be exceeded |  -  |
 **403** | Path reserved for the system (WIKI_RESERVED) |  -  |
-**413** | size_bytes exceeds the drive&#39;s per-artifact cap |  -  |
+**413** | size_bytes exceeds the drive&#39;s per-artifact cap, or drive storage quota would be exceeded |  -  |
 **429** | Drive&#39;s per-hour write budget exhausted |  -  |
 **422** | Validation Error |  -  |
 
@@ -778,7 +860,7 @@ No authorization required
 **404** | No such upload for this drive |  -  |
 **409** | Uploaded object size !&#x3D; declared size_bytes |  -  |
 **410** | Upload session expired |  -  |
-**412** | If-Match precondition failed |  -  |
+**412** | If-Match precondition failed / create-only conflict |  -  |
 **429** | Drive&#39;s per-hour write budget exhausted |  -  |
 **422** | Validation Error |  -  |
 
@@ -851,13 +933,15 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **copy_artifact_route_v0_artifacts_art_id_copy_post**
-> ArtifactOut copy_artifact_route_v0_artifacts_art_id_copy_post(art_id, copy_in, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+> ArtifactOut copy_artifact_route_v0_artifacts_art_id_copy_post(art_id, copy_in, x_agentdrive_actor=x_agentdrive_actor, if_none_match=if_none_match, authorization=authorization)
 
 Duplicate an artifact to a new path (CAS-shared, new ID)
 
 Create a new artifact at `path` whose bytes are identical to the source artifact's. The copy reuses the source's CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and — by default — `source.refs = [{type: 'artifact', id: '<source>'}]` so provenance is preserved.
 
 Quota: the copy's `size_bytes` is added to the drive's `storage_bytes` even though physical bytes are shared.
+
+Source-version pin: pass `from_generation` in the body to require the source's current content generation (`version_number`) to equal it (→ 412 SOURCE_VERSION_MISMATCH); a concurrent source *metadata* edit does NOT fail the copy. Destination create-only: `If-None-Match: *` returns 412 CREATE_CONFLICT (instead of 409 PATH_CONFLICT) when the target path is occupied.
 
 Returns 409 PATH_CONFLICT if the target path is already taken; 413 STORAGE_QUOTA_EXCEEDED if the copy would push the drive over its limit.
 
@@ -885,11 +969,12 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     art_id = 'art_id_example' # str | 
     copy_in = agentdrive_sdk.CopyIn() # CopyIn | 
     x_agentdrive_actor = 'x_agentdrive_actor_example' # str |  (optional)
+    if_none_match = 'if_none_match_example' # str |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # Duplicate an artifact to a new path (CAS-shared, new ID)
-        api_response = api_instance.copy_artifact_route_v0_artifacts_art_id_copy_post(art_id, copy_in, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+        api_response = api_instance.copy_artifact_route_v0_artifacts_art_id_copy_post(art_id, copy_in, x_agentdrive_actor=x_agentdrive_actor, if_none_match=if_none_match, authorization=authorization)
         print("The response of DefaultApi->copy_artifact_route_v0_artifacts_art_id_copy_post:\n")
         pprint(api_response)
     except Exception as e:
@@ -906,6 +991,7 @@ Name | Type | Description  | Notes
  **art_id** | **str**|  | 
  **copy_in** | [**CopyIn**](CopyIn.md)|  | 
  **x_agentdrive_actor** | **str**|  | [optional] 
+ **if_none_match** | **str**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type
@@ -925,7 +1011,93 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
+**201** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **copy_folder_by_id_v0_folders_fld_id_copy_post**
+> FolderCopyOut copy_folder_by_id_v0_folders_fld_id_copy_post(fld_id, folder_copy_in, x_agentdrive_actor=x_agentdrive_actor, if_none_match=if_none_match, authorization=authorization)
+
+Duplicate a folder subtree to a new path (CAS-shared, new IDs)
+
+Clone the folder identified by URL id — and every descendant folder + artifact — under the body's `path` (canonical, trailing slash). Each copied artifact reuses the source's CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and `source.refs = [{type: 'artifact', id: '<source>'}]` provenance. The new folder gets a fresh `fld_…` ID and the source's description.
+
+The entire subtree is copied in a SINGLE transaction — either every row lands or none does.
+
+Quota: each copy's `size_bytes` counts against the drive's `storage_bytes` even though physical bytes are shared.
+
+Source-version pin: pass `from_metageneration` in the body to require the source folder's current `metageneration` to equal it (→ 412 SOURCE_VERSION_MISMATCH). Destination create-only: `If-None-Match: *` returns 412 CREATE_CONFLICT (instead of 409 FOLDER_PATH_CONFLICT) when the destination folder is occupied.
+
+Returns 409 `FOLDER_PATH_CONFLICT` if the destination collides with a live folder or artifact; 400 `FOLDER_PATH_INVALID` if `path` is non-canonical; 413 `SUBTREE_TOO_LARGE` if the source holds more than 5000 artifacts; 413 `STORAGE_QUOTA_EXCEEDED` if the copy would push the drive over its limit.
+
+### Example
+
+
+```python
+import agentdrive_sdk
+from agentdrive_sdk.models.folder_copy_in import FolderCopyIn
+from agentdrive_sdk.models.folder_copy_out import FolderCopyOut
+from agentdrive_sdk.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.agentdrive.run
+# See configuration.py for a list of all supported configuration parameters.
+configuration = agentdrive_sdk.Configuration(
+    host = "https://api.agentdrive.run"
+)
+
+
+# Enter a context with an instance of the API client
+with agentdrive_sdk.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = agentdrive_sdk.DefaultApi(api_client)
+    fld_id = 'fld_id_example' # str | 
+    folder_copy_in = agentdrive_sdk.FolderCopyIn() # FolderCopyIn | 
+    x_agentdrive_actor = 'x_agentdrive_actor_example' # str |  (optional)
+    if_none_match = 'if_none_match_example' # str |  (optional)
+    authorization = 'authorization_example' # str |  (optional)
+
+    try:
+        # Duplicate a folder subtree to a new path (CAS-shared, new IDs)
+        api_response = api_instance.copy_folder_by_id_v0_folders_fld_id_copy_post(fld_id, folder_copy_in, x_agentdrive_actor=x_agentdrive_actor, if_none_match=if_none_match, authorization=authorization)
+        print("The response of DefaultApi->copy_folder_by_id_v0_folders_fld_id_copy_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->copy_folder_by_id_v0_folders_fld_id_copy_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **fld_id** | **str**|  | 
+ **folder_copy_in** | [**FolderCopyIn**](FolderCopyIn.md)|  | 
+ **x_agentdrive_actor** | **str**|  | [optional] 
+ **if_none_match** | **str**|  | [optional] 
+ **authorization** | **str**|  | [optional] 
+
+### Return type
+
+[**FolderCopyOut**](FolderCopyOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**201** | Successful Response |  -  |
 **422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1093,12 +1265,14 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **create_folder_by_path_v0_folders_path_post**
-> FolderOut create_folder_by_path_v0_folders_path_post(path, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization, folder_create_in=folder_create_in)
+# **create_folder_by_path_v0_folders_path_put**
+> FolderOut create_folder_by_path_v0_folders_path_put(path, x_agentdrive_actor=x_agentdrive_actor, if_none_match=if_none_match, authorization=authorization, folder_create_in=folder_create_in)
 
 Create a folder (idempotent)
 
-Create a folder at the URL path. Idempotent — a second call for the same live path returns the existing row unchanged (metadata updates require PATCH).
+Create a folder at the URL path. Idempotent create-at-known-URI (mirrors `PUT /v0/artifacts/{path}`) — a second call for the same live path returns the existing row unchanged (metadata updates require PATCH). Returns 201 on create, 200 when the folder already exists.
+
+Send `If-None-Match: *` to make it strictly create-only: an existing folder then returns 412 CREATE_CONFLICT instead of the idempotent 200.
 
 Returns 409 `FOLDER_PATH_CONFLICT` if a live artifact occupies the file form of the path (e.g. mkdir `/foo/` when an artifact lives at `/foo`).
 
@@ -1125,16 +1299,17 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     api_instance = agentdrive_sdk.DefaultApi(api_client)
     path = 'path_example' # str | 
     x_agentdrive_actor = 'x_agentdrive_actor_example' # str |  (optional)
+    if_none_match = 'if_none_match_example' # str |  (optional)
     authorization = 'authorization_example' # str |  (optional)
     folder_create_in = agentdrive_sdk.FolderCreateIn() # FolderCreateIn |  (optional)
 
     try:
         # Create a folder (idempotent)
-        api_response = api_instance.create_folder_by_path_v0_folders_path_post(path, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization, folder_create_in=folder_create_in)
-        print("The response of DefaultApi->create_folder_by_path_v0_folders_path_post:\n")
+        api_response = api_instance.create_folder_by_path_v0_folders_path_put(path, x_agentdrive_actor=x_agentdrive_actor, if_none_match=if_none_match, authorization=authorization, folder_create_in=folder_create_in)
+        print("The response of DefaultApi->create_folder_by_path_v0_folders_path_put:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling DefaultApi->create_folder_by_path_v0_folders_path_post: %s\n" % e)
+        print("Exception when calling DefaultApi->create_folder_by_path_v0_folders_path_put: %s\n" % e)
 ```
 
 
@@ -1146,6 +1321,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **path** | **str**|  | 
  **x_agentdrive_actor** | **str**|  | [optional] 
+ **if_none_match** | **str**|  | [optional] 
  **authorization** | **str**|  | [optional] 
  **folder_create_in** | [**FolderCreateIn**](FolderCreateIn.md)|  | [optional] 
 
@@ -1989,15 +2165,21 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_artifact_v0_artifacts_path_delete**
-> object delete_artifact_v0_artifacts_path_delete(path, if_match=if_match, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+> ArtifactDeleteOut delete_artifact_v0_artifacts_path_delete(path, if_match=if_match, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
 
 Delete Artifact
+
+Soft-delete the artifact at the given path.
+
+A delete WITHOUT an `If-Match` precondition is last-writer-wins and will
+silently remove a concurrently-modified artifact.
 
 ### Example
 
 
 ```python
 import agentdrive_sdk
+from agentdrive_sdk.models.artifact_delete_out import ArtifactDeleteOut
 from agentdrive_sdk.rest import ApiException
 from pprint import pprint
 
@@ -2040,7 +2222,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**object**
+[**ArtifactDeleteOut**](ArtifactDeleteOut.md)
 
 ### Authorization
 
@@ -2061,7 +2243,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_drive_route_v0_drives_drive_id_delete**
-> object delete_drive_route_v0_drives_drive_id_delete(drive_id, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+> DriveDeleteOut delete_drive_route_v0_drives_drive_id_delete(drive_id, confirm=confirm, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
 
 Soft-delete a drive
 
@@ -2069,11 +2251,16 @@ Mark the drive for cleanup. All tenant data (artifacts, versions, wiki, embeddin
 
 Accepts either an `ad_live_` per-drive key (deletes that key's drive) or an `ad_user_` user token selecting an owned drive (workspaces-design §5.3); a `read`-scope user token is rejected with 403 `INSUFFICIENT_SCOPE`. **Guard (§8):** a workspace must retain at least one live drive — deleting the workspace's last live drive returns 409 `LAST_DRIVE`.
 
+**Explicit confirmation required:** pass `?confirm=DELETE` or the request is rejected with 400 `CONFIRM_REQUIRED`. Tenant-level deletion is the largest-blast-radius operation on the API; the static token forces a deliberate act (soft-delete still gives a restore window on top).
+
+**Optimistic concurrency:** send `If-Match` with the drive's composite ETag (`"<drv_id>.0.<metageneration>"`, from a drive read) to make the delete conditional — a stale token returns 412 PRECONDITION_FAILED. A delete WITHOUT an `If-Match` precondition is last-writer-wins and will silently trash a concurrently-modified drive.
+
 ### Example
 
 
 ```python
 import agentdrive_sdk
+from agentdrive_sdk.models.drive_delete_out import DriveDeleteOut
 from agentdrive_sdk.rest import ApiException
 from pprint import pprint
 
@@ -2089,12 +2276,14 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.DefaultApi(api_client)
     drive_id = 'drive_id_example' # str | 
+    confirm = 'confirm_example' # str |  (optional)
     x_agentdrive_actor = 'x_agentdrive_actor_example' # str |  (optional)
+    if_match = 'if_match_example' # str |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # Soft-delete a drive
-        api_response = api_instance.delete_drive_route_v0_drives_drive_id_delete(drive_id, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+        api_response = api_instance.delete_drive_route_v0_drives_drive_id_delete(drive_id, confirm=confirm, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
         print("The response of DefaultApi->delete_drive_route_v0_drives_drive_id_delete:\n")
         pprint(api_response)
     except Exception as e:
@@ -2109,12 +2298,14 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **drive_id** | **str**|  | 
+ **confirm** | **str**|  | [optional] 
  **x_agentdrive_actor** | **str**|  | [optional] 
+ **if_match** | **str**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type
 
-**object**
+[**DriveDeleteOut**](DriveDeleteOut.md)
 
 ### Authorization
 
@@ -2211,7 +2402,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_folder_by_id_v0_folders_fld_id_delete**
-> FolderDeleteOut delete_folder_by_id_v0_folders_fld_id_delete(fld_id, recursive=recursive, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+> FolderDeleteOut delete_folder_by_id_v0_folders_fld_id_delete(fld_id, recursive=recursive, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
 
 Soft-delete a folder by stable ID (cascade with ?recursive=true)
 
@@ -2238,11 +2429,12 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     fld_id = 'fld_id_example' # str | 
     recursive = False # bool |  (optional) (default to False)
     x_agentdrive_actor = 'x_agentdrive_actor_example' # str |  (optional)
+    if_match = 'if_match_example' # str |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # Soft-delete a folder by stable ID (cascade with ?recursive=true)
-        api_response = api_instance.delete_folder_by_id_v0_folders_fld_id_delete(fld_id, recursive=recursive, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+        api_response = api_instance.delete_folder_by_id_v0_folders_fld_id_delete(fld_id, recursive=recursive, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
         print("The response of DefaultApi->delete_folder_by_id_v0_folders_fld_id_delete:\n")
         pprint(api_response)
     except Exception as e:
@@ -2259,6 +2451,7 @@ Name | Type | Description  | Notes
  **fld_id** | **str**|  | 
  **recursive** | **bool**|  | [optional] [default to False]
  **x_agentdrive_actor** | **str**|  | [optional] 
+ **if_match** | **str**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type
@@ -2284,7 +2477,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_folder_by_path_v0_folders_path_delete**
-> FolderDeleteOut delete_folder_by_path_v0_folders_path_delete(path, recursive=recursive, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+> FolderDeleteOut delete_folder_by_path_v0_folders_path_delete(path, recursive=recursive, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
 
 Soft-delete a folder (cascade with ?recursive=true)
 
@@ -2315,11 +2508,12 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     path = 'path_example' # str | 
     recursive = False # bool |  (optional) (default to False)
     x_agentdrive_actor = 'x_agentdrive_actor_example' # str |  (optional)
+    if_match = 'if_match_example' # str |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # Soft-delete a folder (cascade with ?recursive=true)
-        api_response = api_instance.delete_folder_by_path_v0_folders_path_delete(path, recursive=recursive, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+        api_response = api_instance.delete_folder_by_path_v0_folders_path_delete(path, recursive=recursive, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
         print("The response of DefaultApi->delete_folder_by_path_v0_folders_path_delete:\n")
         pprint(api_response)
     except Exception as e:
@@ -2336,6 +2530,7 @@ Name | Type | Description  | Notes
  **path** | **str**|  | 
  **recursive** | **bool**|  | [optional] [default to False]
  **x_agentdrive_actor** | **str**|  | [optional] 
+ **if_match** | **str**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type
@@ -2361,7 +2556,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_grant_route_v0_grants_grn_id_delete**
-> object delete_grant_route_v0_grants_grn_id_delete(grn_id, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+> RevokeOut delete_grant_route_v0_grants_grn_id_delete(grn_id, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
 
 Revoke a grant (can_manage, or self-revoke own grant)
 
@@ -2370,6 +2565,7 @@ Revoke a grant (can_manage, or self-revoke own grant)
 
 ```python
 import agentdrive_sdk
+from agentdrive_sdk.models.revoke_out import RevokeOut
 from agentdrive_sdk.rest import ApiException
 from pprint import pprint
 
@@ -2410,7 +2606,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**object**
+[**RevokeOut**](RevokeOut.md)
 
 ### Authorization
 
@@ -2431,7 +2627,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_share_route_v0_shares_shr_id_delete**
-> object delete_share_route_v0_shares_shr_id_delete(shr_id, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+> RevokeOut delete_share_route_v0_shares_shr_id_delete(shr_id, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
 
 Revoke a share link (requires can_manage)
 
@@ -2440,6 +2636,7 @@ Revoke a share link (requires can_manage)
 
 ```python
 import agentdrive_sdk
+from agentdrive_sdk.models.revoke_out import RevokeOut
 from agentdrive_sdk.rest import ApiException
 from pprint import pprint
 
@@ -2480,7 +2677,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**object**
+[**RevokeOut**](RevokeOut.md)
 
 ### Authorization
 
@@ -2629,6 +2826,76 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **art_id** | **str**|  | 
+ **authorization** | **str**|  | [optional] 
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **download_artifact_by_path_v0_artifacts_path_download_get**
+> object download_artifact_by_path_v0_artifacts_path_download_get(path, authorization=authorization)
+
+Stream the artifact bytes by path (never rendered HTML)
+
+Same bytes-only machine surface as `/{art_id}/download` but resolves the artifact by path, so callers don't have to resolve path→id first. Applies the identical CSP `sandbox` + `nosniff` posture (never serves HTML inline as active content).
+
+### Example
+
+
+```python
+import agentdrive_sdk
+from agentdrive_sdk.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.agentdrive.run
+# See configuration.py for a list of all supported configuration parameters.
+configuration = agentdrive_sdk.Configuration(
+    host = "https://api.agentdrive.run"
+)
+
+
+# Enter a context with an instance of the API client
+with agentdrive_sdk.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = agentdrive_sdk.DefaultApi(api_client)
+    path = 'path_example' # str | 
+    authorization = 'authorization_example' # str |  (optional)
+
+    try:
+        # Stream the artifact bytes by path (never rendered HTML)
+        api_response = api_instance.download_artifact_by_path_v0_artifacts_path_download_get(path, authorization=authorization)
+        print("The response of DefaultApi->download_artifact_by_path_v0_artifacts_path_download_get:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->download_artifact_by_path_v0_artifacts_path_download_get: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **path** | **str**|  | 
  **authorization** | **str**|  | [optional] 
 
 ### Return type
@@ -3704,8 +3971,78 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **get_drive_route_v0_drives_drive_id_get**
+> object get_drive_route_v0_drives_drive_id_get(drive_id, authorization=authorization)
+
+Drive overview by id (same shape as /drives/me)
+
+Identical to `GET /v0/drives/me` — the by-id singleton so `Location`-style URLs and scripted clients can address the drive canonically. The path-param `drive_id` MUST match the authenticated drive (mirrors the delete/trash routes' no-leak 404). Emits the drive's composite `ETag` header (`"<drv_id>.0.<metageneration>"`).
+
+### Example
+
+
+```python
+import agentdrive_sdk
+from agentdrive_sdk.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.agentdrive.run
+# See configuration.py for a list of all supported configuration parameters.
+configuration = agentdrive_sdk.Configuration(
+    host = "https://api.agentdrive.run"
+)
+
+
+# Enter a context with an instance of the API client
+with agentdrive_sdk.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = agentdrive_sdk.DefaultApi(api_client)
+    drive_id = 'drive_id_example' # str | 
+    authorization = 'authorization_example' # str |  (optional)
+
+    try:
+        # Drive overview by id (same shape as /drives/me)
+        api_response = api_instance.get_drive_route_v0_drives_drive_id_get(drive_id, authorization=authorization)
+        print("The response of DefaultApi->get_drive_route_v0_drives_drive_id_get:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->get_drive_route_v0_drives_drive_id_get: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **drive_id** | **str**|  | 
+ **authorization** | **str**|  | [optional] 
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get_feedback_status_v0_feedback_fbk_id_get**
-> object get_feedback_status_v0_feedback_fbk_id_get(fbk_id, authorization=authorization)
+> FeedbackStatusOut get_feedback_status_v0_feedback_fbk_id_get(fbk_id, authorization=authorization)
 
 Get Feedback Status
 
@@ -3717,6 +4054,7 @@ read as 404 — indistinguishable from absent.
 
 ```python
 import agentdrive_sdk
+from agentdrive_sdk.models.feedback_status_out import FeedbackStatusOut
 from agentdrive_sdk.rest import ApiException
 from pprint import pprint
 
@@ -3755,7 +4093,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**object**
+[**FeedbackStatusOut**](FeedbackStatusOut.md)
 
 ### Authorization
 
@@ -4051,6 +4389,81 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **get_grant_route_v0_grants_grn_id_get**
+> GrantOut get_grant_route_v0_grants_grn_id_get(grn_id, authorization=authorization)
+
+Read a single grant (can_manage, or the grant's own principal)
+
+The `Location` target of `POST /v0/grants`. Authorization mirrors
+DELETE: `can_manage` on the granted resource, or the caller IS the
+grant's own principal (a grantee may read — like revoke — their own
+grant). A revoked grant reads as 404 (same no-leak shape as a
+foreign/absent id); DELETE stays idempotent on it.
+
+### Example
+
+
+```python
+import agentdrive_sdk
+from agentdrive_sdk.models.grant_out import GrantOut
+from agentdrive_sdk.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.agentdrive.run
+# See configuration.py for a list of all supported configuration parameters.
+configuration = agentdrive_sdk.Configuration(
+    host = "https://api.agentdrive.run"
+)
+
+
+# Enter a context with an instance of the API client
+with agentdrive_sdk.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = agentdrive_sdk.DefaultApi(api_client)
+    grn_id = 'grn_id_example' # str | 
+    authorization = 'authorization_example' # str |  (optional)
+
+    try:
+        # Read a single grant (can_manage, or the grant's own principal)
+        api_response = api_instance.get_grant_route_v0_grants_grn_id_get(grn_id, authorization=authorization)
+        print("The response of DefaultApi->get_grant_route_v0_grants_grn_id_get:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->get_grant_route_v0_grants_grn_id_get: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **grn_id** | **str**|  | 
+ **authorization** | **str**|  | [optional] 
+
+### Return type
+
+[**GrantOut**](GrantOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get_job_logs_v0_jobs_job_id_logs_get**
 > object get_job_logs_v0_jobs_job_id_logs_get(job_id, authorization=authorization)
 
@@ -4255,6 +4668,81 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **get_share_route_v0_shares_shr_id_get**
+> ShareOut get_share_route_v0_shares_shr_id_get(shr_id, authorization=authorization)
+
+Read a single share link's metadata (requires can_manage)
+
+The `Location` target of `POST /v0/shares`. Metadata ONLY —
+`ShareOut` never carries the raw `share_key`/URL (returned exactly
+once at mint/rotate, §4.5). Authorization mirrors DELETE:
+`can_manage` on the shared resource. A revoked share reads as 404
+(same no-leak shape as a foreign/absent id).
+
+### Example
+
+
+```python
+import agentdrive_sdk
+from agentdrive_sdk.models.share_out import ShareOut
+from agentdrive_sdk.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.agentdrive.run
+# See configuration.py for a list of all supported configuration parameters.
+configuration = agentdrive_sdk.Configuration(
+    host = "https://api.agentdrive.run"
+)
+
+
+# Enter a context with an instance of the API client
+with agentdrive_sdk.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = agentdrive_sdk.DefaultApi(api_client)
+    shr_id = 'shr_id_example' # str | 
+    authorization = 'authorization_example' # str |  (optional)
+
+    try:
+        # Read a single share link's metadata (requires can_manage)
+        api_response = api_instance.get_share_route_v0_shares_shr_id_get(shr_id, authorization=authorization)
+        print("The response of DefaultApi->get_share_route_v0_shares_shr_id_get:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->get_share_route_v0_shares_shr_id_get: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **shr_id** | **str**|  | 
+ **authorization** | **str**|  | [optional] 
+
+### Return type
+
+[**ShareOut**](ShareOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get_share_state_web_share_rid_get**
 > object get_share_state_web_share_rid_get(rid)
 
@@ -4317,6 +4805,78 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_upload_status_v0_uploads_upload_id_get**
+> UploadStatusOut get_upload_status_v0_uploads_upload_id_get(upload_id, authorization=authorization)
+
+Get the status of a large (direct-to-GCS) upload session
+
+Report the live state of an upload session begun at `/v0/uploads`. `state` is derived: `initiated` (open — PUT the bytes then commit), `committed` (artifact created), `aborted` (released via DELETE), or `expired` (past `expires_at` without a commit). Read-only; charges the read budget.
+
+### Example
+
+
+```python
+import agentdrive_sdk
+from agentdrive_sdk.models.upload_status_out import UploadStatusOut
+from agentdrive_sdk.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.agentdrive.run
+# See configuration.py for a list of all supported configuration parameters.
+configuration = agentdrive_sdk.Configuration(
+    host = "https://api.agentdrive.run"
+)
+
+
+# Enter a context with an instance of the API client
+with agentdrive_sdk.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = agentdrive_sdk.DefaultApi(api_client)
+    upload_id = 'upload_id_example' # str | 
+    authorization = 'authorization_example' # str |  (optional)
+
+    try:
+        # Get the status of a large (direct-to-GCS) upload session
+        api_response = api_instance.get_upload_status_v0_uploads_upload_id_get(upload_id, authorization=authorization)
+        print("The response of DefaultApi->get_upload_status_v0_uploads_upload_id_get:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->get_upload_status_v0_uploads_upload_id_get: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **upload_id** | **str**|  | 
+ **authorization** | **str**|  | [optional] 
+
+### Return type
+
+[**UploadStatusOut**](UploadStatusOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**404** | No such upload for this drive |  -  |
 **422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -4713,9 +5273,11 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_grants_route_v0_grants_get**
-> GrantList list_grants_route_v0_grants_get(resource, authorization=authorization)
+> GrantList list_grants_route_v0_grants_get(resource, cursor=cursor, limit=limit, authorization=authorization)
 
 List live grants on a resource (requires can_manage)
+
+**Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected. The `resource` filter must be re-sent on every page — the cursor encodes only the keyset position.
 
 ### Example
 
@@ -4738,11 +5300,13 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.DefaultApi(api_client)
     resource = 'resource_example' # str | art_*/fld_* id or a path
+    cursor = 'cursor_example' # str |  (optional)
+    limit = 56 # int |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # List live grants on a resource (requires can_manage)
-        api_response = api_instance.list_grants_route_v0_grants_get(resource, authorization=authorization)
+        api_response = api_instance.list_grants_route_v0_grants_get(resource, cursor=cursor, limit=limit, authorization=authorization)
         print("The response of DefaultApi->list_grants_route_v0_grants_get:\n")
         pprint(api_response)
     except Exception as e:
@@ -4757,6 +5321,8 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **resource** | **str**| art_*/fld_* id or a path | 
+ **cursor** | **str**|  | [optional] 
+ **limit** | **int**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type
@@ -4854,9 +5420,11 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_shares_route_v0_shares_get**
-> ShareList list_shares_route_v0_shares_get(resource, authorization=authorization)
+> ShareList list_shares_route_v0_shares_get(resource, cursor=cursor, limit=limit, authorization=authorization)
 
 List live share links on a resource (requires can_manage)
+
+**Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected. The `resource` filter must be re-sent on every page — the cursor encodes only the keyset position.
 
 ### Example
 
@@ -4879,11 +5447,13 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.DefaultApi(api_client)
     resource = 'resource_example' # str | art_*/fld_* id or a path
+    cursor = 'cursor_example' # str |  (optional)
+    limit = 56 # int |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # List live share links on a resource (requires can_manage)
-        api_response = api_instance.list_shares_route_v0_shares_get(resource, authorization=authorization)
+        api_response = api_instance.list_shares_route_v0_shares_get(resource, cursor=cursor, limit=limit, authorization=authorization)
         print("The response of DefaultApi->list_shares_route_v0_shares_get:\n")
         pprint(api_response)
     except Exception as e:
@@ -4898,6 +5468,8 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **resource** | **str**| art_*/fld_* id or a path | 
+ **cursor** | **str**|  | [optional] 
+ **limit** | **int**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type
@@ -5425,7 +5997,8 @@ is preserved in the response shape; its meaning is now "the drive's
 owner's email" (via `drives.owner_user_id` → `users.email`, joined
 in `auth.resolve_drive`). For solo signups this equals v0 behavior —
 the email the user signed up with. Returns null if the owner has
-been hard-purged. `organization_id` is a new additive field.
+been hard-purged. `organization_id` is a new additive field, as are
+`metageneration` / `etag` (also emitted as the `ETag` header).
 
 ### Example
 
@@ -5488,8 +6061,90 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **move_artifact_route_v0_artifacts_art_id_move_post**
+> ArtifactOut move_artifact_route_v0_artifacts_art_id_move_post(art_id, artifact_move_in, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
+
+Rename / move an artifact to a new path
+
+Canonical artifact move/rename, keyed by the stable `art_…` ID (the artifact analogue of `POST /v0/folders/{fld_id}/move`). Moves the artifact to a new `path` on the same drive; ID, version history, source refs, labels, metadata, and the underlying CAS blob are all preserved — only `path` and `updated_at` change, and the move does NOT bump `version_number`.
+
+The row UPDATE and the emitted `artifact.renamed` event commit in a SINGLE transaction — a failure leaves the artifact fully unchanged.
+
+Returns 409 PATH_CONFLICT if the target `path` is already taken; 404 ARTIFACT_NOT_FOUND for an unknown id; 403 WIKI_RESERVED for a `_wiki/` / `_compiled/` target. Honors `If-Match` (→ 412 PRECONDITION_FAILED). Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.renamed` event.
+
+### Example
+
+
+```python
+import agentdrive_sdk
+from agentdrive_sdk.models.artifact_move_in import ArtifactMoveIn
+from agentdrive_sdk.models.artifact_out import ArtifactOut
+from agentdrive_sdk.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.agentdrive.run
+# See configuration.py for a list of all supported configuration parameters.
+configuration = agentdrive_sdk.Configuration(
+    host = "https://api.agentdrive.run"
+)
+
+
+# Enter a context with an instance of the API client
+with agentdrive_sdk.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = agentdrive_sdk.DefaultApi(api_client)
+    art_id = 'art_id_example' # str | 
+    artifact_move_in = agentdrive_sdk.ArtifactMoveIn() # ArtifactMoveIn | 
+    x_agentdrive_actor = 'x_agentdrive_actor_example' # str |  (optional)
+    if_match = 'if_match_example' # str |  (optional)
+    authorization = 'authorization_example' # str |  (optional)
+
+    try:
+        # Rename / move an artifact to a new path
+        api_response = api_instance.move_artifact_route_v0_artifacts_art_id_move_post(art_id, artifact_move_in, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
+        print("The response of DefaultApi->move_artifact_route_v0_artifacts_art_id_move_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->move_artifact_route_v0_artifacts_art_id_move_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **art_id** | **str**|  | 
+ **artifact_move_in** | [**ArtifactMoveIn**](ArtifactMoveIn.md)|  | 
+ **x_agentdrive_actor** | **str**|  | [optional] 
+ **if_match** | **str**|  | [optional] 
+ **authorization** | **str**|  | [optional] 
+
+### Return type
+
+[**ArtifactOut**](ArtifactOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **move_folder_by_id_v0_folders_fld_id_move_post**
-> FolderOut move_folder_by_id_v0_folders_fld_id_move_post(fld_id, folder_move_in, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+> FolderOut move_folder_by_id_v0_folders_fld_id_move_post(fld_id, folder_move_in, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
 
 Rename / move a folder by stable ID (cascade descendants)
 
@@ -5517,11 +6172,12 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     fld_id = 'fld_id_example' # str | 
     folder_move_in = agentdrive_sdk.FolderMoveIn() # FolderMoveIn | 
     x_agentdrive_actor = 'x_agentdrive_actor_example' # str |  (optional)
+    if_match = 'if_match_example' # str |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # Rename / move a folder by stable ID (cascade descendants)
-        api_response = api_instance.move_folder_by_id_v0_folders_fld_id_move_post(fld_id, folder_move_in, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+        api_response = api_instance.move_folder_by_id_v0_folders_fld_id_move_post(fld_id, folder_move_in, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
         print("The response of DefaultApi->move_folder_by_id_v0_folders_fld_id_move_post:\n")
         pprint(api_response)
     except Exception as e:
@@ -5538,6 +6194,7 @@ Name | Type | Description  | Notes
  **fld_id** | **str**|  | 
  **folder_move_in** | [**FolderMoveIn**](FolderMoveIn.md)|  | 
  **x_agentdrive_actor** | **str**|  | [optional] 
+ **if_match** | **str**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type
@@ -5563,7 +6220,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **move_folder_by_path_v0_folders_path_move_post**
-> FolderOut move_folder_by_path_v0_folders_path_move_post(path, folder_move_in, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+> FolderOut move_folder_by_path_v0_folders_path_move_post(path, folder_move_in, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
 
 Rename / move a folder (cascade-update descendants)
 
@@ -5595,11 +6252,12 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     path = 'path_example' # str | 
     folder_move_in = agentdrive_sdk.FolderMoveIn() # FolderMoveIn | 
     x_agentdrive_actor = 'x_agentdrive_actor_example' # str |  (optional)
+    if_match = 'if_match_example' # str |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # Rename / move a folder (cascade-update descendants)
-        api_response = api_instance.move_folder_by_path_v0_folders_path_move_post(path, folder_move_in, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+        api_response = api_instance.move_folder_by_path_v0_folders_path_move_post(path, folder_move_in, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
         print("The response of DefaultApi->move_folder_by_path_v0_folders_path_move_post:\n")
         pprint(api_response)
     except Exception as e:
@@ -5616,6 +6274,7 @@ Name | Type | Description  | Notes
  **path** | **str**|  | 
  **folder_move_in** | [**FolderMoveIn**](FolderMoveIn.md)|  | 
  **x_agentdrive_actor** | **str**|  | [optional] 
+ **if_match** | **str**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type
@@ -5712,8 +6371,97 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **patch_artifact_route_v0_artifacts_art_id_patch**
+> ArtifactOut patch_artifact_route_v0_artifacts_art_id_patch(art_id, artifact_patch_in, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
+
+Edit artifact metadata (labels / metadata / source)
+
+Metadata-only JSON-merge-patch update of a single artifact, keyed by its stable `art_…` ID. Every field in the body is optional; a field that is **omitted** is left unchanged, a field that is **present** is applied — with an explicit `null` / `[]` / `{}` meaning "clear". This mirrors the MCP `set_metadata` tool.
+
+Editable fields:
+  * `labels` — replace the label set (`[]`/`null` clears).
+  * `metadata` — replace the free-form metadata object (`{}`/`null` clears).
+  * `source` — replace provenance refs (`null` clears).
+
+**To move/rename an artifact, use `POST /v0/artifacts/{art_id}/move`** — PATCH no longer accepts `path`. The body is `extra="forbid"`, so a stray field (notably a legacy `path`) is rejected with 422 rather than silently ignored.
+
+Metadata edits do NOT create a new content version (no `version_number` / generation bump, no `artifact_versions` row) but DO bump the artifact's `metageneration` and `updated_at`.
+
+Returns 400 BAD_LABELS / BAD_SOURCE for invalid metadata; 404 ARTIFACT_NOT_FOUND for an unknown id. Honors `If-Match`, which takes the composite ETag `"<art_id>.<generation>.<metageneration>"` and is compared as a whole tuple: ANY concurrent content **or** metadata change (a bumped generation OR metageneration) → 412 PRECONDITION_FAILED. There is no last-writer-wins gap for metadata-only edits. Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.metadata_updated` event.
+
+### Example
+
+
+```python
+import agentdrive_sdk
+from agentdrive_sdk.models.artifact_out import ArtifactOut
+from agentdrive_sdk.models.artifact_patch_in import ArtifactPatchIn
+from agentdrive_sdk.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.agentdrive.run
+# See configuration.py for a list of all supported configuration parameters.
+configuration = agentdrive_sdk.Configuration(
+    host = "https://api.agentdrive.run"
+)
+
+
+# Enter a context with an instance of the API client
+with agentdrive_sdk.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = agentdrive_sdk.DefaultApi(api_client)
+    art_id = 'art_id_example' # str | 
+    artifact_patch_in = agentdrive_sdk.ArtifactPatchIn() # ArtifactPatchIn | 
+    x_agentdrive_actor = 'x_agentdrive_actor_example' # str |  (optional)
+    if_match = 'if_match_example' # str |  (optional)
+    authorization = 'authorization_example' # str |  (optional)
+
+    try:
+        # Edit artifact metadata (labels / metadata / source)
+        api_response = api_instance.patch_artifact_route_v0_artifacts_art_id_patch(art_id, artifact_patch_in, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
+        print("The response of DefaultApi->patch_artifact_route_v0_artifacts_art_id_patch:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->patch_artifact_route_v0_artifacts_art_id_patch: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **art_id** | **str**|  | 
+ **artifact_patch_in** | [**ArtifactPatchIn**](ArtifactPatchIn.md)|  | 
+ **x_agentdrive_actor** | **str**|  | [optional] 
+ **if_match** | **str**|  | [optional] 
+ **authorization** | **str**|  | [optional] 
+
+### Return type
+
+[**ArtifactOut**](ArtifactOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **patch_folder_by_id_v0_folders_fld_id_patch**
-> FolderOut patch_folder_by_id_v0_folders_fld_id_patch(fld_id, folder_patch_in, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+> FolderOut patch_folder_by_id_v0_folders_fld_id_patch(fld_id, folder_patch_in, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
 
 Update folder metadata by stable ID
 
@@ -5741,11 +6489,12 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     fld_id = 'fld_id_example' # str | 
     folder_patch_in = agentdrive_sdk.FolderPatchIn() # FolderPatchIn | 
     x_agentdrive_actor = 'x_agentdrive_actor_example' # str |  (optional)
+    if_match = 'if_match_example' # str |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # Update folder metadata by stable ID
-        api_response = api_instance.patch_folder_by_id_v0_folders_fld_id_patch(fld_id, folder_patch_in, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+        api_response = api_instance.patch_folder_by_id_v0_folders_fld_id_patch(fld_id, folder_patch_in, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
         print("The response of DefaultApi->patch_folder_by_id_v0_folders_fld_id_patch:\n")
         pprint(api_response)
     except Exception as e:
@@ -5762,6 +6511,7 @@ Name | Type | Description  | Notes
  **fld_id** | **str**|  | 
  **folder_patch_in** | [**FolderPatchIn**](FolderPatchIn.md)|  | 
  **x_agentdrive_actor** | **str**|  | [optional] 
+ **if_match** | **str**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type
@@ -5787,7 +6537,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **patch_folder_by_path_v0_folders_path_patch**
-> FolderOut patch_folder_by_path_v0_folders_path_patch(path, folder_patch_in, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+> FolderOut patch_folder_by_path_v0_folders_path_patch(path, folder_patch_in, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
 
 Update folder metadata by path
 
@@ -5817,11 +6567,12 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     path = 'path_example' # str | 
     folder_patch_in = agentdrive_sdk.FolderPatchIn() # FolderPatchIn | 
     x_agentdrive_actor = 'x_agentdrive_actor_example' # str |  (optional)
+    if_match = 'if_match_example' # str |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # Update folder metadata by path
-        api_response = api_instance.patch_folder_by_path_v0_folders_path_patch(path, folder_patch_in, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+        api_response = api_instance.patch_folder_by_path_v0_folders_path_patch(path, folder_patch_in, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
         print("The response of DefaultApi->patch_folder_by_path_v0_folders_path_patch:\n")
         pprint(api_response)
     except Exception as e:
@@ -5838,6 +6589,7 @@ Name | Type | Description  | Notes
  **path** | **str**|  | 
  **folder_patch_in** | [**FolderPatchIn**](FolderPatchIn.md)|  | 
  **x_agentdrive_actor** | **str**|  | [optional] 
+ **if_match** | **str**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type
@@ -6420,11 +7172,11 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **put_artifact_v0_artifacts_path_put**
-> ArtifactOut put_artifact_v0_artifacts_path_put(path, content_type=content_type, x_agentdrive_labels=x_agentdrive_labels, x_agentdrive_metadata=x_agentdrive_metadata, x_agentdrive_source=x_agentdrive_source, x_agentdrive_actor=x_agentdrive_actor, x_agentdrive_change_summary=x_agentdrive_change_summary, if_match=if_match, authorization=authorization)
+> ArtifactOut put_artifact_v0_artifacts_path_put(path, content_type=content_type, x_agentdrive_labels=x_agentdrive_labels, x_agentdrive_metadata=x_agentdrive_metadata, x_agentdrive_source=x_agentdrive_source, x_agentdrive_actor=x_agentdrive_actor, x_agentdrive_change_summary=x_agentdrive_change_summary, x_agentdrive_checksum=x_agentdrive_checksum, content_md5=content_md5, if_match=if_match, if_none_match=if_none_match, authorization=authorization)
 
 Upload (or overwrite) an artifact
 
-Upload an artifact at the given path. The path is treated as the artifact's location in the drive — re-uploading the same path overwrites in place (idempotent).
+Upload an artifact at the given path. The path is treated as the artifact's location in the drive — re-uploading the same path overwrites in place (idempotent). Returns 201 when the artifact is created (no prior live artifact at the path), 200 on overwrite — mirroring `PUT /v0/folders/{path}`.
 
 **Limits:** request body must not exceed **50 MB**. Path must be non-empty, ≤256 chars, only `[A-Za-z0-9_./-]`, no `..` segments, no leading/trailing slash. Per-token write rate limit: 100/hour.
 
@@ -6433,6 +7185,10 @@ Upload an artifact at the given path. The path is treated as the artifact's loca
 - `X-AgentDrive-Metadata`: JSON object of agent-attached fields.
 - `X-AgentDrive-Source`: JSON `{"refs": [...]}` source provenance (present, including `{"refs": []}`, replaces).
 - `X-AgentDrive-Actor`: caller-supplied actor name (≤64 chars) for event-log attribution. Untrusted; never used for authz.
+
+**Preconditions.** `If-Match: "<id>.<gen>.<metagen>"` makes the write conditional on the current composite ETag (→ 412 PRECONDITION_FAILED). `If-None-Match: *` is create-only: it succeeds only if no live artifact occupies the path (→ 412 CREATE_CONFLICT if one does). The two are mutually exclusive (→ 400 BAD_PRECONDITION).
+
+**Integrity (optional).** `X-AgentDrive-Checksum: <algo>:<value>` (`sha256:<hex>` or `crc32c:<base64>`) or the standard `Content-MD5` (base64 MD5) is verified against the received bytes before they land (→ 400 CHECKSUM_MISMATCH on mismatch); no artifact is created on failure.
 
 ### Example
 
@@ -6461,12 +7217,15 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     x_agentdrive_source = 'x_agentdrive_source_example' # str |  (optional)
     x_agentdrive_actor = 'x_agentdrive_actor_example' # str |  (optional)
     x_agentdrive_change_summary = 'x_agentdrive_change_summary_example' # str |  (optional)
+    x_agentdrive_checksum = 'x_agentdrive_checksum_example' # str |  (optional)
+    content_md5 = 'content_md5_example' # str |  (optional)
     if_match = 'if_match_example' # str |  (optional)
+    if_none_match = 'if_none_match_example' # str |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # Upload (or overwrite) an artifact
-        api_response = api_instance.put_artifact_v0_artifacts_path_put(path, content_type=content_type, x_agentdrive_labels=x_agentdrive_labels, x_agentdrive_metadata=x_agentdrive_metadata, x_agentdrive_source=x_agentdrive_source, x_agentdrive_actor=x_agentdrive_actor, x_agentdrive_change_summary=x_agentdrive_change_summary, if_match=if_match, authorization=authorization)
+        api_response = api_instance.put_artifact_v0_artifacts_path_put(path, content_type=content_type, x_agentdrive_labels=x_agentdrive_labels, x_agentdrive_metadata=x_agentdrive_metadata, x_agentdrive_source=x_agentdrive_source, x_agentdrive_actor=x_agentdrive_actor, x_agentdrive_change_summary=x_agentdrive_change_summary, x_agentdrive_checksum=x_agentdrive_checksum, content_md5=content_md5, if_match=if_match, if_none_match=if_none_match, authorization=authorization)
         print("The response of DefaultApi->put_artifact_v0_artifacts_path_put:\n")
         pprint(api_response)
     except Exception as e:
@@ -6487,7 +7246,10 @@ Name | Type | Description  | Notes
  **x_agentdrive_source** | **str**|  | [optional] 
  **x_agentdrive_actor** | **str**|  | [optional] 
  **x_agentdrive_change_summary** | **str**|  | [optional] 
+ **x_agentdrive_checksum** | **str**|  | [optional] 
+ **content_md5** | **str**|  | [optional] 
  **if_match** | **str**|  | [optional] 
+ **if_none_match** | **str**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type
@@ -7085,86 +7847,6 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **rename_artifact_route_v0_artifacts_art_id_patch**
-> ArtifactOut rename_artifact_route_v0_artifacts_art_id_patch(art_id, rename_in, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
-
-Rename / move an artifact to a new path
-
-Move the artifact to a new path on the same drive. ID, version history, source refs, labels, metadata, and the underlying CAS blob are preserved — only `path` and `updated_at` change.
-
-Returns 409 PATH_CONFLICT if the target path is already taken. Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.renamed` event.
-
-### Example
-
-
-```python
-import agentdrive_sdk
-from agentdrive_sdk.models.artifact_out import ArtifactOut
-from agentdrive_sdk.models.rename_in import RenameIn
-from agentdrive_sdk.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://api.agentdrive.run
-# See configuration.py for a list of all supported configuration parameters.
-configuration = agentdrive_sdk.Configuration(
-    host = "https://api.agentdrive.run"
-)
-
-
-# Enter a context with an instance of the API client
-with agentdrive_sdk.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = agentdrive_sdk.DefaultApi(api_client)
-    art_id = 'art_id_example' # str | 
-    rename_in = agentdrive_sdk.RenameIn() # RenameIn | 
-    x_agentdrive_actor = 'x_agentdrive_actor_example' # str |  (optional)
-    if_match = 'if_match_example' # str |  (optional)
-    authorization = 'authorization_example' # str |  (optional)
-
-    try:
-        # Rename / move an artifact to a new path
-        api_response = api_instance.rename_artifact_route_v0_artifacts_art_id_patch(art_id, rename_in, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
-        print("The response of DefaultApi->rename_artifact_route_v0_artifacts_art_id_patch:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling DefaultApi->rename_artifact_route_v0_artifacts_art_id_patch: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **art_id** | **str**|  | 
- **rename_in** | [**RenameIn**](RenameIn.md)|  | 
- **x_agentdrive_actor** | **str**|  | [optional] 
- **if_match** | **str**|  | [optional] 
- **authorization** | **str**|  | [optional] 
-
-### Return type
-
-[**ArtifactOut**](ArtifactOut.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **rename_drive_web_web_drives_drive_id_rename_post**
 > object rename_drive_web_web_drives_drive_id_rename_post(drive_id, name, csrf)
 
@@ -7387,11 +8069,11 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **restore_artifact_v0_artifacts_art_id_restore_post**
-> ArtifactOut restore_artifact_v0_artifacts_art_id_restore_post(art_id, rename=rename, overwrite=overwrite, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+> ArtifactOut restore_artifact_v0_artifacts_art_id_restore_post(art_id, rename=rename, overwrite=overwrite, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
 
 Restore a soft-deleted artifact
 
-Clear `deleted_at` + `purge_at` on a soft-deleted artifact. Available only while the artifact is in trash (i.e. before the GC cleanup cron purges it). Returns 404 if the artifact is live or already hard-deleted; 409 PATH_OCCUPIED if its path is now occupied by another live artifact. The 409 payload includes a `restore_options` block with `rename_to` and `force_overwrite` URLs the caller can follow to resolve the conflict — see deletion-design.md §5.4.
+Clear `deleted_at` + `purge_at` on a soft-deleted artifact. Available only while the artifact is in trash (i.e. before the GC cleanup cron purges it). Returns 404 if the artifact is live or already hard-deleted; 409 PATH_CONFLICT if its path is now occupied by another live artifact. The 409 payload includes a `restore_options` block with `rename_to` and `force_overwrite` URLs the caller can follow to resolve the conflict — see deletion-design.md §5.4.
 
 ### Example
 
@@ -7417,11 +8099,12 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     rename = 'rename_example' # str | Restore at this path instead of the original. Soft-deletes the live occupant at the original path with audit `metadata.cause='restore_conflict_rename'`. Mutually exclusive with `overwrite`. (optional)
     overwrite = False # bool | Soft-delete the live occupant at the original path and restore there. Audit `metadata.cause='restore_conflict_overwrite'`. Mutually exclusive with `rename`. (optional) (default to False)
     x_agentdrive_actor = 'x_agentdrive_actor_example' # str |  (optional)
+    if_match = 'if_match_example' # str |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # Restore a soft-deleted artifact
-        api_response = api_instance.restore_artifact_v0_artifacts_art_id_restore_post(art_id, rename=rename, overwrite=overwrite, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+        api_response = api_instance.restore_artifact_v0_artifacts_art_id_restore_post(art_id, rename=rename, overwrite=overwrite, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
         print("The response of DefaultApi->restore_artifact_v0_artifacts_art_id_restore_post:\n")
         pprint(api_response)
     except Exception as e:
@@ -7439,6 +8122,90 @@ Name | Type | Description  | Notes
  **rename** | **str**| Restore at this path instead of the original. Soft-deletes the live occupant at the original path with audit &#x60;metadata.cause&#x3D;&#39;restore_conflict_rename&#39;&#x60;. Mutually exclusive with &#x60;overwrite&#x60;. | [optional] 
  **overwrite** | **bool**| Soft-delete the live occupant at the original path and restore there. Audit &#x60;metadata.cause&#x3D;&#39;restore_conflict_overwrite&#39;&#x60;. Mutually exclusive with &#x60;rename&#x60;. | [optional] [default to False]
  **x_agentdrive_actor** | **str**|  | [optional] 
+ **if_match** | **str**|  | [optional] 
+ **authorization** | **str**|  | [optional] 
+
+### Return type
+
+[**ArtifactOut**](ArtifactOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **restore_artifact_version_v0_artifacts_art_id_versions_version_number_restore_post**
+> ArtifactOut restore_artifact_version_v0_artifacts_art_id_versions_version_number_restore_post(art_id, version_number, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
+
+Restore a previous version as a new head version
+
+Roll the artifact forward to the content of version `version_number` by creating a **new head version** with identical bytes. History is preserved — this never rewrites or deletes past versions. The prior version's content-addressed blob is reused, so no bytes are re-uploaded. A change summary of `Restored version N` is recorded on the new version; `X-AgentDrive-Actor` attributes it.
+
+Restoring a version whose content already matches the current head (including the head itself) is a **no-op**: it returns the current artifact unchanged, with no new version created.
+
+Honors `If-Match` on the current head (roll forward only if the head is unchanged → 412 PRECONDITION_FAILED).
+
+Errors: `404 ARTIFACT_NOT_FOUND`, `404 VERSION_NOT_FOUND`, and `410 VERSION_PRUNED` when the version existed but its bytes were retained out of existence.
+
+### Example
+
+
+```python
+import agentdrive_sdk
+from agentdrive_sdk.models.artifact_out import ArtifactOut
+from agentdrive_sdk.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.agentdrive.run
+# See configuration.py for a list of all supported configuration parameters.
+configuration = agentdrive_sdk.Configuration(
+    host = "https://api.agentdrive.run"
+)
+
+
+# Enter a context with an instance of the API client
+with agentdrive_sdk.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = agentdrive_sdk.DefaultApi(api_client)
+    art_id = 'art_id_example' # str | 
+    version_number = 56 # int | 
+    x_agentdrive_actor = 'x_agentdrive_actor_example' # str |  (optional)
+    if_match = 'if_match_example' # str |  (optional)
+    authorization = 'authorization_example' # str |  (optional)
+
+    try:
+        # Restore a previous version as a new head version
+        api_response = api_instance.restore_artifact_version_v0_artifacts_art_id_versions_version_number_restore_post(art_id, version_number, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
+        print("The response of DefaultApi->restore_artifact_version_v0_artifacts_art_id_versions_version_number_restore_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->restore_artifact_version_v0_artifacts_art_id_versions_version_number_restore_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **art_id** | **str**|  | 
+ **version_number** | **int**|  | 
+ **x_agentdrive_actor** | **str**|  | [optional] 
+ **if_match** | **str**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type
@@ -7464,11 +8231,13 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **restore_drive_route_v0_drives_drive_id_restore_post**
-> object restore_drive_route_v0_drives_drive_id_restore_post(drive_id, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+> object restore_drive_route_v0_drives_drive_id_restore_post(drive_id, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
 
 Restore a soft-deleted drive
 
 Clear `deleted_at` + `purge_at` on a soft-deleted drive. Soft-deleted child artifacts get their retention window rebased to the drive-restore moment (see deletion-design.md §5.2). Available only while the drive is in trash. Returns 404 if the drive is live or already hard-deleted.
+
+**Optimistic concurrency:** send `If-Match` with the trashed drive's composite ETag (`"<drv_id>.0.<metageneration>"`, e.g. from the delete response's `ETag` header) to make the restore conditional — a stale token returns 412 PRECONDITION_FAILED. A restore WITHOUT an `If-Match` precondition is last-writer-wins.
 
 ### Example
 
@@ -7491,11 +8260,12 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     api_instance = agentdrive_sdk.DefaultApi(api_client)
     drive_id = 'drive_id_example' # str | 
     x_agentdrive_actor = 'x_agentdrive_actor_example' # str |  (optional)
+    if_match = 'if_match_example' # str |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # Restore a soft-deleted drive
-        api_response = api_instance.restore_drive_route_v0_drives_drive_id_restore_post(drive_id, x_agentdrive_actor=x_agentdrive_actor, authorization=authorization)
+        api_response = api_instance.restore_drive_route_v0_drives_drive_id_restore_post(drive_id, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
         print("The response of DefaultApi->restore_drive_route_v0_drives_drive_id_restore_post:\n")
         pprint(api_response)
     except Exception as e:
@@ -7511,11 +8281,91 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **drive_id** | **str**|  | 
  **x_agentdrive_actor** | **str**|  | [optional] 
+ **if_match** | **str**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type
 
 **object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **restore_folder_by_id_v0_folders_fld_id_restore_post**
+> FolderRestoreOut restore_folder_by_id_v0_folders_fld_id_restore_post(fld_id, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
+
+Restore a soft-deleted folder (cascade)
+
+Mirrors `POST /v0/artifacts/{art_id}/restore` for folders: clear `deleted_at` + `purge_at` on a soft-deleted folder AND exactly the descendants soft-deleted in the same cascade (descendants trashed separately keep their trash state; restore those individually — the per-artifact restore remains for cherry-picking). Available only while the folder is in trash; returns 404 if it is live or already hard-purged.
+
+Returns 409 `PATH_CONFLICT` when a live folder/artifact now occupies a path this restore would reinstate (`colliding_path` + `kind` identify it). Unlike artifact restore there are NO `rename`/`overwrite` escape hatches — the whole cascade aborts; free the colliding path (or cherry-pick artifacts) and retry.
+
+`If-Match` (the trashed folder's composite ETag) makes the restore conditional → 412 PRECONDITION_FAILED on a stale token; omitted, the restore is last-writer-wins.
+
+### Example
+
+
+```python
+import agentdrive_sdk
+from agentdrive_sdk.models.folder_restore_out import FolderRestoreOut
+from agentdrive_sdk.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.agentdrive.run
+# See configuration.py for a list of all supported configuration parameters.
+configuration = agentdrive_sdk.Configuration(
+    host = "https://api.agentdrive.run"
+)
+
+
+# Enter a context with an instance of the API client
+with agentdrive_sdk.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = agentdrive_sdk.DefaultApi(api_client)
+    fld_id = 'fld_id_example' # str | 
+    x_agentdrive_actor = 'x_agentdrive_actor_example' # str |  (optional)
+    if_match = 'if_match_example' # str |  (optional)
+    authorization = 'authorization_example' # str |  (optional)
+
+    try:
+        # Restore a soft-deleted folder (cascade)
+        api_response = api_instance.restore_folder_by_id_v0_folders_fld_id_restore_post(fld_id, x_agentdrive_actor=x_agentdrive_actor, if_match=if_match, authorization=authorization)
+        print("The response of DefaultApi->restore_folder_by_id_v0_folders_fld_id_restore_post:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->restore_folder_by_id_v0_folders_fld_id_restore_post: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **fld_id** | **str**|  | 
+ **x_agentdrive_actor** | **str**|  | [optional] 
+ **if_match** | **str**|  | [optional] 
+ **authorization** | **str**|  | [optional] 
+
+### Return type
+
+[**FolderRestoreOut**](FolderRestoreOut.md)
 
 ### Authorization
 
@@ -8625,87 +9475,6 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **stream_upload_v0_upload_token_put**
-> ArtifactOut stream_upload_v0_upload_token_put(token)
-
-Proxied streaming upload (via an upload_url token)
-
-Streams an artifact body into AgentDrive using a single-use token that was previously minted by the `upload_url` MCP tool. The token encodes the artifact path, content type, size cap, labels, metadata, source, actor, change summary, and `if_match` — all frozen at mint time. The request carries only the raw bytes + a `Content-Type` header that must match the signed value.
-
-**Auth.** No Authorization header — the token in the path is the credential.
-
-**Single-use.** Replay returns 409 TOKEN_REPLAYED. Expiry returns 401 TOKEN_EXPIRED. Bodies exceeding the signed cap return 413 BYTES_LIMIT.
-
-### Example
-
-
-```python
-import agentdrive_sdk
-from agentdrive_sdk.models.artifact_out import ArtifactOut
-from agentdrive_sdk.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://api.agentdrive.run
-# See configuration.py for a list of all supported configuration parameters.
-configuration = agentdrive_sdk.Configuration(
-    host = "https://api.agentdrive.run"
-)
-
-
-# Enter a context with an instance of the API client
-with agentdrive_sdk.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = agentdrive_sdk.DefaultApi(api_client)
-    token = 'token_example' # str | 
-
-    try:
-        # Proxied streaming upload (via an upload_url token)
-        api_response = api_instance.stream_upload_v0_upload_token_put(token)
-        print("The response of DefaultApi->stream_upload_v0_upload_token_put:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling DefaultApi->stream_upload_v0_upload_token_put: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **token** | **str**|  | 
-
-### Return type
-
-[**ArtifactOut**](ArtifactOut.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**400** | Content-Type mismatch or other validation failure |  -  |
-**401** | Token invalid / expired / drive deleted |  -  |
-**403** | Path reserved for the system (WIKI_RESERVED) |  -  |
-**409** | Token already consumed (replay) |  -  |
-**412** | If-Match precondition failed |  -  |
-**413** | Body exceeded signed max_bytes or drive quota |  -  |
-**429** | Drive&#39;s per-hour write budget exhausted |  -  |
-**503** | Storage backend unavailable (STORAGE_FAILURE) |  -  |
-**422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **switch_drive_web_switch_post**
 > object switch_drive_web_switch_post(csrf, drive_id=drive_id, organization_id=organization_id)
 
@@ -9057,6 +9826,89 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **art_id** | **str**|  | 
+
+### Return type
+
+**object**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful Response |  -  |
+**422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **view_artifact_version_v_art_id_version_get**
+> object view_artifact_version_v_art_id_version_get(art_id, version, raw=raw, download=download)
+
+View Artifact Version
+
+Render version `version` of an artifact, read-only.
+
+Authorization is byte-for-byte identical to viewing the artifact via
+`/a/{art_id}`: the same drive-blind `can_read` gate runs, so a viewer
+who can see the artifact can see its versions, and one who cannot gets
+the identical sign-in-or-404 response (no existence leak). A pruned or
+never-existed version renders a friendly unavailable state, never a 500.
+`?raw=1` / `?download=1` stream the version's bytes (powering the bar's
+Raw / Download buttons) with the same sandbox+nosniff headers as the
+head raw path.
+
+### Example
+
+
+```python
+import agentdrive_sdk
+from agentdrive_sdk.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.agentdrive.run
+# See configuration.py for a list of all supported configuration parameters.
+configuration = agentdrive_sdk.Configuration(
+    host = "https://api.agentdrive.run"
+)
+
+
+# Enter a context with an instance of the API client
+with agentdrive_sdk.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = agentdrive_sdk.DefaultApi(api_client)
+    art_id = 'art_id_example' # str | 
+    version = 56 # int | 
+    raw = 0 # int |  (optional) (default to 0)
+    download = 0 # int |  (optional) (default to 0)
+
+    try:
+        # View Artifact Version
+        api_response = api_instance.view_artifact_version_v_art_id_version_get(art_id, version, raw=raw, download=download)
+        print("The response of DefaultApi->view_artifact_version_v_art_id_version_get:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling DefaultApi->view_artifact_version_v_art_id_version_get: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **art_id** | **str**|  | 
+ **version** | **int**|  | 
+ **raw** | **int**|  | [optional] [default to 0]
+ **download** | **int**|  | [optional] [default to 0]
 
 ### Return type
 

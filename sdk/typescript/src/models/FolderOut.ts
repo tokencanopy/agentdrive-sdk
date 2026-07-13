@@ -53,6 +53,18 @@ export interface FolderOut {
     inheritGrants?: boolean;
     /**
      * 
+     * @type {number}
+     * @memberof FolderOut
+     */
+    metageneration?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof FolderOut
+     */
+    etag: string;
+    /**
+     * 
      * @type {Date}
      * @memberof FolderOut
      */
@@ -84,6 +96,7 @@ export function instanceOfFolderOut(value: object): value is FolderOut {
     if (!('id' in value) || value['id'] === undefined) return false;
     if ((!('driveId' in value) && !('drive_id' in value)) || (value['driveId'] === undefined && value['drive_id'] === undefined)) return false;
     if (!('path' in value) || value['path'] === undefined) return false;
+    if (!('etag' in value) || value['etag'] === undefined) return false;
     if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
     if ((!('updatedAt' in value) && !('updated_at' in value)) || (value['updatedAt'] === undefined && value['updated_at'] === undefined)) return false;
     return true;
@@ -104,6 +117,8 @@ export function FolderOutFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'path': json['path'],
         'description': json['description'] == null ? undefined : json['description'],
         'inheritGrants': json['inherit_grants'] == null ? undefined : json['inherit_grants'],
+        'metageneration': json['metageneration'] == null ? undefined : json['metageneration'],
+        'etag': json['etag'],
         'createdAt': (new Date(json['created_at'])),
         'updatedAt': (new Date(json['updated_at'])),
         'deletedAt': json['deleted_at'] == null ? undefined : (new Date(json['deleted_at'])),
@@ -127,6 +142,8 @@ export function FolderOutToJSONTyped(value?: FolderOut | null, ignoreDiscriminat
         'path': value['path'],
         'description': value['description'],
         'inherit_grants': value['inheritGrants'],
+        'metageneration': value['metageneration'],
+        'etag': value['etag'],
         'created_at': value['createdAt'].toISOString(),
         'updated_at': value['updatedAt'].toISOString(),
         'deleted_at': value['deletedAt'] == null ? value['deletedAt'] : value['deletedAt'].toISOString(),

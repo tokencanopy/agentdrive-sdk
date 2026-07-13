@@ -35,6 +35,7 @@ class TestSearchHitOut(unittest.TestCase):
         model = SearchHitOut()
         if include_optional:
             return SearchHitOut(
+                art_id = '',
                 drive_id = '',
                 path = '',
                 url = '',
@@ -45,10 +46,12 @@ class TestSearchHitOut(unittest.TestCase):
                     ],
                 snippet = '',
                 score = 1.337,
-                updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')
+                updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                version_number = 56
             )
         else:
             return SearchHitOut(
+                art_id = '',
                 drive_id = '',
                 path = '',
                 url = '',
@@ -57,6 +60,7 @@ class TestSearchHitOut(unittest.TestCase):
                 snippet = '',
                 score = 1.337,
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                version_number = 56,
         )
         """
 

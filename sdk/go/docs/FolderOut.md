@@ -9,6 +9,8 @@ Name | Type | Description | Notes
 **Path** | **string** |  | 
 **Description** | Pointer to **NullableString** |  | [optional] 
 **InheritGrants** | Pointer to **bool** |  | [optional] [default to true]
+**Metageneration** | Pointer to **int32** |  | [optional] [default to 1]
+**Etag** | **string** |  | 
 **CreatedAt** | **time.Time** |  | 
 **UpdatedAt** | **time.Time** |  | 
 **DeletedAt** | Pointer to **NullableTime** |  | [optional] 
@@ -18,7 +20,7 @@ Name | Type | Description | Notes
 
 ### NewFolderOut
 
-`func NewFolderOut(id string, driveId string, path string, createdAt time.Time, updatedAt time.Time, ) *FolderOut`
+`func NewFolderOut(id string, driveId string, path string, etag string, createdAt time.Time, updatedAt time.Time, ) *FolderOut`
 
 NewFolderOut instantiates a new FolderOut object
 This constructor will assign default values to properties that have it defined,
@@ -152,6 +154,51 @@ SetInheritGrants sets InheritGrants field to given value.
 `func (o *FolderOut) HasInheritGrants() bool`
 
 HasInheritGrants returns a boolean if a field has been set.
+
+### GetMetageneration
+
+`func (o *FolderOut) GetMetageneration() int32`
+
+GetMetageneration returns the Metageneration field if non-nil, zero value otherwise.
+
+### GetMetagenerationOk
+
+`func (o *FolderOut) GetMetagenerationOk() (*int32, bool)`
+
+GetMetagenerationOk returns a tuple with the Metageneration field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMetageneration
+
+`func (o *FolderOut) SetMetageneration(v int32)`
+
+SetMetageneration sets Metageneration field to given value.
+
+### HasMetageneration
+
+`func (o *FolderOut) HasMetageneration() bool`
+
+HasMetageneration returns a boolean if a field has been set.
+
+### GetEtag
+
+`func (o *FolderOut) GetEtag() string`
+
+GetEtag returns the Etag field if non-nil, zero value otherwise.
+
+### GetEtagOk
+
+`func (o *FolderOut) GetEtagOk() (*string, bool)`
+
+GetEtagOk returns a tuple with the Etag field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEtag
+
+`func (o *FolderOut) SetEtag(v string)`
+
+SetEtag sets Etag field to given value.
+
 
 ### GetCreatedAt
 

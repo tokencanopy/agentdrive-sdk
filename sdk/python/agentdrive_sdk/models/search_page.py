@@ -17,8 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict
+from typing import Any, ClassVar, Dict, List
 from agentdrive_sdk.models.search_hit_out import SearchHitOut
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,11 +26,10 @@ from pydantic_core import to_jsonable_python
 
 class SearchPage(BaseModel):
     """
-    SearchPage
+    `/v0/search` response — single-shot top-N, deliberately unpaginated.  Ranked retrieval doesn't paginate meaningfully (the industry norm: vector/RAG APIs are pure top-K; Algolia/GitHub cap ranked results outright) — the correct \"next page\" of a relevance-ranked list is a narrower query. Raise `limit` (≤100) for more hits. A `next_cursor` field advertised here in the past was structurally always null and was dropped; if deep retrieval is ever needed, an ES-`search_after` style `(score, id)` keyset can be re-added additively.
     """ # noqa: E501
     items: List[SearchHitOut]
-    next_cursor: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["items", "next_cursor"]
+    __properties: ClassVar[List[str]] = ["items"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -78,11 +77,6 @@ class SearchPage(BaseModel):
                 if _item_items:
                     _items.append(_item_items.to_dict())
             _dict['items'] = _items
-        # set to None if next_cursor (nullable) is None
-        # and model_fields_set contains the field
-        if self.next_cursor is None and "next_cursor" in self.model_fields_set:
-            _dict['next_cursor'] = None
-
         return _dict
 
     @classmethod
@@ -95,8 +89,7 @@ class SearchPage(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "items": [SearchHitOut.from_dict(_item) for _item in obj["items"]] if obj.get("items") is not None else None,
-            "next_cursor": obj.get("next_cursor")
+            "items": [SearchHitOut.from_dict(_item) for _item in obj["items"]] if obj.get("items") is not None else None
         })
         return _obj
 

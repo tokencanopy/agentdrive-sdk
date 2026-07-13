@@ -33,6 +33,12 @@ export interface MemberList {
      * @memberof MemberList
      */
     items: Array<MemberOut>;
+    /**
+     * 
+     * @type {string}
+     * @memberof MemberList
+     */
+    nextCursor?: string | null;
 }
 
 /**
@@ -54,6 +60,7 @@ export function MemberListFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     return {
         
         'items': ((json['items'] as Array<any>).map(MemberOutFromJSON)),
+        'nextCursor': json['next_cursor'] == null ? undefined : json['next_cursor'],
     };
 }
 
@@ -69,6 +76,7 @@ export function MemberListToJSONTyped(value?: MemberList | null, ignoreDiscrimin
     return {
         
         'items': ((value['items'] as Array<any>).map(MemberOutToJSON)),
+        'next_cursor': value['nextCursor'],
     };
 }
 

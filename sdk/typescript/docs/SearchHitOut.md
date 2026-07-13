@@ -6,6 +6,7 @@
 
 Name | Type
 ------------ | -------------
+`artId` | string
 `driveId` | string
 `path` | string
 `url` | string
@@ -15,6 +16,7 @@ Name | Type
 `snippet` | string
 `score` | number
 `updatedAt` | Date
+`versionNumber` | number
 
 ## Example
 
@@ -23,6 +25,7 @@ import type { SearchHitOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
+  "artId": null,
   "driveId": null,
   "path": null,
   "url": null,
@@ -32,6 +35,7 @@ const example = {
   "snippet": null,
   "score": null,
   "updatedAt": null,
+  "versionNumber": null,
 } satisfies SearchHitOut
 
 console.log(example)

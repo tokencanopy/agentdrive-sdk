@@ -27,7 +27,7 @@ type InvitationOut struct {
 	Email string `json:"email"`
 	Role string `json:"role"`
 	Status string `json:"status"`
-	InvitedBy NullableString `json:"invited_by"`
+	InvitedBy NullableString `json:"invited_by,omitempty"`
 	ExpiresAt time.Time `json:"expires_at"`
 	CreatedAt time.Time `json:"created_at"`
 }
@@ -38,14 +38,13 @@ type _InvitationOut InvitationOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewInvitationOut(id string, organizationId string, email string, role string, status string, invitedBy NullableString, expiresAt time.Time, createdAt time.Time) *InvitationOut {
+func NewInvitationOut(id string, organizationId string, email string, role string, status string, expiresAt time.Time, createdAt time.Time) *InvitationOut {
 	this := InvitationOut{}
 	this.Id = id
 	this.OrganizationId = organizationId
 	this.Email = email
 	this.Role = role
 	this.Status = status
-	this.InvitedBy = invitedBy
 	this.ExpiresAt = expiresAt
 	this.CreatedAt = createdAt
 	return &this
@@ -179,18 +178,16 @@ func (o *InvitationOut) SetStatus(v string) {
 	o.Status = v
 }
 
-// GetInvitedBy returns the InvitedBy field value
-// If the value is explicit nil, the zero value for string will be returned
+// GetInvitedBy returns the InvitedBy field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *InvitationOut) GetInvitedBy() string {
-	if o == nil || o.InvitedBy.Get() == nil {
+	if o == nil || IsNil(o.InvitedBy.Get()) {
 		var ret string
 		return ret
 	}
-
 	return *o.InvitedBy.Get()
 }
 
-// GetInvitedByOk returns a tuple with the InvitedBy field value
+// GetInvitedByOk returns a tuple with the InvitedBy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *InvitationOut) GetInvitedByOk() (*string, bool) {
@@ -200,9 +197,27 @@ func (o *InvitationOut) GetInvitedByOk() (*string, bool) {
 	return o.InvitedBy.Get(), o.InvitedBy.IsSet()
 }
 
-// SetInvitedBy sets field value
+// HasInvitedBy returns a boolean if a field has been set.
+func (o *InvitationOut) HasInvitedBy() bool {
+	if o != nil && o.InvitedBy.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetInvitedBy gets a reference to the given NullableString and assigns it to the InvitedBy field.
 func (o *InvitationOut) SetInvitedBy(v string) {
 	o.InvitedBy.Set(&v)
+}
+// SetInvitedByNil sets the value for InvitedBy to be an explicit nil
+func (o *InvitationOut) SetInvitedByNil() {
+	o.InvitedBy.Set(nil)
+}
+
+// UnsetInvitedBy ensures that no value is present for InvitedBy, not even an explicit nil
+func (o *InvitationOut) UnsetInvitedBy() {
+	o.InvitedBy.Unset()
 }
 
 // GetExpiresAt returns the ExpiresAt field value
@@ -268,7 +283,9 @@ func (o InvitationOut) ToMap() (map[string]interface{}, error) {
 	toSerialize["email"] = o.Email
 	toSerialize["role"] = o.Role
 	toSerialize["status"] = o.Status
-	toSerialize["invited_by"] = o.InvitedBy.Get()
+	if o.InvitedBy.IsSet() {
+		toSerialize["invited_by"] = o.InvitedBy.Get()
+	}
 	toSerialize["expires_at"] = o.ExpiresAt
 	toSerialize["created_at"] = o.CreatedAt
 	return toSerialize, nil
@@ -284,7 +301,6 @@ func (o *InvitationOut) UnmarshalJSON(data []byte) (err error) {
 		"email",
 		"role",
 		"status",
-		"invited_by",
 		"expires_at",
 		"created_at",
 	}

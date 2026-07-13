@@ -9,8 +9,8 @@ Name | Type | Description | Notes
 **id** | **str** |  | 
 **name** | **str** |  | 
 **organization_id** | **str** |  | 
-**owner_user_id** | **str** |  | 
-**owner_email** | **str** |  | 
+**owner_user_id** | **str** |  | [optional] 
+**owner_email** | **str** |  | [optional] 
 **storage_bytes** | **int** |  | 
 **created_at** | **datetime** |  | 
 **api_key** | **str** |  | 

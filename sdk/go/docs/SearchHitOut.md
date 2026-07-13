@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**ArtId** | **string** |  | 
 **DriveId** | **string** |  | 
 **Path** | **string** |  | 
 **Url** | **string** |  | 
@@ -13,12 +14,13 @@ Name | Type | Description | Notes
 **Snippet** | **string** |  | 
 **Score** | **float32** |  | 
 **UpdatedAt** | **time.Time** |  | 
+**VersionNumber** | **int32** |  | 
 
 ## Methods
 
 ### NewSearchHitOut
 
-`func NewSearchHitOut(driveId string, path string, url string, contentType string, fileType string, snippet string, score float32, updatedAt time.Time, ) *SearchHitOut`
+`func NewSearchHitOut(artId string, driveId string, path string, url string, contentType string, fileType string, snippet string, score float32, updatedAt time.Time, versionNumber int32, ) *SearchHitOut`
 
 NewSearchHitOut instantiates a new SearchHitOut object
 This constructor will assign default values to properties that have it defined,
@@ -32,6 +34,26 @@ will change when the set of required properties is changed
 NewSearchHitOutWithDefaults instantiates a new SearchHitOut object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetArtId
+
+`func (o *SearchHitOut) GetArtId() string`
+
+GetArtId returns the ArtId field if non-nil, zero value otherwise.
+
+### GetArtIdOk
+
+`func (o *SearchHitOut) GetArtIdOk() (*string, bool)`
+
+GetArtIdOk returns a tuple with the ArtId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetArtId
+
+`func (o *SearchHitOut) SetArtId(v string)`
+
+SetArtId sets ArtId field to given value.
+
 
 ### GetDriveId
 
@@ -216,6 +238,26 @@ and a boolean to check if the value has been set.
 `func (o *SearchHitOut) SetUpdatedAt(v time.Time)`
 
 SetUpdatedAt sets UpdatedAt field to given value.
+
+
+### GetVersionNumber
+
+`func (o *SearchHitOut) GetVersionNumber() int32`
+
+GetVersionNumber returns the VersionNumber field if non-nil, zero value otherwise.
+
+### GetVersionNumberOk
+
+`func (o *SearchHitOut) GetVersionNumberOk() (*int32, bool)`
+
+GetVersionNumberOk returns a tuple with the VersionNumber field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetVersionNumber
+
+`func (o *SearchHitOut) SetVersionNumber(v int32)`
+
+SetVersionNumber sets VersionNumber field to given value.
 
 
 

@@ -39,6 +39,12 @@ export interface CopyIn {
      * @memberof CopyIn
      */
     source?: ArtifactSource | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CopyIn
+     */
+    fromGeneration?: number | null;
 }
 
 /**
@@ -61,6 +67,7 @@ export function CopyInFromJSONTyped(json: any, ignoreDiscriminator: boolean): Co
         
         'path': json['path'],
         'source': json['source'] == null ? undefined : ArtifactSourceFromJSON(json['source']),
+        'fromGeneration': json['from_generation'] == null ? undefined : json['from_generation'],
     };
 }
 
@@ -77,6 +84,7 @@ export function CopyInToJSONTyped(value?: CopyIn | null, ignoreDiscriminator: bo
         
         'path': value['path'],
         'source': ArtifactSourceToJSON(value['source']),
+        'from_generation': value['fromGeneration'],
     };
 }
 

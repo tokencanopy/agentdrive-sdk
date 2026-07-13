@@ -40,10 +40,10 @@ export interface ShareMintOut {
     resourceId: string;
     /**
      * 
-     * @type {string}
+     * @type {ShareMintOutRoleEnum}
      * @memberof ShareMintOut
      */
-    role: string;
+    role: ShareMintOutRoleEnum;
     /**
      * 
      * @type {string}
@@ -103,6 +103,16 @@ export const ShareMintOutResourceTypeEnum = {
     Folder: 'folder'
 } as const;
 export type ShareMintOutResourceTypeEnum = typeof ShareMintOutResourceTypeEnum[keyof typeof ShareMintOutResourceTypeEnum];
+
+/**
+ * @export
+ */
+export const ShareMintOutRoleEnum = {
+    Viewer: 'viewer',
+    Commenter: 'commenter',
+    Editor: 'editor'
+} as const;
+export type ShareMintOutRoleEnum = typeof ShareMintOutRoleEnum[keyof typeof ShareMintOutRoleEnum];
 
 
 /**

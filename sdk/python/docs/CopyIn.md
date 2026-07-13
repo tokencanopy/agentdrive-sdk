@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **path** | **str** |  | 
 **source** | [**ArtifactSource**](ArtifactSource.md) |  | [optional] 
+**from_generation** | **int** |  | [optional] 
 
 ## Example
 

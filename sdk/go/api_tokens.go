@@ -26,7 +26,19 @@ type TokensAPIService service
 type ApiListTokensV0TokensGetRequest struct {
 	ctx context.Context
 	ApiService *TokensAPIService
+	cursor *string
+	limit *int32
 	authorization *string
+}
+
+func (r ApiListTokensV0TokensGetRequest) Cursor(cursor string) ApiListTokensV0TokensGetRequest {
+	r.cursor = &cursor
+	return r
+}
+
+func (r ApiListTokensV0TokensGetRequest) Limit(limit int32) ApiListTokensV0TokensGetRequest {
+	r.limit = &limit
+	return r
 }
 
 func (r ApiListTokensV0TokensGetRequest) Authorization(authorization string) ApiListTokensV0TokensGetRequest {
@@ -42,6 +54,8 @@ func (r ApiListTokensV0TokensGetRequest) Execute() (*UserTokenList, *http.Respon
 ListTokensV0TokensGet List your user-identity tokens
 
 List the `ad_user_` tokens belonging to the authenticated user. Metadata only — the raw token is shown once at mint (web only) and is never returned here. Includes recently-revoked tokens (with `revoked_at` set) so the caller can audit them; newest first.
+
+**Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiListTokensV0TokensGetRequest
@@ -74,6 +88,12 @@ func (a *TokensAPIService) ListTokensV0TokensGetExecute(r ApiListTokensV0TokensG
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.cursor != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
+	}
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

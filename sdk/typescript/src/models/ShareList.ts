@@ -33,6 +33,12 @@ export interface ShareList {
      * @memberof ShareList
      */
     items: Array<ShareOut>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ShareList
+     */
+    nextCursor?: string | null;
 }
 
 /**
@@ -54,6 +60,7 @@ export function ShareListFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     return {
         
         'items': ((json['items'] as Array<any>).map(ShareOutFromJSON)),
+        'nextCursor': json['next_cursor'] == null ? undefined : json['next_cursor'],
     };
 }
 
@@ -69,6 +76,7 @@ export function ShareListToJSONTyped(value?: ShareList | null, ignoreDiscriminat
     return {
         
         'items': ((value['items'] as Array<any>).map(ShareOutToJSON)),
+        'next_cursor': value['nextCursor'],
     };
 }
 

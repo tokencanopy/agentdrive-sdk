@@ -7,6 +7,7 @@
 Name | Type
 ------------ | -------------
 `items` | [Array&lt;GrantOut&gt;](GrantOut.md)
+`nextCursor` | string
 
 ## Example
 
@@ -16,6 +17,7 @@ import type { GrantList } from '@mnexa-ai/agentdrive-sdk'
 // TODO: Update the object below with actual values
 const example = {
   "items": null,
+  "nextCursor": null,
 } satisfies GrantList
 
 console.log(example)

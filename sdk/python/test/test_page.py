@@ -47,6 +47,8 @@ class TestPage(unittest.TestCase):
                         size_bytes = 56, 
                         hash = '', 
                         version_number = 56, 
+                        metageneration = 56, 
+                        etag = '', 
                         labels = [
                             ''
                             ], 
@@ -74,6 +76,8 @@ class TestPage(unittest.TestCase):
                         size_bytes = 56, 
                         hash = '', 
                         version_number = 56, 
+                        metageneration = 56, 
+                        etag = '', 
                         labels = [
                             ''
                             ], 

@@ -9,6 +9,7 @@ Name | Type
 ------------ | -------------
 `path` | string
 `source` | [ArtifactSource](ArtifactSource.md)
+`fromGeneration` | number
 
 ## Example
 
@@ -19,6 +20,7 @@ import type { CopyIn } from '@mnexa-ai/agentdrive-sdk'
 const example = {
   "path": null,
   "source": null,
+  "fromGeneration": null,
 } satisfies CopyIn
 
 console.log(example)

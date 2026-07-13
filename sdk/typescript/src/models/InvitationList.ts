@@ -33,6 +33,12 @@ export interface InvitationList {
      * @memberof InvitationList
      */
     items: Array<InvitationOut>;
+    /**
+     * 
+     * @type {string}
+     * @memberof InvitationList
+     */
+    nextCursor?: string | null;
 }
 
 /**
@@ -54,6 +60,7 @@ export function InvitationListFromJSONTyped(json: any, ignoreDiscriminator: bool
     return {
         
         'items': ((json['items'] as Array<any>).map(InvitationOutFromJSON)),
+        'nextCursor': json['next_cursor'] == null ? undefined : json['next_cursor'],
     };
 }
 
@@ -69,6 +76,7 @@ export function InvitationListToJSONTyped(value?: InvitationList | null, ignoreD
     return {
         
         'items': ((value['items'] as Array<any>).map(InvitationOutToJSON)),
+        'next_cursor': value['nextCursor'],
     };
 }
 

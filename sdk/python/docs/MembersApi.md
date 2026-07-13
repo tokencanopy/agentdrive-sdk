@@ -85,11 +85,13 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_invitations_v0_invitations_get**
-> InvitationList list_invitations_v0_invitations_get(authorization=authorization)
+> InvitationList list_invitations_v0_invitations_get(cursor=cursor, limit=limit, authorization=authorization)
 
 List pending invitations
 
 List the pending invitations for the caller's active workspace. **Admin only.** Metadata only — the raw invite token is never surfaced.
+
+Newest first (`created_at` descending, tie-broken by `id`). Paginated: `limit` is clamped to [1, 100] (default 50, never a 422); pass the response's `next_cursor` back as `cursor` for the next page (`null` when the listing is complete).
 
 ### Example
 
@@ -111,11 +113,13 @@ configuration = agentdrive_sdk.Configuration(
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.MembersApi(api_client)
+    cursor = 'cursor_example' # str |  (optional)
+    limit = 56 # int |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # List pending invitations
-        api_response = api_instance.list_invitations_v0_invitations_get(authorization=authorization)
+        api_response = api_instance.list_invitations_v0_invitations_get(cursor=cursor, limit=limit, authorization=authorization)
         print("The response of MembersApi->list_invitations_v0_invitations_get:\n")
         pprint(api_response)
     except Exception as e:
@@ -129,6 +133,8 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **cursor** | **str**|  | [optional] 
+ **limit** | **int**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type
@@ -154,11 +160,13 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_members_v0_members_get**
-> MemberList list_members_v0_members_get(authorization=authorization)
+> MemberList list_members_v0_members_get(cursor=cursor, limit=limit, authorization=authorization)
 
 List the members of your active workspace
 
 List live members (email, role, joined-at) of the caller's active workspace. Any **member** may list; a `read`-scope token is sufficient.
+
+Ordered by join time (`created_at`, tie-broken by `user_id`) — **no role grouping is promised**; a dashboard that wants admins-first sorts client-side. Paginated: `limit` is clamped to [1, 100] (default 50, never a 422); pass the response's `next_cursor` back as `cursor` for the next page (`null` when the listing is complete).
 
 ### Example
 
@@ -180,11 +188,13 @@ configuration = agentdrive_sdk.Configuration(
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.MembersApi(api_client)
+    cursor = 'cursor_example' # str |  (optional)
+    limit = 56 # int |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # List the members of your active workspace
-        api_response = api_instance.list_members_v0_members_get(authorization=authorization)
+        api_response = api_instance.list_members_v0_members_get(cursor=cursor, limit=limit, authorization=authorization)
         print("The response of MembersApi->list_members_v0_members_get:\n")
         pprint(api_response)
     except Exception as e:
@@ -198,6 +208,8 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **cursor** | **str**|  | [optional] 
+ **limit** | **int**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type
@@ -223,17 +235,22 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **remove_member_v0_members_target_user_id_delete**
-> object remove_member_v0_members_target_user_id_delete(target_user_id, authorization=authorization)
+> MemberRemoveOut remove_member_v0_members_target_user_id_delete(target_user_id, confirm=confirm, authorization=authorization)
 
 Remove a member (or leave)
 
 Remove a member from the caller's active workspace, soft-deleting every drive that member owns there (workspaces-design §4.4 — no ownership transfer in v0; their `ad_live_` keys then stop working). **Admin** may remove anyone; **any member** may remove themselves (self-leave). `full` scope. Removing the **last/sole admin** is rejected with 409 `LAST_ADMIN` (promote someone first, or delete the workspace).
+
+**Explicit confirmation required:** pass `?confirm=DELETE` or the request is rejected with 400 `CONFIRM_REQUIRED` — removal cascades a soft-delete of every drive the member owns, so it carries tenant-level blast radius (uniform with `DELETE /v0/drives/{id}`).
+
+Deliberately takes NO `If-Match`: membership rows carry no generation/metageneration axis to pin (there is no ETag to echo), so `?confirm=DELETE` is the sole mutation guard here.
 
 ### Example
 
 
 ```python
 import agentdrive_sdk
+from agentdrive_sdk.models.member_remove_out import MemberRemoveOut
 from agentdrive_sdk.rest import ApiException
 from pprint import pprint
 
@@ -249,11 +266,12 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.MembersApi(api_client)
     target_user_id = 'target_user_id_example' # str | 
+    confirm = 'confirm_example' # str |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # Remove a member (or leave)
-        api_response = api_instance.remove_member_v0_members_target_user_id_delete(target_user_id, authorization=authorization)
+        api_response = api_instance.remove_member_v0_members_target_user_id_delete(target_user_id, confirm=confirm, authorization=authorization)
         print("The response of MembersApi->remove_member_v0_members_target_user_id_delete:\n")
         pprint(api_response)
     except Exception as e:
@@ -268,11 +286,12 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **target_user_id** | **str**|  | 
+ **confirm** | **str**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type
 
-**object**
+[**MemberRemoveOut**](MemberRemoveOut.md)
 
 ### Authorization
 
@@ -293,17 +312,18 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **revoke_invitation_v0_invitations_invitation_id_delete**
-> object revoke_invitation_v0_invitations_invitation_id_delete(invitation_id, authorization=authorization)
+> RevokeOut revoke_invitation_v0_invitations_invitation_id_delete(invitation_id, authorization=authorization)
 
 Revoke a pending invitation
 
-Revoke a pending invitation in the caller's active workspace. **Admin only**, `full` scope. Org-scoped + idempotent: a forged id, an invite from another workspace, or an already-consumed invite all return 404 (no-leak).
+Revoke a pending invitation in the caller's active workspace. **Admin only**, `full` scope. Org-scoped + idempotent: `revoked` is a COUNT — 1 when a live invite was revoked, 0 when it was already gone (a forged id, an invite from another workspace, or an already-consumed invite all return `revoked: 0`, no-leak).
 
 ### Example
 
 
 ```python
 import agentdrive_sdk
+from agentdrive_sdk.models.revoke_out import RevokeOut
 from agentdrive_sdk.rest import ApiException
 from pprint import pprint
 
@@ -342,7 +362,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**object**
+[**RevokeOut**](RevokeOut.md)
 
 ### Authorization
 

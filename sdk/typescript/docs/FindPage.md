@@ -1,13 +1,13 @@
 
 # FindPage
 
+`/v0/find` response — single-shot top-N, deliberately unpaginated (same contract + rationale as `SearchPage`).
 
 ## Properties
 
 Name | Type
 ------------ | -------------
 `items` | [Array&lt;FindHitOut&gt;](FindHitOut.md)
-`nextCursor` | string
 
 ## Example
 
@@ -17,7 +17,6 @@ import type { FindPage } from '@mnexa-ai/agentdrive-sdk'
 // TODO: Update the object below with actual values
 const example = {
   "items": null,
-  "nextCursor": null,
 } satisfies FindPage
 
 console.log(example)

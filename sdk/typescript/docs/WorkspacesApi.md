@@ -83,11 +83,11 @@ No authorization required
 
 ## listWorkspacesRouteV0WorkspacesGet
 
-> WorkspaceList listWorkspacesRouteV0WorkspacesGet(authorization)
+> WorkspaceList listWorkspacesRouteV0WorkspacesGet(cursor, limit, authorization)
 
 List the spaces you belong to
 
-Return every space the caller is a member of, each carrying the caller\&#39;s &#x60;role&#x60; in it. Metadata only. A &#x60;read&#x60;-scope token is sufficient.
+Return every space the caller is a member of, each carrying the caller\&#39;s &#x60;role&#x60; in it. Metadata only. A &#x60;read&#x60;-scope token is sufficient.  **Cursor pagination:** when more results exist, the response carries &#x60;next_cursor&#x60;. Pass it back as &#x60;?cursor&#x3D;&lt;token&gt;&#x60; to fetch the next page; &#x60;null&#x60; means the listing is complete. &#x60;limit&#x60; is clamped to [1, 100] (default 50), never rejected.
 
 ### Example
 
@@ -103,6 +103,10 @@ async function example() {
   const api = new WorkspacesApi();
 
   const body = {
+    // string (optional)
+    cursor: cursor_example,
+    // number (optional)
+    limit: 56,
     // string (optional)
     authorization: authorization_example,
   } satisfies ListWorkspacesRouteV0WorkspacesGetRequest;
@@ -124,6 +128,8 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
+| **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **limit** | `number` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type

@@ -22,6 +22,7 @@ var _ MappedNullable = &SearchHitOut{}
 
 // SearchHitOut struct for SearchHitOut
 type SearchHitOut struct {
+	ArtId string `json:"art_id"`
 	DriveId string `json:"drive_id"`
 	Path string `json:"path"`
 	Url string `json:"url"`
@@ -31,6 +32,7 @@ type SearchHitOut struct {
 	Snippet string `json:"snippet"`
 	Score float32 `json:"score"`
 	UpdatedAt time.Time `json:"updated_at"`
+	VersionNumber int32 `json:"version_number"`
 }
 
 type _SearchHitOut SearchHitOut
@@ -39,8 +41,9 @@ type _SearchHitOut SearchHitOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSearchHitOut(driveId string, path string, url string, contentType string, fileType string, snippet string, score float32, updatedAt time.Time) *SearchHitOut {
+func NewSearchHitOut(artId string, driveId string, path string, url string, contentType string, fileType string, snippet string, score float32, updatedAt time.Time, versionNumber int32) *SearchHitOut {
 	this := SearchHitOut{}
+	this.ArtId = artId
 	this.DriveId = driveId
 	this.Path = path
 	this.Url = url
@@ -49,6 +52,7 @@ func NewSearchHitOut(driveId string, path string, url string, contentType string
 	this.Snippet = snippet
 	this.Score = score
 	this.UpdatedAt = updatedAt
+	this.VersionNumber = versionNumber
 	return &this
 }
 
@@ -58,6 +62,30 @@ func NewSearchHitOut(driveId string, path string, url string, contentType string
 func NewSearchHitOutWithDefaults() *SearchHitOut {
 	this := SearchHitOut{}
 	return &this
+}
+
+// GetArtId returns the ArtId field value
+func (o *SearchHitOut) GetArtId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.ArtId
+}
+
+// GetArtIdOk returns a tuple with the ArtId field value
+// and a boolean to check if the value has been set.
+func (o *SearchHitOut) GetArtIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ArtId, true
+}
+
+// SetArtId sets field value
+func (o *SearchHitOut) SetArtId(v string) {
+	o.ArtId = v
 }
 
 // GetDriveId returns the DriveId field value
@@ -284,6 +312,30 @@ func (o *SearchHitOut) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
 
+// GetVersionNumber returns the VersionNumber field value
+func (o *SearchHitOut) GetVersionNumber() int32 {
+	if o == nil {
+		var ret int32
+		return ret
+	}
+
+	return o.VersionNumber
+}
+
+// GetVersionNumberOk returns a tuple with the VersionNumber field value
+// and a boolean to check if the value has been set.
+func (o *SearchHitOut) GetVersionNumberOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.VersionNumber, true
+}
+
+// SetVersionNumber sets field value
+func (o *SearchHitOut) SetVersionNumber(v int32) {
+	o.VersionNumber = v
+}
+
 func (o SearchHitOut) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -294,6 +346,7 @@ func (o SearchHitOut) MarshalJSON() ([]byte, error) {
 
 func (o SearchHitOut) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	toSerialize["art_id"] = o.ArtId
 	toSerialize["drive_id"] = o.DriveId
 	toSerialize["path"] = o.Path
 	toSerialize["url"] = o.Url
@@ -305,6 +358,7 @@ func (o SearchHitOut) ToMap() (map[string]interface{}, error) {
 	toSerialize["snippet"] = o.Snippet
 	toSerialize["score"] = o.Score
 	toSerialize["updated_at"] = o.UpdatedAt
+	toSerialize["version_number"] = o.VersionNumber
 	return toSerialize, nil
 }
 
@@ -313,6 +367,7 @@ func (o *SearchHitOut) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
+		"art_id",
 		"drive_id",
 		"path",
 		"url",
@@ -321,6 +376,7 @@ func (o *SearchHitOut) UnmarshalJSON(data []byte) (err error) {
 		"snippet",
 		"score",
 		"updated_at",
+		"version_number",
 	}
 
 	allProperties := make(map[string]interface{})

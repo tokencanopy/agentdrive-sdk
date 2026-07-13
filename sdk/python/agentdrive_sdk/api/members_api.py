@@ -15,14 +15,16 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import StrictStr
-from typing import Any, Optional
+from pydantic import StrictInt, StrictStr
+from typing import Optional
 from agentdrive_sdk.models.invitation_list import InvitationList
 from agentdrive_sdk.models.invite_create_out import InviteCreateOut
 from agentdrive_sdk.models.member_invite_in import MemberInviteIn
 from agentdrive_sdk.models.member_list import MemberList
 from agentdrive_sdk.models.member_out import MemberOut
+from agentdrive_sdk.models.member_remove_out import MemberRemoveOut
 from agentdrive_sdk.models.member_role_in import MemberRoleIn
+from agentdrive_sdk.models.revoke_out import RevokeOut
 
 from agentdrive_sdk.api_client import ApiClient, RequestSerialized
 from agentdrive_sdk.api_response import ApiResponse
@@ -336,6 +338,8 @@ class MembersApi:
     @validate_call
     def list_invitations_v0_invitations_get(
         self,
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -352,8 +356,12 @@ class MembersApi:
     ) -> InvitationList:
         """List pending invitations
 
-        List the pending invitations for the caller's active workspace. **Admin only.** Metadata only — the raw invite token is never surfaced.
+        List the pending invitations for the caller's active workspace. **Admin only.** Metadata only — the raw invite token is never surfaced.  Newest first (`created_at` descending, tie-broken by `id`). Paginated: `limit` is clamped to [1, 100] (default 50, never a 422); pass the response's `next_cursor` back as `cursor` for the next page (`null` when the listing is complete).
 
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -379,6 +387,8 @@ class MembersApi:
         """ # noqa: E501
 
         _param = self._list_invitations_v0_invitations_get_serialize(
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -404,6 +414,8 @@ class MembersApi:
     @validate_call
     def list_invitations_v0_invitations_get_with_http_info(
         self,
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -420,8 +432,12 @@ class MembersApi:
     ) -> ApiResponse[InvitationList]:
         """List pending invitations
 
-        List the pending invitations for the caller's active workspace. **Admin only.** Metadata only — the raw invite token is never surfaced.
+        List the pending invitations for the caller's active workspace. **Admin only.** Metadata only — the raw invite token is never surfaced.  Newest first (`created_at` descending, tie-broken by `id`). Paginated: `limit` is clamped to [1, 100] (default 50, never a 422); pass the response's `next_cursor` back as `cursor` for the next page (`null` when the listing is complete).
 
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -447,6 +463,8 @@ class MembersApi:
         """ # noqa: E501
 
         _param = self._list_invitations_v0_invitations_get_serialize(
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -472,6 +490,8 @@ class MembersApi:
     @validate_call
     def list_invitations_v0_invitations_get_without_preload_content(
         self,
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -488,8 +508,12 @@ class MembersApi:
     ) -> RESTResponseType:
         """List pending invitations
 
-        List the pending invitations for the caller's active workspace. **Admin only.** Metadata only — the raw invite token is never surfaced.
+        List the pending invitations for the caller's active workspace. **Admin only.** Metadata only — the raw invite token is never surfaced.  Newest first (`created_at` descending, tie-broken by `id`). Paginated: `limit` is clamped to [1, 100] (default 50, never a 422); pass the response's `next_cursor` back as `cursor` for the next page (`null` when the listing is complete).
 
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -515,6 +539,8 @@ class MembersApi:
         """ # noqa: E501
 
         _param = self._list_invitations_v0_invitations_get_serialize(
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -535,6 +561,8 @@ class MembersApi:
 
     def _list_invitations_v0_invitations_get_serialize(
         self,
+        cursor,
+        limit,
         authorization,
         _request_auth,
         _content_type,
@@ -558,6 +586,14 @@ class MembersApi:
 
         # process the path parameters
         # process the query parameters
+        if cursor is not None:
+            
+            _query_params.append(('cursor', cursor))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization
@@ -599,6 +635,8 @@ class MembersApi:
     @validate_call
     def list_members_v0_members_get(
         self,
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -615,8 +653,12 @@ class MembersApi:
     ) -> MemberList:
         """List the members of your active workspace
 
-        List live members (email, role, joined-at) of the caller's active workspace. Any **member** may list; a `read`-scope token is sufficient.
+        List live members (email, role, joined-at) of the caller's active workspace. Any **member** may list; a `read`-scope token is sufficient.  Ordered by join time (`created_at`, tie-broken by `user_id`) — **no role grouping is promised**; a dashboard that wants admins-first sorts client-side. Paginated: `limit` is clamped to [1, 100] (default 50, never a 422); pass the response's `next_cursor` back as `cursor` for the next page (`null` when the listing is complete).
 
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -642,6 +684,8 @@ class MembersApi:
         """ # noqa: E501
 
         _param = self._list_members_v0_members_get_serialize(
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -667,6 +711,8 @@ class MembersApi:
     @validate_call
     def list_members_v0_members_get_with_http_info(
         self,
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -683,8 +729,12 @@ class MembersApi:
     ) -> ApiResponse[MemberList]:
         """List the members of your active workspace
 
-        List live members (email, role, joined-at) of the caller's active workspace. Any **member** may list; a `read`-scope token is sufficient.
+        List live members (email, role, joined-at) of the caller's active workspace. Any **member** may list; a `read`-scope token is sufficient.  Ordered by join time (`created_at`, tie-broken by `user_id`) — **no role grouping is promised**; a dashboard that wants admins-first sorts client-side. Paginated: `limit` is clamped to [1, 100] (default 50, never a 422); pass the response's `next_cursor` back as `cursor` for the next page (`null` when the listing is complete).
 
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -710,6 +760,8 @@ class MembersApi:
         """ # noqa: E501
 
         _param = self._list_members_v0_members_get_serialize(
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -735,6 +787,8 @@ class MembersApi:
     @validate_call
     def list_members_v0_members_get_without_preload_content(
         self,
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -751,8 +805,12 @@ class MembersApi:
     ) -> RESTResponseType:
         """List the members of your active workspace
 
-        List live members (email, role, joined-at) of the caller's active workspace. Any **member** may list; a `read`-scope token is sufficient.
+        List live members (email, role, joined-at) of the caller's active workspace. Any **member** may list; a `read`-scope token is sufficient.  Ordered by join time (`created_at`, tie-broken by `user_id`) — **no role grouping is promised**; a dashboard that wants admins-first sorts client-side. Paginated: `limit` is clamped to [1, 100] (default 50, never a 422); pass the response's `next_cursor` back as `cursor` for the next page (`null` when the listing is complete).
 
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -778,6 +836,8 @@ class MembersApi:
         """ # noqa: E501
 
         _param = self._list_members_v0_members_get_serialize(
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -798,6 +858,8 @@ class MembersApi:
 
     def _list_members_v0_members_get_serialize(
         self,
+        cursor,
+        limit,
         authorization,
         _request_auth,
         _content_type,
@@ -821,6 +883,14 @@ class MembersApi:
 
         # process the path parameters
         # process the query parameters
+        if cursor is not None:
+            
+            _query_params.append(('cursor', cursor))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization
@@ -863,6 +933,7 @@ class MembersApi:
     def remove_member_v0_members_target_user_id_delete(
         self,
         target_user_id: StrictStr,
+        confirm: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -876,13 +947,15 @@ class MembersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
+    ) -> MemberRemoveOut:
         """Remove a member (or leave)
 
-        Remove a member from the caller's active workspace, soft-deleting every drive that member owns there (workspaces-design §4.4 — no ownership transfer in v0; their `ad_live_` keys then stop working). **Admin** may remove anyone; **any member** may remove themselves (self-leave). `full` scope. Removing the **last/sole admin** is rejected with 409 `LAST_ADMIN` (promote someone first, or delete the workspace).
+        Remove a member from the caller's active workspace, soft-deleting every drive that member owns there (workspaces-design §4.4 — no ownership transfer in v0; their `ad_live_` keys then stop working). **Admin** may remove anyone; **any member** may remove themselves (self-leave). `full` scope. Removing the **last/sole admin** is rejected with 409 `LAST_ADMIN` (promote someone first, or delete the workspace).  **Explicit confirmation required:** pass `?confirm=DELETE` or the request is rejected with 400 `CONFIRM_REQUIRED` — removal cascades a soft-delete of every drive the member owns, so it carries tenant-level blast radius (uniform with `DELETE /v0/drives/{id}`).  Deliberately takes NO `If-Match`: membership rows carry no generation/metageneration axis to pin (there is no ETag to echo), so `?confirm=DELETE` is the sole mutation guard here.
 
         :param target_user_id: (required)
         :type target_user_id: str
+        :param confirm:
+        :type confirm: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -909,6 +982,7 @@ class MembersApi:
 
         _param = self._remove_member_v0_members_target_user_id_delete_serialize(
             target_user_id=target_user_id,
+            confirm=confirm,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -917,7 +991,7 @@ class MembersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "MemberRemoveOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -935,6 +1009,7 @@ class MembersApi:
     def remove_member_v0_members_target_user_id_delete_with_http_info(
         self,
         target_user_id: StrictStr,
+        confirm: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -948,13 +1023,15 @@ class MembersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
+    ) -> ApiResponse[MemberRemoveOut]:
         """Remove a member (or leave)
 
-        Remove a member from the caller's active workspace, soft-deleting every drive that member owns there (workspaces-design §4.4 — no ownership transfer in v0; their `ad_live_` keys then stop working). **Admin** may remove anyone; **any member** may remove themselves (self-leave). `full` scope. Removing the **last/sole admin** is rejected with 409 `LAST_ADMIN` (promote someone first, or delete the workspace).
+        Remove a member from the caller's active workspace, soft-deleting every drive that member owns there (workspaces-design §4.4 — no ownership transfer in v0; their `ad_live_` keys then stop working). **Admin** may remove anyone; **any member** may remove themselves (self-leave). `full` scope. Removing the **last/sole admin** is rejected with 409 `LAST_ADMIN` (promote someone first, or delete the workspace).  **Explicit confirmation required:** pass `?confirm=DELETE` or the request is rejected with 400 `CONFIRM_REQUIRED` — removal cascades a soft-delete of every drive the member owns, so it carries tenant-level blast radius (uniform with `DELETE /v0/drives/{id}`).  Deliberately takes NO `If-Match`: membership rows carry no generation/metageneration axis to pin (there is no ETag to echo), so `?confirm=DELETE` is the sole mutation guard here.
 
         :param target_user_id: (required)
         :type target_user_id: str
+        :param confirm:
+        :type confirm: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -981,6 +1058,7 @@ class MembersApi:
 
         _param = self._remove_member_v0_members_target_user_id_delete_serialize(
             target_user_id=target_user_id,
+            confirm=confirm,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -989,7 +1067,7 @@ class MembersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "MemberRemoveOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1007,6 +1085,7 @@ class MembersApi:
     def remove_member_v0_members_target_user_id_delete_without_preload_content(
         self,
         target_user_id: StrictStr,
+        confirm: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -1023,10 +1102,12 @@ class MembersApi:
     ) -> RESTResponseType:
         """Remove a member (or leave)
 
-        Remove a member from the caller's active workspace, soft-deleting every drive that member owns there (workspaces-design §4.4 — no ownership transfer in v0; their `ad_live_` keys then stop working). **Admin** may remove anyone; **any member** may remove themselves (self-leave). `full` scope. Removing the **last/sole admin** is rejected with 409 `LAST_ADMIN` (promote someone first, or delete the workspace).
+        Remove a member from the caller's active workspace, soft-deleting every drive that member owns there (workspaces-design §4.4 — no ownership transfer in v0; their `ad_live_` keys then stop working). **Admin** may remove anyone; **any member** may remove themselves (self-leave). `full` scope. Removing the **last/sole admin** is rejected with 409 `LAST_ADMIN` (promote someone first, or delete the workspace).  **Explicit confirmation required:** pass `?confirm=DELETE` or the request is rejected with 400 `CONFIRM_REQUIRED` — removal cascades a soft-delete of every drive the member owns, so it carries tenant-level blast radius (uniform with `DELETE /v0/drives/{id}`).  Deliberately takes NO `If-Match`: membership rows carry no generation/metageneration axis to pin (there is no ETag to echo), so `?confirm=DELETE` is the sole mutation guard here.
 
         :param target_user_id: (required)
         :type target_user_id: str
+        :param confirm:
+        :type confirm: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1053,6 +1134,7 @@ class MembersApi:
 
         _param = self._remove_member_v0_members_target_user_id_delete_serialize(
             target_user_id=target_user_id,
+            confirm=confirm,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1061,7 +1143,7 @@ class MembersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "MemberRemoveOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1074,6 +1156,7 @@ class MembersApi:
     def _remove_member_v0_members_target_user_id_delete_serialize(
         self,
         target_user_id,
+        confirm,
         authorization,
         _request_auth,
         _content_type,
@@ -1099,6 +1182,10 @@ class MembersApi:
         if target_user_id is not None:
             _path_params['target_user_id'] = target_user_id
         # process the query parameters
+        if confirm is not None:
+            
+            _query_params.append(('confirm', confirm))
+            
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization
@@ -1154,10 +1241,10 @@ class MembersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
+    ) -> RevokeOut:
         """Revoke a pending invitation
 
-        Revoke a pending invitation in the caller's active workspace. **Admin only**, `full` scope. Org-scoped + idempotent: a forged id, an invite from another workspace, or an already-consumed invite all return 404 (no-leak).
+        Revoke a pending invitation in the caller's active workspace. **Admin only**, `full` scope. Org-scoped + idempotent: `revoked` is a COUNT — 1 when a live invite was revoked, 0 when it was already gone (a forged id, an invite from another workspace, or an already-consumed invite all return `revoked: 0`, no-leak).
 
         :param invitation_id: (required)
         :type invitation_id: str
@@ -1195,7 +1282,7 @@ class MembersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "RevokeOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1226,10 +1313,10 @@ class MembersApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
+    ) -> ApiResponse[RevokeOut]:
         """Revoke a pending invitation
 
-        Revoke a pending invitation in the caller's active workspace. **Admin only**, `full` scope. Org-scoped + idempotent: a forged id, an invite from another workspace, or an already-consumed invite all return 404 (no-leak).
+        Revoke a pending invitation in the caller's active workspace. **Admin only**, `full` scope. Org-scoped + idempotent: `revoked` is a COUNT — 1 when a live invite was revoked, 0 when it was already gone (a forged id, an invite from another workspace, or an already-consumed invite all return `revoked: 0`, no-leak).
 
         :param invitation_id: (required)
         :type invitation_id: str
@@ -1267,7 +1354,7 @@ class MembersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "RevokeOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -1301,7 +1388,7 @@ class MembersApi:
     ) -> RESTResponseType:
         """Revoke a pending invitation
 
-        Revoke a pending invitation in the caller's active workspace. **Admin only**, `full` scope. Org-scoped + idempotent: a forged id, an invite from another workspace, or an already-consumed invite all return 404 (no-leak).
+        Revoke a pending invitation in the caller's active workspace. **Admin only**, `full` scope. Org-scoped + idempotent: `revoked` is a COUNT — 1 when a live invite was revoked, 0 when it was already gone (a forged id, an invite from another workspace, or an already-consumed invite all return `revoked: 0`, no-leak).
 
         :param invitation_id: (required)
         :type invitation_id: str
@@ -1339,7 +1426,7 @@ class MembersApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "RevokeOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(

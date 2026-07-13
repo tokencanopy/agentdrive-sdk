@@ -58,10 +58,10 @@ export interface GrantOut {
     principalEmail?: string | null;
     /**
      * 
-     * @type {string}
+     * @type {GrantOutRoleEnum}
      * @memberof GrantOut
      */
-    role: string;
+    role: GrantOutRoleEnum;
     /**
      * 
      * @type {string}
@@ -120,6 +120,17 @@ export const GrantOutPrincipalTypeEnum = {
     Anyone: 'anyone'
 } as const;
 export type GrantOutPrincipalTypeEnum = typeof GrantOutPrincipalTypeEnum[keyof typeof GrantOutPrincipalTypeEnum];
+
+/**
+ * @export
+ */
+export const GrantOutRoleEnum = {
+    Viewer: 'viewer',
+    Commenter: 'commenter',
+    Editor: 'editor',
+    Manager: 'manager'
+} as const;
+export type GrantOutRoleEnum = typeof GrantOutRoleEnum[keyof typeof GrantOutRoleEnum];
 
 
 /**

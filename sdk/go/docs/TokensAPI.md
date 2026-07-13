@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## ListTokensV0TokensGet
 
-> UserTokenList ListTokensV0TokensGet(ctx).Authorization(authorization).Execute()
+> UserTokenList ListTokensV0TokensGet(ctx).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
 
 List your user-identity tokens
 
@@ -30,11 +30,13 @@ import (
 )
 
 func main() {
+	cursor := "cursor_example" // string |  (optional)
+	limit := int32(56) // int32 |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TokensAPI.ListTokensV0TokensGet(context.Background()).Authorization(authorization).Execute()
+	resp, r, err := apiClient.TokensAPI.ListTokensV0TokensGet(context.Background()).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TokensAPI.ListTokensV0TokensGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -55,6 +57,8 @@ Other parameters are passed through a pointer to a apiListTokensV0TokensGetReque
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **cursor** | **string** |  | 
+ **limit** | **int32** |  | 
  **authorization** | **string** |  | 
 
 ### Return type

@@ -30,10 +30,10 @@ class DriveApiKeyOut(BaseModel):
     """ # noqa: E501
     id: StrictStr
     prefix: StrictStr
-    label: Optional[StrictStr]
-    last_used_at: Optional[datetime]
+    label: Optional[StrictStr] = None
+    last_used_at: Optional[datetime] = None
     created_at: datetime
-    revoked_at: Optional[datetime]
+    revoked_at: Optional[datetime] = None
     __properties: ClassVar[List[str]] = ["id", "prefix", "label", "last_used_at", "created_at", "revoked_at"]
 
     model_config = ConfigDict(

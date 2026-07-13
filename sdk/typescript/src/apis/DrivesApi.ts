@@ -72,10 +72,14 @@ export interface CreateDriveRouteV0DrivesPostRequest {
 
 export interface ListDriveKeysRouteV0DrivesDriveIdKeysGetRequest {
     driveId: string;
+    cursor?: string | null;
+    limit?: number | null;
     authorization?: string | null;
 }
 
 export interface ListDrivesRouteV0DrivesGetRequest {
+    cursor?: string | null;
+    limit?: number | null;
     authorization?: string | null;
 }
 
@@ -229,6 +233,14 @@ export class DrivesApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
+        if (requestParameters['cursor'] != null) {
+            queryParameters['cursor'] = requestParameters['cursor'];
+        }
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (requestParameters['authorization'] != null) {
@@ -248,7 +260,7 @@ export class DrivesApi extends runtime.BaseAPI {
     }
 
     /**
-     * List the `ad_live_` keys for a drive you manage (newest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.
+     * List the `ad_live_` keys for a drive you manage (oldest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
      * List a drive\'s API keys
      */
     async listDriveKeysRouteV0DrivesDriveIdKeysGetRaw(requestParameters: ListDriveKeysRouteV0DrivesDriveIdKeysGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveApiKeyListOut>> {
@@ -259,7 +271,7 @@ export class DrivesApi extends runtime.BaseAPI {
     }
 
     /**
-     * List the `ad_live_` keys for a drive you manage (newest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.
+     * List the `ad_live_` keys for a drive you manage (oldest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
      * List a drive\'s API keys
      */
     async listDriveKeysRouteV0DrivesDriveIdKeysGet(requestParameters: ListDriveKeysRouteV0DrivesDriveIdKeysGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveApiKeyListOut> {
@@ -272,6 +284,14 @@ export class DrivesApi extends runtime.BaseAPI {
      */
     async listDrivesRouteV0DrivesGetRequestOpts(requestParameters: ListDrivesRouteV0DrivesGetRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
+
+        if (requestParameters['cursor'] != null) {
+            queryParameters['cursor'] = requestParameters['cursor'];
+        }
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -291,7 +311,7 @@ export class DrivesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whole active workspace\'s drive inventory (every owner); a **member** sees only the drives they own. Metadata only — owner, size, timestamps — never a raw API key, and never an authorization to read a drive\'s contents. A `read`-scope token may call this; mutations require `full`.
+     * Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whole active workspace\'s drive inventory (every owner); a **member** sees only the drives they own. Metadata only — owner, size, timestamps — never a raw API key, and never an authorization to read a drive\'s contents. A `read`-scope token may call this; mutations require `full`.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
      * List the drives you can see
      */
     async listDrivesRouteV0DrivesGetRaw(requestParameters: ListDrivesRouteV0DrivesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveList>> {
@@ -302,7 +322,7 @@ export class DrivesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whole active workspace\'s drive inventory (every owner); a **member** sees only the drives they own. Metadata only — owner, size, timestamps — never a raw API key, and never an authorization to read a drive\'s contents. A `read`-scope token may call this; mutations require `full`.
+     * Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whole active workspace\'s drive inventory (every owner); a **member** sees only the drives they own. Metadata only — owner, size, timestamps — never a raw API key, and never an authorization to read a drive\'s contents. A `read`-scope token may call this; mutations require `full`.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
      * List the drives you can see
      */
     async listDrivesRouteV0DrivesGet(requestParameters: ListDrivesRouteV0DrivesGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveList> {

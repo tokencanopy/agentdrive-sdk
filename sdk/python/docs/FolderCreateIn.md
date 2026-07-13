@@ -1,6 +1,6 @@
 # FolderCreateIn
 
-POST /v0/folders/{path}? body for the optional metadata params. Empty body is fine — `mkdir` with no description just creates the folder row.
+PUT /v0/folders/{path} body for the optional metadata params. Empty body is fine — `mkdir` with no description just creates the folder row.
 
 ## Properties
 

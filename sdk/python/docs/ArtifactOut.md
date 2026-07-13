@@ -15,6 +15,8 @@ Name | Type | Description | Notes
 **size_bytes** | **int** |  | 
 **hash** | **str** |  | 
 **version_number** | **int** |  | [optional] [default to 1]
+**metageneration** | **int** |  | [optional] [default to 1]
+**etag** | **str** |  | 
 **labels** | **List[str]** |  | [optional] 
 **metadata** | **Dict[str, object]** |  | [optional] 
 **source** | [**ArtifactSource**](ArtifactSource.md) |  | [optional] 

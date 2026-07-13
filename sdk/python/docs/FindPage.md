@@ -1,12 +1,12 @@
 # FindPage
 
+`/v0/find` response — single-shot top-N, deliberately unpaginated (same contract + rationale as `SearchPage`).
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **items** | [**List[FindHitOut]**](FindHitOut.md) |  | 
-**next_cursor** | **str** |  | [optional] 
 
 ## Example
 

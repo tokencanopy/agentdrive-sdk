@@ -40,6 +40,8 @@ class TestFolderOut(unittest.TestCase):
                 path = '',
                 description = '',
                 inherit_grants = True,
+                metageneration = 56,
+                etag = '',
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 deleted_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
@@ -50,6 +52,7 @@ class TestFolderOut(unittest.TestCase):
                 id = '',
                 drive_id = '',
                 path = '',
+                etag = '',
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
         )

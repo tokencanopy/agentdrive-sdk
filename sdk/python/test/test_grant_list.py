@@ -43,14 +43,15 @@ class TestGrantList(unittest.TestCase):
                         principal_type = 'user', 
                         principal_id = '', 
                         principal_email = '', 
-                        role = '', 
+                        role = 'viewer', 
                         granted_by_type = '', 
                         granted_by_id = '', 
                         on_behalf_of = '', 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         expires_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         artifacts_affected = 56, )
-                    ]
+                    ],
+                next_cursor = ''
             )
         else:
             return GrantList(
@@ -62,7 +63,7 @@ class TestGrantList(unittest.TestCase):
                         principal_type = 'user', 
                         principal_id = '', 
                         principal_email = '', 
-                        role = '', 
+                        role = 'viewer', 
                         granted_by_type = '', 
                         granted_by_id = '', 
                         on_behalf_of = '', 

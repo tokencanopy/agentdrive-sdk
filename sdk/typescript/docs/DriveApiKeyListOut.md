@@ -1,13 +1,15 @@
 
 # DriveApiKeyListOut
 
-`GET /v0/drives/{id}/keys` response — the drive\'s keys, newest first, including recently-revoked rows (filter on `revoked_at` for live only).
+`GET /v0/drives/{id}/keys` response — the drive\'s keys, oldest first (keyset order, design §3), including recently-revoked rows (filter on `revoked_at` for live only).  `items` is the canonical list field (B-3: one envelope key everywhere); `keys` is a deprecated same-value alias kept for one release — the REST twin of the grep `matches` / compile `jobs` aliases.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
+`items` | [Array&lt;DriveApiKeyOut&gt;](DriveApiKeyOut.md)
 `keys` | [Array&lt;DriveApiKeyOut&gt;](DriveApiKeyOut.md)
+`nextCursor` | string
 
 ## Example
 
@@ -16,7 +18,9 @@ import type { DriveApiKeyListOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
+  "items": null,
   "keys": null,
+  "nextCursor": null,
 } satisfies DriveApiKeyListOut
 
 console.log(example)

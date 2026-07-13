@@ -44,7 +44,7 @@ export interface DriveApiKeyCreateOut {
      * @type {string}
      * @memberof DriveApiKeyCreateOut
      */
-    label: string | null;
+    label?: string | null;
     /**
      * 
      * @type {Date}
@@ -60,7 +60,6 @@ export function instanceOfDriveApiKeyCreateOut(value: object): value is DriveApi
     if (!('id' in value) || value['id'] === undefined) return false;
     if ((!('apiKey' in value) && !('api_key' in value)) || (value['apiKey'] === undefined && value['api_key'] === undefined)) return false;
     if (!('prefix' in value) || value['prefix'] === undefined) return false;
-    if (!('label' in value) || value['label'] === undefined) return false;
     if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
     return true;
 }
@@ -78,7 +77,7 @@ export function DriveApiKeyCreateOutFromJSONTyped(json: any, ignoreDiscriminator
         'id': json['id'],
         'apiKey': json['api_key'],
         'prefix': json['prefix'],
-        'label': json['label'],
+        'label': json['label'] == null ? undefined : json['label'],
         'createdAt': (new Date(json['created_at'])),
     };
 }

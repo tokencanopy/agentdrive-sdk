@@ -55,7 +55,7 @@ export interface InvitationOut {
      * @type {string}
      * @memberof InvitationOut
      */
-    invitedBy: string | null;
+    invitedBy?: string | null;
     /**
      * 
      * @type {Date}
@@ -101,7 +101,6 @@ export function instanceOfInvitationOut(value: object): value is InvitationOut {
     if (!('email' in value) || value['email'] === undefined) return false;
     if (!('role' in value) || value['role'] === undefined) return false;
     if (!('status' in value) || value['status'] === undefined) return false;
-    if ((!('invitedBy' in value) && !('invited_by' in value)) || (value['invitedBy'] === undefined && value['invited_by'] === undefined)) return false;
     if ((!('expiresAt' in value) && !('expires_at' in value)) || (value['expiresAt'] === undefined && value['expires_at'] === undefined)) return false;
     if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
     return true;
@@ -122,7 +121,7 @@ export function InvitationOutFromJSONTyped(json: any, ignoreDiscriminator: boole
         'email': json['email'],
         'role': json['role'],
         'status': json['status'],
-        'invitedBy': json['invited_by'],
+        'invitedBy': json['invited_by'] == null ? undefined : json['invited_by'],
         'expiresAt': (new Date(json['expires_at'])),
         'createdAt': (new Date(json['created_at'])),
     };

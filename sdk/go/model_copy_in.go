@@ -23,6 +23,7 @@ var _ MappedNullable = &CopyIn{}
 type CopyIn struct {
 	Path string `json:"path"`
 	Source NullableArtifactSource `json:"source,omitempty"`
+	FromGeneration NullableInt32 `json:"from_generation,omitempty"`
 }
 
 type _CopyIn CopyIn
@@ -111,6 +112,48 @@ func (o *CopyIn) UnsetSource() {
 	o.Source.Unset()
 }
 
+// GetFromGeneration returns the FromGeneration field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *CopyIn) GetFromGeneration() int32 {
+	if o == nil || IsNil(o.FromGeneration.Get()) {
+		var ret int32
+		return ret
+	}
+	return *o.FromGeneration.Get()
+}
+
+// GetFromGenerationOk returns a tuple with the FromGeneration field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *CopyIn) GetFromGenerationOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.FromGeneration.Get(), o.FromGeneration.IsSet()
+}
+
+// HasFromGeneration returns a boolean if a field has been set.
+func (o *CopyIn) HasFromGeneration() bool {
+	if o != nil && o.FromGeneration.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetFromGeneration gets a reference to the given NullableInt32 and assigns it to the FromGeneration field.
+func (o *CopyIn) SetFromGeneration(v int32) {
+	o.FromGeneration.Set(&v)
+}
+// SetFromGenerationNil sets the value for FromGeneration to be an explicit nil
+func (o *CopyIn) SetFromGenerationNil() {
+	o.FromGeneration.Set(nil)
+}
+
+// UnsetFromGeneration ensures that no value is present for FromGeneration, not even an explicit nil
+func (o *CopyIn) UnsetFromGeneration() {
+	o.FromGeneration.Unset()
+}
+
 func (o CopyIn) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -124,6 +167,9 @@ func (o CopyIn) ToMap() (map[string]interface{}, error) {
 	toSerialize["path"] = o.Path
 	if o.Source.IsSet() {
 		toSerialize["source"] = o.Source.Get()
+	}
+	if o.FromGeneration.IsSet() {
+		toSerialize["from_generation"] = o.FromGeneration.Get()
 	}
 	return toSerialize, nil
 }

@@ -8,8 +8,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **user_id** | **str** |  | 
 **email** | **str** |  | 
-**first_name** | **str** |  | 
-**last_name** | **str** |  | 
+**first_name** | **str** |  | [optional] 
+**last_name** | **str** |  | [optional] 
 **role** | **str** |  | 
 **created_at** | **datetime** |  | 
 

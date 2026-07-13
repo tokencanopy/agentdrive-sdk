@@ -6,19 +6,19 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **string** |  | 
 **Prefix** | **string** |  | 
-**Label** | **NullableString** |  | 
+**Label** | Pointer to **NullableString** |  | [optional] 
 **Scope** | **string** |  | 
-**DefaultDriveId** | **NullableString** |  | 
-**LastUsedAt** | **NullableTime** |  | 
-**ExpiresAt** | **NullableTime** |  | 
+**DefaultDriveId** | Pointer to **NullableString** |  | [optional] 
+**LastUsedAt** | Pointer to **NullableTime** |  | [optional] 
+**ExpiresAt** | Pointer to **NullableTime** |  | [optional] 
 **CreatedAt** | **time.Time** |  | 
-**RevokedAt** | **NullableTime** |  | 
+**RevokedAt** | Pointer to **NullableTime** |  | [optional] 
 
 ## Methods
 
 ### NewUserTokenOut
 
-`func NewUserTokenOut(id string, prefix string, label NullableString, scope string, defaultDriveId NullableString, lastUsedAt NullableTime, expiresAt NullableTime, createdAt time.Time, revokedAt NullableTime, ) *UserTokenOut`
+`func NewUserTokenOut(id string, prefix string, scope string, createdAt time.Time, ) *UserTokenOut`
 
 NewUserTokenOut instantiates a new UserTokenOut object
 This constructor will assign default values to properties that have it defined,
@@ -92,6 +92,11 @@ and a boolean to check if the value has been set.
 
 SetLabel sets Label field to given value.
 
+### HasLabel
+
+`func (o *UserTokenOut) HasLabel() bool`
+
+HasLabel returns a boolean if a field has been set.
 
 ### SetLabelNil
 
@@ -142,6 +147,11 @@ and a boolean to check if the value has been set.
 
 SetDefaultDriveId sets DefaultDriveId field to given value.
 
+### HasDefaultDriveId
+
+`func (o *UserTokenOut) HasDefaultDriveId() bool`
+
+HasDefaultDriveId returns a boolean if a field has been set.
 
 ### SetDefaultDriveIdNil
 
@@ -172,6 +182,11 @@ and a boolean to check if the value has been set.
 
 SetLastUsedAt sets LastUsedAt field to given value.
 
+### HasLastUsedAt
+
+`func (o *UserTokenOut) HasLastUsedAt() bool`
+
+HasLastUsedAt returns a boolean if a field has been set.
 
 ### SetLastUsedAtNil
 
@@ -202,6 +217,11 @@ and a boolean to check if the value has been set.
 
 SetExpiresAt sets ExpiresAt field to given value.
 
+### HasExpiresAt
+
+`func (o *UserTokenOut) HasExpiresAt() bool`
+
+HasExpiresAt returns a boolean if a field has been set.
 
 ### SetExpiresAtNil
 
@@ -252,6 +272,11 @@ and a boolean to check if the value has been set.
 
 SetRevokedAt sets RevokedAt field to given value.
 
+### HasRevokedAt
+
+`func (o *UserTokenOut) HasRevokedAt() bool`
+
+HasRevokedAt returns a boolean if a field has been set.
 
 ### SetRevokedAtNil
 

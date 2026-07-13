@@ -9,11 +9,13 @@ Method | HTTP request | Description
 
 
 # **list_tokens_v0_tokens_get**
-> UserTokenList list_tokens_v0_tokens_get(authorization=authorization)
+> UserTokenList list_tokens_v0_tokens_get(cursor=cursor, limit=limit, authorization=authorization)
 
 List your user-identity tokens
 
 List the `ad_user_` tokens belonging to the authenticated user. Metadata only — the raw token is shown once at mint (web only) and is never returned here. Includes recently-revoked tokens (with `revoked_at` set) so the caller can audit them; newest first.
+
+**Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
 ### Example
 
@@ -35,11 +37,13 @@ configuration = agentdrive_sdk.Configuration(
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.TokensApi(api_client)
+    cursor = 'cursor_example' # str |  (optional)
+    limit = 56 # int |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # List your user-identity tokens
-        api_response = api_instance.list_tokens_v0_tokens_get(authorization=authorization)
+        api_response = api_instance.list_tokens_v0_tokens_get(cursor=cursor, limit=limit, authorization=authorization)
         print("The response of TokensApi->list_tokens_v0_tokens_get:\n")
         pprint(api_response)
     except Exception as e:
@@ -53,6 +57,8 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **cursor** | **str**|  | [optional] 
+ **limit** | **int**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type

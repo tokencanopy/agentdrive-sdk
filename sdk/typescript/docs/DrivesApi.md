@@ -161,11 +161,11 @@ No authorization required
 
 ## listDriveKeysRouteV0DrivesDriveIdKeysGet
 
-> DriveApiKeyListOut listDriveKeysRouteV0DrivesDriveIdKeysGet(driveId, authorization)
+> DriveApiKeyListOut listDriveKeysRouteV0DrivesDriveIdKeysGet(driveId, cursor, limit, authorization)
 
 List a drive\&#39;s API keys
 
-List the &#x60;ad_live_&#x60; keys for a drive you manage (newest first, including recently-revoked rows — filter on &#x60;revoked_at&#x60; for live only). **Manager only** (404 no-leak otherwise). A &#x60;read&#x60;-scope user token may list (metadata reveals no secret), mirroring &#x60;GET /v0/drives&#x60;. Metadata only — the raw key is never returned after mint.
+List the &#x60;ad_live_&#x60; keys for a drive you manage (oldest first, including recently-revoked rows — filter on &#x60;revoked_at&#x60; for live only). **Manager only** (404 no-leak otherwise). A &#x60;read&#x60;-scope user token may list (metadata reveals no secret), mirroring &#x60;GET /v0/drives&#x60;. Metadata only — the raw key is never returned after mint.  **Cursor pagination:** when more results exist, the response carries &#x60;next_cursor&#x60;. Pass it back as &#x60;?cursor&#x3D;&lt;token&gt;&#x60; to fetch the next page; &#x60;null&#x60; means the listing is complete. &#x60;limit&#x60; is clamped to [1, 100] (default 50), never rejected.
 
 ### Example
 
@@ -183,6 +183,10 @@ async function example() {
   const body = {
     // string
     driveId: driveId_example,
+    // string (optional)
+    cursor: cursor_example,
+    // number (optional)
+    limit: 56,
     // string (optional)
     authorization: authorization_example,
   } satisfies ListDriveKeysRouteV0DrivesDriveIdKeysGetRequest;
@@ -205,6 +209,8 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **driveId** | `string` |  | [Defaults to `undefined`] |
+| **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **limit** | `number` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -232,11 +238,11 @@ No authorization required
 
 ## listDrivesRouteV0DrivesGet
 
-> DriveList listDrivesRouteV0DrivesGet(authorization)
+> DriveList listDrivesRouteV0DrivesGet(cursor, limit, authorization)
 
 List the drives you can see
 
-Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whole active workspace\&#39;s drive inventory (every owner); a **member** sees only the drives they own. Metadata only — owner, size, timestamps — never a raw API key, and never an authorization to read a drive\&#39;s contents. A &#x60;read&#x60;-scope token may call this; mutations require &#x60;full&#x60;.
+Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whole active workspace\&#39;s drive inventory (every owner); a **member** sees only the drives they own. Metadata only — owner, size, timestamps — never a raw API key, and never an authorization to read a drive\&#39;s contents. A &#x60;read&#x60;-scope token may call this; mutations require &#x60;full&#x60;.  **Cursor pagination:** when more results exist, the response carries &#x60;next_cursor&#x60;. Pass it back as &#x60;?cursor&#x3D;&lt;token&gt;&#x60; to fetch the next page; &#x60;null&#x60; means the listing is complete. &#x60;limit&#x60; is clamped to [1, 100] (default 50), never rejected.
 
 ### Example
 
@@ -252,6 +258,10 @@ async function example() {
   const api = new DrivesApi();
 
   const body = {
+    // string (optional)
+    cursor: cursor_example,
+    // number (optional)
+    limit: 56,
     // string (optional)
     authorization: authorization_example,
   } satisfies ListDrivesRouteV0DrivesGetRequest;
@@ -273,6 +283,8 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
+| **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **limit** | `number` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type

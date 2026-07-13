@@ -40,10 +40,10 @@ export interface ShareOut {
     resourceId: string;
     /**
      * 
-     * @type {string}
+     * @type {ShareOutRoleEnum}
      * @memberof ShareOut
      */
-    role: string;
+    role: ShareOutRoleEnum;
     /**
      * 
      * @type {string}
@@ -91,6 +91,16 @@ export const ShareOutResourceTypeEnum = {
     Folder: 'folder'
 } as const;
 export type ShareOutResourceTypeEnum = typeof ShareOutResourceTypeEnum[keyof typeof ShareOutResourceTypeEnum];
+
+/**
+ * @export
+ */
+export const ShareOutRoleEnum = {
+    Viewer: 'viewer',
+    Commenter: 'commenter',
+    Editor: 'editor'
+} as const;
+export type ShareOutRoleEnum = typeof ShareOutRoleEnum[keyof typeof ShareOutRoleEnum];
 
 
 /**

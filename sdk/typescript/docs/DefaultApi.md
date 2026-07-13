@@ -4,6 +4,7 @@ All URIs are relative to *https://api.agentdrive.run*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
+| [**abortUploadV0UploadsUploadIdDelete**](DefaultApi.md#abortuploadv0uploadsuploadiddelete) | **DELETE** /v0/uploads/{upload_id} | Abort a large (direct-to-GCS) upload session |
 | [**acceptInvitationInvitationsTokenGet**](DefaultApi.md#acceptinvitationinvitationstokenget) | **GET** /invitations/{token} | Accept Invitation |
 | [**activityFeedActivityGet**](DefaultApi.md#activityfeedactivityget) | **GET** /activity | Activity Feed |
 | [**addGrantWebShareRidGrantPost**](DefaultApi.md#addgrantwebshareridgrantpost) | **POST** /web/share/{rid}/grant | Add Grant |
@@ -15,9 +16,10 @@ All URIs are relative to *https://api.agentdrive.run*
 | [**commitUploadV0UploadsUploadIdCommitPost**](DefaultApi.md#commituploadv0uploadsuploadidcommitpost) | **POST** /v0/uploads/{upload_id}/commit | Commit a large (direct-to-GCS) upload |
 | [**connectorsPageConnectorsGet**](DefaultApi.md#connectorspageconnectorsget) | **GET** /connectors | Connectors Page |
 | [**copyArtifactRouteV0ArtifactsArtIdCopyPost**](DefaultApi.md#copyartifactroutev0artifactsartidcopypost) | **POST** /v0/artifacts/{art_id}/copy | Duplicate an artifact to a new path (CAS-shared, new ID) |
+| [**copyFolderByIdV0FoldersFldIdCopyPost**](DefaultApi.md#copyfolderbyidv0foldersfldidcopypost) | **POST** /v0/folders/{fld_id}/copy | Duplicate a folder subtree to a new path (CAS-shared, new IDs) |
 | [**createDriveKeyWebWebDrivesDriveIdKeysCreatePost**](DefaultApi.md#createdrivekeywebwebdrivesdriveidkeyscreatepost) | **POST** /web/drives/{drive_id}/keys/create | Create Drive Key Web |
 | [**createDriveWebWebDrivesPost**](DefaultApi.md#createdrivewebwebdrivespost) | **POST** /web/drives | Create Drive Web |
-| [**createFolderByPathV0FoldersPathPost**](DefaultApi.md#createfolderbypathv0folderspathpost) | **POST** /v0/folders/{path} | Create a folder (idempotent) |
+| [**createFolderByPathV0FoldersPathPut**](DefaultApi.md#createfolderbypathv0folderspathput) | **PUT** /v0/folders/{path} | Create a folder (idempotent) |
 | [**createGrantRouteV0GrantsPost**](DefaultApi.md#creategrantroutev0grantspost) | **POST** /v0/grants | Create (or fetch) a per-principal grant on a resource |
 | [**createKeyWebKeysCreatePost**](DefaultApi.md#createkeywebkeyscreatepost) | **POST** /web/keys/create | Create Key |
 | [**createLinkWebShareRidLinkPost**](DefaultApi.md#createlinkwebshareridlinkpost) | **POST** /web/share/{rid}/link | Create Link |
@@ -38,6 +40,7 @@ All URIs are relative to *https://api.agentdrive.run*
 | [**deleteShareRouteV0SharesShrIdDelete**](DefaultApi.md#deleteshareroutev0sharesshriddelete) | **DELETE** /v0/shares/{shr_id} | Revoke a share link (requires can_manage) |
 | [**deleteWorkspaceWebWebWorkspacesOrgIdDeletePost**](DefaultApi.md#deleteworkspacewebwebworkspacesorgiddeletepost) | **POST** /web/workspaces/{org_id}/delete | Delete Workspace Web |
 | [**downloadArtifactByIdV0ArtifactsArtIdDownloadGet**](DefaultApi.md#downloadartifactbyidv0artifactsartiddownloadget) | **GET** /v0/artifacts/{art_id}/download | Stream the artifact bytes by stable ID (never rendered HTML) |
+| [**downloadArtifactByPathV0ArtifactsPathDownloadGet**](DefaultApi.md#downloadartifactbypathv0artifactspathdownloadget) | **GET** /v0/artifacts/{path}/download | Stream the artifact bytes by path (never rendered HTML) |
 | [**downloadArtifactVersionV0ArtifactsArtIdVersionsVersionNumberDownloadGet**](DefaultApi.md#downloadartifactversionv0artifactsartidversionsversionnumberdownloadget) | **GET** /v0/artifacts/{art_id}/versions/{version_number}/download | Stream bytes for a specific version (machine surface) |
 | [**downloadUrlByIdV0ArtifactsArtIdDownloadUrlGet**](DefaultApi.md#downloadurlbyidv0artifactsartiddownloadurlget) | **GET** /v0/artifacts/{art_id}/download-url | Signed direct-from-GCS download URL by stable ID |
 | [**downloadUrlByPathV0ArtifactsPathDownloadUrlGet**](DefaultApi.md#downloadurlbypathv0artifactspathdownloadurlget) | **GET** /v0/artifacts/{path}/download-url | Signed direct-from-GCS download URL by path |
@@ -52,15 +55,19 @@ All URIs are relative to *https://api.agentdrive.run*
 | [**getArtifactByIdV0ArtifactsArtIdGet**](DefaultApi.md#getartifactbyidv0artifactsartidget) | **GET** /v0/artifacts/{art_id} | Canonical lookup of an artifact by its stable ID |
 | [**getArtifactMetaV0ArtifactsPathMetaGet**](DefaultApi.md#getartifactmetav0artifactspathmetaget) | **GET** /v0/artifacts/{path}/meta | Get Artifact Meta |
 | [**getArtifactVersionV0ArtifactsArtIdVersionsVersionNumberGet**](DefaultApi.md#getartifactversionv0artifactsartidversionsversionnumberget) | **GET** /v0/artifacts/{art_id}/versions/{version_number} | Metadata for a specific version of an artifact |
+| [**getDriveRouteV0DrivesDriveIdGet**](DefaultApi.md#getdriveroutev0drivesdriveidget) | **GET** /v0/drives/{drive_id} | Drive overview by id (same shape as /drives/me) |
 | [**getFeedbackStatusV0FeedbackFbkIdGet**](DefaultApi.md#getfeedbackstatusv0feedbackfbkidget) | **GET** /v0/feedback/{fbk_id} | Get Feedback Status |
 | [**getFolderByIdMetaV0FoldersFldIdMetaGet**](DefaultApi.md#getfolderbyidmetav0foldersfldidmetaget) | **GET** /v0/folders/{fld_id}/meta | Folder metadata by stable ID (same shape as the bare id route) |
 | [**getFolderByIdV0FoldersFldIdGet**](DefaultApi.md#getfolderbyidv0foldersfldidget) | **GET** /v0/folders/{fld_id} | Canonical lookup of a folder by its stable ID |
 | [**getFolderByPathMetaV0FoldersPathMetaGet**](DefaultApi.md#getfolderbypathmetav0folderspathmetaget) | **GET** /v0/folders/{path}/meta | Folder metadata by path (same shape as the bare path route) |
 | [**getFolderByPathV0FoldersPathGet**](DefaultApi.md#getfolderbypathv0folderspathget) | **GET** /v0/folders/{path} | Read folder metadata by path |
+| [**getGrantRouteV0GrantsGrnIdGet**](DefaultApi.md#getgrantroutev0grantsgrnidget) | **GET** /v0/grants/{grn_id} | Read a single grant (can_manage, or the grant\&#39;s own principal) |
 | [**getJobLogsV0JobsJobIdLogsGet**](DefaultApi.md#getjoblogsv0jobsjobidlogsget) | **GET** /v0/jobs/{job_id}/logs | Raw compile log (text/plain) |
 | [**getJobV0JobsJobIdGet**](DefaultApi.md#getjobv0jobsjobidget) | **GET** /v0/jobs/{job_id} | Poll a job |
 | [**getProjectV0ProjectsFldIdGet**](DefaultApi.md#getprojectv0projectsfldidget) | **GET** /v0/projects/{fld_id} | Get a project\&#39;s compile config |
+| [**getShareRouteV0SharesShrIdGet**](DefaultApi.md#getshareroutev0sharesshridget) | **GET** /v0/shares/{shr_id} | Read a single share link\&#39;s metadata (requires can_manage) |
 | [**getShareStateWebShareRidGet**](DefaultApi.md#getsharestatewebshareridget) | **GET** /web/share/{rid} | Get Share State |
+| [**getUploadStatusV0UploadsUploadIdGet**](DefaultApi.md#getuploadstatusv0uploadsuploadidget) | **GET** /v0/uploads/{upload_id} | Get the status of a large (direct-to-GCS) upload session |
 | [**healthHealthGet**](DefaultApi.md#healthhealthget) | **GET** /health | Health |
 | [**inviteMemberWebWebMembersInvitePost**](DefaultApi.md#invitememberwebwebmembersinvitepost) | **POST** /web/members/invite | Invite Member Web |
 | [**listArtifactVersionsV0ArtifactsArtIdVersionsGet**](DefaultApi.md#listartifactversionsv0artifactsartidversionsget) | **GET** /v0/artifacts/{art_id}/versions | List versions of an artifact, newest first |
@@ -77,9 +84,11 @@ All URIs are relative to *https://api.agentdrive.run*
 | [**marketplaceDetailMarketplaceSlugGet**](DefaultApi.md#marketplacedetailmarketplaceslugget) | **GET** /marketplace/{slug} | Marketplace Detail |
 | [**meUsageV0DrivesMeUsageGet**](DefaultApi.md#meusagev0drivesmeusageget) | **GET** /v0/drives/me/usage | Current-period usage + caps for the authenticated drive |
 | [**meV0DrivesMeGet**](DefaultApi.md#mev0drivesmeget) | **GET** /v0/drives/me | Me |
+| [**moveArtifactRouteV0ArtifactsArtIdMovePost**](DefaultApi.md#moveartifactroutev0artifactsartidmovepost) | **POST** /v0/artifacts/{art_id}/move | Rename / move an artifact to a new path |
 | [**moveFolderByIdV0FoldersFldIdMovePost**](DefaultApi.md#movefolderbyidv0foldersfldidmovepost) | **POST** /v0/folders/{fld_id}/move | Rename / move a folder by stable ID (cascade descendants) |
 | [**moveFolderByPathV0FoldersPathMovePost**](DefaultApi.md#movefolderbypathv0folderspathmovepost) | **POST** /v0/folders/{path}/move | Rename / move a folder (cascade-update descendants) |
 | [**oauthDisconnectWebOauthDisconnectPost**](DefaultApi.md#oauthdisconnectweboauthdisconnectpost) | **POST** /web/oauth/disconnect | Oauth Disconnect |
+| [**patchArtifactRouteV0ArtifactsArtIdPatch**](DefaultApi.md#patchartifactroutev0artifactsartidpatch) | **PATCH** /v0/artifacts/{art_id} | Edit artifact metadata (labels / metadata / source) |
 | [**patchFolderByIdV0FoldersFldIdPatch**](DefaultApi.md#patchfolderbyidv0foldersfldidpatch) | **PATCH** /v0/folders/{fld_id} | Update folder metadata by stable ID |
 | [**patchFolderByPathV0FoldersPathPatch**](DefaultApi.md#patchfolderbypathv0folderspathpatch) | **PATCH** /v0/folders/{path} | Update folder metadata by path |
 | [**patchGrantRouteV0GrantsGrnIdPatch**](DefaultApi.md#patchgrantroutev0grantsgrnidpatch) | **PATCH** /v0/grants/{grn_id} | Update a grant\&#39;s role and/or expiry (requires can_manage) |
@@ -99,12 +108,13 @@ All URIs are relative to *https://api.agentdrive.run*
 | [**redeemShareSShareKeyGet**](DefaultApi.md#redeemsharessharekeyget) | **GET** /s/{share_key} | Redeem Share |
 | [**redeemShareWithPasswordSShareKeyPost**](DefaultApi.md#redeemsharewithpasswordssharekeypost) | **POST** /s/{share_key} | Redeem Share With Password |
 | [**removeMemberWebWebMembersTargetUserIdRemovePost**](DefaultApi.md#removememberwebwebmemberstargetuseridremovepost) | **POST** /web/members/{target_user_id}/remove | Remove Member Web |
-| [**renameArtifactRouteV0ArtifactsArtIdPatch**](DefaultApi.md#renameartifactroutev0artifactsartidpatch) | **PATCH** /v0/artifacts/{art_id} | Rename / move an artifact to a new path |
 | [**renameDriveWebWebDrivesDriveIdRenamePost**](DefaultApi.md#renamedrivewebwebdrivesdriveidrenamepost) | **POST** /web/drives/{drive_id}/rename | Rename Drive Web |
 | [**renameWorkspaceWebWebWorkspacesOrgIdRenamePost**](DefaultApi.md#renameworkspacewebwebworkspacesorgidrenamepost) | **POST** /web/workspaces/{org_id}/rename | Rename Workspace Web |
 | [**resendInvitationWebWebInvitationsInvitationIdResendPost**](DefaultApi.md#resendinvitationwebwebinvitationsinvitationidresendpost) | **POST** /web/invitations/{invitation_id}/resend | Resend Invitation Web |
 | [**restoreArtifactV0ArtifactsArtIdRestorePost**](DefaultApi.md#restoreartifactv0artifactsartidrestorepost) | **POST** /v0/artifacts/{art_id}/restore | Restore a soft-deleted artifact |
+| [**restoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost**](DefaultApi.md#restoreartifactversionv0artifactsartidversionsversionnumberrestorepost) | **POST** /v0/artifacts/{art_id}/versions/{version_number}/restore | Restore a previous version as a new head version |
 | [**restoreDriveRouteV0DrivesDriveIdRestorePost**](DefaultApi.md#restoredriveroutev0drivesdriveidrestorepost) | **POST** /v0/drives/{drive_id}/restore | Restore a soft-deleted drive |
+| [**restoreFolderByIdV0FoldersFldIdRestorePost**](DefaultApi.md#restorefolderbyidv0foldersfldidrestorepost) | **POST** /v0/folders/{fld_id}/restore | Restore a soft-deleted folder (cascade) |
 | [**revokeGrantWebShareRidGrantGrnIdRevokePost**](DefaultApi.md#revokegrantwebshareridgrantgrnidrevokepost) | **POST** /web/share/{rid}/grant/{grn_id}/revoke | Revoke Grant |
 | [**revokeInvitationWebWebInvitationsInvitationIdRevokePost**](DefaultApi.md#revokeinvitationwebwebinvitationsinvitationidrevokepost) | **POST** /web/invitations/{invitation_id}/revoke | Revoke Invitation Web |
 | [**revokeKeyWebKeysRevokePost**](DefaultApi.md#revokekeywebkeysrevokepost) | **POST** /web/keys/revoke | Revoke Key |
@@ -120,12 +130,12 @@ All URIs are relative to *https://api.agentdrive.run*
 | [**settingsQuickstartSettingsQuickstartGet**](DefaultApi.md#settingsquickstartsettingsquickstartget) | **GET** /settings/quickstart | Settings Quickstart |
 | [**settingsWorkspaceSettingsWorkspaceGet**](DefaultApi.md#settingsworkspacesettingsworkspaceget) | **GET** /settings/workspace | Settings Workspace |
 | [**sharedFilesSharedGet**](DefaultApi.md#sharedfilessharedget) | **GET** /shared | Shared Files |
-| [**streamUploadV0UploadTokenPut**](DefaultApi.md#streamuploadv0uploadtokenput) | **PUT** /v0/upload/{token} | Proxied streaming upload (via an upload_url token) |
 | [**switchDriveWebSwitchPost**](DefaultApi.md#switchdrivewebswitchpost) | **POST** /web/switch | Switch Drive |
 | [**termsPageTermsGet**](DefaultApi.md#termspagetermsget) | **GET** /terms | Terms Page |
 | [**toggleIndexingWebAccountIndexingPost**](DefaultApi.md#toggleindexingwebaccountindexingpost) | **POST** /web/account/indexing | Toggle Indexing |
 | [**trashWebTrashGet**](DefaultApi.md#trashwebtrashget) | **GET** /web/trash | Trash |
 | [**viewArtifactHeadAArtIdHeadGet**](DefaultApi.md#viewartifactheadaartidheadget) | **GET** /a/{art_id}/head | View Artifact Head |
+| [**viewArtifactVersionVArtIdVersionGet**](DefaultApi.md#viewartifactversionvartidversionget) | **GET** /v/{art_id}/{version} | View Artifact Version |
 | [**viewFileDriveIdPathGet**](DefaultApi.md#viewfiledriveidpathget) | **GET** /{drive_id}/{path} | View File |
 | [**viewPermalinkArtifactAArtIdGet**](DefaultApi.md#viewpermalinkartifactaartidget) | **GET** /a/{art_id} | View Permalink Artifact |
 | [**viewPermalinkFolderFFldIdGet**](DefaultApi.md#viewpermalinkfolderffldidget) | **GET** /f/{fld_id} | View Permalink Folder |
@@ -148,6 +158,79 @@ All URIs are relative to *https://api.agentdrive.run*
 | [**webhooksPageWebhooksGet**](DefaultApi.md#webhookspagewebhooksget) | **GET** /webhooks | Webhooks Page |
 | [**welcomeWelcomeGet**](DefaultApi.md#welcomewelcomeget) | **GET** /welcome | Welcome |
 
+
+
+## abortUploadV0UploadsUploadIdDelete
+
+> UploadAbortOut abortUploadV0UploadsUploadIdDelete(uploadId, authorization)
+
+Abort a large (direct-to-GCS) upload session
+
+Release an open upload session: return its reserved quota to the drive and mark it aborted. Idempotent — aborting an already-aborted or already-expired session succeeds with &#x60;released_bytes: 0&#x60;. A committed session cannot be aborted (409 ALREADY_COMMITTED). No write budget is charged — this frees resources rather than consuming them.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '@mnexa-ai/agentdrive-sdk';
+import type { AbortUploadV0UploadsUploadIdDeleteRequest } from '@mnexa-ai/agentdrive-sdk';
+
+async function example() {
+  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
+  const api = new DefaultApi();
+
+  const body = {
+    // string
+    uploadId: uploadId_example,
+    // string (optional)
+    authorization: authorization_example,
+  } satisfies AbortUploadV0UploadsUploadIdDeleteRequest;
+
+  try {
+    const data = await api.abortUploadV0UploadsUploadIdDelete(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **uploadId** | `string` |  | [Defaults to `undefined`] |
+| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**UploadAbortOut**](UploadAbortOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  -  |
+| **404** | No such upload for this drive |  -  |
+| **409** | Upload already committed — cannot abort |  -  |
+| **422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## acceptInvitationInvitationsTokenGet
@@ -471,9 +554,8 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | Successful Response |  -  |
 | **400** | Invalid path / labels / metadata / source |  -  |
-| **402** | Drive storage quota would be exceeded |  -  |
 | **403** | Path reserved for the system (WIKI_RESERVED) |  -  |
-| **413** | size_bytes exceeds the drive\&#39;s per-artifact cap |  -  |
+| **413** | size_bytes exceeds the drive\&#39;s per-artifact cap, or drive storage quota would be exceeded |  -  |
 | **429** | Drive\&#39;s per-hour write budget exhausted |  -  |
 | **422** | Validation Error |  -  |
 
@@ -758,7 +840,7 @@ No authorization required
 | **404** | No such upload for this drive |  -  |
 | **409** | Uploaded object size !&#x3D; declared size_bytes |  -  |
 | **410** | Upload session expired |  -  |
-| **412** | If-Match precondition failed |  -  |
+| **412** | If-Match precondition failed / create-only conflict |  -  |
 | **429** | Drive\&#39;s per-hour write budget exhausted |  -  |
 | **422** | Validation Error |  -  |
 
@@ -826,11 +908,11 @@ No authorization required
 
 ## copyArtifactRouteV0ArtifactsArtIdCopyPost
 
-> ArtifactOut copyArtifactRouteV0ArtifactsArtIdCopyPost(artId, copyIn, xAgentdriveActor, authorization)
+> ArtifactOut copyArtifactRouteV0ArtifactsArtIdCopyPost(artId, copyIn, xAgentdriveActor, ifNoneMatch, authorization)
 
 Duplicate an artifact to a new path (CAS-shared, new ID)
 
-Create a new artifact at &#x60;path&#x60; whose bytes are identical to the source artifact\&#39;s. The copy reuses the source\&#39;s CAS object (zero new storage) but gets a fresh &#x60;art_…&#x60; ID, a fresh version 1, and — by default — &#x60;source.refs &#x3D; [{type: \&#39;artifact\&#39;, id: \&#39;&lt;source&gt;\&#39;}]&#x60; so provenance is preserved.  Quota: the copy\&#39;s &#x60;size_bytes&#x60; is added to the drive\&#39;s &#x60;storage_bytes&#x60; even though physical bytes are shared.  Returns 409 PATH_CONFLICT if the target path is already taken; 413 STORAGE_QUOTA_EXCEEDED if the copy would push the drive over its limit.
+Create a new artifact at &#x60;path&#x60; whose bytes are identical to the source artifact\&#39;s. The copy reuses the source\&#39;s CAS object (zero new storage) but gets a fresh &#x60;art_…&#x60; ID, a fresh version 1, and — by default — &#x60;source.refs &#x3D; [{type: \&#39;artifact\&#39;, id: \&#39;&lt;source&gt;\&#39;}]&#x60; so provenance is preserved.  Quota: the copy\&#39;s &#x60;size_bytes&#x60; is added to the drive\&#39;s &#x60;storage_bytes&#x60; even though physical bytes are shared.  Source-version pin: pass &#x60;from_generation&#x60; in the body to require the source\&#39;s current content generation (&#x60;version_number&#x60;) to equal it (→ 412 SOURCE_VERSION_MISMATCH); a concurrent source *metadata* edit does NOT fail the copy. Destination create-only: &#x60;If-None-Match: *&#x60; returns 412 CREATE_CONFLICT (instead of 409 PATH_CONFLICT) when the target path is occupied.  Returns 409 PATH_CONFLICT if the target path is already taken; 413 STORAGE_QUOTA_EXCEEDED if the copy would push the drive over its limit.
 
 ### Example
 
@@ -852,6 +934,8 @@ async function example() {
     copyIn: ...,
     // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
+    // string (optional)
+    ifNoneMatch: ifNoneMatch_example,
     // string (optional)
     authorization: authorization_example,
   } satisfies CopyArtifactRouteV0ArtifactsArtIdCopyPostRequest;
@@ -876,6 +960,7 @@ example().catch(console.error);
 | **artId** | `string` |  | [Defaults to `undefined`] |
 | **copyIn** | [CopyIn](CopyIn.md) |  | |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **ifNoneMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -895,7 +980,87 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
+| **201** | Successful Response |  -  |
+| **422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## copyFolderByIdV0FoldersFldIdCopyPost
+
+> FolderCopyOut copyFolderByIdV0FoldersFldIdCopyPost(fldId, folderCopyIn, xAgentdriveActor, ifNoneMatch, authorization)
+
+Duplicate a folder subtree to a new path (CAS-shared, new IDs)
+
+Clone the folder identified by URL id — and every descendant folder + artifact — under the body\&#39;s &#x60;path&#x60; (canonical, trailing slash). Each copied artifact reuses the source\&#39;s CAS object (zero new storage) but gets a fresh &#x60;art_…&#x60; ID, a fresh version 1, and &#x60;source.refs &#x3D; [{type: \&#39;artifact\&#39;, id: \&#39;&lt;source&gt;\&#39;}]&#x60; provenance. The new folder gets a fresh &#x60;fld_…&#x60; ID and the source\&#39;s description.  The entire subtree is copied in a SINGLE transaction — either every row lands or none does.  Quota: each copy\&#39;s &#x60;size_bytes&#x60; counts against the drive\&#39;s &#x60;storage_bytes&#x60; even though physical bytes are shared.  Source-version pin: pass &#x60;from_metageneration&#x60; in the body to require the source folder\&#39;s current &#x60;metageneration&#x60; to equal it (→ 412 SOURCE_VERSION_MISMATCH). Destination create-only: &#x60;If-None-Match: *&#x60; returns 412 CREATE_CONFLICT (instead of 409 FOLDER_PATH_CONFLICT) when the destination folder is occupied.  Returns 409 &#x60;FOLDER_PATH_CONFLICT&#x60; if the destination collides with a live folder or artifact; 400 &#x60;FOLDER_PATH_INVALID&#x60; if &#x60;path&#x60; is non-canonical; 413 &#x60;SUBTREE_TOO_LARGE&#x60; if the source holds more than 5000 artifacts; 413 &#x60;STORAGE_QUOTA_EXCEEDED&#x60; if the copy would push the drive over its limit.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '@mnexa-ai/agentdrive-sdk';
+import type { CopyFolderByIdV0FoldersFldIdCopyPostRequest } from '@mnexa-ai/agentdrive-sdk';
+
+async function example() {
+  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
+  const api = new DefaultApi();
+
+  const body = {
+    // string
+    fldId: fldId_example,
+    // FolderCopyIn
+    folderCopyIn: ...,
+    // string (optional)
+    xAgentdriveActor: xAgentdriveActor_example,
+    // string (optional)
+    ifNoneMatch: ifNoneMatch_example,
+    // string (optional)
+    authorization: authorization_example,
+  } satisfies CopyFolderByIdV0FoldersFldIdCopyPostRequest;
+
+  try {
+    const data = await api.copyFolderByIdV0FoldersFldIdCopyPost(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **fldId** | `string` |  | [Defaults to `undefined`] |
+| **folderCopyIn** | [FolderCopyIn](FolderCopyIn.md) |  | |
+| **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **ifNoneMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**FolderCopyOut**](FolderCopyOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **201** | Successful Response |  -  |
 | **422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
@@ -1046,13 +1211,13 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## createFolderByPathV0FoldersPathPost
+## createFolderByPathV0FoldersPathPut
 
-> FolderOut createFolderByPathV0FoldersPathPost(path, xAgentdriveActor, authorization, folderCreateIn)
+> FolderOut createFolderByPathV0FoldersPathPut(path, xAgentdriveActor, ifNoneMatch, authorization, folderCreateIn)
 
 Create a folder (idempotent)
 
-Create a folder at the URL path. Idempotent — a second call for the same live path returns the existing row unchanged (metadata updates require PATCH).  Returns 409 &#x60;FOLDER_PATH_CONFLICT&#x60; if a live artifact occupies the file form of the path (e.g. mkdir &#x60;/foo/&#x60; when an artifact lives at &#x60;/foo&#x60;).
+Create a folder at the URL path. Idempotent create-at-known-URI (mirrors &#x60;PUT /v0/artifacts/{path}&#x60;) — a second call for the same live path returns the existing row unchanged (metadata updates require PATCH). Returns 201 on create, 200 when the folder already exists.  Send &#x60;If-None-Match: *&#x60; to make it strictly create-only: an existing folder then returns 412 CREATE_CONFLICT instead of the idempotent 200.  Returns 409 &#x60;FOLDER_PATH_CONFLICT&#x60; if a live artifact occupies the file form of the path (e.g. mkdir &#x60;/foo/&#x60; when an artifact lives at &#x60;/foo&#x60;).
 
 ### Example
 
@@ -1061,7 +1226,7 @@ import {
   Configuration,
   DefaultApi,
 } from '@mnexa-ai/agentdrive-sdk';
-import type { CreateFolderByPathV0FoldersPathPostRequest } from '@mnexa-ai/agentdrive-sdk';
+import type { CreateFolderByPathV0FoldersPathPutRequest } from '@mnexa-ai/agentdrive-sdk';
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
@@ -1073,13 +1238,15 @@ async function example() {
     // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
+    ifNoneMatch: ifNoneMatch_example,
+    // string (optional)
     authorization: authorization_example,
     // FolderCreateIn (optional)
     folderCreateIn: ...,
-  } satisfies CreateFolderByPathV0FoldersPathPostRequest;
+  } satisfies CreateFolderByPathV0FoldersPathPutRequest;
 
   try {
-    const data = await api.createFolderByPathV0FoldersPathPost(body);
+    const data = await api.createFolderByPathV0FoldersPathPut(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -1097,6 +1264,7 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **path** | `string` |  | [Defaults to `undefined`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **ifNoneMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **folderCreateIn** | [FolderCreateIn](FolderCreateIn.md) |  | [Optional] |
 
@@ -1914,9 +2082,11 @@ No authorization required
 
 ## deleteArtifactV0ArtifactsPathDelete
 
-> any deleteArtifactV0ArtifactsPathDelete(path, ifMatch, xAgentdriveActor, authorization)
+> ArtifactDeleteOut deleteArtifactV0ArtifactsPathDelete(path, ifMatch, xAgentdriveActor, authorization)
 
 Delete Artifact
+
+Soft-delete the artifact at the given path.  A delete WITHOUT an &#x60;If-Match&#x60; precondition is last-writer-wins and will silently remove a concurrently-modified artifact.
 
 ### Example
 
@@ -1966,7 +2136,7 @@ example().catch(console.error);
 
 ### Return type
 
-**any**
+[**ArtifactDeleteOut**](ArtifactDeleteOut.md)
 
 ### Authorization
 
@@ -1989,11 +2159,11 @@ No authorization required
 
 ## deleteDriveRouteV0DrivesDriveIdDelete
 
-> any deleteDriveRouteV0DrivesDriveIdDelete(driveId, xAgentdriveActor, authorization)
+> DriveDeleteOut deleteDriveRouteV0DrivesDriveIdDelete(driveId, confirm, xAgentdriveActor, ifMatch, authorization)
 
 Soft-delete a drive
 
-Mark the drive for cleanup. All tenant data (artifacts, versions, wiki, embeddings, events) is hidden via the &#x60;live_*&#x60; views and CASCADE-removed by the GC cleanup cron at &#x60;purge_at&#x60;. Restore via &#x60;POST /v0/drives/{id}/restore&#x60; while the row is still in trash. The path-param &#x60;drive_id&#x60; MUST match the authenticated drive.  Accepts either an &#x60;ad_live_&#x60; per-drive key (deletes that key\&#39;s drive) or an &#x60;ad_user_&#x60; user token selecting an owned drive (workspaces-design §5.3); a &#x60;read&#x60;-scope user token is rejected with 403 &#x60;INSUFFICIENT_SCOPE&#x60;. **Guard (§8):** a workspace must retain at least one live drive — deleting the workspace\&#39;s last live drive returns 409 &#x60;LAST_DRIVE&#x60;.
+Mark the drive for cleanup. All tenant data (artifacts, versions, wiki, embeddings, events) is hidden via the &#x60;live_*&#x60; views and CASCADE-removed by the GC cleanup cron at &#x60;purge_at&#x60;. Restore via &#x60;POST /v0/drives/{id}/restore&#x60; while the row is still in trash. The path-param &#x60;drive_id&#x60; MUST match the authenticated drive.  Accepts either an &#x60;ad_live_&#x60; per-drive key (deletes that key\&#39;s drive) or an &#x60;ad_user_&#x60; user token selecting an owned drive (workspaces-design §5.3); a &#x60;read&#x60;-scope user token is rejected with 403 &#x60;INSUFFICIENT_SCOPE&#x60;. **Guard (§8):** a workspace must retain at least one live drive — deleting the workspace\&#39;s last live drive returns 409 &#x60;LAST_DRIVE&#x60;.  **Explicit confirmation required:** pass &#x60;?confirm&#x3D;DELETE&#x60; or the request is rejected with 400 &#x60;CONFIRM_REQUIRED&#x60;. Tenant-level deletion is the largest-blast-radius operation on the API; the static token forces a deliberate act (soft-delete still gives a restore window on top).  **Optimistic concurrency:** send &#x60;If-Match&#x60; with the drive\&#39;s composite ETag (&#x60;\&quot;&lt;drv_id&gt;.0.&lt;metageneration&gt;\&quot;&#x60;, from a drive read) to make the delete conditional — a stale token returns 412 PRECONDITION_FAILED. A delete WITHOUT an &#x60;If-Match&#x60; precondition is last-writer-wins and will silently trash a concurrently-modified drive.
 
 ### Example
 
@@ -2012,7 +2182,11 @@ async function example() {
     // string
     driveId: driveId_example,
     // string (optional)
+    confirm: confirm_example,
+    // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
+    // string (optional)
+    ifMatch: ifMatch_example,
     // string (optional)
     authorization: authorization_example,
   } satisfies DeleteDriveRouteV0DrivesDriveIdDeleteRequest;
@@ -2035,12 +2209,14 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **driveId** | `string` |  | [Defaults to `undefined`] |
+| **confirm** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**any**
+[**DriveDeleteOut**](DriveDeleteOut.md)
 
 ### Authorization
 
@@ -2134,7 +2310,7 @@ No authorization required
 
 ## deleteFolderByIdV0FoldersFldIdDelete
 
-> FolderDeleteOut deleteFolderByIdV0FoldersFldIdDelete(fldId, recursive, xAgentdriveActor, authorization)
+> FolderDeleteOut deleteFolderByIdV0FoldersFldIdDelete(fldId, recursive, xAgentdriveActor, ifMatch, authorization)
 
 Soft-delete a folder by stable ID (cascade with ?recursive&#x3D;true)
 
@@ -2159,6 +2335,8 @@ async function example() {
     // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
+    ifMatch: ifMatch_example,
+    // string (optional)
     authorization: authorization_example,
   } satisfies DeleteFolderByIdV0FoldersFldIdDeleteRequest;
 
@@ -2182,6 +2360,7 @@ example().catch(console.error);
 | **fldId** | `string` |  | [Defaults to `undefined`] |
 | **recursive** | `boolean` |  | [Optional] [Defaults to `false`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -2209,7 +2388,7 @@ No authorization required
 
 ## deleteFolderByPathV0FoldersPathDelete
 
-> FolderDeleteOut deleteFolderByPathV0FoldersPathDelete(path, recursive, xAgentdriveActor, authorization)
+> FolderDeleteOut deleteFolderByPathV0FoldersPathDelete(path, recursive, xAgentdriveActor, ifMatch, authorization)
 
 Soft-delete a folder (cascade with ?recursive&#x3D;true)
 
@@ -2236,6 +2415,8 @@ async function example() {
     // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
+    ifMatch: ifMatch_example,
+    // string (optional)
     authorization: authorization_example,
   } satisfies DeleteFolderByPathV0FoldersPathDeleteRequest;
 
@@ -2259,6 +2440,7 @@ example().catch(console.error);
 | **path** | `string` |  | [Defaults to `undefined`] |
 | **recursive** | `boolean` |  | [Optional] [Defaults to `false`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -2286,7 +2468,7 @@ No authorization required
 
 ## deleteGrantRouteV0GrantsGrnIdDelete
 
-> any deleteGrantRouteV0GrantsGrnIdDelete(grnId, xAgentdriveActor, authorization)
+> RevokeOut deleteGrantRouteV0GrantsGrnIdDelete(grnId, xAgentdriveActor, authorization)
 
 Revoke a grant (can_manage, or self-revoke own grant)
 
@@ -2335,7 +2517,7 @@ example().catch(console.error);
 
 ### Return type
 
-**any**
+[**RevokeOut**](RevokeOut.md)
 
 ### Authorization
 
@@ -2358,7 +2540,7 @@ No authorization required
 
 ## deleteShareRouteV0SharesShrIdDelete
 
-> any deleteShareRouteV0SharesShrIdDelete(shrId, xAgentdriveActor, authorization)
+> RevokeOut deleteShareRouteV0SharesShrIdDelete(shrId, xAgentdriveActor, authorization)
 
 Revoke a share link (requires can_manage)
 
@@ -2407,7 +2589,7 @@ example().catch(console.error);
 
 ### Return type
 
-**any**
+[**RevokeOut**](RevokeOut.md)
 
 ### Authorization
 
@@ -2546,6 +2728,77 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **artId** | `string` |  | [Defaults to `undefined`] |
+| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+**any**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  -  |
+| **422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## downloadArtifactByPathV0ArtifactsPathDownloadGet
+
+> any downloadArtifactByPathV0ArtifactsPathDownloadGet(path, authorization)
+
+Stream the artifact bytes by path (never rendered HTML)
+
+Same bytes-only machine surface as &#x60;/{art_id}/download&#x60; but resolves the artifact by path, so callers don\&#39;t have to resolve path→id first. Applies the identical CSP &#x60;sandbox&#x60; + &#x60;nosniff&#x60; posture (never serves HTML inline as active content).
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '@mnexa-ai/agentdrive-sdk';
+import type { DownloadArtifactByPathV0ArtifactsPathDownloadGetRequest } from '@mnexa-ai/agentdrive-sdk';
+
+async function example() {
+  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
+  const api = new DefaultApi();
+
+  const body = {
+    // string
+    path: path_example,
+    // string (optional)
+    authorization: authorization_example,
+  } satisfies DownloadArtifactByPathV0ArtifactsPathDownloadGetRequest;
+
+  try {
+    const data = await api.downloadArtifactByPathV0ArtifactsPathDownloadGet(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **path** | `string` |  | [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -3586,9 +3839,80 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
+## getDriveRouteV0DrivesDriveIdGet
+
+> any getDriveRouteV0DrivesDriveIdGet(driveId, authorization)
+
+Drive overview by id (same shape as /drives/me)
+
+Identical to &#x60;GET /v0/drives/me&#x60; — the by-id singleton so &#x60;Location&#x60;-style URLs and scripted clients can address the drive canonically. The path-param &#x60;drive_id&#x60; MUST match the authenticated drive (mirrors the delete/trash routes\&#39; no-leak 404). Emits the drive\&#39;s composite &#x60;ETag&#x60; header (&#x60;\&quot;&lt;drv_id&gt;.0.&lt;metageneration&gt;\&quot;&#x60;).
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '@mnexa-ai/agentdrive-sdk';
+import type { GetDriveRouteV0DrivesDriveIdGetRequest } from '@mnexa-ai/agentdrive-sdk';
+
+async function example() {
+  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
+  const api = new DefaultApi();
+
+  const body = {
+    // string
+    driveId: driveId_example,
+    // string (optional)
+    authorization: authorization_example,
+  } satisfies GetDriveRouteV0DrivesDriveIdGetRequest;
+
+  try {
+    const data = await api.getDriveRouteV0DrivesDriveIdGet(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **driveId** | `string` |  | [Defaults to `undefined`] |
+| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+**any**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  -  |
+| **422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
 ## getFeedbackStatusV0FeedbackFbkIdGet
 
-> any getFeedbackStatusV0FeedbackFbkIdGet(fbkId, authorization)
+> FeedbackStatusOut getFeedbackStatusV0FeedbackFbkIdGet(fbkId, authorization)
 
 Get Feedback Status
 
@@ -3636,7 +3960,7 @@ example().catch(console.error);
 
 ### Return type
 
-**any**
+[**FeedbackStatusOut**](FeedbackStatusOut.md)
 
 ### Authorization
 
@@ -3933,6 +4257,77 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
+## getGrantRouteV0GrantsGrnIdGet
+
+> GrantOut getGrantRouteV0GrantsGrnIdGet(grnId, authorization)
+
+Read a single grant (can_manage, or the grant\&#39;s own principal)
+
+The &#x60;Location&#x60; target of &#x60;POST /v0/grants&#x60;. Authorization mirrors DELETE: &#x60;can_manage&#x60; on the granted resource, or the caller IS the grant\&#39;s own principal (a grantee may read — like revoke — their own grant). A revoked grant reads as 404 (same no-leak shape as a foreign/absent id); DELETE stays idempotent on it.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '@mnexa-ai/agentdrive-sdk';
+import type { GetGrantRouteV0GrantsGrnIdGetRequest } from '@mnexa-ai/agentdrive-sdk';
+
+async function example() {
+  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
+  const api = new DefaultApi();
+
+  const body = {
+    // string
+    grnId: grnId_example,
+    // string (optional)
+    authorization: authorization_example,
+  } satisfies GetGrantRouteV0GrantsGrnIdGetRequest;
+
+  try {
+    const data = await api.getGrantRouteV0GrantsGrnIdGet(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **grnId** | `string` |  | [Defaults to `undefined`] |
+| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**GrantOut**](GrantOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  -  |
+| **422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
 ## getJobLogsV0JobsJobIdLogsGet
 
 > any getJobLogsV0JobsJobIdLogsGet(jobId, authorization)
@@ -4140,6 +4535,77 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
+## getShareRouteV0SharesShrIdGet
+
+> ShareOut getShareRouteV0SharesShrIdGet(shrId, authorization)
+
+Read a single share link\&#39;s metadata (requires can_manage)
+
+The &#x60;Location&#x60; target of &#x60;POST /v0/shares&#x60;. Metadata ONLY — &#x60;ShareOut&#x60; never carries the raw &#x60;share_key&#x60;/URL (returned exactly once at mint/rotate, §4.5). Authorization mirrors DELETE: &#x60;can_manage&#x60; on the shared resource. A revoked share reads as 404 (same no-leak shape as a foreign/absent id).
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '@mnexa-ai/agentdrive-sdk';
+import type { GetShareRouteV0SharesShrIdGetRequest } from '@mnexa-ai/agentdrive-sdk';
+
+async function example() {
+  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
+  const api = new DefaultApi();
+
+  const body = {
+    // string
+    shrId: shrId_example,
+    // string (optional)
+    authorization: authorization_example,
+  } satisfies GetShareRouteV0SharesShrIdGetRequest;
+
+  try {
+    const data = await api.getShareRouteV0SharesShrIdGet(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **shrId** | `string` |  | [Defaults to `undefined`] |
+| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**ShareOut**](ShareOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  -  |
+| **422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
 ## getShareStateWebShareRidGet
 
 > any getShareStateWebShareRidGet(rid)
@@ -4201,6 +4667,78 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Successful Response |  -  |
+| **422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getUploadStatusV0UploadsUploadIdGet
+
+> UploadStatusOut getUploadStatusV0UploadsUploadIdGet(uploadId, authorization)
+
+Get the status of a large (direct-to-GCS) upload session
+
+Report the live state of an upload session begun at &#x60;/v0/uploads&#x60;. &#x60;state&#x60; is derived: &#x60;initiated&#x60; (open — PUT the bytes then commit), &#x60;committed&#x60; (artifact created), &#x60;aborted&#x60; (released via DELETE), or &#x60;expired&#x60; (past &#x60;expires_at&#x60; without a commit). Read-only; charges the read budget.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '@mnexa-ai/agentdrive-sdk';
+import type { GetUploadStatusV0UploadsUploadIdGetRequest } from '@mnexa-ai/agentdrive-sdk';
+
+async function example() {
+  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
+  const api = new DefaultApi();
+
+  const body = {
+    // string
+    uploadId: uploadId_example,
+    // string (optional)
+    authorization: authorization_example,
+  } satisfies GetUploadStatusV0UploadsUploadIdGetRequest;
+
+  try {
+    const data = await api.getUploadStatusV0UploadsUploadIdGet(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **uploadId** | `string` |  | [Defaults to `undefined`] |
+| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**UploadStatusOut**](UploadStatusOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  -  |
+| **404** | No such upload for this drive |  -  |
 | **422** | Validation Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
@@ -4590,9 +5128,11 @@ No authorization required
 
 ## listGrantsRouteV0GrantsGet
 
-> GrantList listGrantsRouteV0GrantsGet(resource, authorization)
+> GrantList listGrantsRouteV0GrantsGet(resource, cursor, limit, authorization)
 
 List live grants on a resource (requires can_manage)
+
+**Cursor pagination:** when more results exist, the response carries &#x60;next_cursor&#x60;. Pass it back as &#x60;?cursor&#x3D;&lt;token&gt;&#x60; to fetch the next page; &#x60;null&#x60; means the listing is complete. &#x60;limit&#x60; is clamped to [1, 100] (default 50), never rejected. The &#x60;resource&#x60; filter must be re-sent on every page — the cursor encodes only the keyset position.
 
 ### Example
 
@@ -4610,6 +5150,10 @@ async function example() {
   const body = {
     // string | art_*_/fld_* id or a path
     resource: resource_example,
+    // string (optional)
+    cursor: cursor_example,
+    // number (optional)
+    limit: 56,
     // string (optional)
     authorization: authorization_example,
   } satisfies ListGrantsRouteV0GrantsGetRequest;
@@ -4632,6 +5176,8 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **resource** | `string` | art_*_/fld_* id or a path | [Defaults to `undefined`] |
+| **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **limit** | `number` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -4734,9 +5280,11 @@ No authorization required
 
 ## listSharesRouteV0SharesGet
 
-> ShareList listSharesRouteV0SharesGet(resource, authorization)
+> ShareList listSharesRouteV0SharesGet(resource, cursor, limit, authorization)
 
 List live share links on a resource (requires can_manage)
+
+**Cursor pagination:** when more results exist, the response carries &#x60;next_cursor&#x60;. Pass it back as &#x60;?cursor&#x3D;&lt;token&gt;&#x60; to fetch the next page; &#x60;null&#x60; means the listing is complete. &#x60;limit&#x60; is clamped to [1, 100] (default 50), never rejected. The &#x60;resource&#x60; filter must be re-sent on every page — the cursor encodes only the keyset position.
 
 ### Example
 
@@ -4754,6 +5302,10 @@ async function example() {
   const body = {
     // string | art_*_/fld_* id or a path
     resource: resource_example,
+    // string (optional)
+    cursor: cursor_example,
+    // number (optional)
+    limit: 56,
     // string (optional)
     authorization: authorization_example,
   } satisfies ListSharesRouteV0SharesGetRequest;
@@ -4776,6 +5328,8 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **resource** | `string` | art_*_/fld_* id or a path | [Defaults to `undefined`] |
+| **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **limit** | `number` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -5262,7 +5816,7 @@ No authorization required
 
 Me
 
-Drive overview for the authenticated bearer token.  Wire-protocol preservation (WorkOS integration §6): the &#x60;email&#x60; field is preserved in the response shape; its meaning is now \&quot;the drive\&#39;s owner\&#39;s email\&quot; (via &#x60;drives.owner_user_id&#x60; → &#x60;users.email&#x60;, joined in &#x60;auth.resolve_drive&#x60;). For solo signups this equals v0 behavior — the email the user signed up with. Returns null if the owner has been hard-purged. &#x60;organization_id&#x60; is a new additive field.
+Drive overview for the authenticated bearer token.  Wire-protocol preservation (WorkOS integration §6): the &#x60;email&#x60; field is preserved in the response shape; its meaning is now \&quot;the drive\&#39;s owner\&#39;s email\&quot; (via &#x60;drives.owner_user_id&#x60; → &#x60;users.email&#x60;, joined in &#x60;auth.resolve_drive&#x60;). For solo signups this equals v0 behavior — the email the user signed up with. Returns null if the owner has been hard-purged. &#x60;organization_id&#x60; is a new additive field, as are &#x60;metageneration&#x60; / &#x60;etag&#x60; (also emitted as the &#x60;ETag&#x60; header).
 
 ### Example
 
@@ -5324,9 +5878,89 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
+## moveArtifactRouteV0ArtifactsArtIdMovePost
+
+> ArtifactOut moveArtifactRouteV0ArtifactsArtIdMovePost(artId, artifactMoveIn, xAgentdriveActor, ifMatch, authorization)
+
+Rename / move an artifact to a new path
+
+Canonical artifact move/rename, keyed by the stable &#x60;art_…&#x60; ID (the artifact analogue of &#x60;POST /v0/folders/{fld_id}/move&#x60;). Moves the artifact to a new &#x60;path&#x60; on the same drive; ID, version history, source refs, labels, metadata, and the underlying CAS blob are all preserved — only &#x60;path&#x60; and &#x60;updated_at&#x60; change, and the move does NOT bump &#x60;version_number&#x60;.  The row UPDATE and the emitted &#x60;artifact.renamed&#x60; event commit in a SINGLE transaction — a failure leaves the artifact fully unchanged.  Returns 409 PATH_CONFLICT if the target &#x60;path&#x60; is already taken; 404 ARTIFACT_NOT_FOUND for an unknown id; 403 WIKI_RESERVED for a &#x60;_wiki/&#x60; / &#x60;_compiled/&#x60; target. Honors &#x60;If-Match&#x60; (→ 412 PRECONDITION_FAILED). Use &#x60;X-AgentDrive-Actor&#x60; to attach attribution to the emitted &#x60;artifact.renamed&#x60; event.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '@mnexa-ai/agentdrive-sdk';
+import type { MoveArtifactRouteV0ArtifactsArtIdMovePostRequest } from '@mnexa-ai/agentdrive-sdk';
+
+async function example() {
+  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
+  const api = new DefaultApi();
+
+  const body = {
+    // string
+    artId: artId_example,
+    // ArtifactMoveIn
+    artifactMoveIn: ...,
+    // string (optional)
+    xAgentdriveActor: xAgentdriveActor_example,
+    // string (optional)
+    ifMatch: ifMatch_example,
+    // string (optional)
+    authorization: authorization_example,
+  } satisfies MoveArtifactRouteV0ArtifactsArtIdMovePostRequest;
+
+  try {
+    const data = await api.moveArtifactRouteV0ArtifactsArtIdMovePost(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **artId** | `string` |  | [Defaults to `undefined`] |
+| **artifactMoveIn** | [ArtifactMoveIn](ArtifactMoveIn.md) |  | |
+| **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**ArtifactOut**](ArtifactOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  -  |
+| **422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
 ## moveFolderByIdV0FoldersFldIdMovePost
 
-> FolderOut moveFolderByIdV0FoldersFldIdMovePost(fldId, folderMoveIn, xAgentdriveActor, authorization)
+> FolderOut moveFolderByIdV0FoldersFldIdMovePost(fldId, folderMoveIn, xAgentdriveActor, ifMatch, authorization)
 
 Rename / move a folder by stable ID (cascade descendants)
 
@@ -5351,6 +5985,8 @@ async function example() {
     // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
+    ifMatch: ifMatch_example,
+    // string (optional)
     authorization: authorization_example,
   } satisfies MoveFolderByIdV0FoldersFldIdMovePostRequest;
 
@@ -5374,6 +6010,7 @@ example().catch(console.error);
 | **fldId** | `string` |  | [Defaults to `undefined`] |
 | **folderMoveIn** | [FolderMoveIn](FolderMoveIn.md) |  | |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -5401,7 +6038,7 @@ No authorization required
 
 ## moveFolderByPathV0FoldersPathMovePost
 
-> FolderOut moveFolderByPathV0FoldersPathMovePost(path, folderMoveIn, xAgentdriveActor, authorization)
+> FolderOut moveFolderByPathV0FoldersPathMovePost(path, folderMoveIn, xAgentdriveActor, ifMatch, authorization)
 
 Rename / move a folder (cascade-update descendants)
 
@@ -5428,6 +6065,8 @@ async function example() {
     // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
+    ifMatch: ifMatch_example,
+    // string (optional)
     authorization: authorization_example,
   } satisfies MoveFolderByPathV0FoldersPathMovePostRequest;
 
@@ -5451,6 +6090,7 @@ example().catch(console.error);
 | **path** | `string` |  | [Defaults to `undefined`] |
 | **folderMoveIn** | [FolderMoveIn](FolderMoveIn.md) |  | |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -5547,9 +6187,89 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
+## patchArtifactRouteV0ArtifactsArtIdPatch
+
+> ArtifactOut patchArtifactRouteV0ArtifactsArtIdPatch(artId, artifactPatchIn, xAgentdriveActor, ifMatch, authorization)
+
+Edit artifact metadata (labels / metadata / source)
+
+Metadata-only JSON-merge-patch update of a single artifact, keyed by its stable &#x60;art_…&#x60; ID. Every field in the body is optional; a field that is **omitted** is left unchanged, a field that is **present** is applied — with an explicit &#x60;null&#x60; / &#x60;[]&#x60; / &#x60;{}&#x60; meaning \&quot;clear\&quot;. This mirrors the MCP &#x60;set_metadata&#x60; tool.  Editable fields:   * &#x60;labels&#x60; — replace the label set (&#x60;[]&#x60;/&#x60;null&#x60; clears).   * &#x60;metadata&#x60; — replace the free-form metadata object (&#x60;{}&#x60;/&#x60;null&#x60; clears).   * &#x60;source&#x60; — replace provenance refs (&#x60;null&#x60; clears).  **To move/rename an artifact, use &#x60;POST /v0/artifacts/{art_id}/move&#x60;** — PATCH no longer accepts &#x60;path&#x60;. The body is &#x60;extra&#x3D;\&quot;forbid\&quot;&#x60;, so a stray field (notably a legacy &#x60;path&#x60;) is rejected with 422 rather than silently ignored.  Metadata edits do NOT create a new content version (no &#x60;version_number&#x60; / generation bump, no &#x60;artifact_versions&#x60; row) but DO bump the artifact\&#39;s &#x60;metageneration&#x60; and &#x60;updated_at&#x60;.  Returns 400 BAD_LABELS / BAD_SOURCE for invalid metadata; 404 ARTIFACT_NOT_FOUND for an unknown id. Honors &#x60;If-Match&#x60;, which takes the composite ETag &#x60;\&quot;&lt;art_id&gt;.&lt;generation&gt;.&lt;metageneration&gt;\&quot;&#x60; and is compared as a whole tuple: ANY concurrent content **or** metadata change (a bumped generation OR metageneration) → 412 PRECONDITION_FAILED. There is no last-writer-wins gap for metadata-only edits. Use &#x60;X-AgentDrive-Actor&#x60; to attach attribution to the emitted &#x60;artifact.metadata_updated&#x60; event.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '@mnexa-ai/agentdrive-sdk';
+import type { PatchArtifactRouteV0ArtifactsArtIdPatchRequest } from '@mnexa-ai/agentdrive-sdk';
+
+async function example() {
+  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
+  const api = new DefaultApi();
+
+  const body = {
+    // string
+    artId: artId_example,
+    // ArtifactPatchIn
+    artifactPatchIn: ...,
+    // string (optional)
+    xAgentdriveActor: xAgentdriveActor_example,
+    // string (optional)
+    ifMatch: ifMatch_example,
+    // string (optional)
+    authorization: authorization_example,
+  } satisfies PatchArtifactRouteV0ArtifactsArtIdPatchRequest;
+
+  try {
+    const data = await api.patchArtifactRouteV0ArtifactsArtIdPatch(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **artId** | `string` |  | [Defaults to `undefined`] |
+| **artifactPatchIn** | [ArtifactPatchIn](ArtifactPatchIn.md) |  | |
+| **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**ArtifactOut**](ArtifactOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  -  |
+| **422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
 ## patchFolderByIdV0FoldersFldIdPatch
 
-> FolderOut patchFolderByIdV0FoldersFldIdPatch(fldId, folderPatchIn, xAgentdriveActor, authorization)
+> FolderOut patchFolderByIdV0FoldersFldIdPatch(fldId, folderPatchIn, xAgentdriveActor, ifMatch, authorization)
 
 Update folder metadata by stable ID
 
@@ -5574,6 +6294,8 @@ async function example() {
     // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
+    ifMatch: ifMatch_example,
+    // string (optional)
     authorization: authorization_example,
   } satisfies PatchFolderByIdV0FoldersFldIdPatchRequest;
 
@@ -5597,6 +6319,7 @@ example().catch(console.error);
 | **fldId** | `string` |  | [Defaults to `undefined`] |
 | **folderPatchIn** | [FolderPatchIn](FolderPatchIn.md) |  | |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -5624,7 +6347,7 @@ No authorization required
 
 ## patchFolderByPathV0FoldersPathPatch
 
-> FolderOut patchFolderByPathV0FoldersPathPatch(path, folderPatchIn, xAgentdriveActor, authorization)
+> FolderOut patchFolderByPathV0FoldersPathPatch(path, folderPatchIn, xAgentdriveActor, ifMatch, authorization)
 
 Update folder metadata by path
 
@@ -5651,6 +6374,8 @@ async function example() {
     // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
+    ifMatch: ifMatch_example,
+    // string (optional)
     authorization: authorization_example,
   } satisfies PatchFolderByPathV0FoldersPathPatchRequest;
 
@@ -5674,6 +6399,7 @@ example().catch(console.error);
 | **path** | `string` |  | [Defaults to `undefined`] |
 | **folderPatchIn** | [FolderPatchIn](FolderPatchIn.md) |  | |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -6244,11 +6970,11 @@ No authorization required
 
 ## putArtifactV0ArtifactsPathPut
 
-> ArtifactOut putArtifactV0ArtifactsPathPut(path, contentType, xAgentdriveLabels, xAgentdriveMetadata, xAgentdriveSource, xAgentdriveActor, xAgentdriveChangeSummary, ifMatch, authorization)
+> ArtifactOut putArtifactV0ArtifactsPathPut(path, contentType, xAgentdriveLabels, xAgentdriveMetadata, xAgentdriveSource, xAgentdriveActor, xAgentdriveChangeSummary, xAgentdriveChecksum, contentMd5, ifMatch, ifNoneMatch, authorization)
 
 Upload (or overwrite) an artifact
 
-Upload an artifact at the given path. The path is treated as the artifact\&#39;s location in the drive — re-uploading the same path overwrites in place (idempotent).  **Limits:** request body must not exceed **50 MB**. Path must be non-empty, ≤256 chars, only &#x60;[A-Za-z0-9_./-]&#x60;, no &#x60;..&#x60; segments, no leading/trailing slash. Per-token write rate limit: 100/hour.  **Optional headers.** Each preserves the existing artifact\&#39;s value when omitted on an overwrite, and takes the create-default on a new path; send the header to replace it: - &#x60;X-AgentDrive-Labels&#x60;: comma-separated labels (e.g. &#x60;draft,report&#x60;); an empty value clears them. Each: lowercase &#x60;[a-z0-9_-]+&#x60;, ≤64 chars; ≤16 labels per artifact. - &#x60;X-AgentDrive-Metadata&#x60;: JSON object of agent-attached fields. - &#x60;X-AgentDrive-Source&#x60;: JSON &#x60;{\&quot;refs\&quot;: [...]}&#x60; source provenance (present, including &#x60;{\&quot;refs\&quot;: []}&#x60;, replaces). - &#x60;X-AgentDrive-Actor&#x60;: caller-supplied actor name (≤64 chars) for event-log attribution. Untrusted; never used for authz.
+Upload an artifact at the given path. The path is treated as the artifact\&#39;s location in the drive — re-uploading the same path overwrites in place (idempotent). Returns 201 when the artifact is created (no prior live artifact at the path), 200 on overwrite — mirroring &#x60;PUT /v0/folders/{path}&#x60;.  **Limits:** request body must not exceed **50 MB**. Path must be non-empty, ≤256 chars, only &#x60;[A-Za-z0-9_./-]&#x60;, no &#x60;..&#x60; segments, no leading/trailing slash. Per-token write rate limit: 100/hour.  **Optional headers.** Each preserves the existing artifact\&#39;s value when omitted on an overwrite, and takes the create-default on a new path; send the header to replace it: - &#x60;X-AgentDrive-Labels&#x60;: comma-separated labels (e.g. &#x60;draft,report&#x60;); an empty value clears them. Each: lowercase &#x60;[a-z0-9_-]+&#x60;, ≤64 chars; ≤16 labels per artifact. - &#x60;X-AgentDrive-Metadata&#x60;: JSON object of agent-attached fields. - &#x60;X-AgentDrive-Source&#x60;: JSON &#x60;{\&quot;refs\&quot;: [...]}&#x60; source provenance (present, including &#x60;{\&quot;refs\&quot;: []}&#x60;, replaces). - &#x60;X-AgentDrive-Actor&#x60;: caller-supplied actor name (≤64 chars) for event-log attribution. Untrusted; never used for authz.  **Preconditions.** &#x60;If-Match: \&quot;&lt;id&gt;.&lt;gen&gt;.&lt;metagen&gt;\&quot;&#x60; makes the write conditional on the current composite ETag (→ 412 PRECONDITION_FAILED). &#x60;If-None-Match: *&#x60; is create-only: it succeeds only if no live artifact occupies the path (→ 412 CREATE_CONFLICT if one does). The two are mutually exclusive (→ 400 BAD_PRECONDITION).  **Integrity (optional).** &#x60;X-AgentDrive-Checksum: &lt;algo&gt;:&lt;value&gt;&#x60; (&#x60;sha256:&lt;hex&gt;&#x60; or &#x60;crc32c:&lt;base64&gt;&#x60;) or the standard &#x60;Content-MD5&#x60; (base64 MD5) is verified against the received bytes before they land (→ 400 CHECKSUM_MISMATCH on mismatch); no artifact is created on failure.
 
 ### Example
 
@@ -6279,7 +7005,13 @@ async function example() {
     // string (optional)
     xAgentdriveChangeSummary: xAgentdriveChangeSummary_example,
     // string (optional)
+    xAgentdriveChecksum: xAgentdriveChecksum_example,
+    // string (optional)
+    contentMd5: contentMd5_example,
+    // string (optional)
     ifMatch: ifMatch_example,
+    // string (optional)
+    ifNoneMatch: ifNoneMatch_example,
     // string (optional)
     authorization: authorization_example,
   } satisfies PutArtifactV0ArtifactsPathPutRequest;
@@ -6308,7 +7040,10 @@ example().catch(console.error);
 | **xAgentdriveSource** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **xAgentdriveChangeSummary** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **xAgentdriveChecksum** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **contentMd5** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **ifNoneMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -6872,86 +7607,6 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## renameArtifactRouteV0ArtifactsArtIdPatch
-
-> ArtifactOut renameArtifactRouteV0ArtifactsArtIdPatch(artId, renameIn, xAgentdriveActor, ifMatch, authorization)
-
-Rename / move an artifact to a new path
-
-Move the artifact to a new path on the same drive. ID, version history, source refs, labels, metadata, and the underlying CAS blob are preserved — only &#x60;path&#x60; and &#x60;updated_at&#x60; change.  Returns 409 PATH_CONFLICT if the target path is already taken. Use &#x60;X-AgentDrive-Actor&#x60; to attach attribution to the emitted &#x60;artifact.renamed&#x60; event.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { RenameArtifactRouteV0ArtifactsArtIdPatchRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    artId: artId_example,
-    // RenameIn
-    renameIn: ...,
-    // string (optional)
-    xAgentdriveActor: xAgentdriveActor_example,
-    // string (optional)
-    ifMatch: ifMatch_example,
-    // string (optional)
-    authorization: authorization_example,
-  } satisfies RenameArtifactRouteV0ArtifactsArtIdPatchRequest;
-
-  try {
-    const data = await api.renameArtifactRouteV0ArtifactsArtIdPatch(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **artId** | `string` |  | [Defaults to `undefined`] |
-| **renameIn** | [RenameIn](RenameIn.md) |  | |
-| **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
-
-### Return type
-
-[**ArtifactOut**](ArtifactOut.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/json`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
 ## renameDriveWebWebDrivesDriveIdRenamePost
 
 > any renameDriveWebWebDrivesDriveIdRenamePost(driveId, name, csrf)
@@ -7173,11 +7828,11 @@ No authorization required
 
 ## restoreArtifactV0ArtifactsArtIdRestorePost
 
-> ArtifactOut restoreArtifactV0ArtifactsArtIdRestorePost(artId, rename, overwrite, xAgentdriveActor, authorization)
+> ArtifactOut restoreArtifactV0ArtifactsArtIdRestorePost(artId, rename, overwrite, xAgentdriveActor, ifMatch, authorization)
 
 Restore a soft-deleted artifact
 
-Clear &#x60;deleted_at&#x60; + &#x60;purge_at&#x60; on a soft-deleted artifact. Available only while the artifact is in trash (i.e. before the GC cleanup cron purges it). Returns 404 if the artifact is live or already hard-deleted; 409 PATH_OCCUPIED if its path is now occupied by another live artifact. The 409 payload includes a &#x60;restore_options&#x60; block with &#x60;rename_to&#x60; and &#x60;force_overwrite&#x60; URLs the caller can follow to resolve the conflict — see deletion-design.md §5.4.
+Clear &#x60;deleted_at&#x60; + &#x60;purge_at&#x60; on a soft-deleted artifact. Available only while the artifact is in trash (i.e. before the GC cleanup cron purges it). Returns 404 if the artifact is live or already hard-deleted; 409 PATH_CONFLICT if its path is now occupied by another live artifact. The 409 payload includes a &#x60;restore_options&#x60; block with &#x60;rename_to&#x60; and &#x60;force_overwrite&#x60; URLs the caller can follow to resolve the conflict — see deletion-design.md §5.4.
 
 ### Example
 
@@ -7201,6 +7856,8 @@ async function example() {
     overwrite: true,
     // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
+    // string (optional)
+    ifMatch: ifMatch_example,
     // string (optional)
     authorization: authorization_example,
   } satisfies RestoreArtifactV0ArtifactsArtIdRestorePostRequest;
@@ -7226,6 +7883,87 @@ example().catch(console.error);
 | **rename** | `string` | Restore at this path instead of the original. Soft-deletes the live occupant at the original path with audit &#x60;metadata.cause&#x3D;\&#39;restore_conflict_rename\&#39;&#x60;. Mutually exclusive with &#x60;overwrite&#x60;. | [Optional] [Defaults to `undefined`] |
 | **overwrite** | `boolean` | Soft-delete the live occupant at the original path and restore there. Audit &#x60;metadata.cause&#x3D;\&#39;restore_conflict_overwrite\&#39;&#x60;. Mutually exclusive with &#x60;rename&#x60;. | [Optional] [Defaults to `false`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**ArtifactOut**](ArtifactOut.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  -  |
+| **422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## restoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost
+
+> ArtifactOut restoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost(artId, versionNumber, xAgentdriveActor, ifMatch, authorization)
+
+Restore a previous version as a new head version
+
+Roll the artifact forward to the content of version &#x60;version_number&#x60; by creating a **new head version** with identical bytes. History is preserved — this never rewrites or deletes past versions. The prior version\&#39;s content-addressed blob is reused, so no bytes are re-uploaded. A change summary of &#x60;Restored version N&#x60; is recorded on the new version; &#x60;X-AgentDrive-Actor&#x60; attributes it.  Restoring a version whose content already matches the current head (including the head itself) is a **no-op**: it returns the current artifact unchanged, with no new version created.  Honors &#x60;If-Match&#x60; on the current head (roll forward only if the head is unchanged → 412 PRECONDITION_FAILED).  Errors: &#x60;404 ARTIFACT_NOT_FOUND&#x60;, &#x60;404 VERSION_NOT_FOUND&#x60;, and &#x60;410 VERSION_PRUNED&#x60; when the version existed but its bytes were retained out of existence.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '@mnexa-ai/agentdrive-sdk';
+import type { RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest } from '@mnexa-ai/agentdrive-sdk';
+
+async function example() {
+  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
+  const api = new DefaultApi();
+
+  const body = {
+    // string
+    artId: artId_example,
+    // number
+    versionNumber: 56,
+    // string (optional)
+    xAgentdriveActor: xAgentdriveActor_example,
+    // string (optional)
+    ifMatch: ifMatch_example,
+    // string (optional)
+    authorization: authorization_example,
+  } satisfies RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest;
+
+  try {
+    const data = await api.restoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **artId** | `string` |  | [Defaults to `undefined`] |
+| **versionNumber** | `number` |  | [Defaults to `undefined`] |
+| **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -7253,11 +7991,11 @@ No authorization required
 
 ## restoreDriveRouteV0DrivesDriveIdRestorePost
 
-> any restoreDriveRouteV0DrivesDriveIdRestorePost(driveId, xAgentdriveActor, authorization)
+> any restoreDriveRouteV0DrivesDriveIdRestorePost(driveId, xAgentdriveActor, ifMatch, authorization)
 
 Restore a soft-deleted drive
 
-Clear &#x60;deleted_at&#x60; + &#x60;purge_at&#x60; on a soft-deleted drive. Soft-deleted child artifacts get their retention window rebased to the drive-restore moment (see deletion-design.md §5.2). Available only while the drive is in trash. Returns 404 if the drive is live or already hard-deleted.
+Clear &#x60;deleted_at&#x60; + &#x60;purge_at&#x60; on a soft-deleted drive. Soft-deleted child artifacts get their retention window rebased to the drive-restore moment (see deletion-design.md §5.2). Available only while the drive is in trash. Returns 404 if the drive is live or already hard-deleted.  **Optimistic concurrency:** send &#x60;If-Match&#x60; with the trashed drive\&#39;s composite ETag (&#x60;\&quot;&lt;drv_id&gt;.0.&lt;metageneration&gt;\&quot;&#x60;, e.g. from the delete response\&#39;s &#x60;ETag&#x60; header) to make the restore conditional — a stale token returns 412 PRECONDITION_FAILED. A restore WITHOUT an &#x60;If-Match&#x60; precondition is last-writer-wins.
 
 ### Example
 
@@ -7277,6 +8015,8 @@ async function example() {
     driveId: driveId_example,
     // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
+    // string (optional)
+    ifMatch: ifMatch_example,
     // string (optional)
     authorization: authorization_example,
   } satisfies RestoreDriveRouteV0DrivesDriveIdRestorePostRequest;
@@ -7300,11 +8040,89 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **driveId** | `string` |  | [Defaults to `undefined`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
 **any**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  -  |
+| **422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## restoreFolderByIdV0FoldersFldIdRestorePost
+
+> FolderRestoreOut restoreFolderByIdV0FoldersFldIdRestorePost(fldId, xAgentdriveActor, ifMatch, authorization)
+
+Restore a soft-deleted folder (cascade)
+
+Mirrors &#x60;POST /v0/artifacts/{art_id}/restore&#x60; for folders: clear &#x60;deleted_at&#x60; + &#x60;purge_at&#x60; on a soft-deleted folder AND exactly the descendants soft-deleted in the same cascade (descendants trashed separately keep their trash state; restore those individually — the per-artifact restore remains for cherry-picking). Available only while the folder is in trash; returns 404 if it is live or already hard-purged.  Returns 409 &#x60;PATH_CONFLICT&#x60; when a live folder/artifact now occupies a path this restore would reinstate (&#x60;colliding_path&#x60; + &#x60;kind&#x60; identify it). Unlike artifact restore there are NO &#x60;rename&#x60;/&#x60;overwrite&#x60; escape hatches — the whole cascade aborts; free the colliding path (or cherry-pick artifacts) and retry.  &#x60;If-Match&#x60; (the trashed folder\&#39;s composite ETag) makes the restore conditional → 412 PRECONDITION_FAILED on a stale token; omitted, the restore is last-writer-wins.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '@mnexa-ai/agentdrive-sdk';
+import type { RestoreFolderByIdV0FoldersFldIdRestorePostRequest } from '@mnexa-ai/agentdrive-sdk';
+
+async function example() {
+  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
+  const api = new DefaultApi();
+
+  const body = {
+    // string
+    fldId: fldId_example,
+    // string (optional)
+    xAgentdriveActor: xAgentdriveActor_example,
+    // string (optional)
+    ifMatch: ifMatch_example,
+    // string (optional)
+    authorization: authorization_example,
+  } satisfies RestoreFolderByIdV0FoldersFldIdRestorePostRequest;
+
+  try {
+    const data = await api.restoreFolderByIdV0FoldersFldIdRestorePost(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **fldId** | `string` |  | [Defaults to `undefined`] |
+| **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**FolderRestoreOut**](FolderRestoreOut.md)
 
 ### Authorization
 
@@ -8358,82 +9176,6 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## streamUploadV0UploadTokenPut
-
-> ArtifactOut streamUploadV0UploadTokenPut(token)
-
-Proxied streaming upload (via an upload_url token)
-
-Streams an artifact body into AgentDrive using a single-use token that was previously minted by the &#x60;upload_url&#x60; MCP tool. The token encodes the artifact path, content type, size cap, labels, metadata, source, actor, change summary, and &#x60;if_match&#x60; — all frozen at mint time. The request carries only the raw bytes + a &#x60;Content-Type&#x60; header that must match the signed value.  **Auth.** No Authorization header — the token in the path is the credential.  **Single-use.** Replay returns 409 TOKEN_REPLAYED. Expiry returns 401 TOKEN_EXPIRED. Bodies exceeding the signed cap return 413 BYTES_LIMIT.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { StreamUploadV0UploadTokenPutRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    token: token_example,
-  } satisfies StreamUploadV0UploadTokenPutRequest;
-
-  try {
-    const data = await api.streamUploadV0UploadTokenPut(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **token** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-[**ArtifactOut**](ArtifactOut.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **400** | Content-Type mismatch or other validation failure |  -  |
-| **401** | Token invalid / expired / drive deleted |  -  |
-| **403** | Path reserved for the system (WIKI_RESERVED) |  -  |
-| **409** | Token already consumed (replay) |  -  |
-| **412** | If-Match precondition failed |  -  |
-| **413** | Body exceeded signed max_bytes or drive quota |  -  |
-| **429** | Drive\&#39;s per-hour write budget exhausted |  -  |
-| **503** | Storage backend unavailable (STORAGE_FAILURE) |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
 ## switchDriveWebSwitchPost
 
 > any switchDriveWebSwitchPost(csrf, driveId, organizationId)
@@ -8741,6 +9483,83 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **artId** | `string` |  | [Defaults to `undefined`] |
+
+### Return type
+
+**any**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  -  |
+| **422** | Validation Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## viewArtifactVersionVArtIdVersionGet
+
+> any viewArtifactVersionVArtIdVersionGet(artId, version, raw, download)
+
+View Artifact Version
+
+Render version &#x60;version&#x60; of an artifact, read-only.  Authorization is byte-for-byte identical to viewing the artifact via &#x60;/a/{art_id}&#x60;: the same drive-blind &#x60;can_read&#x60; gate runs, so a viewer who can see the artifact can see its versions, and one who cannot gets the identical sign-in-or-404 response (no existence leak). A pruned or never-existed version renders a friendly unavailable state, never a 500. &#x60;?raw&#x3D;1&#x60; / &#x60;?download&#x3D;1&#x60; stream the version\&#39;s bytes (powering the bar\&#39;s Raw / Download buttons) with the same sandbox+nosniff headers as the head raw path.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DefaultApi,
+} from '@mnexa-ai/agentdrive-sdk';
+import type { ViewArtifactVersionVArtIdVersionGetRequest } from '@mnexa-ai/agentdrive-sdk';
+
+async function example() {
+  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
+  const api = new DefaultApi();
+
+  const body = {
+    // string
+    artId: artId_example,
+    // number
+    version: 56,
+    // number (optional)
+    raw: 56,
+    // number (optional)
+    download: 56,
+  } satisfies ViewArtifactVersionVArtIdVersionGetRequest;
+
+  try {
+    const data = await api.viewArtifactVersionVArtIdVersionGet(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **artId** | `string` |  | [Defaults to `undefined`] |
+| **version** | `number` |  | [Defaults to `undefined`] |
+| **raw** | `number` |  | [Optional] [Defaults to `0`] |
+| **download** | `number` |  | [Optional] [Defaults to `0`] |
 
 ### Return type
 

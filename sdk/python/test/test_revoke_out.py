@@ -14,10 +14,10 @@
 
 import unittest
 
-from agentdrive_sdk.models.rename_in import RenameIn
+from agentdrive_sdk.models.revoke_out import RevokeOut
 
-class TestRenameIn(unittest.TestCase):
-    """RenameIn unit test stubs"""
+class TestRevokeOut(unittest.TestCase):
+    """RevokeOut unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,26 +25,29 @@ class TestRenameIn(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional) -> RenameIn:
-        """Test RenameIn
+    def make_instance(self, include_optional) -> RevokeOut:
+        """Test RevokeOut
             include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `RenameIn`
+        # uncomment below to create an instance of `RevokeOut`
         """
-        model = RenameIn()
+        model = RevokeOut()
         if include_optional:
-            return RenameIn(
-                path = ''
+            return RevokeOut(
+                ok = True,
+                id = '',
+                revoked = 56
             )
         else:
-            return RenameIn(
-                path = '',
+            return RevokeOut(
+                id = '',
+                revoked = 56,
         )
         """
 
-    def testRenameIn(self):
-        """Test RenameIn"""
+    def testRevokeOut(self):
+        """Test RevokeOut"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

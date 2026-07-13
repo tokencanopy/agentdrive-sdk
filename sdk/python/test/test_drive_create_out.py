@@ -49,8 +49,6 @@ class TestDriveCreateOut(unittest.TestCase):
                 id = '',
                 name = '',
                 organization_id = '',
-                owner_user_id = '',
-                owner_email = '',
                 storage_bytes = 56,
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
                 api_key = '',

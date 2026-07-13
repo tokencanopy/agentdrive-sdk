@@ -6,8 +6,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **UserId** | **string** |  | 
 **Email** | **string** |  | 
-**FirstName** | **NullableString** |  | 
-**LastName** | **NullableString** |  | 
+**FirstName** | Pointer to **NullableString** |  | [optional] 
+**LastName** | Pointer to **NullableString** |  | [optional] 
 **Role** | **string** |  | 
 **CreatedAt** | **time.Time** |  | 
 
@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 
 ### NewMemberOut
 
-`func NewMemberOut(userId string, email string, firstName NullableString, lastName NullableString, role string, createdAt time.Time, ) *MemberOut`
+`func NewMemberOut(userId string, email string, role string, createdAt time.Time, ) *MemberOut`
 
 NewMemberOut instantiates a new MemberOut object
 This constructor will assign default values to properties that have it defined,
@@ -89,6 +89,11 @@ and a boolean to check if the value has been set.
 
 SetFirstName sets FirstName field to given value.
 
+### HasFirstName
+
+`func (o *MemberOut) HasFirstName() bool`
+
+HasFirstName returns a boolean if a field has been set.
 
 ### SetFirstNameNil
 
@@ -119,6 +124,11 @@ and a boolean to check if the value has been set.
 
 SetLastName sets LastName field to given value.
 
+### HasLastName
+
+`func (o *MemberOut) HasLastName() bool`
+
+HasLastName returns a boolean if a field has been set.
 
 ### SetLastNameNil
 

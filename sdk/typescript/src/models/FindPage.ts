@@ -22,7 +22,8 @@ import {
 } from './FindHitOut';
 
 /**
- * 
+ * `/v0/find` response — single-shot top-N, deliberately unpaginated
+ * (same contract + rationale as `SearchPage`).
  * @export
  * @interface FindPage
  */
@@ -33,12 +34,6 @@ export interface FindPage {
      * @memberof FindPage
      */
     items: Array<FindHitOut>;
-    /**
-     * 
-     * @type {string}
-     * @memberof FindPage
-     */
-    nextCursor?: string | null;
 }
 
 /**
@@ -60,7 +55,6 @@ export function FindPageFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     return {
         
         'items': ((json['items'] as Array<any>).map(FindHitOutFromJSON)),
-        'nextCursor': json['next_cursor'] == null ? undefined : json['next_cursor'],
     };
 }
 
@@ -76,7 +70,6 @@ export function FindPageToJSONTyped(value?: FindPage | null, ignoreDiscriminator
     return {
         
         'items': ((value['items'] as Array<any>).map(FindHitOutToJSON)),
-        'next_cursor': value['nextCursor'],
     };
 }
 

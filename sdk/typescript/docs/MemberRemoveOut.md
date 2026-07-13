@@ -1,23 +1,27 @@
 
-# RenameIn
+# MemberRemoveOut
 
-PATCH /v0/artifacts/{art_id} body — rename / move.
+DELETE /v0/members/{user_id} response — the member-removal receipt. `id` is the removed user\'s id (replaces the ad-hoc `removed` key).
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`path` | string
+`ok` | boolean
+`id` | string
+`organizationId` | string
 
 ## Example
 
 ```typescript
-import type { RenameIn } from '@mnexa-ai/agentdrive-sdk'
+import type { MemberRemoveOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "path": null,
-} satisfies RenameIn
+  "ok": null,
+  "id": null,
+  "organizationId": null,
+} satisfies MemberRemoveOut
 
 console.log(example)
 
@@ -26,7 +30,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as RenameIn
+const exampleParsed = JSON.parse(exampleJSON) as MemberRemoveOut
 console.log(exampleParsed)
 ```
 

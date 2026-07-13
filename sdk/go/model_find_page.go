@@ -19,10 +19,9 @@ import (
 // checks if the FindPage type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &FindPage{}
 
-// FindPage struct for FindPage
+// FindPage `/v0/find` response — single-shot top-N, deliberately unpaginated (same contract + rationale as `SearchPage`).
 type FindPage struct {
 	Items []FindHitOut `json:"items"`
-	NextCursor NullableString `json:"next_cursor,omitempty"`
 }
 
 type _FindPage FindPage
@@ -69,48 +68,6 @@ func (o *FindPage) SetItems(v []FindHitOut) {
 	o.Items = v
 }
 
-// GetNextCursor returns the NextCursor field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *FindPage) GetNextCursor() string {
-	if o == nil || IsNil(o.NextCursor.Get()) {
-		var ret string
-		return ret
-	}
-	return *o.NextCursor.Get()
-}
-
-// GetNextCursorOk returns a tuple with the NextCursor field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *FindPage) GetNextCursorOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.NextCursor.Get(), o.NextCursor.IsSet()
-}
-
-// HasNextCursor returns a boolean if a field has been set.
-func (o *FindPage) HasNextCursor() bool {
-	if o != nil && o.NextCursor.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetNextCursor gets a reference to the given NullableString and assigns it to the NextCursor field.
-func (o *FindPage) SetNextCursor(v string) {
-	o.NextCursor.Set(&v)
-}
-// SetNextCursorNil sets the value for NextCursor to be an explicit nil
-func (o *FindPage) SetNextCursorNil() {
-	o.NextCursor.Set(nil)
-}
-
-// UnsetNextCursor ensures that no value is present for NextCursor, not even an explicit nil
-func (o *FindPage) UnsetNextCursor() {
-	o.NextCursor.Unset()
-}
-
 func (o FindPage) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -122,9 +79,6 @@ func (o FindPage) MarshalJSON() ([]byte, error) {
 func (o FindPage) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["items"] = o.Items
-	if o.NextCursor.IsSet() {
-		toSerialize["next_cursor"] = o.NextCursor.Get()
-	}
 	return toSerialize, nil
 }
 

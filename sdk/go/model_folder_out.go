@@ -27,6 +27,8 @@ type FolderOut struct {
 	Path string `json:"path"`
 	Description NullableString `json:"description,omitempty"`
 	InheritGrants *bool `json:"inherit_grants,omitempty"`
+	Metageneration *int32 `json:"metageneration,omitempty"`
+	Etag string `json:"etag"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 	DeletedAt NullableTime `json:"deleted_at,omitempty"`
@@ -39,13 +41,16 @@ type _FolderOut FolderOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFolderOut(id string, driveId string, path string, createdAt time.Time, updatedAt time.Time) *FolderOut {
+func NewFolderOut(id string, driveId string, path string, etag string, createdAt time.Time, updatedAt time.Time) *FolderOut {
 	this := FolderOut{}
 	this.Id = id
 	this.DriveId = driveId
 	this.Path = path
 	var inheritGrants bool = true
 	this.InheritGrants = &inheritGrants
+	var metageneration int32 = 1
+	this.Metageneration = &metageneration
+	this.Etag = etag
 	this.CreatedAt = createdAt
 	this.UpdatedAt = updatedAt
 	return &this
@@ -58,6 +63,8 @@ func NewFolderOutWithDefaults() *FolderOut {
 	this := FolderOut{}
 	var inheritGrants bool = true
 	this.InheritGrants = &inheritGrants
+	var metageneration int32 = 1
+	this.Metageneration = &metageneration
 	return &this
 }
 
@@ -205,6 +212,62 @@ func (o *FolderOut) HasInheritGrants() bool {
 // SetInheritGrants gets a reference to the given bool and assigns it to the InheritGrants field.
 func (o *FolderOut) SetInheritGrants(v bool) {
 	o.InheritGrants = &v
+}
+
+// GetMetageneration returns the Metageneration field value if set, zero value otherwise.
+func (o *FolderOut) GetMetageneration() int32 {
+	if o == nil || IsNil(o.Metageneration) {
+		var ret int32
+		return ret
+	}
+	return *o.Metageneration
+}
+
+// GetMetagenerationOk returns a tuple with the Metageneration field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *FolderOut) GetMetagenerationOk() (*int32, bool) {
+	if o == nil || IsNil(o.Metageneration) {
+		return nil, false
+	}
+	return o.Metageneration, true
+}
+
+// HasMetageneration returns a boolean if a field has been set.
+func (o *FolderOut) HasMetageneration() bool {
+	if o != nil && !IsNil(o.Metageneration) {
+		return true
+	}
+
+	return false
+}
+
+// SetMetageneration gets a reference to the given int32 and assigns it to the Metageneration field.
+func (o *FolderOut) SetMetageneration(v int32) {
+	o.Metageneration = &v
+}
+
+// GetEtag returns the Etag field value
+func (o *FolderOut) GetEtag() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Etag
+}
+
+// GetEtagOk returns a tuple with the Etag field value
+// and a boolean to check if the value has been set.
+func (o *FolderOut) GetEtagOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Etag, true
+}
+
+// SetEtag sets field value
+func (o *FolderOut) SetEtag(v string) {
+	o.Etag = v
 }
 
 // GetCreatedAt returns the CreatedAt field value
@@ -358,6 +421,10 @@ func (o FolderOut) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.InheritGrants) {
 		toSerialize["inherit_grants"] = o.InheritGrants
 	}
+	if !IsNil(o.Metageneration) {
+		toSerialize["metageneration"] = o.Metageneration
+	}
+	toSerialize["etag"] = o.Etag
 	toSerialize["created_at"] = o.CreatedAt
 	toSerialize["updated_at"] = o.UpdatedAt
 	if o.DeletedAt.IsSet() {
@@ -377,6 +444,7 @@ func (o *FolderOut) UnmarshalJSON(data []byte) (err error) {
 		"id",
 		"drive_id",
 		"path",
+		"etag",
 		"created_at",
 		"updated_at",
 	}

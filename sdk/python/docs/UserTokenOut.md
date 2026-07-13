@@ -8,13 +8,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **str** |  | 
 **prefix** | **str** |  | 
-**label** | **str** |  | 
+**label** | **str** |  | [optional] 
 **scope** | **str** |  | 
-**default_drive_id** | **str** |  | 
-**last_used_at** | **datetime** |  | 
-**expires_at** | **datetime** |  | 
+**default_drive_id** | **str** |  | [optional] 
+**last_used_at** | **datetime** |  | [optional] 
+**expires_at** | **datetime** |  | [optional] 
 **created_at** | **datetime** |  | 
-**revoked_at** | **datetime** |  | 
+**revoked_at** | **datetime** |  | [optional] 
 
 ## Example
 

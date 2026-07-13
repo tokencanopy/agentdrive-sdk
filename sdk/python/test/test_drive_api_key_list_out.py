@@ -35,6 +35,15 @@ class TestDriveApiKeyListOut(unittest.TestCase):
         model = DriveApiKeyListOut()
         if include_optional:
             return DriveApiKeyListOut(
+                items = [
+                    agentdrive_sdk.models.drive_api_key_out.DriveApiKeyOut(
+                        id = '', 
+                        prefix = '', 
+                        label = '', 
+                        last_used_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        revoked_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
+                    ],
                 keys = [
                     agentdrive_sdk.models.drive_api_key_out.DriveApiKeyOut(
                         id = '', 
@@ -43,10 +52,20 @@ class TestDriveApiKeyListOut(unittest.TestCase):
                         last_used_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         revoked_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
-                    ]
+                    ],
+                next_cursor = ''
             )
         else:
             return DriveApiKeyListOut(
+                items = [
+                    agentdrive_sdk.models.drive_api_key_out.DriveApiKeyOut(
+                        id = '', 
+                        prefix = '', 
+                        label = '', 
+                        last_used_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        revoked_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
+                    ],
                 keys = [
                     agentdrive_sdk.models.drive_api_key_out.DriveApiKeyOut(
                         id = '', 

@@ -52,7 +52,8 @@ class TestUploadBeginIn(unittest.TestCase):
                         ], ),
                 actor_name = '',
                 change_summary = '',
-                if_match = 56,
+                if_match = 0.0,
+                if_none_match = True,
                 cors_origin = ''
             )
         else:

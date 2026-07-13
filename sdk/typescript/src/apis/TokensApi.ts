@@ -30,6 +30,8 @@ import {
 } from '../models/UserTokenOut';
 
 export interface ListTokensV0TokensGetRequest {
+    cursor?: string | null;
+    limit?: number | null;
     authorization?: string | null;
 }
 
@@ -49,6 +51,14 @@ export class TokensApi extends runtime.BaseAPI {
     async listTokensV0TokensGetRequestOpts(requestParameters: ListTokensV0TokensGetRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
+        if (requestParameters['cursor'] != null) {
+            queryParameters['cursor'] = requestParameters['cursor'];
+        }
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (requestParameters['authorization'] != null) {
@@ -67,7 +77,7 @@ export class TokensApi extends runtime.BaseAPI {
     }
 
     /**
-     * List the `ad_user_` tokens belonging to the authenticated user. Metadata only — the raw token is shown once at mint (web only) and is never returned here. Includes recently-revoked tokens (with `revoked_at` set) so the caller can audit them; newest first.
+     * List the `ad_user_` tokens belonging to the authenticated user. Metadata only — the raw token is shown once at mint (web only) and is never returned here. Includes recently-revoked tokens (with `revoked_at` set) so the caller can audit them; newest first.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
      * List your user-identity tokens
      */
     async listTokensV0TokensGetRaw(requestParameters: ListTokensV0TokensGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserTokenList>> {
@@ -78,7 +88,7 @@ export class TokensApi extends runtime.BaseAPI {
     }
 
     /**
-     * List the `ad_user_` tokens belonging to the authenticated user. Metadata only — the raw token is shown once at mint (web only) and is never returned here. Includes recently-revoked tokens (with `revoked_at` set) so the caller can audit them; newest first.
+     * List the `ad_user_` tokens belonging to the authenticated user. Metadata only — the raw token is shown once at mint (web only) and is never returned here. Includes recently-revoked tokens (with `revoked_at` set) so the caller can audit them; newest first.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
      * List your user-identity tokens
      */
     async listTokensV0TokensGet(requestParameters: ListTokensV0TokensGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserTokenList> {

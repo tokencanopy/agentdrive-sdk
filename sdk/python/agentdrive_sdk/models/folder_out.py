@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -33,11 +33,13 @@ class FolderOut(BaseModel):
     path: StrictStr
     description: Optional[StrictStr] = None
     inherit_grants: Optional[StrictBool] = True
+    metageneration: Optional[StrictInt] = 1
+    etag: StrictStr
     created_at: datetime
     updated_at: datetime
     deleted_at: Optional[datetime] = None
     purge_at: Optional[datetime] = None
-    __properties: ClassVar[List[str]] = ["id", "drive_id", "path", "description", "inherit_grants", "created_at", "updated_at", "deleted_at", "purge_at"]
+    __properties: ClassVar[List[str]] = ["id", "drive_id", "path", "description", "inherit_grants", "metageneration", "etag", "created_at", "updated_at", "deleted_at", "purge_at"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -110,6 +112,8 @@ class FolderOut(BaseModel):
             "path": obj.get("path"),
             "description": obj.get("description"),
             "inherit_grants": obj.get("inherit_grants") if obj.get("inherit_grants") is not None else True,
+            "metageneration": obj.get("metageneration") if obj.get("metageneration") is not None else 1,
+            "etag": obj.get("etag"),
             "created_at": obj.get("created_at"),
             "updated_at": obj.get("updated_at"),
             "deleted_at": obj.get("deleted_at"),

@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**art_id** | **str** |  | 
 **drive_id** | **str** |  | 
 **path** | **str** |  | 
 **url** | **str** |  | 
@@ -14,6 +15,7 @@ Name | Type | Description | Notes
 **snippet** | **str** |  | 
 **score** | **float** |  | 
 **updated_at** | **datetime** |  | 
+**version_number** | **int** |  | 
 
 ## Example
 

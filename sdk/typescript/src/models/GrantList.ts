@@ -33,6 +33,12 @@ export interface GrantList {
      * @memberof GrantList
      */
     items: Array<GrantOut>;
+    /**
+     * 
+     * @type {string}
+     * @memberof GrantList
+     */
+    nextCursor?: string | null;
 }
 
 /**
@@ -54,6 +60,7 @@ export function GrantListFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     return {
         
         'items': ((json['items'] as Array<any>).map(GrantOutFromJSON)),
+        'nextCursor': json['next_cursor'] == null ? undefined : json['next_cursor'],
     };
 }
 
@@ -69,6 +76,7 @@ export function GrantListToJSONTyped(value?: GrantList | null, ignoreDiscriminat
     return {
         
         'items': ((value['items'] as Array<any>).map(GrantOutToJSON)),
+        'next_cursor': value['nextCursor'],
     };
 }
 

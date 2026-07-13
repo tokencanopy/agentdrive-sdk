@@ -60,6 +60,7 @@ All URIs are relative to *https://api.agentdrive.run*
 *AgentAuthApi* | [**registerAgentIdentityAgentIdentityPost**](docs/AgentAuthApi.md#registeragentidentityagentidentitypost) | **POST** /agent/identity | Register an agent identity (anonymous or ID-JAG)
 *ClaimUiApi* | [**claimCompleteAgentIdentityClaimCompletePost**](docs/ClaimUiApi.md#claimcompleteagentidentityclaimcompletepost) | **POST** /agent/identity/claim/complete | Claim Complete
 *ClaimUiApi* | [**claimPageClaimGet**](docs/ClaimUiApi.md#claimpageclaimget) | **GET** /claim | Claim Page
+*DefaultApi* | [**abortUploadV0UploadsUploadIdDelete**](docs/DefaultApi.md#abortuploadv0uploadsuploadiddelete) | **DELETE** /v0/uploads/{upload_id} | Abort a large (direct-to-GCS) upload session
 *DefaultApi* | [**acceptInvitationInvitationsTokenGet**](docs/DefaultApi.md#acceptinvitationinvitationstokenget) | **GET** /invitations/{token} | Accept Invitation
 *DefaultApi* | [**activityFeedActivityGet**](docs/DefaultApi.md#activityfeedactivityget) | **GET** /activity | Activity Feed
 *DefaultApi* | [**addGrantWebShareRidGrantPost**](docs/DefaultApi.md#addgrantwebshareridgrantpost) | **POST** /web/share/{rid}/grant | Add Grant
@@ -71,9 +72,10 @@ All URIs are relative to *https://api.agentdrive.run*
 *DefaultApi* | [**commitUploadV0UploadsUploadIdCommitPost**](docs/DefaultApi.md#commituploadv0uploadsuploadidcommitpost) | **POST** /v0/uploads/{upload_id}/commit | Commit a large (direct-to-GCS) upload
 *DefaultApi* | [**connectorsPageConnectorsGet**](docs/DefaultApi.md#connectorspageconnectorsget) | **GET** /connectors | Connectors Page
 *DefaultApi* | [**copyArtifactRouteV0ArtifactsArtIdCopyPost**](docs/DefaultApi.md#copyartifactroutev0artifactsartidcopypost) | **POST** /v0/artifacts/{art_id}/copy | Duplicate an artifact to a new path (CAS-shared, new ID)
+*DefaultApi* | [**copyFolderByIdV0FoldersFldIdCopyPost**](docs/DefaultApi.md#copyfolderbyidv0foldersfldidcopypost) | **POST** /v0/folders/{fld_id}/copy | Duplicate a folder subtree to a new path (CAS-shared, new IDs)
 *DefaultApi* | [**createDriveKeyWebWebDrivesDriveIdKeysCreatePost**](docs/DefaultApi.md#createdrivekeywebwebdrivesdriveidkeyscreatepost) | **POST** /web/drives/{drive_id}/keys/create | Create Drive Key Web
 *DefaultApi* | [**createDriveWebWebDrivesPost**](docs/DefaultApi.md#createdrivewebwebdrivespost) | **POST** /web/drives | Create Drive Web
-*DefaultApi* | [**createFolderByPathV0FoldersPathPost**](docs/DefaultApi.md#createfolderbypathv0folderspathpost) | **POST** /v0/folders/{path} | Create a folder (idempotent)
+*DefaultApi* | [**createFolderByPathV0FoldersPathPut**](docs/DefaultApi.md#createfolderbypathv0folderspathput) | **PUT** /v0/folders/{path} | Create a folder (idempotent)
 *DefaultApi* | [**createGrantRouteV0GrantsPost**](docs/DefaultApi.md#creategrantroutev0grantspost) | **POST** /v0/grants | Create (or fetch) a per-principal grant on a resource
 *DefaultApi* | [**createKeyWebKeysCreatePost**](docs/DefaultApi.md#createkeywebkeyscreatepost) | **POST** /web/keys/create | Create Key
 *DefaultApi* | [**createLinkWebShareRidLinkPost**](docs/DefaultApi.md#createlinkwebshareridlinkpost) | **POST** /web/share/{rid}/link | Create Link
@@ -94,6 +96,7 @@ All URIs are relative to *https://api.agentdrive.run*
 *DefaultApi* | [**deleteShareRouteV0SharesShrIdDelete**](docs/DefaultApi.md#deleteshareroutev0sharesshriddelete) | **DELETE** /v0/shares/{shr_id} | Revoke a share link (requires can_manage)
 *DefaultApi* | [**deleteWorkspaceWebWebWorkspacesOrgIdDeletePost**](docs/DefaultApi.md#deleteworkspacewebwebworkspacesorgiddeletepost) | **POST** /web/workspaces/{org_id}/delete | Delete Workspace Web
 *DefaultApi* | [**downloadArtifactByIdV0ArtifactsArtIdDownloadGet**](docs/DefaultApi.md#downloadartifactbyidv0artifactsartiddownloadget) | **GET** /v0/artifacts/{art_id}/download | Stream the artifact bytes by stable ID (never rendered HTML)
+*DefaultApi* | [**downloadArtifactByPathV0ArtifactsPathDownloadGet**](docs/DefaultApi.md#downloadartifactbypathv0artifactspathdownloadget) | **GET** /v0/artifacts/{path}/download | Stream the artifact bytes by path (never rendered HTML)
 *DefaultApi* | [**downloadArtifactVersionV0ArtifactsArtIdVersionsVersionNumberDownloadGet**](docs/DefaultApi.md#downloadartifactversionv0artifactsartidversionsversionnumberdownloadget) | **GET** /v0/artifacts/{art_id}/versions/{version_number}/download | Stream bytes for a specific version (machine surface)
 *DefaultApi* | [**downloadUrlByIdV0ArtifactsArtIdDownloadUrlGet**](docs/DefaultApi.md#downloadurlbyidv0artifactsartiddownloadurlget) | **GET** /v0/artifacts/{art_id}/download-url | Signed direct-from-GCS download URL by stable ID
 *DefaultApi* | [**downloadUrlByPathV0ArtifactsPathDownloadUrlGet**](docs/DefaultApi.md#downloadurlbypathv0artifactspathdownloadurlget) | **GET** /v0/artifacts/{path}/download-url | Signed direct-from-GCS download URL by path
@@ -108,15 +111,19 @@ All URIs are relative to *https://api.agentdrive.run*
 *DefaultApi* | [**getArtifactByIdV0ArtifactsArtIdGet**](docs/DefaultApi.md#getartifactbyidv0artifactsartidget) | **GET** /v0/artifacts/{art_id} | Canonical lookup of an artifact by its stable ID
 *DefaultApi* | [**getArtifactMetaV0ArtifactsPathMetaGet**](docs/DefaultApi.md#getartifactmetav0artifactspathmetaget) | **GET** /v0/artifacts/{path}/meta | Get Artifact Meta
 *DefaultApi* | [**getArtifactVersionV0ArtifactsArtIdVersionsVersionNumberGet**](docs/DefaultApi.md#getartifactversionv0artifactsartidversionsversionnumberget) | **GET** /v0/artifacts/{art_id}/versions/{version_number} | Metadata for a specific version of an artifact
+*DefaultApi* | [**getDriveRouteV0DrivesDriveIdGet**](docs/DefaultApi.md#getdriveroutev0drivesdriveidget) | **GET** /v0/drives/{drive_id} | Drive overview by id (same shape as /drives/me)
 *DefaultApi* | [**getFeedbackStatusV0FeedbackFbkIdGet**](docs/DefaultApi.md#getfeedbackstatusv0feedbackfbkidget) | **GET** /v0/feedback/{fbk_id} | Get Feedback Status
 *DefaultApi* | [**getFolderByIdMetaV0FoldersFldIdMetaGet**](docs/DefaultApi.md#getfolderbyidmetav0foldersfldidmetaget) | **GET** /v0/folders/{fld_id}/meta | Folder metadata by stable ID (same shape as the bare id route)
 *DefaultApi* | [**getFolderByIdV0FoldersFldIdGet**](docs/DefaultApi.md#getfolderbyidv0foldersfldidget) | **GET** /v0/folders/{fld_id} | Canonical lookup of a folder by its stable ID
 *DefaultApi* | [**getFolderByPathMetaV0FoldersPathMetaGet**](docs/DefaultApi.md#getfolderbypathmetav0folderspathmetaget) | **GET** /v0/folders/{path}/meta | Folder metadata by path (same shape as the bare path route)
 *DefaultApi* | [**getFolderByPathV0FoldersPathGet**](docs/DefaultApi.md#getfolderbypathv0folderspathget) | **GET** /v0/folders/{path} | Read folder metadata by path
+*DefaultApi* | [**getGrantRouteV0GrantsGrnIdGet**](docs/DefaultApi.md#getgrantroutev0grantsgrnidget) | **GET** /v0/grants/{grn_id} | Read a single grant (can_manage, or the grant\&#39;s own principal)
 *DefaultApi* | [**getJobLogsV0JobsJobIdLogsGet**](docs/DefaultApi.md#getjoblogsv0jobsjobidlogsget) | **GET** /v0/jobs/{job_id}/logs | Raw compile log (text/plain)
 *DefaultApi* | [**getJobV0JobsJobIdGet**](docs/DefaultApi.md#getjobv0jobsjobidget) | **GET** /v0/jobs/{job_id} | Poll a job
 *DefaultApi* | [**getProjectV0ProjectsFldIdGet**](docs/DefaultApi.md#getprojectv0projectsfldidget) | **GET** /v0/projects/{fld_id} | Get a project\&#39;s compile config
+*DefaultApi* | [**getShareRouteV0SharesShrIdGet**](docs/DefaultApi.md#getshareroutev0sharesshridget) | **GET** /v0/shares/{shr_id} | Read a single share link\&#39;s metadata (requires can_manage)
 *DefaultApi* | [**getShareStateWebShareRidGet**](docs/DefaultApi.md#getsharestatewebshareridget) | **GET** /web/share/{rid} | Get Share State
+*DefaultApi* | [**getUploadStatusV0UploadsUploadIdGet**](docs/DefaultApi.md#getuploadstatusv0uploadsuploadidget) | **GET** /v0/uploads/{upload_id} | Get the status of a large (direct-to-GCS) upload session
 *DefaultApi* | [**healthHealthGet**](docs/DefaultApi.md#healthhealthget) | **GET** /health | Health
 *DefaultApi* | [**inviteMemberWebWebMembersInvitePost**](docs/DefaultApi.md#invitememberwebwebmembersinvitepost) | **POST** /web/members/invite | Invite Member Web
 *DefaultApi* | [**listArtifactVersionsV0ArtifactsArtIdVersionsGet**](docs/DefaultApi.md#listartifactversionsv0artifactsartidversionsget) | **GET** /v0/artifacts/{art_id}/versions | List versions of an artifact, newest first
@@ -133,9 +140,11 @@ All URIs are relative to *https://api.agentdrive.run*
 *DefaultApi* | [**marketplaceDetailMarketplaceSlugGet**](docs/DefaultApi.md#marketplacedetailmarketplaceslugget) | **GET** /marketplace/{slug} | Marketplace Detail
 *DefaultApi* | [**meUsageV0DrivesMeUsageGet**](docs/DefaultApi.md#meusagev0drivesmeusageget) | **GET** /v0/drives/me/usage | Current-period usage + caps for the authenticated drive
 *DefaultApi* | [**meV0DrivesMeGet**](docs/DefaultApi.md#mev0drivesmeget) | **GET** /v0/drives/me | Me
+*DefaultApi* | [**moveArtifactRouteV0ArtifactsArtIdMovePost**](docs/DefaultApi.md#moveartifactroutev0artifactsartidmovepost) | **POST** /v0/artifacts/{art_id}/move | Rename / move an artifact to a new path
 *DefaultApi* | [**moveFolderByIdV0FoldersFldIdMovePost**](docs/DefaultApi.md#movefolderbyidv0foldersfldidmovepost) | **POST** /v0/folders/{fld_id}/move | Rename / move a folder by stable ID (cascade descendants)
 *DefaultApi* | [**moveFolderByPathV0FoldersPathMovePost**](docs/DefaultApi.md#movefolderbypathv0folderspathmovepost) | **POST** /v0/folders/{path}/move | Rename / move a folder (cascade-update descendants)
 *DefaultApi* | [**oauthDisconnectWebOauthDisconnectPost**](docs/DefaultApi.md#oauthdisconnectweboauthdisconnectpost) | **POST** /web/oauth/disconnect | Oauth Disconnect
+*DefaultApi* | [**patchArtifactRouteV0ArtifactsArtIdPatch**](docs/DefaultApi.md#patchartifactroutev0artifactsartidpatch) | **PATCH** /v0/artifacts/{art_id} | Edit artifact metadata (labels / metadata / source)
 *DefaultApi* | [**patchFolderByIdV0FoldersFldIdPatch**](docs/DefaultApi.md#patchfolderbyidv0foldersfldidpatch) | **PATCH** /v0/folders/{fld_id} | Update folder metadata by stable ID
 *DefaultApi* | [**patchFolderByPathV0FoldersPathPatch**](docs/DefaultApi.md#patchfolderbypathv0folderspathpatch) | **PATCH** /v0/folders/{path} | Update folder metadata by path
 *DefaultApi* | [**patchGrantRouteV0GrantsGrnIdPatch**](docs/DefaultApi.md#patchgrantroutev0grantsgrnidpatch) | **PATCH** /v0/grants/{grn_id} | Update a grant\&#39;s role and/or expiry (requires can_manage)
@@ -155,12 +164,13 @@ All URIs are relative to *https://api.agentdrive.run*
 *DefaultApi* | [**redeemShareSShareKeyGet**](docs/DefaultApi.md#redeemsharessharekeyget) | **GET** /s/{share_key} | Redeem Share
 *DefaultApi* | [**redeemShareWithPasswordSShareKeyPost**](docs/DefaultApi.md#redeemsharewithpasswordssharekeypost) | **POST** /s/{share_key} | Redeem Share With Password
 *DefaultApi* | [**removeMemberWebWebMembersTargetUserIdRemovePost**](docs/DefaultApi.md#removememberwebwebmemberstargetuseridremovepost) | **POST** /web/members/{target_user_id}/remove | Remove Member Web
-*DefaultApi* | [**renameArtifactRouteV0ArtifactsArtIdPatch**](docs/DefaultApi.md#renameartifactroutev0artifactsartidpatch) | **PATCH** /v0/artifacts/{art_id} | Rename / move an artifact to a new path
 *DefaultApi* | [**renameDriveWebWebDrivesDriveIdRenamePost**](docs/DefaultApi.md#renamedrivewebwebdrivesdriveidrenamepost) | **POST** /web/drives/{drive_id}/rename | Rename Drive Web
 *DefaultApi* | [**renameWorkspaceWebWebWorkspacesOrgIdRenamePost**](docs/DefaultApi.md#renameworkspacewebwebworkspacesorgidrenamepost) | **POST** /web/workspaces/{org_id}/rename | Rename Workspace Web
 *DefaultApi* | [**resendInvitationWebWebInvitationsInvitationIdResendPost**](docs/DefaultApi.md#resendinvitationwebwebinvitationsinvitationidresendpost) | **POST** /web/invitations/{invitation_id}/resend | Resend Invitation Web
 *DefaultApi* | [**restoreArtifactV0ArtifactsArtIdRestorePost**](docs/DefaultApi.md#restoreartifactv0artifactsartidrestorepost) | **POST** /v0/artifacts/{art_id}/restore | Restore a soft-deleted artifact
+*DefaultApi* | [**restoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost**](docs/DefaultApi.md#restoreartifactversionv0artifactsartidversionsversionnumberrestorepost) | **POST** /v0/artifacts/{art_id}/versions/{version_number}/restore | Restore a previous version as a new head version
 *DefaultApi* | [**restoreDriveRouteV0DrivesDriveIdRestorePost**](docs/DefaultApi.md#restoredriveroutev0drivesdriveidrestorepost) | **POST** /v0/drives/{drive_id}/restore | Restore a soft-deleted drive
+*DefaultApi* | [**restoreFolderByIdV0FoldersFldIdRestorePost**](docs/DefaultApi.md#restorefolderbyidv0foldersfldidrestorepost) | **POST** /v0/folders/{fld_id}/restore | Restore a soft-deleted folder (cascade)
 *DefaultApi* | [**revokeGrantWebShareRidGrantGrnIdRevokePost**](docs/DefaultApi.md#revokegrantwebshareridgrantgrnidrevokepost) | **POST** /web/share/{rid}/grant/{grn_id}/revoke | Revoke Grant
 *DefaultApi* | [**revokeInvitationWebWebInvitationsInvitationIdRevokePost**](docs/DefaultApi.md#revokeinvitationwebwebinvitationsinvitationidrevokepost) | **POST** /web/invitations/{invitation_id}/revoke | Revoke Invitation Web
 *DefaultApi* | [**revokeKeyWebKeysRevokePost**](docs/DefaultApi.md#revokekeywebkeysrevokepost) | **POST** /web/keys/revoke | Revoke Key
@@ -176,12 +186,12 @@ All URIs are relative to *https://api.agentdrive.run*
 *DefaultApi* | [**settingsQuickstartSettingsQuickstartGet**](docs/DefaultApi.md#settingsquickstartsettingsquickstartget) | **GET** /settings/quickstart | Settings Quickstart
 *DefaultApi* | [**settingsWorkspaceSettingsWorkspaceGet**](docs/DefaultApi.md#settingsworkspacesettingsworkspaceget) | **GET** /settings/workspace | Settings Workspace
 *DefaultApi* | [**sharedFilesSharedGet**](docs/DefaultApi.md#sharedfilessharedget) | **GET** /shared | Shared Files
-*DefaultApi* | [**streamUploadV0UploadTokenPut**](docs/DefaultApi.md#streamuploadv0uploadtokenput) | **PUT** /v0/upload/{token} | Proxied streaming upload (via an upload_url token)
 *DefaultApi* | [**switchDriveWebSwitchPost**](docs/DefaultApi.md#switchdrivewebswitchpost) | **POST** /web/switch | Switch Drive
 *DefaultApi* | [**termsPageTermsGet**](docs/DefaultApi.md#termspagetermsget) | **GET** /terms | Terms Page
 *DefaultApi* | [**toggleIndexingWebAccountIndexingPost**](docs/DefaultApi.md#toggleindexingwebaccountindexingpost) | **POST** /web/account/indexing | Toggle Indexing
 *DefaultApi* | [**trashWebTrashGet**](docs/DefaultApi.md#trashwebtrashget) | **GET** /web/trash | Trash
 *DefaultApi* | [**viewArtifactHeadAArtIdHeadGet**](docs/DefaultApi.md#viewartifactheadaartidheadget) | **GET** /a/{art_id}/head | View Artifact Head
+*DefaultApi* | [**viewArtifactVersionVArtIdVersionGet**](docs/DefaultApi.md#viewartifactversionvartidversionget) | **GET** /v/{art_id}/{version} | View Artifact Version
 *DefaultApi* | [**viewFileDriveIdPathGet**](docs/DefaultApi.md#viewfiledriveidpathget) | **GET** /{drive_id}/{path} | View File
 *DefaultApi* | [**viewPermalinkArtifactAArtIdGet**](docs/DefaultApi.md#viewpermalinkartifactaartidget) | **GET** /a/{art_id} | View Permalink Artifact
 *DefaultApi* | [**viewPermalinkFolderFFldIdGet**](docs/DefaultApi.md#viewpermalinkfolderffldidget) | **GET** /f/{fld_id} | View Permalink Folder
@@ -230,7 +240,10 @@ All URIs are relative to *https://api.agentdrive.run*
 ### Models
 
 - [AnonymousIdentityResponse](docs/AnonymousIdentityResponse.md)
+- [ArtifactDeleteOut](docs/ArtifactDeleteOut.md)
+- [ArtifactMoveIn](docs/ArtifactMoveIn.md)
 - [ArtifactOut](docs/ArtifactOut.md)
+- [ArtifactPatchIn](docs/ArtifactPatchIn.md)
 - [ArtifactSource](docs/ArtifactSource.md)
 - [ClaimInitRequest](docs/ClaimInitRequest.md)
 - [ClaimInitResponse](docs/ClaimInitResponse.md)
@@ -246,6 +259,7 @@ All URIs are relative to *https://api.agentdrive.run*
 - [DriveApiKeyOut](docs/DriveApiKeyOut.md)
 - [DriveCreateIn](docs/DriveCreateIn.md)
 - [DriveCreateOut](docs/DriveCreateOut.md)
+- [DriveDeleteOut](docs/DriveDeleteOut.md)
 - [DriveList](docs/DriveList.md)
 - [DriveOut](docs/DriveOut.md)
 - [DriveRenameIn](docs/DriveRenameIn.md)
@@ -253,13 +267,17 @@ All URIs are relative to *https://api.agentdrive.run*
 - [EventPage](docs/EventPage.md)
 - [ExtensionExchangeRequest](docs/ExtensionExchangeRequest.md)
 - [ExtensionExchangeResponse](docs/ExtensionExchangeResponse.md)
+- [FeedbackStatusOut](docs/FeedbackStatusOut.md)
 - [FindHitOut](docs/FindHitOut.md)
 - [FindPage](docs/FindPage.md)
+- [FolderCopyIn](docs/FolderCopyIn.md)
+- [FolderCopyOut](docs/FolderCopyOut.md)
 - [FolderCreateIn](docs/FolderCreateIn.md)
 - [FolderDeleteOut](docs/FolderDeleteOut.md)
 - [FolderMoveIn](docs/FolderMoveIn.md)
 - [FolderOut](docs/FolderOut.md)
 - [FolderPatchIn](docs/FolderPatchIn.md)
+- [FolderRestoreOut](docs/FolderRestoreOut.md)
 - [GrantCreateIn](docs/GrantCreateIn.md)
 - [GrantIn](docs/GrantIn.md)
 - [GrantList](docs/GrantList.md)
@@ -276,12 +294,13 @@ All URIs are relative to *https://api.agentdrive.run*
 - [MemberInviteIn](docs/MemberInviteIn.md)
 - [MemberList](docs/MemberList.md)
 - [MemberOut](docs/MemberOut.md)
+- [MemberRemoveOut](docs/MemberRemoveOut.md)
 - [MemberRoleIn](docs/MemberRoleIn.md)
 - [Page](docs/Page.md)
 - [ProjectConfigIn](docs/ProjectConfigIn.md)
 - [PublicIn](docs/PublicIn.md)
 - [QueryIn](docs/QueryIn.md)
-- [RenameIn](docs/RenameIn.md)
+- [RevokeOut](docs/RevokeOut.md)
 - [SealIn](docs/SealIn.md)
 - [SearchHitOut](docs/SearchHitOut.md)
 - [SearchPage](docs/SearchPage.md)
@@ -291,8 +310,10 @@ All URIs are relative to *https://api.agentdrive.run*
 - [ShareOut](docs/ShareOut.md)
 - [SourceRef](docs/SourceRef.md)
 - [TokenResponse](docs/TokenResponse.md)
+- [UploadAbortOut](docs/UploadAbortOut.md)
 - [UploadBeginIn](docs/UploadBeginIn.md)
 - [UploadBeginOut](docs/UploadBeginOut.md)
+- [UploadStatusOut](docs/UploadStatusOut.md)
 - [UserTokenList](docs/UserTokenList.md)
 - [UserTokenOut](docs/UserTokenOut.md)
 - [ValidationError](docs/ValidationError.md)

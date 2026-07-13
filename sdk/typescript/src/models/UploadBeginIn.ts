@@ -93,6 +93,12 @@ export interface UploadBeginIn {
      */
     ifMatch?: number | null;
     /**
+     * 
+     * @type {boolean}
+     * @memberof UploadBeginIn
+     */
+    ifNoneMatch?: boolean;
+    /**
      * Web origin (scheme://host[:port]) of the browser that will PUT the bytes, e.g. `https://app.example.com`. Set this when the `upload_url` is handed to browser code: GCS binds CORS at session initiate, so the returned session only echoes `Access-Control-Allow-Origin` (and is thus PUT-able from a browser) when opened with the caller's origin. A trusted backend relaying a browser upload forwards the browser's `Origin` here. Omit for server/desktop uploads (no CORS enforcement).
      * @type {string}
      * @memberof UploadBeginIn
@@ -129,6 +135,7 @@ export function UploadBeginInFromJSONTyped(json: any, ignoreDiscriminator: boole
         'actorName': json['actor_name'] == null ? undefined : json['actor_name'],
         'changeSummary': json['change_summary'] == null ? undefined : json['change_summary'],
         'ifMatch': json['if_match'] == null ? undefined : json['if_match'],
+        'ifNoneMatch': json['if_none_match'] == null ? undefined : json['if_none_match'],
         'corsOrigin': json['cors_origin'] == null ? undefined : json['cors_origin'],
     };
 }
@@ -154,6 +161,7 @@ export function UploadBeginInToJSONTyped(value?: UploadBeginIn | null, ignoreDis
         'actor_name': value['actorName'],
         'change_summary': value['changeSummary'],
         'if_match': value['ifMatch'],
+        'if_none_match': value['ifNoneMatch'],
         'cors_origin': value['corsOrigin'],
     };
 }

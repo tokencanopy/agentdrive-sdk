@@ -83,7 +83,7 @@ No authorization required
 
 ## ListInvitationsV0InvitationsGet
 
-> InvitationList ListInvitationsV0InvitationsGet(ctx).Authorization(authorization).Execute()
+> InvitationList ListInvitationsV0InvitationsGet(ctx).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
 
 List pending invitations
 
@@ -102,11 +102,13 @@ import (
 )
 
 func main() {
+	cursor := "cursor_example" // string |  (optional)
+	limit := int32(56) // int32 |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MembersAPI.ListInvitationsV0InvitationsGet(context.Background()).Authorization(authorization).Execute()
+	resp, r, err := apiClient.MembersAPI.ListInvitationsV0InvitationsGet(context.Background()).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `MembersAPI.ListInvitationsV0InvitationsGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -127,6 +129,8 @@ Other parameters are passed through a pointer to a apiListInvitationsV0Invitatio
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **cursor** | **string** |  | 
+ **limit** | **int32** |  | 
  **authorization** | **string** |  | 
 
 ### Return type
@@ -149,7 +153,7 @@ No authorization required
 
 ## ListMembersV0MembersGet
 
-> MemberList ListMembersV0MembersGet(ctx).Authorization(authorization).Execute()
+> MemberList ListMembersV0MembersGet(ctx).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
 
 List the members of your active workspace
 
@@ -168,11 +172,13 @@ import (
 )
 
 func main() {
+	cursor := "cursor_example" // string |  (optional)
+	limit := int32(56) // int32 |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MembersAPI.ListMembersV0MembersGet(context.Background()).Authorization(authorization).Execute()
+	resp, r, err := apiClient.MembersAPI.ListMembersV0MembersGet(context.Background()).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `MembersAPI.ListMembersV0MembersGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -193,6 +199,8 @@ Other parameters are passed through a pointer to a apiListMembersV0MembersGetReq
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **cursor** | **string** |  | 
+ **limit** | **int32** |  | 
  **authorization** | **string** |  | 
 
 ### Return type
@@ -215,7 +223,7 @@ No authorization required
 
 ## RemoveMemberV0MembersTargetUserIdDelete
 
-> interface{} RemoveMemberV0MembersTargetUserIdDelete(ctx, targetUserId).Authorization(authorization).Execute()
+> MemberRemoveOut RemoveMemberV0MembersTargetUserIdDelete(ctx, targetUserId).Confirm(confirm).Authorization(authorization).Execute()
 
 Remove a member (or leave)
 
@@ -235,16 +243,17 @@ import (
 
 func main() {
 	targetUserId := "targetUserId_example" // string | 
+	confirm := "confirm_example" // string |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MembersAPI.RemoveMemberV0MembersTargetUserIdDelete(context.Background(), targetUserId).Authorization(authorization).Execute()
+	resp, r, err := apiClient.MembersAPI.RemoveMemberV0MembersTargetUserIdDelete(context.Background(), targetUserId).Confirm(confirm).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `MembersAPI.RemoveMemberV0MembersTargetUserIdDelete``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `RemoveMemberV0MembersTargetUserIdDelete`: interface{}
+	// response from `RemoveMemberV0MembersTargetUserIdDelete`: MemberRemoveOut
 	fmt.Fprintf(os.Stdout, "Response from `MembersAPI.RemoveMemberV0MembersTargetUserIdDelete`: %v\n", resp)
 }
 ```
@@ -265,11 +274,12 @@ Other parameters are passed through a pointer to a apiRemoveMemberV0MembersTarge
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+ **confirm** | **string** |  | 
  **authorization** | **string** |  | 
 
 ### Return type
 
-**interface{}**
+[**MemberRemoveOut**](MemberRemoveOut.md)
 
 ### Authorization
 
@@ -287,7 +297,7 @@ No authorization required
 
 ## RevokeInvitationV0InvitationsInvitationIdDelete
 
-> interface{} RevokeInvitationV0InvitationsInvitationIdDelete(ctx, invitationId).Authorization(authorization).Execute()
+> RevokeOut RevokeInvitationV0InvitationsInvitationIdDelete(ctx, invitationId).Authorization(authorization).Execute()
 
 Revoke a pending invitation
 
@@ -316,7 +326,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `MembersAPI.RevokeInvitationV0InvitationsInvitationIdDelete``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `RevokeInvitationV0InvitationsInvitationIdDelete`: interface{}
+	// response from `RevokeInvitationV0InvitationsInvitationIdDelete`: RevokeOut
 	fmt.Fprintf(os.Stdout, "Response from `MembersAPI.RevokeInvitationV0InvitationsInvitationIdDelete`: %v\n", resp)
 }
 ```
@@ -341,7 +351,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**interface{}**
+[**RevokeOut**](RevokeOut.md)
 
 ### Authorization
 

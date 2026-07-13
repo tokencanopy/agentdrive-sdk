@@ -14,7 +14,10 @@
 
 # import models into model package
 from agentdrive_sdk.models.anonymous_identity_response import AnonymousIdentityResponse
+from agentdrive_sdk.models.artifact_delete_out import ArtifactDeleteOut
+from agentdrive_sdk.models.artifact_move_in import ArtifactMoveIn
 from agentdrive_sdk.models.artifact_out import ArtifactOut
+from agentdrive_sdk.models.artifact_patch_in import ArtifactPatchIn
 from agentdrive_sdk.models.artifact_source import ArtifactSource
 from agentdrive_sdk.models.claim_init_request import ClaimInitRequest
 from agentdrive_sdk.models.claim_init_response import ClaimInitResponse
@@ -30,6 +33,7 @@ from agentdrive_sdk.models.drive_api_key_list_out import DriveApiKeyListOut
 from agentdrive_sdk.models.drive_api_key_out import DriveApiKeyOut
 from agentdrive_sdk.models.drive_create_in import DriveCreateIn
 from agentdrive_sdk.models.drive_create_out import DriveCreateOut
+from agentdrive_sdk.models.drive_delete_out import DriveDeleteOut
 from agentdrive_sdk.models.drive_list import DriveList
 from agentdrive_sdk.models.drive_out import DriveOut
 from agentdrive_sdk.models.drive_rename_in import DriveRenameIn
@@ -37,13 +41,17 @@ from agentdrive_sdk.models.event_out import EventOut
 from agentdrive_sdk.models.event_page import EventPage
 from agentdrive_sdk.models.extension_exchange_request import ExtensionExchangeRequest
 from agentdrive_sdk.models.extension_exchange_response import ExtensionExchangeResponse
+from agentdrive_sdk.models.feedback_status_out import FeedbackStatusOut
 from agentdrive_sdk.models.find_hit_out import FindHitOut
 from agentdrive_sdk.models.find_page import FindPage
+from agentdrive_sdk.models.folder_copy_in import FolderCopyIn
+from agentdrive_sdk.models.folder_copy_out import FolderCopyOut
 from agentdrive_sdk.models.folder_create_in import FolderCreateIn
 from agentdrive_sdk.models.folder_delete_out import FolderDeleteOut
 from agentdrive_sdk.models.folder_move_in import FolderMoveIn
 from agentdrive_sdk.models.folder_out import FolderOut
 from agentdrive_sdk.models.folder_patch_in import FolderPatchIn
+from agentdrive_sdk.models.folder_restore_out import FolderRestoreOut
 from agentdrive_sdk.models.grant_create_in import GrantCreateIn
 from agentdrive_sdk.models.grant_in import GrantIn
 from agentdrive_sdk.models.grant_list import GrantList
@@ -60,12 +68,13 @@ from agentdrive_sdk.models.lookup_values_in import LookupValuesIn
 from agentdrive_sdk.models.member_invite_in import MemberInviteIn
 from agentdrive_sdk.models.member_list import MemberList
 from agentdrive_sdk.models.member_out import MemberOut
+from agentdrive_sdk.models.member_remove_out import MemberRemoveOut
 from agentdrive_sdk.models.member_role_in import MemberRoleIn
 from agentdrive_sdk.models.page import Page
 from agentdrive_sdk.models.project_config_in import ProjectConfigIn
 from agentdrive_sdk.models.public_in import PublicIn
 from agentdrive_sdk.models.query_in import QueryIn
-from agentdrive_sdk.models.rename_in import RenameIn
+from agentdrive_sdk.models.revoke_out import RevokeOut
 from agentdrive_sdk.models.seal_in import SealIn
 from agentdrive_sdk.models.search_hit_out import SearchHitOut
 from agentdrive_sdk.models.search_page import SearchPage
@@ -75,8 +84,10 @@ from agentdrive_sdk.models.share_mint_out import ShareMintOut
 from agentdrive_sdk.models.share_out import ShareOut
 from agentdrive_sdk.models.source_ref import SourceRef
 from agentdrive_sdk.models.token_response import TokenResponse
+from agentdrive_sdk.models.upload_abort_out import UploadAbortOut
 from agentdrive_sdk.models.upload_begin_in import UploadBeginIn
 from agentdrive_sdk.models.upload_begin_out import UploadBeginOut
+from agentdrive_sdk.models.upload_status_out import UploadStatusOut
 from agentdrive_sdk.models.user_token_list import UserTokenList
 from agentdrive_sdk.models.user_token_out import UserTokenOut
 from agentdrive_sdk.models.validation_error import ValidationError

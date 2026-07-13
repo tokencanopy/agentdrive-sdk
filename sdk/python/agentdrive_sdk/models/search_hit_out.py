@@ -28,6 +28,7 @@ class SearchHitOut(BaseModel):
     """
     SearchHitOut
     """ # noqa: E501
+    art_id: StrictStr
     drive_id: StrictStr
     path: StrictStr
     url: StrictStr
@@ -37,7 +38,8 @@ class SearchHitOut(BaseModel):
     snippet: StrictStr
     score: Union[StrictFloat, StrictInt]
     updated_at: datetime
-    __properties: ClassVar[List[str]] = ["drive_id", "path", "url", "content_type", "file_type", "labels", "snippet", "score", "updated_at"]
+    version_number: StrictInt
+    __properties: ClassVar[List[str]] = ["art_id", "drive_id", "path", "url", "content_type", "file_type", "labels", "snippet", "score", "updated_at", "version_number"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -90,6 +92,7 @@ class SearchHitOut(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "art_id": obj.get("art_id"),
             "drive_id": obj.get("drive_id"),
             "path": obj.get("path"),
             "url": obj.get("url"),
@@ -98,7 +101,8 @@ class SearchHitOut(BaseModel):
             "labels": obj.get("labels"),
             "snippet": obj.get("snippet"),
             "score": obj.get("score"),
-            "updated_at": obj.get("updated_at")
+            "updated_at": obj.get("updated_at"),
+            "version_number": obj.get("version_number")
         })
         return _obj
 

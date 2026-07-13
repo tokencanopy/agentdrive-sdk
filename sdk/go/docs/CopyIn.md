@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Path** | **string** |  | 
 **Source** | Pointer to [**NullableArtifactSource**](ArtifactSource.md) |  | [optional] 
+**FromGeneration** | Pointer to **NullableInt32** |  | [optional] 
 
 ## Methods
 
@@ -81,6 +82,41 @@ HasSource returns a boolean if a field has been set.
 `func (o *CopyIn) UnsetSource()`
 
 UnsetSource ensures that no value is present for Source, not even an explicit nil
+### GetFromGeneration
+
+`func (o *CopyIn) GetFromGeneration() int32`
+
+GetFromGeneration returns the FromGeneration field if non-nil, zero value otherwise.
+
+### GetFromGenerationOk
+
+`func (o *CopyIn) GetFromGenerationOk() (*int32, bool)`
+
+GetFromGenerationOk returns a tuple with the FromGeneration field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFromGeneration
+
+`func (o *CopyIn) SetFromGeneration(v int32)`
+
+SetFromGeneration sets FromGeneration field to given value.
+
+### HasFromGeneration
+
+`func (o *CopyIn) HasFromGeneration() bool`
+
+HasFromGeneration returns a boolean if a field has been set.
+
+### SetFromGenerationNil
+
+`func (o *CopyIn) SetFromGenerationNil(b bool)`
+
+ SetFromGenerationNil sets the value for FromGeneration to be an explicit nil
+
+### UnsetFromGeneration
+`func (o *CopyIn) UnsetFromGeneration()`
+
+UnsetFromGeneration ensures that no value is present for FromGeneration, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -37,13 +37,13 @@ export interface DriveApiKeyOut {
      * @type {string}
      * @memberof DriveApiKeyOut
      */
-    label: string | null;
+    label?: string | null;
     /**
      * 
      * @type {Date}
      * @memberof DriveApiKeyOut
      */
-    lastUsedAt: Date | null;
+    lastUsedAt?: Date | null;
     /**
      * 
      * @type {Date}
@@ -55,7 +55,7 @@ export interface DriveApiKeyOut {
      * @type {Date}
      * @memberof DriveApiKeyOut
      */
-    revokedAt: Date | null;
+    revokedAt?: Date | null;
 }
 
 /**
@@ -64,10 +64,7 @@ export interface DriveApiKeyOut {
 export function instanceOfDriveApiKeyOut(value: object): value is DriveApiKeyOut {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('prefix' in value) || value['prefix'] === undefined) return false;
-    if (!('label' in value) || value['label'] === undefined) return false;
-    if ((!('lastUsedAt' in value) && !('last_used_at' in value)) || (value['lastUsedAt'] === undefined && value['last_used_at'] === undefined)) return false;
     if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
-    if ((!('revokedAt' in value) && !('revoked_at' in value)) || (value['revokedAt'] === undefined && value['revoked_at'] === undefined)) return false;
     return true;
 }
 
@@ -83,10 +80,10 @@ export function DriveApiKeyOutFromJSONTyped(json: any, ignoreDiscriminator: bool
         
         'id': json['id'],
         'prefix': json['prefix'],
-        'label': json['label'],
-        'lastUsedAt': (json['last_used_at'] == null ? null : new Date(json['last_used_at'])),
+        'label': json['label'] == null ? undefined : json['label'],
+        'lastUsedAt': json['last_used_at'] == null ? undefined : (new Date(json['last_used_at'])),
         'createdAt': (new Date(json['created_at'])),
-        'revokedAt': (json['revoked_at'] == null ? null : new Date(json['revoked_at'])),
+        'revokedAt': json['revoked_at'] == null ? undefined : (new Date(json['revoked_at'])),
     };
 }
 

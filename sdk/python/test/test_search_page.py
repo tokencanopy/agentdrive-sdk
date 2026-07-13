@@ -37,6 +37,7 @@ class TestSearchPage(unittest.TestCase):
             return SearchPage(
                 items = [
                     agentdrive_sdk.models.search_hit_out.SearchHitOut(
+                        art_id = '', 
                         drive_id = '', 
                         path = '', 
                         url = '', 
@@ -47,14 +48,15 @@ class TestSearchPage(unittest.TestCase):
                             ], 
                         snippet = '', 
                         score = 1.337, 
-                        updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
-                    ],
-                next_cursor = ''
+                        updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        version_number = 56, )
+                    ]
             )
         else:
             return SearchPage(
                 items = [
                     agentdrive_sdk.models.search_hit_out.SearchHitOut(
+                        art_id = '', 
                         drive_id = '', 
                         path = '', 
                         url = '', 
@@ -65,7 +67,8 @@ class TestSearchPage(unittest.TestCase):
                             ], 
                         snippet = '', 
                         score = 1.337, 
-                        updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), )
+                        updated_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                        version_number = 56, )
                     ],
         )
         """

@@ -44,10 +44,20 @@ import {
     MemberOutToJSON,
 } from '../models/MemberOut';
 import {
+    type MemberRemoveOut,
+    MemberRemoveOutFromJSON,
+    MemberRemoveOutToJSON,
+} from '../models/MemberRemoveOut';
+import {
     type MemberRoleIn,
     MemberRoleInFromJSON,
     MemberRoleInToJSON,
 } from '../models/MemberRoleIn';
+import {
+    type RevokeOut,
+    RevokeOutFromJSON,
+    RevokeOutToJSON,
+} from '../models/RevokeOut';
 
 export interface InviteMemberV0MembersInvitePostRequest {
     memberInviteIn: MemberInviteIn;
@@ -55,15 +65,20 @@ export interface InviteMemberV0MembersInvitePostRequest {
 }
 
 export interface ListInvitationsV0InvitationsGetRequest {
+    cursor?: string | null;
+    limit?: number | null;
     authorization?: string | null;
 }
 
 export interface ListMembersV0MembersGetRequest {
+    cursor?: string | null;
+    limit?: number | null;
     authorization?: string | null;
 }
 
 export interface RemoveMemberV0MembersTargetUserIdDeleteRequest {
     targetUserId: string;
+    confirm?: string | null;
     authorization?: string | null;
 }
 
@@ -142,6 +157,14 @@ export class MembersApi extends runtime.BaseAPI {
     async listInvitationsV0InvitationsGetRequestOpts(requestParameters: ListInvitationsV0InvitationsGetRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
+        if (requestParameters['cursor'] != null) {
+            queryParameters['cursor'] = requestParameters['cursor'];
+        }
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (requestParameters['authorization'] != null) {
@@ -160,7 +183,7 @@ export class MembersApi extends runtime.BaseAPI {
     }
 
     /**
-     * List the pending invitations for the caller\'s active workspace. **Admin only.** Metadata only — the raw invite token is never surfaced.
+     * List the pending invitations for the caller\'s active workspace. **Admin only.** Metadata only — the raw invite token is never surfaced.  Newest first (`created_at` descending, tie-broken by `id`). Paginated: `limit` is clamped to [1, 100] (default 50, never a 422); pass the response\'s `next_cursor` back as `cursor` for the next page (`null` when the listing is complete).
      * List pending invitations
      */
     async listInvitationsV0InvitationsGetRaw(requestParameters: ListInvitationsV0InvitationsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<InvitationList>> {
@@ -171,7 +194,7 @@ export class MembersApi extends runtime.BaseAPI {
     }
 
     /**
-     * List the pending invitations for the caller\'s active workspace. **Admin only.** Metadata only — the raw invite token is never surfaced.
+     * List the pending invitations for the caller\'s active workspace. **Admin only.** Metadata only — the raw invite token is never surfaced.  Newest first (`created_at` descending, tie-broken by `id`). Paginated: `limit` is clamped to [1, 100] (default 50, never a 422); pass the response\'s `next_cursor` back as `cursor` for the next page (`null` when the listing is complete).
      * List pending invitations
      */
     async listInvitationsV0InvitationsGet(requestParameters: ListInvitationsV0InvitationsGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<InvitationList> {
@@ -184,6 +207,14 @@ export class MembersApi extends runtime.BaseAPI {
      */
     async listMembersV0MembersGetRequestOpts(requestParameters: ListMembersV0MembersGetRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
+
+        if (requestParameters['cursor'] != null) {
+            queryParameters['cursor'] = requestParameters['cursor'];
+        }
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -203,7 +234,7 @@ export class MembersApi extends runtime.BaseAPI {
     }
 
     /**
-     * List live members (email, role, joined-at) of the caller\'s active workspace. Any **member** may list; a `read`-scope token is sufficient.
+     * List live members (email, role, joined-at) of the caller\'s active workspace. Any **member** may list; a `read`-scope token is sufficient.  Ordered by join time (`created_at`, tie-broken by `user_id`) — **no role grouping is promised**; a dashboard that wants admins-first sorts client-side. Paginated: `limit` is clamped to [1, 100] (default 50, never a 422); pass the response\'s `next_cursor` back as `cursor` for the next page (`null` when the listing is complete).
      * List the members of your active workspace
      */
     async listMembersV0MembersGetRaw(requestParameters: ListMembersV0MembersGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MemberList>> {
@@ -214,7 +245,7 @@ export class MembersApi extends runtime.BaseAPI {
     }
 
     /**
-     * List live members (email, role, joined-at) of the caller\'s active workspace. Any **member** may list; a `read`-scope token is sufficient.
+     * List live members (email, role, joined-at) of the caller\'s active workspace. Any **member** may list; a `read`-scope token is sufficient.  Ordered by join time (`created_at`, tie-broken by `user_id`) — **no role grouping is promised**; a dashboard that wants admins-first sorts client-side. Paginated: `limit` is clamped to [1, 100] (default 50, never a 422); pass the response\'s `next_cursor` back as `cursor` for the next page (`null` when the listing is complete).
      * List the members of your active workspace
      */
     async listMembersV0MembersGet(requestParameters: ListMembersV0MembersGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MemberList> {
@@ -235,6 +266,10 @@ export class MembersApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
+        if (requestParameters['confirm'] != null) {
+            queryParameters['confirm'] = requestParameters['confirm'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (requestParameters['authorization'] != null) {
@@ -254,25 +289,21 @@ export class MembersApi extends runtime.BaseAPI {
     }
 
     /**
-     * Remove a member from the caller\'s active workspace, soft-deleting every drive that member owns there (workspaces-design §4.4 — no ownership transfer in v0; their `ad_live_` keys then stop working). **Admin** may remove anyone; **any member** may remove themselves (self-leave). `full` scope. Removing the **last/sole admin** is rejected with 409 `LAST_ADMIN` (promote someone first, or delete the workspace).
+     * Remove a member from the caller\'s active workspace, soft-deleting every drive that member owns there (workspaces-design §4.4 — no ownership transfer in v0; their `ad_live_` keys then stop working). **Admin** may remove anyone; **any member** may remove themselves (self-leave). `full` scope. Removing the **last/sole admin** is rejected with 409 `LAST_ADMIN` (promote someone first, or delete the workspace).  **Explicit confirmation required:** pass `?confirm=DELETE` or the request is rejected with 400 `CONFIRM_REQUIRED` — removal cascades a soft-delete of every drive the member owns, so it carries tenant-level blast radius (uniform with `DELETE /v0/drives/{id}`).  Deliberately takes NO `If-Match`: membership rows carry no generation/metageneration axis to pin (there is no ETag to echo), so `?confirm=DELETE` is the sole mutation guard here.
      * Remove a member (or leave)
      */
-    async removeMemberV0MembersTargetUserIdDeleteRaw(requestParameters: RemoveMemberV0MembersTargetUserIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+    async removeMemberV0MembersTargetUserIdDeleteRaw(requestParameters: RemoveMemberV0MembersTargetUserIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MemberRemoveOut>> {
         const requestOptions = await this.removeMemberV0MembersTargetUserIdDeleteRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<any>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
+        return new runtime.JSONApiResponse(response, (jsonValue) => MemberRemoveOutFromJSON(jsonValue));
     }
 
     /**
-     * Remove a member from the caller\'s active workspace, soft-deleting every drive that member owns there (workspaces-design §4.4 — no ownership transfer in v0; their `ad_live_` keys then stop working). **Admin** may remove anyone; **any member** may remove themselves (self-leave). `full` scope. Removing the **last/sole admin** is rejected with 409 `LAST_ADMIN` (promote someone first, or delete the workspace).
+     * Remove a member from the caller\'s active workspace, soft-deleting every drive that member owns there (workspaces-design §4.4 — no ownership transfer in v0; their `ad_live_` keys then stop working). **Admin** may remove anyone; **any member** may remove themselves (self-leave). `full` scope. Removing the **last/sole admin** is rejected with 409 `LAST_ADMIN` (promote someone first, or delete the workspace).  **Explicit confirmation required:** pass `?confirm=DELETE` or the request is rejected with 400 `CONFIRM_REQUIRED` — removal cascades a soft-delete of every drive the member owns, so it carries tenant-level blast radius (uniform with `DELETE /v0/drives/{id}`).  Deliberately takes NO `If-Match`: membership rows carry no generation/metageneration axis to pin (there is no ETag to echo), so `?confirm=DELETE` is the sole mutation guard here.
      * Remove a member (or leave)
      */
-    async removeMemberV0MembersTargetUserIdDelete(requestParameters: RemoveMemberV0MembersTargetUserIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+    async removeMemberV0MembersTargetUserIdDelete(requestParameters: RemoveMemberV0MembersTargetUserIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MemberRemoveOut> {
         const response = await this.removeMemberV0MembersTargetUserIdDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -309,25 +340,21 @@ export class MembersApi extends runtime.BaseAPI {
     }
 
     /**
-     * Revoke a pending invitation in the caller\'s active workspace. **Admin only**, `full` scope. Org-scoped + idempotent: a forged id, an invite from another workspace, or an already-consumed invite all return 404 (no-leak).
+     * Revoke a pending invitation in the caller\'s active workspace. **Admin only**, `full` scope. Org-scoped + idempotent: `revoked` is a COUNT — 1 when a live invite was revoked, 0 when it was already gone (a forged id, an invite from another workspace, or an already-consumed invite all return `revoked: 0`, no-leak).
      * Revoke a pending invitation
      */
-    async revokeInvitationV0InvitationsInvitationIdDeleteRaw(requestParameters: RevokeInvitationV0InvitationsInvitationIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+    async revokeInvitationV0InvitationsInvitationIdDeleteRaw(requestParameters: RevokeInvitationV0InvitationsInvitationIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RevokeOut>> {
         const requestOptions = await this.revokeInvitationV0InvitationsInvitationIdDeleteRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<any>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
+        return new runtime.JSONApiResponse(response, (jsonValue) => RevokeOutFromJSON(jsonValue));
     }
 
     /**
-     * Revoke a pending invitation in the caller\'s active workspace. **Admin only**, `full` scope. Org-scoped + idempotent: a forged id, an invite from another workspace, or an already-consumed invite all return 404 (no-leak).
+     * Revoke a pending invitation in the caller\'s active workspace. **Admin only**, `full` scope. Org-scoped + idempotent: `revoked` is a COUNT — 1 when a live invite was revoked, 0 when it was already gone (a forged id, an invite from another workspace, or an already-consumed invite all return `revoked: 0`, no-leak).
      * Revoke a pending invitation
      */
-    async revokeInvitationV0InvitationsInvitationIdDelete(requestParameters: RevokeInvitationV0InvitationsInvitationIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+    async revokeInvitationV0InvitationsInvitationIdDelete(requestParameters: RevokeInvitationV0InvitationsInvitationIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RevokeOut> {
         const response = await this.revokeInvitationV0InvitationsInvitationIdDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }

@@ -157,7 +157,19 @@ func (a *WorkspacesAPIService) CreateWorkspaceRouteV0WorkspacesPostExecute(r Api
 type ApiListWorkspacesRouteV0WorkspacesGetRequest struct {
 	ctx context.Context
 	ApiService *WorkspacesAPIService
+	cursor *string
+	limit *int32
 	authorization *string
+}
+
+func (r ApiListWorkspacesRouteV0WorkspacesGetRequest) Cursor(cursor string) ApiListWorkspacesRouteV0WorkspacesGetRequest {
+	r.cursor = &cursor
+	return r
+}
+
+func (r ApiListWorkspacesRouteV0WorkspacesGetRequest) Limit(limit int32) ApiListWorkspacesRouteV0WorkspacesGetRequest {
+	r.limit = &limit
+	return r
 }
 
 func (r ApiListWorkspacesRouteV0WorkspacesGetRequest) Authorization(authorization string) ApiListWorkspacesRouteV0WorkspacesGetRequest {
@@ -173,6 +185,8 @@ func (r ApiListWorkspacesRouteV0WorkspacesGetRequest) Execute() (*WorkspaceList,
 ListWorkspacesRouteV0WorkspacesGet List the spaces you belong to
 
 Return every space the caller is a member of, each carrying the caller's `role` in it. Metadata only. A `read`-scope token is sufficient.
+
+**Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiListWorkspacesRouteV0WorkspacesGetRequest
@@ -205,6 +219,12 @@ func (a *WorkspacesAPIService) ListWorkspacesRouteV0WorkspacesGetExecute(r ApiLi
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.cursor != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
+	}
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

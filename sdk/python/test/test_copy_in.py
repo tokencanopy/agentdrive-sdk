@@ -42,7 +42,8 @@ class TestCopyIn(unittest.TestCase):
                             type = '', 
                             id = '', 
                             metadata = { }, )
-                        ], )
+                        ], ),
+                from_generation = 56
             )
         else:
             return CopyIn(

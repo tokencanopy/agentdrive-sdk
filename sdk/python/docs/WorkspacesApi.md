@@ -84,11 +84,13 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_workspaces_route_v0_workspaces_get**
-> WorkspaceList list_workspaces_route_v0_workspaces_get(authorization=authorization)
+> WorkspaceList list_workspaces_route_v0_workspaces_get(cursor=cursor, limit=limit, authorization=authorization)
 
 List the spaces you belong to
 
 Return every space the caller is a member of, each carrying the caller's `role` in it. Metadata only. A `read`-scope token is sufficient.
+
+**Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
 ### Example
 
@@ -110,11 +112,13 @@ configuration = agentdrive_sdk.Configuration(
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.WorkspacesApi(api_client)
+    cursor = 'cursor_example' # str |  (optional)
+    limit = 56 # int |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # List the spaces you belong to
-        api_response = api_instance.list_workspaces_route_v0_workspaces_get(authorization=authorization)
+        api_response = api_instance.list_workspaces_route_v0_workspaces_get(cursor=cursor, limit=limit, authorization=authorization)
         print("The response of WorkspacesApi->list_workspaces_route_v0_workspaces_get:\n")
         pprint(api_response)
     except Exception as e:
@@ -128,6 +132,8 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **cursor** | **str**|  | [optional] 
+ **limit** | **int**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type

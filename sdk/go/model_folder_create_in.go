@@ -17,7 +17,7 @@ import (
 // checks if the FolderCreateIn type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &FolderCreateIn{}
 
-// FolderCreateIn POST /v0/folders/{path}? body for the optional metadata params. Empty body is fine — `mkdir` with no description just creates the folder row.
+// FolderCreateIn PUT /v0/folders/{path} body for the optional metadata params. Empty body is fine — `mkdir` with no description just creates the folder row.
 type FolderCreateIn struct {
 	Description NullableString `json:"description,omitempty"`
 }

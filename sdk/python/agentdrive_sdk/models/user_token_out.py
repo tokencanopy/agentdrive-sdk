@@ -30,13 +30,13 @@ class UserTokenOut(BaseModel):
     """ # noqa: E501
     id: StrictStr
     prefix: StrictStr
-    label: Optional[StrictStr]
+    label: Optional[StrictStr] = None
     scope: StrictStr
-    default_drive_id: Optional[StrictStr]
-    last_used_at: Optional[datetime]
-    expires_at: Optional[datetime]
+    default_drive_id: Optional[StrictStr] = None
+    last_used_at: Optional[datetime] = None
+    expires_at: Optional[datetime] = None
     created_at: datetime
-    revoked_at: Optional[datetime]
+    revoked_at: Optional[datetime] = None
     __properties: ClassVar[List[str]] = ["id", "prefix", "label", "scope", "default_drive_id", "last_used_at", "expires_at", "created_at", "revoked_at"]
 
     @field_validator('scope')

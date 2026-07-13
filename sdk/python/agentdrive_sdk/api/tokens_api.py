@@ -15,7 +15,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import StrictStr
+from pydantic import StrictInt, StrictStr
 from typing import Optional
 from agentdrive_sdk.models.user_token_list import UserTokenList
 from agentdrive_sdk.models.user_token_out import UserTokenOut
@@ -41,6 +41,8 @@ class TokensApi:
     @validate_call
     def list_tokens_v0_tokens_get(
         self,
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -57,8 +59,12 @@ class TokensApi:
     ) -> UserTokenList:
         """List your user-identity tokens
 
-        List the `ad_user_` tokens belonging to the authenticated user. Metadata only — the raw token is shown once at mint (web only) and is never returned here. Includes recently-revoked tokens (with `revoked_at` set) so the caller can audit them; newest first.
+        List the `ad_user_` tokens belonging to the authenticated user. Metadata only — the raw token is shown once at mint (web only) and is never returned here. Includes recently-revoked tokens (with `revoked_at` set) so the caller can audit them; newest first.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -84,6 +90,8 @@ class TokensApi:
         """ # noqa: E501
 
         _param = self._list_tokens_v0_tokens_get_serialize(
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -109,6 +117,8 @@ class TokensApi:
     @validate_call
     def list_tokens_v0_tokens_get_with_http_info(
         self,
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -125,8 +135,12 @@ class TokensApi:
     ) -> ApiResponse[UserTokenList]:
         """List your user-identity tokens
 
-        List the `ad_user_` tokens belonging to the authenticated user. Metadata only — the raw token is shown once at mint (web only) and is never returned here. Includes recently-revoked tokens (with `revoked_at` set) so the caller can audit them; newest first.
+        List the `ad_user_` tokens belonging to the authenticated user. Metadata only — the raw token is shown once at mint (web only) and is never returned here. Includes recently-revoked tokens (with `revoked_at` set) so the caller can audit them; newest first.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -152,6 +166,8 @@ class TokensApi:
         """ # noqa: E501
 
         _param = self._list_tokens_v0_tokens_get_serialize(
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -177,6 +193,8 @@ class TokensApi:
     @validate_call
     def list_tokens_v0_tokens_get_without_preload_content(
         self,
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -193,8 +211,12 @@ class TokensApi:
     ) -> RESTResponseType:
         """List your user-identity tokens
 
-        List the `ad_user_` tokens belonging to the authenticated user. Metadata only — the raw token is shown once at mint (web only) and is never returned here. Includes recently-revoked tokens (with `revoked_at` set) so the caller can audit them; newest first.
+        List the `ad_user_` tokens belonging to the authenticated user. Metadata only — the raw token is shown once at mint (web only) and is never returned here. Includes recently-revoked tokens (with `revoked_at` set) so the caller can audit them; newest first.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -220,6 +242,8 @@ class TokensApi:
         """ # noqa: E501
 
         _param = self._list_tokens_v0_tokens_get_serialize(
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -240,6 +264,8 @@ class TokensApi:
 
     def _list_tokens_v0_tokens_get_serialize(
         self,
+        cursor,
+        limit,
         authorization,
         _request_auth,
         _content_type,
@@ -263,6 +289,14 @@ class TokensApi:
 
         # process the path parameters
         # process the query parameters
+        if cursor is not None:
+            
+            _query_params.append(('cursor', cursor))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization

@@ -7,14 +7,14 @@ Name | Type | Description | Notes
 **Id** | **string** |  | 
 **ApiKey** | **string** |  | 
 **Prefix** | **string** |  | 
-**Label** | **NullableString** |  | 
+**Label** | Pointer to **NullableString** |  | [optional] 
 **CreatedAt** | **time.Time** |  | 
 
 ## Methods
 
 ### NewDriveApiKeyCreateOut
 
-`func NewDriveApiKeyCreateOut(id string, apiKey string, prefix string, label NullableString, createdAt time.Time, ) *DriveApiKeyCreateOut`
+`func NewDriveApiKeyCreateOut(id string, apiKey string, prefix string, createdAt time.Time, ) *DriveApiKeyCreateOut`
 
 NewDriveApiKeyCreateOut instantiates a new DriveApiKeyCreateOut object
 This constructor will assign default values to properties that have it defined,
@@ -108,6 +108,11 @@ and a boolean to check if the value has been set.
 
 SetLabel sets Label field to given value.
 
+### HasLabel
+
+`func (o *DriveApiKeyCreateOut) HasLabel() bool`
+
+HasLabel returns a boolean if a field has been set.
 
 ### SetLabelNil
 

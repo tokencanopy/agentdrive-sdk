@@ -22,6 +22,7 @@ var _ MappedNullable = &UserTokenList{}
 // UserTokenList struct for UserTokenList
 type UserTokenList struct {
 	Items []UserTokenOut `json:"items"`
+	NextCursor NullableString `json:"next_cursor,omitempty"`
 }
 
 type _UserTokenList UserTokenList
@@ -68,6 +69,48 @@ func (o *UserTokenList) SetItems(v []UserTokenOut) {
 	o.Items = v
 }
 
+// GetNextCursor returns the NextCursor field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *UserTokenList) GetNextCursor() string {
+	if o == nil || IsNil(o.NextCursor.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.NextCursor.Get()
+}
+
+// GetNextCursorOk returns a tuple with the NextCursor field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *UserTokenList) GetNextCursorOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.NextCursor.Get(), o.NextCursor.IsSet()
+}
+
+// HasNextCursor returns a boolean if a field has been set.
+func (o *UserTokenList) HasNextCursor() bool {
+	if o != nil && o.NextCursor.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetNextCursor gets a reference to the given NullableString and assigns it to the NextCursor field.
+func (o *UserTokenList) SetNextCursor(v string) {
+	o.NextCursor.Set(&v)
+}
+// SetNextCursorNil sets the value for NextCursor to be an explicit nil
+func (o *UserTokenList) SetNextCursorNil() {
+	o.NextCursor.Set(nil)
+}
+
+// UnsetNextCursor ensures that no value is present for NextCursor, not even an explicit nil
+func (o *UserTokenList) UnsetNextCursor() {
+	o.NextCursor.Unset()
+}
+
 func (o UserTokenList) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -79,6 +122,9 @@ func (o UserTokenList) MarshalJSON() ([]byte, error) {
 func (o UserTokenList) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["items"] = o.Items
+	if o.NextCursor.IsSet() {
+		toSerialize["next_cursor"] = o.NextCursor.Get()
+	}
 	return toSerialize, nil
 }
 

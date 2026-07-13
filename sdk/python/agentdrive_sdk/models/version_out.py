@@ -18,8 +18,9 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -33,7 +34,7 @@ class VersionOut(BaseModel):
     size_bytes: StrictInt
     hash: StrictStr
     content_type: StrictStr
-    actor_name: Optional[StrictStr] = None
+    actor_name: Optional[Annotated[str, Field(strict=True, max_length=64)]] = None
     change_summary: Optional[StrictStr] = None
     created_at: datetime
     __properties: ClassVar[List[str]] = ["art_id", "version_number", "size_bytes", "hash", "content_type", "actor_name", "change_summary", "created_at"]

@@ -24,8 +24,8 @@ var _ MappedNullable = &MemberOut{}
 type MemberOut struct {
 	UserId string `json:"user_id"`
 	Email string `json:"email"`
-	FirstName NullableString `json:"first_name"`
-	LastName NullableString `json:"last_name"`
+	FirstName NullableString `json:"first_name,omitempty"`
+	LastName NullableString `json:"last_name,omitempty"`
 	Role string `json:"role"`
 	CreatedAt time.Time `json:"created_at"`
 }
@@ -36,12 +36,10 @@ type _MemberOut MemberOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMemberOut(userId string, email string, firstName NullableString, lastName NullableString, role string, createdAt time.Time) *MemberOut {
+func NewMemberOut(userId string, email string, role string, createdAt time.Time) *MemberOut {
 	this := MemberOut{}
 	this.UserId = userId
 	this.Email = email
-	this.FirstName = firstName
-	this.LastName = lastName
 	this.Role = role
 	this.CreatedAt = createdAt
 	return &this
@@ -103,18 +101,16 @@ func (o *MemberOut) SetEmail(v string) {
 	o.Email = v
 }
 
-// GetFirstName returns the FirstName field value
-// If the value is explicit nil, the zero value for string will be returned
+// GetFirstName returns the FirstName field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *MemberOut) GetFirstName() string {
-	if o == nil || o.FirstName.Get() == nil {
+	if o == nil || IsNil(o.FirstName.Get()) {
 		var ret string
 		return ret
 	}
-
 	return *o.FirstName.Get()
 }
 
-// GetFirstNameOk returns a tuple with the FirstName field value
+// GetFirstNameOk returns a tuple with the FirstName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *MemberOut) GetFirstNameOk() (*string, bool) {
@@ -124,23 +120,39 @@ func (o *MemberOut) GetFirstNameOk() (*string, bool) {
 	return o.FirstName.Get(), o.FirstName.IsSet()
 }
 
-// SetFirstName sets field value
+// HasFirstName returns a boolean if a field has been set.
+func (o *MemberOut) HasFirstName() bool {
+	if o != nil && o.FirstName.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetFirstName gets a reference to the given NullableString and assigns it to the FirstName field.
 func (o *MemberOut) SetFirstName(v string) {
 	o.FirstName.Set(&v)
 }
+// SetFirstNameNil sets the value for FirstName to be an explicit nil
+func (o *MemberOut) SetFirstNameNil() {
+	o.FirstName.Set(nil)
+}
 
-// GetLastName returns the LastName field value
-// If the value is explicit nil, the zero value for string will be returned
+// UnsetFirstName ensures that no value is present for FirstName, not even an explicit nil
+func (o *MemberOut) UnsetFirstName() {
+	o.FirstName.Unset()
+}
+
+// GetLastName returns the LastName field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *MemberOut) GetLastName() string {
-	if o == nil || o.LastName.Get() == nil {
+	if o == nil || IsNil(o.LastName.Get()) {
 		var ret string
 		return ret
 	}
-
 	return *o.LastName.Get()
 }
 
-// GetLastNameOk returns a tuple with the LastName field value
+// GetLastNameOk returns a tuple with the LastName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *MemberOut) GetLastNameOk() (*string, bool) {
@@ -150,9 +162,27 @@ func (o *MemberOut) GetLastNameOk() (*string, bool) {
 	return o.LastName.Get(), o.LastName.IsSet()
 }
 
-// SetLastName sets field value
+// HasLastName returns a boolean if a field has been set.
+func (o *MemberOut) HasLastName() bool {
+	if o != nil && o.LastName.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetLastName gets a reference to the given NullableString and assigns it to the LastName field.
 func (o *MemberOut) SetLastName(v string) {
 	o.LastName.Set(&v)
+}
+// SetLastNameNil sets the value for LastName to be an explicit nil
+func (o *MemberOut) SetLastNameNil() {
+	o.LastName.Set(nil)
+}
+
+// UnsetLastName ensures that no value is present for LastName, not even an explicit nil
+func (o *MemberOut) UnsetLastName() {
+	o.LastName.Unset()
 }
 
 // GetRole returns the Role field value
@@ -215,8 +245,12 @@ func (o MemberOut) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["user_id"] = o.UserId
 	toSerialize["email"] = o.Email
-	toSerialize["first_name"] = o.FirstName.Get()
-	toSerialize["last_name"] = o.LastName.Get()
+	if o.FirstName.IsSet() {
+		toSerialize["first_name"] = o.FirstName.Get()
+	}
+	if o.LastName.IsSet() {
+		toSerialize["last_name"] = o.LastName.Get()
+	}
 	toSerialize["role"] = o.Role
 	toSerialize["created_at"] = o.CreatedAt
 	return toSerialize, nil
@@ -229,8 +263,6 @@ func (o *MemberOut) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"user_id",
 		"email",
-		"first_name",
-		"last_name",
 		"role",
 		"created_at",
 	}

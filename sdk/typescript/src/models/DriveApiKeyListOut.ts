@@ -22,8 +22,13 @@ import {
 } from './DriveApiKeyOut';
 
 /**
- * `GET /v0/drives/{id}/keys` response — the drive's keys, newest first,
- * including recently-revoked rows (filter on `revoked_at` for live only).
+ * `GET /v0/drives/{id}/keys` response — the drive's keys, oldest first
+ * (keyset order, design §3), including recently-revoked rows (filter on
+ * `revoked_at` for live only).
+ * 
+ * `items` is the canonical list field (B-3: one envelope key everywhere);
+ * `keys` is a deprecated same-value alias kept for one release — the REST
+ * twin of the grep `matches` / compile `jobs` aliases.
  * @export
  * @interface DriveApiKeyListOut
  */
@@ -33,13 +38,26 @@ export interface DriveApiKeyListOut {
      * @type {Array<DriveApiKeyOut>}
      * @memberof DriveApiKeyListOut
      */
+    items: Array<DriveApiKeyOut>;
+    /**
+     * 
+     * @type {Array<DriveApiKeyOut>}
+     * @memberof DriveApiKeyListOut
+     */
     keys: Array<DriveApiKeyOut>;
+    /**
+     * 
+     * @type {string}
+     * @memberof DriveApiKeyListOut
+     */
+    nextCursor?: string | null;
 }
 
 /**
  * Check if a given object implements the DriveApiKeyListOut interface.
  */
 export function instanceOfDriveApiKeyListOut(value: object): value is DriveApiKeyListOut {
+    if (!('items' in value) || value['items'] === undefined) return false;
     if (!('keys' in value) || value['keys'] === undefined) return false;
     return true;
 }
@@ -54,7 +72,9 @@ export function DriveApiKeyListOutFromJSONTyped(json: any, ignoreDiscriminator: 
     }
     return {
         
+        'items': ((json['items'] as Array<any>).map(DriveApiKeyOutFromJSON)),
         'keys': ((json['keys'] as Array<any>).map(DriveApiKeyOutFromJSON)),
+        'nextCursor': json['next_cursor'] == null ? undefined : json['next_cursor'],
     };
 }
 
@@ -69,7 +89,9 @@ export function DriveApiKeyListOutToJSONTyped(value?: DriveApiKeyListOut | null,
 
     return {
         
+        'items': ((value['items'] as Array<any>).map(DriveApiKeyOutToJSON)),
         'keys': ((value['keys'] as Array<any>).map(DriveApiKeyOutToJSON)),
+        'next_cursor': value['nextCursor'],
     };
 }
 

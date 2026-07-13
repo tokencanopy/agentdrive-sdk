@@ -17,8 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict
+from typing import Any, ClassVar, Dict, List
 from agentdrive_sdk.models.find_hit_out import FindHitOut
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,11 +26,10 @@ from pydantic_core import to_jsonable_python
 
 class FindPage(BaseModel):
     """
-    FindPage
+    `/v0/find` response — single-shot top-N, deliberately unpaginated (same contract + rationale as `SearchPage`).
     """ # noqa: E501
     items: List[FindHitOut]
-    next_cursor: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["items", "next_cursor"]
+    __properties: ClassVar[List[str]] = ["items"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -78,11 +77,6 @@ class FindPage(BaseModel):
                 if _item_items:
                     _items.append(_item_items.to_dict())
             _dict['items'] = _items
-        # set to None if next_cursor (nullable) is None
-        # and model_fields_set contains the field
-        if self.next_cursor is None and "next_cursor" in self.model_fields_set:
-            _dict['next_cursor'] = None
-
         return _dict
 
     @classmethod
@@ -95,8 +89,7 @@ class FindPage(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "items": [FindHitOut.from_dict(_item) for _item in obj["items"]] if obj.get("items") is not None else None,
-            "next_cursor": obj.get("next_cursor")
+            "items": [FindHitOut.from_dict(_item) for _item in obj["items"]] if obj.get("items") is not None else None
         })
         return _obj
 

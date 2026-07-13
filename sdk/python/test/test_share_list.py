@@ -40,14 +40,15 @@ class TestShareList(unittest.TestCase):
                         id = '', 
                         resource_type = 'artifact', 
                         resource_id = '', 
-                        role = '', 
+                        role = 'viewer', 
                         audience = '', 
                         has_password = True, 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         expires_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         last_accessed_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
                         access_count = 56, )
-                    ]
+                    ],
+                next_cursor = ''
             )
         else:
             return ShareList(
@@ -56,7 +57,7 @@ class TestShareList(unittest.TestCase):
                         id = '', 
                         resource_type = 'artifact', 
                         resource_id = '', 
-                        role = '', 
+                        role = 'viewer', 
                         audience = '', 
                         has_password = True, 
                         created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 

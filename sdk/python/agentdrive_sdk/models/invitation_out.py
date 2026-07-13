@@ -33,7 +33,7 @@ class InvitationOut(BaseModel):
     email: StrictStr
     role: StrictStr
     status: StrictStr
-    invited_by: Optional[StrictStr]
+    invited_by: Optional[StrictStr] = None
     expires_at: datetime
     created_at: datetime
     __properties: ClassVar[List[str]] = ["id", "organization_id", "email", "role", "status", "invited_by", "expires_at", "created_at"]

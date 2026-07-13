@@ -33,6 +33,12 @@ export interface DriveList {
      * @memberof DriveList
      */
     items: Array<DriveOut>;
+    /**
+     * 
+     * @type {string}
+     * @memberof DriveList
+     */
+    nextCursor?: string | null;
 }
 
 /**
@@ -54,6 +60,7 @@ export function DriveListFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     return {
         
         'items': ((json['items'] as Array<any>).map(DriveOutFromJSON)),
+        'nextCursor': json['next_cursor'] == null ? undefined : json['next_cursor'],
     };
 }
 
@@ -69,6 +76,7 @@ export function DriveListToJSONTyped(value?: DriveList | null, ignoreDiscriminat
     return {
         
         'items': ((value['items'] as Array<any>).map(DriveOutToJSON)),
+        'next_cursor': value['nextCursor'],
     };
 }
 

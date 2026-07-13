@@ -89,6 +89,18 @@ export interface ArtifactOut {
     versionNumber?: number;
     /**
      * 
+     * @type {number}
+     * @memberof ArtifactOut
+     */
+    metageneration?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ArtifactOut
+     */
+    etag: string;
+    /**
+     * 
      * @type {Array<string>}
      * @memberof ArtifactOut
      */
@@ -150,6 +162,7 @@ export function instanceOfArtifactOut(value: object): value is ArtifactOut {
     if ((!('fileType' in value) && !('file_type' in value)) || (value['fileType'] === undefined && value['file_type'] === undefined)) return false;
     if ((!('sizeBytes' in value) && !('size_bytes' in value)) || (value['sizeBytes'] === undefined && value['size_bytes'] === undefined)) return false;
     if (!('hash' in value) || value['hash'] === undefined) return false;
+    if (!('etag' in value) || value['etag'] === undefined) return false;
     if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
     if ((!('updatedAt' in value) && !('updated_at' in value)) || (value['updatedAt'] === undefined && value['updated_at'] === undefined)) return false;
     return true;
@@ -175,6 +188,8 @@ export function ArtifactOutFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'sizeBytes': json['size_bytes'],
         'hash': json['hash'],
         'versionNumber': json['version_number'] == null ? undefined : json['version_number'],
+        'metageneration': json['metageneration'] == null ? undefined : json['metageneration'],
+        'etag': json['etag'],
         'labels': json['labels'] == null ? undefined : json['labels'],
         'metadata': json['metadata'] == null ? undefined : json['metadata'],
         'source': json['source'] == null ? undefined : ArtifactSourceFromJSON(json['source']),
@@ -207,6 +222,8 @@ export function ArtifactOutToJSONTyped(value?: ArtifactOut | null, ignoreDiscrim
         'size_bytes': value['sizeBytes'],
         'hash': value['hash'],
         'version_number': value['versionNumber'],
+        'metageneration': value['metageneration'],
+        'etag': value['etag'],
         'labels': value['labels'],
         'metadata': value['metadata'],
         'source': ArtifactSourceToJSON(value['source']),

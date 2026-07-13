@@ -31,7 +31,7 @@ class DriveApiKeyCreateOut(BaseModel):
     id: StrictStr
     api_key: StrictStr
     prefix: StrictStr
-    label: Optional[StrictStr]
+    label: Optional[StrictStr] = None
     created_at: datetime
     __properties: ClassVar[List[str]] = ["id", "api_key", "prefix", "label", "created_at"]
 

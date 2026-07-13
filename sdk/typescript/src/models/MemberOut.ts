@@ -37,13 +37,13 @@ export interface MemberOut {
      * @type {string}
      * @memberof MemberOut
      */
-    firstName: string | null;
+    firstName?: string | null;
     /**
      * 
      * @type {string}
      * @memberof MemberOut
      */
-    lastName: string | null;
+    lastName?: string | null;
     /**
      * 
      * @type {MemberOutRoleEnum}
@@ -75,8 +75,6 @@ export type MemberOutRoleEnum = typeof MemberOutRoleEnum[keyof typeof MemberOutR
 export function instanceOfMemberOut(value: object): value is MemberOut {
     if ((!('userId' in value) && !('user_id' in value)) || (value['userId'] === undefined && value['user_id'] === undefined)) return false;
     if (!('email' in value) || value['email'] === undefined) return false;
-    if ((!('firstName' in value) && !('first_name' in value)) || (value['firstName'] === undefined && value['first_name'] === undefined)) return false;
-    if ((!('lastName' in value) && !('last_name' in value)) || (value['lastName'] === undefined && value['last_name'] === undefined)) return false;
     if (!('role' in value) || value['role'] === undefined) return false;
     if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
     return true;
@@ -94,8 +92,8 @@ export function MemberOutFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         
         'userId': json['user_id'],
         'email': json['email'],
-        'firstName': json['first_name'],
-        'lastName': json['last_name'],
+        'firstName': json['first_name'] == null ? undefined : json['first_name'],
+        'lastName': json['last_name'] == null ? undefined : json['last_name'],
         'role': json['role'],
         'createdAt': (new Date(json['created_at'])),
     };

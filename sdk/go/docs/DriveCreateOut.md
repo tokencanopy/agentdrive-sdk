@@ -7,8 +7,8 @@ Name | Type | Description | Notes
 **Id** | **string** |  | 
 **Name** | **string** |  | 
 **OrganizationId** | **string** |  | 
-**OwnerUserId** | **NullableString** |  | 
-**OwnerEmail** | **NullableString** |  | 
+**OwnerUserId** | Pointer to **NullableString** |  | [optional] 
+**OwnerEmail** | Pointer to **NullableString** |  | [optional] 
 **StorageBytes** | **int32** |  | 
 **CreatedAt** | **time.Time** |  | 
 **ApiKey** | **string** |  | 
@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 
 ### NewDriveCreateOut
 
-`func NewDriveCreateOut(id string, name string, organizationId string, ownerUserId NullableString, ownerEmail NullableString, storageBytes int32, createdAt time.Time, apiKey string, ) *DriveCreateOut`
+`func NewDriveCreateOut(id string, name string, organizationId string, storageBytes int32, createdAt time.Time, apiKey string, ) *DriveCreateOut`
 
 NewDriveCreateOut instantiates a new DriveCreateOut object
 This constructor will assign default values to properties that have it defined,
@@ -111,6 +111,11 @@ and a boolean to check if the value has been set.
 
 SetOwnerUserId sets OwnerUserId field to given value.
 
+### HasOwnerUserId
+
+`func (o *DriveCreateOut) HasOwnerUserId() bool`
+
+HasOwnerUserId returns a boolean if a field has been set.
 
 ### SetOwnerUserIdNil
 
@@ -141,6 +146,11 @@ and a boolean to check if the value has been set.
 
 SetOwnerEmail sets OwnerEmail field to given value.
 
+### HasOwnerEmail
+
+`func (o *DriveCreateOut) HasOwnerEmail() bool`
+
+HasOwnerEmail returns a boolean if a field has been set.
 
 ### SetOwnerEmailNil
 

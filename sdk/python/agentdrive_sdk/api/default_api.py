@@ -19,18 +19,26 @@ from datetime import datetime
 from pydantic import Field, StrictBool, StrictBytes, StrictInt, StrictStr, field_validator
 from typing import Any, List, Optional, Tuple, Union
 from typing_extensions import Annotated
+from agentdrive_sdk.models.artifact_delete_out import ArtifactDeleteOut
+from agentdrive_sdk.models.artifact_move_in import ArtifactMoveIn
 from agentdrive_sdk.models.artifact_out import ArtifactOut
+from agentdrive_sdk.models.artifact_patch_in import ArtifactPatchIn
 from agentdrive_sdk.models.compile_job_in import CompileJobIn
 from agentdrive_sdk.models.copy_in import CopyIn
 from agentdrive_sdk.models.describe_in import DescribeIn
 from agentdrive_sdk.models.download_url_out import DownloadUrlOut
+from agentdrive_sdk.models.drive_delete_out import DriveDeleteOut
 from agentdrive_sdk.models.event_page import EventPage
+from agentdrive_sdk.models.feedback_status_out import FeedbackStatusOut
 from agentdrive_sdk.models.find_page import FindPage
+from agentdrive_sdk.models.folder_copy_in import FolderCopyIn
+from agentdrive_sdk.models.folder_copy_out import FolderCopyOut
 from agentdrive_sdk.models.folder_create_in import FolderCreateIn
 from agentdrive_sdk.models.folder_delete_out import FolderDeleteOut
 from agentdrive_sdk.models.folder_move_in import FolderMoveIn
 from agentdrive_sdk.models.folder_out import FolderOut
 from agentdrive_sdk.models.folder_patch_in import FolderPatchIn
+from agentdrive_sdk.models.folder_restore_out import FolderRestoreOut
 from agentdrive_sdk.models.grant_create_in import GrantCreateIn
 from agentdrive_sdk.models.grant_in import GrantIn
 from agentdrive_sdk.models.grant_list import GrantList
@@ -42,14 +50,17 @@ from agentdrive_sdk.models.page import Page
 from agentdrive_sdk.models.project_config_in import ProjectConfigIn
 from agentdrive_sdk.models.public_in import PublicIn
 from agentdrive_sdk.models.query_in import QueryIn
-from agentdrive_sdk.models.rename_in import RenameIn
+from agentdrive_sdk.models.revoke_out import RevokeOut
 from agentdrive_sdk.models.seal_in import SealIn
 from agentdrive_sdk.models.search_page import SearchPage
 from agentdrive_sdk.models.share_create_in import ShareCreateIn
 from agentdrive_sdk.models.share_list import ShareList
 from agentdrive_sdk.models.share_mint_out import ShareMintOut
+from agentdrive_sdk.models.share_out import ShareOut
+from agentdrive_sdk.models.upload_abort_out import UploadAbortOut
 from agentdrive_sdk.models.upload_begin_in import UploadBeginIn
 from agentdrive_sdk.models.upload_begin_out import UploadBeginOut
+from agentdrive_sdk.models.upload_status_out import UploadStatusOut
 from agentdrive_sdk.models.version_out import VersionOut
 from agentdrive_sdk.models.version_page import VersionPage
 
@@ -69,6 +80,290 @@ class DefaultApi:
         if api_client is None:
             api_client = ApiClient.get_default()
         self.api_client = api_client
+
+
+    @validate_call
+    def abort_upload_v0_uploads_upload_id_delete(
+        self,
+        upload_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> UploadAbortOut:
+        """Abort a large (direct-to-GCS) upload session
+
+        Release an open upload session: return its reserved quota to the drive and mark it aborted. Idempotent — aborting an already-aborted or already-expired session succeeds with `released_bytes: 0`. A committed session cannot be aborted (409 ALREADY_COMMITTED). No write budget is charged — this frees resources rather than consuming them.
+
+        :param upload_id: (required)
+        :type upload_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._abort_upload_v0_uploads_upload_id_delete_serialize(
+            upload_id=upload_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "UploadAbortOut",
+            '404': None,
+            '409': None,
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def abort_upload_v0_uploads_upload_id_delete_with_http_info(
+        self,
+        upload_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[UploadAbortOut]:
+        """Abort a large (direct-to-GCS) upload session
+
+        Release an open upload session: return its reserved quota to the drive and mark it aborted. Idempotent — aborting an already-aborted or already-expired session succeeds with `released_bytes: 0`. A committed session cannot be aborted (409 ALREADY_COMMITTED). No write budget is charged — this frees resources rather than consuming them.
+
+        :param upload_id: (required)
+        :type upload_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._abort_upload_v0_uploads_upload_id_delete_serialize(
+            upload_id=upload_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "UploadAbortOut",
+            '404': None,
+            '409': None,
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def abort_upload_v0_uploads_upload_id_delete_without_preload_content(
+        self,
+        upload_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Abort a large (direct-to-GCS) upload session
+
+        Release an open upload session: return its reserved quota to the drive and mark it aborted. Idempotent — aborting an already-aborted or already-expired session succeeds with `released_bytes: 0`. A committed session cannot be aborted (409 ALREADY_COMMITTED). No write budget is charged — this frees resources rather than consuming them.
+
+        :param upload_id: (required)
+        :type upload_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._abort_upload_v0_uploads_upload_id_delete_serialize(
+            upload_id=upload_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "UploadAbortOut",
+            '404': None,
+            '409': None,
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _abort_upload_v0_uploads_upload_id_delete_serialize(
+        self,
+        upload_id,
+        authorization,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if upload_id is not None:
+            _path_params['upload_id'] = upload_id
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/v0/uploads/{upload_id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
 
 
     @validate_call
@@ -1182,7 +1477,6 @@ class DefaultApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UploadBeginOut",
             '400': None,
-            '402': None,
             '403': None,
             '413': None,
             '429': None,
@@ -1259,7 +1553,6 @@ class DefaultApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UploadBeginOut",
             '400': None,
-            '402': None,
             '403': None,
             '413': None,
             '429': None,
@@ -1336,7 +1629,6 @@ class DefaultApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "UploadBeginOut",
             '400': None,
-            '402': None,
             '403': None,
             '413': None,
             '429': None,
@@ -2807,6 +3099,7 @@ class DefaultApi:
         art_id: StrictStr,
         copy_in: CopyIn,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_none_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -2823,7 +3116,7 @@ class DefaultApi:
     ) -> ArtifactOut:
         """Duplicate an artifact to a new path (CAS-shared, new ID)
 
-        Create a new artifact at `path` whose bytes are identical to the source artifact's. The copy reuses the source's CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and — by default — `source.refs = [{type: 'artifact', id: '<source>'}]` so provenance is preserved.  Quota: the copy's `size_bytes` is added to the drive's `storage_bytes` even though physical bytes are shared.  Returns 409 PATH_CONFLICT if the target path is already taken; 413 STORAGE_QUOTA_EXCEEDED if the copy would push the drive over its limit.
+        Create a new artifact at `path` whose bytes are identical to the source artifact's. The copy reuses the source's CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and — by default — `source.refs = [{type: 'artifact', id: '<source>'}]` so provenance is preserved.  Quota: the copy's `size_bytes` is added to the drive's `storage_bytes` even though physical bytes are shared.  Source-version pin: pass `from_generation` in the body to require the source's current content generation (`version_number`) to equal it (→ 412 SOURCE_VERSION_MISMATCH); a concurrent source *metadata* edit does NOT fail the copy. Destination create-only: `If-None-Match: *` returns 412 CREATE_CONFLICT (instead of 409 PATH_CONFLICT) when the target path is occupied.  Returns 409 PATH_CONFLICT if the target path is already taken; 413 STORAGE_QUOTA_EXCEEDED if the copy would push the drive over its limit.
 
         :param art_id: (required)
         :type art_id: str
@@ -2831,6 +3124,8 @@ class DefaultApi:
         :type copy_in: CopyIn
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_none_match:
+        :type if_none_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2859,6 +3154,7 @@ class DefaultApi:
             art_id=art_id,
             copy_in=copy_in,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_none_match=if_none_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2867,7 +3163,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArtifactOut",
+            '201': "ArtifactOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2887,6 +3183,7 @@ class DefaultApi:
         art_id: StrictStr,
         copy_in: CopyIn,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_none_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -2903,7 +3200,7 @@ class DefaultApi:
     ) -> ApiResponse[ArtifactOut]:
         """Duplicate an artifact to a new path (CAS-shared, new ID)
 
-        Create a new artifact at `path` whose bytes are identical to the source artifact's. The copy reuses the source's CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and — by default — `source.refs = [{type: 'artifact', id: '<source>'}]` so provenance is preserved.  Quota: the copy's `size_bytes` is added to the drive's `storage_bytes` even though physical bytes are shared.  Returns 409 PATH_CONFLICT if the target path is already taken; 413 STORAGE_QUOTA_EXCEEDED if the copy would push the drive over its limit.
+        Create a new artifact at `path` whose bytes are identical to the source artifact's. The copy reuses the source's CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and — by default — `source.refs = [{type: 'artifact', id: '<source>'}]` so provenance is preserved.  Quota: the copy's `size_bytes` is added to the drive's `storage_bytes` even though physical bytes are shared.  Source-version pin: pass `from_generation` in the body to require the source's current content generation (`version_number`) to equal it (→ 412 SOURCE_VERSION_MISMATCH); a concurrent source *metadata* edit does NOT fail the copy. Destination create-only: `If-None-Match: *` returns 412 CREATE_CONFLICT (instead of 409 PATH_CONFLICT) when the target path is occupied.  Returns 409 PATH_CONFLICT if the target path is already taken; 413 STORAGE_QUOTA_EXCEEDED if the copy would push the drive over its limit.
 
         :param art_id: (required)
         :type art_id: str
@@ -2911,6 +3208,8 @@ class DefaultApi:
         :type copy_in: CopyIn
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_none_match:
+        :type if_none_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2939,6 +3238,7 @@ class DefaultApi:
             art_id=art_id,
             copy_in=copy_in,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_none_match=if_none_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2947,7 +3247,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArtifactOut",
+            '201': "ArtifactOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -2967,6 +3267,7 @@ class DefaultApi:
         art_id: StrictStr,
         copy_in: CopyIn,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_none_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -2983,7 +3284,7 @@ class DefaultApi:
     ) -> RESTResponseType:
         """Duplicate an artifact to a new path (CAS-shared, new ID)
 
-        Create a new artifact at `path` whose bytes are identical to the source artifact's. The copy reuses the source's CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and — by default — `source.refs = [{type: 'artifact', id: '<source>'}]` so provenance is preserved.  Quota: the copy's `size_bytes` is added to the drive's `storage_bytes` even though physical bytes are shared.  Returns 409 PATH_CONFLICT if the target path is already taken; 413 STORAGE_QUOTA_EXCEEDED if the copy would push the drive over its limit.
+        Create a new artifact at `path` whose bytes are identical to the source artifact's. The copy reuses the source's CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and — by default — `source.refs = [{type: 'artifact', id: '<source>'}]` so provenance is preserved.  Quota: the copy's `size_bytes` is added to the drive's `storage_bytes` even though physical bytes are shared.  Source-version pin: pass `from_generation` in the body to require the source's current content generation (`version_number`) to equal it (→ 412 SOURCE_VERSION_MISMATCH); a concurrent source *metadata* edit does NOT fail the copy. Destination create-only: `If-None-Match: *` returns 412 CREATE_CONFLICT (instead of 409 PATH_CONFLICT) when the target path is occupied.  Returns 409 PATH_CONFLICT if the target path is already taken; 413 STORAGE_QUOTA_EXCEEDED if the copy would push the drive over its limit.
 
         :param art_id: (required)
         :type art_id: str
@@ -2991,6 +3292,8 @@ class DefaultApi:
         :type copy_in: CopyIn
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_none_match:
+        :type if_none_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -3019,6 +3322,7 @@ class DefaultApi:
             art_id=art_id,
             copy_in=copy_in,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_none_match=if_none_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3027,7 +3331,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArtifactOut",
+            '201': "ArtifactOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -3042,6 +3346,7 @@ class DefaultApi:
         art_id,
         copy_in,
         x_agentdrive_actor,
+        if_none_match,
         authorization,
         _request_auth,
         _content_type,
@@ -3070,6 +3375,8 @@ class DefaultApi:
         # process the header parameters
         if x_agentdrive_actor is not None:
             _header_params['x-agentdrive-actor'] = x_agentdrive_actor
+        if if_none_match is not None:
+            _header_params['if-none-match'] = if_none_match
         if authorization is not None:
             _header_params['authorization'] = authorization
         # process the form parameters
@@ -3107,6 +3414,342 @@ class DefaultApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v0/artifacts/{art_id}/copy',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def copy_folder_by_id_v0_folders_fld_id_copy_post(
+        self,
+        fld_id: StrictStr,
+        folder_copy_in: FolderCopyIn,
+        x_agentdrive_actor: Optional[StrictStr] = None,
+        if_none_match: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> FolderCopyOut:
+        """Duplicate a folder subtree to a new path (CAS-shared, new IDs)
+
+        Clone the folder identified by URL id — and every descendant folder + artifact — under the body's `path` (canonical, trailing slash). Each copied artifact reuses the source's CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and `source.refs = [{type: 'artifact', id: '<source>'}]` provenance. The new folder gets a fresh `fld_…` ID and the source's description.  The entire subtree is copied in a SINGLE transaction — either every row lands or none does.  Quota: each copy's `size_bytes` counts against the drive's `storage_bytes` even though physical bytes are shared.  Source-version pin: pass `from_metageneration` in the body to require the source folder's current `metageneration` to equal it (→ 412 SOURCE_VERSION_MISMATCH). Destination create-only: `If-None-Match: *` returns 412 CREATE_CONFLICT (instead of 409 FOLDER_PATH_CONFLICT) when the destination folder is occupied.  Returns 409 `FOLDER_PATH_CONFLICT` if the destination collides with a live folder or artifact; 400 `FOLDER_PATH_INVALID` if `path` is non-canonical; 413 `SUBTREE_TOO_LARGE` if the source holds more than 5000 artifacts; 413 `STORAGE_QUOTA_EXCEEDED` if the copy would push the drive over its limit.
+
+        :param fld_id: (required)
+        :type fld_id: str
+        :param folder_copy_in: (required)
+        :type folder_copy_in: FolderCopyIn
+        :param x_agentdrive_actor:
+        :type x_agentdrive_actor: str
+        :param if_none_match:
+        :type if_none_match: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._copy_folder_by_id_v0_folders_fld_id_copy_post_serialize(
+            fld_id=fld_id,
+            folder_copy_in=folder_copy_in,
+            x_agentdrive_actor=x_agentdrive_actor,
+            if_none_match=if_none_match,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "FolderCopyOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def copy_folder_by_id_v0_folders_fld_id_copy_post_with_http_info(
+        self,
+        fld_id: StrictStr,
+        folder_copy_in: FolderCopyIn,
+        x_agentdrive_actor: Optional[StrictStr] = None,
+        if_none_match: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[FolderCopyOut]:
+        """Duplicate a folder subtree to a new path (CAS-shared, new IDs)
+
+        Clone the folder identified by URL id — and every descendant folder + artifact — under the body's `path` (canonical, trailing slash). Each copied artifact reuses the source's CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and `source.refs = [{type: 'artifact', id: '<source>'}]` provenance. The new folder gets a fresh `fld_…` ID and the source's description.  The entire subtree is copied in a SINGLE transaction — either every row lands or none does.  Quota: each copy's `size_bytes` counts against the drive's `storage_bytes` even though physical bytes are shared.  Source-version pin: pass `from_metageneration` in the body to require the source folder's current `metageneration` to equal it (→ 412 SOURCE_VERSION_MISMATCH). Destination create-only: `If-None-Match: *` returns 412 CREATE_CONFLICT (instead of 409 FOLDER_PATH_CONFLICT) when the destination folder is occupied.  Returns 409 `FOLDER_PATH_CONFLICT` if the destination collides with a live folder or artifact; 400 `FOLDER_PATH_INVALID` if `path` is non-canonical; 413 `SUBTREE_TOO_LARGE` if the source holds more than 5000 artifacts; 413 `STORAGE_QUOTA_EXCEEDED` if the copy would push the drive over its limit.
+
+        :param fld_id: (required)
+        :type fld_id: str
+        :param folder_copy_in: (required)
+        :type folder_copy_in: FolderCopyIn
+        :param x_agentdrive_actor:
+        :type x_agentdrive_actor: str
+        :param if_none_match:
+        :type if_none_match: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._copy_folder_by_id_v0_folders_fld_id_copy_post_serialize(
+            fld_id=fld_id,
+            folder_copy_in=folder_copy_in,
+            x_agentdrive_actor=x_agentdrive_actor,
+            if_none_match=if_none_match,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "FolderCopyOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def copy_folder_by_id_v0_folders_fld_id_copy_post_without_preload_content(
+        self,
+        fld_id: StrictStr,
+        folder_copy_in: FolderCopyIn,
+        x_agentdrive_actor: Optional[StrictStr] = None,
+        if_none_match: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Duplicate a folder subtree to a new path (CAS-shared, new IDs)
+
+        Clone the folder identified by URL id — and every descendant folder + artifact — under the body's `path` (canonical, trailing slash). Each copied artifact reuses the source's CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and `source.refs = [{type: 'artifact', id: '<source>'}]` provenance. The new folder gets a fresh `fld_…` ID and the source's description.  The entire subtree is copied in a SINGLE transaction — either every row lands or none does.  Quota: each copy's `size_bytes` counts against the drive's `storage_bytes` even though physical bytes are shared.  Source-version pin: pass `from_metageneration` in the body to require the source folder's current `metageneration` to equal it (→ 412 SOURCE_VERSION_MISMATCH). Destination create-only: `If-None-Match: *` returns 412 CREATE_CONFLICT (instead of 409 FOLDER_PATH_CONFLICT) when the destination folder is occupied.  Returns 409 `FOLDER_PATH_CONFLICT` if the destination collides with a live folder or artifact; 400 `FOLDER_PATH_INVALID` if `path` is non-canonical; 413 `SUBTREE_TOO_LARGE` if the source holds more than 5000 artifacts; 413 `STORAGE_QUOTA_EXCEEDED` if the copy would push the drive over its limit.
+
+        :param fld_id: (required)
+        :type fld_id: str
+        :param folder_copy_in: (required)
+        :type folder_copy_in: FolderCopyIn
+        :param x_agentdrive_actor:
+        :type x_agentdrive_actor: str
+        :param if_none_match:
+        :type if_none_match: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._copy_folder_by_id_v0_folders_fld_id_copy_post_serialize(
+            fld_id=fld_id,
+            folder_copy_in=folder_copy_in,
+            x_agentdrive_actor=x_agentdrive_actor,
+            if_none_match=if_none_match,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "FolderCopyOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _copy_folder_by_id_v0_folders_fld_id_copy_post_serialize(
+        self,
+        fld_id,
+        folder_copy_in,
+        x_agentdrive_actor,
+        if_none_match,
+        authorization,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if fld_id is not None:
+            _path_params['fld_id'] = fld_id
+        # process the query parameters
+        # process the header parameters
+        if x_agentdrive_actor is not None:
+            _header_params['x-agentdrive-actor'] = x_agentdrive_actor
+        if if_none_match is not None:
+            _header_params['if-none-match'] = if_none_match
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+        if folder_copy_in is not None:
+            _body_params = folder_copy_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v0/folders/{fld_id}/copy',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -3720,10 +4363,11 @@ class DefaultApi:
 
 
     @validate_call
-    def create_folder_by_path_v0_folders_path_post(
+    def create_folder_by_path_v0_folders_path_put(
         self,
         path: StrictStr,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_none_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         folder_create_in: Optional[FolderCreateIn] = None,
         _request_timeout: Union[
@@ -3741,12 +4385,14 @@ class DefaultApi:
     ) -> FolderOut:
         """Create a folder (idempotent)
 
-        Create a folder at the URL path. Idempotent — a second call for the same live path returns the existing row unchanged (metadata updates require PATCH).  Returns 409 `FOLDER_PATH_CONFLICT` if a live artifact occupies the file form of the path (e.g. mkdir `/foo/` when an artifact lives at `/foo`).
+        Create a folder at the URL path. Idempotent create-at-known-URI (mirrors `PUT /v0/artifacts/{path}`) — a second call for the same live path returns the existing row unchanged (metadata updates require PATCH). Returns 201 on create, 200 when the folder already exists.  Send `If-None-Match: *` to make it strictly create-only: an existing folder then returns 412 CREATE_CONFLICT instead of the idempotent 200.  Returns 409 `FOLDER_PATH_CONFLICT` if a live artifact occupies the file form of the path (e.g. mkdir `/foo/` when an artifact lives at `/foo`).
 
         :param path: (required)
         :type path: str
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_none_match:
+        :type if_none_match: str
         :param authorization:
         :type authorization: str
         :param folder_create_in:
@@ -3773,9 +4419,10 @@ class DefaultApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._create_folder_by_path_v0_folders_path_post_serialize(
+        _param = self._create_folder_by_path_v0_folders_path_put_serialize(
             path=path,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_none_match=if_none_match,
             authorization=authorization,
             folder_create_in=folder_create_in,
             _request_auth=_request_auth,
@@ -3800,10 +4447,11 @@ class DefaultApi:
 
 
     @validate_call
-    def create_folder_by_path_v0_folders_path_post_with_http_info(
+    def create_folder_by_path_v0_folders_path_put_with_http_info(
         self,
         path: StrictStr,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_none_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         folder_create_in: Optional[FolderCreateIn] = None,
         _request_timeout: Union[
@@ -3821,12 +4469,14 @@ class DefaultApi:
     ) -> ApiResponse[FolderOut]:
         """Create a folder (idempotent)
 
-        Create a folder at the URL path. Idempotent — a second call for the same live path returns the existing row unchanged (metadata updates require PATCH).  Returns 409 `FOLDER_PATH_CONFLICT` if a live artifact occupies the file form of the path (e.g. mkdir `/foo/` when an artifact lives at `/foo`).
+        Create a folder at the URL path. Idempotent create-at-known-URI (mirrors `PUT /v0/artifacts/{path}`) — a second call for the same live path returns the existing row unchanged (metadata updates require PATCH). Returns 201 on create, 200 when the folder already exists.  Send `If-None-Match: *` to make it strictly create-only: an existing folder then returns 412 CREATE_CONFLICT instead of the idempotent 200.  Returns 409 `FOLDER_PATH_CONFLICT` if a live artifact occupies the file form of the path (e.g. mkdir `/foo/` when an artifact lives at `/foo`).
 
         :param path: (required)
         :type path: str
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_none_match:
+        :type if_none_match: str
         :param authorization:
         :type authorization: str
         :param folder_create_in:
@@ -3853,9 +4503,10 @@ class DefaultApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._create_folder_by_path_v0_folders_path_post_serialize(
+        _param = self._create_folder_by_path_v0_folders_path_put_serialize(
             path=path,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_none_match=if_none_match,
             authorization=authorization,
             folder_create_in=folder_create_in,
             _request_auth=_request_auth,
@@ -3880,10 +4531,11 @@ class DefaultApi:
 
 
     @validate_call
-    def create_folder_by_path_v0_folders_path_post_without_preload_content(
+    def create_folder_by_path_v0_folders_path_put_without_preload_content(
         self,
         path: StrictStr,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_none_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         folder_create_in: Optional[FolderCreateIn] = None,
         _request_timeout: Union[
@@ -3901,12 +4553,14 @@ class DefaultApi:
     ) -> RESTResponseType:
         """Create a folder (idempotent)
 
-        Create a folder at the URL path. Idempotent — a second call for the same live path returns the existing row unchanged (metadata updates require PATCH).  Returns 409 `FOLDER_PATH_CONFLICT` if a live artifact occupies the file form of the path (e.g. mkdir `/foo/` when an artifact lives at `/foo`).
+        Create a folder at the URL path. Idempotent create-at-known-URI (mirrors `PUT /v0/artifacts/{path}`) — a second call for the same live path returns the existing row unchanged (metadata updates require PATCH). Returns 201 on create, 200 when the folder already exists.  Send `If-None-Match: *` to make it strictly create-only: an existing folder then returns 412 CREATE_CONFLICT instead of the idempotent 200.  Returns 409 `FOLDER_PATH_CONFLICT` if a live artifact occupies the file form of the path (e.g. mkdir `/foo/` when an artifact lives at `/foo`).
 
         :param path: (required)
         :type path: str
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_none_match:
+        :type if_none_match: str
         :param authorization:
         :type authorization: str
         :param folder_create_in:
@@ -3933,9 +4587,10 @@ class DefaultApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._create_folder_by_path_v0_folders_path_post_serialize(
+        _param = self._create_folder_by_path_v0_folders_path_put_serialize(
             path=path,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_none_match=if_none_match,
             authorization=authorization,
             folder_create_in=folder_create_in,
             _request_auth=_request_auth,
@@ -3955,10 +4610,11 @@ class DefaultApi:
         return response_data.response
 
 
-    def _create_folder_by_path_v0_folders_path_post_serialize(
+    def _create_folder_by_path_v0_folders_path_put_serialize(
         self,
         path,
         x_agentdrive_actor,
+        if_none_match,
         authorization,
         folder_create_in,
         _request_auth,
@@ -3988,6 +4644,8 @@ class DefaultApi:
         # process the header parameters
         if x_agentdrive_actor is not None:
             _header_params['x-agentdrive-actor'] = x_agentdrive_actor
+        if if_none_match is not None:
+            _header_params['if-none-match'] = if_none_match
         if authorization is not None:
             _header_params['authorization'] = authorization
         # process the form parameters
@@ -4023,7 +4681,7 @@ class DefaultApi:
         ]
 
         return self.api_client.param_serialize(
-            method='POST',
+            method='PUT',
             resource_path='/v0/folders/{path}',
             path_params=_path_params,
             query_params=_query_params,
@@ -7359,9 +8017,10 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
+    ) -> ArtifactDeleteOut:
         """Delete Artifact
 
+        Soft-delete the artifact at the given path.  A delete WITHOUT an `If-Match` precondition is last-writer-wins and will silently remove a concurrently-modified artifact.
 
         :param path: (required)
         :type path: str
@@ -7405,7 +8064,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "ArtifactDeleteOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -7438,9 +8097,10 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
+    ) -> ApiResponse[ArtifactDeleteOut]:
         """Delete Artifact
 
+        Soft-delete the artifact at the given path.  A delete WITHOUT an `If-Match` precondition is last-writer-wins and will silently remove a concurrently-modified artifact.
 
         :param path: (required)
         :type path: str
@@ -7484,7 +8144,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "ArtifactDeleteOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -7520,6 +8180,7 @@ class DefaultApi:
     ) -> RESTResponseType:
         """Delete Artifact
 
+        Soft-delete the artifact at the given path.  A delete WITHOUT an `If-Match` precondition is last-writer-wins and will silently remove a concurrently-modified artifact.
 
         :param path: (required)
         :type path: str
@@ -7563,7 +8224,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "ArtifactDeleteOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -7649,7 +8310,9 @@ class DefaultApi:
     def delete_drive_route_v0_drives_drive_id_delete(
         self,
         drive_id: StrictStr,
+        confirm: Optional[StrictStr] = None,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -7663,15 +8326,19 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
+    ) -> DriveDeleteOut:
         """Soft-delete a drive
 
-        Mark the drive for cleanup. All tenant data (artifacts, versions, wiki, embeddings, events) is hidden via the `live_*` views and CASCADE-removed by the GC cleanup cron at `purge_at`. Restore via `POST /v0/drives/{id}/restore` while the row is still in trash. The path-param `drive_id` MUST match the authenticated drive.  Accepts either an `ad_live_` per-drive key (deletes that key's drive) or an `ad_user_` user token selecting an owned drive (workspaces-design §5.3); a `read`-scope user token is rejected with 403 `INSUFFICIENT_SCOPE`. **Guard (§8):** a workspace must retain at least one live drive — deleting the workspace's last live drive returns 409 `LAST_DRIVE`.
+        Mark the drive for cleanup. All tenant data (artifacts, versions, wiki, embeddings, events) is hidden via the `live_*` views and CASCADE-removed by the GC cleanup cron at `purge_at`. Restore via `POST /v0/drives/{id}/restore` while the row is still in trash. The path-param `drive_id` MUST match the authenticated drive.  Accepts either an `ad_live_` per-drive key (deletes that key's drive) or an `ad_user_` user token selecting an owned drive (workspaces-design §5.3); a `read`-scope user token is rejected with 403 `INSUFFICIENT_SCOPE`. **Guard (§8):** a workspace must retain at least one live drive — deleting the workspace's last live drive returns 409 `LAST_DRIVE`.  **Explicit confirmation required:** pass `?confirm=DELETE` or the request is rejected with 400 `CONFIRM_REQUIRED`. Tenant-level deletion is the largest-blast-radius operation on the API; the static token forces a deliberate act (soft-delete still gives a restore window on top).  **Optimistic concurrency:** send `If-Match` with the drive's composite ETag (`\"<drv_id>.0.<metageneration>\"`, from a drive read) to make the delete conditional — a stale token returns 412 PRECONDITION_FAILED. A delete WITHOUT an `If-Match` precondition is last-writer-wins and will silently trash a concurrently-modified drive.
 
         :param drive_id: (required)
         :type drive_id: str
+        :param confirm:
+        :type confirm: str
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -7698,7 +8365,9 @@ class DefaultApi:
 
         _param = self._delete_drive_route_v0_drives_drive_id_delete_serialize(
             drive_id=drive_id,
+            confirm=confirm,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7707,7 +8376,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "DriveDeleteOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -7725,7 +8394,9 @@ class DefaultApi:
     def delete_drive_route_v0_drives_drive_id_delete_with_http_info(
         self,
         drive_id: StrictStr,
+        confirm: Optional[StrictStr] = None,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -7739,15 +8410,19 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
+    ) -> ApiResponse[DriveDeleteOut]:
         """Soft-delete a drive
 
-        Mark the drive for cleanup. All tenant data (artifacts, versions, wiki, embeddings, events) is hidden via the `live_*` views and CASCADE-removed by the GC cleanup cron at `purge_at`. Restore via `POST /v0/drives/{id}/restore` while the row is still in trash. The path-param `drive_id` MUST match the authenticated drive.  Accepts either an `ad_live_` per-drive key (deletes that key's drive) or an `ad_user_` user token selecting an owned drive (workspaces-design §5.3); a `read`-scope user token is rejected with 403 `INSUFFICIENT_SCOPE`. **Guard (§8):** a workspace must retain at least one live drive — deleting the workspace's last live drive returns 409 `LAST_DRIVE`.
+        Mark the drive for cleanup. All tenant data (artifacts, versions, wiki, embeddings, events) is hidden via the `live_*` views and CASCADE-removed by the GC cleanup cron at `purge_at`. Restore via `POST /v0/drives/{id}/restore` while the row is still in trash. The path-param `drive_id` MUST match the authenticated drive.  Accepts either an `ad_live_` per-drive key (deletes that key's drive) or an `ad_user_` user token selecting an owned drive (workspaces-design §5.3); a `read`-scope user token is rejected with 403 `INSUFFICIENT_SCOPE`. **Guard (§8):** a workspace must retain at least one live drive — deleting the workspace's last live drive returns 409 `LAST_DRIVE`.  **Explicit confirmation required:** pass `?confirm=DELETE` or the request is rejected with 400 `CONFIRM_REQUIRED`. Tenant-level deletion is the largest-blast-radius operation on the API; the static token forces a deliberate act (soft-delete still gives a restore window on top).  **Optimistic concurrency:** send `If-Match` with the drive's composite ETag (`\"<drv_id>.0.<metageneration>\"`, from a drive read) to make the delete conditional — a stale token returns 412 PRECONDITION_FAILED. A delete WITHOUT an `If-Match` precondition is last-writer-wins and will silently trash a concurrently-modified drive.
 
         :param drive_id: (required)
         :type drive_id: str
+        :param confirm:
+        :type confirm: str
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -7774,7 +8449,9 @@ class DefaultApi:
 
         _param = self._delete_drive_route_v0_drives_drive_id_delete_serialize(
             drive_id=drive_id,
+            confirm=confirm,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7783,7 +8460,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "DriveDeleteOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -7801,7 +8478,9 @@ class DefaultApi:
     def delete_drive_route_v0_drives_drive_id_delete_without_preload_content(
         self,
         drive_id: StrictStr,
+        confirm: Optional[StrictStr] = None,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -7818,12 +8497,16 @@ class DefaultApi:
     ) -> RESTResponseType:
         """Soft-delete a drive
 
-        Mark the drive for cleanup. All tenant data (artifacts, versions, wiki, embeddings, events) is hidden via the `live_*` views and CASCADE-removed by the GC cleanup cron at `purge_at`. Restore via `POST /v0/drives/{id}/restore` while the row is still in trash. The path-param `drive_id` MUST match the authenticated drive.  Accepts either an `ad_live_` per-drive key (deletes that key's drive) or an `ad_user_` user token selecting an owned drive (workspaces-design §5.3); a `read`-scope user token is rejected with 403 `INSUFFICIENT_SCOPE`. **Guard (§8):** a workspace must retain at least one live drive — deleting the workspace's last live drive returns 409 `LAST_DRIVE`.
+        Mark the drive for cleanup. All tenant data (artifacts, versions, wiki, embeddings, events) is hidden via the `live_*` views and CASCADE-removed by the GC cleanup cron at `purge_at`. Restore via `POST /v0/drives/{id}/restore` while the row is still in trash. The path-param `drive_id` MUST match the authenticated drive.  Accepts either an `ad_live_` per-drive key (deletes that key's drive) or an `ad_user_` user token selecting an owned drive (workspaces-design §5.3); a `read`-scope user token is rejected with 403 `INSUFFICIENT_SCOPE`. **Guard (§8):** a workspace must retain at least one live drive — deleting the workspace's last live drive returns 409 `LAST_DRIVE`.  **Explicit confirmation required:** pass `?confirm=DELETE` or the request is rejected with 400 `CONFIRM_REQUIRED`. Tenant-level deletion is the largest-blast-radius operation on the API; the static token forces a deliberate act (soft-delete still gives a restore window on top).  **Optimistic concurrency:** send `If-Match` with the drive's composite ETag (`\"<drv_id>.0.<metageneration>\"`, from a drive read) to make the delete conditional — a stale token returns 412 PRECONDITION_FAILED. A delete WITHOUT an `If-Match` precondition is last-writer-wins and will silently trash a concurrently-modified drive.
 
         :param drive_id: (required)
         :type drive_id: str
+        :param confirm:
+        :type confirm: str
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -7850,7 +8533,9 @@ class DefaultApi:
 
         _param = self._delete_drive_route_v0_drives_drive_id_delete_serialize(
             drive_id=drive_id,
+            confirm=confirm,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7859,7 +8544,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "DriveDeleteOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -7872,7 +8557,9 @@ class DefaultApi:
     def _delete_drive_route_v0_drives_drive_id_delete_serialize(
         self,
         drive_id,
+        confirm,
         x_agentdrive_actor,
+        if_match,
         authorization,
         _request_auth,
         _content_type,
@@ -7898,9 +8585,15 @@ class DefaultApi:
         if drive_id is not None:
             _path_params['drive_id'] = drive_id
         # process the query parameters
+        if confirm is not None:
+            
+            _query_params.append(('confirm', confirm))
+            
         # process the header parameters
         if x_agentdrive_actor is not None:
             _header_params['x-agentdrive-actor'] = x_agentdrive_actor
+        if if_match is not None:
+            _header_params['if-match'] = if_match
         if authorization is not None:
             _header_params['authorization'] = authorization
         # process the form parameters
@@ -8235,6 +8928,7 @@ class DefaultApi:
         fld_id: StrictStr,
         recursive: Optional[StrictBool] = None,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -8258,6 +8952,8 @@ class DefaultApi:
         :type recursive: bool
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -8286,6 +8982,7 @@ class DefaultApi:
             fld_id=fld_id,
             recursive=recursive,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8314,6 +9011,7 @@ class DefaultApi:
         fld_id: StrictStr,
         recursive: Optional[StrictBool] = None,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -8337,6 +9035,8 @@ class DefaultApi:
         :type recursive: bool
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -8365,6 +9065,7 @@ class DefaultApi:
             fld_id=fld_id,
             recursive=recursive,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8393,6 +9094,7 @@ class DefaultApi:
         fld_id: StrictStr,
         recursive: Optional[StrictBool] = None,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -8416,6 +9118,8 @@ class DefaultApi:
         :type recursive: bool
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -8444,6 +9148,7 @@ class DefaultApi:
             fld_id=fld_id,
             recursive=recursive,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8467,6 +9172,7 @@ class DefaultApi:
         fld_id,
         recursive,
         x_agentdrive_actor,
+        if_match,
         authorization,
         _request_auth,
         _content_type,
@@ -8499,6 +9205,8 @@ class DefaultApi:
         # process the header parameters
         if x_agentdrive_actor is not None:
             _header_params['x-agentdrive-actor'] = x_agentdrive_actor
+        if if_match is not None:
+            _header_params['if-match'] = if_match
         if authorization is not None:
             _header_params['authorization'] = authorization
         # process the form parameters
@@ -8542,6 +9250,7 @@ class DefaultApi:
         path: StrictStr,
         recursive: Optional[StrictBool] = None,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -8566,6 +9275,8 @@ class DefaultApi:
         :type recursive: bool
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -8594,6 +9305,7 @@ class DefaultApi:
             path=path,
             recursive=recursive,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8622,6 +9334,7 @@ class DefaultApi:
         path: StrictStr,
         recursive: Optional[StrictBool] = None,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -8646,6 +9359,8 @@ class DefaultApi:
         :type recursive: bool
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -8674,6 +9389,7 @@ class DefaultApi:
             path=path,
             recursive=recursive,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8702,6 +9418,7 @@ class DefaultApi:
         path: StrictStr,
         recursive: Optional[StrictBool] = None,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -8726,6 +9443,8 @@ class DefaultApi:
         :type recursive: bool
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -8754,6 +9473,7 @@ class DefaultApi:
             path=path,
             recursive=recursive,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8777,6 +9497,7 @@ class DefaultApi:
         path,
         recursive,
         x_agentdrive_actor,
+        if_match,
         authorization,
         _request_auth,
         _content_type,
@@ -8809,6 +9530,8 @@ class DefaultApi:
         # process the header parameters
         if x_agentdrive_actor is not None:
             _header_params['x-agentdrive-actor'] = x_agentdrive_actor
+        if if_match is not None:
+            _header_params['if-match'] = if_match
         if authorization is not None:
             _header_params['authorization'] = authorization
         # process the form parameters
@@ -8864,7 +9587,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
+    ) -> RevokeOut:
         """Revoke a grant (can_manage, or self-revoke own grant)
 
 
@@ -8907,7 +9630,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "RevokeOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -8939,7 +9662,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
+    ) -> ApiResponse[RevokeOut]:
         """Revoke a grant (can_manage, or self-revoke own grant)
 
 
@@ -8982,7 +9705,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "RevokeOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -9057,7 +9780,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "RevokeOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -9154,7 +9877,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
+    ) -> RevokeOut:
         """Revoke a share link (requires can_manage)
 
 
@@ -9197,7 +9920,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "RevokeOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -9229,7 +9952,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
+    ) -> ApiResponse[RevokeOut]:
         """Revoke a share link (requires can_manage)
 
 
@@ -9272,7 +9995,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "RevokeOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -9347,7 +10070,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "RevokeOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -9992,6 +10715,284 @@ class DefaultApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v0/artifacts/{art_id}/download',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def download_artifact_by_path_v0_artifacts_path_download_get(
+        self,
+        path: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> object:
+        """Stream the artifact bytes by path (never rendered HTML)
+
+        Same bytes-only machine surface as `/{art_id}/download` but resolves the artifact by path, so callers don't have to resolve path→id first. Applies the identical CSP `sandbox` + `nosniff` posture (never serves HTML inline as active content).
+
+        :param path: (required)
+        :type path: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._download_artifact_by_path_v0_artifacts_path_download_get_serialize(
+            path=path,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def download_artifact_by_path_v0_artifacts_path_download_get_with_http_info(
+        self,
+        path: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[object]:
+        """Stream the artifact bytes by path (never rendered HTML)
+
+        Same bytes-only machine surface as `/{art_id}/download` but resolves the artifact by path, so callers don't have to resolve path→id first. Applies the identical CSP `sandbox` + `nosniff` posture (never serves HTML inline as active content).
+
+        :param path: (required)
+        :type path: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._download_artifact_by_path_v0_artifacts_path_download_get_serialize(
+            path=path,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def download_artifact_by_path_v0_artifacts_path_download_get_without_preload_content(
+        self,
+        path: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Stream the artifact bytes by path (never rendered HTML)
+
+        Same bytes-only machine surface as `/{art_id}/download` but resolves the artifact by path, so callers don't have to resolve path→id first. Applies the identical CSP `sandbox` + `nosniff` posture (never serves HTML inline as active content).
+
+        :param path: (required)
+        :type path: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._download_artifact_by_path_v0_artifacts_path_download_get_serialize(
+            path=path,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _download_artifact_by_path_v0_artifacts_path_download_get_serialize(
+        self,
+        path,
+        authorization,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if path is not None:
+            _path_params['path'] = path
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v0/artifacts/{path}/download',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -14142,6 +15143,284 @@ class DefaultApi:
 
 
     @validate_call
+    def get_drive_route_v0_drives_drive_id_get(
+        self,
+        drive_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> object:
+        """Drive overview by id (same shape as /drives/me)
+
+        Identical to `GET /v0/drives/me` — the by-id singleton so `Location`-style URLs and scripted clients can address the drive canonically. The path-param `drive_id` MUST match the authenticated drive (mirrors the delete/trash routes' no-leak 404). Emits the drive's composite `ETag` header (`\"<drv_id>.0.<metageneration>\"`).
+
+        :param drive_id: (required)
+        :type drive_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_drive_route_v0_drives_drive_id_get_serialize(
+            drive_id=drive_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_drive_route_v0_drives_drive_id_get_with_http_info(
+        self,
+        drive_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[object]:
+        """Drive overview by id (same shape as /drives/me)
+
+        Identical to `GET /v0/drives/me` — the by-id singleton so `Location`-style URLs and scripted clients can address the drive canonically. The path-param `drive_id` MUST match the authenticated drive (mirrors the delete/trash routes' no-leak 404). Emits the drive's composite `ETag` header (`\"<drv_id>.0.<metageneration>\"`).
+
+        :param drive_id: (required)
+        :type drive_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_drive_route_v0_drives_drive_id_get_serialize(
+            drive_id=drive_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_drive_route_v0_drives_drive_id_get_without_preload_content(
+        self,
+        drive_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Drive overview by id (same shape as /drives/me)
+
+        Identical to `GET /v0/drives/me` — the by-id singleton so `Location`-style URLs and scripted clients can address the drive canonically. The path-param `drive_id` MUST match the authenticated drive (mirrors the delete/trash routes' no-leak 404). Emits the drive's composite `ETag` header (`\"<drv_id>.0.<metageneration>\"`).
+
+        :param drive_id: (required)
+        :type drive_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_drive_route_v0_drives_drive_id_get_serialize(
+            drive_id=drive_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_drive_route_v0_drives_drive_id_get_serialize(
+        self,
+        drive_id,
+        authorization,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if drive_id is not None:
+            _path_params['drive_id'] = drive_id
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v0/drives/{drive_id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_feedback_status_v0_feedback_fbk_id_get(
         self,
         fbk_id: StrictStr,
@@ -14158,7 +15437,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
+    ) -> FeedbackStatusOut:
         """Get Feedback Status
 
         Lifecycle status of feedback THIS drive filed. Foreign tickets read as 404 — indistinguishable from absent.
@@ -14199,7 +15478,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "FeedbackStatusOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -14230,7 +15509,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
+    ) -> ApiResponse[FeedbackStatusOut]:
         """Get Feedback Status
 
         Lifecycle status of feedback THIS drive filed. Foreign tickets read as 404 — indistinguishable from absent.
@@ -14271,7 +15550,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "FeedbackStatusOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -14343,7 +15622,7 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '200': "FeedbackStatusOut",
             '422': "HTTPValidationError",
         }
         response_data = self.api_client.call_api(
@@ -15520,6 +16799,284 @@ class DefaultApi:
 
 
     @validate_call
+    def get_grant_route_v0_grants_grn_id_get(
+        self,
+        grn_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GrantOut:
+        """Read a single grant (can_manage, or the grant's own principal)
+
+        The `Location` target of `POST /v0/grants`. Authorization mirrors DELETE: `can_manage` on the granted resource, or the caller IS the grant's own principal (a grantee may read — like revoke — their own grant). A revoked grant reads as 404 (same no-leak shape as a foreign/absent id); DELETE stays idempotent on it.
+
+        :param grn_id: (required)
+        :type grn_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_grant_route_v0_grants_grn_id_get_serialize(
+            grn_id=grn_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GrantOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_grant_route_v0_grants_grn_id_get_with_http_info(
+        self,
+        grn_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GrantOut]:
+        """Read a single grant (can_manage, or the grant's own principal)
+
+        The `Location` target of `POST /v0/grants`. Authorization mirrors DELETE: `can_manage` on the granted resource, or the caller IS the grant's own principal (a grantee may read — like revoke — their own grant). A revoked grant reads as 404 (same no-leak shape as a foreign/absent id); DELETE stays idempotent on it.
+
+        :param grn_id: (required)
+        :type grn_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_grant_route_v0_grants_grn_id_get_serialize(
+            grn_id=grn_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GrantOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_grant_route_v0_grants_grn_id_get_without_preload_content(
+        self,
+        grn_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Read a single grant (can_manage, or the grant's own principal)
+
+        The `Location` target of `POST /v0/grants`. Authorization mirrors DELETE: `can_manage` on the granted resource, or the caller IS the grant's own principal (a grantee may read — like revoke — their own grant). A revoked grant reads as 404 (same no-leak shape as a foreign/absent id); DELETE stays idempotent on it.
+
+        :param grn_id: (required)
+        :type grn_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_grant_route_v0_grants_grn_id_get_serialize(
+            grn_id=grn_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GrantOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_grant_route_v0_grants_grn_id_get_serialize(
+        self,
+        grn_id,
+        authorization,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if grn_id is not None:
+            _path_params['grn_id'] = grn_id
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v0/grants/{grn_id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_job_logs_v0_jobs_job_id_logs_get(
         self,
         job_id: StrictStr,
@@ -16345,6 +17902,284 @@ class DefaultApi:
 
 
     @validate_call
+    def get_share_route_v0_shares_shr_id_get(
+        self,
+        shr_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ShareOut:
+        """Read a single share link's metadata (requires can_manage)
+
+        The `Location` target of `POST /v0/shares`. Metadata ONLY — `ShareOut` never carries the raw `share_key`/URL (returned exactly once at mint/rotate, §4.5). Authorization mirrors DELETE: `can_manage` on the shared resource. A revoked share reads as 404 (same no-leak shape as a foreign/absent id).
+
+        :param shr_id: (required)
+        :type shr_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_share_route_v0_shares_shr_id_get_serialize(
+            shr_id=shr_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ShareOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_share_route_v0_shares_shr_id_get_with_http_info(
+        self,
+        shr_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ShareOut]:
+        """Read a single share link's metadata (requires can_manage)
+
+        The `Location` target of `POST /v0/shares`. Metadata ONLY — `ShareOut` never carries the raw `share_key`/URL (returned exactly once at mint/rotate, §4.5). Authorization mirrors DELETE: `can_manage` on the shared resource. A revoked share reads as 404 (same no-leak shape as a foreign/absent id).
+
+        :param shr_id: (required)
+        :type shr_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_share_route_v0_shares_shr_id_get_serialize(
+            shr_id=shr_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ShareOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_share_route_v0_shares_shr_id_get_without_preload_content(
+        self,
+        shr_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Read a single share link's metadata (requires can_manage)
+
+        The `Location` target of `POST /v0/shares`. Metadata ONLY — `ShareOut` never carries the raw `share_key`/URL (returned exactly once at mint/rotate, §4.5). Authorization mirrors DELETE: `can_manage` on the shared resource. A revoked share reads as 404 (same no-leak shape as a foreign/absent id).
+
+        :param shr_id: (required)
+        :type shr_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_share_route_v0_shares_shr_id_get_serialize(
+            shr_id=shr_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ShareOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_share_route_v0_shares_shr_id_get_serialize(
+        self,
+        shr_id,
+        authorization,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if shr_id is not None:
+            _path_params['shr_id'] = shr_id
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v0/shares/{shr_id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_share_state_web_share_rid_get(
         self,
         rid: StrictStr,
@@ -16589,6 +18424,287 @@ class DefaultApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/web/share/{rid}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_upload_status_v0_uploads_upload_id_get(
+        self,
+        upload_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> UploadStatusOut:
+        """Get the status of a large (direct-to-GCS) upload session
+
+        Report the live state of an upload session begun at `/v0/uploads`. `state` is derived: `initiated` (open — PUT the bytes then commit), `committed` (artifact created), `aborted` (released via DELETE), or `expired` (past `expires_at` without a commit). Read-only; charges the read budget.
+
+        :param upload_id: (required)
+        :type upload_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_upload_status_v0_uploads_upload_id_get_serialize(
+            upload_id=upload_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "UploadStatusOut",
+            '404': None,
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_upload_status_v0_uploads_upload_id_get_with_http_info(
+        self,
+        upload_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[UploadStatusOut]:
+        """Get the status of a large (direct-to-GCS) upload session
+
+        Report the live state of an upload session begun at `/v0/uploads`. `state` is derived: `initiated` (open — PUT the bytes then commit), `committed` (artifact created), `aborted` (released via DELETE), or `expired` (past `expires_at` without a commit). Read-only; charges the read budget.
+
+        :param upload_id: (required)
+        :type upload_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_upload_status_v0_uploads_upload_id_get_serialize(
+            upload_id=upload_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "UploadStatusOut",
+            '404': None,
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_upload_status_v0_uploads_upload_id_get_without_preload_content(
+        self,
+        upload_id: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get the status of a large (direct-to-GCS) upload session
+
+        Report the live state of an upload session begun at `/v0/uploads`. `state` is derived: `initiated` (open — PUT the bytes then commit), `committed` (artifact created), `aborted` (released via DELETE), or `expired` (past `expires_at` without a commit). Read-only; charges the read budget.
+
+        :param upload_id: (required)
+        :type upload_id: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_upload_status_v0_uploads_upload_id_get_serialize(
+            upload_id=upload_id,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "UploadStatusOut",
+            '404': None,
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_upload_status_v0_uploads_upload_id_get_serialize(
+        self,
+        upload_id,
+        authorization,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if upload_id is not None:
+            _path_params['upload_id'] = upload_id
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v0/uploads/{upload_id}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -18218,6 +20334,8 @@ class DefaultApi:
     def list_grants_route_v0_grants_get(
         self,
         resource: Annotated[StrictStr, Field(description="art_*/fld_* id or a path")],
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -18234,9 +20352,14 @@ class DefaultApi:
     ) -> GrantList:
         """List live grants on a resource (requires can_manage)
 
+        **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected. The `resource` filter must be re-sent on every page — the cursor encodes only the keyset position.
 
         :param resource: art_*/fld_* id or a path (required)
         :type resource: str
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -18263,6 +20386,8 @@ class DefaultApi:
 
         _param = self._list_grants_route_v0_grants_get_serialize(
             resource=resource,
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18289,6 +20414,8 @@ class DefaultApi:
     def list_grants_route_v0_grants_get_with_http_info(
         self,
         resource: Annotated[StrictStr, Field(description="art_*/fld_* id or a path")],
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -18305,9 +20432,14 @@ class DefaultApi:
     ) -> ApiResponse[GrantList]:
         """List live grants on a resource (requires can_manage)
 
+        **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected. The `resource` filter must be re-sent on every page — the cursor encodes only the keyset position.
 
         :param resource: art_*/fld_* id or a path (required)
         :type resource: str
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -18334,6 +20466,8 @@ class DefaultApi:
 
         _param = self._list_grants_route_v0_grants_get_serialize(
             resource=resource,
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18360,6 +20494,8 @@ class DefaultApi:
     def list_grants_route_v0_grants_get_without_preload_content(
         self,
         resource: Annotated[StrictStr, Field(description="art_*/fld_* id or a path")],
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -18376,9 +20512,14 @@ class DefaultApi:
     ) -> RESTResponseType:
         """List live grants on a resource (requires can_manage)
 
+        **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected. The `resource` filter must be re-sent on every page — the cursor encodes only the keyset position.
 
         :param resource: art_*/fld_* id or a path (required)
         :type resource: str
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -18405,6 +20546,8 @@ class DefaultApi:
 
         _param = self._list_grants_route_v0_grants_get_serialize(
             resource=resource,
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18426,6 +20569,8 @@ class DefaultApi:
     def _list_grants_route_v0_grants_get_serialize(
         self,
         resource,
+        cursor,
+        limit,
         authorization,
         _request_auth,
         _content_type,
@@ -18452,6 +20597,14 @@ class DefaultApi:
         if resource is not None:
             
             _query_params.append(('resource', resource))
+            
+        if cursor is not None:
+            
+            _query_params.append(('cursor', cursor))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
             
         # process the header parameters
         if authorization is not None:
@@ -18804,6 +20957,8 @@ class DefaultApi:
     def list_shares_route_v0_shares_get(
         self,
         resource: Annotated[StrictStr, Field(description="art_*/fld_* id or a path")],
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -18820,9 +20975,14 @@ class DefaultApi:
     ) -> ShareList:
         """List live share links on a resource (requires can_manage)
 
+        **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected. The `resource` filter must be re-sent on every page — the cursor encodes only the keyset position.
 
         :param resource: art_*/fld_* id or a path (required)
         :type resource: str
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -18849,6 +21009,8 @@ class DefaultApi:
 
         _param = self._list_shares_route_v0_shares_get_serialize(
             resource=resource,
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18875,6 +21037,8 @@ class DefaultApi:
     def list_shares_route_v0_shares_get_with_http_info(
         self,
         resource: Annotated[StrictStr, Field(description="art_*/fld_* id or a path")],
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -18891,9 +21055,14 @@ class DefaultApi:
     ) -> ApiResponse[ShareList]:
         """List live share links on a resource (requires can_manage)
 
+        **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected. The `resource` filter must be re-sent on every page — the cursor encodes only the keyset position.
 
         :param resource: art_*/fld_* id or a path (required)
         :type resource: str
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -18920,6 +21089,8 @@ class DefaultApi:
 
         _param = self._list_shares_route_v0_shares_get_serialize(
             resource=resource,
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18946,6 +21117,8 @@ class DefaultApi:
     def list_shares_route_v0_shares_get_without_preload_content(
         self,
         resource: Annotated[StrictStr, Field(description="art_*/fld_* id or a path")],
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -18962,9 +21135,14 @@ class DefaultApi:
     ) -> RESTResponseType:
         """List live share links on a resource (requires can_manage)
 
+        **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected. The `resource` filter must be re-sent on every page — the cursor encodes only the keyset position.
 
         :param resource: art_*/fld_* id or a path (required)
         :type resource: str
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -18991,6 +21169,8 @@ class DefaultApi:
 
         _param = self._list_shares_route_v0_shares_get_serialize(
             resource=resource,
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -19012,6 +21192,8 @@ class DefaultApi:
     def _list_shares_route_v0_shares_get_serialize(
         self,
         resource,
+        cursor,
+        limit,
         authorization,
         _request_auth,
         _content_type,
@@ -19038,6 +21220,14 @@ class DefaultApi:
         if resource is not None:
             
             _query_params.append(('resource', resource))
+            
+        if cursor is not None:
+            
+            _query_params.append(('cursor', cursor))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
             
         # process the header parameters
         if authorization is not None:
@@ -20923,7 +23113,7 @@ class DefaultApi:
     ) -> object:
         """Me
 
-        Drive overview for the authenticated bearer token.  Wire-protocol preservation (WorkOS integration §6): the `email` field is preserved in the response shape; its meaning is now \"the drive's owner's email\" (via `drives.owner_user_id` → `users.email`, joined in `auth.resolve_drive`). For solo signups this equals v0 behavior — the email the user signed up with. Returns null if the owner has been hard-purged. `organization_id` is a new additive field.
+        Drive overview for the authenticated bearer token.  Wire-protocol preservation (WorkOS integration §6): the `email` field is preserved in the response shape; its meaning is now \"the drive's owner's email\" (via `drives.owner_user_id` → `users.email`, joined in `auth.resolve_drive`). For solo signups this equals v0 behavior — the email the user signed up with. Returns null if the owner has been hard-purged. `organization_id` is a new additive field, as are `metageneration` / `etag` (also emitted as the `ETag` header).
 
         :param authorization:
         :type authorization: str
@@ -20991,7 +23181,7 @@ class DefaultApi:
     ) -> ApiResponse[object]:
         """Me
 
-        Drive overview for the authenticated bearer token.  Wire-protocol preservation (WorkOS integration §6): the `email` field is preserved in the response shape; its meaning is now \"the drive's owner's email\" (via `drives.owner_user_id` → `users.email`, joined in `auth.resolve_drive`). For solo signups this equals v0 behavior — the email the user signed up with. Returns null if the owner has been hard-purged. `organization_id` is a new additive field.
+        Drive overview for the authenticated bearer token.  Wire-protocol preservation (WorkOS integration §6): the `email` field is preserved in the response shape; its meaning is now \"the drive's owner's email\" (via `drives.owner_user_id` → `users.email`, joined in `auth.resolve_drive`). For solo signups this equals v0 behavior — the email the user signed up with. Returns null if the owner has been hard-purged. `organization_id` is a new additive field, as are `metageneration` / `etag` (also emitted as the `ETag` header).
 
         :param authorization:
         :type authorization: str
@@ -21059,7 +23249,7 @@ class DefaultApi:
     ) -> RESTResponseType:
         """Me
 
-        Drive overview for the authenticated bearer token.  Wire-protocol preservation (WorkOS integration §6): the `email` field is preserved in the response shape; its meaning is now \"the drive's owner's email\" (via `drives.owner_user_id` → `users.email`, joined in `auth.resolve_drive`). For solo signups this equals v0 behavior — the email the user signed up with. Returns null if the owner has been hard-purged. `organization_id` is a new additive field.
+        Drive overview for the authenticated bearer token.  Wire-protocol preservation (WorkOS integration §6): the `email` field is preserved in the response shape; its meaning is now \"the drive's owner's email\" (via `drives.owner_user_id` → `users.email`, joined in `auth.resolve_drive`). For solo signups this equals v0 behavior — the email the user signed up with. Returns null if the owner has been hard-purged. `organization_id` is a new additive field, as are `metageneration` / `etag` (also emitted as the `ETag` header).
 
         :param authorization:
         :type authorization: str
@@ -21168,11 +23358,348 @@ class DefaultApi:
 
 
     @validate_call
+    def move_artifact_route_v0_artifacts_art_id_move_post(
+        self,
+        art_id: StrictStr,
+        artifact_move_in: ArtifactMoveIn,
+        x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ArtifactOut:
+        """Rename / move an artifact to a new path
+
+        Canonical artifact move/rename, keyed by the stable `art_…` ID (the artifact analogue of `POST /v0/folders/{fld_id}/move`). Moves the artifact to a new `path` on the same drive; ID, version history, source refs, labels, metadata, and the underlying CAS blob are all preserved — only `path` and `updated_at` change, and the move does NOT bump `version_number`.  The row UPDATE and the emitted `artifact.renamed` event commit in a SINGLE transaction — a failure leaves the artifact fully unchanged.  Returns 409 PATH_CONFLICT if the target `path` is already taken; 404 ARTIFACT_NOT_FOUND for an unknown id; 403 WIKI_RESERVED for a `_wiki/` / `_compiled/` target. Honors `If-Match` (→ 412 PRECONDITION_FAILED). Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.renamed` event.
+
+        :param art_id: (required)
+        :type art_id: str
+        :param artifact_move_in: (required)
+        :type artifact_move_in: ArtifactMoveIn
+        :param x_agentdrive_actor:
+        :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._move_artifact_route_v0_artifacts_art_id_move_post_serialize(
+            art_id=art_id,
+            artifact_move_in=artifact_move_in,
+            x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ArtifactOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def move_artifact_route_v0_artifacts_art_id_move_post_with_http_info(
+        self,
+        art_id: StrictStr,
+        artifact_move_in: ArtifactMoveIn,
+        x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ArtifactOut]:
+        """Rename / move an artifact to a new path
+
+        Canonical artifact move/rename, keyed by the stable `art_…` ID (the artifact analogue of `POST /v0/folders/{fld_id}/move`). Moves the artifact to a new `path` on the same drive; ID, version history, source refs, labels, metadata, and the underlying CAS blob are all preserved — only `path` and `updated_at` change, and the move does NOT bump `version_number`.  The row UPDATE and the emitted `artifact.renamed` event commit in a SINGLE transaction — a failure leaves the artifact fully unchanged.  Returns 409 PATH_CONFLICT if the target `path` is already taken; 404 ARTIFACT_NOT_FOUND for an unknown id; 403 WIKI_RESERVED for a `_wiki/` / `_compiled/` target. Honors `If-Match` (→ 412 PRECONDITION_FAILED). Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.renamed` event.
+
+        :param art_id: (required)
+        :type art_id: str
+        :param artifact_move_in: (required)
+        :type artifact_move_in: ArtifactMoveIn
+        :param x_agentdrive_actor:
+        :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._move_artifact_route_v0_artifacts_art_id_move_post_serialize(
+            art_id=art_id,
+            artifact_move_in=artifact_move_in,
+            x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ArtifactOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def move_artifact_route_v0_artifacts_art_id_move_post_without_preload_content(
+        self,
+        art_id: StrictStr,
+        artifact_move_in: ArtifactMoveIn,
+        x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Rename / move an artifact to a new path
+
+        Canonical artifact move/rename, keyed by the stable `art_…` ID (the artifact analogue of `POST /v0/folders/{fld_id}/move`). Moves the artifact to a new `path` on the same drive; ID, version history, source refs, labels, metadata, and the underlying CAS blob are all preserved — only `path` and `updated_at` change, and the move does NOT bump `version_number`.  The row UPDATE and the emitted `artifact.renamed` event commit in a SINGLE transaction — a failure leaves the artifact fully unchanged.  Returns 409 PATH_CONFLICT if the target `path` is already taken; 404 ARTIFACT_NOT_FOUND for an unknown id; 403 WIKI_RESERVED for a `_wiki/` / `_compiled/` target. Honors `If-Match` (→ 412 PRECONDITION_FAILED). Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.renamed` event.
+
+        :param art_id: (required)
+        :type art_id: str
+        :param artifact_move_in: (required)
+        :type artifact_move_in: ArtifactMoveIn
+        :param x_agentdrive_actor:
+        :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._move_artifact_route_v0_artifacts_art_id_move_post_serialize(
+            art_id=art_id,
+            artifact_move_in=artifact_move_in,
+            x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ArtifactOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _move_artifact_route_v0_artifacts_art_id_move_post_serialize(
+        self,
+        art_id,
+        artifact_move_in,
+        x_agentdrive_actor,
+        if_match,
+        authorization,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if art_id is not None:
+            _path_params['art_id'] = art_id
+        # process the query parameters
+        # process the header parameters
+        if x_agentdrive_actor is not None:
+            _header_params['x-agentdrive-actor'] = x_agentdrive_actor
+        if if_match is not None:
+            _header_params['if-match'] = if_match
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+        if artifact_move_in is not None:
+            _body_params = artifact_move_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v0/artifacts/{art_id}/move',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def move_folder_by_id_v0_folders_fld_id_move_post(
         self,
         fld_id: StrictStr,
         folder_move_in: FolderMoveIn,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -21196,6 +23723,8 @@ class DefaultApi:
         :type folder_move_in: FolderMoveIn
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -21224,6 +23753,7 @@ class DefaultApi:
             fld_id=fld_id,
             folder_move_in=folder_move_in,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -21252,6 +23782,7 @@ class DefaultApi:
         fld_id: StrictStr,
         folder_move_in: FolderMoveIn,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -21275,6 +23806,8 @@ class DefaultApi:
         :type folder_move_in: FolderMoveIn
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -21303,6 +23836,7 @@ class DefaultApi:
             fld_id=fld_id,
             folder_move_in=folder_move_in,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -21331,6 +23865,7 @@ class DefaultApi:
         fld_id: StrictStr,
         folder_move_in: FolderMoveIn,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -21354,6 +23889,8 @@ class DefaultApi:
         :type folder_move_in: FolderMoveIn
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -21382,6 +23919,7 @@ class DefaultApi:
             fld_id=fld_id,
             folder_move_in=folder_move_in,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -21405,6 +23943,7 @@ class DefaultApi:
         fld_id,
         folder_move_in,
         x_agentdrive_actor,
+        if_match,
         authorization,
         _request_auth,
         _content_type,
@@ -21433,6 +23972,8 @@ class DefaultApi:
         # process the header parameters
         if x_agentdrive_actor is not None:
             _header_params['x-agentdrive-actor'] = x_agentdrive_actor
+        if if_match is not None:
+            _header_params['if-match'] = if_match
         if authorization is not None:
             _header_params['authorization'] = authorization
         # process the form parameters
@@ -21491,6 +24032,7 @@ class DefaultApi:
         path: StrictStr,
         folder_move_in: FolderMoveIn,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -21515,6 +24057,8 @@ class DefaultApi:
         :type folder_move_in: FolderMoveIn
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -21543,6 +24087,7 @@ class DefaultApi:
             path=path,
             folder_move_in=folder_move_in,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -21571,6 +24116,7 @@ class DefaultApi:
         path: StrictStr,
         folder_move_in: FolderMoveIn,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -21595,6 +24141,8 @@ class DefaultApi:
         :type folder_move_in: FolderMoveIn
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -21623,6 +24171,7 @@ class DefaultApi:
             path=path,
             folder_move_in=folder_move_in,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -21651,6 +24200,7 @@ class DefaultApi:
         path: StrictStr,
         folder_move_in: FolderMoveIn,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -21675,6 +24225,8 @@ class DefaultApi:
         :type folder_move_in: FolderMoveIn
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -21703,6 +24255,7 @@ class DefaultApi:
             path=path,
             folder_move_in=folder_move_in,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -21726,6 +24279,7 @@ class DefaultApi:
         path,
         folder_move_in,
         x_agentdrive_actor,
+        if_match,
         authorization,
         _request_auth,
         _content_type,
@@ -21754,6 +24308,8 @@ class DefaultApi:
         # process the header parameters
         if x_agentdrive_actor is not None:
             _header_params['x-agentdrive-actor'] = x_agentdrive_actor
+        if if_match is not None:
+            _header_params['if-match'] = if_match
         if authorization is not None:
             _header_params['authorization'] = authorization
         # process the form parameters
@@ -22098,11 +24654,348 @@ class DefaultApi:
 
 
     @validate_call
+    def patch_artifact_route_v0_artifacts_art_id_patch(
+        self,
+        art_id: StrictStr,
+        artifact_patch_in: ArtifactPatchIn,
+        x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ArtifactOut:
+        """Edit artifact metadata (labels / metadata / source)
+
+        Metadata-only JSON-merge-patch update of a single artifact, keyed by its stable `art_…` ID. Every field in the body is optional; a field that is **omitted** is left unchanged, a field that is **present** is applied — with an explicit `null` / `[]` / `{}` meaning \"clear\". This mirrors the MCP `set_metadata` tool.  Editable fields:   * `labels` — replace the label set (`[]`/`null` clears).   * `metadata` — replace the free-form metadata object (`{}`/`null` clears).   * `source` — replace provenance refs (`null` clears).  **To move/rename an artifact, use `POST /v0/artifacts/{art_id}/move`** — PATCH no longer accepts `path`. The body is `extra=\"forbid\"`, so a stray field (notably a legacy `path`) is rejected with 422 rather than silently ignored.  Metadata edits do NOT create a new content version (no `version_number` / generation bump, no `artifact_versions` row) but DO bump the artifact's `metageneration` and `updated_at`.  Returns 400 BAD_LABELS / BAD_SOURCE for invalid metadata; 404 ARTIFACT_NOT_FOUND for an unknown id. Honors `If-Match`, which takes the composite ETag `\"<art_id>.<generation>.<metageneration>\"` and is compared as a whole tuple: ANY concurrent content **or** metadata change (a bumped generation OR metageneration) → 412 PRECONDITION_FAILED. There is no last-writer-wins gap for metadata-only edits. Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.metadata_updated` event.
+
+        :param art_id: (required)
+        :type art_id: str
+        :param artifact_patch_in: (required)
+        :type artifact_patch_in: ArtifactPatchIn
+        :param x_agentdrive_actor:
+        :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_artifact_route_v0_artifacts_art_id_patch_serialize(
+            art_id=art_id,
+            artifact_patch_in=artifact_patch_in,
+            x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ArtifactOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def patch_artifact_route_v0_artifacts_art_id_patch_with_http_info(
+        self,
+        art_id: StrictStr,
+        artifact_patch_in: ArtifactPatchIn,
+        x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ArtifactOut]:
+        """Edit artifact metadata (labels / metadata / source)
+
+        Metadata-only JSON-merge-patch update of a single artifact, keyed by its stable `art_…` ID. Every field in the body is optional; a field that is **omitted** is left unchanged, a field that is **present** is applied — with an explicit `null` / `[]` / `{}` meaning \"clear\". This mirrors the MCP `set_metadata` tool.  Editable fields:   * `labels` — replace the label set (`[]`/`null` clears).   * `metadata` — replace the free-form metadata object (`{}`/`null` clears).   * `source` — replace provenance refs (`null` clears).  **To move/rename an artifact, use `POST /v0/artifacts/{art_id}/move`** — PATCH no longer accepts `path`. The body is `extra=\"forbid\"`, so a stray field (notably a legacy `path`) is rejected with 422 rather than silently ignored.  Metadata edits do NOT create a new content version (no `version_number` / generation bump, no `artifact_versions` row) but DO bump the artifact's `metageneration` and `updated_at`.  Returns 400 BAD_LABELS / BAD_SOURCE for invalid metadata; 404 ARTIFACT_NOT_FOUND for an unknown id. Honors `If-Match`, which takes the composite ETag `\"<art_id>.<generation>.<metageneration>\"` and is compared as a whole tuple: ANY concurrent content **or** metadata change (a bumped generation OR metageneration) → 412 PRECONDITION_FAILED. There is no last-writer-wins gap for metadata-only edits. Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.metadata_updated` event.
+
+        :param art_id: (required)
+        :type art_id: str
+        :param artifact_patch_in: (required)
+        :type artifact_patch_in: ArtifactPatchIn
+        :param x_agentdrive_actor:
+        :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_artifact_route_v0_artifacts_art_id_patch_serialize(
+            art_id=art_id,
+            artifact_patch_in=artifact_patch_in,
+            x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ArtifactOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def patch_artifact_route_v0_artifacts_art_id_patch_without_preload_content(
+        self,
+        art_id: StrictStr,
+        artifact_patch_in: ArtifactPatchIn,
+        x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Edit artifact metadata (labels / metadata / source)
+
+        Metadata-only JSON-merge-patch update of a single artifact, keyed by its stable `art_…` ID. Every field in the body is optional; a field that is **omitted** is left unchanged, a field that is **present** is applied — with an explicit `null` / `[]` / `{}` meaning \"clear\". This mirrors the MCP `set_metadata` tool.  Editable fields:   * `labels` — replace the label set (`[]`/`null` clears).   * `metadata` — replace the free-form metadata object (`{}`/`null` clears).   * `source` — replace provenance refs (`null` clears).  **To move/rename an artifact, use `POST /v0/artifacts/{art_id}/move`** — PATCH no longer accepts `path`. The body is `extra=\"forbid\"`, so a stray field (notably a legacy `path`) is rejected with 422 rather than silently ignored.  Metadata edits do NOT create a new content version (no `version_number` / generation bump, no `artifact_versions` row) but DO bump the artifact's `metageneration` and `updated_at`.  Returns 400 BAD_LABELS / BAD_SOURCE for invalid metadata; 404 ARTIFACT_NOT_FOUND for an unknown id. Honors `If-Match`, which takes the composite ETag `\"<art_id>.<generation>.<metageneration>\"` and is compared as a whole tuple: ANY concurrent content **or** metadata change (a bumped generation OR metageneration) → 412 PRECONDITION_FAILED. There is no last-writer-wins gap for metadata-only edits. Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.metadata_updated` event.
+
+        :param art_id: (required)
+        :type art_id: str
+        :param artifact_patch_in: (required)
+        :type artifact_patch_in: ArtifactPatchIn
+        :param x_agentdrive_actor:
+        :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_artifact_route_v0_artifacts_art_id_patch_serialize(
+            art_id=art_id,
+            artifact_patch_in=artifact_patch_in,
+            x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ArtifactOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _patch_artifact_route_v0_artifacts_art_id_patch_serialize(
+        self,
+        art_id,
+        artifact_patch_in,
+        x_agentdrive_actor,
+        if_match,
+        authorization,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if art_id is not None:
+            _path_params['art_id'] = art_id
+        # process the query parameters
+        # process the header parameters
+        if x_agentdrive_actor is not None:
+            _header_params['x-agentdrive-actor'] = x_agentdrive_actor
+        if if_match is not None:
+            _header_params['if-match'] = if_match
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+        if artifact_patch_in is not None:
+            _body_params = artifact_patch_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='PATCH',
+            resource_path='/v0/artifacts/{art_id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def patch_folder_by_id_v0_folders_fld_id_patch(
         self,
         fld_id: StrictStr,
         folder_patch_in: FolderPatchIn,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -22126,6 +25019,8 @@ class DefaultApi:
         :type folder_patch_in: FolderPatchIn
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -22154,6 +25049,7 @@ class DefaultApi:
             fld_id=fld_id,
             folder_patch_in=folder_patch_in,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22182,6 +25078,7 @@ class DefaultApi:
         fld_id: StrictStr,
         folder_patch_in: FolderPatchIn,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -22205,6 +25102,8 @@ class DefaultApi:
         :type folder_patch_in: FolderPatchIn
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -22233,6 +25132,7 @@ class DefaultApi:
             fld_id=fld_id,
             folder_patch_in=folder_patch_in,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22261,6 +25161,7 @@ class DefaultApi:
         fld_id: StrictStr,
         folder_patch_in: FolderPatchIn,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -22284,6 +25185,8 @@ class DefaultApi:
         :type folder_patch_in: FolderPatchIn
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -22312,6 +25215,7 @@ class DefaultApi:
             fld_id=fld_id,
             folder_patch_in=folder_patch_in,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22335,6 +25239,7 @@ class DefaultApi:
         fld_id,
         folder_patch_in,
         x_agentdrive_actor,
+        if_match,
         authorization,
         _request_auth,
         _content_type,
@@ -22363,6 +25268,8 @@ class DefaultApi:
         # process the header parameters
         if x_agentdrive_actor is not None:
             _header_params['x-agentdrive-actor'] = x_agentdrive_actor
+        if if_match is not None:
+            _header_params['if-match'] = if_match
         if authorization is not None:
             _header_params['authorization'] = authorization
         # process the form parameters
@@ -22421,6 +25328,7 @@ class DefaultApi:
         path: StrictStr,
         folder_patch_in: FolderPatchIn,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -22445,6 +25353,8 @@ class DefaultApi:
         :type folder_patch_in: FolderPatchIn
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -22473,6 +25383,7 @@ class DefaultApi:
             path=path,
             folder_patch_in=folder_patch_in,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22501,6 +25412,7 @@ class DefaultApi:
         path: StrictStr,
         folder_patch_in: FolderPatchIn,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -22525,6 +25437,8 @@ class DefaultApi:
         :type folder_patch_in: FolderPatchIn
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -22553,6 +25467,7 @@ class DefaultApi:
             path=path,
             folder_patch_in=folder_patch_in,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22581,6 +25496,7 @@ class DefaultApi:
         path: StrictStr,
         folder_patch_in: FolderPatchIn,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -22605,6 +25521,8 @@ class DefaultApi:
         :type folder_patch_in: FolderPatchIn
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -22633,6 +25551,7 @@ class DefaultApi:
             path=path,
             folder_patch_in=folder_patch_in,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22656,6 +25575,7 @@ class DefaultApi:
         path,
         folder_patch_in,
         x_agentdrive_actor,
+        if_match,
         authorization,
         _request_auth,
         _content_type,
@@ -22684,6 +25604,8 @@ class DefaultApi:
         # process the header parameters
         if x_agentdrive_actor is not None:
             _header_params['x-agentdrive-actor'] = x_agentdrive_actor
+        if if_match is not None:
+            _header_params['if-match'] = if_match
         if authorization is not None:
             _header_params['authorization'] = authorization
         # process the form parameters
@@ -24961,7 +27883,10 @@ class DefaultApi:
         x_agentdrive_source: Optional[StrictStr] = None,
         x_agentdrive_actor: Optional[StrictStr] = None,
         x_agentdrive_change_summary: Optional[StrictStr] = None,
+        x_agentdrive_checksum: Optional[StrictStr] = None,
+        content_md5: Optional[StrictStr] = None,
         if_match: Optional[StrictStr] = None,
+        if_none_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -24978,7 +27903,7 @@ class DefaultApi:
     ) -> ArtifactOut:
         """Upload (or overwrite) an artifact
 
-        Upload an artifact at the given path. The path is treated as the artifact's location in the drive — re-uploading the same path overwrites in place (idempotent).  **Limits:** request body must not exceed **50 MB**. Path must be non-empty, ≤256 chars, only `[A-Za-z0-9_./-]`, no `..` segments, no leading/trailing slash. Per-token write rate limit: 100/hour.  **Optional headers.** Each preserves the existing artifact's value when omitted on an overwrite, and takes the create-default on a new path; send the header to replace it: - `X-AgentDrive-Labels`: comma-separated labels (e.g. `draft,report`); an empty value clears them. Each: lowercase `[a-z0-9_-]+`, ≤64 chars; ≤16 labels per artifact. - `X-AgentDrive-Metadata`: JSON object of agent-attached fields. - `X-AgentDrive-Source`: JSON `{\"refs\": [...]}` source provenance (present, including `{\"refs\": []}`, replaces). - `X-AgentDrive-Actor`: caller-supplied actor name (≤64 chars) for event-log attribution. Untrusted; never used for authz.
+        Upload an artifact at the given path. The path is treated as the artifact's location in the drive — re-uploading the same path overwrites in place (idempotent). Returns 201 when the artifact is created (no prior live artifact at the path), 200 on overwrite — mirroring `PUT /v0/folders/{path}`.  **Limits:** request body must not exceed **50 MB**. Path must be non-empty, ≤256 chars, only `[A-Za-z0-9_./-]`, no `..` segments, no leading/trailing slash. Per-token write rate limit: 100/hour.  **Optional headers.** Each preserves the existing artifact's value when omitted on an overwrite, and takes the create-default on a new path; send the header to replace it: - `X-AgentDrive-Labels`: comma-separated labels (e.g. `draft,report`); an empty value clears them. Each: lowercase `[a-z0-9_-]+`, ≤64 chars; ≤16 labels per artifact. - `X-AgentDrive-Metadata`: JSON object of agent-attached fields. - `X-AgentDrive-Source`: JSON `{\"refs\": [...]}` source provenance (present, including `{\"refs\": []}`, replaces). - `X-AgentDrive-Actor`: caller-supplied actor name (≤64 chars) for event-log attribution. Untrusted; never used for authz.  **Preconditions.** `If-Match: \"<id>.<gen>.<metagen>\"` makes the write conditional on the current composite ETag (→ 412 PRECONDITION_FAILED). `If-None-Match: *` is create-only: it succeeds only if no live artifact occupies the path (→ 412 CREATE_CONFLICT if one does). The two are mutually exclusive (→ 400 BAD_PRECONDITION).  **Integrity (optional).** `X-AgentDrive-Checksum: <algo>:<value>` (`sha256:<hex>` or `crc32c:<base64>`) or the standard `Content-MD5` (base64 MD5) is verified against the received bytes before they land (→ 400 CHECKSUM_MISMATCH on mismatch); no artifact is created on failure.
 
         :param path: (required)
         :type path: str
@@ -24994,8 +27919,14 @@ class DefaultApi:
         :type x_agentdrive_actor: str
         :param x_agentdrive_change_summary:
         :type x_agentdrive_change_summary: str
+        :param x_agentdrive_checksum:
+        :type x_agentdrive_checksum: str
+        :param content_md5:
+        :type content_md5: str
         :param if_match:
         :type if_match: str
+        :param if_none_match:
+        :type if_none_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -25028,7 +27959,10 @@ class DefaultApi:
             x_agentdrive_source=x_agentdrive_source,
             x_agentdrive_actor=x_agentdrive_actor,
             x_agentdrive_change_summary=x_agentdrive_change_summary,
+            x_agentdrive_checksum=x_agentdrive_checksum,
+            content_md5=content_md5,
             if_match=if_match,
+            if_none_match=if_none_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -25061,7 +27995,10 @@ class DefaultApi:
         x_agentdrive_source: Optional[StrictStr] = None,
         x_agentdrive_actor: Optional[StrictStr] = None,
         x_agentdrive_change_summary: Optional[StrictStr] = None,
+        x_agentdrive_checksum: Optional[StrictStr] = None,
+        content_md5: Optional[StrictStr] = None,
         if_match: Optional[StrictStr] = None,
+        if_none_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -25078,7 +28015,7 @@ class DefaultApi:
     ) -> ApiResponse[ArtifactOut]:
         """Upload (or overwrite) an artifact
 
-        Upload an artifact at the given path. The path is treated as the artifact's location in the drive — re-uploading the same path overwrites in place (idempotent).  **Limits:** request body must not exceed **50 MB**. Path must be non-empty, ≤256 chars, only `[A-Za-z0-9_./-]`, no `..` segments, no leading/trailing slash. Per-token write rate limit: 100/hour.  **Optional headers.** Each preserves the existing artifact's value when omitted on an overwrite, and takes the create-default on a new path; send the header to replace it: - `X-AgentDrive-Labels`: comma-separated labels (e.g. `draft,report`); an empty value clears them. Each: lowercase `[a-z0-9_-]+`, ≤64 chars; ≤16 labels per artifact. - `X-AgentDrive-Metadata`: JSON object of agent-attached fields. - `X-AgentDrive-Source`: JSON `{\"refs\": [...]}` source provenance (present, including `{\"refs\": []}`, replaces). - `X-AgentDrive-Actor`: caller-supplied actor name (≤64 chars) for event-log attribution. Untrusted; never used for authz.
+        Upload an artifact at the given path. The path is treated as the artifact's location in the drive — re-uploading the same path overwrites in place (idempotent). Returns 201 when the artifact is created (no prior live artifact at the path), 200 on overwrite — mirroring `PUT /v0/folders/{path}`.  **Limits:** request body must not exceed **50 MB**. Path must be non-empty, ≤256 chars, only `[A-Za-z0-9_./-]`, no `..` segments, no leading/trailing slash. Per-token write rate limit: 100/hour.  **Optional headers.** Each preserves the existing artifact's value when omitted on an overwrite, and takes the create-default on a new path; send the header to replace it: - `X-AgentDrive-Labels`: comma-separated labels (e.g. `draft,report`); an empty value clears them. Each: lowercase `[a-z0-9_-]+`, ≤64 chars; ≤16 labels per artifact. - `X-AgentDrive-Metadata`: JSON object of agent-attached fields. - `X-AgentDrive-Source`: JSON `{\"refs\": [...]}` source provenance (present, including `{\"refs\": []}`, replaces). - `X-AgentDrive-Actor`: caller-supplied actor name (≤64 chars) for event-log attribution. Untrusted; never used for authz.  **Preconditions.** `If-Match: \"<id>.<gen>.<metagen>\"` makes the write conditional on the current composite ETag (→ 412 PRECONDITION_FAILED). `If-None-Match: *` is create-only: it succeeds only if no live artifact occupies the path (→ 412 CREATE_CONFLICT if one does). The two are mutually exclusive (→ 400 BAD_PRECONDITION).  **Integrity (optional).** `X-AgentDrive-Checksum: <algo>:<value>` (`sha256:<hex>` or `crc32c:<base64>`) or the standard `Content-MD5` (base64 MD5) is verified against the received bytes before they land (→ 400 CHECKSUM_MISMATCH on mismatch); no artifact is created on failure.
 
         :param path: (required)
         :type path: str
@@ -25094,8 +28031,14 @@ class DefaultApi:
         :type x_agentdrive_actor: str
         :param x_agentdrive_change_summary:
         :type x_agentdrive_change_summary: str
+        :param x_agentdrive_checksum:
+        :type x_agentdrive_checksum: str
+        :param content_md5:
+        :type content_md5: str
         :param if_match:
         :type if_match: str
+        :param if_none_match:
+        :type if_none_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -25128,7 +28071,10 @@ class DefaultApi:
             x_agentdrive_source=x_agentdrive_source,
             x_agentdrive_actor=x_agentdrive_actor,
             x_agentdrive_change_summary=x_agentdrive_change_summary,
+            x_agentdrive_checksum=x_agentdrive_checksum,
+            content_md5=content_md5,
             if_match=if_match,
+            if_none_match=if_none_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -25161,7 +28107,10 @@ class DefaultApi:
         x_agentdrive_source: Optional[StrictStr] = None,
         x_agentdrive_actor: Optional[StrictStr] = None,
         x_agentdrive_change_summary: Optional[StrictStr] = None,
+        x_agentdrive_checksum: Optional[StrictStr] = None,
+        content_md5: Optional[StrictStr] = None,
         if_match: Optional[StrictStr] = None,
+        if_none_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -25178,7 +28127,7 @@ class DefaultApi:
     ) -> RESTResponseType:
         """Upload (or overwrite) an artifact
 
-        Upload an artifact at the given path. The path is treated as the artifact's location in the drive — re-uploading the same path overwrites in place (idempotent).  **Limits:** request body must not exceed **50 MB**. Path must be non-empty, ≤256 chars, only `[A-Za-z0-9_./-]`, no `..` segments, no leading/trailing slash. Per-token write rate limit: 100/hour.  **Optional headers.** Each preserves the existing artifact's value when omitted on an overwrite, and takes the create-default on a new path; send the header to replace it: - `X-AgentDrive-Labels`: comma-separated labels (e.g. `draft,report`); an empty value clears them. Each: lowercase `[a-z0-9_-]+`, ≤64 chars; ≤16 labels per artifact. - `X-AgentDrive-Metadata`: JSON object of agent-attached fields. - `X-AgentDrive-Source`: JSON `{\"refs\": [...]}` source provenance (present, including `{\"refs\": []}`, replaces). - `X-AgentDrive-Actor`: caller-supplied actor name (≤64 chars) for event-log attribution. Untrusted; never used for authz.
+        Upload an artifact at the given path. The path is treated as the artifact's location in the drive — re-uploading the same path overwrites in place (idempotent). Returns 201 when the artifact is created (no prior live artifact at the path), 200 on overwrite — mirroring `PUT /v0/folders/{path}`.  **Limits:** request body must not exceed **50 MB**. Path must be non-empty, ≤256 chars, only `[A-Za-z0-9_./-]`, no `..` segments, no leading/trailing slash. Per-token write rate limit: 100/hour.  **Optional headers.** Each preserves the existing artifact's value when omitted on an overwrite, and takes the create-default on a new path; send the header to replace it: - `X-AgentDrive-Labels`: comma-separated labels (e.g. `draft,report`); an empty value clears them. Each: lowercase `[a-z0-9_-]+`, ≤64 chars; ≤16 labels per artifact. - `X-AgentDrive-Metadata`: JSON object of agent-attached fields. - `X-AgentDrive-Source`: JSON `{\"refs\": [...]}` source provenance (present, including `{\"refs\": []}`, replaces). - `X-AgentDrive-Actor`: caller-supplied actor name (≤64 chars) for event-log attribution. Untrusted; never used for authz.  **Preconditions.** `If-Match: \"<id>.<gen>.<metagen>\"` makes the write conditional on the current composite ETag (→ 412 PRECONDITION_FAILED). `If-None-Match: *` is create-only: it succeeds only if no live artifact occupies the path (→ 412 CREATE_CONFLICT if one does). The two are mutually exclusive (→ 400 BAD_PRECONDITION).  **Integrity (optional).** `X-AgentDrive-Checksum: <algo>:<value>` (`sha256:<hex>` or `crc32c:<base64>`) or the standard `Content-MD5` (base64 MD5) is verified against the received bytes before they land (→ 400 CHECKSUM_MISMATCH on mismatch); no artifact is created on failure.
 
         :param path: (required)
         :type path: str
@@ -25194,8 +28143,14 @@ class DefaultApi:
         :type x_agentdrive_actor: str
         :param x_agentdrive_change_summary:
         :type x_agentdrive_change_summary: str
+        :param x_agentdrive_checksum:
+        :type x_agentdrive_checksum: str
+        :param content_md5:
+        :type content_md5: str
         :param if_match:
         :type if_match: str
+        :param if_none_match:
+        :type if_none_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -25228,7 +28183,10 @@ class DefaultApi:
             x_agentdrive_source=x_agentdrive_source,
             x_agentdrive_actor=x_agentdrive_actor,
             x_agentdrive_change_summary=x_agentdrive_change_summary,
+            x_agentdrive_checksum=x_agentdrive_checksum,
+            content_md5=content_md5,
             if_match=if_match,
+            if_none_match=if_none_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -25256,7 +28214,10 @@ class DefaultApi:
         x_agentdrive_source,
         x_agentdrive_actor,
         x_agentdrive_change_summary,
+        x_agentdrive_checksum,
+        content_md5,
         if_match,
+        if_none_match,
         authorization,
         _request_auth,
         _content_type,
@@ -25295,8 +28256,14 @@ class DefaultApi:
             _header_params['x-agentdrive-actor'] = x_agentdrive_actor
         if x_agentdrive_change_summary is not None:
             _header_params['x-agentdrive-change-summary'] = x_agentdrive_change_summary
+        if x_agentdrive_checksum is not None:
+            _header_params['x-agentdrive-checksum'] = x_agentdrive_checksum
+        if content_md5 is not None:
+            _header_params['content-md5'] = content_md5
         if if_match is not None:
             _header_params['if-match'] = if_match
+        if if_none_match is not None:
+            _header_params['if-none-match'] = if_none_match
         if authorization is not None:
             _header_params['authorization'] = authorization
         # process the form parameters
@@ -27549,342 +30516,6 @@ class DefaultApi:
 
 
     @validate_call
-    def rename_artifact_route_v0_artifacts_art_id_patch(
-        self,
-        art_id: StrictStr,
-        rename_in: RenameIn,
-        x_agentdrive_actor: Optional[StrictStr] = None,
-        if_match: Optional[StrictStr] = None,
-        authorization: Optional[StrictStr] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ArtifactOut:
-        """Rename / move an artifact to a new path
-
-        Move the artifact to a new path on the same drive. ID, version history, source refs, labels, metadata, and the underlying CAS blob are preserved — only `path` and `updated_at` change.  Returns 409 PATH_CONFLICT if the target path is already taken. Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.renamed` event.
-
-        :param art_id: (required)
-        :type art_id: str
-        :param rename_in: (required)
-        :type rename_in: RenameIn
-        :param x_agentdrive_actor:
-        :type x_agentdrive_actor: str
-        :param if_match:
-        :type if_match: str
-        :param authorization:
-        :type authorization: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._rename_artifact_route_v0_artifacts_art_id_patch_serialize(
-            art_id=art_id,
-            rename_in=rename_in,
-            x_agentdrive_actor=x_agentdrive_actor,
-            if_match=if_match,
-            authorization=authorization,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArtifactOut",
-            '422': "HTTPValidationError",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def rename_artifact_route_v0_artifacts_art_id_patch_with_http_info(
-        self,
-        art_id: StrictStr,
-        rename_in: RenameIn,
-        x_agentdrive_actor: Optional[StrictStr] = None,
-        if_match: Optional[StrictStr] = None,
-        authorization: Optional[StrictStr] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ArtifactOut]:
-        """Rename / move an artifact to a new path
-
-        Move the artifact to a new path on the same drive. ID, version history, source refs, labels, metadata, and the underlying CAS blob are preserved — only `path` and `updated_at` change.  Returns 409 PATH_CONFLICT if the target path is already taken. Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.renamed` event.
-
-        :param art_id: (required)
-        :type art_id: str
-        :param rename_in: (required)
-        :type rename_in: RenameIn
-        :param x_agentdrive_actor:
-        :type x_agentdrive_actor: str
-        :param if_match:
-        :type if_match: str
-        :param authorization:
-        :type authorization: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._rename_artifact_route_v0_artifacts_art_id_patch_serialize(
-            art_id=art_id,
-            rename_in=rename_in,
-            x_agentdrive_actor=x_agentdrive_actor,
-            if_match=if_match,
-            authorization=authorization,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArtifactOut",
-            '422': "HTTPValidationError",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def rename_artifact_route_v0_artifacts_art_id_patch_without_preload_content(
-        self,
-        art_id: StrictStr,
-        rename_in: RenameIn,
-        x_agentdrive_actor: Optional[StrictStr] = None,
-        if_match: Optional[StrictStr] = None,
-        authorization: Optional[StrictStr] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Rename / move an artifact to a new path
-
-        Move the artifact to a new path on the same drive. ID, version history, source refs, labels, metadata, and the underlying CAS blob are preserved — only `path` and `updated_at` change.  Returns 409 PATH_CONFLICT if the target path is already taken. Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.renamed` event.
-
-        :param art_id: (required)
-        :type art_id: str
-        :param rename_in: (required)
-        :type rename_in: RenameIn
-        :param x_agentdrive_actor:
-        :type x_agentdrive_actor: str
-        :param if_match:
-        :type if_match: str
-        :param authorization:
-        :type authorization: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._rename_artifact_route_v0_artifacts_art_id_patch_serialize(
-            art_id=art_id,
-            rename_in=rename_in,
-            x_agentdrive_actor=x_agentdrive_actor,
-            if_match=if_match,
-            authorization=authorization,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArtifactOut",
-            '422': "HTTPValidationError",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _rename_artifact_route_v0_artifacts_art_id_patch_serialize(
-        self,
-        art_id,
-        rename_in,
-        x_agentdrive_actor,
-        if_match,
-        authorization,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if art_id is not None:
-            _path_params['art_id'] = art_id
-        # process the query parameters
-        # process the header parameters
-        if x_agentdrive_actor is not None:
-            _header_params['x-agentdrive-actor'] = x_agentdrive_actor
-        if if_match is not None:
-            _header_params['if-match'] = if_match
-        if authorization is not None:
-            _header_params['authorization'] = authorization
-        # process the form parameters
-        # process the body parameter
-        if rename_in is not None:
-            _body_params = rename_in
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='PATCH',
-            resource_path='/v0/artifacts/{art_id}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
     def rename_drive_web_web_drives_drive_id_rename_post(
         self,
         drive_id: StrictStr,
@@ -28794,6 +31425,7 @@ class DefaultApi:
         rename: Annotated[Optional[StrictStr], Field(description="Restore at this path instead of the original. Soft-deletes the live occupant at the original path with audit `metadata.cause='restore_conflict_rename'`. Mutually exclusive with `overwrite`.")] = None,
         overwrite: Annotated[Optional[StrictBool], Field(description="Soft-delete the live occupant at the original path and restore there. Audit `metadata.cause='restore_conflict_overwrite'`. Mutually exclusive with `rename`.")] = None,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -28810,7 +31442,7 @@ class DefaultApi:
     ) -> ArtifactOut:
         """Restore a soft-deleted artifact
 
-        Clear `deleted_at` + `purge_at` on a soft-deleted artifact. Available only while the artifact is in trash (i.e. before the GC cleanup cron purges it). Returns 404 if the artifact is live or already hard-deleted; 409 PATH_OCCUPIED if its path is now occupied by another live artifact. The 409 payload includes a `restore_options` block with `rename_to` and `force_overwrite` URLs the caller can follow to resolve the conflict — see deletion-design.md §5.4.
+        Clear `deleted_at` + `purge_at` on a soft-deleted artifact. Available only while the artifact is in trash (i.e. before the GC cleanup cron purges it). Returns 404 if the artifact is live or already hard-deleted; 409 PATH_CONFLICT if its path is now occupied by another live artifact. The 409 payload includes a `restore_options` block with `rename_to` and `force_overwrite` URLs the caller can follow to resolve the conflict — see deletion-design.md §5.4.
 
         :param art_id: (required)
         :type art_id: str
@@ -28820,6 +31452,8 @@ class DefaultApi:
         :type overwrite: bool
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -28849,6 +31483,7 @@ class DefaultApi:
             rename=rename,
             overwrite=overwrite,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -28878,6 +31513,7 @@ class DefaultApi:
         rename: Annotated[Optional[StrictStr], Field(description="Restore at this path instead of the original. Soft-deletes the live occupant at the original path with audit `metadata.cause='restore_conflict_rename'`. Mutually exclusive with `overwrite`.")] = None,
         overwrite: Annotated[Optional[StrictBool], Field(description="Soft-delete the live occupant at the original path and restore there. Audit `metadata.cause='restore_conflict_overwrite'`. Mutually exclusive with `rename`.")] = None,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -28894,7 +31530,7 @@ class DefaultApi:
     ) -> ApiResponse[ArtifactOut]:
         """Restore a soft-deleted artifact
 
-        Clear `deleted_at` + `purge_at` on a soft-deleted artifact. Available only while the artifact is in trash (i.e. before the GC cleanup cron purges it). Returns 404 if the artifact is live or already hard-deleted; 409 PATH_OCCUPIED if its path is now occupied by another live artifact. The 409 payload includes a `restore_options` block with `rename_to` and `force_overwrite` URLs the caller can follow to resolve the conflict — see deletion-design.md §5.4.
+        Clear `deleted_at` + `purge_at` on a soft-deleted artifact. Available only while the artifact is in trash (i.e. before the GC cleanup cron purges it). Returns 404 if the artifact is live or already hard-deleted; 409 PATH_CONFLICT if its path is now occupied by another live artifact. The 409 payload includes a `restore_options` block with `rename_to` and `force_overwrite` URLs the caller can follow to resolve the conflict — see deletion-design.md §5.4.
 
         :param art_id: (required)
         :type art_id: str
@@ -28904,6 +31540,8 @@ class DefaultApi:
         :type overwrite: bool
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -28933,6 +31571,7 @@ class DefaultApi:
             rename=rename,
             overwrite=overwrite,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -28962,6 +31601,7 @@ class DefaultApi:
         rename: Annotated[Optional[StrictStr], Field(description="Restore at this path instead of the original. Soft-deletes the live occupant at the original path with audit `metadata.cause='restore_conflict_rename'`. Mutually exclusive with `overwrite`.")] = None,
         overwrite: Annotated[Optional[StrictBool], Field(description="Soft-delete the live occupant at the original path and restore there. Audit `metadata.cause='restore_conflict_overwrite'`. Mutually exclusive with `rename`.")] = None,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -28978,7 +31618,7 @@ class DefaultApi:
     ) -> RESTResponseType:
         """Restore a soft-deleted artifact
 
-        Clear `deleted_at` + `purge_at` on a soft-deleted artifact. Available only while the artifact is in trash (i.e. before the GC cleanup cron purges it). Returns 404 if the artifact is live or already hard-deleted; 409 PATH_OCCUPIED if its path is now occupied by another live artifact. The 409 payload includes a `restore_options` block with `rename_to` and `force_overwrite` URLs the caller can follow to resolve the conflict — see deletion-design.md §5.4.
+        Clear `deleted_at` + `purge_at` on a soft-deleted artifact. Available only while the artifact is in trash (i.e. before the GC cleanup cron purges it). Returns 404 if the artifact is live or already hard-deleted; 409 PATH_CONFLICT if its path is now occupied by another live artifact. The 409 payload includes a `restore_options` block with `rename_to` and `force_overwrite` URLs the caller can follow to resolve the conflict — see deletion-design.md §5.4.
 
         :param art_id: (required)
         :type art_id: str
@@ -28988,6 +31628,8 @@ class DefaultApi:
         :type overwrite: bool
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -29017,6 +31659,7 @@ class DefaultApi:
             rename=rename,
             overwrite=overwrite,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -29041,6 +31684,7 @@ class DefaultApi:
         rename,
         overwrite,
         x_agentdrive_actor,
+        if_match,
         authorization,
         _request_auth,
         _content_type,
@@ -29077,6 +31721,8 @@ class DefaultApi:
         # process the header parameters
         if x_agentdrive_actor is not None:
             _header_params['x-agentdrive-actor'] = x_agentdrive_actor
+        if if_match is not None:
+            _header_params['if-match'] = if_match
         if authorization is not None:
             _header_params['authorization'] = authorization
         # process the form parameters
@@ -29115,10 +31761,334 @@ class DefaultApi:
 
 
     @validate_call
+    def restore_artifact_version_v0_artifacts_art_id_versions_version_number_restore_post(
+        self,
+        art_id: StrictStr,
+        version_number: StrictInt,
+        x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ArtifactOut:
+        """Restore a previous version as a new head version
+
+        Roll the artifact forward to the content of version `version_number` by creating a **new head version** with identical bytes. History is preserved — this never rewrites or deletes past versions. The prior version's content-addressed blob is reused, so no bytes are re-uploaded. A change summary of `Restored version N` is recorded on the new version; `X-AgentDrive-Actor` attributes it.  Restoring a version whose content already matches the current head (including the head itself) is a **no-op**: it returns the current artifact unchanged, with no new version created.  Honors `If-Match` on the current head (roll forward only if the head is unchanged → 412 PRECONDITION_FAILED).  Errors: `404 ARTIFACT_NOT_FOUND`, `404 VERSION_NOT_FOUND`, and `410 VERSION_PRUNED` when the version existed but its bytes were retained out of existence.
+
+        :param art_id: (required)
+        :type art_id: str
+        :param version_number: (required)
+        :type version_number: int
+        :param x_agentdrive_actor:
+        :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._restore_artifact_version_v0_artifacts_art_id_versions_version_number_restore_post_serialize(
+            art_id=art_id,
+            version_number=version_number,
+            x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ArtifactOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def restore_artifact_version_v0_artifacts_art_id_versions_version_number_restore_post_with_http_info(
+        self,
+        art_id: StrictStr,
+        version_number: StrictInt,
+        x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ArtifactOut]:
+        """Restore a previous version as a new head version
+
+        Roll the artifact forward to the content of version `version_number` by creating a **new head version** with identical bytes. History is preserved — this never rewrites or deletes past versions. The prior version's content-addressed blob is reused, so no bytes are re-uploaded. A change summary of `Restored version N` is recorded on the new version; `X-AgentDrive-Actor` attributes it.  Restoring a version whose content already matches the current head (including the head itself) is a **no-op**: it returns the current artifact unchanged, with no new version created.  Honors `If-Match` on the current head (roll forward only if the head is unchanged → 412 PRECONDITION_FAILED).  Errors: `404 ARTIFACT_NOT_FOUND`, `404 VERSION_NOT_FOUND`, and `410 VERSION_PRUNED` when the version existed but its bytes were retained out of existence.
+
+        :param art_id: (required)
+        :type art_id: str
+        :param version_number: (required)
+        :type version_number: int
+        :param x_agentdrive_actor:
+        :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._restore_artifact_version_v0_artifacts_art_id_versions_version_number_restore_post_serialize(
+            art_id=art_id,
+            version_number=version_number,
+            x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ArtifactOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def restore_artifact_version_v0_artifacts_art_id_versions_version_number_restore_post_without_preload_content(
+        self,
+        art_id: StrictStr,
+        version_number: StrictInt,
+        x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Restore a previous version as a new head version
+
+        Roll the artifact forward to the content of version `version_number` by creating a **new head version** with identical bytes. History is preserved — this never rewrites or deletes past versions. The prior version's content-addressed blob is reused, so no bytes are re-uploaded. A change summary of `Restored version N` is recorded on the new version; `X-AgentDrive-Actor` attributes it.  Restoring a version whose content already matches the current head (including the head itself) is a **no-op**: it returns the current artifact unchanged, with no new version created.  Honors `If-Match` on the current head (roll forward only if the head is unchanged → 412 PRECONDITION_FAILED).  Errors: `404 ARTIFACT_NOT_FOUND`, `404 VERSION_NOT_FOUND`, and `410 VERSION_PRUNED` when the version existed but its bytes were retained out of existence.
+
+        :param art_id: (required)
+        :type art_id: str
+        :param version_number: (required)
+        :type version_number: int
+        :param x_agentdrive_actor:
+        :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._restore_artifact_version_v0_artifacts_art_id_versions_version_number_restore_post_serialize(
+            art_id=art_id,
+            version_number=version_number,
+            x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ArtifactOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _restore_artifact_version_v0_artifacts_art_id_versions_version_number_restore_post_serialize(
+        self,
+        art_id,
+        version_number,
+        x_agentdrive_actor,
+        if_match,
+        authorization,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if art_id is not None:
+            _path_params['art_id'] = art_id
+        if version_number is not None:
+            _path_params['version_number'] = version_number
+        # process the query parameters
+        # process the header parameters
+        if x_agentdrive_actor is not None:
+            _header_params['x-agentdrive-actor'] = x_agentdrive_actor
+        if if_match is not None:
+            _header_params['if-match'] = if_match
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v0/artifacts/{art_id}/versions/{version_number}/restore',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def restore_drive_route_v0_drives_drive_id_restore_post(
         self,
         drive_id: StrictStr,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -29135,12 +32105,14 @@ class DefaultApi:
     ) -> object:
         """Restore a soft-deleted drive
 
-        Clear `deleted_at` + `purge_at` on a soft-deleted drive. Soft-deleted child artifacts get their retention window rebased to the drive-restore moment (see deletion-design.md §5.2). Available only while the drive is in trash. Returns 404 if the drive is live or already hard-deleted.
+        Clear `deleted_at` + `purge_at` on a soft-deleted drive. Soft-deleted child artifacts get their retention window rebased to the drive-restore moment (see deletion-design.md §5.2). Available only while the drive is in trash. Returns 404 if the drive is live or already hard-deleted.  **Optimistic concurrency:** send `If-Match` with the trashed drive's composite ETag (`\"<drv_id>.0.<metageneration>\"`, e.g. from the delete response's `ETag` header) to make the restore conditional — a stale token returns 412 PRECONDITION_FAILED. A restore WITHOUT an `If-Match` precondition is last-writer-wins.
 
         :param drive_id: (required)
         :type drive_id: str
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -29168,6 +32140,7 @@ class DefaultApi:
         _param = self._restore_drive_route_v0_drives_drive_id_restore_post_serialize(
             drive_id=drive_id,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -29195,6 +32168,7 @@ class DefaultApi:
         self,
         drive_id: StrictStr,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -29211,12 +32185,14 @@ class DefaultApi:
     ) -> ApiResponse[object]:
         """Restore a soft-deleted drive
 
-        Clear `deleted_at` + `purge_at` on a soft-deleted drive. Soft-deleted child artifacts get their retention window rebased to the drive-restore moment (see deletion-design.md §5.2). Available only while the drive is in trash. Returns 404 if the drive is live or already hard-deleted.
+        Clear `deleted_at` + `purge_at` on a soft-deleted drive. Soft-deleted child artifacts get their retention window rebased to the drive-restore moment (see deletion-design.md §5.2). Available only while the drive is in trash. Returns 404 if the drive is live or already hard-deleted.  **Optimistic concurrency:** send `If-Match` with the trashed drive's composite ETag (`\"<drv_id>.0.<metageneration>\"`, e.g. from the delete response's `ETag` header) to make the restore conditional — a stale token returns 412 PRECONDITION_FAILED. A restore WITHOUT an `If-Match` precondition is last-writer-wins.
 
         :param drive_id: (required)
         :type drive_id: str
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -29244,6 +32220,7 @@ class DefaultApi:
         _param = self._restore_drive_route_v0_drives_drive_id_restore_post_serialize(
             drive_id=drive_id,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -29271,6 +32248,7 @@ class DefaultApi:
         self,
         drive_id: StrictStr,
         x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -29287,12 +32265,14 @@ class DefaultApi:
     ) -> RESTResponseType:
         """Restore a soft-deleted drive
 
-        Clear `deleted_at` + `purge_at` on a soft-deleted drive. Soft-deleted child artifacts get their retention window rebased to the drive-restore moment (see deletion-design.md §5.2). Available only while the drive is in trash. Returns 404 if the drive is live or already hard-deleted.
+        Clear `deleted_at` + `purge_at` on a soft-deleted drive. Soft-deleted child artifacts get their retention window rebased to the drive-restore moment (see deletion-design.md §5.2). Available only while the drive is in trash. Returns 404 if the drive is live or already hard-deleted.  **Optimistic concurrency:** send `If-Match` with the trashed drive's composite ETag (`\"<drv_id>.0.<metageneration>\"`, e.g. from the delete response's `ETag` header) to make the restore conditional — a stale token returns 412 PRECONDITION_FAILED. A restore WITHOUT an `If-Match` precondition is last-writer-wins.
 
         :param drive_id: (required)
         :type drive_id: str
         :param x_agentdrive_actor:
         :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -29320,6 +32300,7 @@ class DefaultApi:
         _param = self._restore_drive_route_v0_drives_drive_id_restore_post_serialize(
             drive_id=drive_id,
             x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -29342,6 +32323,7 @@ class DefaultApi:
         self,
         drive_id,
         x_agentdrive_actor,
+        if_match,
         authorization,
         _request_auth,
         _content_type,
@@ -29370,6 +32352,8 @@ class DefaultApi:
         # process the header parameters
         if x_agentdrive_actor is not None:
             _header_params['x-agentdrive-actor'] = x_agentdrive_actor
+        if if_match is not None:
+            _header_params['if-match'] = if_match
         if authorization is not None:
             _header_params['authorization'] = authorization
         # process the form parameters
@@ -29392,6 +32376,314 @@ class DefaultApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v0/drives/{drive_id}/restore',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def restore_folder_by_id_v0_folders_fld_id_restore_post(
+        self,
+        fld_id: StrictStr,
+        x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> FolderRestoreOut:
+        """Restore a soft-deleted folder (cascade)
+
+        Mirrors `POST /v0/artifacts/{art_id}/restore` for folders: clear `deleted_at` + `purge_at` on a soft-deleted folder AND exactly the descendants soft-deleted in the same cascade (descendants trashed separately keep their trash state; restore those individually — the per-artifact restore remains for cherry-picking). Available only while the folder is in trash; returns 404 if it is live or already hard-purged.  Returns 409 `PATH_CONFLICT` when a live folder/artifact now occupies a path this restore would reinstate (`colliding_path` + `kind` identify it). Unlike artifact restore there are NO `rename`/`overwrite` escape hatches — the whole cascade aborts; free the colliding path (or cherry-pick artifacts) and retry.  `If-Match` (the trashed folder's composite ETag) makes the restore conditional → 412 PRECONDITION_FAILED on a stale token; omitted, the restore is last-writer-wins.
+
+        :param fld_id: (required)
+        :type fld_id: str
+        :param x_agentdrive_actor:
+        :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._restore_folder_by_id_v0_folders_fld_id_restore_post_serialize(
+            fld_id=fld_id,
+            x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "FolderRestoreOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def restore_folder_by_id_v0_folders_fld_id_restore_post_with_http_info(
+        self,
+        fld_id: StrictStr,
+        x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[FolderRestoreOut]:
+        """Restore a soft-deleted folder (cascade)
+
+        Mirrors `POST /v0/artifacts/{art_id}/restore` for folders: clear `deleted_at` + `purge_at` on a soft-deleted folder AND exactly the descendants soft-deleted in the same cascade (descendants trashed separately keep their trash state; restore those individually — the per-artifact restore remains for cherry-picking). Available only while the folder is in trash; returns 404 if it is live or already hard-purged.  Returns 409 `PATH_CONFLICT` when a live folder/artifact now occupies a path this restore would reinstate (`colliding_path` + `kind` identify it). Unlike artifact restore there are NO `rename`/`overwrite` escape hatches — the whole cascade aborts; free the colliding path (or cherry-pick artifacts) and retry.  `If-Match` (the trashed folder's composite ETag) makes the restore conditional → 412 PRECONDITION_FAILED on a stale token; omitted, the restore is last-writer-wins.
+
+        :param fld_id: (required)
+        :type fld_id: str
+        :param x_agentdrive_actor:
+        :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._restore_folder_by_id_v0_folders_fld_id_restore_post_serialize(
+            fld_id=fld_id,
+            x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "FolderRestoreOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def restore_folder_by_id_v0_folders_fld_id_restore_post_without_preload_content(
+        self,
+        fld_id: StrictStr,
+        x_agentdrive_actor: Optional[StrictStr] = None,
+        if_match: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Restore a soft-deleted folder (cascade)
+
+        Mirrors `POST /v0/artifacts/{art_id}/restore` for folders: clear `deleted_at` + `purge_at` on a soft-deleted folder AND exactly the descendants soft-deleted in the same cascade (descendants trashed separately keep their trash state; restore those individually — the per-artifact restore remains for cherry-picking). Available only while the folder is in trash; returns 404 if it is live or already hard-purged.  Returns 409 `PATH_CONFLICT` when a live folder/artifact now occupies a path this restore would reinstate (`colliding_path` + `kind` identify it). Unlike artifact restore there are NO `rename`/`overwrite` escape hatches — the whole cascade aborts; free the colliding path (or cherry-pick artifacts) and retry.  `If-Match` (the trashed folder's composite ETag) makes the restore conditional → 412 PRECONDITION_FAILED on a stale token; omitted, the restore is last-writer-wins.
+
+        :param fld_id: (required)
+        :type fld_id: str
+        :param x_agentdrive_actor:
+        :type x_agentdrive_actor: str
+        :param if_match:
+        :type if_match: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._restore_folder_by_id_v0_folders_fld_id_restore_post_serialize(
+            fld_id=fld_id,
+            x_agentdrive_actor=x_agentdrive_actor,
+            if_match=if_match,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "FolderRestoreOut",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _restore_folder_by_id_v0_folders_fld_id_restore_post_serialize(
+        self,
+        fld_id,
+        x_agentdrive_actor,
+        if_match,
+        authorization,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if fld_id is not None:
+            _path_params['fld_id'] = fld_id
+        # process the query parameters
+        # process the header parameters
+        if x_agentdrive_actor is not None:
+            _header_params['x-agentdrive-actor'] = x_agentdrive_actor
+        if if_match is not None:
+            _header_params['if-match'] = if_match
+        if authorization is not None:
+            _header_params['authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v0/folders/{fld_id}/restore',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -33692,293 +36984,6 @@ class DefaultApi:
 
 
     @validate_call
-    def stream_upload_v0_upload_token_put(
-        self,
-        token: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ArtifactOut:
-        """Proxied streaming upload (via an upload_url token)
-
-        Streams an artifact body into AgentDrive using a single-use token that was previously minted by the `upload_url` MCP tool. The token encodes the artifact path, content type, size cap, labels, metadata, source, actor, change summary, and `if_match` — all frozen at mint time. The request carries only the raw bytes + a `Content-Type` header that must match the signed value.  **Auth.** No Authorization header — the token in the path is the credential.  **Single-use.** Replay returns 409 TOKEN_REPLAYED. Expiry returns 401 TOKEN_EXPIRED. Bodies exceeding the signed cap return 413 BYTES_LIMIT.
-
-        :param token: (required)
-        :type token: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._stream_upload_v0_upload_token_put_serialize(
-            token=token,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArtifactOut",
-            '400': None,
-            '401': None,
-            '403': None,
-            '409': None,
-            '412': None,
-            '413': None,
-            '429': None,
-            '503': None,
-            '422': "HTTPValidationError",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def stream_upload_v0_upload_token_put_with_http_info(
-        self,
-        token: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ArtifactOut]:
-        """Proxied streaming upload (via an upload_url token)
-
-        Streams an artifact body into AgentDrive using a single-use token that was previously minted by the `upload_url` MCP tool. The token encodes the artifact path, content type, size cap, labels, metadata, source, actor, change summary, and `if_match` — all frozen at mint time. The request carries only the raw bytes + a `Content-Type` header that must match the signed value.  **Auth.** No Authorization header — the token in the path is the credential.  **Single-use.** Replay returns 409 TOKEN_REPLAYED. Expiry returns 401 TOKEN_EXPIRED. Bodies exceeding the signed cap return 413 BYTES_LIMIT.
-
-        :param token: (required)
-        :type token: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._stream_upload_v0_upload_token_put_serialize(
-            token=token,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArtifactOut",
-            '400': None,
-            '401': None,
-            '403': None,
-            '409': None,
-            '412': None,
-            '413': None,
-            '429': None,
-            '503': None,
-            '422': "HTTPValidationError",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def stream_upload_v0_upload_token_put_without_preload_content(
-        self,
-        token: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Proxied streaming upload (via an upload_url token)
-
-        Streams an artifact body into AgentDrive using a single-use token that was previously minted by the `upload_url` MCP tool. The token encodes the artifact path, content type, size cap, labels, metadata, source, actor, change summary, and `if_match` — all frozen at mint time. The request carries only the raw bytes + a `Content-Type` header that must match the signed value.  **Auth.** No Authorization header — the token in the path is the credential.  **Single-use.** Replay returns 409 TOKEN_REPLAYED. Expiry returns 401 TOKEN_EXPIRED. Bodies exceeding the signed cap return 413 BYTES_LIMIT.
-
-        :param token: (required)
-        :type token: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._stream_upload_v0_upload_token_put_serialize(
-            token=token,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArtifactOut",
-            '400': None,
-            '401': None,
-            '403': None,
-            '409': None,
-            '412': None,
-            '413': None,
-            '429': None,
-            '503': None,
-            '422': "HTTPValidationError",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _stream_upload_v0_upload_token_put_serialize(
-        self,
-        token,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if token is not None:
-            _path_params['token'] = token
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='PUT',
-            resource_path='/v0/upload/{token}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
     def switch_drive_web_switch_post(
         self,
         csrf: StrictStr,
@@ -35313,6 +38318,318 @@ class DefaultApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/a/{art_id}/head',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def view_artifact_version_v_art_id_version_get(
+        self,
+        art_id: StrictStr,
+        version: StrictInt,
+        raw: Optional[StrictInt] = None,
+        download: Optional[StrictInt] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> object:
+        """View Artifact Version
+
+        Render version `version` of an artifact, read-only.  Authorization is byte-for-byte identical to viewing the artifact via `/a/{art_id}`: the same drive-blind `can_read` gate runs, so a viewer who can see the artifact can see its versions, and one who cannot gets the identical sign-in-or-404 response (no existence leak). A pruned or never-existed version renders a friendly unavailable state, never a 500. `?raw=1` / `?download=1` stream the version's bytes (powering the bar's Raw / Download buttons) with the same sandbox+nosniff headers as the head raw path.
+
+        :param art_id: (required)
+        :type art_id: str
+        :param version: (required)
+        :type version: int
+        :param raw:
+        :type raw: int
+        :param download:
+        :type download: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._view_artifact_version_v_art_id_version_get_serialize(
+            art_id=art_id,
+            version=version,
+            raw=raw,
+            download=download,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def view_artifact_version_v_art_id_version_get_with_http_info(
+        self,
+        art_id: StrictStr,
+        version: StrictInt,
+        raw: Optional[StrictInt] = None,
+        download: Optional[StrictInt] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[object]:
+        """View Artifact Version
+
+        Render version `version` of an artifact, read-only.  Authorization is byte-for-byte identical to viewing the artifact via `/a/{art_id}`: the same drive-blind `can_read` gate runs, so a viewer who can see the artifact can see its versions, and one who cannot gets the identical sign-in-or-404 response (no existence leak). A pruned or never-existed version renders a friendly unavailable state, never a 500. `?raw=1` / `?download=1` stream the version's bytes (powering the bar's Raw / Download buttons) with the same sandbox+nosniff headers as the head raw path.
+
+        :param art_id: (required)
+        :type art_id: str
+        :param version: (required)
+        :type version: int
+        :param raw:
+        :type raw: int
+        :param download:
+        :type download: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._view_artifact_version_v_art_id_version_get_serialize(
+            art_id=art_id,
+            version=version,
+            raw=raw,
+            download=download,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def view_artifact_version_v_art_id_version_get_without_preload_content(
+        self,
+        art_id: StrictStr,
+        version: StrictInt,
+        raw: Optional[StrictInt] = None,
+        download: Optional[StrictInt] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """View Artifact Version
+
+        Render version `version` of an artifact, read-only.  Authorization is byte-for-byte identical to viewing the artifact via `/a/{art_id}`: the same drive-blind `can_read` gate runs, so a viewer who can see the artifact can see its versions, and one who cannot gets the identical sign-in-or-404 response (no existence leak). A pruned or never-existed version renders a friendly unavailable state, never a 500. `?raw=1` / `?download=1` stream the version's bytes (powering the bar's Raw / Download buttons) with the same sandbox+nosniff headers as the head raw path.
+
+        :param art_id: (required)
+        :type art_id: str
+        :param version: (required)
+        :type version: int
+        :param raw:
+        :type raw: int
+        :param download:
+        :type download: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._view_artifact_version_v_art_id_version_get_serialize(
+            art_id=art_id,
+            version=version,
+            raw=raw,
+            download=download,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+            '422': "HTTPValidationError",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _view_artifact_version_v_art_id_version_get_serialize(
+        self,
+        art_id,
+        version,
+        raw,
+        download,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if art_id is not None:
+            _path_params['art_id'] = art_id
+        if version is not None:
+            _path_params['version'] = version
+        # process the query parameters
+        if raw is not None:
+            
+            _query_params.append(('raw', raw))
+            
+        if download is not None:
+            
+            _query_params.append(('download', download))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v/{art_id}/{version}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

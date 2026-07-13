@@ -11,6 +11,8 @@ Name | Type | Description | Notes
 **path** | **str** |  | 
 **description** | **str** |  | [optional] 
 **inherit_grants** | **bool** |  | [optional] [default to True]
+**metageneration** | **int** |  | [optional] [default to 1]
+**etag** | **str** |  | 
 **created_at** | **datetime** |  | 
 **updated_at** | **datetime** |  | 
 **deleted_at** | **datetime** |  | [optional] 

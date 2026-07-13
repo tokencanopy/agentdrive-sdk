@@ -19,10 +19,9 @@ import (
 // checks if the SearchPage type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &SearchPage{}
 
-// SearchPage struct for SearchPage
+// SearchPage `/v0/search` response — single-shot top-N, deliberately unpaginated.  Ranked retrieval doesn't paginate meaningfully (the industry norm: vector/RAG APIs are pure top-K; Algolia/GitHub cap ranked results outright) — the correct \"next page\" of a relevance-ranked list is a narrower query. Raise `limit` (≤100) for more hits. A `next_cursor` field advertised here in the past was structurally always null and was dropped; if deep retrieval is ever needed, an ES-`search_after` style `(score, id)` keyset can be re-added additively.
 type SearchPage struct {
 	Items []SearchHitOut `json:"items"`
-	NextCursor NullableString `json:"next_cursor,omitempty"`
 }
 
 type _SearchPage SearchPage
@@ -69,48 +68,6 @@ func (o *SearchPage) SetItems(v []SearchHitOut) {
 	o.Items = v
 }
 
-// GetNextCursor returns the NextCursor field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *SearchPage) GetNextCursor() string {
-	if o == nil || IsNil(o.NextCursor.Get()) {
-		var ret string
-		return ret
-	}
-	return *o.NextCursor.Get()
-}
-
-// GetNextCursorOk returns a tuple with the NextCursor field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *SearchPage) GetNextCursorOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.NextCursor.Get(), o.NextCursor.IsSet()
-}
-
-// HasNextCursor returns a boolean if a field has been set.
-func (o *SearchPage) HasNextCursor() bool {
-	if o != nil && o.NextCursor.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetNextCursor gets a reference to the given NullableString and assigns it to the NextCursor field.
-func (o *SearchPage) SetNextCursor(v string) {
-	o.NextCursor.Set(&v)
-}
-// SetNextCursorNil sets the value for NextCursor to be an explicit nil
-func (o *SearchPage) SetNextCursorNil() {
-	o.NextCursor.Set(nil)
-}
-
-// UnsetNextCursor ensures that no value is present for NextCursor, not even an explicit nil
-func (o *SearchPage) UnsetNextCursor() {
-	o.NextCursor.Unset()
-}
-
 func (o SearchPage) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -122,9 +79,6 @@ func (o SearchPage) MarshalJSON() ([]byte, error) {
 func (o SearchPage) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["items"] = o.Items
-	if o.NextCursor.IsSet() {
-		toSerialize["next_cursor"] = o.NextCursor.Get()
-	}
 	return toSerialize, nil
 }
 

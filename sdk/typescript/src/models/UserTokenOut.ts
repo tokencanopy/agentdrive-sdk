@@ -38,7 +38,7 @@ export interface UserTokenOut {
      * @type {string}
      * @memberof UserTokenOut
      */
-    label: string | null;
+    label?: string | null;
     /**
      * 
      * @type {UserTokenOutScopeEnum}
@@ -50,19 +50,19 @@ export interface UserTokenOut {
      * @type {string}
      * @memberof UserTokenOut
      */
-    defaultDriveId: string | null;
+    defaultDriveId?: string | null;
     /**
      * 
      * @type {Date}
      * @memberof UserTokenOut
      */
-    lastUsedAt: Date | null;
+    lastUsedAt?: Date | null;
     /**
      * 
      * @type {Date}
      * @memberof UserTokenOut
      */
-    expiresAt: Date | null;
+    expiresAt?: Date | null;
     /**
      * 
      * @type {Date}
@@ -74,7 +74,7 @@ export interface UserTokenOut {
      * @type {Date}
      * @memberof UserTokenOut
      */
-    revokedAt: Date | null;
+    revokedAt?: Date | null;
 }
 
 
@@ -94,13 +94,8 @@ export type UserTokenOutScopeEnum = typeof UserTokenOutScopeEnum[keyof typeof Us
 export function instanceOfUserTokenOut(value: object): value is UserTokenOut {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('prefix' in value) || value['prefix'] === undefined) return false;
-    if (!('label' in value) || value['label'] === undefined) return false;
     if (!('scope' in value) || value['scope'] === undefined) return false;
-    if ((!('defaultDriveId' in value) && !('default_drive_id' in value)) || (value['defaultDriveId'] === undefined && value['default_drive_id'] === undefined)) return false;
-    if ((!('lastUsedAt' in value) && !('last_used_at' in value)) || (value['lastUsedAt'] === undefined && value['last_used_at'] === undefined)) return false;
-    if ((!('expiresAt' in value) && !('expires_at' in value)) || (value['expiresAt'] === undefined && value['expires_at'] === undefined)) return false;
     if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
-    if ((!('revokedAt' in value) && !('revoked_at' in value)) || (value['revokedAt'] === undefined && value['revoked_at'] === undefined)) return false;
     return true;
 }
 
@@ -116,13 +111,13 @@ export function UserTokenOutFromJSONTyped(json: any, ignoreDiscriminator: boolea
         
         'id': json['id'],
         'prefix': json['prefix'],
-        'label': json['label'],
+        'label': json['label'] == null ? undefined : json['label'],
         'scope': json['scope'],
-        'defaultDriveId': json['default_drive_id'],
-        'lastUsedAt': (json['last_used_at'] == null ? null : new Date(json['last_used_at'])),
-        'expiresAt': (json['expires_at'] == null ? null : new Date(json['expires_at'])),
+        'defaultDriveId': json['default_drive_id'] == null ? undefined : json['default_drive_id'],
+        'lastUsedAt': json['last_used_at'] == null ? undefined : (new Date(json['last_used_at'])),
+        'expiresAt': json['expires_at'] == null ? undefined : (new Date(json['expires_at'])),
         'createdAt': (new Date(json['created_at'])),
-        'revokedAt': (json['revoked_at'] == null ? null : new Date(json['revoked_at'])),
+        'revokedAt': json['revoked_at'] == null ? undefined : (new Date(json['revoked_at'])),
     };
 }
 

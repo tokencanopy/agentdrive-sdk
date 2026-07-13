@@ -25,7 +25,7 @@ type DriveApiKeyCreateOut struct {
 	Id string `json:"id"`
 	ApiKey string `json:"api_key"`
 	Prefix string `json:"prefix"`
-	Label NullableString `json:"label"`
+	Label NullableString `json:"label,omitempty"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
@@ -35,12 +35,11 @@ type _DriveApiKeyCreateOut DriveApiKeyCreateOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDriveApiKeyCreateOut(id string, apiKey string, prefix string, label NullableString, createdAt time.Time) *DriveApiKeyCreateOut {
+func NewDriveApiKeyCreateOut(id string, apiKey string, prefix string, createdAt time.Time) *DriveApiKeyCreateOut {
 	this := DriveApiKeyCreateOut{}
 	this.Id = id
 	this.ApiKey = apiKey
 	this.Prefix = prefix
-	this.Label = label
 	this.CreatedAt = createdAt
 	return &this
 }
@@ -125,18 +124,16 @@ func (o *DriveApiKeyCreateOut) SetPrefix(v string) {
 	o.Prefix = v
 }
 
-// GetLabel returns the Label field value
-// If the value is explicit nil, the zero value for string will be returned
+// GetLabel returns the Label field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DriveApiKeyCreateOut) GetLabel() string {
-	if o == nil || o.Label.Get() == nil {
+	if o == nil || IsNil(o.Label.Get()) {
 		var ret string
 		return ret
 	}
-
 	return *o.Label.Get()
 }
 
-// GetLabelOk returns a tuple with the Label field value
+// GetLabelOk returns a tuple with the Label field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *DriveApiKeyCreateOut) GetLabelOk() (*string, bool) {
@@ -146,9 +143,27 @@ func (o *DriveApiKeyCreateOut) GetLabelOk() (*string, bool) {
 	return o.Label.Get(), o.Label.IsSet()
 }
 
-// SetLabel sets field value
+// HasLabel returns a boolean if a field has been set.
+func (o *DriveApiKeyCreateOut) HasLabel() bool {
+	if o != nil && o.Label.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetLabel gets a reference to the given NullableString and assigns it to the Label field.
 func (o *DriveApiKeyCreateOut) SetLabel(v string) {
 	o.Label.Set(&v)
+}
+// SetLabelNil sets the value for Label to be an explicit nil
+func (o *DriveApiKeyCreateOut) SetLabelNil() {
+	o.Label.Set(nil)
+}
+
+// UnsetLabel ensures that no value is present for Label, not even an explicit nil
+func (o *DriveApiKeyCreateOut) UnsetLabel() {
+	o.Label.Unset()
 }
 
 // GetCreatedAt returns the CreatedAt field value
@@ -188,7 +203,9 @@ func (o DriveApiKeyCreateOut) ToMap() (map[string]interface{}, error) {
 	toSerialize["id"] = o.Id
 	toSerialize["api_key"] = o.ApiKey
 	toSerialize["prefix"] = o.Prefix
-	toSerialize["label"] = o.Label.Get()
+	if o.Label.IsSet() {
+		toSerialize["label"] = o.Label.Get()
+	}
 	toSerialize["created_at"] = o.CreatedAt
 	return toSerialize, nil
 }
@@ -201,7 +218,6 @@ func (o *DriveApiKeyCreateOut) UnmarshalJSON(data []byte) (err error) {
 		"id",
 		"api_key",
 		"prefix",
-		"label",
 		"created_at",
 	}
 

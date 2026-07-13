@@ -30,8 +30,8 @@ class MemberOut(BaseModel):
     """ # noqa: E501
     user_id: StrictStr
     email: StrictStr
-    first_name: Optional[StrictStr]
-    last_name: Optional[StrictStr]
+    first_name: Optional[StrictStr] = None
+    last_name: Optional[StrictStr] = None
     role: StrictStr
     created_at: datetime
     __properties: ClassVar[List[str]] = ["user_id", "email", "first_name", "last_name", "role", "created_at"]

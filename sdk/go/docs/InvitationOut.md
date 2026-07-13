@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **Email** | **string** |  | 
 **Role** | **string** |  | 
 **Status** | **string** |  | 
-**InvitedBy** | **NullableString** |  | 
+**InvitedBy** | Pointer to **NullableString** |  | [optional] 
 **ExpiresAt** | **time.Time** |  | 
 **CreatedAt** | **time.Time** |  | 
 
@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 
 ### NewInvitationOut
 
-`func NewInvitationOut(id string, organizationId string, email string, role string, status string, invitedBy NullableString, expiresAt time.Time, createdAt time.Time, ) *InvitationOut`
+`func NewInvitationOut(id string, organizationId string, email string, role string, status string, expiresAt time.Time, createdAt time.Time, ) *InvitationOut`
 
 NewInvitationOut instantiates a new InvitationOut object
 This constructor will assign default values to properties that have it defined,
@@ -151,6 +151,11 @@ and a boolean to check if the value has been set.
 
 SetInvitedBy sets InvitedBy field to given value.
 
+### HasInvitedBy
+
+`func (o *InvitationOut) HasInvitedBy() bool`
+
+HasInvitedBy returns a boolean if a field has been set.
 
 ### SetInvitedByNil
 

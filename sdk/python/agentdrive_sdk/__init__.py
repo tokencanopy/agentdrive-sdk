@@ -37,7 +37,10 @@ __all__ = [
     "ApiAttributeError",
     "ApiException",
     "AnonymousIdentityResponse",
+    "ArtifactDeleteOut",
+    "ArtifactMoveIn",
     "ArtifactOut",
+    "ArtifactPatchIn",
     "ArtifactSource",
     "ClaimInitRequest",
     "ClaimInitResponse",
@@ -53,6 +56,7 @@ __all__ = [
     "DriveApiKeyOut",
     "DriveCreateIn",
     "DriveCreateOut",
+    "DriveDeleteOut",
     "DriveList",
     "DriveOut",
     "DriveRenameIn",
@@ -60,13 +64,17 @@ __all__ = [
     "EventPage",
     "ExtensionExchangeRequest",
     "ExtensionExchangeResponse",
+    "FeedbackStatusOut",
     "FindHitOut",
     "FindPage",
+    "FolderCopyIn",
+    "FolderCopyOut",
     "FolderCreateIn",
     "FolderDeleteOut",
     "FolderMoveIn",
     "FolderOut",
     "FolderPatchIn",
+    "FolderRestoreOut",
     "GrantCreateIn",
     "GrantIn",
     "GrantList",
@@ -83,12 +91,13 @@ __all__ = [
     "MemberInviteIn",
     "MemberList",
     "MemberOut",
+    "MemberRemoveOut",
     "MemberRoleIn",
     "Page",
     "ProjectConfigIn",
     "PublicIn",
     "QueryIn",
-    "RenameIn",
+    "RevokeOut",
     "SealIn",
     "SearchHitOut",
     "SearchPage",
@@ -98,8 +107,10 @@ __all__ = [
     "ShareOut",
     "SourceRef",
     "TokenResponse",
+    "UploadAbortOut",
     "UploadBeginIn",
     "UploadBeginOut",
+    "UploadStatusOut",
     "UserTokenList",
     "UserTokenOut",
     "ValidationError",
@@ -136,7 +147,10 @@ from agentdrive_sdk.exceptions import ApiException as ApiException
 
 # import models into sdk package
 from agentdrive_sdk.models.anonymous_identity_response import AnonymousIdentityResponse as AnonymousIdentityResponse
+from agentdrive_sdk.models.artifact_delete_out import ArtifactDeleteOut as ArtifactDeleteOut
+from agentdrive_sdk.models.artifact_move_in import ArtifactMoveIn as ArtifactMoveIn
 from agentdrive_sdk.models.artifact_out import ArtifactOut as ArtifactOut
+from agentdrive_sdk.models.artifact_patch_in import ArtifactPatchIn as ArtifactPatchIn
 from agentdrive_sdk.models.artifact_source import ArtifactSource as ArtifactSource
 from agentdrive_sdk.models.claim_init_request import ClaimInitRequest as ClaimInitRequest
 from agentdrive_sdk.models.claim_init_response import ClaimInitResponse as ClaimInitResponse
@@ -152,6 +166,7 @@ from agentdrive_sdk.models.drive_api_key_list_out import DriveApiKeyListOut as D
 from agentdrive_sdk.models.drive_api_key_out import DriveApiKeyOut as DriveApiKeyOut
 from agentdrive_sdk.models.drive_create_in import DriveCreateIn as DriveCreateIn
 from agentdrive_sdk.models.drive_create_out import DriveCreateOut as DriveCreateOut
+from agentdrive_sdk.models.drive_delete_out import DriveDeleteOut as DriveDeleteOut
 from agentdrive_sdk.models.drive_list import DriveList as DriveList
 from agentdrive_sdk.models.drive_out import DriveOut as DriveOut
 from agentdrive_sdk.models.drive_rename_in import DriveRenameIn as DriveRenameIn
@@ -159,13 +174,17 @@ from agentdrive_sdk.models.event_out import EventOut as EventOut
 from agentdrive_sdk.models.event_page import EventPage as EventPage
 from agentdrive_sdk.models.extension_exchange_request import ExtensionExchangeRequest as ExtensionExchangeRequest
 from agentdrive_sdk.models.extension_exchange_response import ExtensionExchangeResponse as ExtensionExchangeResponse
+from agentdrive_sdk.models.feedback_status_out import FeedbackStatusOut as FeedbackStatusOut
 from agentdrive_sdk.models.find_hit_out import FindHitOut as FindHitOut
 from agentdrive_sdk.models.find_page import FindPage as FindPage
+from agentdrive_sdk.models.folder_copy_in import FolderCopyIn as FolderCopyIn
+from agentdrive_sdk.models.folder_copy_out import FolderCopyOut as FolderCopyOut
 from agentdrive_sdk.models.folder_create_in import FolderCreateIn as FolderCreateIn
 from agentdrive_sdk.models.folder_delete_out import FolderDeleteOut as FolderDeleteOut
 from agentdrive_sdk.models.folder_move_in import FolderMoveIn as FolderMoveIn
 from agentdrive_sdk.models.folder_out import FolderOut as FolderOut
 from agentdrive_sdk.models.folder_patch_in import FolderPatchIn as FolderPatchIn
+from agentdrive_sdk.models.folder_restore_out import FolderRestoreOut as FolderRestoreOut
 from agentdrive_sdk.models.grant_create_in import GrantCreateIn as GrantCreateIn
 from agentdrive_sdk.models.grant_in import GrantIn as GrantIn
 from agentdrive_sdk.models.grant_list import GrantList as GrantList
@@ -182,12 +201,13 @@ from agentdrive_sdk.models.lookup_values_in import LookupValuesIn as LookupValue
 from agentdrive_sdk.models.member_invite_in import MemberInviteIn as MemberInviteIn
 from agentdrive_sdk.models.member_list import MemberList as MemberList
 from agentdrive_sdk.models.member_out import MemberOut as MemberOut
+from agentdrive_sdk.models.member_remove_out import MemberRemoveOut as MemberRemoveOut
 from agentdrive_sdk.models.member_role_in import MemberRoleIn as MemberRoleIn
 from agentdrive_sdk.models.page import Page as Page
 from agentdrive_sdk.models.project_config_in import ProjectConfigIn as ProjectConfigIn
 from agentdrive_sdk.models.public_in import PublicIn as PublicIn
 from agentdrive_sdk.models.query_in import QueryIn as QueryIn
-from agentdrive_sdk.models.rename_in import RenameIn as RenameIn
+from agentdrive_sdk.models.revoke_out import RevokeOut as RevokeOut
 from agentdrive_sdk.models.seal_in import SealIn as SealIn
 from agentdrive_sdk.models.search_hit_out import SearchHitOut as SearchHitOut
 from agentdrive_sdk.models.search_page import SearchPage as SearchPage
@@ -197,8 +217,10 @@ from agentdrive_sdk.models.share_mint_out import ShareMintOut as ShareMintOut
 from agentdrive_sdk.models.share_out import ShareOut as ShareOut
 from agentdrive_sdk.models.source_ref import SourceRef as SourceRef
 from agentdrive_sdk.models.token_response import TokenResponse as TokenResponse
+from agentdrive_sdk.models.upload_abort_out import UploadAbortOut as UploadAbortOut
 from agentdrive_sdk.models.upload_begin_in import UploadBeginIn as UploadBeginIn
 from agentdrive_sdk.models.upload_begin_out import UploadBeginOut as UploadBeginOut
+from agentdrive_sdk.models.upload_status_out import UploadStatusOut as UploadStatusOut
 from agentdrive_sdk.models.user_token_list import UserTokenList as UserTokenList
 from agentdrive_sdk.models.user_token_out import UserTokenOut as UserTokenOut
 from agentdrive_sdk.models.validation_error import ValidationError as ValidationError

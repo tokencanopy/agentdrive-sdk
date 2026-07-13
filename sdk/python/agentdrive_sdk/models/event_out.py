@@ -18,8 +18,9 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -31,7 +32,7 @@ class EventOut(BaseModel):
     id: StrictStr
     drive_id: StrictStr
     art_id: Optional[StrictStr] = None
-    actor_name: Optional[StrictStr] = None
+    actor_name: Optional[Annotated[str, Field(strict=True, max_length=64)]] = None
     action: StrictStr
     metadata: Optional[Dict[str, Any]] = None
     created_at: datetime

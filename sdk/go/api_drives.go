@@ -293,7 +293,19 @@ type ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest struct {
 	ctx context.Context
 	ApiService *DrivesAPIService
 	driveId string
+	cursor *string
+	limit *int32
 	authorization *string
+}
+
+func (r ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest) Cursor(cursor string) ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest {
+	r.cursor = &cursor
+	return r
+}
+
+func (r ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest) Limit(limit int32) ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest {
+	r.limit = &limit
+	return r
 }
 
 func (r ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest) Authorization(authorization string) ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest {
@@ -308,7 +320,9 @@ func (r ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest) Execute() (*DriveApi
 /*
 ListDriveKeysRouteV0DrivesDriveIdKeysGet List a drive's API keys
 
-List the `ad_live_` keys for a drive you manage (newest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.
+List the `ad_live_` keys for a drive you manage (oldest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.
+
+**Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param driveId
@@ -344,6 +358,12 @@ func (a *DrivesAPIService) ListDriveKeysRouteV0DrivesDriveIdKeysGetExecute(r Api
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.cursor != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
+	}
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -414,7 +434,19 @@ func (a *DrivesAPIService) ListDriveKeysRouteV0DrivesDriveIdKeysGetExecute(r Api
 type ApiListDrivesRouteV0DrivesGetRequest struct {
 	ctx context.Context
 	ApiService *DrivesAPIService
+	cursor *string
+	limit *int32
 	authorization *string
+}
+
+func (r ApiListDrivesRouteV0DrivesGetRequest) Cursor(cursor string) ApiListDrivesRouteV0DrivesGetRequest {
+	r.cursor = &cursor
+	return r
+}
+
+func (r ApiListDrivesRouteV0DrivesGetRequest) Limit(limit int32) ApiListDrivesRouteV0DrivesGetRequest {
+	r.limit = &limit
+	return r
 }
 
 func (r ApiListDrivesRouteV0DrivesGetRequest) Authorization(authorization string) ApiListDrivesRouteV0DrivesGetRequest {
@@ -430,6 +462,8 @@ func (r ApiListDrivesRouteV0DrivesGetRequest) Execute() (*DriveList, *http.Respo
 ListDrivesRouteV0DrivesGet List the drives you can see
 
 Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whole active workspace's drive inventory (every owner); a **member** sees only the drives they own. Metadata only — owner, size, timestamps — never a raw API key, and never an authorization to read a drive's contents. A `read`-scope token may call this; mutations require `full`.
+
+**Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiListDrivesRouteV0DrivesGetRequest
@@ -462,6 +496,12 @@ func (a *DrivesAPIService) ListDrivesRouteV0DrivesGetExecute(r ApiListDrivesRout
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.cursor != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
+	}
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

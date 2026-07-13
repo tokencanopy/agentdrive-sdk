@@ -25,7 +25,7 @@ from pydantic_core import to_jsonable_python
 
 class FolderCreateIn(BaseModel):
     """
-    POST /v0/folders/{path}? body for the optional metadata params. Empty body is fine — `mkdir` with no description just creates the folder row.
+    PUT /v0/folders/{path} body for the optional metadata params. Empty body is fine — `mkdir` with no description just creates the folder row.
     """ # noqa: E501
     description: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["description"]

@@ -61,8 +61,7 @@ class TestFindPage(unittest.TestCase):
                         page_end = 56, 
                         time_start_ms = 56, 
                         time_end_ms = 56, )
-                    ],
-                next_cursor = ''
+                    ]
             )
         else:
             return FindPage(

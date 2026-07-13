@@ -31,8 +31,8 @@ class DriveCreateOut(BaseModel):
     id: StrictStr
     name: StrictStr
     organization_id: StrictStr
-    owner_user_id: Optional[StrictStr]
-    owner_email: Optional[StrictStr]
+    owner_user_id: Optional[StrictStr] = None
+    owner_email: Optional[StrictStr] = None
     storage_bytes: StrictInt
     created_at: datetime
     api_key: StrictStr

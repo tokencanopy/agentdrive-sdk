@@ -24,10 +24,10 @@ var _ MappedNullable = &DriveApiKeyOut{}
 type DriveApiKeyOut struct {
 	Id string `json:"id"`
 	Prefix string `json:"prefix"`
-	Label NullableString `json:"label"`
-	LastUsedAt NullableTime `json:"last_used_at"`
+	Label NullableString `json:"label,omitempty"`
+	LastUsedAt NullableTime `json:"last_used_at,omitempty"`
 	CreatedAt time.Time `json:"created_at"`
-	RevokedAt NullableTime `json:"revoked_at"`
+	RevokedAt NullableTime `json:"revoked_at,omitempty"`
 }
 
 type _DriveApiKeyOut DriveApiKeyOut
@@ -36,14 +36,11 @@ type _DriveApiKeyOut DriveApiKeyOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDriveApiKeyOut(id string, prefix string, label NullableString, lastUsedAt NullableTime, createdAt time.Time, revokedAt NullableTime) *DriveApiKeyOut {
+func NewDriveApiKeyOut(id string, prefix string, createdAt time.Time) *DriveApiKeyOut {
 	this := DriveApiKeyOut{}
 	this.Id = id
 	this.Prefix = prefix
-	this.Label = label
-	this.LastUsedAt = lastUsedAt
 	this.CreatedAt = createdAt
-	this.RevokedAt = revokedAt
 	return &this
 }
 
@@ -103,18 +100,16 @@ func (o *DriveApiKeyOut) SetPrefix(v string) {
 	o.Prefix = v
 }
 
-// GetLabel returns the Label field value
-// If the value is explicit nil, the zero value for string will be returned
+// GetLabel returns the Label field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DriveApiKeyOut) GetLabel() string {
-	if o == nil || o.Label.Get() == nil {
+	if o == nil || IsNil(o.Label.Get()) {
 		var ret string
 		return ret
 	}
-
 	return *o.Label.Get()
 }
 
-// GetLabelOk returns a tuple with the Label field value
+// GetLabelOk returns a tuple with the Label field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *DriveApiKeyOut) GetLabelOk() (*string, bool) {
@@ -124,23 +119,39 @@ func (o *DriveApiKeyOut) GetLabelOk() (*string, bool) {
 	return o.Label.Get(), o.Label.IsSet()
 }
 
-// SetLabel sets field value
+// HasLabel returns a boolean if a field has been set.
+func (o *DriveApiKeyOut) HasLabel() bool {
+	if o != nil && o.Label.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetLabel gets a reference to the given NullableString and assigns it to the Label field.
 func (o *DriveApiKeyOut) SetLabel(v string) {
 	o.Label.Set(&v)
 }
+// SetLabelNil sets the value for Label to be an explicit nil
+func (o *DriveApiKeyOut) SetLabelNil() {
+	o.Label.Set(nil)
+}
 
-// GetLastUsedAt returns the LastUsedAt field value
-// If the value is explicit nil, the zero value for time.Time will be returned
+// UnsetLabel ensures that no value is present for Label, not even an explicit nil
+func (o *DriveApiKeyOut) UnsetLabel() {
+	o.Label.Unset()
+}
+
+// GetLastUsedAt returns the LastUsedAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DriveApiKeyOut) GetLastUsedAt() time.Time {
-	if o == nil || o.LastUsedAt.Get() == nil {
+	if o == nil || IsNil(o.LastUsedAt.Get()) {
 		var ret time.Time
 		return ret
 	}
-
 	return *o.LastUsedAt.Get()
 }
 
-// GetLastUsedAtOk returns a tuple with the LastUsedAt field value
+// GetLastUsedAtOk returns a tuple with the LastUsedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *DriveApiKeyOut) GetLastUsedAtOk() (*time.Time, bool) {
@@ -150,9 +161,27 @@ func (o *DriveApiKeyOut) GetLastUsedAtOk() (*time.Time, bool) {
 	return o.LastUsedAt.Get(), o.LastUsedAt.IsSet()
 }
 
-// SetLastUsedAt sets field value
+// HasLastUsedAt returns a boolean if a field has been set.
+func (o *DriveApiKeyOut) HasLastUsedAt() bool {
+	if o != nil && o.LastUsedAt.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetLastUsedAt gets a reference to the given NullableTime and assigns it to the LastUsedAt field.
 func (o *DriveApiKeyOut) SetLastUsedAt(v time.Time) {
 	o.LastUsedAt.Set(&v)
+}
+// SetLastUsedAtNil sets the value for LastUsedAt to be an explicit nil
+func (o *DriveApiKeyOut) SetLastUsedAtNil() {
+	o.LastUsedAt.Set(nil)
+}
+
+// UnsetLastUsedAt ensures that no value is present for LastUsedAt, not even an explicit nil
+func (o *DriveApiKeyOut) UnsetLastUsedAt() {
+	o.LastUsedAt.Unset()
 }
 
 // GetCreatedAt returns the CreatedAt field value
@@ -179,18 +208,16 @@ func (o *DriveApiKeyOut) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
-// GetRevokedAt returns the RevokedAt field value
-// If the value is explicit nil, the zero value for time.Time will be returned
+// GetRevokedAt returns the RevokedAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DriveApiKeyOut) GetRevokedAt() time.Time {
-	if o == nil || o.RevokedAt.Get() == nil {
+	if o == nil || IsNil(o.RevokedAt.Get()) {
 		var ret time.Time
 		return ret
 	}
-
 	return *o.RevokedAt.Get()
 }
 
-// GetRevokedAtOk returns a tuple with the RevokedAt field value
+// GetRevokedAtOk returns a tuple with the RevokedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *DriveApiKeyOut) GetRevokedAtOk() (*time.Time, bool) {
@@ -200,9 +227,27 @@ func (o *DriveApiKeyOut) GetRevokedAtOk() (*time.Time, bool) {
 	return o.RevokedAt.Get(), o.RevokedAt.IsSet()
 }
 
-// SetRevokedAt sets field value
+// HasRevokedAt returns a boolean if a field has been set.
+func (o *DriveApiKeyOut) HasRevokedAt() bool {
+	if o != nil && o.RevokedAt.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetRevokedAt gets a reference to the given NullableTime and assigns it to the RevokedAt field.
 func (o *DriveApiKeyOut) SetRevokedAt(v time.Time) {
 	o.RevokedAt.Set(&v)
+}
+// SetRevokedAtNil sets the value for RevokedAt to be an explicit nil
+func (o *DriveApiKeyOut) SetRevokedAtNil() {
+	o.RevokedAt.Set(nil)
+}
+
+// UnsetRevokedAt ensures that no value is present for RevokedAt, not even an explicit nil
+func (o *DriveApiKeyOut) UnsetRevokedAt() {
+	o.RevokedAt.Unset()
 }
 
 func (o DriveApiKeyOut) MarshalJSON() ([]byte, error) {
@@ -217,10 +262,16 @@ func (o DriveApiKeyOut) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["id"] = o.Id
 	toSerialize["prefix"] = o.Prefix
-	toSerialize["label"] = o.Label.Get()
-	toSerialize["last_used_at"] = o.LastUsedAt.Get()
+	if o.Label.IsSet() {
+		toSerialize["label"] = o.Label.Get()
+	}
+	if o.LastUsedAt.IsSet() {
+		toSerialize["last_used_at"] = o.LastUsedAt.Get()
+	}
 	toSerialize["created_at"] = o.CreatedAt
-	toSerialize["revoked_at"] = o.RevokedAt.Get()
+	if o.RevokedAt.IsSet() {
+		toSerialize["revoked_at"] = o.RevokedAt.Get()
+	}
 	return toSerialize, nil
 }
 
@@ -231,10 +282,7 @@ func (o *DriveApiKeyOut) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"id",
 		"prefix",
-		"label",
-		"last_used_at",
 		"created_at",
-		"revoked_at",
 	}
 
 	allProperties := make(map[string]interface{})

@@ -15,7 +15,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import StrictStr
+from pydantic import StrictInt, StrictStr
 from typing import Optional
 from agentdrive_sdk.models.drive_api_key_create_in import DriveApiKeyCreateIn
 from agentdrive_sdk.models.drive_api_key_create_out import DriveApiKeyCreateOut
@@ -645,6 +645,8 @@ class DrivesApi:
     def list_drive_keys_route_v0_drives_drive_id_keys_get(
         self,
         drive_id: StrictStr,
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -661,10 +663,14 @@ class DrivesApi:
     ) -> DriveApiKeyListOut:
         """List a drive's API keys
 
-        List the `ad_live_` keys for a drive you manage (newest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.
+        List the `ad_live_` keys for a drive you manage (oldest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
         :param drive_id: (required)
         :type drive_id: str
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -691,6 +697,8 @@ class DrivesApi:
 
         _param = self._list_drive_keys_route_v0_drives_drive_id_keys_get_serialize(
             drive_id=drive_id,
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -717,6 +725,8 @@ class DrivesApi:
     def list_drive_keys_route_v0_drives_drive_id_keys_get_with_http_info(
         self,
         drive_id: StrictStr,
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -733,10 +743,14 @@ class DrivesApi:
     ) -> ApiResponse[DriveApiKeyListOut]:
         """List a drive's API keys
 
-        List the `ad_live_` keys for a drive you manage (newest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.
+        List the `ad_live_` keys for a drive you manage (oldest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
         :param drive_id: (required)
         :type drive_id: str
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -763,6 +777,8 @@ class DrivesApi:
 
         _param = self._list_drive_keys_route_v0_drives_drive_id_keys_get_serialize(
             drive_id=drive_id,
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -789,6 +805,8 @@ class DrivesApi:
     def list_drive_keys_route_v0_drives_drive_id_keys_get_without_preload_content(
         self,
         drive_id: StrictStr,
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -805,10 +823,14 @@ class DrivesApi:
     ) -> RESTResponseType:
         """List a drive's API keys
 
-        List the `ad_live_` keys for a drive you manage (newest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.
+        List the `ad_live_` keys for a drive you manage (oldest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
         :param drive_id: (required)
         :type drive_id: str
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -835,6 +857,8 @@ class DrivesApi:
 
         _param = self._list_drive_keys_route_v0_drives_drive_id_keys_get_serialize(
             drive_id=drive_id,
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -856,6 +880,8 @@ class DrivesApi:
     def _list_drive_keys_route_v0_drives_drive_id_keys_get_serialize(
         self,
         drive_id,
+        cursor,
+        limit,
         authorization,
         _request_auth,
         _content_type,
@@ -881,6 +907,14 @@ class DrivesApi:
         if drive_id is not None:
             _path_params['drive_id'] = drive_id
         # process the query parameters
+        if cursor is not None:
+            
+            _query_params.append(('cursor', cursor))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization
@@ -922,6 +956,8 @@ class DrivesApi:
     @validate_call
     def list_drives_route_v0_drives_get(
         self,
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -938,8 +974,12 @@ class DrivesApi:
     ) -> DriveList:
         """List the drives you can see
 
-        Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whole active workspace's drive inventory (every owner); a **member** sees only the drives they own. Metadata only — owner, size, timestamps — never a raw API key, and never an authorization to read a drive's contents. A `read`-scope token may call this; mutations require `full`.
+        Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whole active workspace's drive inventory (every owner); a **member** sees only the drives they own. Metadata only — owner, size, timestamps — never a raw API key, and never an authorization to read a drive's contents. A `read`-scope token may call this; mutations require `full`.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -965,6 +1005,8 @@ class DrivesApi:
         """ # noqa: E501
 
         _param = self._list_drives_route_v0_drives_get_serialize(
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -990,6 +1032,8 @@ class DrivesApi:
     @validate_call
     def list_drives_route_v0_drives_get_with_http_info(
         self,
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -1006,8 +1050,12 @@ class DrivesApi:
     ) -> ApiResponse[DriveList]:
         """List the drives you can see
 
-        Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whole active workspace's drive inventory (every owner); a **member** sees only the drives they own. Metadata only — owner, size, timestamps — never a raw API key, and never an authorization to read a drive's contents. A `read`-scope token may call this; mutations require `full`.
+        Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whole active workspace's drive inventory (every owner); a **member** sees only the drives they own. Metadata only — owner, size, timestamps — never a raw API key, and never an authorization to read a drive's contents. A `read`-scope token may call this; mutations require `full`.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1033,6 +1081,8 @@ class DrivesApi:
         """ # noqa: E501
 
         _param = self._list_drives_route_v0_drives_get_serialize(
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1058,6 +1108,8 @@ class DrivesApi:
     @validate_call
     def list_drives_route_v0_drives_get_without_preload_content(
         self,
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -1074,8 +1126,12 @@ class DrivesApi:
     ) -> RESTResponseType:
         """List the drives you can see
 
-        Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whole active workspace's drive inventory (every owner); a **member** sees only the drives they own. Metadata only — owner, size, timestamps — never a raw API key, and never an authorization to read a drive's contents. A `read`-scope token may call this; mutations require `full`.
+        Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whole active workspace's drive inventory (every owner); a **member** sees only the drives they own. Metadata only — owner, size, timestamps — never a raw API key, and never an authorization to read a drive's contents. A `read`-scope token may call this; mutations require `full`.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -1101,6 +1157,8 @@ class DrivesApi:
         """ # noqa: E501
 
         _param = self._list_drives_route_v0_drives_get_serialize(
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1121,6 +1179,8 @@ class DrivesApi:
 
     def _list_drives_route_v0_drives_get_serialize(
         self,
+        cursor,
+        limit,
         authorization,
         _request_auth,
         _content_type,
@@ -1144,6 +1204,14 @@ class DrivesApi:
 
         # process the path parameters
         # process the query parameters
+        if cursor is not None:
+            
+            _query_params.append(('cursor', cursor))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization

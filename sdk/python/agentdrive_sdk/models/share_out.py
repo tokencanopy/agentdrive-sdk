@@ -47,6 +47,13 @@ class ShareOut(BaseModel):
             raise ValueError("must be one of enum values ('artifact', 'folder')")
         return value
 
+    @field_validator('role')
+    def role_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in set(['viewer', 'commenter', 'editor']):
+            raise ValueError("must be one of enum values ('viewer', 'commenter', 'editor')")
+        return value
+
     model_config = ConfigDict(
         validate_by_name=True,
         validate_by_alias=True,

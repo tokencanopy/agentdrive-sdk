@@ -26,6 +26,13 @@ class TestDefaultApi(unittest.TestCase):
     def tearDown(self) -> None:
         pass
 
+    def test_abort_upload_v0_uploads_upload_id_delete(self) -> None:
+        """Test case for abort_upload_v0_uploads_upload_id_delete
+
+        Abort a large (direct-to-GCS) upload session
+        """
+        pass
+
     def test_accept_invitation_invitations_token_get(self) -> None:
         """Test case for accept_invitation_invitations_token_get
 
@@ -103,6 +110,13 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_copy_folder_by_id_v0_folders_fld_id_copy_post(self) -> None:
+        """Test case for copy_folder_by_id_v0_folders_fld_id_copy_post
+
+        Duplicate a folder subtree to a new path (CAS-shared, new IDs)
+        """
+        pass
+
     def test_create_drive_key_web_web_drives_drive_id_keys_create_post(self) -> None:
         """Test case for create_drive_key_web_web_drives_drive_id_keys_create_post
 
@@ -117,8 +131,8 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
-    def test_create_folder_by_path_v0_folders_path_post(self) -> None:
-        """Test case for create_folder_by_path_v0_folders_path_post
+    def test_create_folder_by_path_v0_folders_path_put(self) -> None:
+        """Test case for create_folder_by_path_v0_folders_path_put
 
         Create a folder (idempotent)
         """
@@ -264,6 +278,13 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_download_artifact_by_path_v0_artifacts_path_download_get(self) -> None:
+        """Test case for download_artifact_by_path_v0_artifacts_path_download_get
+
+        Stream the artifact bytes by path (never rendered HTML)
+        """
+        pass
+
     def test_download_artifact_version_v0_artifacts_art_id_versions_version_number_download_get(self) -> None:
         """Test case for download_artifact_version_v0_artifacts_art_id_versions_version_number_download_get
 
@@ -362,6 +383,13 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_get_drive_route_v0_drives_drive_id_get(self) -> None:
+        """Test case for get_drive_route_v0_drives_drive_id_get
+
+        Drive overview by id (same shape as /drives/me)
+        """
+        pass
+
     def test_get_feedback_status_v0_feedback_fbk_id_get(self) -> None:
         """Test case for get_feedback_status_v0_feedback_fbk_id_get
 
@@ -397,6 +425,13 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_get_grant_route_v0_grants_grn_id_get(self) -> None:
+        """Test case for get_grant_route_v0_grants_grn_id_get
+
+        Read a single grant (can_manage, or the grant's own principal)
+        """
+        pass
+
     def test_get_job_logs_v0_jobs_job_id_logs_get(self) -> None:
         """Test case for get_job_logs_v0_jobs_job_id_logs_get
 
@@ -418,10 +453,24 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_get_share_route_v0_shares_shr_id_get(self) -> None:
+        """Test case for get_share_route_v0_shares_shr_id_get
+
+        Read a single share link's metadata (requires can_manage)
+        """
+        pass
+
     def test_get_share_state_web_share_rid_get(self) -> None:
         """Test case for get_share_state_web_share_rid_get
 
         Get Share State
+        """
+        pass
+
+    def test_get_upload_status_v0_uploads_upload_id_get(self) -> None:
+        """Test case for get_upload_status_v0_uploads_upload_id_get
+
+        Get the status of a large (direct-to-GCS) upload session
         """
         pass
 
@@ -537,6 +586,13 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_move_artifact_route_v0_artifacts_art_id_move_post(self) -> None:
+        """Test case for move_artifact_route_v0_artifacts_art_id_move_post
+
+        Rename / move an artifact to a new path
+        """
+        pass
+
     def test_move_folder_by_id_v0_folders_fld_id_move_post(self) -> None:
         """Test case for move_folder_by_id_v0_folders_fld_id_move_post
 
@@ -555,6 +611,13 @@ class TestDefaultApi(unittest.TestCase):
         """Test case for oauth_disconnect_web_oauth_disconnect_post
 
         Oauth Disconnect
+        """
+        pass
+
+    def test_patch_artifact_route_v0_artifacts_art_id_patch(self) -> None:
+        """Test case for patch_artifact_route_v0_artifacts_art_id_patch
+
+        Edit artifact metadata (labels / metadata / source)
         """
         pass
 
@@ -691,13 +754,6 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
-    def test_rename_artifact_route_v0_artifacts_art_id_patch(self) -> None:
-        """Test case for rename_artifact_route_v0_artifacts_art_id_patch
-
-        Rename / move an artifact to a new path
-        """
-        pass
-
     def test_rename_drive_web_web_drives_drive_id_rename_post(self) -> None:
         """Test case for rename_drive_web_web_drives_drive_id_rename_post
 
@@ -726,10 +782,24 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
+    def test_restore_artifact_version_v0_artifacts_art_id_versions_version_number_restore_post(self) -> None:
+        """Test case for restore_artifact_version_v0_artifacts_art_id_versions_version_number_restore_post
+
+        Restore a previous version as a new head version
+        """
+        pass
+
     def test_restore_drive_route_v0_drives_drive_id_restore_post(self) -> None:
         """Test case for restore_drive_route_v0_drives_drive_id_restore_post
 
         Restore a soft-deleted drive
+        """
+        pass
+
+    def test_restore_folder_by_id_v0_folders_fld_id_restore_post(self) -> None:
+        """Test case for restore_folder_by_id_v0_folders_fld_id_restore_post
+
+        Restore a soft-deleted folder (cascade)
         """
         pass
 
@@ -838,13 +908,6 @@ class TestDefaultApi(unittest.TestCase):
         """
         pass
 
-    def test_stream_upload_v0_upload_token_put(self) -> None:
-        """Test case for stream_upload_v0_upload_token_put
-
-        Proxied streaming upload (via an upload_url token)
-        """
-        pass
-
     def test_switch_drive_web_switch_post(self) -> None:
         """Test case for switch_drive_web_switch_post
 
@@ -877,6 +940,13 @@ class TestDefaultApi(unittest.TestCase):
         """Test case for view_artifact_head_a_art_id_head_get
 
         View Artifact Head
+        """
+        pass
+
+    def test_view_artifact_version_v_art_id_version_get(self) -> None:
+        """Test case for view_artifact_version_v_art_id_version_get
+
+        View Artifact Version
         """
         pass
 

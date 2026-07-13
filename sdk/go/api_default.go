@@ -26,6 +26,128 @@ import (
 // DefaultAPIService DefaultAPI service
 type DefaultAPIService service
 
+type ApiAbortUploadV0UploadsUploadIdDeleteRequest struct {
+	ctx context.Context
+	ApiService *DefaultAPIService
+	uploadId string
+	authorization *string
+}
+
+func (r ApiAbortUploadV0UploadsUploadIdDeleteRequest) Authorization(authorization string) ApiAbortUploadV0UploadsUploadIdDeleteRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiAbortUploadV0UploadsUploadIdDeleteRequest) Execute() (*UploadAbortOut, *http.Response, error) {
+	return r.ApiService.AbortUploadV0UploadsUploadIdDeleteExecute(r)
+}
+
+/*
+AbortUploadV0UploadsUploadIdDelete Abort a large (direct-to-GCS) upload session
+
+Release an open upload session: return its reserved quota to the drive and mark it aborted. Idempotent — aborting an already-aborted or already-expired session succeeds with `released_bytes: 0`. A committed session cannot be aborted (409 ALREADY_COMMITTED). No write budget is charged — this frees resources rather than consuming them.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param uploadId
+ @return ApiAbortUploadV0UploadsUploadIdDeleteRequest
+*/
+func (a *DefaultAPIService) AbortUploadV0UploadsUploadIdDelete(ctx context.Context, uploadId string) ApiAbortUploadV0UploadsUploadIdDeleteRequest {
+	return ApiAbortUploadV0UploadsUploadIdDeleteRequest{
+		ApiService: a,
+		ctx: ctx,
+		uploadId: uploadId,
+	}
+}
+
+// Execute executes the request
+//  @return UploadAbortOut
+func (a *DefaultAPIService) AbortUploadV0UploadsUploadIdDeleteExecute(r ApiAbortUploadV0UploadsUploadIdDeleteRequest) (*UploadAbortOut, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodDelete
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *UploadAbortOut
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.AbortUploadV0UploadsUploadIdDelete")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v0/uploads/{upload_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"upload_id"+"}", url.PathEscape(parameterValueToString(r.uploadId, "uploadId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiAcceptInvitationInvitationsTokenGetRequest struct {
 	ctx context.Context
 	ApiService *DefaultAPIService
@@ -1205,6 +1327,7 @@ type ApiCopyArtifactRouteV0ArtifactsArtIdCopyPostRequest struct {
 	artId string
 	copyIn *CopyIn
 	xAgentdriveActor *string
+	ifNoneMatch *string
 	authorization *string
 }
 
@@ -1215,6 +1338,11 @@ func (r ApiCopyArtifactRouteV0ArtifactsArtIdCopyPostRequest) CopyIn(copyIn CopyI
 
 func (r ApiCopyArtifactRouteV0ArtifactsArtIdCopyPostRequest) XAgentdriveActor(xAgentdriveActor string) ApiCopyArtifactRouteV0ArtifactsArtIdCopyPostRequest {
 	r.xAgentdriveActor = &xAgentdriveActor
+	return r
+}
+
+func (r ApiCopyArtifactRouteV0ArtifactsArtIdCopyPostRequest) IfNoneMatch(ifNoneMatch string) ApiCopyArtifactRouteV0ArtifactsArtIdCopyPostRequest {
+	r.ifNoneMatch = &ifNoneMatch
 	return r
 }
 
@@ -1233,6 +1361,8 @@ CopyArtifactRouteV0ArtifactsArtIdCopyPost Duplicate an artifact to a new path (C
 Create a new artifact at `path` whose bytes are identical to the source artifact's. The copy reuses the source's CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and — by default — `source.refs = [{type: 'artifact', id: '<source>'}]` so provenance is preserved.
 
 Quota: the copy's `size_bytes` is added to the drive's `storage_bytes` even though physical bytes are shared.
+
+Source-version pin: pass `from_generation` in the body to require the source's current content generation (`version_number`) to equal it (→ 412 SOURCE_VERSION_MISMATCH); a concurrent source *metadata* edit does NOT fail the copy. Destination create-only: `If-None-Match: *` returns 412 CREATE_CONFLICT (instead of 409 PATH_CONFLICT) when the target path is occupied.
 
 Returns 409 PATH_CONFLICT if the target path is already taken; 413 STORAGE_QUOTA_EXCEEDED if the copy would push the drive over its limit.
 
@@ -1293,11 +1423,173 @@ func (a *DefaultAPIService) CopyArtifactRouteV0ArtifactsArtIdCopyPostExecute(r A
 	if r.xAgentdriveActor != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-agentdrive-actor", r.xAgentdriveActor, "simple", "")
 	}
+	if r.ifNoneMatch != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "if-none-match", r.ifNoneMatch, "simple", "")
+	}
 	if r.authorization != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
 	}
 	// body params
 	localVarPostBody = r.copyIn
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiCopyFolderByIdV0FoldersFldIdCopyPostRequest struct {
+	ctx context.Context
+	ApiService *DefaultAPIService
+	fldId string
+	folderCopyIn *FolderCopyIn
+	xAgentdriveActor *string
+	ifNoneMatch *string
+	authorization *string
+}
+
+func (r ApiCopyFolderByIdV0FoldersFldIdCopyPostRequest) FolderCopyIn(folderCopyIn FolderCopyIn) ApiCopyFolderByIdV0FoldersFldIdCopyPostRequest {
+	r.folderCopyIn = &folderCopyIn
+	return r
+}
+
+func (r ApiCopyFolderByIdV0FoldersFldIdCopyPostRequest) XAgentdriveActor(xAgentdriveActor string) ApiCopyFolderByIdV0FoldersFldIdCopyPostRequest {
+	r.xAgentdriveActor = &xAgentdriveActor
+	return r
+}
+
+func (r ApiCopyFolderByIdV0FoldersFldIdCopyPostRequest) IfNoneMatch(ifNoneMatch string) ApiCopyFolderByIdV0FoldersFldIdCopyPostRequest {
+	r.ifNoneMatch = &ifNoneMatch
+	return r
+}
+
+func (r ApiCopyFolderByIdV0FoldersFldIdCopyPostRequest) Authorization(authorization string) ApiCopyFolderByIdV0FoldersFldIdCopyPostRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiCopyFolderByIdV0FoldersFldIdCopyPostRequest) Execute() (*FolderCopyOut, *http.Response, error) {
+	return r.ApiService.CopyFolderByIdV0FoldersFldIdCopyPostExecute(r)
+}
+
+/*
+CopyFolderByIdV0FoldersFldIdCopyPost Duplicate a folder subtree to a new path (CAS-shared, new IDs)
+
+Clone the folder identified by URL id — and every descendant folder + artifact — under the body's `path` (canonical, trailing slash). Each copied artifact reuses the source's CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and `source.refs = [{type: 'artifact', id: '<source>'}]` provenance. The new folder gets a fresh `fld_…` ID and the source's description.
+
+The entire subtree is copied in a SINGLE transaction — either every row lands or none does.
+
+Quota: each copy's `size_bytes` counts against the drive's `storage_bytes` even though physical bytes are shared.
+
+Source-version pin: pass `from_metageneration` in the body to require the source folder's current `metageneration` to equal it (→ 412 SOURCE_VERSION_MISMATCH). Destination create-only: `If-None-Match: *` returns 412 CREATE_CONFLICT (instead of 409 FOLDER_PATH_CONFLICT) when the destination folder is occupied.
+
+Returns 409 `FOLDER_PATH_CONFLICT` if the destination collides with a live folder or artifact; 400 `FOLDER_PATH_INVALID` if `path` is non-canonical; 413 `SUBTREE_TOO_LARGE` if the source holds more than 5000 artifacts; 413 `STORAGE_QUOTA_EXCEEDED` if the copy would push the drive over its limit.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param fldId
+ @return ApiCopyFolderByIdV0FoldersFldIdCopyPostRequest
+*/
+func (a *DefaultAPIService) CopyFolderByIdV0FoldersFldIdCopyPost(ctx context.Context, fldId string) ApiCopyFolderByIdV0FoldersFldIdCopyPostRequest {
+	return ApiCopyFolderByIdV0FoldersFldIdCopyPostRequest{
+		ApiService: a,
+		ctx: ctx,
+		fldId: fldId,
+	}
+}
+
+// Execute executes the request
+//  @return FolderCopyOut
+func (a *DefaultAPIService) CopyFolderByIdV0FoldersFldIdCopyPostExecute(r ApiCopyFolderByIdV0FoldersFldIdCopyPostRequest) (*FolderCopyOut, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *FolderCopyOut
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.CopyFolderByIdV0FoldersFldIdCopyPost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v0/folders/{fld_id}/copy"
+	localVarPath = strings.Replace(localVarPath, "{"+"fld_id"+"}", url.PathEscape(parameterValueToString(r.fldId, "fldId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.folderCopyIn == nil {
+		return localVarReturnValue, nil, reportError("folderCopyIn is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.xAgentdriveActor != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-agentdrive-actor", r.xAgentdriveActor, "simple", "")
+	}
+	if r.ifNoneMatch != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "if-none-match", r.ifNoneMatch, "simple", "")
+	}
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
+	}
+	// body params
+	localVarPostBody = r.folderCopyIn
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -1627,47 +1919,55 @@ func (a *DefaultAPIService) CreateDriveWebWebDrivesPostExecute(r ApiCreateDriveW
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiCreateFolderByPathV0FoldersPathPostRequest struct {
+type ApiCreateFolderByPathV0FoldersPathPutRequest struct {
 	ctx context.Context
 	ApiService *DefaultAPIService
 	path string
 	xAgentdriveActor *string
+	ifNoneMatch *string
 	authorization *string
 	folderCreateIn *FolderCreateIn
 }
 
-func (r ApiCreateFolderByPathV0FoldersPathPostRequest) XAgentdriveActor(xAgentdriveActor string) ApiCreateFolderByPathV0FoldersPathPostRequest {
+func (r ApiCreateFolderByPathV0FoldersPathPutRequest) XAgentdriveActor(xAgentdriveActor string) ApiCreateFolderByPathV0FoldersPathPutRequest {
 	r.xAgentdriveActor = &xAgentdriveActor
 	return r
 }
 
-func (r ApiCreateFolderByPathV0FoldersPathPostRequest) Authorization(authorization string) ApiCreateFolderByPathV0FoldersPathPostRequest {
+func (r ApiCreateFolderByPathV0FoldersPathPutRequest) IfNoneMatch(ifNoneMatch string) ApiCreateFolderByPathV0FoldersPathPutRequest {
+	r.ifNoneMatch = &ifNoneMatch
+	return r
+}
+
+func (r ApiCreateFolderByPathV0FoldersPathPutRequest) Authorization(authorization string) ApiCreateFolderByPathV0FoldersPathPutRequest {
 	r.authorization = &authorization
 	return r
 }
 
-func (r ApiCreateFolderByPathV0FoldersPathPostRequest) FolderCreateIn(folderCreateIn FolderCreateIn) ApiCreateFolderByPathV0FoldersPathPostRequest {
+func (r ApiCreateFolderByPathV0FoldersPathPutRequest) FolderCreateIn(folderCreateIn FolderCreateIn) ApiCreateFolderByPathV0FoldersPathPutRequest {
 	r.folderCreateIn = &folderCreateIn
 	return r
 }
 
-func (r ApiCreateFolderByPathV0FoldersPathPostRequest) Execute() (*FolderOut, *http.Response, error) {
-	return r.ApiService.CreateFolderByPathV0FoldersPathPostExecute(r)
+func (r ApiCreateFolderByPathV0FoldersPathPutRequest) Execute() (*FolderOut, *http.Response, error) {
+	return r.ApiService.CreateFolderByPathV0FoldersPathPutExecute(r)
 }
 
 /*
-CreateFolderByPathV0FoldersPathPost Create a folder (idempotent)
+CreateFolderByPathV0FoldersPathPut Create a folder (idempotent)
 
-Create a folder at the URL path. Idempotent — a second call for the same live path returns the existing row unchanged (metadata updates require PATCH).
+Create a folder at the URL path. Idempotent create-at-known-URI (mirrors `PUT /v0/artifacts/{path}`) — a second call for the same live path returns the existing row unchanged (metadata updates require PATCH). Returns 201 on create, 200 when the folder already exists.
+
+Send `If-None-Match: *` to make it strictly create-only: an existing folder then returns 412 CREATE_CONFLICT instead of the idempotent 200.
 
 Returns 409 `FOLDER_PATH_CONFLICT` if a live artifact occupies the file form of the path (e.g. mkdir `/foo/` when an artifact lives at `/foo`).
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param path
- @return ApiCreateFolderByPathV0FoldersPathPostRequest
+ @return ApiCreateFolderByPathV0FoldersPathPutRequest
 */
-func (a *DefaultAPIService) CreateFolderByPathV0FoldersPathPost(ctx context.Context, path string) ApiCreateFolderByPathV0FoldersPathPostRequest {
-	return ApiCreateFolderByPathV0FoldersPathPostRequest{
+func (a *DefaultAPIService) CreateFolderByPathV0FoldersPathPut(ctx context.Context, path string) ApiCreateFolderByPathV0FoldersPathPutRequest {
+	return ApiCreateFolderByPathV0FoldersPathPutRequest{
 		ApiService: a,
 		ctx: ctx,
 		path: path,
@@ -1676,15 +1976,15 @@ func (a *DefaultAPIService) CreateFolderByPathV0FoldersPathPost(ctx context.Cont
 
 // Execute executes the request
 //  @return FolderOut
-func (a *DefaultAPIService) CreateFolderByPathV0FoldersPathPostExecute(r ApiCreateFolderByPathV0FoldersPathPostRequest) (*FolderOut, *http.Response, error) {
+func (a *DefaultAPIService) CreateFolderByPathV0FoldersPathPutExecute(r ApiCreateFolderByPathV0FoldersPathPutRequest) (*FolderOut, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
+		localVarHTTPMethod   = http.MethodPut
 		localVarPostBody     interface{}
 		formFiles            []formFile
 		localVarReturnValue  *FolderOut
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.CreateFolderByPathV0FoldersPathPost")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.CreateFolderByPathV0FoldersPathPut")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1715,6 +2015,9 @@ func (a *DefaultAPIService) CreateFolderByPathV0FoldersPathPostExecute(r ApiCrea
 	}
 	if r.xAgentdriveActor != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-agentdrive-actor", r.xAgentdriveActor, "simple", "")
+	}
+	if r.ifNoneMatch != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "if-none-match", r.ifNoneMatch, "simple", "")
 	}
 	if r.authorization != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
@@ -3333,12 +3636,17 @@ func (r ApiDeleteArtifactV0ArtifactsPathDeleteRequest) Authorization(authorizati
 	return r
 }
 
-func (r ApiDeleteArtifactV0ArtifactsPathDeleteRequest) Execute() (interface{}, *http.Response, error) {
+func (r ApiDeleteArtifactV0ArtifactsPathDeleteRequest) Execute() (*ArtifactDeleteOut, *http.Response, error) {
 	return r.ApiService.DeleteArtifactV0ArtifactsPathDeleteExecute(r)
 }
 
 /*
 DeleteArtifactV0ArtifactsPathDelete Delete Artifact
+
+Soft-delete the artifact at the given path.
+
+A delete WITHOUT an `If-Match` precondition is last-writer-wins and will
+silently remove a concurrently-modified artifact.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param path
@@ -3353,13 +3661,13 @@ func (a *DefaultAPIService) DeleteArtifactV0ArtifactsPathDelete(ctx context.Cont
 }
 
 // Execute executes the request
-//  @return interface{}
-func (a *DefaultAPIService) DeleteArtifactV0ArtifactsPathDeleteExecute(r ApiDeleteArtifactV0ArtifactsPathDeleteRequest) (interface{}, *http.Response, error) {
+//  @return ArtifactDeleteOut
+func (a *DefaultAPIService) DeleteArtifactV0ArtifactsPathDeleteExecute(r ApiDeleteArtifactV0ArtifactsPathDeleteRequest) (*ArtifactDeleteOut, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  interface{}
+		localVarReturnValue  *ArtifactDeleteOut
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.DeleteArtifactV0ArtifactsPathDelete")
@@ -3451,12 +3759,24 @@ type ApiDeleteDriveRouteV0DrivesDriveIdDeleteRequest struct {
 	ctx context.Context
 	ApiService *DefaultAPIService
 	driveId string
+	confirm *string
 	xAgentdriveActor *string
+	ifMatch *string
 	authorization *string
+}
+
+func (r ApiDeleteDriveRouteV0DrivesDriveIdDeleteRequest) Confirm(confirm string) ApiDeleteDriveRouteV0DrivesDriveIdDeleteRequest {
+	r.confirm = &confirm
+	return r
 }
 
 func (r ApiDeleteDriveRouteV0DrivesDriveIdDeleteRequest) XAgentdriveActor(xAgentdriveActor string) ApiDeleteDriveRouteV0DrivesDriveIdDeleteRequest {
 	r.xAgentdriveActor = &xAgentdriveActor
+	return r
+}
+
+func (r ApiDeleteDriveRouteV0DrivesDriveIdDeleteRequest) IfMatch(ifMatch string) ApiDeleteDriveRouteV0DrivesDriveIdDeleteRequest {
+	r.ifMatch = &ifMatch
 	return r
 }
 
@@ -3465,7 +3785,7 @@ func (r ApiDeleteDriveRouteV0DrivesDriveIdDeleteRequest) Authorization(authoriza
 	return r
 }
 
-func (r ApiDeleteDriveRouteV0DrivesDriveIdDeleteRequest) Execute() (interface{}, *http.Response, error) {
+func (r ApiDeleteDriveRouteV0DrivesDriveIdDeleteRequest) Execute() (*DriveDeleteOut, *http.Response, error) {
 	return r.ApiService.DeleteDriveRouteV0DrivesDriveIdDeleteExecute(r)
 }
 
@@ -3475,6 +3795,10 @@ DeleteDriveRouteV0DrivesDriveIdDelete Soft-delete a drive
 Mark the drive for cleanup. All tenant data (artifacts, versions, wiki, embeddings, events) is hidden via the `live_*` views and CASCADE-removed by the GC cleanup cron at `purge_at`. Restore via `POST /v0/drives/{id}/restore` while the row is still in trash. The path-param `drive_id` MUST match the authenticated drive.
 
 Accepts either an `ad_live_` per-drive key (deletes that key's drive) or an `ad_user_` user token selecting an owned drive (workspaces-design §5.3); a `read`-scope user token is rejected with 403 `INSUFFICIENT_SCOPE`. **Guard (§8):** a workspace must retain at least one live drive — deleting the workspace's last live drive returns 409 `LAST_DRIVE`.
+
+**Explicit confirmation required:** pass `?confirm=DELETE` or the request is rejected with 400 `CONFIRM_REQUIRED`. Tenant-level deletion is the largest-blast-radius operation on the API; the static token forces a deliberate act (soft-delete still gives a restore window on top).
+
+**Optimistic concurrency:** send `If-Match` with the drive's composite ETag (`"<drv_id>.0.<metageneration>"`, from a drive read) to make the delete conditional — a stale token returns 412 PRECONDITION_FAILED. A delete WITHOUT an `If-Match` precondition is last-writer-wins and will silently trash a concurrently-modified drive.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param driveId
@@ -3489,13 +3813,13 @@ func (a *DefaultAPIService) DeleteDriveRouteV0DrivesDriveIdDelete(ctx context.Co
 }
 
 // Execute executes the request
-//  @return interface{}
-func (a *DefaultAPIService) DeleteDriveRouteV0DrivesDriveIdDeleteExecute(r ApiDeleteDriveRouteV0DrivesDriveIdDeleteRequest) (interface{}, *http.Response, error) {
+//  @return DriveDeleteOut
+func (a *DefaultAPIService) DeleteDriveRouteV0DrivesDriveIdDeleteExecute(r ApiDeleteDriveRouteV0DrivesDriveIdDeleteRequest) (*DriveDeleteOut, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  interface{}
+		localVarReturnValue  *DriveDeleteOut
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.DeleteDriveRouteV0DrivesDriveIdDelete")
@@ -3510,6 +3834,9 @@ func (a *DefaultAPIService) DeleteDriveRouteV0DrivesDriveIdDeleteExecute(r ApiDe
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.confirm != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "confirm", r.confirm, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -3529,6 +3856,9 @@ func (a *DefaultAPIService) DeleteDriveRouteV0DrivesDriveIdDeleteExecute(r ApiDe
 	}
 	if r.xAgentdriveActor != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-agentdrive-actor", r.xAgentdriveActor, "simple", "")
+	}
+	if r.ifMatch != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "if-match", r.ifMatch, "simple", "")
 	}
 	if r.authorization != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
@@ -3715,6 +4045,7 @@ type ApiDeleteFolderByIdV0FoldersFldIdDeleteRequest struct {
 	fldId string
 	recursive *bool
 	xAgentdriveActor *string
+	ifMatch *string
 	authorization *string
 }
 
@@ -3725,6 +4056,11 @@ func (r ApiDeleteFolderByIdV0FoldersFldIdDeleteRequest) Recursive(recursive bool
 
 func (r ApiDeleteFolderByIdV0FoldersFldIdDeleteRequest) XAgentdriveActor(xAgentdriveActor string) ApiDeleteFolderByIdV0FoldersFldIdDeleteRequest {
 	r.xAgentdriveActor = &xAgentdriveActor
+	return r
+}
+
+func (r ApiDeleteFolderByIdV0FoldersFldIdDeleteRequest) IfMatch(ifMatch string) ApiDeleteFolderByIdV0FoldersFldIdDeleteRequest {
+	r.ifMatch = &ifMatch
 	return r
 }
 
@@ -3801,6 +4137,9 @@ func (a *DefaultAPIService) DeleteFolderByIdV0FoldersFldIdDeleteExecute(r ApiDel
 	if r.xAgentdriveActor != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-agentdrive-actor", r.xAgentdriveActor, "simple", "")
 	}
+	if r.ifMatch != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "if-match", r.ifMatch, "simple", "")
+	}
 	if r.authorization != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
 	}
@@ -3857,6 +4196,7 @@ type ApiDeleteFolderByPathV0FoldersPathDeleteRequest struct {
 	path string
 	recursive *bool
 	xAgentdriveActor *string
+	ifMatch *string
 	authorization *string
 }
 
@@ -3867,6 +4207,11 @@ func (r ApiDeleteFolderByPathV0FoldersPathDeleteRequest) Recursive(recursive boo
 
 func (r ApiDeleteFolderByPathV0FoldersPathDeleteRequest) XAgentdriveActor(xAgentdriveActor string) ApiDeleteFolderByPathV0FoldersPathDeleteRequest {
 	r.xAgentdriveActor = &xAgentdriveActor
+	return r
+}
+
+func (r ApiDeleteFolderByPathV0FoldersPathDeleteRequest) IfMatch(ifMatch string) ApiDeleteFolderByPathV0FoldersPathDeleteRequest {
+	r.ifMatch = &ifMatch
 	return r
 }
 
@@ -3947,6 +4292,9 @@ func (a *DefaultAPIService) DeleteFolderByPathV0FoldersPathDeleteExecute(r ApiDe
 	if r.xAgentdriveActor != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-agentdrive-actor", r.xAgentdriveActor, "simple", "")
 	}
+	if r.ifMatch != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "if-match", r.ifMatch, "simple", "")
+	}
 	if r.authorization != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
 	}
@@ -4015,7 +4363,7 @@ func (r ApiDeleteGrantRouteV0GrantsGrnIdDeleteRequest) Authorization(authorizati
 	return r
 }
 
-func (r ApiDeleteGrantRouteV0GrantsGrnIdDeleteRequest) Execute() (interface{}, *http.Response, error) {
+func (r ApiDeleteGrantRouteV0GrantsGrnIdDeleteRequest) Execute() (*RevokeOut, *http.Response, error) {
 	return r.ApiService.DeleteGrantRouteV0GrantsGrnIdDeleteExecute(r)
 }
 
@@ -4035,13 +4383,13 @@ func (a *DefaultAPIService) DeleteGrantRouteV0GrantsGrnIdDelete(ctx context.Cont
 }
 
 // Execute executes the request
-//  @return interface{}
-func (a *DefaultAPIService) DeleteGrantRouteV0GrantsGrnIdDeleteExecute(r ApiDeleteGrantRouteV0GrantsGrnIdDeleteRequest) (interface{}, *http.Response, error) {
+//  @return RevokeOut
+func (a *DefaultAPIService) DeleteGrantRouteV0GrantsGrnIdDeleteExecute(r ApiDeleteGrantRouteV0GrantsGrnIdDeleteRequest) (*RevokeOut, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  interface{}
+		localVarReturnValue  *RevokeOut
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.DeleteGrantRouteV0GrantsGrnIdDelete")
@@ -4144,7 +4492,7 @@ func (r ApiDeleteShareRouteV0SharesShrIdDeleteRequest) Authorization(authorizati
 	return r
 }
 
-func (r ApiDeleteShareRouteV0SharesShrIdDeleteRequest) Execute() (interface{}, *http.Response, error) {
+func (r ApiDeleteShareRouteV0SharesShrIdDeleteRequest) Execute() (*RevokeOut, *http.Response, error) {
 	return r.ApiService.DeleteShareRouteV0SharesShrIdDeleteExecute(r)
 }
 
@@ -4164,13 +4512,13 @@ func (a *DefaultAPIService) DeleteShareRouteV0SharesShrIdDelete(ctx context.Cont
 }
 
 // Execute executes the request
-//  @return interface{}
-func (a *DefaultAPIService) DeleteShareRouteV0SharesShrIdDeleteExecute(r ApiDeleteShareRouteV0SharesShrIdDeleteRequest) (interface{}, *http.Response, error) {
+//  @return RevokeOut
+func (a *DefaultAPIService) DeleteShareRouteV0SharesShrIdDeleteExecute(r ApiDeleteShareRouteV0SharesShrIdDeleteRequest) (*RevokeOut, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  interface{}
+		localVarReturnValue  *RevokeOut
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.DeleteShareRouteV0SharesShrIdDelete")
@@ -4448,6 +4796,128 @@ func (a *DefaultAPIService) DownloadArtifactByIdV0ArtifactsArtIdDownloadGetExecu
 
 	localVarPath := localBasePath + "/v0/artifacts/{art_id}/download"
 	localVarPath = strings.Replace(localVarPath, "{"+"art_id"+"}", url.PathEscape(parameterValueToString(r.artId, "artId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiDownloadArtifactByPathV0ArtifactsPathDownloadGetRequest struct {
+	ctx context.Context
+	ApiService *DefaultAPIService
+	path string
+	authorization *string
+}
+
+func (r ApiDownloadArtifactByPathV0ArtifactsPathDownloadGetRequest) Authorization(authorization string) ApiDownloadArtifactByPathV0ArtifactsPathDownloadGetRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiDownloadArtifactByPathV0ArtifactsPathDownloadGetRequest) Execute() (interface{}, *http.Response, error) {
+	return r.ApiService.DownloadArtifactByPathV0ArtifactsPathDownloadGetExecute(r)
+}
+
+/*
+DownloadArtifactByPathV0ArtifactsPathDownloadGet Stream the artifact bytes by path (never rendered HTML)
+
+Same bytes-only machine surface as `/{art_id}/download` but resolves the artifact by path, so callers don't have to resolve path→id first. Applies the identical CSP `sandbox` + `nosniff` posture (never serves HTML inline as active content).
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param path
+ @return ApiDownloadArtifactByPathV0ArtifactsPathDownloadGetRequest
+*/
+func (a *DefaultAPIService) DownloadArtifactByPathV0ArtifactsPathDownloadGet(ctx context.Context, path string) ApiDownloadArtifactByPathV0ArtifactsPathDownloadGetRequest {
+	return ApiDownloadArtifactByPathV0ArtifactsPathDownloadGetRequest{
+		ApiService: a,
+		ctx: ctx,
+		path: path,
+	}
+}
+
+// Execute executes the request
+//  @return interface{}
+func (a *DefaultAPIService) DownloadArtifactByPathV0ArtifactsPathDownloadGetExecute(r ApiDownloadArtifactByPathV0ArtifactsPathDownloadGetRequest) (interface{}, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  interface{}
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.DownloadArtifactByPathV0ArtifactsPathDownloadGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v0/artifacts/{path}/download"
+	localVarPath = strings.Replace(localVarPath, "{"+"path"+"}", url.PathEscape(parameterValueToString(r.path, "path")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -6428,6 +6898,128 @@ func (a *DefaultAPIService) GetArtifactVersionV0ArtifactsArtIdVersionsVersionNum
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiGetDriveRouteV0DrivesDriveIdGetRequest struct {
+	ctx context.Context
+	ApiService *DefaultAPIService
+	driveId string
+	authorization *string
+}
+
+func (r ApiGetDriveRouteV0DrivesDriveIdGetRequest) Authorization(authorization string) ApiGetDriveRouteV0DrivesDriveIdGetRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiGetDriveRouteV0DrivesDriveIdGetRequest) Execute() (interface{}, *http.Response, error) {
+	return r.ApiService.GetDriveRouteV0DrivesDriveIdGetExecute(r)
+}
+
+/*
+GetDriveRouteV0DrivesDriveIdGet Drive overview by id (same shape as /drives/me)
+
+Identical to `GET /v0/drives/me` — the by-id singleton so `Location`-style URLs and scripted clients can address the drive canonically. The path-param `drive_id` MUST match the authenticated drive (mirrors the delete/trash routes' no-leak 404). Emits the drive's composite `ETag` header (`"<drv_id>.0.<metageneration>"`).
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param driveId
+ @return ApiGetDriveRouteV0DrivesDriveIdGetRequest
+*/
+func (a *DefaultAPIService) GetDriveRouteV0DrivesDriveIdGet(ctx context.Context, driveId string) ApiGetDriveRouteV0DrivesDriveIdGetRequest {
+	return ApiGetDriveRouteV0DrivesDriveIdGetRequest{
+		ApiService: a,
+		ctx: ctx,
+		driveId: driveId,
+	}
+}
+
+// Execute executes the request
+//  @return interface{}
+func (a *DefaultAPIService) GetDriveRouteV0DrivesDriveIdGetExecute(r ApiGetDriveRouteV0DrivesDriveIdGetRequest) (interface{}, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  interface{}
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.GetDriveRouteV0DrivesDriveIdGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v0/drives/{drive_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"drive_id"+"}", url.PathEscape(parameterValueToString(r.driveId, "driveId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiGetFeedbackStatusV0FeedbackFbkIdGetRequest struct {
 	ctx context.Context
 	ApiService *DefaultAPIService
@@ -6440,7 +7032,7 @@ func (r ApiGetFeedbackStatusV0FeedbackFbkIdGetRequest) Authorization(authorizati
 	return r
 }
 
-func (r ApiGetFeedbackStatusV0FeedbackFbkIdGetRequest) Execute() (interface{}, *http.Response, error) {
+func (r ApiGetFeedbackStatusV0FeedbackFbkIdGetRequest) Execute() (*FeedbackStatusOut, *http.Response, error) {
 	return r.ApiService.GetFeedbackStatusV0FeedbackFbkIdGetExecute(r)
 }
 
@@ -6463,13 +7055,13 @@ func (a *DefaultAPIService) GetFeedbackStatusV0FeedbackFbkIdGet(ctx context.Cont
 }
 
 // Execute executes the request
-//  @return interface{}
-func (a *DefaultAPIService) GetFeedbackStatusV0FeedbackFbkIdGetExecute(r ApiGetFeedbackStatusV0FeedbackFbkIdGetRequest) (interface{}, *http.Response, error) {
+//  @return FeedbackStatusOut
+func (a *DefaultAPIService) GetFeedbackStatusV0FeedbackFbkIdGetExecute(r ApiGetFeedbackStatusV0FeedbackFbkIdGetRequest) (*FeedbackStatusOut, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  interface{}
+		localVarReturnValue  *FeedbackStatusOut
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.GetFeedbackStatusV0FeedbackFbkIdGet")
@@ -7031,6 +7623,132 @@ func (a *DefaultAPIService) GetFolderByPathV0FoldersPathGetExecute(r ApiGetFolde
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiGetGrantRouteV0GrantsGrnIdGetRequest struct {
+	ctx context.Context
+	ApiService *DefaultAPIService
+	grnId string
+	authorization *string
+}
+
+func (r ApiGetGrantRouteV0GrantsGrnIdGetRequest) Authorization(authorization string) ApiGetGrantRouteV0GrantsGrnIdGetRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiGetGrantRouteV0GrantsGrnIdGetRequest) Execute() (*GrantOut, *http.Response, error) {
+	return r.ApiService.GetGrantRouteV0GrantsGrnIdGetExecute(r)
+}
+
+/*
+GetGrantRouteV0GrantsGrnIdGet Read a single grant (can_manage, or the grant's own principal)
+
+The `Location` target of `POST /v0/grants`. Authorization mirrors
+DELETE: `can_manage` on the granted resource, or the caller IS the
+grant's own principal (a grantee may read — like revoke — their own
+grant). A revoked grant reads as 404 (same no-leak shape as a
+foreign/absent id); DELETE stays idempotent on it.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param grnId
+ @return ApiGetGrantRouteV0GrantsGrnIdGetRequest
+*/
+func (a *DefaultAPIService) GetGrantRouteV0GrantsGrnIdGet(ctx context.Context, grnId string) ApiGetGrantRouteV0GrantsGrnIdGetRequest {
+	return ApiGetGrantRouteV0GrantsGrnIdGetRequest{
+		ApiService: a,
+		ctx: ctx,
+		grnId: grnId,
+	}
+}
+
+// Execute executes the request
+//  @return GrantOut
+func (a *DefaultAPIService) GetGrantRouteV0GrantsGrnIdGetExecute(r ApiGetGrantRouteV0GrantsGrnIdGetRequest) (*GrantOut, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *GrantOut
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.GetGrantRouteV0GrantsGrnIdGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v0/grants/{grn_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"grn_id"+"}", url.PathEscape(parameterValueToString(r.grnId, "grnId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiGetJobLogsV0JobsJobIdLogsGetRequest struct {
 	ctx context.Context
 	ApiService *DefaultAPIService
@@ -7391,6 +8109,132 @@ func (a *DefaultAPIService) GetProjectV0ProjectsFldIdGetExecute(r ApiGetProjectV
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiGetShareRouteV0SharesShrIdGetRequest struct {
+	ctx context.Context
+	ApiService *DefaultAPIService
+	shrId string
+	authorization *string
+}
+
+func (r ApiGetShareRouteV0SharesShrIdGetRequest) Authorization(authorization string) ApiGetShareRouteV0SharesShrIdGetRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiGetShareRouteV0SharesShrIdGetRequest) Execute() (*ShareOut, *http.Response, error) {
+	return r.ApiService.GetShareRouteV0SharesShrIdGetExecute(r)
+}
+
+/*
+GetShareRouteV0SharesShrIdGet Read a single share link's metadata (requires can_manage)
+
+The `Location` target of `POST /v0/shares`. Metadata ONLY —
+`ShareOut` never carries the raw `share_key`/URL (returned exactly
+once at mint/rotate, §4.5). Authorization mirrors DELETE:
+`can_manage` on the shared resource. A revoked share reads as 404
+(same no-leak shape as a foreign/absent id).
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param shrId
+ @return ApiGetShareRouteV0SharesShrIdGetRequest
+*/
+func (a *DefaultAPIService) GetShareRouteV0SharesShrIdGet(ctx context.Context, shrId string) ApiGetShareRouteV0SharesShrIdGetRequest {
+	return ApiGetShareRouteV0SharesShrIdGetRequest{
+		ApiService: a,
+		ctx: ctx,
+		shrId: shrId,
+	}
+}
+
+// Execute executes the request
+//  @return ShareOut
+func (a *DefaultAPIService) GetShareRouteV0SharesShrIdGetExecute(r ApiGetShareRouteV0SharesShrIdGetRequest) (*ShareOut, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *ShareOut
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.GetShareRouteV0SharesShrIdGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v0/shares/{shr_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"shr_id"+"}", url.PathEscape(parameterValueToString(r.shrId, "shrId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiGetShareStateWebShareRidGetRequest struct {
 	ctx context.Context
 	ApiService *DefaultAPIService
@@ -7454,6 +8298,128 @@ func (a *DefaultAPIService) GetShareStateWebShareRidGetExecute(r ApiGetShareStat
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetUploadStatusV0UploadsUploadIdGetRequest struct {
+	ctx context.Context
+	ApiService *DefaultAPIService
+	uploadId string
+	authorization *string
+}
+
+func (r ApiGetUploadStatusV0UploadsUploadIdGetRequest) Authorization(authorization string) ApiGetUploadStatusV0UploadsUploadIdGetRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiGetUploadStatusV0UploadsUploadIdGetRequest) Execute() (*UploadStatusOut, *http.Response, error) {
+	return r.ApiService.GetUploadStatusV0UploadsUploadIdGetExecute(r)
+}
+
+/*
+GetUploadStatusV0UploadsUploadIdGet Get the status of a large (direct-to-GCS) upload session
+
+Report the live state of an upload session begun at `/v0/uploads`. `state` is derived: `initiated` (open — PUT the bytes then commit), `committed` (artifact created), `aborted` (released via DELETE), or `expired` (past `expires_at` without a commit). Read-only; charges the read budget.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param uploadId
+ @return ApiGetUploadStatusV0UploadsUploadIdGetRequest
+*/
+func (a *DefaultAPIService) GetUploadStatusV0UploadsUploadIdGet(ctx context.Context, uploadId string) ApiGetUploadStatusV0UploadsUploadIdGetRequest {
+	return ApiGetUploadStatusV0UploadsUploadIdGetRequest{
+		ApiService: a,
+		ctx: ctx,
+		uploadId: uploadId,
+	}
+}
+
+// Execute executes the request
+//  @return UploadStatusOut
+func (a *DefaultAPIService) GetUploadStatusV0UploadsUploadIdGetExecute(r ApiGetUploadStatusV0UploadsUploadIdGetRequest) (*UploadStatusOut, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *UploadStatusOut
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.GetUploadStatusV0UploadsUploadIdGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v0/uploads/{upload_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"upload_id"+"}", url.PathEscape(parameterValueToString(r.uploadId, "uploadId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
@@ -8270,12 +9236,24 @@ type ApiListGrantsRouteV0GrantsGetRequest struct {
 	ctx context.Context
 	ApiService *DefaultAPIService
 	resource *string
+	cursor *string
+	limit *int32
 	authorization *string
 }
 
 // art_*_/fld_* id or a path
 func (r ApiListGrantsRouteV0GrantsGetRequest) Resource(resource string) ApiListGrantsRouteV0GrantsGetRequest {
 	r.resource = &resource
+	return r
+}
+
+func (r ApiListGrantsRouteV0GrantsGetRequest) Cursor(cursor string) ApiListGrantsRouteV0GrantsGetRequest {
+	r.cursor = &cursor
+	return r
+}
+
+func (r ApiListGrantsRouteV0GrantsGetRequest) Limit(limit int32) ApiListGrantsRouteV0GrantsGetRequest {
+	r.limit = &limit
 	return r
 }
 
@@ -8290,6 +9268,8 @@ func (r ApiListGrantsRouteV0GrantsGetRequest) Execute() (*GrantList, *http.Respo
 
 /*
 ListGrantsRouteV0GrantsGet List live grants on a resource (requires can_manage)
+
+**Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected. The `resource` filter must be re-sent on every page — the cursor encodes only the keyset position.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiListGrantsRouteV0GrantsGetRequest
@@ -8326,6 +9306,12 @@ func (a *DefaultAPIService) ListGrantsRouteV0GrantsGetExecute(r ApiListGrantsRou
 	}
 
 	parameterAddToHeaderOrQuery(localVarQueryParams, "resource", r.resource, "form", "")
+	if r.cursor != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
+	}
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -8539,12 +9525,24 @@ type ApiListSharesRouteV0SharesGetRequest struct {
 	ctx context.Context
 	ApiService *DefaultAPIService
 	resource *string
+	cursor *string
+	limit *int32
 	authorization *string
 }
 
 // art_*_/fld_* id or a path
 func (r ApiListSharesRouteV0SharesGetRequest) Resource(resource string) ApiListSharesRouteV0SharesGetRequest {
 	r.resource = &resource
+	return r
+}
+
+func (r ApiListSharesRouteV0SharesGetRequest) Cursor(cursor string) ApiListSharesRouteV0SharesGetRequest {
+	r.cursor = &cursor
+	return r
+}
+
+func (r ApiListSharesRouteV0SharesGetRequest) Limit(limit int32) ApiListSharesRouteV0SharesGetRequest {
+	r.limit = &limit
 	return r
 }
 
@@ -8559,6 +9557,8 @@ func (r ApiListSharesRouteV0SharesGetRequest) Execute() (*ShareList, *http.Respo
 
 /*
 ListSharesRouteV0SharesGet List live share links on a resource (requires can_manage)
+
+**Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected. The `resource` filter must be re-sent on every page — the cursor encodes only the keyset position.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiListSharesRouteV0SharesGetRequest
@@ -8595,6 +9595,12 @@ func (a *DefaultAPIService) ListSharesRouteV0SharesGetExecute(r ApiListSharesRou
 	}
 
 	parameterAddToHeaderOrQuery(localVarQueryParams, "resource", r.resource, "form", "")
+	if r.cursor != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
+	}
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -9498,7 +10504,8 @@ is preserved in the response shape; its meaning is now "the drive's
 owner's email" (via `drives.owner_user_id` → `users.email`, joined
 in `auth.resolve_drive`). For solo signups this equals v0 behavior —
 the email the user signed up with. Returns null if the owner has
-been hard-purged. `organization_id` is a new additive field.
+been hard-purged. `organization_id` is a new additive field, as are
+`metageneration` / `etag` (also emitted as the `ETag` header).
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiMeV0DrivesMeGetRequest
@@ -9598,12 +10605,168 @@ func (a *DefaultAPIService) MeV0DrivesMeGetExecute(r ApiMeV0DrivesMeGetRequest) 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiMoveArtifactRouteV0ArtifactsArtIdMovePostRequest struct {
+	ctx context.Context
+	ApiService *DefaultAPIService
+	artId string
+	artifactMoveIn *ArtifactMoveIn
+	xAgentdriveActor *string
+	ifMatch *string
+	authorization *string
+}
+
+func (r ApiMoveArtifactRouteV0ArtifactsArtIdMovePostRequest) ArtifactMoveIn(artifactMoveIn ArtifactMoveIn) ApiMoveArtifactRouteV0ArtifactsArtIdMovePostRequest {
+	r.artifactMoveIn = &artifactMoveIn
+	return r
+}
+
+func (r ApiMoveArtifactRouteV0ArtifactsArtIdMovePostRequest) XAgentdriveActor(xAgentdriveActor string) ApiMoveArtifactRouteV0ArtifactsArtIdMovePostRequest {
+	r.xAgentdriveActor = &xAgentdriveActor
+	return r
+}
+
+func (r ApiMoveArtifactRouteV0ArtifactsArtIdMovePostRequest) IfMatch(ifMatch string) ApiMoveArtifactRouteV0ArtifactsArtIdMovePostRequest {
+	r.ifMatch = &ifMatch
+	return r
+}
+
+func (r ApiMoveArtifactRouteV0ArtifactsArtIdMovePostRequest) Authorization(authorization string) ApiMoveArtifactRouteV0ArtifactsArtIdMovePostRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiMoveArtifactRouteV0ArtifactsArtIdMovePostRequest) Execute() (*ArtifactOut, *http.Response, error) {
+	return r.ApiService.MoveArtifactRouteV0ArtifactsArtIdMovePostExecute(r)
+}
+
+/*
+MoveArtifactRouteV0ArtifactsArtIdMovePost Rename / move an artifact to a new path
+
+Canonical artifact move/rename, keyed by the stable `art_…` ID (the artifact analogue of `POST /v0/folders/{fld_id}/move`). Moves the artifact to a new `path` on the same drive; ID, version history, source refs, labels, metadata, and the underlying CAS blob are all preserved — only `path` and `updated_at` change, and the move does NOT bump `version_number`.
+
+The row UPDATE and the emitted `artifact.renamed` event commit in a SINGLE transaction — a failure leaves the artifact fully unchanged.
+
+Returns 409 PATH_CONFLICT if the target `path` is already taken; 404 ARTIFACT_NOT_FOUND for an unknown id; 403 WIKI_RESERVED for a `_wiki/` / `_compiled/` target. Honors `If-Match` (→ 412 PRECONDITION_FAILED). Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.renamed` event.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param artId
+ @return ApiMoveArtifactRouteV0ArtifactsArtIdMovePostRequest
+*/
+func (a *DefaultAPIService) MoveArtifactRouteV0ArtifactsArtIdMovePost(ctx context.Context, artId string) ApiMoveArtifactRouteV0ArtifactsArtIdMovePostRequest {
+	return ApiMoveArtifactRouteV0ArtifactsArtIdMovePostRequest{
+		ApiService: a,
+		ctx: ctx,
+		artId: artId,
+	}
+}
+
+// Execute executes the request
+//  @return ArtifactOut
+func (a *DefaultAPIService) MoveArtifactRouteV0ArtifactsArtIdMovePostExecute(r ApiMoveArtifactRouteV0ArtifactsArtIdMovePostRequest) (*ArtifactOut, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *ArtifactOut
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.MoveArtifactRouteV0ArtifactsArtIdMovePost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v0/artifacts/{art_id}/move"
+	localVarPath = strings.Replace(localVarPath, "{"+"art_id"+"}", url.PathEscape(parameterValueToString(r.artId, "artId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.artifactMoveIn == nil {
+		return localVarReturnValue, nil, reportError("artifactMoveIn is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.xAgentdriveActor != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-agentdrive-actor", r.xAgentdriveActor, "simple", "")
+	}
+	if r.ifMatch != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "if-match", r.ifMatch, "simple", "")
+	}
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
+	}
+	// body params
+	localVarPostBody = r.artifactMoveIn
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiMoveFolderByIdV0FoldersFldIdMovePostRequest struct {
 	ctx context.Context
 	ApiService *DefaultAPIService
 	fldId string
 	folderMoveIn *FolderMoveIn
 	xAgentdriveActor *string
+	ifMatch *string
 	authorization *string
 }
 
@@ -9614,6 +10777,11 @@ func (r ApiMoveFolderByIdV0FoldersFldIdMovePostRequest) FolderMoveIn(folderMoveI
 
 func (r ApiMoveFolderByIdV0FoldersFldIdMovePostRequest) XAgentdriveActor(xAgentdriveActor string) ApiMoveFolderByIdV0FoldersFldIdMovePostRequest {
 	r.xAgentdriveActor = &xAgentdriveActor
+	return r
+}
+
+func (r ApiMoveFolderByIdV0FoldersFldIdMovePostRequest) IfMatch(ifMatch string) ApiMoveFolderByIdV0FoldersFldIdMovePostRequest {
+	r.ifMatch = &ifMatch
 	return r
 }
 
@@ -9686,6 +10854,9 @@ func (a *DefaultAPIService) MoveFolderByIdV0FoldersFldIdMovePostExecute(r ApiMov
 	if r.xAgentdriveActor != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-agentdrive-actor", r.xAgentdriveActor, "simple", "")
 	}
+	if r.ifMatch != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "if-match", r.ifMatch, "simple", "")
+	}
 	if r.authorization != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
 	}
@@ -9744,6 +10915,7 @@ type ApiMoveFolderByPathV0FoldersPathMovePostRequest struct {
 	path string
 	folderMoveIn *FolderMoveIn
 	xAgentdriveActor *string
+	ifMatch *string
 	authorization *string
 }
 
@@ -9754,6 +10926,11 @@ func (r ApiMoveFolderByPathV0FoldersPathMovePostRequest) FolderMoveIn(folderMove
 
 func (r ApiMoveFolderByPathV0FoldersPathMovePostRequest) XAgentdriveActor(xAgentdriveActor string) ApiMoveFolderByPathV0FoldersPathMovePostRequest {
 	r.xAgentdriveActor = &xAgentdriveActor
+	return r
+}
+
+func (r ApiMoveFolderByPathV0FoldersPathMovePostRequest) IfMatch(ifMatch string) ApiMoveFolderByPathV0FoldersPathMovePostRequest {
+	r.ifMatch = &ifMatch
 	return r
 }
 
@@ -9829,6 +11006,9 @@ func (a *DefaultAPIService) MoveFolderByPathV0FoldersPathMovePostExecute(r ApiMo
 	}
 	if r.xAgentdriveActor != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-agentdrive-actor", r.xAgentdriveActor, "simple", "")
+	}
+	if r.ifMatch != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "if-match", r.ifMatch, "simple", "")
 	}
 	if r.authorization != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
@@ -10013,12 +11193,175 @@ func (a *DefaultAPIService) OauthDisconnectWebOauthDisconnectPostExecute(r ApiOa
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiPatchArtifactRouteV0ArtifactsArtIdPatchRequest struct {
+	ctx context.Context
+	ApiService *DefaultAPIService
+	artId string
+	artifactPatchIn *ArtifactPatchIn
+	xAgentdriveActor *string
+	ifMatch *string
+	authorization *string
+}
+
+func (r ApiPatchArtifactRouteV0ArtifactsArtIdPatchRequest) ArtifactPatchIn(artifactPatchIn ArtifactPatchIn) ApiPatchArtifactRouteV0ArtifactsArtIdPatchRequest {
+	r.artifactPatchIn = &artifactPatchIn
+	return r
+}
+
+func (r ApiPatchArtifactRouteV0ArtifactsArtIdPatchRequest) XAgentdriveActor(xAgentdriveActor string) ApiPatchArtifactRouteV0ArtifactsArtIdPatchRequest {
+	r.xAgentdriveActor = &xAgentdriveActor
+	return r
+}
+
+func (r ApiPatchArtifactRouteV0ArtifactsArtIdPatchRequest) IfMatch(ifMatch string) ApiPatchArtifactRouteV0ArtifactsArtIdPatchRequest {
+	r.ifMatch = &ifMatch
+	return r
+}
+
+func (r ApiPatchArtifactRouteV0ArtifactsArtIdPatchRequest) Authorization(authorization string) ApiPatchArtifactRouteV0ArtifactsArtIdPatchRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiPatchArtifactRouteV0ArtifactsArtIdPatchRequest) Execute() (*ArtifactOut, *http.Response, error) {
+	return r.ApiService.PatchArtifactRouteV0ArtifactsArtIdPatchExecute(r)
+}
+
+/*
+PatchArtifactRouteV0ArtifactsArtIdPatch Edit artifact metadata (labels / metadata / source)
+
+Metadata-only JSON-merge-patch update of a single artifact, keyed by its stable `art_…` ID. Every field in the body is optional; a field that is **omitted** is left unchanged, a field that is **present** is applied — with an explicit `null` / `[]` / `{}` meaning "clear". This mirrors the MCP `set_metadata` tool.
+
+Editable fields:
+  * `labels` — replace the label set (`[]`/`null` clears).
+  * `metadata` — replace the free-form metadata object (`{}`/`null` clears).
+  * `source` — replace provenance refs (`null` clears).
+
+**To move/rename an artifact, use `POST /v0/artifacts/{art_id}/move`** — PATCH no longer accepts `path`. The body is `extra="forbid"`, so a stray field (notably a legacy `path`) is rejected with 422 rather than silently ignored.
+
+Metadata edits do NOT create a new content version (no `version_number` / generation bump, no `artifact_versions` row) but DO bump the artifact's `metageneration` and `updated_at`.
+
+Returns 400 BAD_LABELS / BAD_SOURCE for invalid metadata; 404 ARTIFACT_NOT_FOUND for an unknown id. Honors `If-Match`, which takes the composite ETag `"<art_id>.<generation>.<metageneration>"` and is compared as a whole tuple: ANY concurrent content **or** metadata change (a bumped generation OR metageneration) → 412 PRECONDITION_FAILED. There is no last-writer-wins gap for metadata-only edits. Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.metadata_updated` event.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param artId
+ @return ApiPatchArtifactRouteV0ArtifactsArtIdPatchRequest
+*/
+func (a *DefaultAPIService) PatchArtifactRouteV0ArtifactsArtIdPatch(ctx context.Context, artId string) ApiPatchArtifactRouteV0ArtifactsArtIdPatchRequest {
+	return ApiPatchArtifactRouteV0ArtifactsArtIdPatchRequest{
+		ApiService: a,
+		ctx: ctx,
+		artId: artId,
+	}
+}
+
+// Execute executes the request
+//  @return ArtifactOut
+func (a *DefaultAPIService) PatchArtifactRouteV0ArtifactsArtIdPatchExecute(r ApiPatchArtifactRouteV0ArtifactsArtIdPatchRequest) (*ArtifactOut, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPatch
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *ArtifactOut
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.PatchArtifactRouteV0ArtifactsArtIdPatch")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v0/artifacts/{art_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"art_id"+"}", url.PathEscape(parameterValueToString(r.artId, "artId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.artifactPatchIn == nil {
+		return localVarReturnValue, nil, reportError("artifactPatchIn is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.xAgentdriveActor != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-agentdrive-actor", r.xAgentdriveActor, "simple", "")
+	}
+	if r.ifMatch != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "if-match", r.ifMatch, "simple", "")
+	}
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
+	}
+	// body params
+	localVarPostBody = r.artifactPatchIn
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiPatchFolderByIdV0FoldersFldIdPatchRequest struct {
 	ctx context.Context
 	ApiService *DefaultAPIService
 	fldId string
 	folderPatchIn *FolderPatchIn
 	xAgentdriveActor *string
+	ifMatch *string
 	authorization *string
 }
 
@@ -10029,6 +11372,11 @@ func (r ApiPatchFolderByIdV0FoldersFldIdPatchRequest) FolderPatchIn(folderPatchI
 
 func (r ApiPatchFolderByIdV0FoldersFldIdPatchRequest) XAgentdriveActor(xAgentdriveActor string) ApiPatchFolderByIdV0FoldersFldIdPatchRequest {
 	r.xAgentdriveActor = &xAgentdriveActor
+	return r
+}
+
+func (r ApiPatchFolderByIdV0FoldersFldIdPatchRequest) IfMatch(ifMatch string) ApiPatchFolderByIdV0FoldersFldIdPatchRequest {
+	r.ifMatch = &ifMatch
 	return r
 }
 
@@ -10101,6 +11449,9 @@ func (a *DefaultAPIService) PatchFolderByIdV0FoldersFldIdPatchExecute(r ApiPatch
 	if r.xAgentdriveActor != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-agentdrive-actor", r.xAgentdriveActor, "simple", "")
 	}
+	if r.ifMatch != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "if-match", r.ifMatch, "simple", "")
+	}
 	if r.authorization != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
 	}
@@ -10159,6 +11510,7 @@ type ApiPatchFolderByPathV0FoldersPathPatchRequest struct {
 	path string
 	folderPatchIn *FolderPatchIn
 	xAgentdriveActor *string
+	ifMatch *string
 	authorization *string
 }
 
@@ -10169,6 +11521,11 @@ func (r ApiPatchFolderByPathV0FoldersPathPatchRequest) FolderPatchIn(folderPatch
 
 func (r ApiPatchFolderByPathV0FoldersPathPatchRequest) XAgentdriveActor(xAgentdriveActor string) ApiPatchFolderByPathV0FoldersPathPatchRequest {
 	r.xAgentdriveActor = &xAgentdriveActor
+	return r
+}
+
+func (r ApiPatchFolderByPathV0FoldersPathPatchRequest) IfMatch(ifMatch string) ApiPatchFolderByPathV0FoldersPathPatchRequest {
+	r.ifMatch = &ifMatch
 	return r
 }
 
@@ -10242,6 +11599,9 @@ func (a *DefaultAPIService) PatchFolderByPathV0FoldersPathPatchExecute(r ApiPatc
 	}
 	if r.xAgentdriveActor != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-agentdrive-actor", r.xAgentdriveActor, "simple", "")
+	}
+	if r.ifMatch != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "if-match", r.ifMatch, "simple", "")
 	}
 	if r.authorization != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
@@ -11278,7 +12638,10 @@ type ApiPutArtifactV0ArtifactsPathPutRequest struct {
 	xAgentdriveSource *string
 	xAgentdriveActor *string
 	xAgentdriveChangeSummary *string
+	xAgentdriveChecksum *string
+	contentMd5 *string
 	ifMatch *string
+	ifNoneMatch *string
 	authorization *string
 }
 
@@ -11312,8 +12675,23 @@ func (r ApiPutArtifactV0ArtifactsPathPutRequest) XAgentdriveChangeSummary(xAgent
 	return r
 }
 
+func (r ApiPutArtifactV0ArtifactsPathPutRequest) XAgentdriveChecksum(xAgentdriveChecksum string) ApiPutArtifactV0ArtifactsPathPutRequest {
+	r.xAgentdriveChecksum = &xAgentdriveChecksum
+	return r
+}
+
+func (r ApiPutArtifactV0ArtifactsPathPutRequest) ContentMd5(contentMd5 string) ApiPutArtifactV0ArtifactsPathPutRequest {
+	r.contentMd5 = &contentMd5
+	return r
+}
+
 func (r ApiPutArtifactV0ArtifactsPathPutRequest) IfMatch(ifMatch string) ApiPutArtifactV0ArtifactsPathPutRequest {
 	r.ifMatch = &ifMatch
+	return r
+}
+
+func (r ApiPutArtifactV0ArtifactsPathPutRequest) IfNoneMatch(ifNoneMatch string) ApiPutArtifactV0ArtifactsPathPutRequest {
+	r.ifNoneMatch = &ifNoneMatch
 	return r
 }
 
@@ -11329,7 +12707,7 @@ func (r ApiPutArtifactV0ArtifactsPathPutRequest) Execute() (*ArtifactOut, *http.
 /*
 PutArtifactV0ArtifactsPathPut Upload (or overwrite) an artifact
 
-Upload an artifact at the given path. The path is treated as the artifact's location in the drive — re-uploading the same path overwrites in place (idempotent).
+Upload an artifact at the given path. The path is treated as the artifact's location in the drive — re-uploading the same path overwrites in place (idempotent). Returns 201 when the artifact is created (no prior live artifact at the path), 200 on overwrite — mirroring `PUT /v0/folders/{path}`.
 
 **Limits:** request body must not exceed **50 MB**. Path must be non-empty, ≤256 chars, only `[A-Za-z0-9_./-]`, no `..` segments, no leading/trailing slash. Per-token write rate limit: 100/hour.
 
@@ -11338,6 +12716,10 @@ Upload an artifact at the given path. The path is treated as the artifact's loca
 - `X-AgentDrive-Metadata`: JSON object of agent-attached fields.
 - `X-AgentDrive-Source`: JSON `{"refs": [...]}` source provenance (present, including `{"refs": []}`, replaces).
 - `X-AgentDrive-Actor`: caller-supplied actor name (≤64 chars) for event-log attribution. Untrusted; never used for authz.
+
+**Preconditions.** `If-Match: "<id>.<gen>.<metagen>"` makes the write conditional on the current composite ETag (→ 412 PRECONDITION_FAILED). `If-None-Match: *` is create-only: it succeeds only if no live artifact occupies the path (→ 412 CREATE_CONFLICT if one does). The two are mutually exclusive (→ 400 BAD_PRECONDITION).
+
+**Integrity (optional).** `X-AgentDrive-Checksum: <algo>:<value>` (`sha256:<hex>` or `crc32c:<base64>`) or the standard `Content-MD5` (base64 MD5) is verified against the received bytes before they land (→ 400 CHECKSUM_MISMATCH on mismatch); no artifact is created on failure.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param path
@@ -11408,8 +12790,17 @@ func (a *DefaultAPIService) PutArtifactV0ArtifactsPathPutExecute(r ApiPutArtifac
 	if r.xAgentdriveChangeSummary != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-agentdrive-change-summary", r.xAgentdriveChangeSummary, "simple", "")
 	}
+	if r.xAgentdriveChecksum != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-agentdrive-checksum", r.xAgentdriveChecksum, "simple", "")
+	}
+	if r.contentMd5 != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "content-md5", r.contentMd5, "simple", "")
+	}
 	if r.ifMatch != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "if-match", r.ifMatch, "simple", "")
+	}
+	if r.ifNoneMatch != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "if-none-match", r.ifNoneMatch, "simple", "")
 	}
 	if r.authorization != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
@@ -12432,159 +13823,6 @@ func (a *DefaultAPIService) RemoveMemberWebWebMembersTargetUserIdRemovePostExecu
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiRenameArtifactRouteV0ArtifactsArtIdPatchRequest struct {
-	ctx context.Context
-	ApiService *DefaultAPIService
-	artId string
-	renameIn *RenameIn
-	xAgentdriveActor *string
-	ifMatch *string
-	authorization *string
-}
-
-func (r ApiRenameArtifactRouteV0ArtifactsArtIdPatchRequest) RenameIn(renameIn RenameIn) ApiRenameArtifactRouteV0ArtifactsArtIdPatchRequest {
-	r.renameIn = &renameIn
-	return r
-}
-
-func (r ApiRenameArtifactRouteV0ArtifactsArtIdPatchRequest) XAgentdriveActor(xAgentdriveActor string) ApiRenameArtifactRouteV0ArtifactsArtIdPatchRequest {
-	r.xAgentdriveActor = &xAgentdriveActor
-	return r
-}
-
-func (r ApiRenameArtifactRouteV0ArtifactsArtIdPatchRequest) IfMatch(ifMatch string) ApiRenameArtifactRouteV0ArtifactsArtIdPatchRequest {
-	r.ifMatch = &ifMatch
-	return r
-}
-
-func (r ApiRenameArtifactRouteV0ArtifactsArtIdPatchRequest) Authorization(authorization string) ApiRenameArtifactRouteV0ArtifactsArtIdPatchRequest {
-	r.authorization = &authorization
-	return r
-}
-
-func (r ApiRenameArtifactRouteV0ArtifactsArtIdPatchRequest) Execute() (*ArtifactOut, *http.Response, error) {
-	return r.ApiService.RenameArtifactRouteV0ArtifactsArtIdPatchExecute(r)
-}
-
-/*
-RenameArtifactRouteV0ArtifactsArtIdPatch Rename / move an artifact to a new path
-
-Move the artifact to a new path on the same drive. ID, version history, source refs, labels, metadata, and the underlying CAS blob are preserved — only `path` and `updated_at` change.
-
-Returns 409 PATH_CONFLICT if the target path is already taken. Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.renamed` event.
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param artId
- @return ApiRenameArtifactRouteV0ArtifactsArtIdPatchRequest
-*/
-func (a *DefaultAPIService) RenameArtifactRouteV0ArtifactsArtIdPatch(ctx context.Context, artId string) ApiRenameArtifactRouteV0ArtifactsArtIdPatchRequest {
-	return ApiRenameArtifactRouteV0ArtifactsArtIdPatchRequest{
-		ApiService: a,
-		ctx: ctx,
-		artId: artId,
-	}
-}
-
-// Execute executes the request
-//  @return ArtifactOut
-func (a *DefaultAPIService) RenameArtifactRouteV0ArtifactsArtIdPatchExecute(r ApiRenameArtifactRouteV0ArtifactsArtIdPatchRequest) (*ArtifactOut, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *ArtifactOut
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.RenameArtifactRouteV0ArtifactsArtIdPatch")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/v0/artifacts/{art_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"art_id"+"}", url.PathEscape(parameterValueToString(r.artId, "artId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.renameIn == nil {
-		return localVarReturnValue, nil, reportError("renameIn is required and must be specified")
-	}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.xAgentdriveActor != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-agentdrive-actor", r.xAgentdriveActor, "simple", "")
-	}
-	if r.ifMatch != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "if-match", r.ifMatch, "simple", "")
-	}
-	if r.authorization != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
-	}
-	// body params
-	localVarPostBody = r.renameIn
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 422 {
-			var v HTTPValidationError
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
 type ApiRenameDriveWebWebDrivesDriveIdRenamePostRequest struct {
 	ctx context.Context
 	ApiService *DefaultAPIService
@@ -12988,6 +14226,7 @@ type ApiRestoreArtifactV0ArtifactsArtIdRestorePostRequest struct {
 	rename *string
 	overwrite *bool
 	xAgentdriveActor *string
+	ifMatch *string
 	authorization *string
 }
 
@@ -13008,6 +14247,11 @@ func (r ApiRestoreArtifactV0ArtifactsArtIdRestorePostRequest) XAgentdriveActor(x
 	return r
 }
 
+func (r ApiRestoreArtifactV0ArtifactsArtIdRestorePostRequest) IfMatch(ifMatch string) ApiRestoreArtifactV0ArtifactsArtIdRestorePostRequest {
+	r.ifMatch = &ifMatch
+	return r
+}
+
 func (r ApiRestoreArtifactV0ArtifactsArtIdRestorePostRequest) Authorization(authorization string) ApiRestoreArtifactV0ArtifactsArtIdRestorePostRequest {
 	r.authorization = &authorization
 	return r
@@ -13020,7 +14264,7 @@ func (r ApiRestoreArtifactV0ArtifactsArtIdRestorePostRequest) Execute() (*Artifa
 /*
 RestoreArtifactV0ArtifactsArtIdRestorePost Restore a soft-deleted artifact
 
-Clear `deleted_at` + `purge_at` on a soft-deleted artifact. Available only while the artifact is in trash (i.e. before the GC cleanup cron purges it). Returns 404 if the artifact is live or already hard-deleted; 409 PATH_OCCUPIED if its path is now occupied by another live artifact. The 409 payload includes a `restore_options` block with `rename_to` and `force_overwrite` URLs the caller can follow to resolve the conflict — see deletion-design.md §5.4.
+Clear `deleted_at` + `purge_at` on a soft-deleted artifact. Available only while the artifact is in trash (i.e. before the GC cleanup cron purges it). Returns 404 if the artifact is live or already hard-deleted; 409 PATH_CONFLICT if its path is now occupied by another live artifact. The 409 payload includes a `restore_options` block with `rename_to` and `force_overwrite` URLs the caller can follow to resolve the conflict — see deletion-design.md §5.4.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param artId
@@ -13086,6 +14330,159 @@ func (a *DefaultAPIService) RestoreArtifactV0ArtifactsArtIdRestorePostExecute(r 
 	if r.xAgentdriveActor != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-agentdrive-actor", r.xAgentdriveActor, "simple", "")
 	}
+	if r.ifMatch != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "if-match", r.ifMatch, "simple", "")
+	}
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiRestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest struct {
+	ctx context.Context
+	ApiService *DefaultAPIService
+	artId string
+	versionNumber int32
+	xAgentdriveActor *string
+	ifMatch *string
+	authorization *string
+}
+
+func (r ApiRestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest) XAgentdriveActor(xAgentdriveActor string) ApiRestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest {
+	r.xAgentdriveActor = &xAgentdriveActor
+	return r
+}
+
+func (r ApiRestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest) IfMatch(ifMatch string) ApiRestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest {
+	r.ifMatch = &ifMatch
+	return r
+}
+
+func (r ApiRestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest) Authorization(authorization string) ApiRestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiRestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest) Execute() (*ArtifactOut, *http.Response, error) {
+	return r.ApiService.RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostExecute(r)
+}
+
+/*
+RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost Restore a previous version as a new head version
+
+Roll the artifact forward to the content of version `version_number` by creating a **new head version** with identical bytes. History is preserved — this never rewrites or deletes past versions. The prior version's content-addressed blob is reused, so no bytes are re-uploaded. A change summary of `Restored version N` is recorded on the new version; `X-AgentDrive-Actor` attributes it.
+
+Restoring a version whose content already matches the current head (including the head itself) is a **no-op**: it returns the current artifact unchanged, with no new version created.
+
+Honors `If-Match` on the current head (roll forward only if the head is unchanged → 412 PRECONDITION_FAILED).
+
+Errors: `404 ARTIFACT_NOT_FOUND`, `404 VERSION_NOT_FOUND`, and `410 VERSION_PRUNED` when the version existed but its bytes were retained out of existence.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param artId
+ @param versionNumber
+ @return ApiRestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest
+*/
+func (a *DefaultAPIService) RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost(ctx context.Context, artId string, versionNumber int32) ApiRestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest {
+	return ApiRestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest{
+		ApiService: a,
+		ctx: ctx,
+		artId: artId,
+		versionNumber: versionNumber,
+	}
+}
+
+// Execute executes the request
+//  @return ArtifactOut
+func (a *DefaultAPIService) RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostExecute(r ApiRestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest) (*ArtifactOut, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *ArtifactOut
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v0/artifacts/{art_id}/versions/{version_number}/restore"
+	localVarPath = strings.Replace(localVarPath, "{"+"art_id"+"}", url.PathEscape(parameterValueToString(r.artId, "artId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"version_number"+"}", url.PathEscape(parameterValueToString(r.versionNumber, "versionNumber")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.xAgentdriveActor != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-agentdrive-actor", r.xAgentdriveActor, "simple", "")
+	}
+	if r.ifMatch != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "if-match", r.ifMatch, "simple", "")
+	}
 	if r.authorization != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
 	}
@@ -13141,11 +14538,17 @@ type ApiRestoreDriveRouteV0DrivesDriveIdRestorePostRequest struct {
 	ApiService *DefaultAPIService
 	driveId string
 	xAgentdriveActor *string
+	ifMatch *string
 	authorization *string
 }
 
 func (r ApiRestoreDriveRouteV0DrivesDriveIdRestorePostRequest) XAgentdriveActor(xAgentdriveActor string) ApiRestoreDriveRouteV0DrivesDriveIdRestorePostRequest {
 	r.xAgentdriveActor = &xAgentdriveActor
+	return r
+}
+
+func (r ApiRestoreDriveRouteV0DrivesDriveIdRestorePostRequest) IfMatch(ifMatch string) ApiRestoreDriveRouteV0DrivesDriveIdRestorePostRequest {
+	r.ifMatch = &ifMatch
 	return r
 }
 
@@ -13162,6 +14565,8 @@ func (r ApiRestoreDriveRouteV0DrivesDriveIdRestorePostRequest) Execute() (interf
 RestoreDriveRouteV0DrivesDriveIdRestorePost Restore a soft-deleted drive
 
 Clear `deleted_at` + `purge_at` on a soft-deleted drive. Soft-deleted child artifacts get their retention window rebased to the drive-restore moment (see deletion-design.md §5.2). Available only while the drive is in trash. Returns 404 if the drive is live or already hard-deleted.
+
+**Optimistic concurrency:** send `If-Match` with the trashed drive's composite ETag (`"<drv_id>.0.<metageneration>"`, e.g. from the delete response's `ETag` header) to make the restore conditional — a stale token returns 412 PRECONDITION_FAILED. A restore WITHOUT an `If-Match` precondition is last-writer-wins.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param driveId
@@ -13216,6 +14621,153 @@ func (a *DefaultAPIService) RestoreDriveRouteV0DrivesDriveIdRestorePostExecute(r
 	}
 	if r.xAgentdriveActor != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-agentdrive-actor", r.xAgentdriveActor, "simple", "")
+	}
+	if r.ifMatch != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "if-match", r.ifMatch, "simple", "")
+	}
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiRestoreFolderByIdV0FoldersFldIdRestorePostRequest struct {
+	ctx context.Context
+	ApiService *DefaultAPIService
+	fldId string
+	xAgentdriveActor *string
+	ifMatch *string
+	authorization *string
+}
+
+func (r ApiRestoreFolderByIdV0FoldersFldIdRestorePostRequest) XAgentdriveActor(xAgentdriveActor string) ApiRestoreFolderByIdV0FoldersFldIdRestorePostRequest {
+	r.xAgentdriveActor = &xAgentdriveActor
+	return r
+}
+
+func (r ApiRestoreFolderByIdV0FoldersFldIdRestorePostRequest) IfMatch(ifMatch string) ApiRestoreFolderByIdV0FoldersFldIdRestorePostRequest {
+	r.ifMatch = &ifMatch
+	return r
+}
+
+func (r ApiRestoreFolderByIdV0FoldersFldIdRestorePostRequest) Authorization(authorization string) ApiRestoreFolderByIdV0FoldersFldIdRestorePostRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiRestoreFolderByIdV0FoldersFldIdRestorePostRequest) Execute() (*FolderRestoreOut, *http.Response, error) {
+	return r.ApiService.RestoreFolderByIdV0FoldersFldIdRestorePostExecute(r)
+}
+
+/*
+RestoreFolderByIdV0FoldersFldIdRestorePost Restore a soft-deleted folder (cascade)
+
+Mirrors `POST /v0/artifacts/{art_id}/restore` for folders: clear `deleted_at` + `purge_at` on a soft-deleted folder AND exactly the descendants soft-deleted in the same cascade (descendants trashed separately keep their trash state; restore those individually — the per-artifact restore remains for cherry-picking). Available only while the folder is in trash; returns 404 if it is live or already hard-purged.
+
+Returns 409 `PATH_CONFLICT` when a live folder/artifact now occupies a path this restore would reinstate (`colliding_path` + `kind` identify it). Unlike artifact restore there are NO `rename`/`overwrite` escape hatches — the whole cascade aborts; free the colliding path (or cherry-pick artifacts) and retry.
+
+`If-Match` (the trashed folder's composite ETag) makes the restore conditional → 412 PRECONDITION_FAILED on a stale token; omitted, the restore is last-writer-wins.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param fldId
+ @return ApiRestoreFolderByIdV0FoldersFldIdRestorePostRequest
+*/
+func (a *DefaultAPIService) RestoreFolderByIdV0FoldersFldIdRestorePost(ctx context.Context, fldId string) ApiRestoreFolderByIdV0FoldersFldIdRestorePostRequest {
+	return ApiRestoreFolderByIdV0FoldersFldIdRestorePostRequest{
+		ApiService: a,
+		ctx: ctx,
+		fldId: fldId,
+	}
+}
+
+// Execute executes the request
+//  @return FolderRestoreOut
+func (a *DefaultAPIService) RestoreFolderByIdV0FoldersFldIdRestorePostExecute(r ApiRestoreFolderByIdV0FoldersFldIdRestorePostRequest) (*FolderRestoreOut, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *FolderRestoreOut
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.RestoreFolderByIdV0FoldersFldIdRestorePost")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v0/folders/{fld_id}/restore"
+	localVarPath = strings.Replace(localVarPath, "{"+"fld_id"+"}", url.PathEscape(parameterValueToString(r.fldId, "fldId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.xAgentdriveActor != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-agentdrive-actor", r.xAgentdriveActor, "simple", "")
+	}
+	if r.ifMatch != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "if-match", r.ifMatch, "simple", "")
 	}
 	if r.authorization != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
@@ -15172,123 +16724,6 @@ func (a *DefaultAPIService) SharedFilesSharedGetExecute(r ApiSharedFilesSharedGe
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiStreamUploadV0UploadTokenPutRequest struct {
-	ctx context.Context
-	ApiService *DefaultAPIService
-	token string
-}
-
-func (r ApiStreamUploadV0UploadTokenPutRequest) Execute() (*ArtifactOut, *http.Response, error) {
-	return r.ApiService.StreamUploadV0UploadTokenPutExecute(r)
-}
-
-/*
-StreamUploadV0UploadTokenPut Proxied streaming upload (via an upload_url token)
-
-Streams an artifact body into AgentDrive using a single-use token that was previously minted by the `upload_url` MCP tool. The token encodes the artifact path, content type, size cap, labels, metadata, source, actor, change summary, and `if_match` — all frozen at mint time. The request carries only the raw bytes + a `Content-Type` header that must match the signed value.
-
-**Auth.** No Authorization header — the token in the path is the credential.
-
-**Single-use.** Replay returns 409 TOKEN_REPLAYED. Expiry returns 401 TOKEN_EXPIRED. Bodies exceeding the signed cap return 413 BYTES_LIMIT.
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param token
- @return ApiStreamUploadV0UploadTokenPutRequest
-*/
-func (a *DefaultAPIService) StreamUploadV0UploadTokenPut(ctx context.Context, token string) ApiStreamUploadV0UploadTokenPutRequest {
-	return ApiStreamUploadV0UploadTokenPutRequest{
-		ApiService: a,
-		ctx: ctx,
-		token: token,
-	}
-}
-
-// Execute executes the request
-//  @return ArtifactOut
-func (a *DefaultAPIService) StreamUploadV0UploadTokenPutExecute(r ApiStreamUploadV0UploadTokenPutRequest) (*ArtifactOut, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *ArtifactOut
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.StreamUploadV0UploadTokenPut")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/v0/upload/{token}"
-	localVarPath = strings.Replace(localVarPath, "{"+"token"+"}", url.PathEscape(parameterValueToString(r.token, "token")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 422 {
-			var v HTTPValidationError
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
 type ApiSwitchDriveWebSwitchPostRequest struct {
 	ctx context.Context
 	ApiService *DefaultAPIService
@@ -15839,6 +17274,158 @@ func (a *DefaultAPIService) ViewArtifactHeadAArtIdHeadGetExecute(r ApiViewArtifa
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v HTTPValidationError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiViewArtifactVersionVArtIdVersionGetRequest struct {
+	ctx context.Context
+	ApiService *DefaultAPIService
+	artId string
+	version int32
+	raw *int32
+	download *int32
+}
+
+func (r ApiViewArtifactVersionVArtIdVersionGetRequest) Raw(raw int32) ApiViewArtifactVersionVArtIdVersionGetRequest {
+	r.raw = &raw
+	return r
+}
+
+func (r ApiViewArtifactVersionVArtIdVersionGetRequest) Download(download int32) ApiViewArtifactVersionVArtIdVersionGetRequest {
+	r.download = &download
+	return r
+}
+
+func (r ApiViewArtifactVersionVArtIdVersionGetRequest) Execute() (interface{}, *http.Response, error) {
+	return r.ApiService.ViewArtifactVersionVArtIdVersionGetExecute(r)
+}
+
+/*
+ViewArtifactVersionVArtIdVersionGet View Artifact Version
+
+Render version `version` of an artifact, read-only.
+
+Authorization is byte-for-byte identical to viewing the artifact via
+`/a/{art_id}`: the same drive-blind `can_read` gate runs, so a viewer
+who can see the artifact can see its versions, and one who cannot gets
+the identical sign-in-or-404 response (no existence leak). A pruned or
+never-existed version renders a friendly unavailable state, never a 500.
+`?raw=1` / `?download=1` stream the version's bytes (powering the bar's
+Raw / Download buttons) with the same sandbox+nosniff headers as the
+head raw path.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param artId
+ @param version
+ @return ApiViewArtifactVersionVArtIdVersionGetRequest
+*/
+func (a *DefaultAPIService) ViewArtifactVersionVArtIdVersionGet(ctx context.Context, artId string, version int32) ApiViewArtifactVersionVArtIdVersionGetRequest {
+	return ApiViewArtifactVersionVArtIdVersionGetRequest{
+		ApiService: a,
+		ctx: ctx,
+		artId: artId,
+		version: version,
+	}
+}
+
+// Execute executes the request
+//  @return interface{}
+func (a *DefaultAPIService) ViewArtifactVersionVArtIdVersionGetExecute(r ApiViewArtifactVersionVArtIdVersionGetRequest) (interface{}, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  interface{}
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultAPIService.ViewArtifactVersionVArtIdVersionGet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v/{art_id}/{version}"
+	localVarPath = strings.Replace(localVarPath, "{"+"art_id"+"}", url.PathEscape(parameterValueToString(r.artId, "artId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"version"+"}", url.PathEscape(parameterValueToString(r.version, "version")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.raw != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "raw", r.raw, "form", "")
+	} else {
+		var defaultValue int32 = 0
+		parameterAddToHeaderOrQuery(localVarQueryParams, "raw", defaultValue, "form", "")
+		r.raw = &defaultValue
+	}
+	if r.download != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "download", r.download, "form", "")
+	} else {
+		var defaultValue int32 = 0
+		parameterAddToHeaderOrQuery(localVarQueryParams, "download", defaultValue, "form", "")
+		r.download = &defaultValue
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

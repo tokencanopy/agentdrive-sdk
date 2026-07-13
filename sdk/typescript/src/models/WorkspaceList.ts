@@ -33,6 +33,12 @@ export interface WorkspaceList {
      * @memberof WorkspaceList
      */
     items: Array<WorkspaceOut>;
+    /**
+     * 
+     * @type {string}
+     * @memberof WorkspaceList
+     */
+    nextCursor?: string | null;
 }
 
 /**
@@ -54,6 +60,7 @@ export function WorkspaceListFromJSONTyped(json: any, ignoreDiscriminator: boole
     return {
         
         'items': ((json['items'] as Array<any>).map(WorkspaceOutFromJSON)),
+        'nextCursor': json['next_cursor'] == null ? undefined : json['next_cursor'],
     };
 }
 
@@ -69,6 +76,7 @@ export function WorkspaceListToJSONTyped(value?: WorkspaceList | null, ignoreDis
     return {
         
         'items': ((value['items'] as Array<any>).map(WorkspaceOutToJSON)),
+        'next_cursor': value['nextCursor'],
     };
 }
 

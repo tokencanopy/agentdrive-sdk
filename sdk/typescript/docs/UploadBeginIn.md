@@ -17,6 +17,7 @@ Name | Type
 `actorName` | string
 `changeSummary` | string
 `ifMatch` | number
+`ifNoneMatch` | boolean
 `corsOrigin` | string
 
 ## Example
@@ -36,6 +37,7 @@ const example = {
   "actorName": null,
   "changeSummary": null,
   "ifMatch": null,
+  "ifNoneMatch": null,
   "corsOrigin": null,
 } satisfies UploadBeginIn
 

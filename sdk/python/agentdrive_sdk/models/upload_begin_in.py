@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from agentdrive_sdk.models.artifact_source import ArtifactSource
@@ -36,11 +36,12 @@ class UploadBeginIn(BaseModel):
     labels: Optional[List[StrictStr]] = None
     metadata: Optional[Dict[str, Any]] = None
     source: Optional[ArtifactSource] = None
-    actor_name: Optional[StrictStr] = None
+    actor_name: Optional[Annotated[str, Field(strict=True, max_length=64)]] = None
     change_summary: Optional[StrictStr] = None
-    if_match: Optional[StrictInt] = None
+    if_match: Optional[Annotated[int, Field(le=2147483647, strict=True, ge=0)]] = None
+    if_none_match: Optional[StrictBool] = False
     cors_origin: Optional[StrictStr] = Field(default=None, description="Web origin (scheme://host[:port]) of the browser that will PUT the bytes, e.g. `https://app.example.com`. Set this when the `upload_url` is handed to browser code: GCS binds CORS at session initiate, so the returned session only echoes `Access-Control-Allow-Origin` (and is thus PUT-able from a browser) when opened with the caller's origin. A trusted backend relaying a browser upload forwards the browser's `Origin` here. Omit for server/desktop uploads (no CORS enforcement).")
-    __properties: ClassVar[List[str]] = ["path", "content_type", "size_bytes", "crc32c", "labels", "metadata", "source", "actor_name", "change_summary", "if_match", "cors_origin"]
+    __properties: ClassVar[List[str]] = ["path", "content_type", "size_bytes", "crc32c", "labels", "metadata", "source", "actor_name", "change_summary", "if_match", "if_none_match", "cors_origin"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -146,6 +147,7 @@ class UploadBeginIn(BaseModel):
             "actor_name": obj.get("actor_name"),
             "change_summary": obj.get("change_summary"),
             "if_match": obj.get("if_match"),
+            "if_none_match": obj.get("if_none_match") if obj.get("if_none_match") is not None else False,
             "cors_origin": obj.get("cors_origin")
         })
         return _obj

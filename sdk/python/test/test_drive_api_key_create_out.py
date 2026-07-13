@@ -46,7 +46,6 @@ class TestDriveApiKeyCreateOut(unittest.TestCase):
                 id = '',
                 api_key = '',
                 prefix = '',
-                label = '',
                 created_at = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
         )
         """

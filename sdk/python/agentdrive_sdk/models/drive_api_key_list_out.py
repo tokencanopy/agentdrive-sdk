@@ -17,8 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, List
+from pydantic import BaseModel, ConfigDict, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from agentdrive_sdk.models.drive_api_key_out import DriveApiKeyOut
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,10 +26,12 @@ from pydantic_core import to_jsonable_python
 
 class DriveApiKeyListOut(BaseModel):
     """
-    `GET /v0/drives/{id}/keys` response — the drive's keys, newest first, including recently-revoked rows (filter on `revoked_at` for live only).
+    `GET /v0/drives/{id}/keys` response — the drive's keys, oldest first (keyset order, design §3), including recently-revoked rows (filter on `revoked_at` for live only).  `items` is the canonical list field (B-3: one envelope key everywhere); `keys` is a deprecated same-value alias kept for one release — the REST twin of the grep `matches` / compile `jobs` aliases.
     """ # noqa: E501
+    items: List[DriveApiKeyOut]
     keys: List[DriveApiKeyOut]
-    __properties: ClassVar[List[str]] = ["keys"]
+    next_cursor: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["items", "keys", "next_cursor"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -70,6 +72,13 @@ class DriveApiKeyListOut(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in items (list)
+        _items = []
+        if self.items:
+            for _item_items in self.items:
+                if _item_items:
+                    _items.append(_item_items.to_dict())
+            _dict['items'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in keys (list)
         _items = []
         if self.keys:
@@ -77,6 +86,11 @@ class DriveApiKeyListOut(BaseModel):
                 if _item_keys:
                     _items.append(_item_keys.to_dict())
             _dict['keys'] = _items
+        # set to None if next_cursor (nullable) is None
+        # and model_fields_set contains the field
+        if self.next_cursor is None and "next_cursor" in self.model_fields_set:
+            _dict['next_cursor'] = None
+
         return _dict
 
     @classmethod
@@ -89,7 +103,9 @@ class DriveApiKeyListOut(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "keys": [DriveApiKeyOut.from_dict(_item) for _item in obj["keys"]] if obj.get("keys") is not None else None
+            "items": [DriveApiKeyOut.from_dict(_item) for _item in obj["items"]] if obj.get("items") is not None else None,
+            "keys": [DriveApiKeyOut.from_dict(_item) for _item in obj["keys"]] if obj.get("keys") is not None else None,
+            "next_cursor": obj.get("next_cursor")
         })
         return _obj
 

@@ -164,11 +164,13 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_drive_keys_route_v0_drives_drive_id_keys_get**
-> DriveApiKeyListOut list_drive_keys_route_v0_drives_drive_id_keys_get(drive_id, authorization=authorization)
+> DriveApiKeyListOut list_drive_keys_route_v0_drives_drive_id_keys_get(drive_id, cursor=cursor, limit=limit, authorization=authorization)
 
 List a drive's API keys
 
-List the `ad_live_` keys for a drive you manage (newest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.
+List the `ad_live_` keys for a drive you manage (oldest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.
+
+**Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
 ### Example
 
@@ -191,11 +193,13 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.DrivesApi(api_client)
     drive_id = 'drive_id_example' # str | 
+    cursor = 'cursor_example' # str |  (optional)
+    limit = 56 # int |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # List a drive's API keys
-        api_response = api_instance.list_drive_keys_route_v0_drives_drive_id_keys_get(drive_id, authorization=authorization)
+        api_response = api_instance.list_drive_keys_route_v0_drives_drive_id_keys_get(drive_id, cursor=cursor, limit=limit, authorization=authorization)
         print("The response of DrivesApi->list_drive_keys_route_v0_drives_drive_id_keys_get:\n")
         pprint(api_response)
     except Exception as e:
@@ -210,6 +214,8 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **drive_id** | **str**|  | 
+ **cursor** | **str**|  | [optional] 
+ **limit** | **int**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type
@@ -235,11 +241,13 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_drives_route_v0_drives_get**
-> DriveList list_drives_route_v0_drives_get(authorization=authorization)
+> DriveList list_drives_route_v0_drives_get(cursor=cursor, limit=limit, authorization=authorization)
 
 List the drives you can see
 
 Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whole active workspace's drive inventory (every owner); a **member** sees only the drives they own. Metadata only — owner, size, timestamps — never a raw API key, and never an authorization to read a drive's contents. A `read`-scope token may call this; mutations require `full`.
+
+**Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
 ### Example
 
@@ -261,11 +269,13 @@ configuration = agentdrive_sdk.Configuration(
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.DrivesApi(api_client)
+    cursor = 'cursor_example' # str |  (optional)
+    limit = 56 # int |  (optional)
     authorization = 'authorization_example' # str |  (optional)
 
     try:
         # List the drives you can see
-        api_response = api_instance.list_drives_route_v0_drives_get(authorization=authorization)
+        api_response = api_instance.list_drives_route_v0_drives_get(cursor=cursor, limit=limit, authorization=authorization)
         print("The response of DrivesApi->list_drives_route_v0_drives_get:\n")
         pprint(api_response)
     except Exception as e:
@@ -279,6 +289,8 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **cursor** | **str**|  | [optional] 
+ **limit** | **int**|  | [optional] 
  **authorization** | **str**|  | [optional] 
 
 ### Return type

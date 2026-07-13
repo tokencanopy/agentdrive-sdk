@@ -14,10 +14,25 @@
 
 import * as runtime from '../runtime';
 import {
+    type ArtifactDeleteOut,
+    ArtifactDeleteOutFromJSON,
+    ArtifactDeleteOutToJSON,
+} from '../models/ArtifactDeleteOut';
+import {
+    type ArtifactMoveIn,
+    ArtifactMoveInFromJSON,
+    ArtifactMoveInToJSON,
+} from '../models/ArtifactMoveIn';
+import {
     type ArtifactOut,
     ArtifactOutFromJSON,
     ArtifactOutToJSON,
 } from '../models/ArtifactOut';
+import {
+    type ArtifactPatchIn,
+    ArtifactPatchInFromJSON,
+    ArtifactPatchInToJSON,
+} from '../models/ArtifactPatchIn';
 import {
     type CompileJobIn,
     CompileJobInFromJSON,
@@ -39,15 +54,35 @@ import {
     DownloadUrlOutToJSON,
 } from '../models/DownloadUrlOut';
 import {
+    type DriveDeleteOut,
+    DriveDeleteOutFromJSON,
+    DriveDeleteOutToJSON,
+} from '../models/DriveDeleteOut';
+import {
     type EventPage,
     EventPageFromJSON,
     EventPageToJSON,
 } from '../models/EventPage';
 import {
+    type FeedbackStatusOut,
+    FeedbackStatusOutFromJSON,
+    FeedbackStatusOutToJSON,
+} from '../models/FeedbackStatusOut';
+import {
     type FindPage,
     FindPageFromJSON,
     FindPageToJSON,
 } from '../models/FindPage';
+import {
+    type FolderCopyIn,
+    FolderCopyInFromJSON,
+    FolderCopyInToJSON,
+} from '../models/FolderCopyIn';
+import {
+    type FolderCopyOut,
+    FolderCopyOutFromJSON,
+    FolderCopyOutToJSON,
+} from '../models/FolderCopyOut';
 import {
     type FolderCreateIn,
     FolderCreateInFromJSON,
@@ -73,6 +108,11 @@ import {
     FolderPatchInFromJSON,
     FolderPatchInToJSON,
 } from '../models/FolderPatchIn';
+import {
+    type FolderRestoreOut,
+    FolderRestoreOutFromJSON,
+    FolderRestoreOutToJSON,
+} from '../models/FolderRestoreOut';
 import {
     type GrantCreateIn,
     GrantCreateInFromJSON,
@@ -134,10 +174,10 @@ import {
     QueryInToJSON,
 } from '../models/QueryIn';
 import {
-    type RenameIn,
-    RenameInFromJSON,
-    RenameInToJSON,
-} from '../models/RenameIn';
+    type RevokeOut,
+    RevokeOutFromJSON,
+    RevokeOutToJSON,
+} from '../models/RevokeOut';
 import {
     type SealIn,
     SealInFromJSON,
@@ -164,6 +204,16 @@ import {
     ShareMintOutToJSON,
 } from '../models/ShareMintOut';
 import {
+    type ShareOut,
+    ShareOutFromJSON,
+    ShareOutToJSON,
+} from '../models/ShareOut';
+import {
+    type UploadAbortOut,
+    UploadAbortOutFromJSON,
+    UploadAbortOutToJSON,
+} from '../models/UploadAbortOut';
+import {
     type UploadBeginIn,
     UploadBeginInFromJSON,
     UploadBeginInToJSON,
@@ -174,6 +224,11 @@ import {
     UploadBeginOutToJSON,
 } from '../models/UploadBeginOut';
 import {
+    type UploadStatusOut,
+    UploadStatusOutFromJSON,
+    UploadStatusOutToJSON,
+} from '../models/UploadStatusOut';
+import {
     type VersionOut,
     VersionOutFromJSON,
     VersionOutToJSON,
@@ -183,6 +238,11 @@ import {
     VersionPageFromJSON,
     VersionPageToJSON,
 } from '../models/VersionPage';
+
+export interface AbortUploadV0UploadsUploadIdDeleteRequest {
+    uploadId: string;
+    authorization?: string | null;
+}
 
 export interface AcceptInvitationInvitationsTokenGetRequest {
     token: string;
@@ -223,6 +283,15 @@ export interface CopyArtifactRouteV0ArtifactsArtIdCopyPostRequest {
     artId: string;
     copyIn: CopyIn;
     xAgentdriveActor?: string | null;
+    ifNoneMatch?: string | null;
+    authorization?: string | null;
+}
+
+export interface CopyFolderByIdV0FoldersFldIdCopyPostRequest {
+    fldId: string;
+    folderCopyIn: FolderCopyIn;
+    xAgentdriveActor?: string | null;
+    ifNoneMatch?: string | null;
     authorization?: string | null;
 }
 
@@ -237,9 +306,10 @@ export interface CreateDriveWebWebDrivesPostRequest {
     csrf: string;
 }
 
-export interface CreateFolderByPathV0FoldersPathPostRequest {
+export interface CreateFolderByPathV0FoldersPathPutRequest {
     path: string;
     xAgentdriveActor?: string | null;
+    ifNoneMatch?: string | null;
     authorization?: string | null;
     folderCreateIn?: FolderCreateIn | null;
 }
@@ -312,7 +382,9 @@ export interface DeleteArtifactV0ArtifactsPathDeleteRequest {
 
 export interface DeleteDriveRouteV0DrivesDriveIdDeleteRequest {
     driveId: string;
+    confirm?: string | null;
     xAgentdriveActor?: string | null;
+    ifMatch?: string | null;
     authorization?: string | null;
 }
 
@@ -325,6 +397,7 @@ export interface DeleteFolderByIdV0FoldersFldIdDeleteRequest {
     fldId: string;
     recursive?: boolean;
     xAgentdriveActor?: string | null;
+    ifMatch?: string | null;
     authorization?: string | null;
 }
 
@@ -332,6 +405,7 @@ export interface DeleteFolderByPathV0FoldersPathDeleteRequest {
     path: string;
     recursive?: boolean;
     xAgentdriveActor?: string | null;
+    ifMatch?: string | null;
     authorization?: string | null;
 }
 
@@ -355,6 +429,11 @@ export interface DeleteWorkspaceWebWebWorkspacesOrgIdDeletePostRequest {
 
 export interface DownloadArtifactByIdV0ArtifactsArtIdDownloadGetRequest {
     artId: string;
+    authorization?: string | null;
+}
+
+export interface DownloadArtifactByPathV0ArtifactsPathDownloadGetRequest {
+    path: string;
     authorization?: string | null;
 }
 
@@ -438,6 +517,11 @@ export interface GetArtifactVersionV0ArtifactsArtIdVersionsVersionNumberGetReque
     authorization?: string | null;
 }
 
+export interface GetDriveRouteV0DrivesDriveIdGetRequest {
+    driveId: string;
+    authorization?: string | null;
+}
+
 export interface GetFeedbackStatusV0FeedbackFbkIdGetRequest {
     fbkId: string;
     authorization?: string | null;
@@ -463,6 +547,11 @@ export interface GetFolderByPathV0FoldersPathGetRequest {
     authorization?: string | null;
 }
 
+export interface GetGrantRouteV0GrantsGrnIdGetRequest {
+    grnId: string;
+    authorization?: string | null;
+}
+
 export interface GetJobLogsV0JobsJobIdLogsGetRequest {
     jobId: string;
     authorization?: string | null;
@@ -478,8 +567,18 @@ export interface GetProjectV0ProjectsFldIdGetRequest {
     authorization?: string | null;
 }
 
+export interface GetShareRouteV0SharesShrIdGetRequest {
+    shrId: string;
+    authorization?: string | null;
+}
+
 export interface GetShareStateWebShareRidGetRequest {
     rid: string;
+}
+
+export interface GetUploadStatusV0UploadsUploadIdGetRequest {
+    uploadId: string;
+    authorization?: string | null;
 }
 
 export interface InviteMemberWebWebMembersInvitePostRequest {
@@ -517,6 +616,8 @@ export interface ListEventsRouteV0EventsGetRequest {
 
 export interface ListGrantsRouteV0GrantsGetRequest {
     resource: string;
+    cursor?: string | null;
+    limit?: number | null;
     authorization?: string | null;
 }
 
@@ -529,6 +630,8 @@ export interface ListProjectJobsV0ProjectsFldIdJobsGetRequest {
 
 export interface ListSharesRouteV0SharesGetRequest {
     resource: string;
+    cursor?: string | null;
+    limit?: number | null;
     authorization?: string | null;
 }
 
@@ -557,10 +660,19 @@ export interface MeV0DrivesMeGetRequest {
     authorization?: string | null;
 }
 
+export interface MoveArtifactRouteV0ArtifactsArtIdMovePostRequest {
+    artId: string;
+    artifactMoveIn: ArtifactMoveIn;
+    xAgentdriveActor?: string | null;
+    ifMatch?: string | null;
+    authorization?: string | null;
+}
+
 export interface MoveFolderByIdV0FoldersFldIdMovePostRequest {
     fldId: string;
     folderMoveIn: FolderMoveIn;
     xAgentdriveActor?: string | null;
+    ifMatch?: string | null;
     authorization?: string | null;
 }
 
@@ -568,6 +680,7 @@ export interface MoveFolderByPathV0FoldersPathMovePostRequest {
     path: string;
     folderMoveIn: FolderMoveIn;
     xAgentdriveActor?: string | null;
+    ifMatch?: string | null;
     authorization?: string | null;
 }
 
@@ -576,10 +689,19 @@ export interface OauthDisconnectWebOauthDisconnectPostRequest {
     csrf: string;
 }
 
+export interface PatchArtifactRouteV0ArtifactsArtIdPatchRequest {
+    artId: string;
+    artifactPatchIn: ArtifactPatchIn;
+    xAgentdriveActor?: string | null;
+    ifMatch?: string | null;
+    authorization?: string | null;
+}
+
 export interface PatchFolderByIdV0FoldersFldIdPatchRequest {
     fldId: string;
     folderPatchIn: FolderPatchIn;
     xAgentdriveActor?: string | null;
+    ifMatch?: string | null;
     authorization?: string | null;
 }
 
@@ -587,6 +709,7 @@ export interface PatchFolderByPathV0FoldersPathPatchRequest {
     path: string;
     folderPatchIn: FolderPatchIn;
     xAgentdriveActor?: string | null;
+    ifMatch?: string | null;
     authorization?: string | null;
 }
 
@@ -632,7 +755,10 @@ export interface PutArtifactV0ArtifactsPathPutRequest {
     xAgentdriveSource?: string | null;
     xAgentdriveActor?: string | null;
     xAgentdriveChangeSummary?: string | null;
+    xAgentdriveChecksum?: string | null;
+    contentMd5?: string | null;
     ifMatch?: string | null;
+    ifNoneMatch?: string | null;
     authorization?: string | null;
 }
 
@@ -666,14 +792,6 @@ export interface RemoveMemberWebWebMembersTargetUserIdRemovePostRequest {
     organizationId?: string;
 }
 
-export interface RenameArtifactRouteV0ArtifactsArtIdPatchRequest {
-    artId: string;
-    renameIn: RenameIn;
-    xAgentdriveActor?: string | null;
-    ifMatch?: string | null;
-    authorization?: string | null;
-}
-
 export interface RenameDriveWebWebDrivesDriveIdRenamePostRequest {
     driveId: string;
     name: string;
@@ -696,12 +814,29 @@ export interface RestoreArtifactV0ArtifactsArtIdRestorePostRequest {
     rename?: string | null;
     overwrite?: boolean;
     xAgentdriveActor?: string | null;
+    ifMatch?: string | null;
+    authorization?: string | null;
+}
+
+export interface RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest {
+    artId: string;
+    versionNumber: number;
+    xAgentdriveActor?: string | null;
+    ifMatch?: string | null;
     authorization?: string | null;
 }
 
 export interface RestoreDriveRouteV0DrivesDriveIdRestorePostRequest {
     driveId: string;
     xAgentdriveActor?: string | null;
+    ifMatch?: string | null;
+    authorization?: string | null;
+}
+
+export interface RestoreFolderByIdV0FoldersFldIdRestorePostRequest {
+    fldId: string;
+    xAgentdriveActor?: string | null;
+    ifMatch?: string | null;
     authorization?: string | null;
 }
 
@@ -767,10 +902,6 @@ export interface SetSealWebShareRidSealPostRequest {
     xCsrfToken?: string | null;
 }
 
-export interface StreamUploadV0UploadTokenPutRequest {
-    token: string;
-}
-
 export interface SwitchDriveWebSwitchPostRequest {
     csrf: string;
     driveId?: string;
@@ -784,6 +915,13 @@ export interface ToggleIndexingWebAccountIndexingPostRequest {
 
 export interface ViewArtifactHeadAArtIdHeadGetRequest {
     artId: string;
+}
+
+export interface ViewArtifactVersionVArtIdVersionGetRequest {
+    artId: string;
+    version: number;
+    raw?: number;
+    download?: number;
 }
 
 export interface ViewFileDriveIdPathGetRequest {
@@ -901,6 +1039,57 @@ export interface WebUploadWebUploadPostRequest {
  * 
  */
 export class DefaultApi extends runtime.BaseAPI {
+
+    /**
+     * Creates request options for abortUploadV0UploadsUploadIdDelete without sending the request
+     */
+    async abortUploadV0UploadsUploadIdDeleteRequestOpts(requestParameters: AbortUploadV0UploadsUploadIdDeleteRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['uploadId'] == null) {
+            throw new runtime.RequiredError(
+                'uploadId',
+                'Required parameter "uploadId" was null or undefined when calling abortUploadV0UploadsUploadIdDelete().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
+
+        let urlPath = `/v0/uploads/{upload_id}`;
+        urlPath = urlPath.replace('{upload_id}', encodeURIComponent(String(requestParameters['uploadId'])));
+
+        return {
+            path: urlPath,
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Release an open upload session: return its reserved quota to the drive and mark it aborted. Idempotent — aborting an already-aborted or already-expired session succeeds with `released_bytes: 0`. A committed session cannot be aborted (409 ALREADY_COMMITTED). No write budget is charged — this frees resources rather than consuming them.
+     * Abort a large (direct-to-GCS) upload session
+     */
+    async abortUploadV0UploadsUploadIdDeleteRaw(requestParameters: AbortUploadV0UploadsUploadIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UploadAbortOut>> {
+        const requestOptions = await this.abortUploadV0UploadsUploadIdDeleteRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => UploadAbortOutFromJSON(jsonValue));
+    }
+
+    /**
+     * Release an open upload session: return its reserved quota to the drive and mark it aborted. Idempotent — aborting an already-aborted or already-expired session succeeds with `released_bytes: 0`. A committed session cannot be aborted (409 ALREADY_COMMITTED). No write budget is charged — this frees resources rather than consuming them.
+     * Abort a large (direct-to-GCS) upload session
+     */
+    async abortUploadV0UploadsUploadIdDelete(requestParameters: AbortUploadV0UploadsUploadIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UploadAbortOut> {
+        const response = await this.abortUploadV0UploadsUploadIdDeleteRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Creates request options for acceptInvitationInvitationsTokenGet without sending the request
@@ -1430,6 +1619,10 @@ export class DefaultApi extends runtime.BaseAPI {
             headerParameters['x-agentdrive-actor'] = String(requestParameters['xAgentdriveActor']);
         }
 
+        if (requestParameters['ifNoneMatch'] != null) {
+            headerParameters['if-none-match'] = String(requestParameters['ifNoneMatch']);
+        }
+
         if (requestParameters['authorization'] != null) {
             headerParameters['authorization'] = String(requestParameters['authorization']);
         }
@@ -1448,7 +1641,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a new artifact at `path` whose bytes are identical to the source artifact\'s. The copy reuses the source\'s CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and — by default — `source.refs = [{type: \'artifact\', id: \'<source>\'}]` so provenance is preserved.  Quota: the copy\'s `size_bytes` is added to the drive\'s `storage_bytes` even though physical bytes are shared.  Returns 409 PATH_CONFLICT if the target path is already taken; 413 STORAGE_QUOTA_EXCEEDED if the copy would push the drive over its limit.
+     * Create a new artifact at `path` whose bytes are identical to the source artifact\'s. The copy reuses the source\'s CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and — by default — `source.refs = [{type: \'artifact\', id: \'<source>\'}]` so provenance is preserved.  Quota: the copy\'s `size_bytes` is added to the drive\'s `storage_bytes` even though physical bytes are shared.  Source-version pin: pass `from_generation` in the body to require the source\'s current content generation (`version_number`) to equal it (→ 412 SOURCE_VERSION_MISMATCH); a concurrent source *metadata* edit does NOT fail the copy. Destination create-only: `If-None-Match: *` returns 412 CREATE_CONFLICT (instead of 409 PATH_CONFLICT) when the target path is occupied.  Returns 409 PATH_CONFLICT if the target path is already taken; 413 STORAGE_QUOTA_EXCEEDED if the copy would push the drive over its limit.
      * Duplicate an artifact to a new path (CAS-shared, new ID)
      */
     async copyArtifactRouteV0ArtifactsArtIdCopyPostRaw(requestParameters: CopyArtifactRouteV0ArtifactsArtIdCopyPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtifactOut>> {
@@ -1459,11 +1652,80 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a new artifact at `path` whose bytes are identical to the source artifact\'s. The copy reuses the source\'s CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and — by default — `source.refs = [{type: \'artifact\', id: \'<source>\'}]` so provenance is preserved.  Quota: the copy\'s `size_bytes` is added to the drive\'s `storage_bytes` even though physical bytes are shared.  Returns 409 PATH_CONFLICT if the target path is already taken; 413 STORAGE_QUOTA_EXCEEDED if the copy would push the drive over its limit.
+     * Create a new artifact at `path` whose bytes are identical to the source artifact\'s. The copy reuses the source\'s CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and — by default — `source.refs = [{type: \'artifact\', id: \'<source>\'}]` so provenance is preserved.  Quota: the copy\'s `size_bytes` is added to the drive\'s `storage_bytes` even though physical bytes are shared.  Source-version pin: pass `from_generation` in the body to require the source\'s current content generation (`version_number`) to equal it (→ 412 SOURCE_VERSION_MISMATCH); a concurrent source *metadata* edit does NOT fail the copy. Destination create-only: `If-None-Match: *` returns 412 CREATE_CONFLICT (instead of 409 PATH_CONFLICT) when the target path is occupied.  Returns 409 PATH_CONFLICT if the target path is already taken; 413 STORAGE_QUOTA_EXCEEDED if the copy would push the drive over its limit.
      * Duplicate an artifact to a new path (CAS-shared, new ID)
      */
     async copyArtifactRouteV0ArtifactsArtIdCopyPost(requestParameters: CopyArtifactRouteV0ArtifactsArtIdCopyPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ArtifactOut> {
         const response = await this.copyArtifactRouteV0ArtifactsArtIdCopyPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for copyFolderByIdV0FoldersFldIdCopyPost without sending the request
+     */
+    async copyFolderByIdV0FoldersFldIdCopyPostRequestOpts(requestParameters: CopyFolderByIdV0FoldersFldIdCopyPostRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['fldId'] == null) {
+            throw new runtime.RequiredError(
+                'fldId',
+                'Required parameter "fldId" was null or undefined when calling copyFolderByIdV0FoldersFldIdCopyPost().'
+            );
+        }
+
+        if (requestParameters['folderCopyIn'] == null) {
+            throw new runtime.RequiredError(
+                'folderCopyIn',
+                'Required parameter "folderCopyIn" was null or undefined when calling copyFolderByIdV0FoldersFldIdCopyPost().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters['xAgentdriveActor'] != null) {
+            headerParameters['x-agentdrive-actor'] = String(requestParameters['xAgentdriveActor']);
+        }
+
+        if (requestParameters['ifNoneMatch'] != null) {
+            headerParameters['if-none-match'] = String(requestParameters['ifNoneMatch']);
+        }
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
+
+        let urlPath = `/v0/folders/{fld_id}/copy`;
+        urlPath = urlPath.replace('{fld_id}', encodeURIComponent(String(requestParameters['fldId'])));
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: FolderCopyInToJSON(requestParameters['folderCopyIn']),
+        };
+    }
+
+    /**
+     * Clone the folder identified by URL id — and every descendant folder + artifact — under the body\'s `path` (canonical, trailing slash). Each copied artifact reuses the source\'s CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and `source.refs = [{type: \'artifact\', id: \'<source>\'}]` provenance. The new folder gets a fresh `fld_…` ID and the source\'s description.  The entire subtree is copied in a SINGLE transaction — either every row lands or none does.  Quota: each copy\'s `size_bytes` counts against the drive\'s `storage_bytes` even though physical bytes are shared.  Source-version pin: pass `from_metageneration` in the body to require the source folder\'s current `metageneration` to equal it (→ 412 SOURCE_VERSION_MISMATCH). Destination create-only: `If-None-Match: *` returns 412 CREATE_CONFLICT (instead of 409 FOLDER_PATH_CONFLICT) when the destination folder is occupied.  Returns 409 `FOLDER_PATH_CONFLICT` if the destination collides with a live folder or artifact; 400 `FOLDER_PATH_INVALID` if `path` is non-canonical; 413 `SUBTREE_TOO_LARGE` if the source holds more than 5000 artifacts; 413 `STORAGE_QUOTA_EXCEEDED` if the copy would push the drive over its limit.
+     * Duplicate a folder subtree to a new path (CAS-shared, new IDs)
+     */
+    async copyFolderByIdV0FoldersFldIdCopyPostRaw(requestParameters: CopyFolderByIdV0FoldersFldIdCopyPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FolderCopyOut>> {
+        const requestOptions = await this.copyFolderByIdV0FoldersFldIdCopyPostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => FolderCopyOutFromJSON(jsonValue));
+    }
+
+    /**
+     * Clone the folder identified by URL id — and every descendant folder + artifact — under the body\'s `path` (canonical, trailing slash). Each copied artifact reuses the source\'s CAS object (zero new storage) but gets a fresh `art_…` ID, a fresh version 1, and `source.refs = [{type: \'artifact\', id: \'<source>\'}]` provenance. The new folder gets a fresh `fld_…` ID and the source\'s description.  The entire subtree is copied in a SINGLE transaction — either every row lands or none does.  Quota: each copy\'s `size_bytes` counts against the drive\'s `storage_bytes` even though physical bytes are shared.  Source-version pin: pass `from_metageneration` in the body to require the source folder\'s current `metageneration` to equal it (→ 412 SOURCE_VERSION_MISMATCH). Destination create-only: `If-None-Match: *` returns 412 CREATE_CONFLICT (instead of 409 FOLDER_PATH_CONFLICT) when the destination folder is occupied.  Returns 409 `FOLDER_PATH_CONFLICT` if the destination collides with a live folder or artifact; 400 `FOLDER_PATH_INVALID` if `path` is non-canonical; 413 `SUBTREE_TOO_LARGE` if the source holds more than 5000 artifacts; 413 `STORAGE_QUOTA_EXCEEDED` if the copy would push the drive over its limit.
+     * Duplicate a folder subtree to a new path (CAS-shared, new IDs)
+     */
+    async copyFolderByIdV0FoldersFldIdCopyPost(requestParameters: CopyFolderByIdV0FoldersFldIdCopyPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FolderCopyOut> {
+        const response = await this.copyFolderByIdV0FoldersFldIdCopyPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -1629,13 +1891,13 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for createFolderByPathV0FoldersPathPost without sending the request
+     * Creates request options for createFolderByPathV0FoldersPathPut without sending the request
      */
-    async createFolderByPathV0FoldersPathPostRequestOpts(requestParameters: CreateFolderByPathV0FoldersPathPostRequest): Promise<runtime.RequestOpts> {
+    async createFolderByPathV0FoldersPathPutRequestOpts(requestParameters: CreateFolderByPathV0FoldersPathPutRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['path'] == null) {
             throw new runtime.RequiredError(
                 'path',
-                'Required parameter "path" was null or undefined when calling createFolderByPathV0FoldersPathPost().'
+                'Required parameter "path" was null or undefined when calling createFolderByPathV0FoldersPathPut().'
             );
         }
 
@@ -1649,6 +1911,10 @@ export class DefaultApi extends runtime.BaseAPI {
             headerParameters['x-agentdrive-actor'] = String(requestParameters['xAgentdriveActor']);
         }
 
+        if (requestParameters['ifNoneMatch'] != null) {
+            headerParameters['if-none-match'] = String(requestParameters['ifNoneMatch']);
+        }
+
         if (requestParameters['authorization'] != null) {
             headerParameters['authorization'] = String(requestParameters['authorization']);
         }
@@ -1659,7 +1925,7 @@ export class DefaultApi extends runtime.BaseAPI {
 
         return {
             path: urlPath,
-            method: 'POST',
+            method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: FolderCreateInToJSON(requestParameters['folderCreateIn']),
@@ -1667,22 +1933,22 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a folder at the URL path. Idempotent — a second call for the same live path returns the existing row unchanged (metadata updates require PATCH).  Returns 409 `FOLDER_PATH_CONFLICT` if a live artifact occupies the file form of the path (e.g. mkdir `/foo/` when an artifact lives at `/foo`).
+     * Create a folder at the URL path. Idempotent create-at-known-URI (mirrors `PUT /v0/artifacts/{path}`) — a second call for the same live path returns the existing row unchanged (metadata updates require PATCH). Returns 201 on create, 200 when the folder already exists.  Send `If-None-Match: *` to make it strictly create-only: an existing folder then returns 412 CREATE_CONFLICT instead of the idempotent 200.  Returns 409 `FOLDER_PATH_CONFLICT` if a live artifact occupies the file form of the path (e.g. mkdir `/foo/` when an artifact lives at `/foo`).
      * Create a folder (idempotent)
      */
-    async createFolderByPathV0FoldersPathPostRaw(requestParameters: CreateFolderByPathV0FoldersPathPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FolderOut>> {
-        const requestOptions = await this.createFolderByPathV0FoldersPathPostRequestOpts(requestParameters);
+    async createFolderByPathV0FoldersPathPutRaw(requestParameters: CreateFolderByPathV0FoldersPathPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FolderOut>> {
+        const requestOptions = await this.createFolderByPathV0FoldersPathPutRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FolderOutFromJSON(jsonValue));
     }
 
     /**
-     * Create a folder at the URL path. Idempotent — a second call for the same live path returns the existing row unchanged (metadata updates require PATCH).  Returns 409 `FOLDER_PATH_CONFLICT` if a live artifact occupies the file form of the path (e.g. mkdir `/foo/` when an artifact lives at `/foo`).
+     * Create a folder at the URL path. Idempotent create-at-known-URI (mirrors `PUT /v0/artifacts/{path}`) — a second call for the same live path returns the existing row unchanged (metadata updates require PATCH). Returns 201 on create, 200 when the folder already exists.  Send `If-None-Match: *` to make it strictly create-only: an existing folder then returns 412 CREATE_CONFLICT instead of the idempotent 200.  Returns 409 `FOLDER_PATH_CONFLICT` if a live artifact occupies the file form of the path (e.g. mkdir `/foo/` when an artifact lives at `/foo`).
      * Create a folder (idempotent)
      */
-    async createFolderByPathV0FoldersPathPost(requestParameters: CreateFolderByPathV0FoldersPathPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FolderOut> {
-        const response = await this.createFolderByPathV0FoldersPathPostRaw(requestParameters, initOverrides);
+    async createFolderByPathV0FoldersPathPut(requestParameters: CreateFolderByPathV0FoldersPathPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FolderOut> {
+        const response = await this.createFolderByPathV0FoldersPathPutRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -2437,23 +2703,21 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * Soft-delete the artifact at the given path.  A delete WITHOUT an `If-Match` precondition is last-writer-wins and will silently remove a concurrently-modified artifact.
      * Delete Artifact
      */
-    async deleteArtifactV0ArtifactsPathDeleteRaw(requestParameters: DeleteArtifactV0ArtifactsPathDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+    async deleteArtifactV0ArtifactsPathDeleteRaw(requestParameters: DeleteArtifactV0ArtifactsPathDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtifactDeleteOut>> {
         const requestOptions = await this.deleteArtifactV0ArtifactsPathDeleteRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<any>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
+        return new runtime.JSONApiResponse(response, (jsonValue) => ArtifactDeleteOutFromJSON(jsonValue));
     }
 
     /**
+     * Soft-delete the artifact at the given path.  A delete WITHOUT an `If-Match` precondition is last-writer-wins and will silently remove a concurrently-modified artifact.
      * Delete Artifact
      */
-    async deleteArtifactV0ArtifactsPathDelete(requestParameters: DeleteArtifactV0ArtifactsPathDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+    async deleteArtifactV0ArtifactsPathDelete(requestParameters: DeleteArtifactV0ArtifactsPathDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ArtifactDeleteOut> {
         const response = await this.deleteArtifactV0ArtifactsPathDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -2471,10 +2735,18 @@ export class DefaultApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
+        if (requestParameters['confirm'] != null) {
+            queryParameters['confirm'] = requestParameters['confirm'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (requestParameters['xAgentdriveActor'] != null) {
             headerParameters['x-agentdrive-actor'] = String(requestParameters['xAgentdriveActor']);
+        }
+
+        if (requestParameters['ifMatch'] != null) {
+            headerParameters['if-match'] = String(requestParameters['ifMatch']);
         }
 
         if (requestParameters['authorization'] != null) {
@@ -2494,25 +2766,21 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Mark the drive for cleanup. All tenant data (artifacts, versions, wiki, embeddings, events) is hidden via the `live_*` views and CASCADE-removed by the GC cleanup cron at `purge_at`. Restore via `POST /v0/drives/{id}/restore` while the row is still in trash. The path-param `drive_id` MUST match the authenticated drive.  Accepts either an `ad_live_` per-drive key (deletes that key\'s drive) or an `ad_user_` user token selecting an owned drive (workspaces-design §5.3); a `read`-scope user token is rejected with 403 `INSUFFICIENT_SCOPE`. **Guard (§8):** a workspace must retain at least one live drive — deleting the workspace\'s last live drive returns 409 `LAST_DRIVE`.
+     * Mark the drive for cleanup. All tenant data (artifacts, versions, wiki, embeddings, events) is hidden via the `live_*` views and CASCADE-removed by the GC cleanup cron at `purge_at`. Restore via `POST /v0/drives/{id}/restore` while the row is still in trash. The path-param `drive_id` MUST match the authenticated drive.  Accepts either an `ad_live_` per-drive key (deletes that key\'s drive) or an `ad_user_` user token selecting an owned drive (workspaces-design §5.3); a `read`-scope user token is rejected with 403 `INSUFFICIENT_SCOPE`. **Guard (§8):** a workspace must retain at least one live drive — deleting the workspace\'s last live drive returns 409 `LAST_DRIVE`.  **Explicit confirmation required:** pass `?confirm=DELETE` or the request is rejected with 400 `CONFIRM_REQUIRED`. Tenant-level deletion is the largest-blast-radius operation on the API; the static token forces a deliberate act (soft-delete still gives a restore window on top).  **Optimistic concurrency:** send `If-Match` with the drive\'s composite ETag (`\"<drv_id>.0.<metageneration>\"`, from a drive read) to make the delete conditional — a stale token returns 412 PRECONDITION_FAILED. A delete WITHOUT an `If-Match` precondition is last-writer-wins and will silently trash a concurrently-modified drive.
      * Soft-delete a drive
      */
-    async deleteDriveRouteV0DrivesDriveIdDeleteRaw(requestParameters: DeleteDriveRouteV0DrivesDriveIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+    async deleteDriveRouteV0DrivesDriveIdDeleteRaw(requestParameters: DeleteDriveRouteV0DrivesDriveIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveDeleteOut>> {
         const requestOptions = await this.deleteDriveRouteV0DrivesDriveIdDeleteRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<any>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
+        return new runtime.JSONApiResponse(response, (jsonValue) => DriveDeleteOutFromJSON(jsonValue));
     }
 
     /**
-     * Mark the drive for cleanup. All tenant data (artifacts, versions, wiki, embeddings, events) is hidden via the `live_*` views and CASCADE-removed by the GC cleanup cron at `purge_at`. Restore via `POST /v0/drives/{id}/restore` while the row is still in trash. The path-param `drive_id` MUST match the authenticated drive.  Accepts either an `ad_live_` per-drive key (deletes that key\'s drive) or an `ad_user_` user token selecting an owned drive (workspaces-design §5.3); a `read`-scope user token is rejected with 403 `INSUFFICIENT_SCOPE`. **Guard (§8):** a workspace must retain at least one live drive — deleting the workspace\'s last live drive returns 409 `LAST_DRIVE`.
+     * Mark the drive for cleanup. All tenant data (artifacts, versions, wiki, embeddings, events) is hidden via the `live_*` views and CASCADE-removed by the GC cleanup cron at `purge_at`. Restore via `POST /v0/drives/{id}/restore` while the row is still in trash. The path-param `drive_id` MUST match the authenticated drive.  Accepts either an `ad_live_` per-drive key (deletes that key\'s drive) or an `ad_user_` user token selecting an owned drive (workspaces-design §5.3); a `read`-scope user token is rejected with 403 `INSUFFICIENT_SCOPE`. **Guard (§8):** a workspace must retain at least one live drive — deleting the workspace\'s last live drive returns 409 `LAST_DRIVE`.  **Explicit confirmation required:** pass `?confirm=DELETE` or the request is rejected with 400 `CONFIRM_REQUIRED`. Tenant-level deletion is the largest-blast-radius operation on the API; the static token forces a deliberate act (soft-delete still gives a restore window on top).  **Optimistic concurrency:** send `If-Match` with the drive\'s composite ETag (`\"<drv_id>.0.<metageneration>\"`, from a drive read) to make the delete conditional — a stale token returns 412 PRECONDITION_FAILED. A delete WITHOUT an `If-Match` precondition is last-writer-wins and will silently trash a concurrently-modified drive.
      * Soft-delete a drive
      */
-    async deleteDriveRouteV0DrivesDriveIdDelete(requestParameters: DeleteDriveRouteV0DrivesDriveIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+    async deleteDriveRouteV0DrivesDriveIdDelete(requestParameters: DeleteDriveRouteV0DrivesDriveIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveDeleteOut> {
         const response = await this.deleteDriveRouteV0DrivesDriveIdDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -2617,6 +2885,10 @@ export class DefaultApi extends runtime.BaseAPI {
             headerParameters['x-agentdrive-actor'] = String(requestParameters['xAgentdriveActor']);
         }
 
+        if (requestParameters['ifMatch'] != null) {
+            headerParameters['if-match'] = String(requestParameters['ifMatch']);
+        }
+
         if (requestParameters['authorization'] != null) {
             headerParameters['authorization'] = String(requestParameters['authorization']);
         }
@@ -2672,6 +2944,10 @@ export class DefaultApi extends runtime.BaseAPI {
 
         if (requestParameters['xAgentdriveActor'] != null) {
             headerParameters['x-agentdrive-actor'] = String(requestParameters['xAgentdriveActor']);
+        }
+
+        if (requestParameters['ifMatch'] != null) {
+            headerParameters['if-match'] = String(requestParameters['ifMatch']);
         }
 
         if (requestParameters['authorization'] != null) {
@@ -2748,21 +3024,17 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Revoke a grant (can_manage, or self-revoke own grant)
      */
-    async deleteGrantRouteV0GrantsGrnIdDeleteRaw(requestParameters: DeleteGrantRouteV0GrantsGrnIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+    async deleteGrantRouteV0GrantsGrnIdDeleteRaw(requestParameters: DeleteGrantRouteV0GrantsGrnIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RevokeOut>> {
         const requestOptions = await this.deleteGrantRouteV0GrantsGrnIdDeleteRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<any>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
+        return new runtime.JSONApiResponse(response, (jsonValue) => RevokeOutFromJSON(jsonValue));
     }
 
     /**
      * Revoke a grant (can_manage, or self-revoke own grant)
      */
-    async deleteGrantRouteV0GrantsGrnIdDelete(requestParameters: DeleteGrantRouteV0GrantsGrnIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+    async deleteGrantRouteV0GrantsGrnIdDelete(requestParameters: DeleteGrantRouteV0GrantsGrnIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RevokeOut> {
         const response = await this.deleteGrantRouteV0GrantsGrnIdDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -2805,21 +3077,17 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Revoke a share link (requires can_manage)
      */
-    async deleteShareRouteV0SharesShrIdDeleteRaw(requestParameters: DeleteShareRouteV0SharesShrIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+    async deleteShareRouteV0SharesShrIdDeleteRaw(requestParameters: DeleteShareRouteV0SharesShrIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RevokeOut>> {
         const requestOptions = await this.deleteShareRouteV0SharesShrIdDeleteRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<any>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
+        return new runtime.JSONApiResponse(response, (jsonValue) => RevokeOutFromJSON(jsonValue));
     }
 
     /**
      * Revoke a share link (requires can_manage)
      */
-    async deleteShareRouteV0SharesShrIdDelete(requestParameters: DeleteShareRouteV0SharesShrIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+    async deleteShareRouteV0SharesShrIdDelete(requestParameters: DeleteShareRouteV0SharesShrIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RevokeOut> {
         const response = await this.deleteShareRouteV0SharesShrIdDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -2955,6 +3223,61 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async downloadArtifactByIdV0ArtifactsArtIdDownloadGet(requestParameters: DownloadArtifactByIdV0ArtifactsArtIdDownloadGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
         const response = await this.downloadArtifactByIdV0ArtifactsArtIdDownloadGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for downloadArtifactByPathV0ArtifactsPathDownloadGet without sending the request
+     */
+    async downloadArtifactByPathV0ArtifactsPathDownloadGetRequestOpts(requestParameters: DownloadArtifactByPathV0ArtifactsPathDownloadGetRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['path'] == null) {
+            throw new runtime.RequiredError(
+                'path',
+                'Required parameter "path" was null or undefined when calling downloadArtifactByPathV0ArtifactsPathDownloadGet().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
+
+        let urlPath = `/v0/artifacts/{path}/download`;
+        urlPath = urlPath.replace('{path}', encodeURIComponent(String(requestParameters['path'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Same bytes-only machine surface as `/{art_id}/download` but resolves the artifact by path, so callers don\'t have to resolve path→id first. Applies the identical CSP `sandbox` + `nosniff` posture (never serves HTML inline as active content).
+     * Stream the artifact bytes by path (never rendered HTML)
+     */
+    async downloadArtifactByPathV0ArtifactsPathDownloadGetRaw(requestParameters: DownloadArtifactByPathV0ArtifactsPathDownloadGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        const requestOptions = await this.downloadArtifactByPathV0ArtifactsPathDownloadGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Same bytes-only machine surface as `/{art_id}/download` but resolves the artifact by path, so callers don\'t have to resolve path→id first. Applies the identical CSP `sandbox` + `nosniff` posture (never serves HTML inline as active content).
+     * Stream the artifact bytes by path (never rendered HTML)
+     */
+    async downloadArtifactByPathV0ArtifactsPathDownloadGet(requestParameters: DownloadArtifactByPathV0ArtifactsPathDownloadGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.downloadArtifactByPathV0ArtifactsPathDownloadGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -3772,6 +4095,61 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * Creates request options for getDriveRouteV0DrivesDriveIdGet without sending the request
+     */
+    async getDriveRouteV0DrivesDriveIdGetRequestOpts(requestParameters: GetDriveRouteV0DrivesDriveIdGetRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['driveId'] == null) {
+            throw new runtime.RequiredError(
+                'driveId',
+                'Required parameter "driveId" was null or undefined when calling getDriveRouteV0DrivesDriveIdGet().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
+
+        let urlPath = `/v0/drives/{drive_id}`;
+        urlPath = urlPath.replace('{drive_id}', encodeURIComponent(String(requestParameters['driveId'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Identical to `GET /v0/drives/me` — the by-id singleton so `Location`-style URLs and scripted clients can address the drive canonically. The path-param `drive_id` MUST match the authenticated drive (mirrors the delete/trash routes\' no-leak 404). Emits the drive\'s composite `ETag` header (`\"<drv_id>.0.<metageneration>\"`).
+     * Drive overview by id (same shape as /drives/me)
+     */
+    async getDriveRouteV0DrivesDriveIdGetRaw(requestParameters: GetDriveRouteV0DrivesDriveIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        const requestOptions = await this.getDriveRouteV0DrivesDriveIdGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Identical to `GET /v0/drives/me` — the by-id singleton so `Location`-style URLs and scripted clients can address the drive canonically. The path-param `drive_id` MUST match the authenticated drive (mirrors the delete/trash routes\' no-leak 404). Emits the drive\'s composite `ETag` header (`\"<drv_id>.0.<metageneration>\"`).
+     * Drive overview by id (same shape as /drives/me)
+     */
+    async getDriveRouteV0DrivesDriveIdGet(requestParameters: GetDriveRouteV0DrivesDriveIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.getDriveRouteV0DrivesDriveIdGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Creates request options for getFeedbackStatusV0FeedbackFbkIdGet without sending the request
      */
     async getFeedbackStatusV0FeedbackFbkIdGetRequestOpts(requestParameters: GetFeedbackStatusV0FeedbackFbkIdGetRequest): Promise<runtime.RequestOpts> {
@@ -3806,22 +4184,18 @@ export class DefaultApi extends runtime.BaseAPI {
      * Lifecycle status of feedback THIS drive filed. Foreign tickets read as 404 — indistinguishable from absent.
      * Get Feedback Status
      */
-    async getFeedbackStatusV0FeedbackFbkIdGetRaw(requestParameters: GetFeedbackStatusV0FeedbackFbkIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+    async getFeedbackStatusV0FeedbackFbkIdGetRaw(requestParameters: GetFeedbackStatusV0FeedbackFbkIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FeedbackStatusOut>> {
         const requestOptions = await this.getFeedbackStatusV0FeedbackFbkIdGetRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<any>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
+        return new runtime.JSONApiResponse(response, (jsonValue) => FeedbackStatusOutFromJSON(jsonValue));
     }
 
     /**
      * Lifecycle status of feedback THIS drive filed. Foreign tickets read as 404 — indistinguishable from absent.
      * Get Feedback Status
      */
-    async getFeedbackStatusV0FeedbackFbkIdGet(requestParameters: GetFeedbackStatusV0FeedbackFbkIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+    async getFeedbackStatusV0FeedbackFbkIdGet(requestParameters: GetFeedbackStatusV0FeedbackFbkIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FeedbackStatusOut> {
         const response = await this.getFeedbackStatusV0FeedbackFbkIdGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -4023,6 +4397,57 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * Creates request options for getGrantRouteV0GrantsGrnIdGet without sending the request
+     */
+    async getGrantRouteV0GrantsGrnIdGetRequestOpts(requestParameters: GetGrantRouteV0GrantsGrnIdGetRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['grnId'] == null) {
+            throw new runtime.RequiredError(
+                'grnId',
+                'Required parameter "grnId" was null or undefined when calling getGrantRouteV0GrantsGrnIdGet().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
+
+        let urlPath = `/v0/grants/{grn_id}`;
+        urlPath = urlPath.replace('{grn_id}', encodeURIComponent(String(requestParameters['grnId'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * The `Location` target of `POST /v0/grants`. Authorization mirrors DELETE: `can_manage` on the granted resource, or the caller IS the grant\'s own principal (a grantee may read — like revoke — their own grant). A revoked grant reads as 404 (same no-leak shape as a foreign/absent id); DELETE stays idempotent on it.
+     * Read a single grant (can_manage, or the grant\'s own principal)
+     */
+    async getGrantRouteV0GrantsGrnIdGetRaw(requestParameters: GetGrantRouteV0GrantsGrnIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GrantOut>> {
+        const requestOptions = await this.getGrantRouteV0GrantsGrnIdGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GrantOutFromJSON(jsonValue));
+    }
+
+    /**
+     * The `Location` target of `POST /v0/grants`. Authorization mirrors DELETE: `can_manage` on the granted resource, or the caller IS the grant\'s own principal (a grantee may read — like revoke — their own grant). A revoked grant reads as 404 (same no-leak shape as a foreign/absent id); DELETE stays idempotent on it.
+     * Read a single grant (can_manage, or the grant\'s own principal)
+     */
+    async getGrantRouteV0GrantsGrnIdGet(requestParameters: GetGrantRouteV0GrantsGrnIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GrantOut> {
+        const response = await this.getGrantRouteV0GrantsGrnIdGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Creates request options for getJobLogsV0JobsJobIdLogsGet without sending the request
      */
     async getJobLogsV0JobsJobIdLogsGetRequestOpts(requestParameters: GetJobLogsV0JobsJobIdLogsGetRequest): Promise<runtime.RequestOpts> {
@@ -4182,6 +4607,57 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * Creates request options for getShareRouteV0SharesShrIdGet without sending the request
+     */
+    async getShareRouteV0SharesShrIdGetRequestOpts(requestParameters: GetShareRouteV0SharesShrIdGetRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['shrId'] == null) {
+            throw new runtime.RequiredError(
+                'shrId',
+                'Required parameter "shrId" was null or undefined when calling getShareRouteV0SharesShrIdGet().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
+
+        let urlPath = `/v0/shares/{shr_id}`;
+        urlPath = urlPath.replace('{shr_id}', encodeURIComponent(String(requestParameters['shrId'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * The `Location` target of `POST /v0/shares`. Metadata ONLY — `ShareOut` never carries the raw `share_key`/URL (returned exactly once at mint/rotate, §4.5). Authorization mirrors DELETE: `can_manage` on the shared resource. A revoked share reads as 404 (same no-leak shape as a foreign/absent id).
+     * Read a single share link\'s metadata (requires can_manage)
+     */
+    async getShareRouteV0SharesShrIdGetRaw(requestParameters: GetShareRouteV0SharesShrIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ShareOut>> {
+        const requestOptions = await this.getShareRouteV0SharesShrIdGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ShareOutFromJSON(jsonValue));
+    }
+
+    /**
+     * The `Location` target of `POST /v0/shares`. Metadata ONLY — `ShareOut` never carries the raw `share_key`/URL (returned exactly once at mint/rotate, §4.5). Authorization mirrors DELETE: `can_manage` on the shared resource. A revoked share reads as 404 (same no-leak shape as a foreign/absent id).
+     * Read a single share link\'s metadata (requires can_manage)
+     */
+    async getShareRouteV0SharesShrIdGet(requestParameters: GetShareRouteV0SharesShrIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ShareOut> {
+        const response = await this.getShareRouteV0SharesShrIdGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Creates request options for getShareStateWebShareRidGet without sending the request
      */
     async getShareStateWebShareRidGetRequestOpts(requestParameters: GetShareStateWebShareRidGetRequest): Promise<runtime.RequestOpts> {
@@ -4227,6 +4703,57 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async getShareStateWebShareRidGet(requestParameters: GetShareStateWebShareRidGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
         const response = await this.getShareStateWebShareRidGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for getUploadStatusV0UploadsUploadIdGet without sending the request
+     */
+    async getUploadStatusV0UploadsUploadIdGetRequestOpts(requestParameters: GetUploadStatusV0UploadsUploadIdGetRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['uploadId'] == null) {
+            throw new runtime.RequiredError(
+                'uploadId',
+                'Required parameter "uploadId" was null or undefined when calling getUploadStatusV0UploadsUploadIdGet().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
+
+        let urlPath = `/v0/uploads/{upload_id}`;
+        urlPath = urlPath.replace('{upload_id}', encodeURIComponent(String(requestParameters['uploadId'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Report the live state of an upload session begun at `/v0/uploads`. `state` is derived: `initiated` (open — PUT the bytes then commit), `committed` (artifact created), `aborted` (released via DELETE), or `expired` (past `expires_at` without a commit). Read-only; charges the read budget.
+     * Get the status of a large (direct-to-GCS) upload session
+     */
+    async getUploadStatusV0UploadsUploadIdGetRaw(requestParameters: GetUploadStatusV0UploadsUploadIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UploadStatusOut>> {
+        const requestOptions = await this.getUploadStatusV0UploadsUploadIdGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => UploadStatusOutFromJSON(jsonValue));
+    }
+
+    /**
+     * Report the live state of an upload session begun at `/v0/uploads`. `state` is derived: `initiated` (open — PUT the bytes then commit), `committed` (artifact created), `aborted` (released via DELETE), or `expired` (past `expires_at` without a commit). Read-only; charges the read budget.
+     * Get the status of a large (direct-to-GCS) upload session
+     */
+    async getUploadStatusV0UploadsUploadIdGet(requestParameters: GetUploadStatusV0UploadsUploadIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UploadStatusOut> {
+        const response = await this.getUploadStatusV0UploadsUploadIdGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -4567,6 +5094,14 @@ export class DefaultApi extends runtime.BaseAPI {
             queryParameters['resource'] = requestParameters['resource'];
         }
 
+        if (requestParameters['cursor'] != null) {
+            queryParameters['cursor'] = requestParameters['cursor'];
+        }
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (requestParameters['authorization'] != null) {
@@ -4585,6 +5120,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected. The `resource` filter must be re-sent on every page — the cursor encodes only the keyset position.
      * List live grants on a resource (requires can_manage)
      */
     async listGrantsRouteV0GrantsGetRaw(requestParameters: ListGrantsRouteV0GrantsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GrantList>> {
@@ -4595,6 +5131,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected. The `resource` filter must be re-sent on every page — the cursor encodes only the keyset position.
      * List live grants on a resource (requires can_manage)
      */
     async listGrantsRouteV0GrantsGet(requestParameters: ListGrantsRouteV0GrantsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GrantList> {
@@ -4680,6 +5217,14 @@ export class DefaultApi extends runtime.BaseAPI {
             queryParameters['resource'] = requestParameters['resource'];
         }
 
+        if (requestParameters['cursor'] != null) {
+            queryParameters['cursor'] = requestParameters['cursor'];
+        }
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (requestParameters['authorization'] != null) {
@@ -4698,6 +5243,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected. The `resource` filter must be re-sent on every page — the cursor encodes only the keyset position.
      * List live share links on a resource (requires can_manage)
      */
     async listSharesRouteV0SharesGetRaw(requestParameters: ListSharesRouteV0SharesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ShareList>> {
@@ -4708,6 +5254,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected. The `resource` filter must be re-sent on every page — the cursor encodes only the keyset position.
      * List live share links on a resource (requires can_manage)
      */
     async listSharesRouteV0SharesGet(requestParameters: ListSharesRouteV0SharesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ShareList> {
@@ -5088,7 +5635,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Drive overview for the authenticated bearer token.  Wire-protocol preservation (WorkOS integration §6): the `email` field is preserved in the response shape; its meaning is now \"the drive\'s owner\'s email\" (via `drives.owner_user_id` → `users.email`, joined in `auth.resolve_drive`). For solo signups this equals v0 behavior — the email the user signed up with. Returns null if the owner has been hard-purged. `organization_id` is a new additive field.
+     * Drive overview for the authenticated bearer token.  Wire-protocol preservation (WorkOS integration §6): the `email` field is preserved in the response shape; its meaning is now \"the drive\'s owner\'s email\" (via `drives.owner_user_id` → `users.email`, joined in `auth.resolve_drive`). For solo signups this equals v0 behavior — the email the user signed up with. Returns null if the owner has been hard-purged. `organization_id` is a new additive field, as are `metageneration` / `etag` (also emitted as the `ETag` header).
      * Me
      */
     async meV0DrivesMeGetRaw(requestParameters: MeV0DrivesMeGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
@@ -5103,11 +5650,80 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Drive overview for the authenticated bearer token.  Wire-protocol preservation (WorkOS integration §6): the `email` field is preserved in the response shape; its meaning is now \"the drive\'s owner\'s email\" (via `drives.owner_user_id` → `users.email`, joined in `auth.resolve_drive`). For solo signups this equals v0 behavior — the email the user signed up with. Returns null if the owner has been hard-purged. `organization_id` is a new additive field.
+     * Drive overview for the authenticated bearer token.  Wire-protocol preservation (WorkOS integration §6): the `email` field is preserved in the response shape; its meaning is now \"the drive\'s owner\'s email\" (via `drives.owner_user_id` → `users.email`, joined in `auth.resolve_drive`). For solo signups this equals v0 behavior — the email the user signed up with. Returns null if the owner has been hard-purged. `organization_id` is a new additive field, as are `metageneration` / `etag` (also emitted as the `ETag` header).
      * Me
      */
     async meV0DrivesMeGet(requestParameters: MeV0DrivesMeGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
         const response = await this.meV0DrivesMeGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for moveArtifactRouteV0ArtifactsArtIdMovePost without sending the request
+     */
+    async moveArtifactRouteV0ArtifactsArtIdMovePostRequestOpts(requestParameters: MoveArtifactRouteV0ArtifactsArtIdMovePostRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['artId'] == null) {
+            throw new runtime.RequiredError(
+                'artId',
+                'Required parameter "artId" was null or undefined when calling moveArtifactRouteV0ArtifactsArtIdMovePost().'
+            );
+        }
+
+        if (requestParameters['artifactMoveIn'] == null) {
+            throw new runtime.RequiredError(
+                'artifactMoveIn',
+                'Required parameter "artifactMoveIn" was null or undefined when calling moveArtifactRouteV0ArtifactsArtIdMovePost().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters['xAgentdriveActor'] != null) {
+            headerParameters['x-agentdrive-actor'] = String(requestParameters['xAgentdriveActor']);
+        }
+
+        if (requestParameters['ifMatch'] != null) {
+            headerParameters['if-match'] = String(requestParameters['ifMatch']);
+        }
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
+
+        let urlPath = `/v0/artifacts/{art_id}/move`;
+        urlPath = urlPath.replace('{art_id}', encodeURIComponent(String(requestParameters['artId'])));
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ArtifactMoveInToJSON(requestParameters['artifactMoveIn']),
+        };
+    }
+
+    /**
+     * Canonical artifact move/rename, keyed by the stable `art_…` ID (the artifact analogue of `POST /v0/folders/{fld_id}/move`). Moves the artifact to a new `path` on the same drive; ID, version history, source refs, labels, metadata, and the underlying CAS blob are all preserved — only `path` and `updated_at` change, and the move does NOT bump `version_number`.  The row UPDATE and the emitted `artifact.renamed` event commit in a SINGLE transaction — a failure leaves the artifact fully unchanged.  Returns 409 PATH_CONFLICT if the target `path` is already taken; 404 ARTIFACT_NOT_FOUND for an unknown id; 403 WIKI_RESERVED for a `_wiki/` / `_compiled/` target. Honors `If-Match` (→ 412 PRECONDITION_FAILED). Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.renamed` event.
+     * Rename / move an artifact to a new path
+     */
+    async moveArtifactRouteV0ArtifactsArtIdMovePostRaw(requestParameters: MoveArtifactRouteV0ArtifactsArtIdMovePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtifactOut>> {
+        const requestOptions = await this.moveArtifactRouteV0ArtifactsArtIdMovePostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ArtifactOutFromJSON(jsonValue));
+    }
+
+    /**
+     * Canonical artifact move/rename, keyed by the stable `art_…` ID (the artifact analogue of `POST /v0/folders/{fld_id}/move`). Moves the artifact to a new `path` on the same drive; ID, version history, source refs, labels, metadata, and the underlying CAS blob are all preserved — only `path` and `updated_at` change, and the move does NOT bump `version_number`.  The row UPDATE and the emitted `artifact.renamed` event commit in a SINGLE transaction — a failure leaves the artifact fully unchanged.  Returns 409 PATH_CONFLICT if the target `path` is already taken; 404 ARTIFACT_NOT_FOUND for an unknown id; 403 WIKI_RESERVED for a `_wiki/` / `_compiled/` target. Honors `If-Match` (→ 412 PRECONDITION_FAILED). Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.renamed` event.
+     * Rename / move an artifact to a new path
+     */
+    async moveArtifactRouteV0ArtifactsArtIdMovePost(requestParameters: MoveArtifactRouteV0ArtifactsArtIdMovePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ArtifactOut> {
+        const response = await this.moveArtifactRouteV0ArtifactsArtIdMovePostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -5137,6 +5753,10 @@ export class DefaultApi extends runtime.BaseAPI {
 
         if (requestParameters['xAgentdriveActor'] != null) {
             headerParameters['x-agentdrive-actor'] = String(requestParameters['xAgentdriveActor']);
+        }
+
+        if (requestParameters['ifMatch'] != null) {
+            headerParameters['if-match'] = String(requestParameters['ifMatch']);
         }
 
         if (requestParameters['authorization'] != null) {
@@ -5200,6 +5820,10 @@ export class DefaultApi extends runtime.BaseAPI {
 
         if (requestParameters['xAgentdriveActor'] != null) {
             headerParameters['x-agentdrive-actor'] = String(requestParameters['xAgentdriveActor']);
+        }
+
+        if (requestParameters['ifMatch'] != null) {
+            headerParameters['if-match'] = String(requestParameters['ifMatch']);
         }
 
         if (requestParameters['authorization'] != null) {
@@ -5320,6 +5944,75 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * Creates request options for patchArtifactRouteV0ArtifactsArtIdPatch without sending the request
+     */
+    async patchArtifactRouteV0ArtifactsArtIdPatchRequestOpts(requestParameters: PatchArtifactRouteV0ArtifactsArtIdPatchRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['artId'] == null) {
+            throw new runtime.RequiredError(
+                'artId',
+                'Required parameter "artId" was null or undefined when calling patchArtifactRouteV0ArtifactsArtIdPatch().'
+            );
+        }
+
+        if (requestParameters['artifactPatchIn'] == null) {
+            throw new runtime.RequiredError(
+                'artifactPatchIn',
+                'Required parameter "artifactPatchIn" was null or undefined when calling patchArtifactRouteV0ArtifactsArtIdPatch().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters['xAgentdriveActor'] != null) {
+            headerParameters['x-agentdrive-actor'] = String(requestParameters['xAgentdriveActor']);
+        }
+
+        if (requestParameters['ifMatch'] != null) {
+            headerParameters['if-match'] = String(requestParameters['ifMatch']);
+        }
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
+
+        let urlPath = `/v0/artifacts/{art_id}`;
+        urlPath = urlPath.replace('{art_id}', encodeURIComponent(String(requestParameters['artId'])));
+
+        return {
+            path: urlPath,
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ArtifactPatchInToJSON(requestParameters['artifactPatchIn']),
+        };
+    }
+
+    /**
+     * Metadata-only JSON-merge-patch update of a single artifact, keyed by its stable `art_…` ID. Every field in the body is optional; a field that is **omitted** is left unchanged, a field that is **present** is applied — with an explicit `null` / `[]` / `{}` meaning \"clear\". This mirrors the MCP `set_metadata` tool.  Editable fields:   * `labels` — replace the label set (`[]`/`null` clears).   * `metadata` — replace the free-form metadata object (`{}`/`null` clears).   * `source` — replace provenance refs (`null` clears).  **To move/rename an artifact, use `POST /v0/artifacts/{art_id}/move`** — PATCH no longer accepts `path`. The body is `extra=\"forbid\"`, so a stray field (notably a legacy `path`) is rejected with 422 rather than silently ignored.  Metadata edits do NOT create a new content version (no `version_number` / generation bump, no `artifact_versions` row) but DO bump the artifact\'s `metageneration` and `updated_at`.  Returns 400 BAD_LABELS / BAD_SOURCE for invalid metadata; 404 ARTIFACT_NOT_FOUND for an unknown id. Honors `If-Match`, which takes the composite ETag `\"<art_id>.<generation>.<metageneration>\"` and is compared as a whole tuple: ANY concurrent content **or** metadata change (a bumped generation OR metageneration) → 412 PRECONDITION_FAILED. There is no last-writer-wins gap for metadata-only edits. Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.metadata_updated` event.
+     * Edit artifact metadata (labels / metadata / source)
+     */
+    async patchArtifactRouteV0ArtifactsArtIdPatchRaw(requestParameters: PatchArtifactRouteV0ArtifactsArtIdPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtifactOut>> {
+        const requestOptions = await this.patchArtifactRouteV0ArtifactsArtIdPatchRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ArtifactOutFromJSON(jsonValue));
+    }
+
+    /**
+     * Metadata-only JSON-merge-patch update of a single artifact, keyed by its stable `art_…` ID. Every field in the body is optional; a field that is **omitted** is left unchanged, a field that is **present** is applied — with an explicit `null` / `[]` / `{}` meaning \"clear\". This mirrors the MCP `set_metadata` tool.  Editable fields:   * `labels` — replace the label set (`[]`/`null` clears).   * `metadata` — replace the free-form metadata object (`{}`/`null` clears).   * `source` — replace provenance refs (`null` clears).  **To move/rename an artifact, use `POST /v0/artifacts/{art_id}/move`** — PATCH no longer accepts `path`. The body is `extra=\"forbid\"`, so a stray field (notably a legacy `path`) is rejected with 422 rather than silently ignored.  Metadata edits do NOT create a new content version (no `version_number` / generation bump, no `artifact_versions` row) but DO bump the artifact\'s `metageneration` and `updated_at`.  Returns 400 BAD_LABELS / BAD_SOURCE for invalid metadata; 404 ARTIFACT_NOT_FOUND for an unknown id. Honors `If-Match`, which takes the composite ETag `\"<art_id>.<generation>.<metageneration>\"` and is compared as a whole tuple: ANY concurrent content **or** metadata change (a bumped generation OR metageneration) → 412 PRECONDITION_FAILED. There is no last-writer-wins gap for metadata-only edits. Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.metadata_updated` event.
+     * Edit artifact metadata (labels / metadata / source)
+     */
+    async patchArtifactRouteV0ArtifactsArtIdPatch(requestParameters: PatchArtifactRouteV0ArtifactsArtIdPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ArtifactOut> {
+        const response = await this.patchArtifactRouteV0ArtifactsArtIdPatchRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Creates request options for patchFolderByIdV0FoldersFldIdPatch without sending the request
      */
     async patchFolderByIdV0FoldersFldIdPatchRequestOpts(requestParameters: PatchFolderByIdV0FoldersFldIdPatchRequest): Promise<runtime.RequestOpts> {
@@ -5345,6 +6038,10 @@ export class DefaultApi extends runtime.BaseAPI {
 
         if (requestParameters['xAgentdriveActor'] != null) {
             headerParameters['x-agentdrive-actor'] = String(requestParameters['xAgentdriveActor']);
+        }
+
+        if (requestParameters['ifMatch'] != null) {
+            headerParameters['if-match'] = String(requestParameters['ifMatch']);
         }
 
         if (requestParameters['authorization'] != null) {
@@ -5408,6 +6105,10 @@ export class DefaultApi extends runtime.BaseAPI {
 
         if (requestParameters['xAgentdriveActor'] != null) {
             headerParameters['x-agentdrive-actor'] = String(requestParameters['xAgentdriveActor']);
+        }
+
+        if (requestParameters['ifMatch'] != null) {
+            headerParameters['if-match'] = String(requestParameters['ifMatch']);
         }
 
         if (requestParameters['authorization'] != null) {
@@ -5904,8 +6605,20 @@ export class DefaultApi extends runtime.BaseAPI {
             headerParameters['x-agentdrive-change-summary'] = String(requestParameters['xAgentdriveChangeSummary']);
         }
 
+        if (requestParameters['xAgentdriveChecksum'] != null) {
+            headerParameters['x-agentdrive-checksum'] = String(requestParameters['xAgentdriveChecksum']);
+        }
+
+        if (requestParameters['contentMd5'] != null) {
+            headerParameters['content-md5'] = String(requestParameters['contentMd5']);
+        }
+
         if (requestParameters['ifMatch'] != null) {
             headerParameters['if-match'] = String(requestParameters['ifMatch']);
+        }
+
+        if (requestParameters['ifNoneMatch'] != null) {
+            headerParameters['if-none-match'] = String(requestParameters['ifNoneMatch']);
         }
 
         if (requestParameters['authorization'] != null) {
@@ -5925,7 +6638,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Upload an artifact at the given path. The path is treated as the artifact\'s location in the drive — re-uploading the same path overwrites in place (idempotent).  **Limits:** request body must not exceed **50 MB**. Path must be non-empty, ≤256 chars, only `[A-Za-z0-9_./-]`, no `..` segments, no leading/trailing slash. Per-token write rate limit: 100/hour.  **Optional headers.** Each preserves the existing artifact\'s value when omitted on an overwrite, and takes the create-default on a new path; send the header to replace it: - `X-AgentDrive-Labels`: comma-separated labels (e.g. `draft,report`); an empty value clears them. Each: lowercase `[a-z0-9_-]+`, ≤64 chars; ≤16 labels per artifact. - `X-AgentDrive-Metadata`: JSON object of agent-attached fields. - `X-AgentDrive-Source`: JSON `{\"refs\": [...]}` source provenance (present, including `{\"refs\": []}`, replaces). - `X-AgentDrive-Actor`: caller-supplied actor name (≤64 chars) for event-log attribution. Untrusted; never used for authz.
+     * Upload an artifact at the given path. The path is treated as the artifact\'s location in the drive — re-uploading the same path overwrites in place (idempotent). Returns 201 when the artifact is created (no prior live artifact at the path), 200 on overwrite — mirroring `PUT /v0/folders/{path}`.  **Limits:** request body must not exceed **50 MB**. Path must be non-empty, ≤256 chars, only `[A-Za-z0-9_./-]`, no `..` segments, no leading/trailing slash. Per-token write rate limit: 100/hour.  **Optional headers.** Each preserves the existing artifact\'s value when omitted on an overwrite, and takes the create-default on a new path; send the header to replace it: - `X-AgentDrive-Labels`: comma-separated labels (e.g. `draft,report`); an empty value clears them. Each: lowercase `[a-z0-9_-]+`, ≤64 chars; ≤16 labels per artifact. - `X-AgentDrive-Metadata`: JSON object of agent-attached fields. - `X-AgentDrive-Source`: JSON `{\"refs\": [...]}` source provenance (present, including `{\"refs\": []}`, replaces). - `X-AgentDrive-Actor`: caller-supplied actor name (≤64 chars) for event-log attribution. Untrusted; never used for authz.  **Preconditions.** `If-Match: \"<id>.<gen>.<metagen>\"` makes the write conditional on the current composite ETag (→ 412 PRECONDITION_FAILED). `If-None-Match: *` is create-only: it succeeds only if no live artifact occupies the path (→ 412 CREATE_CONFLICT if one does). The two are mutually exclusive (→ 400 BAD_PRECONDITION).  **Integrity (optional).** `X-AgentDrive-Checksum: <algo>:<value>` (`sha256:<hex>` or `crc32c:<base64>`) or the standard `Content-MD5` (base64 MD5) is verified against the received bytes before they land (→ 400 CHECKSUM_MISMATCH on mismatch); no artifact is created on failure.
      * Upload (or overwrite) an artifact
      */
     async putArtifactV0ArtifactsPathPutRaw(requestParameters: PutArtifactV0ArtifactsPathPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtifactOut>> {
@@ -5936,7 +6649,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Upload an artifact at the given path. The path is treated as the artifact\'s location in the drive — re-uploading the same path overwrites in place (idempotent).  **Limits:** request body must not exceed **50 MB**. Path must be non-empty, ≤256 chars, only `[A-Za-z0-9_./-]`, no `..` segments, no leading/trailing slash. Per-token write rate limit: 100/hour.  **Optional headers.** Each preserves the existing artifact\'s value when omitted on an overwrite, and takes the create-default on a new path; send the header to replace it: - `X-AgentDrive-Labels`: comma-separated labels (e.g. `draft,report`); an empty value clears them. Each: lowercase `[a-z0-9_-]+`, ≤64 chars; ≤16 labels per artifact. - `X-AgentDrive-Metadata`: JSON object of agent-attached fields. - `X-AgentDrive-Source`: JSON `{\"refs\": [...]}` source provenance (present, including `{\"refs\": []}`, replaces). - `X-AgentDrive-Actor`: caller-supplied actor name (≤64 chars) for event-log attribution. Untrusted; never used for authz.
+     * Upload an artifact at the given path. The path is treated as the artifact\'s location in the drive — re-uploading the same path overwrites in place (idempotent). Returns 201 when the artifact is created (no prior live artifact at the path), 200 on overwrite — mirroring `PUT /v0/folders/{path}`.  **Limits:** request body must not exceed **50 MB**. Path must be non-empty, ≤256 chars, only `[A-Za-z0-9_./-]`, no `..` segments, no leading/trailing slash. Per-token write rate limit: 100/hour.  **Optional headers.** Each preserves the existing artifact\'s value when omitted on an overwrite, and takes the create-default on a new path; send the header to replace it: - `X-AgentDrive-Labels`: comma-separated labels (e.g. `draft,report`); an empty value clears them. Each: lowercase `[a-z0-9_-]+`, ≤64 chars; ≤16 labels per artifact. - `X-AgentDrive-Metadata`: JSON object of agent-attached fields. - `X-AgentDrive-Source`: JSON `{\"refs\": [...]}` source provenance (present, including `{\"refs\": []}`, replaces). - `X-AgentDrive-Actor`: caller-supplied actor name (≤64 chars) for event-log attribution. Untrusted; never used for authz.  **Preconditions.** `If-Match: \"<id>.<gen>.<metagen>\"` makes the write conditional on the current composite ETag (→ 412 PRECONDITION_FAILED). `If-None-Match: *` is create-only: it succeeds only if no live artifact occupies the path (→ 412 CREATE_CONFLICT if one does). The two are mutually exclusive (→ 400 BAD_PRECONDITION).  **Integrity (optional).** `X-AgentDrive-Checksum: <algo>:<value>` (`sha256:<hex>` or `crc32c:<base64>`) or the standard `Content-MD5` (base64 MD5) is verified against the received bytes before they land (→ 400 CHECKSUM_MISMATCH on mismatch); no artifact is created on failure.
      * Upload (or overwrite) an artifact
      */
     async putArtifactV0ArtifactsPathPut(requestParameters: PutArtifactV0ArtifactsPathPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ArtifactOut> {
@@ -6434,75 +7147,6 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for renameArtifactRouteV0ArtifactsArtIdPatch without sending the request
-     */
-    async renameArtifactRouteV0ArtifactsArtIdPatchRequestOpts(requestParameters: RenameArtifactRouteV0ArtifactsArtIdPatchRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['artId'] == null) {
-            throw new runtime.RequiredError(
-                'artId',
-                'Required parameter "artId" was null or undefined when calling renameArtifactRouteV0ArtifactsArtIdPatch().'
-            );
-        }
-
-        if (requestParameters['renameIn'] == null) {
-            throw new runtime.RequiredError(
-                'renameIn',
-                'Required parameter "renameIn" was null or undefined when calling renameArtifactRouteV0ArtifactsArtIdPatch().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (requestParameters['xAgentdriveActor'] != null) {
-            headerParameters['x-agentdrive-actor'] = String(requestParameters['xAgentdriveActor']);
-        }
-
-        if (requestParameters['ifMatch'] != null) {
-            headerParameters['if-match'] = String(requestParameters['ifMatch']);
-        }
-
-        if (requestParameters['authorization'] != null) {
-            headerParameters['authorization'] = String(requestParameters['authorization']);
-        }
-
-
-        let urlPath = `/v0/artifacts/{art_id}`;
-        urlPath = urlPath.replace('{art_id}', encodeURIComponent(String(requestParameters['artId'])));
-
-        return {
-            path: urlPath,
-            method: 'PATCH',
-            headers: headerParameters,
-            query: queryParameters,
-            body: RenameInToJSON(requestParameters['renameIn']),
-        };
-    }
-
-    /**
-     * Move the artifact to a new path on the same drive. ID, version history, source refs, labels, metadata, and the underlying CAS blob are preserved — only `path` and `updated_at` change.  Returns 409 PATH_CONFLICT if the target path is already taken. Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.renamed` event.
-     * Rename / move an artifact to a new path
-     */
-    async renameArtifactRouteV0ArtifactsArtIdPatchRaw(requestParameters: RenameArtifactRouteV0ArtifactsArtIdPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtifactOut>> {
-        const requestOptions = await this.renameArtifactRouteV0ArtifactsArtIdPatchRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => ArtifactOutFromJSON(jsonValue));
-    }
-
-    /**
-     * Move the artifact to a new path on the same drive. ID, version history, source refs, labels, metadata, and the underlying CAS blob are preserved — only `path` and `updated_at` change.  Returns 409 PATH_CONFLICT if the target path is already taken. Use `X-AgentDrive-Actor` to attach attribution to the emitted `artifact.renamed` event.
-     * Rename / move an artifact to a new path
-     */
-    async renameArtifactRouteV0ArtifactsArtIdPatch(requestParameters: RenameArtifactRouteV0ArtifactsArtIdPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ArtifactOut> {
-        const response = await this.renameArtifactRouteV0ArtifactsArtIdPatchRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
      * Creates request options for renameDriveWebWebDrivesDriveIdRenamePost without sending the request
      */
     async renameDriveWebWebDrivesDriveIdRenamePostRequestOpts(requestParameters: RenameDriveWebWebDrivesDriveIdRenamePostRequest): Promise<runtime.RequestOpts> {
@@ -6782,6 +7426,10 @@ export class DefaultApi extends runtime.BaseAPI {
             headerParameters['x-agentdrive-actor'] = String(requestParameters['xAgentdriveActor']);
         }
 
+        if (requestParameters['ifMatch'] != null) {
+            headerParameters['if-match'] = String(requestParameters['ifMatch']);
+        }
+
         if (requestParameters['authorization'] != null) {
             headerParameters['authorization'] = String(requestParameters['authorization']);
         }
@@ -6799,7 +7447,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Clear `deleted_at` + `purge_at` on a soft-deleted artifact. Available only while the artifact is in trash (i.e. before the GC cleanup cron purges it). Returns 404 if the artifact is live or already hard-deleted; 409 PATH_OCCUPIED if its path is now occupied by another live artifact. The 409 payload includes a `restore_options` block with `rename_to` and `force_overwrite` URLs the caller can follow to resolve the conflict — see deletion-design.md §5.4.
+     * Clear `deleted_at` + `purge_at` on a soft-deleted artifact. Available only while the artifact is in trash (i.e. before the GC cleanup cron purges it). Returns 404 if the artifact is live or already hard-deleted; 409 PATH_CONFLICT if its path is now occupied by another live artifact. The 409 payload includes a `restore_options` block with `rename_to` and `force_overwrite` URLs the caller can follow to resolve the conflict — see deletion-design.md §5.4.
      * Restore a soft-deleted artifact
      */
     async restoreArtifactV0ArtifactsArtIdRestorePostRaw(requestParameters: RestoreArtifactV0ArtifactsArtIdRestorePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtifactOut>> {
@@ -6810,11 +7458,78 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Clear `deleted_at` + `purge_at` on a soft-deleted artifact. Available only while the artifact is in trash (i.e. before the GC cleanup cron purges it). Returns 404 if the artifact is live or already hard-deleted; 409 PATH_OCCUPIED if its path is now occupied by another live artifact. The 409 payload includes a `restore_options` block with `rename_to` and `force_overwrite` URLs the caller can follow to resolve the conflict — see deletion-design.md §5.4.
+     * Clear `deleted_at` + `purge_at` on a soft-deleted artifact. Available only while the artifact is in trash (i.e. before the GC cleanup cron purges it). Returns 404 if the artifact is live or already hard-deleted; 409 PATH_CONFLICT if its path is now occupied by another live artifact. The 409 payload includes a `restore_options` block with `rename_to` and `force_overwrite` URLs the caller can follow to resolve the conflict — see deletion-design.md §5.4.
      * Restore a soft-deleted artifact
      */
     async restoreArtifactV0ArtifactsArtIdRestorePost(requestParameters: RestoreArtifactV0ArtifactsArtIdRestorePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ArtifactOut> {
         const response = await this.restoreArtifactV0ArtifactsArtIdRestorePostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for restoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost without sending the request
+     */
+    async restoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequestOpts(requestParameters: RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['artId'] == null) {
+            throw new runtime.RequiredError(
+                'artId',
+                'Required parameter "artId" was null or undefined when calling restoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost().'
+            );
+        }
+
+        if (requestParameters['versionNumber'] == null) {
+            throw new runtime.RequiredError(
+                'versionNumber',
+                'Required parameter "versionNumber" was null or undefined when calling restoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['xAgentdriveActor'] != null) {
+            headerParameters['x-agentdrive-actor'] = String(requestParameters['xAgentdriveActor']);
+        }
+
+        if (requestParameters['ifMatch'] != null) {
+            headerParameters['if-match'] = String(requestParameters['ifMatch']);
+        }
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
+
+        let urlPath = `/v0/artifacts/{art_id}/versions/{version_number}/restore`;
+        urlPath = urlPath.replace('{art_id}', encodeURIComponent(String(requestParameters['artId'])));
+        urlPath = urlPath.replace('{version_number}', encodeURIComponent(String(requestParameters['versionNumber'])));
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Roll the artifact forward to the content of version `version_number` by creating a **new head version** with identical bytes. History is preserved — this never rewrites or deletes past versions. The prior version\'s content-addressed blob is reused, so no bytes are re-uploaded. A change summary of `Restored version N` is recorded on the new version; `X-AgentDrive-Actor` attributes it.  Restoring a version whose content already matches the current head (including the head itself) is a **no-op**: it returns the current artifact unchanged, with no new version created.  Honors `If-Match` on the current head (roll forward only if the head is unchanged → 412 PRECONDITION_FAILED).  Errors: `404 ARTIFACT_NOT_FOUND`, `404 VERSION_NOT_FOUND`, and `410 VERSION_PRUNED` when the version existed but its bytes were retained out of existence.
+     * Restore a previous version as a new head version
+     */
+    async restoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRaw(requestParameters: RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtifactOut>> {
+        const requestOptions = await this.restoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ArtifactOutFromJSON(jsonValue));
+    }
+
+    /**
+     * Roll the artifact forward to the content of version `version_number` by creating a **new head version** with identical bytes. History is preserved — this never rewrites or deletes past versions. The prior version\'s content-addressed blob is reused, so no bytes are re-uploaded. A change summary of `Restored version N` is recorded on the new version; `X-AgentDrive-Actor` attributes it.  Restoring a version whose content already matches the current head (including the head itself) is a **no-op**: it returns the current artifact unchanged, with no new version created.  Honors `If-Match` on the current head (roll forward only if the head is unchanged → 412 PRECONDITION_FAILED).  Errors: `404 ARTIFACT_NOT_FOUND`, `404 VERSION_NOT_FOUND`, and `410 VERSION_PRUNED` when the version existed but its bytes were retained out of existence.
+     * Restore a previous version as a new head version
+     */
+    async restoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost(requestParameters: RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ArtifactOut> {
+        const response = await this.restoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -6837,6 +7552,10 @@ export class DefaultApi extends runtime.BaseAPI {
             headerParameters['x-agentdrive-actor'] = String(requestParameters['xAgentdriveActor']);
         }
 
+        if (requestParameters['ifMatch'] != null) {
+            headerParameters['if-match'] = String(requestParameters['ifMatch']);
+        }
+
         if (requestParameters['authorization'] != null) {
             headerParameters['authorization'] = String(requestParameters['authorization']);
         }
@@ -6854,7 +7573,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Clear `deleted_at` + `purge_at` on a soft-deleted drive. Soft-deleted child artifacts get their retention window rebased to the drive-restore moment (see deletion-design.md §5.2). Available only while the drive is in trash. Returns 404 if the drive is live or already hard-deleted.
+     * Clear `deleted_at` + `purge_at` on a soft-deleted drive. Soft-deleted child artifacts get their retention window rebased to the drive-restore moment (see deletion-design.md §5.2). Available only while the drive is in trash. Returns 404 if the drive is live or already hard-deleted.  **Optimistic concurrency:** send `If-Match` with the trashed drive\'s composite ETag (`\"<drv_id>.0.<metageneration>\"`, e.g. from the delete response\'s `ETag` header) to make the restore conditional — a stale token returns 412 PRECONDITION_FAILED. A restore WITHOUT an `If-Match` precondition is last-writer-wins.
      * Restore a soft-deleted drive
      */
     async restoreDriveRouteV0DrivesDriveIdRestorePostRaw(requestParameters: RestoreDriveRouteV0DrivesDriveIdRestorePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
@@ -6869,11 +7588,70 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Clear `deleted_at` + `purge_at` on a soft-deleted drive. Soft-deleted child artifacts get their retention window rebased to the drive-restore moment (see deletion-design.md §5.2). Available only while the drive is in trash. Returns 404 if the drive is live or already hard-deleted.
+     * Clear `deleted_at` + `purge_at` on a soft-deleted drive. Soft-deleted child artifacts get their retention window rebased to the drive-restore moment (see deletion-design.md §5.2). Available only while the drive is in trash. Returns 404 if the drive is live or already hard-deleted.  **Optimistic concurrency:** send `If-Match` with the trashed drive\'s composite ETag (`\"<drv_id>.0.<metageneration>\"`, e.g. from the delete response\'s `ETag` header) to make the restore conditional — a stale token returns 412 PRECONDITION_FAILED. A restore WITHOUT an `If-Match` precondition is last-writer-wins.
      * Restore a soft-deleted drive
      */
     async restoreDriveRouteV0DrivesDriveIdRestorePost(requestParameters: RestoreDriveRouteV0DrivesDriveIdRestorePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
         const response = await this.restoreDriveRouteV0DrivesDriveIdRestorePostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for restoreFolderByIdV0FoldersFldIdRestorePost without sending the request
+     */
+    async restoreFolderByIdV0FoldersFldIdRestorePostRequestOpts(requestParameters: RestoreFolderByIdV0FoldersFldIdRestorePostRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['fldId'] == null) {
+            throw new runtime.RequiredError(
+                'fldId',
+                'Required parameter "fldId" was null or undefined when calling restoreFolderByIdV0FoldersFldIdRestorePost().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['xAgentdriveActor'] != null) {
+            headerParameters['x-agentdrive-actor'] = String(requestParameters['xAgentdriveActor']);
+        }
+
+        if (requestParameters['ifMatch'] != null) {
+            headerParameters['if-match'] = String(requestParameters['ifMatch']);
+        }
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
+
+        let urlPath = `/v0/folders/{fld_id}/restore`;
+        urlPath = urlPath.replace('{fld_id}', encodeURIComponent(String(requestParameters['fldId'])));
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Mirrors `POST /v0/artifacts/{art_id}/restore` for folders: clear `deleted_at` + `purge_at` on a soft-deleted folder AND exactly the descendants soft-deleted in the same cascade (descendants trashed separately keep their trash state; restore those individually — the per-artifact restore remains for cherry-picking). Available only while the folder is in trash; returns 404 if it is live or already hard-purged.  Returns 409 `PATH_CONFLICT` when a live folder/artifact now occupies a path this restore would reinstate (`colliding_path` + `kind` identify it). Unlike artifact restore there are NO `rename`/`overwrite` escape hatches — the whole cascade aborts; free the colliding path (or cherry-pick artifacts) and retry.  `If-Match` (the trashed folder\'s composite ETag) makes the restore conditional → 412 PRECONDITION_FAILED on a stale token; omitted, the restore is last-writer-wins.
+     * Restore a soft-deleted folder (cascade)
+     */
+    async restoreFolderByIdV0FoldersFldIdRestorePostRaw(requestParameters: RestoreFolderByIdV0FoldersFldIdRestorePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FolderRestoreOut>> {
+        const requestOptions = await this.restoreFolderByIdV0FoldersFldIdRestorePostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => FolderRestoreOutFromJSON(jsonValue));
+    }
+
+    /**
+     * Mirrors `POST /v0/artifacts/{art_id}/restore` for folders: clear `deleted_at` + `purge_at` on a soft-deleted folder AND exactly the descendants soft-deleted in the same cascade (descendants trashed separately keep their trash state; restore those individually — the per-artifact restore remains for cherry-picking). Available only while the folder is in trash; returns 404 if it is live or already hard-purged.  Returns 409 `PATH_CONFLICT` when a live folder/artifact now occupies a path this restore would reinstate (`colliding_path` + `kind` identify it). Unlike artifact restore there are NO `rename`/`overwrite` escape hatches — the whole cascade aborts; free the colliding path (or cherry-pick artifacts) and retry.  `If-Match` (the trashed folder\'s composite ETag) makes the restore conditional → 412 PRECONDITION_FAILED on a stale token; omitted, the restore is last-writer-wins.
+     * Restore a soft-deleted folder (cascade)
+     */
+    async restoreFolderByIdV0FoldersFldIdRestorePost(requestParameters: RestoreFolderByIdV0FoldersFldIdRestorePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FolderRestoreOut> {
+        const response = await this.restoreFolderByIdV0FoldersFldIdRestorePostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -7799,53 +8577,6 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for streamUploadV0UploadTokenPut without sending the request
-     */
-    async streamUploadV0UploadTokenPutRequestOpts(requestParameters: StreamUploadV0UploadTokenPutRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['token'] == null) {
-            throw new runtime.RequiredError(
-                'token',
-                'Required parameter "token" was null or undefined when calling streamUploadV0UploadTokenPut().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-
-        let urlPath = `/v0/upload/{token}`;
-        urlPath = urlPath.replace('{token}', encodeURIComponent(String(requestParameters['token'])));
-
-        return {
-            path: urlPath,
-            method: 'PUT',
-            headers: headerParameters,
-            query: queryParameters,
-        };
-    }
-
-    /**
-     * Streams an artifact body into AgentDrive using a single-use token that was previously minted by the `upload_url` MCP tool. The token encodes the artifact path, content type, size cap, labels, metadata, source, actor, change summary, and `if_match` — all frozen at mint time. The request carries only the raw bytes + a `Content-Type` header that must match the signed value.  **Auth.** No Authorization header — the token in the path is the credential.  **Single-use.** Replay returns 409 TOKEN_REPLAYED. Expiry returns 401 TOKEN_EXPIRED. Bodies exceeding the signed cap return 413 BYTES_LIMIT.
-     * Proxied streaming upload (via an upload_url token)
-     */
-    async streamUploadV0UploadTokenPutRaw(requestParameters: StreamUploadV0UploadTokenPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtifactOut>> {
-        const requestOptions = await this.streamUploadV0UploadTokenPutRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => ArtifactOutFromJSON(jsonValue));
-    }
-
-    /**
-     * Streams an artifact body into AgentDrive using a single-use token that was previously minted by the `upload_url` MCP tool. The token encodes the artifact path, content type, size cap, labels, metadata, source, actor, change summary, and `if_match` — all frozen at mint time. The request carries only the raw bytes + a `Content-Type` header that must match the signed value.  **Auth.** No Authorization header — the token in the path is the credential.  **Single-use.** Replay returns 409 TOKEN_REPLAYED. Expiry returns 401 TOKEN_EXPIRED. Bodies exceeding the signed cap return 413 BYTES_LIMIT.
-     * Proxied streaming upload (via an upload_url token)
-     */
-    async streamUploadV0UploadTokenPut(requestParameters: StreamUploadV0UploadTokenPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ArtifactOut> {
-        const response = await this.streamUploadV0UploadTokenPutRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
      * Creates request options for switchDriveWebSwitchPost without sending the request
      */
     async switchDriveWebSwitchPostRequestOpts(requestParameters: SwitchDriveWebSwitchPostRequest): Promise<runtime.RequestOpts> {
@@ -8129,6 +8860,73 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async viewArtifactHeadAArtIdHeadGet(requestParameters: ViewArtifactHeadAArtIdHeadGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
         const response = await this.viewArtifactHeadAArtIdHeadGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for viewArtifactVersionVArtIdVersionGet without sending the request
+     */
+    async viewArtifactVersionVArtIdVersionGetRequestOpts(requestParameters: ViewArtifactVersionVArtIdVersionGetRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['artId'] == null) {
+            throw new runtime.RequiredError(
+                'artId',
+                'Required parameter "artId" was null or undefined when calling viewArtifactVersionVArtIdVersionGet().'
+            );
+        }
+
+        if (requestParameters['version'] == null) {
+            throw new runtime.RequiredError(
+                'version',
+                'Required parameter "version" was null or undefined when calling viewArtifactVersionVArtIdVersionGet().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['raw'] != null) {
+            queryParameters['raw'] = requestParameters['raw'];
+        }
+
+        if (requestParameters['download'] != null) {
+            queryParameters['download'] = requestParameters['download'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/v/{art_id}/{version}`;
+        urlPath = urlPath.replace('{art_id}', encodeURIComponent(String(requestParameters['artId'])));
+        urlPath = urlPath.replace('{version}', encodeURIComponent(String(requestParameters['version'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Render version `version` of an artifact, read-only.  Authorization is byte-for-byte identical to viewing the artifact via `/a/{art_id}`: the same drive-blind `can_read` gate runs, so a viewer who can see the artifact can see its versions, and one who cannot gets the identical sign-in-or-404 response (no existence leak). A pruned or never-existed version renders a friendly unavailable state, never a 500. `?raw=1` / `?download=1` stream the version\'s bytes (powering the bar\'s Raw / Download buttons) with the same sandbox+nosniff headers as the head raw path.
+     * View Artifact Version
+     */
+    async viewArtifactVersionVArtIdVersionGetRaw(requestParameters: ViewArtifactVersionVArtIdVersionGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+        const requestOptions = await this.viewArtifactVersionVArtIdVersionGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<any>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Render version `version` of an artifact, read-only.  Authorization is byte-for-byte identical to viewing the artifact via `/a/{art_id}`: the same drive-blind `can_read` gate runs, so a viewer who can see the artifact can see its versions, and one who cannot gets the identical sign-in-or-404 response (no existence leak). A pruned or never-existed version renders a friendly unavailable state, never a 500. `?raw=1` / `?download=1` stream the version\'s bytes (powering the bar\'s Raw / Download buttons) with the same sandbox+nosniff headers as the head raw path.
+     * View Artifact Version
+     */
+    async viewArtifactVersionVArtIdVersionGet(requestParameters: ViewArtifactVersionVArtIdVersionGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+        const response = await this.viewArtifactVersionVArtIdVersionGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

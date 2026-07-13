@@ -11,11 +11,11 @@ All URIs are relative to *https://api.agentdrive.run*
 
 ## listTokensV0TokensGet
 
-> UserTokenList listTokensV0TokensGet(authorization)
+> UserTokenList listTokensV0TokensGet(cursor, limit, authorization)
 
 List your user-identity tokens
 
-List the &#x60;ad_user_&#x60; tokens belonging to the authenticated user. Metadata only — the raw token is shown once at mint (web only) and is never returned here. Includes recently-revoked tokens (with &#x60;revoked_at&#x60; set) so the caller can audit them; newest first.
+List the &#x60;ad_user_&#x60; tokens belonging to the authenticated user. Metadata only — the raw token is shown once at mint (web only) and is never returned here. Includes recently-revoked tokens (with &#x60;revoked_at&#x60; set) so the caller can audit them; newest first.  **Cursor pagination:** when more results exist, the response carries &#x60;next_cursor&#x60;. Pass it back as &#x60;?cursor&#x3D;&lt;token&gt;&#x60; to fetch the next page; &#x60;null&#x60; means the listing is complete. &#x60;limit&#x60; is clamped to [1, 100] (default 50), never rejected.
 
 ### Example
 
@@ -31,6 +31,10 @@ async function example() {
   const api = new TokensApi();
 
   const body = {
+    // string (optional)
+    cursor: cursor_example,
+    // number (optional)
+    limit: 56,
     // string (optional)
     authorization: authorization_example,
   } satisfies ListTokensV0TokensGetRequest;
@@ -52,6 +56,8 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
+| **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **limit** | `number` |  | [Optional] [Defaults to `undefined`] |
 | **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type

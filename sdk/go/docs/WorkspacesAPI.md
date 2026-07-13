@@ -80,7 +80,7 @@ No authorization required
 
 ## ListWorkspacesRouteV0WorkspacesGet
 
-> WorkspaceList ListWorkspacesRouteV0WorkspacesGet(ctx).Authorization(authorization).Execute()
+> WorkspaceList ListWorkspacesRouteV0WorkspacesGet(ctx).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
 
 List the spaces you belong to
 
@@ -99,11 +99,13 @@ import (
 )
 
 func main() {
+	cursor := "cursor_example" // string |  (optional)
+	limit := int32(56) // int32 |  (optional)
 	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.WorkspacesAPI.ListWorkspacesRouteV0WorkspacesGet(context.Background()).Authorization(authorization).Execute()
+	resp, r, err := apiClient.WorkspacesAPI.ListWorkspacesRouteV0WorkspacesGet(context.Background()).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `WorkspacesAPI.ListWorkspacesRouteV0WorkspacesGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -124,6 +126,8 @@ Other parameters are passed through a pointer to a apiListWorkspacesRouteV0Works
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **cursor** | **string** |  | 
+ **limit** | **int32** |  | 
  **authorization** | **string** |  | 
 
 ### Return type

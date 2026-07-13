@@ -17,18 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, List
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
-class RenameIn(BaseModel):
+class MemberRemoveOut(BaseModel):
     """
-    PATCH /v0/artifacts/{art_id} body — rename / move.
+    DELETE /v0/members/{user_id} response — the member-removal receipt. `id` is the removed user's id (replaces the ad-hoc `removed` key).
     """ # noqa: E501
-    path: StrictStr
-    __properties: ClassVar[List[str]] = ["path"]
+    ok: Optional[StrictBool] = True
+    id: StrictStr
+    organization_id: StrictStr
+    __properties: ClassVar[List[str]] = ["ok", "id", "organization_id"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -48,7 +50,7 @@ class RenameIn(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of RenameIn from a JSON string"""
+        """Create an instance of MemberRemoveOut from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +75,7 @@ class RenameIn(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of RenameIn from a dict"""
+        """Create an instance of MemberRemoveOut from a dict"""
         if obj is None:
             return None
 
@@ -81,7 +83,9 @@ class RenameIn(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "path": obj.get("path")
+            "ok": obj.get("ok") if obj.get("ok") is not None else True,
+            "id": obj.get("id"),
+            "organization_id": obj.get("organization_id")
         })
         return _obj
 

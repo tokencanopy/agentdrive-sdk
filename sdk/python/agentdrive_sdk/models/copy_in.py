@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from agentdrive_sdk.models.artifact_source import ArtifactSource
 from typing import Optional, Set
@@ -30,7 +30,8 @@ class CopyIn(BaseModel):
     """ # noqa: E501
     path: StrictStr
     source: Optional[ArtifactSource] = None
-    __properties: ClassVar[List[str]] = ["path", "source"]
+    from_generation: Optional[StrictInt] = None
+    __properties: ClassVar[List[str]] = ["path", "source", "from_generation"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -79,6 +80,11 @@ class CopyIn(BaseModel):
         if self.source is None and "source" in self.model_fields_set:
             _dict['source'] = None
 
+        # set to None if from_generation (nullable) is None
+        # and model_fields_set contains the field
+        if self.from_generation is None and "from_generation" in self.model_fields_set:
+            _dict['from_generation'] = None
+
         return _dict
 
     @classmethod
@@ -92,7 +98,8 @@ class CopyIn(BaseModel):
 
         _obj = cls.model_validate({
             "path": obj.get("path"),
-            "source": ArtifactSource.from_dict(obj["source"]) if obj.get("source") is not None else None
+            "source": ArtifactSource.from_dict(obj["source"]) if obj.get("source") is not None else None,
+            "from_generation": obj.get("from_generation")
         })
         return _obj
 

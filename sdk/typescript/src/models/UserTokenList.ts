@@ -33,6 +33,12 @@ export interface UserTokenList {
      * @memberof UserTokenList
      */
     items: Array<UserTokenOut>;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserTokenList
+     */
+    nextCursor?: string | null;
 }
 
 /**
@@ -54,6 +60,7 @@ export function UserTokenListFromJSONTyped(json: any, ignoreDiscriminator: boole
     return {
         
         'items': ((json['items'] as Array<any>).map(UserTokenOutFromJSON)),
+        'nextCursor': json['next_cursor'] == null ? undefined : json['next_cursor'],
     };
 }
 
@@ -69,6 +76,7 @@ export function UserTokenListToJSONTyped(value?: UserTokenList | null, ignoreDis
     return {
         
         'items': ((value['items'] as Array<any>).map(UserTokenOutToJSON)),
+        'next_cursor': value['nextCursor'],
     };
 }
 

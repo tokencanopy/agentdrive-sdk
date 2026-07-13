@@ -24,6 +24,12 @@ export interface SearchHitOut {
      * @type {string}
      * @memberof SearchHitOut
      */
+    artId: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchHitOut
+     */
     driveId: string;
     /**
      * 
@@ -73,12 +79,19 @@ export interface SearchHitOut {
      * @memberof SearchHitOut
      */
     updatedAt: Date;
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchHitOut
+     */
+    versionNumber: number;
 }
 
 /**
  * Check if a given object implements the SearchHitOut interface.
  */
 export function instanceOfSearchHitOut(value: object): value is SearchHitOut {
+    if ((!('artId' in value) && !('art_id' in value)) || (value['artId'] === undefined && value['art_id'] === undefined)) return false;
     if ((!('driveId' in value) && !('drive_id' in value)) || (value['driveId'] === undefined && value['drive_id'] === undefined)) return false;
     if (!('path' in value) || value['path'] === undefined) return false;
     if (!('url' in value) || value['url'] === undefined) return false;
@@ -87,6 +100,7 @@ export function instanceOfSearchHitOut(value: object): value is SearchHitOut {
     if (!('snippet' in value) || value['snippet'] === undefined) return false;
     if (!('score' in value) || value['score'] === undefined) return false;
     if ((!('updatedAt' in value) && !('updated_at' in value)) || (value['updatedAt'] === undefined && value['updated_at'] === undefined)) return false;
+    if ((!('versionNumber' in value) && !('version_number' in value)) || (value['versionNumber'] === undefined && value['version_number'] === undefined)) return false;
     return true;
 }
 
@@ -100,6 +114,7 @@ export function SearchHitOutFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
+        'artId': json['art_id'],
         'driveId': json['drive_id'],
         'path': json['path'],
         'url': json['url'],
@@ -109,6 +124,7 @@ export function SearchHitOutFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'snippet': json['snippet'],
         'score': json['score'],
         'updatedAt': (new Date(json['updated_at'])),
+        'versionNumber': json['version_number'],
     };
 }
 
@@ -123,6 +139,7 @@ export function SearchHitOutToJSONTyped(value?: SearchHitOut | null, ignoreDiscr
 
     return {
         
+        'art_id': value['artId'],
         'drive_id': value['driveId'],
         'path': value['path'],
         'url': value['url'],
@@ -132,6 +149,7 @@ export function SearchHitOutToJSONTyped(value?: SearchHitOut | null, ignoreDiscr
         'snippet': value['snippet'],
         'score': value['score'],
         'updated_at': value['updatedAt'].toISOString(),
+        'version_number': value['versionNumber'],
     };
 }
 

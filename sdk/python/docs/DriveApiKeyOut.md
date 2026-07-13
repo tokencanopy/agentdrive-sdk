@@ -8,10 +8,10 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **str** |  | 
 **prefix** | **str** |  | 
-**label** | **str** |  | 
-**last_used_at** | **datetime** |  | 
+**label** | **str** |  | [optional] 
+**last_used_at** | **datetime** |  | [optional] 
 **created_at** | **datetime** |  | 
-**revoked_at** | **datetime** |  | 
+**revoked_at** | **datetime** |  | [optional] 
 
 ## Example
 

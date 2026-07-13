@@ -25,8 +25,8 @@ type DriveOut struct {
 	Id string `json:"id"`
 	Name string `json:"name"`
 	OrganizationId string `json:"organization_id"`
-	OwnerUserId NullableString `json:"owner_user_id"`
-	OwnerEmail NullableString `json:"owner_email"`
+	OwnerUserId NullableString `json:"owner_user_id,omitempty"`
+	OwnerEmail NullableString `json:"owner_email,omitempty"`
 	StorageBytes int32 `json:"storage_bytes"`
 	CreatedAt time.Time `json:"created_at"`
 }
@@ -37,13 +37,11 @@ type _DriveOut DriveOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDriveOut(id string, name string, organizationId string, ownerUserId NullableString, ownerEmail NullableString, storageBytes int32, createdAt time.Time) *DriveOut {
+func NewDriveOut(id string, name string, organizationId string, storageBytes int32, createdAt time.Time) *DriveOut {
 	this := DriveOut{}
 	this.Id = id
 	this.Name = name
 	this.OrganizationId = organizationId
-	this.OwnerUserId = ownerUserId
-	this.OwnerEmail = ownerEmail
 	this.StorageBytes = storageBytes
 	this.CreatedAt = createdAt
 	return &this
@@ -129,18 +127,16 @@ func (o *DriveOut) SetOrganizationId(v string) {
 	o.OrganizationId = v
 }
 
-// GetOwnerUserId returns the OwnerUserId field value
-// If the value is explicit nil, the zero value for string will be returned
+// GetOwnerUserId returns the OwnerUserId field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DriveOut) GetOwnerUserId() string {
-	if o == nil || o.OwnerUserId.Get() == nil {
+	if o == nil || IsNil(o.OwnerUserId.Get()) {
 		var ret string
 		return ret
 	}
-
 	return *o.OwnerUserId.Get()
 }
 
-// GetOwnerUserIdOk returns a tuple with the OwnerUserId field value
+// GetOwnerUserIdOk returns a tuple with the OwnerUserId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *DriveOut) GetOwnerUserIdOk() (*string, bool) {
@@ -150,23 +146,39 @@ func (o *DriveOut) GetOwnerUserIdOk() (*string, bool) {
 	return o.OwnerUserId.Get(), o.OwnerUserId.IsSet()
 }
 
-// SetOwnerUserId sets field value
+// HasOwnerUserId returns a boolean if a field has been set.
+func (o *DriveOut) HasOwnerUserId() bool {
+	if o != nil && o.OwnerUserId.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetOwnerUserId gets a reference to the given NullableString and assigns it to the OwnerUserId field.
 func (o *DriveOut) SetOwnerUserId(v string) {
 	o.OwnerUserId.Set(&v)
 }
+// SetOwnerUserIdNil sets the value for OwnerUserId to be an explicit nil
+func (o *DriveOut) SetOwnerUserIdNil() {
+	o.OwnerUserId.Set(nil)
+}
 
-// GetOwnerEmail returns the OwnerEmail field value
-// If the value is explicit nil, the zero value for string will be returned
+// UnsetOwnerUserId ensures that no value is present for OwnerUserId, not even an explicit nil
+func (o *DriveOut) UnsetOwnerUserId() {
+	o.OwnerUserId.Unset()
+}
+
+// GetOwnerEmail returns the OwnerEmail field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DriveOut) GetOwnerEmail() string {
-	if o == nil || o.OwnerEmail.Get() == nil {
+	if o == nil || IsNil(o.OwnerEmail.Get()) {
 		var ret string
 		return ret
 	}
-
 	return *o.OwnerEmail.Get()
 }
 
-// GetOwnerEmailOk returns a tuple with the OwnerEmail field value
+// GetOwnerEmailOk returns a tuple with the OwnerEmail field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *DriveOut) GetOwnerEmailOk() (*string, bool) {
@@ -176,9 +188,27 @@ func (o *DriveOut) GetOwnerEmailOk() (*string, bool) {
 	return o.OwnerEmail.Get(), o.OwnerEmail.IsSet()
 }
 
-// SetOwnerEmail sets field value
+// HasOwnerEmail returns a boolean if a field has been set.
+func (o *DriveOut) HasOwnerEmail() bool {
+	if o != nil && o.OwnerEmail.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetOwnerEmail gets a reference to the given NullableString and assigns it to the OwnerEmail field.
 func (o *DriveOut) SetOwnerEmail(v string) {
 	o.OwnerEmail.Set(&v)
+}
+// SetOwnerEmailNil sets the value for OwnerEmail to be an explicit nil
+func (o *DriveOut) SetOwnerEmailNil() {
+	o.OwnerEmail.Set(nil)
+}
+
+// UnsetOwnerEmail ensures that no value is present for OwnerEmail, not even an explicit nil
+func (o *DriveOut) UnsetOwnerEmail() {
+	o.OwnerEmail.Unset()
 }
 
 // GetStorageBytes returns the StorageBytes field value
@@ -242,8 +272,12 @@ func (o DriveOut) ToMap() (map[string]interface{}, error) {
 	toSerialize["id"] = o.Id
 	toSerialize["name"] = o.Name
 	toSerialize["organization_id"] = o.OrganizationId
-	toSerialize["owner_user_id"] = o.OwnerUserId.Get()
-	toSerialize["owner_email"] = o.OwnerEmail.Get()
+	if o.OwnerUserId.IsSet() {
+		toSerialize["owner_user_id"] = o.OwnerUserId.Get()
+	}
+	if o.OwnerEmail.IsSet() {
+		toSerialize["owner_email"] = o.OwnerEmail.Get()
+	}
 	toSerialize["storage_bytes"] = o.StorageBytes
 	toSerialize["created_at"] = o.CreatedAt
 	return toSerialize, nil
@@ -257,8 +291,6 @@ func (o *DriveOut) UnmarshalJSON(data []byte) (err error) {
 		"id",
 		"name",
 		"organization_id",
-		"owner_user_id",
-		"owner_email",
 		"storage_bytes",
 		"created_at",
 	}

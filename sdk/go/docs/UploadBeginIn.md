@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **ActorName** | Pointer to **NullableString** |  | [optional] 
 **ChangeSummary** | Pointer to **NullableString** |  | [optional] 
 **IfMatch** | Pointer to **NullableInt32** |  | [optional] 
+**IfNoneMatch** | Pointer to **bool** |  | [optional] [default to false]
 **CorsOrigin** | Pointer to **NullableString** | Web origin (scheme://host[:port]) of the browser that will PUT the bytes, e.g. &#x60;https://app.example.com&#x60;. Set this when the &#x60;upload_url&#x60; is handed to browser code: GCS binds CORS at session initiate, so the returned session only echoes &#x60;Access-Control-Allow-Origin&#x60; (and is thus PUT-able from a browser) when opened with the caller&#39;s origin. A trusted backend relaying a browser upload forwards the browser&#39;s &#x60;Origin&#x60; here. Omit for server/desktop uploads (no CORS enforcement). | [optional] 
 
 ## Methods
@@ -345,6 +346,31 @@ HasIfMatch returns a boolean if a field has been set.
 `func (o *UploadBeginIn) UnsetIfMatch()`
 
 UnsetIfMatch ensures that no value is present for IfMatch, not even an explicit nil
+### GetIfNoneMatch
+
+`func (o *UploadBeginIn) GetIfNoneMatch() bool`
+
+GetIfNoneMatch returns the IfNoneMatch field if non-nil, zero value otherwise.
+
+### GetIfNoneMatchOk
+
+`func (o *UploadBeginIn) GetIfNoneMatchOk() (*bool, bool)`
+
+GetIfNoneMatchOk returns a tuple with the IfNoneMatch field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIfNoneMatch
+
+`func (o *UploadBeginIn) SetIfNoneMatch(v bool)`
+
+SetIfNoneMatch sets IfNoneMatch field to given value.
+
+### HasIfNoneMatch
+
+`func (o *UploadBeginIn) HasIfNoneMatch() bool`
+
+HasIfNoneMatch returns a boolean if a field has been set.
+
 ### GetCorsOrigin
 
 `func (o *UploadBeginIn) GetCorsOrigin() string`

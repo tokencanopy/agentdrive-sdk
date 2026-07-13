@@ -19,9 +19,11 @@ import (
 // checks if the DriveApiKeyListOut type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &DriveApiKeyListOut{}
 
-// DriveApiKeyListOut `GET /v0/drives/{id}/keys` response — the drive's keys, newest first, including recently-revoked rows (filter on `revoked_at` for live only).
+// DriveApiKeyListOut `GET /v0/drives/{id}/keys` response — the drive's keys, oldest first (keyset order, design §3), including recently-revoked rows (filter on `revoked_at` for live only).  `items` is the canonical list field (B-3: one envelope key everywhere); `keys` is a deprecated same-value alias kept for one release — the REST twin of the grep `matches` / compile `jobs` aliases.
 type DriveApiKeyListOut struct {
+	Items []DriveApiKeyOut `json:"items"`
 	Keys []DriveApiKeyOut `json:"keys"`
+	NextCursor NullableString `json:"next_cursor,omitempty"`
 }
 
 type _DriveApiKeyListOut DriveApiKeyListOut
@@ -30,8 +32,9 @@ type _DriveApiKeyListOut DriveApiKeyListOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDriveApiKeyListOut(keys []DriveApiKeyOut) *DriveApiKeyListOut {
+func NewDriveApiKeyListOut(items []DriveApiKeyOut, keys []DriveApiKeyOut) *DriveApiKeyListOut {
 	this := DriveApiKeyListOut{}
+	this.Items = items
 	this.Keys = keys
 	return &this
 }
@@ -42,6 +45,30 @@ func NewDriveApiKeyListOut(keys []DriveApiKeyOut) *DriveApiKeyListOut {
 func NewDriveApiKeyListOutWithDefaults() *DriveApiKeyListOut {
 	this := DriveApiKeyListOut{}
 	return &this
+}
+
+// GetItems returns the Items field value
+func (o *DriveApiKeyListOut) GetItems() []DriveApiKeyOut {
+	if o == nil {
+		var ret []DriveApiKeyOut
+		return ret
+	}
+
+	return o.Items
+}
+
+// GetItemsOk returns a tuple with the Items field value
+// and a boolean to check if the value has been set.
+func (o *DriveApiKeyListOut) GetItemsOk() ([]DriveApiKeyOut, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Items, true
+}
+
+// SetItems sets field value
+func (o *DriveApiKeyListOut) SetItems(v []DriveApiKeyOut) {
+	o.Items = v
 }
 
 // GetKeys returns the Keys field value
@@ -68,6 +95,48 @@ func (o *DriveApiKeyListOut) SetKeys(v []DriveApiKeyOut) {
 	o.Keys = v
 }
 
+// GetNextCursor returns the NextCursor field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DriveApiKeyListOut) GetNextCursor() string {
+	if o == nil || IsNil(o.NextCursor.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.NextCursor.Get()
+}
+
+// GetNextCursorOk returns a tuple with the NextCursor field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *DriveApiKeyListOut) GetNextCursorOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.NextCursor.Get(), o.NextCursor.IsSet()
+}
+
+// HasNextCursor returns a boolean if a field has been set.
+func (o *DriveApiKeyListOut) HasNextCursor() bool {
+	if o != nil && o.NextCursor.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetNextCursor gets a reference to the given NullableString and assigns it to the NextCursor field.
+func (o *DriveApiKeyListOut) SetNextCursor(v string) {
+	o.NextCursor.Set(&v)
+}
+// SetNextCursorNil sets the value for NextCursor to be an explicit nil
+func (o *DriveApiKeyListOut) SetNextCursorNil() {
+	o.NextCursor.Set(nil)
+}
+
+// UnsetNextCursor ensures that no value is present for NextCursor, not even an explicit nil
+func (o *DriveApiKeyListOut) UnsetNextCursor() {
+	o.NextCursor.Unset()
+}
+
 func (o DriveApiKeyListOut) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -78,7 +147,11 @@ func (o DriveApiKeyListOut) MarshalJSON() ([]byte, error) {
 
 func (o DriveApiKeyListOut) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	toSerialize["items"] = o.Items
 	toSerialize["keys"] = o.Keys
+	if o.NextCursor.IsSet() {
+		toSerialize["next_cursor"] = o.NextCursor.Get()
+	}
 	return toSerialize, nil
 }
 
@@ -87,6 +160,7 @@ func (o *DriveApiKeyListOut) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
+		"items",
 		"keys",
 	}
 

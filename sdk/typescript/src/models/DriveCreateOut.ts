@@ -43,13 +43,13 @@ export interface DriveCreateOut {
      * @type {string}
      * @memberof DriveCreateOut
      */
-    ownerUserId: string | null;
+    ownerUserId?: string | null;
     /**
      * 
      * @type {string}
      * @memberof DriveCreateOut
      */
-    ownerEmail: string | null;
+    ownerEmail?: string | null;
     /**
      * 
      * @type {number}
@@ -77,8 +77,6 @@ export function instanceOfDriveCreateOut(value: object): value is DriveCreateOut
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
     if ((!('organizationId' in value) && !('organization_id' in value)) || (value['organizationId'] === undefined && value['organization_id'] === undefined)) return false;
-    if ((!('ownerUserId' in value) && !('owner_user_id' in value)) || (value['ownerUserId'] === undefined && value['owner_user_id'] === undefined)) return false;
-    if ((!('ownerEmail' in value) && !('owner_email' in value)) || (value['ownerEmail'] === undefined && value['owner_email'] === undefined)) return false;
     if ((!('storageBytes' in value) && !('storage_bytes' in value)) || (value['storageBytes'] === undefined && value['storage_bytes'] === undefined)) return false;
     if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
     if ((!('apiKey' in value) && !('api_key' in value)) || (value['apiKey'] === undefined && value['api_key'] === undefined)) return false;
@@ -98,8 +96,8 @@ export function DriveCreateOutFromJSONTyped(json: any, ignoreDiscriminator: bool
         'id': json['id'],
         'name': json['name'],
         'organizationId': json['organization_id'],
-        'ownerUserId': json['owner_user_id'],
-        'ownerEmail': json['owner_email'],
+        'ownerUserId': json['owner_user_id'] == null ? undefined : json['owner_user_id'],
+        'ownerEmail': json['owner_email'] == null ? undefined : json['owner_email'],
         'storageBytes': json['storage_bytes'],
         'createdAt': (new Date(json['created_at'])),
         'apiKey': json['api_key'],

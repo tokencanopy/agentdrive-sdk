@@ -15,7 +15,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import StrictStr
+from pydantic import StrictInt, StrictStr
 from typing import Optional
 from agentdrive_sdk.models.workspace_create_in import WorkspaceCreateIn
 from agentdrive_sdk.models.workspace_create_out import WorkspaceCreateOut
@@ -335,6 +335,8 @@ class WorkspacesApi:
     @validate_call
     def list_workspaces_route_v0_workspaces_get(
         self,
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -351,8 +353,12 @@ class WorkspacesApi:
     ) -> WorkspaceList:
         """List the spaces you belong to
 
-        Return every space the caller is a member of, each carrying the caller's `role` in it. Metadata only. A `read`-scope token is sufficient.
+        Return every space the caller is a member of, each carrying the caller's `role` in it. Metadata only. A `read`-scope token is sufficient.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -378,6 +384,8 @@ class WorkspacesApi:
         """ # noqa: E501
 
         _param = self._list_workspaces_route_v0_workspaces_get_serialize(
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -403,6 +411,8 @@ class WorkspacesApi:
     @validate_call
     def list_workspaces_route_v0_workspaces_get_with_http_info(
         self,
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -419,8 +429,12 @@ class WorkspacesApi:
     ) -> ApiResponse[WorkspaceList]:
         """List the spaces you belong to
 
-        Return every space the caller is a member of, each carrying the caller's `role` in it. Metadata only. A `read`-scope token is sufficient.
+        Return every space the caller is a member of, each carrying the caller's `role` in it. Metadata only. A `read`-scope token is sufficient.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -446,6 +460,8 @@ class WorkspacesApi:
         """ # noqa: E501
 
         _param = self._list_workspaces_route_v0_workspaces_get_serialize(
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -471,6 +487,8 @@ class WorkspacesApi:
     @validate_call
     def list_workspaces_route_v0_workspaces_get_without_preload_content(
         self,
+        cursor: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -487,8 +505,12 @@ class WorkspacesApi:
     ) -> RESTResponseType:
         """List the spaces you belong to
 
-        Return every space the caller is a member of, each carrying the caller's `role` in it. Metadata only. A `read`-scope token is sufficient.
+        Return every space the caller is a member of, each carrying the caller's `role` in it. Metadata only. A `read`-scope token is sufficient.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
 
+        :param cursor:
+        :type cursor: str
+        :param limit:
+        :type limit: int
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -514,6 +536,8 @@ class WorkspacesApi:
         """ # noqa: E501
 
         _param = self._list_workspaces_route_v0_workspaces_get_serialize(
+            cursor=cursor,
+            limit=limit,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -534,6 +558,8 @@ class WorkspacesApi:
 
     def _list_workspaces_route_v0_workspaces_get_serialize(
         self,
+        cursor,
+        limit,
         authorization,
         _request_auth,
         _content_type,
@@ -557,6 +583,14 @@ class WorkspacesApi:
 
         # process the path parameters
         # process the query parameters
+        if cursor is not None:
+            
+            _query_params.append(('cursor', cursor))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
         # process the header parameters
         if authorization is not None:
             _header_params['authorization'] = authorization

@@ -95,6 +95,7 @@ Class | Method | HTTP request | Description
 *AgentAuthApi* | [**register_agent_identity_agent_identity_post**](docs/AgentAuthApi.md#register_agent_identity_agent_identity_post) | **POST** /agent/identity | Register an agent identity (anonymous or ID-JAG)
 *ClaimUiApi* | [**claim_complete_agent_identity_claim_complete_post**](docs/ClaimUiApi.md#claim_complete_agent_identity_claim_complete_post) | **POST** /agent/identity/claim/complete | Claim Complete
 *ClaimUiApi* | [**claim_page_claim_get**](docs/ClaimUiApi.md#claim_page_claim_get) | **GET** /claim | Claim Page
+*DefaultApi* | [**abort_upload_v0_uploads_upload_id_delete**](docs/DefaultApi.md#abort_upload_v0_uploads_upload_id_delete) | **DELETE** /v0/uploads/{upload_id} | Abort a large (direct-to-GCS) upload session
 *DefaultApi* | [**accept_invitation_invitations_token_get**](docs/DefaultApi.md#accept_invitation_invitations_token_get) | **GET** /invitations/{token} | Accept Invitation
 *DefaultApi* | [**activity_feed_activity_get**](docs/DefaultApi.md#activity_feed_activity_get) | **GET** /activity | Activity Feed
 *DefaultApi* | [**add_grant_web_share_rid_grant_post**](docs/DefaultApi.md#add_grant_web_share_rid_grant_post) | **POST** /web/share/{rid}/grant | Add Grant
@@ -106,9 +107,10 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**commit_upload_v0_uploads_upload_id_commit_post**](docs/DefaultApi.md#commit_upload_v0_uploads_upload_id_commit_post) | **POST** /v0/uploads/{upload_id}/commit | Commit a large (direct-to-GCS) upload
 *DefaultApi* | [**connectors_page_connectors_get**](docs/DefaultApi.md#connectors_page_connectors_get) | **GET** /connectors | Connectors Page
 *DefaultApi* | [**copy_artifact_route_v0_artifacts_art_id_copy_post**](docs/DefaultApi.md#copy_artifact_route_v0_artifacts_art_id_copy_post) | **POST** /v0/artifacts/{art_id}/copy | Duplicate an artifact to a new path (CAS-shared, new ID)
+*DefaultApi* | [**copy_folder_by_id_v0_folders_fld_id_copy_post**](docs/DefaultApi.md#copy_folder_by_id_v0_folders_fld_id_copy_post) | **POST** /v0/folders/{fld_id}/copy | Duplicate a folder subtree to a new path (CAS-shared, new IDs)
 *DefaultApi* | [**create_drive_key_web_web_drives_drive_id_keys_create_post**](docs/DefaultApi.md#create_drive_key_web_web_drives_drive_id_keys_create_post) | **POST** /web/drives/{drive_id}/keys/create | Create Drive Key Web
 *DefaultApi* | [**create_drive_web_web_drives_post**](docs/DefaultApi.md#create_drive_web_web_drives_post) | **POST** /web/drives | Create Drive Web
-*DefaultApi* | [**create_folder_by_path_v0_folders_path_post**](docs/DefaultApi.md#create_folder_by_path_v0_folders_path_post) | **POST** /v0/folders/{path} | Create a folder (idempotent)
+*DefaultApi* | [**create_folder_by_path_v0_folders_path_put**](docs/DefaultApi.md#create_folder_by_path_v0_folders_path_put) | **PUT** /v0/folders/{path} | Create a folder (idempotent)
 *DefaultApi* | [**create_grant_route_v0_grants_post**](docs/DefaultApi.md#create_grant_route_v0_grants_post) | **POST** /v0/grants | Create (or fetch) a per-principal grant on a resource
 *DefaultApi* | [**create_key_web_keys_create_post**](docs/DefaultApi.md#create_key_web_keys_create_post) | **POST** /web/keys/create | Create Key
 *DefaultApi* | [**create_link_web_share_rid_link_post**](docs/DefaultApi.md#create_link_web_share_rid_link_post) | **POST** /web/share/{rid}/link | Create Link
@@ -129,6 +131,7 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**delete_share_route_v0_shares_shr_id_delete**](docs/DefaultApi.md#delete_share_route_v0_shares_shr_id_delete) | **DELETE** /v0/shares/{shr_id} | Revoke a share link (requires can_manage)
 *DefaultApi* | [**delete_workspace_web_web_workspaces_org_id_delete_post**](docs/DefaultApi.md#delete_workspace_web_web_workspaces_org_id_delete_post) | **POST** /web/workspaces/{org_id}/delete | Delete Workspace Web
 *DefaultApi* | [**download_artifact_by_id_v0_artifacts_art_id_download_get**](docs/DefaultApi.md#download_artifact_by_id_v0_artifacts_art_id_download_get) | **GET** /v0/artifacts/{art_id}/download | Stream the artifact bytes by stable ID (never rendered HTML)
+*DefaultApi* | [**download_artifact_by_path_v0_artifacts_path_download_get**](docs/DefaultApi.md#download_artifact_by_path_v0_artifacts_path_download_get) | **GET** /v0/artifacts/{path}/download | Stream the artifact bytes by path (never rendered HTML)
 *DefaultApi* | [**download_artifact_version_v0_artifacts_art_id_versions_version_number_download_get**](docs/DefaultApi.md#download_artifact_version_v0_artifacts_art_id_versions_version_number_download_get) | **GET** /v0/artifacts/{art_id}/versions/{version_number}/download | Stream bytes for a specific version (machine surface)
 *DefaultApi* | [**download_url_by_id_v0_artifacts_art_id_download_url_get**](docs/DefaultApi.md#download_url_by_id_v0_artifacts_art_id_download_url_get) | **GET** /v0/artifacts/{art_id}/download-url | Signed direct-from-GCS download URL by stable ID
 *DefaultApi* | [**download_url_by_path_v0_artifacts_path_download_url_get**](docs/DefaultApi.md#download_url_by_path_v0_artifacts_path_download_url_get) | **GET** /v0/artifacts/{path}/download-url | Signed direct-from-GCS download URL by path
@@ -143,15 +146,19 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**get_artifact_by_id_v0_artifacts_art_id_get**](docs/DefaultApi.md#get_artifact_by_id_v0_artifacts_art_id_get) | **GET** /v0/artifacts/{art_id} | Canonical lookup of an artifact by its stable ID
 *DefaultApi* | [**get_artifact_meta_v0_artifacts_path_meta_get**](docs/DefaultApi.md#get_artifact_meta_v0_artifacts_path_meta_get) | **GET** /v0/artifacts/{path}/meta | Get Artifact Meta
 *DefaultApi* | [**get_artifact_version_v0_artifacts_art_id_versions_version_number_get**](docs/DefaultApi.md#get_artifact_version_v0_artifacts_art_id_versions_version_number_get) | **GET** /v0/artifacts/{art_id}/versions/{version_number} | Metadata for a specific version of an artifact
+*DefaultApi* | [**get_drive_route_v0_drives_drive_id_get**](docs/DefaultApi.md#get_drive_route_v0_drives_drive_id_get) | **GET** /v0/drives/{drive_id} | Drive overview by id (same shape as /drives/me)
 *DefaultApi* | [**get_feedback_status_v0_feedback_fbk_id_get**](docs/DefaultApi.md#get_feedback_status_v0_feedback_fbk_id_get) | **GET** /v0/feedback/{fbk_id} | Get Feedback Status
 *DefaultApi* | [**get_folder_by_id_meta_v0_folders_fld_id_meta_get**](docs/DefaultApi.md#get_folder_by_id_meta_v0_folders_fld_id_meta_get) | **GET** /v0/folders/{fld_id}/meta | Folder metadata by stable ID (same shape as the bare id route)
 *DefaultApi* | [**get_folder_by_id_v0_folders_fld_id_get**](docs/DefaultApi.md#get_folder_by_id_v0_folders_fld_id_get) | **GET** /v0/folders/{fld_id} | Canonical lookup of a folder by its stable ID
 *DefaultApi* | [**get_folder_by_path_meta_v0_folders_path_meta_get**](docs/DefaultApi.md#get_folder_by_path_meta_v0_folders_path_meta_get) | **GET** /v0/folders/{path}/meta | Folder metadata by path (same shape as the bare path route)
 *DefaultApi* | [**get_folder_by_path_v0_folders_path_get**](docs/DefaultApi.md#get_folder_by_path_v0_folders_path_get) | **GET** /v0/folders/{path} | Read folder metadata by path
+*DefaultApi* | [**get_grant_route_v0_grants_grn_id_get**](docs/DefaultApi.md#get_grant_route_v0_grants_grn_id_get) | **GET** /v0/grants/{grn_id} | Read a single grant (can_manage, or the grant&#39;s own principal)
 *DefaultApi* | [**get_job_logs_v0_jobs_job_id_logs_get**](docs/DefaultApi.md#get_job_logs_v0_jobs_job_id_logs_get) | **GET** /v0/jobs/{job_id}/logs | Raw compile log (text/plain)
 *DefaultApi* | [**get_job_v0_jobs_job_id_get**](docs/DefaultApi.md#get_job_v0_jobs_job_id_get) | **GET** /v0/jobs/{job_id} | Poll a job
 *DefaultApi* | [**get_project_v0_projects_fld_id_get**](docs/DefaultApi.md#get_project_v0_projects_fld_id_get) | **GET** /v0/projects/{fld_id} | Get a project&#39;s compile config
+*DefaultApi* | [**get_share_route_v0_shares_shr_id_get**](docs/DefaultApi.md#get_share_route_v0_shares_shr_id_get) | **GET** /v0/shares/{shr_id} | Read a single share link&#39;s metadata (requires can_manage)
 *DefaultApi* | [**get_share_state_web_share_rid_get**](docs/DefaultApi.md#get_share_state_web_share_rid_get) | **GET** /web/share/{rid} | Get Share State
+*DefaultApi* | [**get_upload_status_v0_uploads_upload_id_get**](docs/DefaultApi.md#get_upload_status_v0_uploads_upload_id_get) | **GET** /v0/uploads/{upload_id} | Get the status of a large (direct-to-GCS) upload session
 *DefaultApi* | [**health_health_get**](docs/DefaultApi.md#health_health_get) | **GET** /health | Health
 *DefaultApi* | [**invite_member_web_web_members_invite_post**](docs/DefaultApi.md#invite_member_web_web_members_invite_post) | **POST** /web/members/invite | Invite Member Web
 *DefaultApi* | [**list_artifact_versions_v0_artifacts_art_id_versions_get**](docs/DefaultApi.md#list_artifact_versions_v0_artifacts_art_id_versions_get) | **GET** /v0/artifacts/{art_id}/versions | List versions of an artifact, newest first
@@ -168,9 +175,11 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**marketplace_detail_marketplace_slug_get**](docs/DefaultApi.md#marketplace_detail_marketplace_slug_get) | **GET** /marketplace/{slug} | Marketplace Detail
 *DefaultApi* | [**me_usage_v0_drives_me_usage_get**](docs/DefaultApi.md#me_usage_v0_drives_me_usage_get) | **GET** /v0/drives/me/usage | Current-period usage + caps for the authenticated drive
 *DefaultApi* | [**me_v0_drives_me_get**](docs/DefaultApi.md#me_v0_drives_me_get) | **GET** /v0/drives/me | Me
+*DefaultApi* | [**move_artifact_route_v0_artifacts_art_id_move_post**](docs/DefaultApi.md#move_artifact_route_v0_artifacts_art_id_move_post) | **POST** /v0/artifacts/{art_id}/move | Rename / move an artifact to a new path
 *DefaultApi* | [**move_folder_by_id_v0_folders_fld_id_move_post**](docs/DefaultApi.md#move_folder_by_id_v0_folders_fld_id_move_post) | **POST** /v0/folders/{fld_id}/move | Rename / move a folder by stable ID (cascade descendants)
 *DefaultApi* | [**move_folder_by_path_v0_folders_path_move_post**](docs/DefaultApi.md#move_folder_by_path_v0_folders_path_move_post) | **POST** /v0/folders/{path}/move | Rename / move a folder (cascade-update descendants)
 *DefaultApi* | [**oauth_disconnect_web_oauth_disconnect_post**](docs/DefaultApi.md#oauth_disconnect_web_oauth_disconnect_post) | **POST** /web/oauth/disconnect | Oauth Disconnect
+*DefaultApi* | [**patch_artifact_route_v0_artifacts_art_id_patch**](docs/DefaultApi.md#patch_artifact_route_v0_artifacts_art_id_patch) | **PATCH** /v0/artifacts/{art_id} | Edit artifact metadata (labels / metadata / source)
 *DefaultApi* | [**patch_folder_by_id_v0_folders_fld_id_patch**](docs/DefaultApi.md#patch_folder_by_id_v0_folders_fld_id_patch) | **PATCH** /v0/folders/{fld_id} | Update folder metadata by stable ID
 *DefaultApi* | [**patch_folder_by_path_v0_folders_path_patch**](docs/DefaultApi.md#patch_folder_by_path_v0_folders_path_patch) | **PATCH** /v0/folders/{path} | Update folder metadata by path
 *DefaultApi* | [**patch_grant_route_v0_grants_grn_id_patch**](docs/DefaultApi.md#patch_grant_route_v0_grants_grn_id_patch) | **PATCH** /v0/grants/{grn_id} | Update a grant&#39;s role and/or expiry (requires can_manage)
@@ -190,12 +199,13 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**redeem_share_s_share_key_get**](docs/DefaultApi.md#redeem_share_s_share_key_get) | **GET** /s/{share_key} | Redeem Share
 *DefaultApi* | [**redeem_share_with_password_s_share_key_post**](docs/DefaultApi.md#redeem_share_with_password_s_share_key_post) | **POST** /s/{share_key} | Redeem Share With Password
 *DefaultApi* | [**remove_member_web_web_members_target_user_id_remove_post**](docs/DefaultApi.md#remove_member_web_web_members_target_user_id_remove_post) | **POST** /web/members/{target_user_id}/remove | Remove Member Web
-*DefaultApi* | [**rename_artifact_route_v0_artifacts_art_id_patch**](docs/DefaultApi.md#rename_artifact_route_v0_artifacts_art_id_patch) | **PATCH** /v0/artifacts/{art_id} | Rename / move an artifact to a new path
 *DefaultApi* | [**rename_drive_web_web_drives_drive_id_rename_post**](docs/DefaultApi.md#rename_drive_web_web_drives_drive_id_rename_post) | **POST** /web/drives/{drive_id}/rename | Rename Drive Web
 *DefaultApi* | [**rename_workspace_web_web_workspaces_org_id_rename_post**](docs/DefaultApi.md#rename_workspace_web_web_workspaces_org_id_rename_post) | **POST** /web/workspaces/{org_id}/rename | Rename Workspace Web
 *DefaultApi* | [**resend_invitation_web_web_invitations_invitation_id_resend_post**](docs/DefaultApi.md#resend_invitation_web_web_invitations_invitation_id_resend_post) | **POST** /web/invitations/{invitation_id}/resend | Resend Invitation Web
 *DefaultApi* | [**restore_artifact_v0_artifacts_art_id_restore_post**](docs/DefaultApi.md#restore_artifact_v0_artifacts_art_id_restore_post) | **POST** /v0/artifacts/{art_id}/restore | Restore a soft-deleted artifact
+*DefaultApi* | [**restore_artifact_version_v0_artifacts_art_id_versions_version_number_restore_post**](docs/DefaultApi.md#restore_artifact_version_v0_artifacts_art_id_versions_version_number_restore_post) | **POST** /v0/artifacts/{art_id}/versions/{version_number}/restore | Restore a previous version as a new head version
 *DefaultApi* | [**restore_drive_route_v0_drives_drive_id_restore_post**](docs/DefaultApi.md#restore_drive_route_v0_drives_drive_id_restore_post) | **POST** /v0/drives/{drive_id}/restore | Restore a soft-deleted drive
+*DefaultApi* | [**restore_folder_by_id_v0_folders_fld_id_restore_post**](docs/DefaultApi.md#restore_folder_by_id_v0_folders_fld_id_restore_post) | **POST** /v0/folders/{fld_id}/restore | Restore a soft-deleted folder (cascade)
 *DefaultApi* | [**revoke_grant_web_share_rid_grant_grn_id_revoke_post**](docs/DefaultApi.md#revoke_grant_web_share_rid_grant_grn_id_revoke_post) | **POST** /web/share/{rid}/grant/{grn_id}/revoke | Revoke Grant
 *DefaultApi* | [**revoke_invitation_web_web_invitations_invitation_id_revoke_post**](docs/DefaultApi.md#revoke_invitation_web_web_invitations_invitation_id_revoke_post) | **POST** /web/invitations/{invitation_id}/revoke | Revoke Invitation Web
 *DefaultApi* | [**revoke_key_web_keys_revoke_post**](docs/DefaultApi.md#revoke_key_web_keys_revoke_post) | **POST** /web/keys/revoke | Revoke Key
@@ -211,12 +221,12 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**settings_quickstart_settings_quickstart_get**](docs/DefaultApi.md#settings_quickstart_settings_quickstart_get) | **GET** /settings/quickstart | Settings Quickstart
 *DefaultApi* | [**settings_workspace_settings_workspace_get**](docs/DefaultApi.md#settings_workspace_settings_workspace_get) | **GET** /settings/workspace | Settings Workspace
 *DefaultApi* | [**shared_files_shared_get**](docs/DefaultApi.md#shared_files_shared_get) | **GET** /shared | Shared Files
-*DefaultApi* | [**stream_upload_v0_upload_token_put**](docs/DefaultApi.md#stream_upload_v0_upload_token_put) | **PUT** /v0/upload/{token} | Proxied streaming upload (via an upload_url token)
 *DefaultApi* | [**switch_drive_web_switch_post**](docs/DefaultApi.md#switch_drive_web_switch_post) | **POST** /web/switch | Switch Drive
 *DefaultApi* | [**terms_page_terms_get**](docs/DefaultApi.md#terms_page_terms_get) | **GET** /terms | Terms Page
 *DefaultApi* | [**toggle_indexing_web_account_indexing_post**](docs/DefaultApi.md#toggle_indexing_web_account_indexing_post) | **POST** /web/account/indexing | Toggle Indexing
 *DefaultApi* | [**trash_web_trash_get**](docs/DefaultApi.md#trash_web_trash_get) | **GET** /web/trash | Trash
 *DefaultApi* | [**view_artifact_head_a_art_id_head_get**](docs/DefaultApi.md#view_artifact_head_a_art_id_head_get) | **GET** /a/{art_id}/head | View Artifact Head
+*DefaultApi* | [**view_artifact_version_v_art_id_version_get**](docs/DefaultApi.md#view_artifact_version_v_art_id_version_get) | **GET** /v/{art_id}/{version} | View Artifact Version
 *DefaultApi* | [**view_file_drive_id_path_get**](docs/DefaultApi.md#view_file_drive_id_path_get) | **GET** /{drive_id}/{path} | View File
 *DefaultApi* | [**view_permalink_artifact_a_art_id_get**](docs/DefaultApi.md#view_permalink_artifact_a_art_id_get) | **GET** /a/{art_id} | View Permalink Artifact
 *DefaultApi* | [**view_permalink_folder_f_fld_id_get**](docs/DefaultApi.md#view_permalink_folder_f_fld_id_get) | **GET** /f/{fld_id} | View Permalink Folder
@@ -265,7 +275,10 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [AnonymousIdentityResponse](docs/AnonymousIdentityResponse.md)
+ - [ArtifactDeleteOut](docs/ArtifactDeleteOut.md)
+ - [ArtifactMoveIn](docs/ArtifactMoveIn.md)
  - [ArtifactOut](docs/ArtifactOut.md)
+ - [ArtifactPatchIn](docs/ArtifactPatchIn.md)
  - [ArtifactSource](docs/ArtifactSource.md)
  - [ClaimInitRequest](docs/ClaimInitRequest.md)
  - [ClaimInitResponse](docs/ClaimInitResponse.md)
@@ -281,6 +294,7 @@ Class | Method | HTTP request | Description
  - [DriveApiKeyOut](docs/DriveApiKeyOut.md)
  - [DriveCreateIn](docs/DriveCreateIn.md)
  - [DriveCreateOut](docs/DriveCreateOut.md)
+ - [DriveDeleteOut](docs/DriveDeleteOut.md)
  - [DriveList](docs/DriveList.md)
  - [DriveOut](docs/DriveOut.md)
  - [DriveRenameIn](docs/DriveRenameIn.md)
@@ -288,13 +302,17 @@ Class | Method | HTTP request | Description
  - [EventPage](docs/EventPage.md)
  - [ExtensionExchangeRequest](docs/ExtensionExchangeRequest.md)
  - [ExtensionExchangeResponse](docs/ExtensionExchangeResponse.md)
+ - [FeedbackStatusOut](docs/FeedbackStatusOut.md)
  - [FindHitOut](docs/FindHitOut.md)
  - [FindPage](docs/FindPage.md)
+ - [FolderCopyIn](docs/FolderCopyIn.md)
+ - [FolderCopyOut](docs/FolderCopyOut.md)
  - [FolderCreateIn](docs/FolderCreateIn.md)
  - [FolderDeleteOut](docs/FolderDeleteOut.md)
  - [FolderMoveIn](docs/FolderMoveIn.md)
  - [FolderOut](docs/FolderOut.md)
  - [FolderPatchIn](docs/FolderPatchIn.md)
+ - [FolderRestoreOut](docs/FolderRestoreOut.md)
  - [GrantCreateIn](docs/GrantCreateIn.md)
  - [GrantIn](docs/GrantIn.md)
  - [GrantList](docs/GrantList.md)
@@ -311,12 +329,13 @@ Class | Method | HTTP request | Description
  - [MemberInviteIn](docs/MemberInviteIn.md)
  - [MemberList](docs/MemberList.md)
  - [MemberOut](docs/MemberOut.md)
+ - [MemberRemoveOut](docs/MemberRemoveOut.md)
  - [MemberRoleIn](docs/MemberRoleIn.md)
  - [Page](docs/Page.md)
  - [ProjectConfigIn](docs/ProjectConfigIn.md)
  - [PublicIn](docs/PublicIn.md)
  - [QueryIn](docs/QueryIn.md)
- - [RenameIn](docs/RenameIn.md)
+ - [RevokeOut](docs/RevokeOut.md)
  - [SealIn](docs/SealIn.md)
  - [SearchHitOut](docs/SearchHitOut.md)
  - [SearchPage](docs/SearchPage.md)
@@ -326,8 +345,10 @@ Class | Method | HTTP request | Description
  - [ShareOut](docs/ShareOut.md)
  - [SourceRef](docs/SourceRef.md)
  - [TokenResponse](docs/TokenResponse.md)
+ - [UploadAbortOut](docs/UploadAbortOut.md)
  - [UploadBeginIn](docs/UploadBeginIn.md)
  - [UploadBeginOut](docs/UploadBeginOut.md)
+ - [UploadStatusOut](docs/UploadStatusOut.md)
  - [UserTokenList](docs/UserTokenList.md)
  - [UserTokenOut](docs/UserTokenOut.md)
  - [ValidationError](docs/ValidationError.md)

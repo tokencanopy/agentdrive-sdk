@@ -22,6 +22,7 @@ var _ MappedNullable = &GrantList{}
 // GrantList struct for GrantList
 type GrantList struct {
 	Items []GrantOut `json:"items"`
+	NextCursor NullableString `json:"next_cursor,omitempty"`
 }
 
 type _GrantList GrantList
@@ -68,6 +69,48 @@ func (o *GrantList) SetItems(v []GrantOut) {
 	o.Items = v
 }
 
+// GetNextCursor returns the NextCursor field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *GrantList) GetNextCursor() string {
+	if o == nil || IsNil(o.NextCursor.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.NextCursor.Get()
+}
+
+// GetNextCursorOk returns a tuple with the NextCursor field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *GrantList) GetNextCursorOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.NextCursor.Get(), o.NextCursor.IsSet()
+}
+
+// HasNextCursor returns a boolean if a field has been set.
+func (o *GrantList) HasNextCursor() bool {
+	if o != nil && o.NextCursor.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetNextCursor gets a reference to the given NullableString and assigns it to the NextCursor field.
+func (o *GrantList) SetNextCursor(v string) {
+	o.NextCursor.Set(&v)
+}
+// SetNextCursorNil sets the value for NextCursor to be an explicit nil
+func (o *GrantList) SetNextCursorNil() {
+	o.NextCursor.Set(nil)
+}
+
+// UnsetNextCursor ensures that no value is present for NextCursor, not even an explicit nil
+func (o *GrantList) UnsetNextCursor() {
+	o.NextCursor.Unset()
+}
+
 func (o GrantList) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -79,6 +122,9 @@ func (o GrantList) MarshalJSON() ([]byte, error) {
 func (o GrantList) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["items"] = o.Items
+	if o.NextCursor.IsSet() {
+		toSerialize["next_cursor"] = o.NextCursor.Get()
+	}
 	return toSerialize, nil
 }
 

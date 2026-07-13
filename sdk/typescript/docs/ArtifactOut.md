@@ -16,6 +16,8 @@ Name | Type
 `sizeBytes` | number
 `hash` | string
 `versionNumber` | number
+`metageneration` | number
+`etag` | string
 `labels` | Array&lt;string&gt;
 `metadata` | { [key: string]: any; }
 `source` | [ArtifactSource](ArtifactSource.md)
@@ -42,6 +44,8 @@ const example = {
   "sizeBytes": null,
   "hash": null,
   "versionNumber": null,
+  "metageneration": null,
+  "etag": null,
   "labels": null,
   "metadata": null,
   "source": null,

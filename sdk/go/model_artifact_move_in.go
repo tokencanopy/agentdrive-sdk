@@ -16,36 +16,36 @@ import (
 	"fmt"
 )
 
-// checks if the RenameIn type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &RenameIn{}
+// checks if the ArtifactMoveIn type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ArtifactMoveIn{}
 
-// RenameIn PATCH /v0/artifacts/{art_id} body — rename / move.
-type RenameIn struct {
+// ArtifactMoveIn POST /v0/artifacts/{art_id}/move body — rename / move to a new path on the same drive. Mirrors `FolderMoveIn`; its own schema (vs. reusing another body) keeps the move surface self-documenting in the OpenAPI spec.
+type ArtifactMoveIn struct {
 	Path string `json:"path"`
 }
 
-type _RenameIn RenameIn
+type _ArtifactMoveIn ArtifactMoveIn
 
-// NewRenameIn instantiates a new RenameIn object
+// NewArtifactMoveIn instantiates a new ArtifactMoveIn object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRenameIn(path string) *RenameIn {
-	this := RenameIn{}
+func NewArtifactMoveIn(path string) *ArtifactMoveIn {
+	this := ArtifactMoveIn{}
 	this.Path = path
 	return &this
 }
 
-// NewRenameInWithDefaults instantiates a new RenameIn object
+// NewArtifactMoveInWithDefaults instantiates a new ArtifactMoveIn object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewRenameInWithDefaults() *RenameIn {
-	this := RenameIn{}
+func NewArtifactMoveInWithDefaults() *ArtifactMoveIn {
+	this := ArtifactMoveIn{}
 	return &this
 }
 
 // GetPath returns the Path field value
-func (o *RenameIn) GetPath() string {
+func (o *ArtifactMoveIn) GetPath() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -56,7 +56,7 @@ func (o *RenameIn) GetPath() string {
 
 // GetPathOk returns a tuple with the Path field value
 // and a boolean to check if the value has been set.
-func (o *RenameIn) GetPathOk() (*string, bool) {
+func (o *ArtifactMoveIn) GetPathOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -64,11 +64,11 @@ func (o *RenameIn) GetPathOk() (*string, bool) {
 }
 
 // SetPath sets field value
-func (o *RenameIn) SetPath(v string) {
+func (o *ArtifactMoveIn) SetPath(v string) {
 	o.Path = v
 }
 
-func (o RenameIn) MarshalJSON() ([]byte, error) {
+func (o ArtifactMoveIn) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -76,13 +76,13 @@ func (o RenameIn) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o RenameIn) ToMap() (map[string]interface{}, error) {
+func (o ArtifactMoveIn) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["path"] = o.Path
 	return toSerialize, nil
 }
 
-func (o *RenameIn) UnmarshalJSON(data []byte) (err error) {
+func (o *ArtifactMoveIn) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -104,53 +104,53 @@ func (o *RenameIn) UnmarshalJSON(data []byte) (err error) {
 		}
 	}
 
-	varRenameIn := _RenameIn{}
+	varArtifactMoveIn := _ArtifactMoveIn{}
 
 	decoder := json.NewDecoder(bytes.NewReader(data))
 	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varRenameIn)
+	err = decoder.Decode(&varArtifactMoveIn)
 
 	if err != nil {
 		return err
 	}
 
-	*o = RenameIn(varRenameIn)
+	*o = ArtifactMoveIn(varArtifactMoveIn)
 
 	return err
 }
 
-type NullableRenameIn struct {
-	value *RenameIn
+type NullableArtifactMoveIn struct {
+	value *ArtifactMoveIn
 	isSet bool
 }
 
-func (v NullableRenameIn) Get() *RenameIn {
+func (v NullableArtifactMoveIn) Get() *ArtifactMoveIn {
 	return v.value
 }
 
-func (v *NullableRenameIn) Set(val *RenameIn) {
+func (v *NullableArtifactMoveIn) Set(val *ArtifactMoveIn) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableRenameIn) IsSet() bool {
+func (v NullableArtifactMoveIn) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableRenameIn) Unset() {
+func (v *NullableArtifactMoveIn) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableRenameIn(val *RenameIn) *NullableRenameIn {
-	return &NullableRenameIn{value: val, isSet: true}
+func NewNullableArtifactMoveIn(val *ArtifactMoveIn) *NullableArtifactMoveIn {
+	return &NullableArtifactMoveIn{value: val, isSet: true}
 }
 
-func (v NullableRenameIn) MarshalJSON() ([]byte, error) {
+func (v NullableArtifactMoveIn) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableRenameIn) UnmarshalJSON(src []byte) error {
+func (v *NullableArtifactMoveIn) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
