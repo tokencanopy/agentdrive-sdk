@@ -73,12 +73,12 @@ export interface VersionOut {
  * Check if a given object implements the VersionOut interface.
  */
 export function instanceOfVersionOut(value: object): value is VersionOut {
-    if ((!('artId' in value) && !('art_id' in value)) || (value['artId'] === undefined && value['art_id'] === undefined)) return false;
-    if ((!('versionNumber' in value) && !('version_number' in value)) || (value['versionNumber'] === undefined && value['version_number'] === undefined)) return false;
-    if ((!('sizeBytes' in value) && !('size_bytes' in value)) || (value['sizeBytes'] === undefined && value['size_bytes'] === undefined)) return false;
+    if ((!('artId' in (value as Record<string, any>)) && !('art_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['artId'] === undefined && (value as Record<string, any>)['art_id'] === undefined)) return false;
+    if ((!('versionNumber' in (value as Record<string, any>)) && !('version_number' in (value as Record<string, any>))) || ((value as Record<string, any>)['versionNumber'] === undefined && (value as Record<string, any>)['version_number'] === undefined)) return false;
+    if ((!('sizeBytes' in (value as Record<string, any>)) && !('size_bytes' in (value as Record<string, any>))) || ((value as Record<string, any>)['sizeBytes'] === undefined && (value as Record<string, any>)['size_bytes'] === undefined)) return false;
     if (!('hash' in value) || value['hash'] === undefined) return false;
-    if ((!('contentType' in value) && !('content_type' in value)) || (value['contentType'] === undefined && value['content_type'] === undefined)) return false;
-    if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
+    if ((!('contentType' in (value as Record<string, any>)) && !('content_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['contentType'] === undefined && (value as Record<string, any>)['content_type'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
     return true;
 }
 
@@ -97,8 +97,8 @@ export function VersionOutFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'sizeBytes': json['size_bytes'],
         'hash': json['hash'],
         'contentType': json['content_type'],
-        'actorName': json['actor_name'] == null ? undefined : json['actor_name'],
-        'changeSummary': json['change_summary'] == null ? undefined : json['change_summary'],
+        'actorName': json['actor_name'] === undefined ? undefined : json['actor_name'] === null ? null : json['actor_name'],
+        'changeSummary': json['change_summary'] === undefined ? undefined : json['change_summary'] === null ? null : json['change_summary'],
         'createdAt': (new Date(json['created_at'])),
     };
 }

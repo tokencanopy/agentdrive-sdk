@@ -155,7 +155,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **jwks_well_known_jwks_json_get**
-> Dict[str, object] jwks_well_known_jwks_json_get()
+> Dict[str, Optional[object]] jwks_well_known_jwks_json_get()
 
 JSON Web Key Set — public keys for verifying AgentDrive JWTs
 
@@ -198,7 +198,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Dict[str, object]**
+**Dict[str, Optional[object]]**
 
 ### Authorization
 
@@ -295,7 +295,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **oauth_authorization_server_well_known_oauth_authorization_server_get**
-> Dict[str, object] oauth_authorization_server_well_known_oauth_authorization_server_get()
+> Dict[str, Optional[object]] oauth_authorization_server_well_known_oauth_authorization_server_get()
 
 Authorization-server metadata (RFC 8414 + auth.md agent_auth block)
 
@@ -338,7 +338,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Dict[str, object]**
+**Dict[str, Optional[object]]**
 
 ### Authorization
 
@@ -358,7 +358,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **oauth_protected_resource_mcp_well_known_oauth_protected_resource_mcp_get**
-> Dict[str, object] oauth_protected_resource_mcp_well_known_oauth_protected_resource_mcp_get()
+> Dict[str, Optional[object]] oauth_protected_resource_mcp_well_known_oauth_protected_resource_mcp_get()
 
 Protected-resource metadata for the MCP endpoint (RFC 9728 §3.1)
 
@@ -401,7 +401,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Dict[str, object]**
+**Dict[str, Optional[object]]**
 
 ### Authorization
 
@@ -421,7 +421,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **oauth_protected_resource_well_known_oauth_protected_resource_get**
-> Dict[str, object] oauth_protected_resource_well_known_oauth_protected_resource_get()
+> Dict[str, Optional[object]] oauth_protected_resource_well_known_oauth_protected_resource_get()
 
 Protected-resource metadata (auth.md / RFC 9728-like discovery)
 
@@ -464,7 +464,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Dict[str, object]**
+**Dict[str, Optional[object]]**
 
 ### Authorization
 
@@ -514,7 +514,7 @@ configuration = agentdrive_sdk.Configuration(
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.AgentAuthApi(api_client)
-    request_body = None # Dict[str, object] | 
+    request_body = None # Dict[str, Optional[object]] | 
 
     try:
         # Register an agent identity (anonymous or ID-JAG)
@@ -532,7 +532,7 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**Dict[str, object]**](object.md)|  | 
+ **request_body** | [**Dict[str, Optional[object]]**](object.md)|  | 
 
 ### Return type
 

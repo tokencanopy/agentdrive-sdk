@@ -149,7 +149,7 @@ No authorization required
 
 ## JwksWellKnownJwksJsonGet
 
-> map[string]interface{} JwksWellKnownJwksJsonGet(ctx).Execute()
+> map[string]*interface{} JwksWellKnownJwksJsonGet(ctx).Execute()
 
 JSON Web Key Set — public keys for verifying AgentDrive JWTs
 
@@ -176,7 +176,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `AgentAuthAPI.JwksWellKnownJwksJsonGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `JwksWellKnownJwksJsonGet`: map[string]interface{}
+	// response from `JwksWellKnownJwksJsonGet`: map[string]*interface{}
 	fmt.Fprintf(os.Stdout, "Response from `AgentAuthAPI.JwksWellKnownJwksJsonGet`: %v\n", resp)
 }
 ```
@@ -192,7 +192,7 @@ Other parameters are passed through a pointer to a apiJwksWellKnownJwksJsonGetRe
 
 ### Return type
 
-**map[string]interface{}**
+**map[string]*interface{}**
 
 ### Authorization
 
@@ -280,7 +280,7 @@ No authorization required
 
 ## OauthAuthorizationServerWellKnownOauthAuthorizationServerGet
 
-> map[string]interface{} OauthAuthorizationServerWellKnownOauthAuthorizationServerGet(ctx).Execute()
+> map[string]*interface{} OauthAuthorizationServerWellKnownOauthAuthorizationServerGet(ctx).Execute()
 
 Authorization-server metadata (RFC 8414 + auth.md agent_auth block)
 
@@ -307,7 +307,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `AgentAuthAPI.OauthAuthorizationServerWellKnownOauthAuthorizationServerGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `OauthAuthorizationServerWellKnownOauthAuthorizationServerGet`: map[string]interface{}
+	// response from `OauthAuthorizationServerWellKnownOauthAuthorizationServerGet`: map[string]*interface{}
 	fmt.Fprintf(os.Stdout, "Response from `AgentAuthAPI.OauthAuthorizationServerWellKnownOauthAuthorizationServerGet`: %v\n", resp)
 }
 ```
@@ -323,7 +323,7 @@ Other parameters are passed through a pointer to a apiOauthAuthorizationServerWe
 
 ### Return type
 
-**map[string]interface{}**
+**map[string]*interface{}**
 
 ### Authorization
 
@@ -341,7 +341,7 @@ No authorization required
 
 ## OauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGet
 
-> map[string]interface{} OauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGet(ctx).Execute()
+> map[string]*interface{} OauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGet(ctx).Execute()
 
 Protected-resource metadata for the MCP endpoint (RFC 9728 §3.1)
 
@@ -368,7 +368,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `AgentAuthAPI.OauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `OauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGet`: map[string]interface{}
+	// response from `OauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGet`: map[string]*interface{}
 	fmt.Fprintf(os.Stdout, "Response from `AgentAuthAPI.OauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGet`: %v\n", resp)
 }
 ```
@@ -384,7 +384,7 @@ Other parameters are passed through a pointer to a apiOauthProtectedResourceMcpW
 
 ### Return type
 
-**map[string]interface{}**
+**map[string]*interface{}**
 
 ### Authorization
 
@@ -402,7 +402,7 @@ No authorization required
 
 ## OauthProtectedResourceWellKnownOauthProtectedResourceGet
 
-> map[string]interface{} OauthProtectedResourceWellKnownOauthProtectedResourceGet(ctx).Execute()
+> map[string]*interface{} OauthProtectedResourceWellKnownOauthProtectedResourceGet(ctx).Execute()
 
 Protected-resource metadata (auth.md / RFC 9728-like discovery)
 
@@ -429,7 +429,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `AgentAuthAPI.OauthProtectedResourceWellKnownOauthProtectedResourceGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `OauthProtectedResourceWellKnownOauthProtectedResourceGet`: map[string]interface{}
+	// response from `OauthProtectedResourceWellKnownOauthProtectedResourceGet`: map[string]*interface{}
 	fmt.Fprintf(os.Stdout, "Response from `AgentAuthAPI.OauthProtectedResourceWellKnownOauthProtectedResourceGet`: %v\n", resp)
 }
 ```
@@ -445,7 +445,7 @@ Other parameters are passed through a pointer to a apiOauthProtectedResourceWell
 
 ### Return type
 
-**map[string]interface{}**
+**map[string]*interface{}**
 
 ### Authorization
 
@@ -482,7 +482,7 @@ import (
 )
 
 func main() {
-	requestBody := map[string]interface{}{"key": interface{}(123)} // map[string]interface{} | 
+	requestBody := map[string]*interface{}{"key": interface{}(123)} // map[string]*interface{} | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

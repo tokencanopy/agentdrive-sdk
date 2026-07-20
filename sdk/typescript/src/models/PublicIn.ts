@@ -31,7 +31,7 @@ export interface PublicIn {
  * Check if a given object implements the PublicIn interface.
  */
 export function instanceOfPublicIn(value: object): value is PublicIn {
-    if ((!('_public' in value) && !('public' in value)) || (value['_public'] === undefined && value['public'] === undefined)) return false;
+    if ((!('_public' in (value as Record<string, any>)) && !('public' in (value as Record<string, any>))) || ((value as Record<string, any>)['_public'] === undefined && (value as Record<string, any>)['public'] === undefined)) return false;
     return true;
 }
 

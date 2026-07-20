@@ -58,9 +58,9 @@ export interface DriveApiKeyCreateOut {
  */
 export function instanceOfDriveApiKeyCreateOut(value: object): value is DriveApiKeyCreateOut {
     if (!('id' in value) || value['id'] === undefined) return false;
-    if ((!('apiKey' in value) && !('api_key' in value)) || (value['apiKey'] === undefined && value['api_key'] === undefined)) return false;
+    if ((!('apiKey' in (value as Record<string, any>)) && !('api_key' in (value as Record<string, any>))) || ((value as Record<string, any>)['apiKey'] === undefined && (value as Record<string, any>)['api_key'] === undefined)) return false;
     if (!('prefix' in value) || value['prefix'] === undefined) return false;
-    if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
     return true;
 }
 
@@ -77,7 +77,7 @@ export function DriveApiKeyCreateOutFromJSONTyped(json: any, ignoreDiscriminator
         'id': json['id'],
         'apiKey': json['api_key'],
         'prefix': json['prefix'],
-        'label': json['label'] == null ? undefined : json['label'],
+        'label': json['label'] === undefined ? undefined : json['label'] === null ? null : json['label'],
         'createdAt': (new Date(json['created_at'])),
     };
 }

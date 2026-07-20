@@ -31,7 +31,7 @@ export interface SealIn {
  * Check if a given object implements the SealIn interface.
  */
 export function instanceOfSealIn(value: object): value is SealIn {
-    if ((!('inheritGrants' in value) && !('inherit_grants' in value)) || (value['inheritGrants'] === undefined && value['inherit_grants'] === undefined)) return false;
+    if ((!('inheritGrants' in (value as Record<string, any>)) && !('inherit_grants' in (value as Record<string, any>))) || ((value as Record<string, any>)['inheritGrants'] === undefined && (value as Record<string, any>)['inherit_grants'] === undefined)) return false;
     return true;
 }
 

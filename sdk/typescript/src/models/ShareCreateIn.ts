@@ -79,8 +79,8 @@ export function ShareCreateInFromJSONTyped(json: any, ignoreDiscriminator: boole
         
         'resource': json['resource'],
         'role': json['role'] == null ? undefined : json['role'],
-        'expiresIn': json['expires_in'] == null ? undefined : json['expires_in'],
-        'password': json['password'] == null ? undefined : json['password'],
+        'expiresIn': json['expires_in'] === undefined ? undefined : json['expires_in'] === null ? null : json['expires_in'],
+        'password': json['password'] === undefined ? undefined : json['password'] === null ? null : json['password'],
     };
 }
 

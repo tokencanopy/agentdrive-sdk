@@ -53,8 +53,8 @@ export function FolderPatchInFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         
-        'description': json['description'] == null ? undefined : json['description'],
-        'inheritGrants': json['inherit_grants'] == null ? undefined : json['inherit_grants'],
+        'description': json['description'] === undefined ? undefined : json['description'] === null ? null : json['description'],
+        'inheritGrants': json['inherit_grants'] === undefined ? undefined : json['inherit_grants'] === null ? null : json['inherit_grants'],
     };
 }
 

@@ -68,9 +68,9 @@ export interface EventOut {
  */
 export function instanceOfEventOut(value: object): value is EventOut {
     if (!('id' in value) || value['id'] === undefined) return false;
-    if ((!('driveId' in value) && !('drive_id' in value)) || (value['driveId'] === undefined && value['drive_id'] === undefined)) return false;
+    if ((!('driveId' in (value as Record<string, any>)) && !('drive_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['driveId'] === undefined && (value as Record<string, any>)['drive_id'] === undefined)) return false;
     if (!('action' in value) || value['action'] === undefined) return false;
-    if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
     return true;
 }
 
@@ -86,8 +86,8 @@ export function EventOutFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         
         'id': json['id'],
         'driveId': json['drive_id'],
-        'artId': json['art_id'] == null ? undefined : json['art_id'],
-        'actorName': json['actor_name'] == null ? undefined : json['actor_name'],
+        'artId': json['art_id'] === undefined ? undefined : json['art_id'] === null ? null : json['art_id'],
+        'actorName': json['actor_name'] === undefined ? undefined : json['actor_name'] === null ? null : json['actor_name'],
         'action': json['action'],
         'metadata': json['metadata'] == null ? undefined : json['metadata'],
         'createdAt': (new Date(json['created_at'])),

@@ -3405,17 +3405,17 @@ async function example() {
 
   const body = {
     // string
-    csrf: csrf_example,
+    csrf: 'csrf_example',
     // string (optional)
-    category: category_example,
+    category: 'category_example',
     // string (optional)
-    title: title_example,
+    title: 'title_example',
     // string (optional)
-    message: message_example,
+    message: 'message_example',
     // string (optional)
-    contact: contact_example,
+    contact: 'contact_example',
     // Array<Blob> (optional)
-    attachments: /path/to/file.txt,
+    attachments: [new Blob(['example file content'], { type: 'application/octet-stream' })],
   } satisfies FeedbackSubmitFeedbackPostRequest;
 
   try {
@@ -9513,7 +9513,7 @@ No authorization required
 
 View Artifact Version
 
-Render version &#x60;version&#x60; of an artifact, read-only.  Authorization is byte-for-byte identical to viewing the artifact via &#x60;/a/{art_id}&#x60;: the same drive-blind &#x60;can_read&#x60; gate runs, so a viewer who can see the artifact can see its versions, and one who cannot gets the identical sign-in-or-404 response (no existence leak). A pruned or never-existed version renders a friendly unavailable state, never a 500. &#x60;?raw&#x3D;1&#x60; / &#x60;?download&#x3D;1&#x60; stream the version\&#39;s bytes (powering the bar\&#39;s Raw / Download buttons) with the same sandbox+nosniff headers as the head raw path.
+Render version &#x60;version&#x60; of an artifact, read-only.  Version history is owner-only. The drive-blind &#x60;can_read&#x60; gate still provides the same sign-in-or-404 masking as &#x60;/a/{art_id}&#x60;, but readable non-owners cannot browse snapshots. A pruned or never-existed version renders a friendly unavailable state, never a 500. &#x60;?raw&#x3D;1&#x60; / &#x60;?download&#x3D;1&#x60; stream the version\&#39;s bytes (powering the bar\&#39;s Raw / Download buttons) with the same sandbox+nosniff headers as the head raw path.
 
 ### Example
 

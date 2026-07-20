@@ -138,13 +138,13 @@ export type GrantOutRoleEnum = typeof GrantOutRoleEnum[keyof typeof GrantOutRole
  */
 export function instanceOfGrantOut(value: object): value is GrantOut {
     if (!('id' in value) || value['id'] === undefined) return false;
-    if ((!('resourceType' in value) && !('resource_type' in value)) || (value['resourceType'] === undefined && value['resource_type'] === undefined)) return false;
-    if ((!('resourceId' in value) && !('resource_id' in value)) || (value['resourceId'] === undefined && value['resource_id'] === undefined)) return false;
-    if ((!('principalType' in value) && !('principal_type' in value)) || (value['principalType'] === undefined && value['principal_type'] === undefined)) return false;
+    if ((!('resourceType' in (value as Record<string, any>)) && !('resource_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['resourceType'] === undefined && (value as Record<string, any>)['resource_type'] === undefined)) return false;
+    if ((!('resourceId' in (value as Record<string, any>)) && !('resource_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['resourceId'] === undefined && (value as Record<string, any>)['resource_id'] === undefined)) return false;
+    if ((!('principalType' in (value as Record<string, any>)) && !('principal_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['principalType'] === undefined && (value as Record<string, any>)['principal_type'] === undefined)) return false;
     if (!('role' in value) || value['role'] === undefined) return false;
-    if ((!('grantedByType' in value) && !('granted_by_type' in value)) || (value['grantedByType'] === undefined && value['granted_by_type'] === undefined)) return false;
-    if ((!('grantedById' in value) && !('granted_by_id' in value)) || (value['grantedById'] === undefined && value['granted_by_id'] === undefined)) return false;
-    if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
+    if ((!('grantedByType' in (value as Record<string, any>)) && !('granted_by_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['grantedByType'] === undefined && (value as Record<string, any>)['granted_by_type'] === undefined)) return false;
+    if ((!('grantedById' in (value as Record<string, any>)) && !('granted_by_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['grantedById'] === undefined && (value as Record<string, any>)['granted_by_id'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
     return true;
 }
 
@@ -162,15 +162,15 @@ export function GrantOutFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'resourceType': json['resource_type'],
         'resourceId': json['resource_id'],
         'principalType': json['principal_type'],
-        'principalId': json['principal_id'] == null ? undefined : json['principal_id'],
-        'principalEmail': json['principal_email'] == null ? undefined : json['principal_email'],
+        'principalId': json['principal_id'] === undefined ? undefined : json['principal_id'] === null ? null : json['principal_id'],
+        'principalEmail': json['principal_email'] === undefined ? undefined : json['principal_email'] === null ? null : json['principal_email'],
         'role': json['role'],
         'grantedByType': json['granted_by_type'],
         'grantedById': json['granted_by_id'],
-        'onBehalfOf': json['on_behalf_of'] == null ? undefined : json['on_behalf_of'],
+        'onBehalfOf': json['on_behalf_of'] === undefined ? undefined : json['on_behalf_of'] === null ? null : json['on_behalf_of'],
         'createdAt': (new Date(json['created_at'])),
-        'expiresAt': json['expires_at'] == null ? undefined : (new Date(json['expires_at'])),
-        'artifactsAffected': json['artifacts_affected'] == null ? undefined : json['artifacts_affected'],
+        'expiresAt': json['expires_at'] === undefined ? undefined : json['expires_at'] === null ? null : (new Date(json['expires_at'])),
+        'artifactsAffected': json['artifacts_affected'] === undefined ? undefined : json['artifacts_affected'] === null ? null : json['artifacts_affected'],
     };
 }
 

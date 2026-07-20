@@ -65,8 +65,8 @@ export interface ArtifactDeleteOut {
 export function instanceOfArtifactDeleteOut(value: object): value is ArtifactDeleteOut {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('path' in value) || value['path'] === undefined) return false;
-    if ((!('deletedAt' in value) && !('deleted_at' in value)) || (value['deletedAt'] === undefined && value['deleted_at'] === undefined)) return false;
-    if ((!('purgeAt' in value) && !('purge_at' in value)) || (value['purgeAt'] === undefined && value['purge_at'] === undefined)) return false;
+    if ((!('deletedAt' in (value as Record<string, any>)) && !('deleted_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['deletedAt'] === undefined && (value as Record<string, any>)['deleted_at'] === undefined)) return false;
+    if ((!('purgeAt' in (value as Record<string, any>)) && !('purge_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['purgeAt'] === undefined && (value as Record<string, any>)['purge_at'] === undefined)) return false;
     return true;
 }
 
@@ -85,7 +85,7 @@ export function ArtifactDeleteOutFromJSONTyped(json: any, ignoreDiscriminator: b
         'path': json['path'],
         'deletedAt': (new Date(json['deleted_at'])),
         'purgeAt': (new Date(json['purge_at'])),
-        'restoreUrl': json['restore_url'] == null ? undefined : json['restore_url'],
+        'restoreUrl': json['restore_url'] === undefined ? undefined : json['restore_url'] === null ? null : json['restore_url'],
     };
 }
 

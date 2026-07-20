@@ -54,8 +54,8 @@ export interface WorkspaceCreateOut {
  */
 export function instanceOfWorkspaceCreateOut(value: object): value is WorkspaceCreateOut {
     if (!('workspace' in value) || value['workspace'] === undefined) return false;
-    if ((!('starterDriveId' in value) && !('starter_drive_id' in value)) || (value['starterDriveId'] === undefined && value['starter_drive_id'] === undefined)) return false;
-    if ((!('starterDriveApiKey' in value) && !('starter_drive_api_key' in value)) || (value['starterDriveApiKey'] === undefined && value['starter_drive_api_key'] === undefined)) return false;
+    if ((!('starterDriveId' in (value as Record<string, any>)) && !('starter_drive_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['starterDriveId'] === undefined && (value as Record<string, any>)['starter_drive_id'] === undefined)) return false;
+    if ((!('starterDriveApiKey' in (value as Record<string, any>)) && !('starter_drive_api_key' in (value as Record<string, any>))) || ((value as Record<string, any>)['starterDriveApiKey'] === undefined && (value as Record<string, any>)['starter_drive_api_key'] === undefined)) return false;
     return true;
 }
 

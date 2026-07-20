@@ -102,14 +102,14 @@ export type UploadStatusOutStateEnum = typeof UploadStatusOutStateEnum[keyof typ
  * Check if a given object implements the UploadStatusOut interface.
  */
 export function instanceOfUploadStatusOut(value: object): value is UploadStatusOut {
-    if ((!('uploadId' in value) && !('upload_id' in value)) || (value['uploadId'] === undefined && value['upload_id'] === undefined)) return false;
+    if ((!('uploadId' in (value as Record<string, any>)) && !('upload_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['uploadId'] === undefined && (value as Record<string, any>)['upload_id'] === undefined)) return false;
     if (!('path' in value) || value['path'] === undefined) return false;
-    if ((!('contentType' in value) && !('content_type' in value)) || (value['contentType'] === undefined && value['content_type'] === undefined)) return false;
-    if ((!('sizeBytes' in value) && !('size_bytes' in value)) || (value['sizeBytes'] === undefined && value['size_bytes'] === undefined)) return false;
+    if ((!('contentType' in (value as Record<string, any>)) && !('content_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['contentType'] === undefined && (value as Record<string, any>)['content_type'] === undefined)) return false;
+    if ((!('sizeBytes' in (value as Record<string, any>)) && !('size_bytes' in (value as Record<string, any>))) || ((value as Record<string, any>)['sizeBytes'] === undefined && (value as Record<string, any>)['size_bytes'] === undefined)) return false;
     if (!('state' in value) || value['state'] === undefined) return false;
-    if ((!('maxBytes' in value) && !('max_bytes' in value)) || (value['maxBytes'] === undefined && value['max_bytes'] === undefined)) return false;
-    if ((!('expiresAt' in value) && !('expires_at' in value)) || (value['expiresAt'] === undefined && value['expires_at'] === undefined)) return false;
-    if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
+    if ((!('maxBytes' in (value as Record<string, any>)) && !('max_bytes' in (value as Record<string, any>))) || ((value as Record<string, any>)['maxBytes'] === undefined && (value as Record<string, any>)['max_bytes'] === undefined)) return false;
+    if ((!('expiresAt' in (value as Record<string, any>)) && !('expires_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['expiresAt'] === undefined && (value as Record<string, any>)['expires_at'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
     return true;
 }
 
@@ -131,7 +131,7 @@ export function UploadStatusOutFromJSONTyped(json: any, ignoreDiscriminator: boo
         'maxBytes': json['max_bytes'],
         'expiresAt': (new Date(json['expires_at'])),
         'createdAt': (new Date(json['created_at'])),
-        'committedAt': json['committed_at'] == null ? undefined : (new Date(json['committed_at'])),
+        'committedAt': json['committed_at'] === undefined ? undefined : json['committed_at'] === null ? null : (new Date(json['committed_at'])),
     };
 }
 

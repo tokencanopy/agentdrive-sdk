@@ -91,16 +91,16 @@ export interface SearchHitOut {
  * Check if a given object implements the SearchHitOut interface.
  */
 export function instanceOfSearchHitOut(value: object): value is SearchHitOut {
-    if ((!('artId' in value) && !('art_id' in value)) || (value['artId'] === undefined && value['art_id'] === undefined)) return false;
-    if ((!('driveId' in value) && !('drive_id' in value)) || (value['driveId'] === undefined && value['drive_id'] === undefined)) return false;
+    if ((!('artId' in (value as Record<string, any>)) && !('art_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['artId'] === undefined && (value as Record<string, any>)['art_id'] === undefined)) return false;
+    if ((!('driveId' in (value as Record<string, any>)) && !('drive_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['driveId'] === undefined && (value as Record<string, any>)['drive_id'] === undefined)) return false;
     if (!('path' in value) || value['path'] === undefined) return false;
     if (!('url' in value) || value['url'] === undefined) return false;
-    if ((!('contentType' in value) && !('content_type' in value)) || (value['contentType'] === undefined && value['content_type'] === undefined)) return false;
-    if ((!('fileType' in value) && !('file_type' in value)) || (value['fileType'] === undefined && value['file_type'] === undefined)) return false;
+    if ((!('contentType' in (value as Record<string, any>)) && !('content_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['contentType'] === undefined && (value as Record<string, any>)['content_type'] === undefined)) return false;
+    if ((!('fileType' in (value as Record<string, any>)) && !('file_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['fileType'] === undefined && (value as Record<string, any>)['file_type'] === undefined)) return false;
     if (!('snippet' in value) || value['snippet'] === undefined) return false;
     if (!('score' in value) || value['score'] === undefined) return false;
-    if ((!('updatedAt' in value) && !('updated_at' in value)) || (value['updatedAt'] === undefined && value['updated_at'] === undefined)) return false;
-    if ((!('versionNumber' in value) && !('version_number' in value)) || (value['versionNumber'] === undefined && value['version_number'] === undefined)) return false;
+    if ((!('updatedAt' in (value as Record<string, any>)) && !('updated_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['updatedAt'] === undefined && (value as Record<string, any>)['updated_at'] === undefined)) return false;
+    if ((!('versionNumber' in (value as Record<string, any>)) && !('version_number' in (value as Record<string, any>))) || ((value as Record<string, any>)['versionNumber'] === undefined && (value as Record<string, any>)['version_number'] === undefined)) return false;
     return true;
 }
 

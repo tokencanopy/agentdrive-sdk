@@ -39,7 +39,7 @@ export interface ExtensionExchangeRequest {
  * Check if a given object implements the ExtensionExchangeRequest interface.
  */
 export function instanceOfExtensionExchangeRequest(value: object): value is ExtensionExchangeRequest {
-    if ((!('extId' in value) && !('ext_id' in value)) || (value['extId'] === undefined && value['ext_id'] === undefined)) return false;
+    if ((!('extId' in (value as Record<string, any>)) && !('ext_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['extId'] === undefined && (value as Record<string, any>)['ext_id'] === undefined)) return false;
     if (!('ticket' in value) || value['ticket'] === undefined) return false;
     return true;
 }

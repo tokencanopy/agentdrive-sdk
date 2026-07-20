@@ -64,7 +64,7 @@ export interface Oauth2TokenOauth2TokenPostRequest {
 }
 
 export interface RegisterAgentIdentityAgentIdentityPostRequest {
-    requestBody: { [key: string]: any; };
+    requestBody: { [key: string]: any | null; };
 }
 
 /**
@@ -193,7 +193,7 @@ export class AgentAuthApi extends runtime.BaseAPI {
      * Public half of the RSA signing key for identity_assertion + access_token JWTs issued by AgentDrive. RFC 7517 shape. Cache-friendly; key rotation publishes both kids during the overlap window.
      * JSON Web Key Set — public keys for verifying AgentDrive JWTs
      */
-    async jwksWellKnownJwksJsonGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: any; }>> {
+    async jwksWellKnownJwksJsonGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: any | null; }>> {
         const requestOptions = await this.jwksWellKnownJwksJsonGetRequestOpts();
         const response = await this.request(requestOptions, initOverrides);
 
@@ -204,7 +204,7 @@ export class AgentAuthApi extends runtime.BaseAPI {
      * Public half of the RSA signing key for identity_assertion + access_token JWTs issued by AgentDrive. RFC 7517 shape. Cache-friendly; key rotation publishes both kids during the overlap window.
      * JSON Web Key Set — public keys for verifying AgentDrive JWTs
      */
-    async jwksWellKnownJwksJsonGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: any; }> {
+    async jwksWellKnownJwksJsonGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: any | null; }> {
         const response = await this.jwksWellKnownJwksJsonGetRaw(initOverrides);
         return await response.value();
     }
@@ -305,7 +305,7 @@ export class AgentAuthApi extends runtime.BaseAPI {
      * Discovery document for the auth.md protocol. Carries the standard RFC 8414 fields plus an `agent_auth` block per the auth.md spec — the latter is what an agent runtime keys off to find the identity + claim endpoints.
      * Authorization-server metadata (RFC 8414 + auth.md agent_auth block)
      */
-    async oauthAuthorizationServerWellKnownOauthAuthorizationServerGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: any; }>> {
+    async oauthAuthorizationServerWellKnownOauthAuthorizationServerGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: any | null; }>> {
         const requestOptions = await this.oauthAuthorizationServerWellKnownOauthAuthorizationServerGetRequestOpts();
         const response = await this.request(requestOptions, initOverrides);
 
@@ -316,7 +316,7 @@ export class AgentAuthApi extends runtime.BaseAPI {
      * Discovery document for the auth.md protocol. Carries the standard RFC 8414 fields plus an `agent_auth` block per the auth.md spec — the latter is what an agent runtime keys off to find the identity + claim endpoints.
      * Authorization-server metadata (RFC 8414 + auth.md agent_auth block)
      */
-    async oauthAuthorizationServerWellKnownOauthAuthorizationServerGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: any; }> {
+    async oauthAuthorizationServerWellKnownOauthAuthorizationServerGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: any | null; }> {
         const response = await this.oauthAuthorizationServerWellKnownOauthAuthorizationServerGetRaw(initOverrides);
         return await response.value();
     }
@@ -344,7 +344,7 @@ export class AgentAuthApi extends runtime.BaseAPI {
      * Path-inserted variant of the protected-resource document. MCP clients derive this URL from the resource URL `{origin}/mcp` (RFC 9728 §3.1: insert the well-known segment between host and path) after reading the WWW-Authenticate challenge on a 401 — it is the first hop of the client-side OAuth flow.
      * Protected-resource metadata for the MCP endpoint (RFC 9728 §3.1)
      */
-    async oauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: any; }>> {
+    async oauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: any | null; }>> {
         const requestOptions = await this.oauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGetRequestOpts();
         const response = await this.request(requestOptions, initOverrides);
 
@@ -355,7 +355,7 @@ export class AgentAuthApi extends runtime.BaseAPI {
      * Path-inserted variant of the protected-resource document. MCP clients derive this URL from the resource URL `{origin}/mcp` (RFC 9728 §3.1: insert the well-known segment between host and path) after reading the WWW-Authenticate challenge on a 401 — it is the first hop of the client-side OAuth flow.
      * Protected-resource metadata for the MCP endpoint (RFC 9728 §3.1)
      */
-    async oauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: any; }> {
+    async oauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: any | null; }> {
         const response = await this.oauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGetRaw(initOverrides);
         return await response.value();
     }
@@ -383,7 +383,7 @@ export class AgentAuthApi extends runtime.BaseAPI {
      * Names this server as a protected resource and points clients at the authorization server they should obtain tokens from. In this design the resource server and authorization server are the same host.
      * Protected-resource metadata (auth.md / RFC 9728-like discovery)
      */
-    async oauthProtectedResourceWellKnownOauthProtectedResourceGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: any; }>> {
+    async oauthProtectedResourceWellKnownOauthProtectedResourceGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: any | null; }>> {
         const requestOptions = await this.oauthProtectedResourceWellKnownOauthProtectedResourceGetRequestOpts();
         const response = await this.request(requestOptions, initOverrides);
 
@@ -394,7 +394,7 @@ export class AgentAuthApi extends runtime.BaseAPI {
      * Names this server as a protected resource and points clients at the authorization server they should obtain tokens from. In this design the resource server and authorization server are the same host.
      * Protected-resource metadata (auth.md / RFC 9728-like discovery)
      */
-    async oauthProtectedResourceWellKnownOauthProtectedResourceGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: any; }> {
+    async oauthProtectedResourceWellKnownOauthProtectedResourceGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: any | null; }> {
         const response = await this.oauthProtectedResourceWellKnownOauthProtectedResourceGetRaw(initOverrides);
         return await response.value();
     }

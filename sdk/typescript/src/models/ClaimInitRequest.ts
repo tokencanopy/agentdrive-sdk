@@ -37,7 +37,7 @@ export interface ClaimInitRequest {
  * Check if a given object implements the ClaimInitRequest interface.
  */
 export function instanceOfClaimInitRequest(value: object): value is ClaimInitRequest {
-    if ((!('claimToken' in value) && !('claim_token' in value)) || (value['claimToken'] === undefined && value['claim_token'] === undefined)) return false;
+    if ((!('claimToken' in (value as Record<string, any>)) && !('claim_token' in (value as Record<string, any>))) || ((value as Record<string, any>)['claimToken'] === undefined && (value as Record<string, any>)['claim_token'] === undefined)) return false;
     return true;
 }
 
@@ -52,7 +52,7 @@ export function ClaimInitRequestFromJSONTyped(json: any, ignoreDiscriminator: bo
     return {
         
         'claimToken': json['claim_token'],
-        'email': json['email'] == null ? undefined : json['email'],
+        'email': json['email'] === undefined ? undefined : json['email'] === null ? null : json['email'],
     };
 }
 

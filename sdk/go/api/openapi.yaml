@@ -4252,7 +4252,8 @@ paths:
           content:
             application/json:
               schema:
-                additionalProperties: {}
+                additionalProperties:
+                  nullable: true
                 title: Response Jwks  Well Known Jwks Json Get
           description: Successful Response
       summary: JSON Web Key Set — public keys for verifying AgentDrive JWTs
@@ -4269,7 +4270,8 @@ paths:
           content:
             application/json:
               schema:
-                additionalProperties: {}
+                additionalProperties:
+                  nullable: true
                 title: Response Oauth Protected Resource  Well Known Oauth Protected
                   Resource Get
           description: Successful Response
@@ -4289,7 +4291,8 @@ paths:
           content:
             application/json:
               schema:
-                additionalProperties: {}
+                additionalProperties:
+                  nullable: true
                 title: Response Oauth Protected Resource Mcp  Well Known Oauth Protected
                   Resource Mcp Get
           description: Successful Response
@@ -4307,7 +4310,8 @@ paths:
           content:
             application/json:
               schema:
-                additionalProperties: {}
+                additionalProperties:
+                  nullable: true
                 title: Response Oauth Authorization Server  Well Known Oauth Authorization
                   Server Get
           description: Successful Response
@@ -4327,7 +4331,8 @@ paths:
         content:
           application/json:
             schema:
-              additionalProperties: {}
+              additionalProperties:
+                nullable: true
               title: Body
         required: true
       responses:
@@ -7083,11 +7088,10 @@ paths:
       description: |-
         Render version `version` of an artifact, read-only.
 
-        Authorization is byte-for-byte identical to viewing the artifact via
-        `/a/{art_id}`: the same drive-blind `can_read` gate runs, so a viewer
-        who can see the artifact can see its versions, and one who cannot gets
-        the identical sign-in-or-404 response (no existence leak). A pruned or
-        never-existed version renders a friendly unavailable state, never a 500.
+        Version history is owner-only. The drive-blind `can_read` gate still
+        provides the same sign-in-or-404 masking as `/a/{art_id}`, but readable
+        non-owners cannot browse snapshots. A pruned or never-existed version
+        renders a friendly unavailable state, never a 500.
         `?raw=1` / `?download=1` stream the version's bytes (powering the bar's
         Raw / Download buttons) with the same sandbox+nosniff headers as the
         head raw path.

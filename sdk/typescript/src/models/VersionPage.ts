@@ -66,8 +66,8 @@ export function VersionPageFromJSONTyped(json: any, ignoreDiscriminator: boolean
     return {
         
         'items': ((json['items'] as Array<any>).map(VersionOutFromJSON)),
-        'nextCursor': json['next_cursor'] == null ? undefined : json['next_cursor'],
-        'prunedBefore': json['pruned_before'] == null ? undefined : json['pruned_before'],
+        'nextCursor': json['next_cursor'] === undefined ? undefined : json['next_cursor'] === null ? null : json['next_cursor'],
+        'prunedBefore': json['pruned_before'] === undefined ? undefined : json['pruned_before'] === null ? null : json['pruned_before'],
     };
 }
 

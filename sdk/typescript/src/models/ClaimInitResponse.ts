@@ -55,11 +55,11 @@ export interface ClaimInitResponse {
  * Check if a given object implements the ClaimInitResponse interface.
  */
 export function instanceOfClaimInitResponse(value: object): value is ClaimInitResponse {
-    if ((!('claimAttemptToken' in value) && !('claim_attempt_token' in value)) || (value['claimAttemptToken'] === undefined && value['claim_attempt_token'] === undefined)) return false;
-    if ((!('userCode' in value) && !('user_code' in value)) || (value['userCode'] === undefined && value['user_code'] === undefined)) return false;
-    if ((!('verificationUri' in value) && !('verification_uri' in value)) || (value['verificationUri'] === undefined && value['verification_uri'] === undefined)) return false;
-    if ((!('verificationUriComplete' in value) && !('verification_uri_complete' in value)) || (value['verificationUriComplete'] === undefined && value['verification_uri_complete'] === undefined)) return false;
-    if ((!('expiresAt' in value) && !('expires_at' in value)) || (value['expiresAt'] === undefined && value['expires_at'] === undefined)) return false;
+    if ((!('claimAttemptToken' in (value as Record<string, any>)) && !('claim_attempt_token' in (value as Record<string, any>))) || ((value as Record<string, any>)['claimAttemptToken'] === undefined && (value as Record<string, any>)['claim_attempt_token'] === undefined)) return false;
+    if ((!('userCode' in (value as Record<string, any>)) && !('user_code' in (value as Record<string, any>))) || ((value as Record<string, any>)['userCode'] === undefined && (value as Record<string, any>)['user_code'] === undefined)) return false;
+    if ((!('verificationUri' in (value as Record<string, any>)) && !('verification_uri' in (value as Record<string, any>))) || ((value as Record<string, any>)['verificationUri'] === undefined && (value as Record<string, any>)['verification_uri'] === undefined)) return false;
+    if ((!('verificationUriComplete' in (value as Record<string, any>)) && !('verification_uri_complete' in (value as Record<string, any>))) || ((value as Record<string, any>)['verificationUriComplete'] === undefined && (value as Record<string, any>)['verification_uri_complete'] === undefined)) return false;
+    if ((!('expiresAt' in (value as Record<string, any>)) && !('expires_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['expiresAt'] === undefined && (value as Record<string, any>)['expires_at'] === undefined)) return false;
     return true;
 }
 

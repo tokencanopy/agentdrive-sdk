@@ -79,8 +79,8 @@ export function instanceOfFeedbackStatusOut(value: object): value is FeedbackSta
     if (!('kind' in value) || value['kind'] === undefined) return false;
     if (!('title' in value) || value['title'] === undefined) return false;
     if (!('contact' in value) || value['contact'] === undefined) return false;
-    if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
-    if ((!('statusChangedAt' in value) && !('status_changed_at' in value)) || (value['statusChangedAt'] === undefined && value['status_changed_at'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
+    if ((!('statusChangedAt' in (value as Record<string, any>)) && !('status_changed_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['statusChangedAt'] === undefined && (value as Record<string, any>)['status_changed_at'] === undefined)) return false;
     return true;
 }
 
@@ -99,7 +99,7 @@ export function FeedbackStatusOutFromJSONTyped(json: any, ignoreDiscriminator: b
         'kind': json['kind'],
         'title': json['title'],
         'contact': json['contact'],
-        'duplicateOf': json['duplicate_of'] == null ? undefined : json['duplicate_of'],
+        'duplicateOf': json['duplicate_of'] === undefined ? undefined : json['duplicate_of'] === null ? null : json['duplicate_of'],
         'createdAt': (new Date(json['created_at'])),
         'statusChangedAt': (new Date(json['status_changed_at'])),
     };

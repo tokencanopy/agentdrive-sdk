@@ -58,8 +58,8 @@ export type UploadAbortOutStateEnum = typeof UploadAbortOutStateEnum[keyof typeo
  * Check if a given object implements the UploadAbortOut interface.
  */
 export function instanceOfUploadAbortOut(value: object): value is UploadAbortOut {
-    if ((!('uploadId' in value) && !('upload_id' in value)) || (value['uploadId'] === undefined && value['upload_id'] === undefined)) return false;
-    if ((!('releasedBytes' in value) && !('released_bytes' in value)) || (value['releasedBytes'] === undefined && value['released_bytes'] === undefined)) return false;
+    if ((!('uploadId' in (value as Record<string, any>)) && !('upload_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['uploadId'] === undefined && (value as Record<string, any>)['upload_id'] === undefined)) return false;
+    if ((!('releasedBytes' in (value as Record<string, any>)) && !('released_bytes' in (value as Record<string, any>))) || ((value as Record<string, any>)['releasedBytes'] === undefined && (value as Record<string, any>)['released_bytes'] === undefined)) return false;
     return true;
 }
 

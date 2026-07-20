@@ -64,7 +64,7 @@ export interface DriveApiKeyOut {
 export function instanceOfDriveApiKeyOut(value: object): value is DriveApiKeyOut {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('prefix' in value) || value['prefix'] === undefined) return false;
-    if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
     return true;
 }
 
@@ -80,10 +80,10 @@ export function DriveApiKeyOutFromJSONTyped(json: any, ignoreDiscriminator: bool
         
         'id': json['id'],
         'prefix': json['prefix'],
-        'label': json['label'] == null ? undefined : json['label'],
-        'lastUsedAt': json['last_used_at'] == null ? undefined : (new Date(json['last_used_at'])),
+        'label': json['label'] === undefined ? undefined : json['label'] === null ? null : json['label'],
+        'lastUsedAt': json['last_used_at'] === undefined ? undefined : json['last_used_at'] === null ? null : (new Date(json['last_used_at'])),
         'createdAt': (new Date(json['created_at'])),
-        'revokedAt': json['revoked_at'] == null ? undefined : (new Date(json['revoked_at'])),
+        'revokedAt': json['revoked_at'] === undefined ? undefined : json['revoked_at'] === null ? null : (new Date(json['revoked_at'])),
     };
 }
 

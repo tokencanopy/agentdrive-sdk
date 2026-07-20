@@ -176,14 +176,14 @@ export type FindHitOutModalityEnum = typeof FindHitOutModalityEnum[keyof typeof 
  * Check if a given object implements the FindHitOut interface.
  */
 export function instanceOfFindHitOut(value: object): value is FindHitOut {
-    if ((!('artId' in value) && !('art_id' in value)) || (value['artId'] === undefined && value['art_id'] === undefined)) return false;
-    if ((!('driveId' in value) && !('drive_id' in value)) || (value['driveId'] === undefined && value['drive_id'] === undefined)) return false;
+    if ((!('artId' in (value as Record<string, any>)) && !('art_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['artId'] === undefined && (value as Record<string, any>)['art_id'] === undefined)) return false;
+    if ((!('driveId' in (value as Record<string, any>)) && !('drive_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['driveId'] === undefined && (value as Record<string, any>)['drive_id'] === undefined)) return false;
     if (!('path' in value) || value['path'] === undefined) return false;
     if (!('url' in value) || value['url'] === undefined) return false;
-    if ((!('contentType' in value) && !('content_type' in value)) || (value['contentType'] === undefined && value['content_type'] === undefined)) return false;
-    if ((!('fileType' in value) && !('file_type' in value)) || (value['fileType'] === undefined && value['file_type'] === undefined)) return false;
-    if ((!('updatedAt' in value) && !('updated_at' in value)) || (value['updatedAt'] === undefined && value['updated_at'] === undefined)) return false;
-    if ((!('versionNumber' in value) && !('version_number' in value)) || (value['versionNumber'] === undefined && value['version_number'] === undefined)) return false;
+    if ((!('contentType' in (value as Record<string, any>)) && !('content_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['contentType'] === undefined && (value as Record<string, any>)['content_type'] === undefined)) return false;
+    if ((!('fileType' in (value as Record<string, any>)) && !('file_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['fileType'] === undefined && (value as Record<string, any>)['file_type'] === undefined)) return false;
+    if ((!('updatedAt' in (value as Record<string, any>)) && !('updated_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['updatedAt'] === undefined && (value as Record<string, any>)['updated_at'] === undefined)) return false;
+    if ((!('versionNumber' in (value as Record<string, any>)) && !('version_number' in (value as Record<string, any>))) || ((value as Record<string, any>)['versionNumber'] === undefined && (value as Record<string, any>)['version_number'] === undefined)) return false;
     if (!('modality' in value) || value['modality'] === undefined) return false;
     if (!('ord' in value) || value['ord'] === undefined) return false;
     if (!('text' in value) || value['text'] === undefined) return false;
@@ -216,14 +216,14 @@ export function FindHitOutFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'text': json['text'],
         'snippet': json['snippet'],
         'score': json['score'],
-        'rankLexical': json['rank_lexical'] == null ? undefined : json['rank_lexical'],
-        'rankSemantic': json['rank_semantic'] == null ? undefined : json['rank_semantic'],
-        'charStart': json['char_start'] == null ? undefined : json['char_start'],
-        'charEnd': json['char_end'] == null ? undefined : json['char_end'],
-        'pageStart': json['page_start'] == null ? undefined : json['page_start'],
-        'pageEnd': json['page_end'] == null ? undefined : json['page_end'],
-        'timeStartMs': json['time_start_ms'] == null ? undefined : json['time_start_ms'],
-        'timeEndMs': json['time_end_ms'] == null ? undefined : json['time_end_ms'],
+        'rankLexical': json['rank_lexical'] === undefined ? undefined : json['rank_lexical'] === null ? null : json['rank_lexical'],
+        'rankSemantic': json['rank_semantic'] === undefined ? undefined : json['rank_semantic'] === null ? null : json['rank_semantic'],
+        'charStart': json['char_start'] === undefined ? undefined : json['char_start'] === null ? null : json['char_start'],
+        'charEnd': json['char_end'] === undefined ? undefined : json['char_end'] === null ? null : json['char_end'],
+        'pageStart': json['page_start'] === undefined ? undefined : json['page_start'] === null ? null : json['page_start'],
+        'pageEnd': json['page_end'] === undefined ? undefined : json['page_end'] === null ? null : json['page_end'],
+        'timeStartMs': json['time_start_ms'] === undefined ? undefined : json['time_start_ms'] === null ? null : json['time_start_ms'],
+        'timeEndMs': json['time_end_ms'] === undefined ? undefined : json['time_end_ms'] === null ? null : json['time_end_ms'],
     };
 }
 

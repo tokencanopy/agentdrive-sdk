@@ -73,12 +73,12 @@ export interface AnonymousIdentityResponse {
  * Check if a given object implements the AnonymousIdentityResponse interface.
  */
 export function instanceOfAnonymousIdentityResponse(value: object): value is AnonymousIdentityResponse {
-    if ((!('identityAssertion' in value) && !('identity_assertion' in value)) || (value['identityAssertion'] === undefined && value['identity_assertion'] === undefined)) return false;
-    if ((!('claimToken' in value) && !('claim_token' in value)) || (value['claimToken'] === undefined && value['claim_token'] === undefined)) return false;
-    if ((!('claimMetadata' in value) && !('claim_metadata' in value)) || (value['claimMetadata'] === undefined && value['claim_metadata'] === undefined)) return false;
-    if ((!('driveId' in value) && !('drive_id' in value)) || (value['driveId'] === undefined && value['drive_id'] === undefined)) return false;
-    if ((!('agentIdentityId' in value) && !('agent_identity_id' in value)) || (value['agentIdentityId'] === undefined && value['agent_identity_id'] === undefined)) return false;
-    if ((!('expiresAt' in value) && !('expires_at' in value)) || (value['expiresAt'] === undefined && value['expires_at'] === undefined)) return false;
+    if ((!('identityAssertion' in (value as Record<string, any>)) && !('identity_assertion' in (value as Record<string, any>))) || ((value as Record<string, any>)['identityAssertion'] === undefined && (value as Record<string, any>)['identity_assertion'] === undefined)) return false;
+    if ((!('claimToken' in (value as Record<string, any>)) && !('claim_token' in (value as Record<string, any>))) || ((value as Record<string, any>)['claimToken'] === undefined && (value as Record<string, any>)['claim_token'] === undefined)) return false;
+    if ((!('claimMetadata' in (value as Record<string, any>)) && !('claim_metadata' in (value as Record<string, any>))) || ((value as Record<string, any>)['claimMetadata'] === undefined && (value as Record<string, any>)['claim_metadata'] === undefined)) return false;
+    if ((!('driveId' in (value as Record<string, any>)) && !('drive_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['driveId'] === undefined && (value as Record<string, any>)['drive_id'] === undefined)) return false;
+    if ((!('agentIdentityId' in (value as Record<string, any>)) && !('agent_identity_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['agentIdentityId'] === undefined && (value as Record<string, any>)['agent_identity_id'] === undefined)) return false;
+    if ((!('expiresAt' in (value as Record<string, any>)) && !('expires_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['expiresAt'] === undefined && (value as Record<string, any>)['expires_at'] === undefined)) return false;
     return true;
 }
 

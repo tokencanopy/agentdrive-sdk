@@ -267,7 +267,7 @@ type ApiJwksWellKnownJwksJsonGetRequest struct {
 	ApiService *AgentAuthAPIService
 }
 
-func (r ApiJwksWellKnownJwksJsonGetRequest) Execute() (map[string]interface{}, *http.Response, error) {
+func (r ApiJwksWellKnownJwksJsonGetRequest) Execute() (map[string]*interface{}, *http.Response, error) {
 	return r.ApiService.JwksWellKnownJwksJsonGetExecute(r)
 }
 
@@ -287,13 +287,13 @@ func (a *AgentAuthAPIService) JwksWellKnownJwksJsonGet(ctx context.Context) ApiJ
 }
 
 // Execute executes the request
-//  @return map[string]interface{}
-func (a *AgentAuthAPIService) JwksWellKnownJwksJsonGetExecute(r ApiJwksWellKnownJwksJsonGetRequest) (map[string]interface{}, *http.Response, error) {
+//  @return map[string]*interface{}
+func (a *AgentAuthAPIService) JwksWellKnownJwksJsonGetExecute(r ApiJwksWellKnownJwksJsonGetRequest) (map[string]*interface{}, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  map[string]interface{}
+		localVarReturnValue  map[string]*interface{}
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AgentAuthAPIService.JwksWellKnownJwksJsonGet")
@@ -507,7 +507,7 @@ type ApiOauthAuthorizationServerWellKnownOauthAuthorizationServerGetRequest stru
 	ApiService *AgentAuthAPIService
 }
 
-func (r ApiOauthAuthorizationServerWellKnownOauthAuthorizationServerGetRequest) Execute() (map[string]interface{}, *http.Response, error) {
+func (r ApiOauthAuthorizationServerWellKnownOauthAuthorizationServerGetRequest) Execute() (map[string]*interface{}, *http.Response, error) {
 	return r.ApiService.OauthAuthorizationServerWellKnownOauthAuthorizationServerGetExecute(r)
 }
 
@@ -527,13 +527,13 @@ func (a *AgentAuthAPIService) OauthAuthorizationServerWellKnownOauthAuthorizatio
 }
 
 // Execute executes the request
-//  @return map[string]interface{}
-func (a *AgentAuthAPIService) OauthAuthorizationServerWellKnownOauthAuthorizationServerGetExecute(r ApiOauthAuthorizationServerWellKnownOauthAuthorizationServerGetRequest) (map[string]interface{}, *http.Response, error) {
+//  @return map[string]*interface{}
+func (a *AgentAuthAPIService) OauthAuthorizationServerWellKnownOauthAuthorizationServerGetExecute(r ApiOauthAuthorizationServerWellKnownOauthAuthorizationServerGetRequest) (map[string]*interface{}, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  map[string]interface{}
+		localVarReturnValue  map[string]*interface{}
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AgentAuthAPIService.OauthAuthorizationServerWellKnownOauthAuthorizationServerGet")
@@ -606,7 +606,7 @@ type ApiOauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGetRequest st
 	ApiService *AgentAuthAPIService
 }
 
-func (r ApiOauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGetRequest) Execute() (map[string]interface{}, *http.Response, error) {
+func (r ApiOauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGetRequest) Execute() (map[string]*interface{}, *http.Response, error) {
 	return r.ApiService.OauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGetExecute(r)
 }
 
@@ -626,13 +626,13 @@ func (a *AgentAuthAPIService) OauthProtectedResourceMcpWellKnownOauthProtectedRe
 }
 
 // Execute executes the request
-//  @return map[string]interface{}
-func (a *AgentAuthAPIService) OauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGetExecute(r ApiOauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGetRequest) (map[string]interface{}, *http.Response, error) {
+//  @return map[string]*interface{}
+func (a *AgentAuthAPIService) OauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGetExecute(r ApiOauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGetRequest) (map[string]*interface{}, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  map[string]interface{}
+		localVarReturnValue  map[string]*interface{}
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AgentAuthAPIService.OauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGet")
@@ -705,7 +705,7 @@ type ApiOauthProtectedResourceWellKnownOauthProtectedResourceGetRequest struct {
 	ApiService *AgentAuthAPIService
 }
 
-func (r ApiOauthProtectedResourceWellKnownOauthProtectedResourceGetRequest) Execute() (map[string]interface{}, *http.Response, error) {
+func (r ApiOauthProtectedResourceWellKnownOauthProtectedResourceGetRequest) Execute() (map[string]*interface{}, *http.Response, error) {
 	return r.ApiService.OauthProtectedResourceWellKnownOauthProtectedResourceGetExecute(r)
 }
 
@@ -725,13 +725,13 @@ func (a *AgentAuthAPIService) OauthProtectedResourceWellKnownOauthProtectedResou
 }
 
 // Execute executes the request
-//  @return map[string]interface{}
-func (a *AgentAuthAPIService) OauthProtectedResourceWellKnownOauthProtectedResourceGetExecute(r ApiOauthProtectedResourceWellKnownOauthProtectedResourceGetRequest) (map[string]interface{}, *http.Response, error) {
+//  @return map[string]*interface{}
+func (a *AgentAuthAPIService) OauthProtectedResourceWellKnownOauthProtectedResourceGetExecute(r ApiOauthProtectedResourceWellKnownOauthProtectedResourceGetRequest) (map[string]*interface{}, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  map[string]interface{}
+		localVarReturnValue  map[string]*interface{}
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AgentAuthAPIService.OauthProtectedResourceWellKnownOauthProtectedResourceGet")
@@ -802,10 +802,10 @@ func (a *AgentAuthAPIService) OauthProtectedResourceWellKnownOauthProtectedResou
 type ApiRegisterAgentIdentityAgentIdentityPostRequest struct {
 	ctx context.Context
 	ApiService *AgentAuthAPIService
-	requestBody *map[string]interface{}
+	requestBody *map[string]*interface{}
 }
 
-func (r ApiRegisterAgentIdentityAgentIdentityPostRequest) RequestBody(requestBody map[string]interface{}) ApiRegisterAgentIdentityAgentIdentityPostRequest {
+func (r ApiRegisterAgentIdentityAgentIdentityPostRequest) RequestBody(requestBody map[string]*interface{}) ApiRegisterAgentIdentityAgentIdentityPostRequest {
 	r.requestBody = &requestBody
 	return r
 }

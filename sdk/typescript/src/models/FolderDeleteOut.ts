@@ -77,11 +77,11 @@ export interface FolderDeleteOut {
 export function instanceOfFolderDeleteOut(value: object): value is FolderDeleteOut {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('path' in value) || value['path'] === undefined) return false;
-    if ((!('deletedAt' in value) && !('deleted_at' in value)) || (value['deletedAt'] === undefined && value['deleted_at'] === undefined)) return false;
-    if ((!('purgeAt' in value) && !('purge_at' in value)) || (value['purgeAt'] === undefined && value['purge_at'] === undefined)) return false;
-    if ((!('retentionDays' in value) && !('retention_days' in value)) || (value['retentionDays'] === undefined && value['retention_days'] === undefined)) return false;
-    if ((!('nSubfoldersDeleted' in value) && !('n_subfolders_deleted' in value)) || (value['nSubfoldersDeleted'] === undefined && value['n_subfolders_deleted'] === undefined)) return false;
-    if ((!('nArtifactsDeleted' in value) && !('n_artifacts_deleted' in value)) || (value['nArtifactsDeleted'] === undefined && value['n_artifacts_deleted'] === undefined)) return false;
+    if ((!('deletedAt' in (value as Record<string, any>)) && !('deleted_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['deletedAt'] === undefined && (value as Record<string, any>)['deleted_at'] === undefined)) return false;
+    if ((!('purgeAt' in (value as Record<string, any>)) && !('purge_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['purgeAt'] === undefined && (value as Record<string, any>)['purge_at'] === undefined)) return false;
+    if ((!('retentionDays' in (value as Record<string, any>)) && !('retention_days' in (value as Record<string, any>))) || ((value as Record<string, any>)['retentionDays'] === undefined && (value as Record<string, any>)['retention_days'] === undefined)) return false;
+    if ((!('nSubfoldersDeleted' in (value as Record<string, any>)) && !('n_subfolders_deleted' in (value as Record<string, any>))) || ((value as Record<string, any>)['nSubfoldersDeleted'] === undefined && (value as Record<string, any>)['n_subfolders_deleted'] === undefined)) return false;
+    if ((!('nArtifactsDeleted' in (value as Record<string, any>)) && !('n_artifacts_deleted' in (value as Record<string, any>))) || ((value as Record<string, any>)['nArtifactsDeleted'] === undefined && (value as Record<string, any>)['n_artifacts_deleted'] === undefined)) return false;
     return true;
 }
 

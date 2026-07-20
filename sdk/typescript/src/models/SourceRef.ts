@@ -63,7 +63,7 @@ export function SourceRefFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         
         'type': json['type'],
         'id': json['id'],
-        'metadata': json['metadata'] == null ? undefined : json['metadata'],
+        'metadata': json['metadata'] === undefined ? undefined : json['metadata'] === null ? null : json['metadata'],
     };
 }
 

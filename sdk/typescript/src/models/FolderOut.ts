@@ -94,11 +94,11 @@ export interface FolderOut {
  */
 export function instanceOfFolderOut(value: object): value is FolderOut {
     if (!('id' in value) || value['id'] === undefined) return false;
-    if ((!('driveId' in value) && !('drive_id' in value)) || (value['driveId'] === undefined && value['drive_id'] === undefined)) return false;
+    if ((!('driveId' in (value as Record<string, any>)) && !('drive_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['driveId'] === undefined && (value as Record<string, any>)['drive_id'] === undefined)) return false;
     if (!('path' in value) || value['path'] === undefined) return false;
     if (!('etag' in value) || value['etag'] === undefined) return false;
-    if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
-    if ((!('updatedAt' in value) && !('updated_at' in value)) || (value['updatedAt'] === undefined && value['updated_at'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
+    if ((!('updatedAt' in (value as Record<string, any>)) && !('updated_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['updatedAt'] === undefined && (value as Record<string, any>)['updated_at'] === undefined)) return false;
     return true;
 }
 
@@ -115,14 +115,14 @@ export function FolderOutFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'id': json['id'],
         'driveId': json['drive_id'],
         'path': json['path'],
-        'description': json['description'] == null ? undefined : json['description'],
+        'description': json['description'] === undefined ? undefined : json['description'] === null ? null : json['description'],
         'inheritGrants': json['inherit_grants'] == null ? undefined : json['inherit_grants'],
         'metageneration': json['metageneration'] == null ? undefined : json['metageneration'],
         'etag': json['etag'],
         'createdAt': (new Date(json['created_at'])),
         'updatedAt': (new Date(json['updated_at'])),
-        'deletedAt': json['deleted_at'] == null ? undefined : (new Date(json['deleted_at'])),
-        'purgeAt': json['purge_at'] == null ? undefined : (new Date(json['purge_at'])),
+        'deletedAt': json['deleted_at'] === undefined ? undefined : json['deleted_at'] === null ? null : (new Date(json['deleted_at'])),
+        'purgeAt': json['purge_at'] === undefined ? undefined : json['purge_at'] === null ? null : (new Date(json['purge_at'])),
     };
 }
 

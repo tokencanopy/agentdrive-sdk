@@ -154,17 +154,17 @@ export interface ArtifactOut {
  */
 export function instanceOfArtifactOut(value: object): value is ArtifactOut {
     if (!('id' in value) || value['id'] === undefined) return false;
-    if ((!('driveId' in value) && !('drive_id' in value)) || (value['driveId'] === undefined && value['drive_id'] === undefined)) return false;
+    if ((!('driveId' in (value as Record<string, any>)) && !('drive_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['driveId'] === undefined && (value as Record<string, any>)['drive_id'] === undefined)) return false;
     if (!('path' in value) || value['path'] === undefined) return false;
     if (!('url' in value) || value['url'] === undefined) return false;
     if (!('permalink' in value) || value['permalink'] === undefined) return false;
-    if ((!('contentType' in value) && !('content_type' in value)) || (value['contentType'] === undefined && value['content_type'] === undefined)) return false;
-    if ((!('fileType' in value) && !('file_type' in value)) || (value['fileType'] === undefined && value['file_type'] === undefined)) return false;
-    if ((!('sizeBytes' in value) && !('size_bytes' in value)) || (value['sizeBytes'] === undefined && value['size_bytes'] === undefined)) return false;
+    if ((!('contentType' in (value as Record<string, any>)) && !('content_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['contentType'] === undefined && (value as Record<string, any>)['content_type'] === undefined)) return false;
+    if ((!('fileType' in (value as Record<string, any>)) && !('file_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['fileType'] === undefined && (value as Record<string, any>)['file_type'] === undefined)) return false;
+    if ((!('sizeBytes' in (value as Record<string, any>)) && !('size_bytes' in (value as Record<string, any>))) || ((value as Record<string, any>)['sizeBytes'] === undefined && (value as Record<string, any>)['size_bytes'] === undefined)) return false;
     if (!('hash' in value) || value['hash'] === undefined) return false;
     if (!('etag' in value) || value['etag'] === undefined) return false;
-    if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
-    if ((!('updatedAt' in value) && !('updated_at' in value)) || (value['updatedAt'] === undefined && value['updated_at'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
+    if ((!('updatedAt' in (value as Record<string, any>)) && !('updated_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['updatedAt'] === undefined && (value as Record<string, any>)['updated_at'] === undefined)) return false;
     return true;
 }
 
@@ -192,12 +192,12 @@ export function ArtifactOutFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'etag': json['etag'],
         'labels': json['labels'] == null ? undefined : json['labels'],
         'metadata': json['metadata'] == null ? undefined : json['metadata'],
-        'source': json['source'] == null ? undefined : ArtifactSourceFromJSON(json['source']),
-        'indexedAt': json['indexed_at'] == null ? undefined : (new Date(json['indexed_at'])),
-        'embeddedAt': json['embedded_at'] == null ? undefined : (new Date(json['embedded_at'])),
+        'source': json['source'] === undefined ? undefined : json['source'] === null ? null : ArtifactSourceFromJSON(json['source']),
+        'indexedAt': json['indexed_at'] === undefined ? undefined : json['indexed_at'] === null ? null : (new Date(json['indexed_at'])),
+        'embeddedAt': json['embedded_at'] === undefined ? undefined : json['embedded_at'] === null ? null : (new Date(json['embedded_at'])),
         'createdAt': (new Date(json['created_at'])),
         'updatedAt': (new Date(json['updated_at'])),
-        'llmIndex': json['llm_index'] == null ? undefined : json['llm_index'],
+        'llmIndex': json['llm_index'] === undefined ? undefined : json['llm_index'] === null ? null : json['llm_index'],
     };
 }
 

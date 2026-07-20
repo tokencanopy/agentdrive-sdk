@@ -60,7 +60,7 @@ export function DriveListFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     return {
         
         'items': ((json['items'] as Array<any>).map(DriveOutFromJSON)),
-        'nextCursor': json['next_cursor'] == null ? undefined : json['next_cursor'],
+        'nextCursor': json['next_cursor'] === undefined ? undefined : json['next_cursor'] === null ? null : json['next_cursor'],
     };
 }
 

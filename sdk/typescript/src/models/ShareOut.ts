@@ -108,12 +108,12 @@ export type ShareOutRoleEnum = typeof ShareOutRoleEnum[keyof typeof ShareOutRole
  */
 export function instanceOfShareOut(value: object): value is ShareOut {
     if (!('id' in value) || value['id'] === undefined) return false;
-    if ((!('resourceType' in value) && !('resource_type' in value)) || (value['resourceType'] === undefined && value['resource_type'] === undefined)) return false;
-    if ((!('resourceId' in value) && !('resource_id' in value)) || (value['resourceId'] === undefined && value['resource_id'] === undefined)) return false;
+    if ((!('resourceType' in (value as Record<string, any>)) && !('resource_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['resourceType'] === undefined && (value as Record<string, any>)['resource_type'] === undefined)) return false;
+    if ((!('resourceId' in (value as Record<string, any>)) && !('resource_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['resourceId'] === undefined && (value as Record<string, any>)['resource_id'] === undefined)) return false;
     if (!('role' in value) || value['role'] === undefined) return false;
     if (!('audience' in value) || value['audience'] === undefined) return false;
-    if ((!('hasPassword' in value) && !('has_password' in value)) || (value['hasPassword'] === undefined && value['has_password'] === undefined)) return false;
-    if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
+    if ((!('hasPassword' in (value as Record<string, any>)) && !('has_password' in (value as Record<string, any>))) || ((value as Record<string, any>)['hasPassword'] === undefined && (value as Record<string, any>)['has_password'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
     return true;
 }
 
@@ -134,8 +134,8 @@ export function ShareOutFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'audience': json['audience'],
         'hasPassword': json['has_password'],
         'createdAt': (new Date(json['created_at'])),
-        'expiresAt': json['expires_at'] == null ? undefined : (new Date(json['expires_at'])),
-        'lastAccessedAt': json['last_accessed_at'] == null ? undefined : (new Date(json['last_accessed_at'])),
+        'expiresAt': json['expires_at'] === undefined ? undefined : json['expires_at'] === null ? null : (new Date(json['expires_at'])),
+        'lastAccessedAt': json['last_accessed_at'] === undefined ? undefined : json['last_accessed_at'] === null ? null : (new Date(json['last_accessed_at'])),
         'accessCount': json['access_count'] == null ? undefined : json['access_count'],
     };
 }

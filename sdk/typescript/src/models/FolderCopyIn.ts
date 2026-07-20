@@ -55,7 +55,7 @@ export function FolderCopyInFromJSONTyped(json: any, ignoreDiscriminator: boolea
     return {
         
         'path': json['path'],
-        'fromMetageneration': json['from_metageneration'] == null ? undefined : json['from_metageneration'],
+        'fromMetageneration': json['from_metageneration'] === undefined ? undefined : json['from_metageneration'] === null ? null : json['from_metageneration'],
     };
 }
 

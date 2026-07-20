@@ -74,7 +74,7 @@ export function DriveApiKeyListOutFromJSONTyped(json: any, ignoreDiscriminator: 
         
         'items': ((json['items'] as Array<any>).map(DriveApiKeyOutFromJSON)),
         'keys': ((json['keys'] as Array<any>).map(DriveApiKeyOutFromJSON)),
-        'nextCursor': json['next_cursor'] == null ? undefined : json['next_cursor'],
+        'nextCursor': json['next_cursor'] === undefined ? undefined : json['next_cursor'] === null ? null : json['next_cursor'],
     };
 }
 

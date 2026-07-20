@@ -60,7 +60,7 @@ export function UserTokenListFromJSONTyped(json: any, ignoreDiscriminator: boole
     return {
         
         'items': ((json['items'] as Array<any>).map(UserTokenOutFromJSON)),
-        'nextCursor': json['next_cursor'] == null ? undefined : json['next_cursor'],
+        'nextCursor': json['next_cursor'] === undefined ? undefined : json['next_cursor'] === null ? null : json['next_cursor'],
     };
 }
 

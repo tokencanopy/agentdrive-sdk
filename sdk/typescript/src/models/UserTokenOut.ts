@@ -95,7 +95,7 @@ export function instanceOfUserTokenOut(value: object): value is UserTokenOut {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('prefix' in value) || value['prefix'] === undefined) return false;
     if (!('scope' in value) || value['scope'] === undefined) return false;
-    if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
     return true;
 }
 
@@ -111,13 +111,13 @@ export function UserTokenOutFromJSONTyped(json: any, ignoreDiscriminator: boolea
         
         'id': json['id'],
         'prefix': json['prefix'],
-        'label': json['label'] == null ? undefined : json['label'],
+        'label': json['label'] === undefined ? undefined : json['label'] === null ? null : json['label'],
         'scope': json['scope'],
-        'defaultDriveId': json['default_drive_id'] == null ? undefined : json['default_drive_id'],
-        'lastUsedAt': json['last_used_at'] == null ? undefined : (new Date(json['last_used_at'])),
-        'expiresAt': json['expires_at'] == null ? undefined : (new Date(json['expires_at'])),
+        'defaultDriveId': json['default_drive_id'] === undefined ? undefined : json['default_drive_id'] === null ? null : json['default_drive_id'],
+        'lastUsedAt': json['last_used_at'] === undefined ? undefined : json['last_used_at'] === null ? null : (new Date(json['last_used_at'])),
+        'expiresAt': json['expires_at'] === undefined ? undefined : json['expires_at'] === null ? null : (new Date(json['expires_at'])),
         'createdAt': (new Date(json['created_at'])),
-        'revokedAt': json['revoked_at'] == null ? undefined : (new Date(json['revoked_at'])),
+        'revokedAt': json['revoked_at'] === undefined ? undefined : json['revoked_at'] === null ? null : (new Date(json['revoked_at'])),
     };
 }
 

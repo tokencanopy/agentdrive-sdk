@@ -45,7 +45,7 @@ export interface MemberRemoveOut {
  */
 export function instanceOfMemberRemoveOut(value: object): value is MemberRemoveOut {
     if (!('id' in value) || value['id'] === undefined) return false;
-    if ((!('organizationId' in value) && !('organization_id' in value)) || (value['organizationId'] === undefined && value['organization_id'] === undefined)) return false;
+    if ((!('organizationId' in (value as Record<string, any>)) && !('organization_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['organizationId'] === undefined && (value as Record<string, any>)['organization_id'] === undefined)) return false;
     return true;
 }
 

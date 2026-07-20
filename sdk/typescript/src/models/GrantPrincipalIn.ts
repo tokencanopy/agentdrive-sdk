@@ -73,8 +73,8 @@ export function GrantPrincipalInFromJSONTyped(json: any, ignoreDiscriminator: bo
     return {
         
         'type': json['type'],
-        'id': json['id'] == null ? undefined : json['id'],
-        'email': json['email'] == null ? undefined : json['email'],
+        'id': json['id'] === undefined ? undefined : json['id'] === null ? null : json['id'],
+        'email': json['email'] === undefined ? undefined : json['email'] === null ? null : json['email'],
     };
 }
 

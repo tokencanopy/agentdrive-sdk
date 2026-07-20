@@ -66,8 +66,8 @@ export function CopyInFromJSONTyped(json: any, ignoreDiscriminator: boolean): Co
     return {
         
         'path': json['path'],
-        'source': json['source'] == null ? undefined : ArtifactSourceFromJSON(json['source']),
-        'fromGeneration': json['from_generation'] == null ? undefined : json['from_generation'],
+        'source': json['source'] === undefined ? undefined : json['source'] === null ? null : ArtifactSourceFromJSON(json['source']),
+        'fromGeneration': json['from_generation'] === undefined ? undefined : json['from_generation'] === null ? null : json['from_generation'],
     };
 }
 

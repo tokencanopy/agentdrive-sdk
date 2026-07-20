@@ -609,7 +609,7 @@ class AgentAuthApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Dict[str, object]:
+    ) -> Dict[str, Optional[object]]:
         """JSON Web Key Set — public keys for verifying AgentDrive JWTs
 
         Public half of the RSA signing key for identity_assertion + access_token JWTs issued by AgentDrive. RFC 7517 shape. Cache-friendly; key rotation publishes both kids during the overlap window.
@@ -644,7 +644,7 @@ class AgentAuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, object]",
+            '200': "Dict[str, Optional[object]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -672,7 +672,7 @@ class AgentAuthApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Dict[str, object]]:
+    ) -> ApiResponse[Dict[str, Optional[object]]]:
         """JSON Web Key Set — public keys for verifying AgentDrive JWTs
 
         Public half of the RSA signing key for identity_assertion + access_token JWTs issued by AgentDrive. RFC 7517 shape. Cache-friendly; key rotation publishes both kids during the overlap window.
@@ -707,7 +707,7 @@ class AgentAuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, object]",
+            '200': "Dict[str, Optional[object]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -770,7 +770,7 @@ class AgentAuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, object]",
+            '200': "Dict[str, Optional[object]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1160,7 +1160,7 @@ class AgentAuthApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Dict[str, object]:
+    ) -> Dict[str, Optional[object]]:
         """Authorization-server metadata (RFC 8414 + auth.md agent_auth block)
 
         Discovery document for the auth.md protocol. Carries the standard RFC 8414 fields plus an `agent_auth` block per the auth.md spec — the latter is what an agent runtime keys off to find the identity + claim endpoints.
@@ -1195,7 +1195,7 @@ class AgentAuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, object]",
+            '200': "Dict[str, Optional[object]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1223,7 +1223,7 @@ class AgentAuthApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Dict[str, object]]:
+    ) -> ApiResponse[Dict[str, Optional[object]]]:
         """Authorization-server metadata (RFC 8414 + auth.md agent_auth block)
 
         Discovery document for the auth.md protocol. Carries the standard RFC 8414 fields plus an `agent_auth` block per the auth.md spec — the latter is what an agent runtime keys off to find the identity + claim endpoints.
@@ -1258,7 +1258,7 @@ class AgentAuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, object]",
+            '200': "Dict[str, Optional[object]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1321,7 +1321,7 @@ class AgentAuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, object]",
+            '200': "Dict[str, Optional[object]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1405,7 +1405,7 @@ class AgentAuthApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Dict[str, object]:
+    ) -> Dict[str, Optional[object]]:
         """Protected-resource metadata for the MCP endpoint (RFC 9728 §3.1)
 
         Path-inserted variant of the protected-resource document. MCP clients derive this URL from the resource URL `{origin}/mcp` (RFC 9728 §3.1: insert the well-known segment between host and path) after reading the WWW-Authenticate challenge on a 401 — it is the first hop of the client-side OAuth flow.
@@ -1440,7 +1440,7 @@ class AgentAuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, object]",
+            '200': "Dict[str, Optional[object]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1468,7 +1468,7 @@ class AgentAuthApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Dict[str, object]]:
+    ) -> ApiResponse[Dict[str, Optional[object]]]:
         """Protected-resource metadata for the MCP endpoint (RFC 9728 §3.1)
 
         Path-inserted variant of the protected-resource document. MCP clients derive this URL from the resource URL `{origin}/mcp` (RFC 9728 §3.1: insert the well-known segment between host and path) after reading the WWW-Authenticate challenge on a 401 — it is the first hop of the client-side OAuth flow.
@@ -1503,7 +1503,7 @@ class AgentAuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, object]",
+            '200': "Dict[str, Optional[object]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1566,7 +1566,7 @@ class AgentAuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, object]",
+            '200': "Dict[str, Optional[object]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1650,7 +1650,7 @@ class AgentAuthApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Dict[str, object]:
+    ) -> Dict[str, Optional[object]]:
         """Protected-resource metadata (auth.md / RFC 9728-like discovery)
 
         Names this server as a protected resource and points clients at the authorization server they should obtain tokens from. In this design the resource server and authorization server are the same host.
@@ -1685,7 +1685,7 @@ class AgentAuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, object]",
+            '200': "Dict[str, Optional[object]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1713,7 +1713,7 @@ class AgentAuthApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Dict[str, object]]:
+    ) -> ApiResponse[Dict[str, Optional[object]]]:
         """Protected-resource metadata (auth.md / RFC 9728-like discovery)
 
         Names this server as a protected resource and points clients at the authorization server they should obtain tokens from. In this design the resource server and authorization server are the same host.
@@ -1748,7 +1748,7 @@ class AgentAuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, object]",
+            '200': "Dict[str, Optional[object]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1811,7 +1811,7 @@ class AgentAuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, object]",
+            '200': "Dict[str, Optional[object]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1902,7 +1902,7 @@ class AgentAuthApi:
         Two registration modes:  **`type=anonymous`** — Provisions a brand-new agent identity bound to a fresh shadow-org drive. No human involved; returned `identity_assertion` carries `scope=pre_claim`. A human completes the claim ceremony later via /claim.  **`type=identity_assertion`** — Agent provider (e.g. WorkOS) has already minted an ID-JAG asserting a user identity binding. We verify it against the provider's JWKS and provision a **claimed** identity immediately: scope=full, drive bound to the user, no claim ceremony needed.
 
         :param request_body: (required)
-        :type request_body: Dict[str, object]
+        :type request_body: Dict[str, Optional[object]]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1970,7 +1970,7 @@ class AgentAuthApi:
         Two registration modes:  **`type=anonymous`** — Provisions a brand-new agent identity bound to a fresh shadow-org drive. No human involved; returned `identity_assertion` carries `scope=pre_claim`. A human completes the claim ceremony later via /claim.  **`type=identity_assertion`** — Agent provider (e.g. WorkOS) has already minted an ID-JAG asserting a user identity binding. We verify it against the provider's JWKS and provision a **claimed** identity immediately: scope=full, drive bound to the user, no claim ceremony needed.
 
         :param request_body: (required)
-        :type request_body: Dict[str, object]
+        :type request_body: Dict[str, Optional[object]]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2038,7 +2038,7 @@ class AgentAuthApi:
         Two registration modes:  **`type=anonymous`** — Provisions a brand-new agent identity bound to a fresh shadow-org drive. No human involved; returned `identity_assertion` carries `scope=pre_claim`. A human completes the claim ceremony later via /claim.  **`type=identity_assertion`** — Agent provider (e.g. WorkOS) has already minted an ID-JAG asserting a user identity binding. We verify it against the provider's JWKS and provision a **claimed** identity immediately: scope=full, drive bound to the user, no claim ceremony needed.
 
         :param request_body: (required)
-        :type request_body: Dict[str, object]
+        :type request_body: Dict[str, Optional[object]]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of

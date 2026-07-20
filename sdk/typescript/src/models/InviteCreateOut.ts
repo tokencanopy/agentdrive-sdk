@@ -68,7 +68,7 @@ export function InviteCreateOutFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'invitation': json['invitation'] == null ? undefined : InvitationOutFromJSON(json['invitation']),
+        'invitation': json['invitation'] === undefined ? undefined : json['invitation'] === null ? null : InvitationOutFromJSON(json['invitation']),
         'alreadyMember': json['already_member'] == null ? undefined : json['already_member'],
         'emailDelivered': json['email_delivered'] == null ? undefined : json['email_delivered'],
     };

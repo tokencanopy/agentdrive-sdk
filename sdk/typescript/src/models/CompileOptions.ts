@@ -56,8 +56,8 @@ export function CompileOptionsFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'entrypoint': json['entrypoint'] == null ? undefined : json['entrypoint'],
-        'engine': json['engine'] == null ? undefined : json['engine'],
+        'entrypoint': json['entrypoint'] === undefined ? undefined : json['entrypoint'] === null ? null : json['entrypoint'],
+        'engine': json['engine'] === undefined ? undefined : json['engine'] === null ? null : json['engine'],
         'wait': json['wait'] == null ? undefined : json['wait'],
     };
 }

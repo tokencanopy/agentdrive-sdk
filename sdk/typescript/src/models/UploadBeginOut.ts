@@ -72,11 +72,11 @@ export type UploadBeginOutMethodEnum = typeof UploadBeginOutMethodEnum[keyof typ
  * Check if a given object implements the UploadBeginOut interface.
  */
 export function instanceOfUploadBeginOut(value: object): value is UploadBeginOut {
-    if ((!('uploadId' in value) && !('upload_id' in value)) || (value['uploadId'] === undefined && value['upload_id'] === undefined)) return false;
-    if ((!('uploadUrl' in value) && !('upload_url' in value)) || (value['uploadUrl'] === undefined && value['upload_url'] === undefined)) return false;
+    if ((!('uploadId' in (value as Record<string, any>)) && !('upload_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['uploadId'] === undefined && (value as Record<string, any>)['upload_id'] === undefined)) return false;
+    if ((!('uploadUrl' in (value as Record<string, any>)) && !('upload_url' in (value as Record<string, any>))) || ((value as Record<string, any>)['uploadUrl'] === undefined && (value as Record<string, any>)['upload_url'] === undefined)) return false;
     if (!('headers' in value) || value['headers'] === undefined) return false;
-    if ((!('expiresAt' in value) && !('expires_at' in value)) || (value['expiresAt'] === undefined && value['expires_at'] === undefined)) return false;
-    if ((!('maxBytes' in value) && !('max_bytes' in value)) || (value['maxBytes'] === undefined && value['max_bytes'] === undefined)) return false;
+    if ((!('expiresAt' in (value as Record<string, any>)) && !('expires_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['expiresAt'] === undefined && (value as Record<string, any>)['expires_at'] === undefined)) return false;
+    if ((!('maxBytes' in (value as Record<string, any>)) && !('max_bytes' in (value as Record<string, any>))) || ((value as Record<string, any>)['maxBytes'] === undefined && (value as Record<string, any>)['max_bytes'] === undefined)) return false;
     return true;
 }
 

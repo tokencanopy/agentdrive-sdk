@@ -67,10 +67,10 @@ export interface DownloadUrlOut {
  * Check if a given object implements the DownloadUrlOut interface.
  */
 export function instanceOfDownloadUrlOut(value: object): value is DownloadUrlOut {
-    if ((!('downloadUrl' in value) && !('download_url' in value)) || (value['downloadUrl'] === undefined && value['download_url'] === undefined)) return false;
+    if ((!('downloadUrl' in (value as Record<string, any>)) && !('download_url' in (value as Record<string, any>))) || ((value as Record<string, any>)['downloadUrl'] === undefined && (value as Record<string, any>)['download_url'] === undefined)) return false;
     if (!('direct' in value) || value['direct'] === undefined) return false;
-    if ((!('sizeBytes' in value) && !('size_bytes' in value)) || (value['sizeBytes'] === undefined && value['size_bytes'] === undefined)) return false;
-    if ((!('contentType' in value) && !('content_type' in value)) || (value['contentType'] === undefined && value['content_type'] === undefined)) return false;
+    if ((!('sizeBytes' in (value as Record<string, any>)) && !('size_bytes' in (value as Record<string, any>))) || ((value as Record<string, any>)['sizeBytes'] === undefined && (value as Record<string, any>)['size_bytes'] === undefined)) return false;
+    if ((!('contentType' in (value as Record<string, any>)) && !('content_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['contentType'] === undefined && (value as Record<string, any>)['content_type'] === undefined)) return false;
     if (!('filename' in value) || value['filename'] === undefined) return false;
     return true;
 }
@@ -87,7 +87,7 @@ export function DownloadUrlOutFromJSONTyped(json: any, ignoreDiscriminator: bool
         
         'downloadUrl': json['download_url'],
         'direct': json['direct'],
-        'expiresAt': json['expires_at'] == null ? undefined : (new Date(json['expires_at'])),
+        'expiresAt': json['expires_at'] === undefined ? undefined : json['expires_at'] === null ? null : (new Date(json['expires_at'])),
         'sizeBytes': json['size_bytes'],
         'contentType': json['content_type'],
         'filename': json['filename'],

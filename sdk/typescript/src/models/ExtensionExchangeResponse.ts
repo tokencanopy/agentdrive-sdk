@@ -71,10 +71,10 @@ export type ExtensionExchangeResponseScopeEnum = typeof ExtensionExchangeRespons
  * Check if a given object implements the ExtensionExchangeResponse interface.
  */
 export function instanceOfExtensionExchangeResponse(value: object): value is ExtensionExchangeResponse {
-    if ((!('accessToken' in value) && !('access_token' in value)) || (value['accessToken'] === undefined && value['access_token'] === undefined)) return false;
-    if ((!('expiresIn' in value) && !('expires_in' in value)) || (value['expiresIn'] === undefined && value['expires_in'] === undefined)) return false;
-    if ((!('identityAssertion' in value) && !('identity_assertion' in value)) || (value['identityAssertion'] === undefined && value['identity_assertion'] === undefined)) return false;
-    if ((!('driveId' in value) && !('drive_id' in value)) || (value['driveId'] === undefined && value['drive_id'] === undefined)) return false;
+    if ((!('accessToken' in (value as Record<string, any>)) && !('access_token' in (value as Record<string, any>))) || ((value as Record<string, any>)['accessToken'] === undefined && (value as Record<string, any>)['access_token'] === undefined)) return false;
+    if ((!('expiresIn' in (value as Record<string, any>)) && !('expires_in' in (value as Record<string, any>))) || ((value as Record<string, any>)['expiresIn'] === undefined && (value as Record<string, any>)['expires_in'] === undefined)) return false;
+    if ((!('identityAssertion' in (value as Record<string, any>)) && !('identity_assertion' in (value as Record<string, any>))) || ((value as Record<string, any>)['identityAssertion'] === undefined && (value as Record<string, any>)['identity_assertion'] === undefined)) return false;
+    if ((!('driveId' in (value as Record<string, any>)) && !('drive_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['driveId'] === undefined && (value as Record<string, any>)['drive_id'] === undefined)) return false;
     return true;
 }
 

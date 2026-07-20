@@ -111,7 +111,7 @@ export interface UploadBeginIn {
  */
 export function instanceOfUploadBeginIn(value: object): value is UploadBeginIn {
     if (!('path' in value) || value['path'] === undefined) return false;
-    if ((!('sizeBytes' in value) && !('size_bytes' in value)) || (value['sizeBytes'] === undefined && value['size_bytes'] === undefined)) return false;
+    if ((!('sizeBytes' in (value as Record<string, any>)) && !('size_bytes' in (value as Record<string, any>))) || ((value as Record<string, any>)['sizeBytes'] === undefined && (value as Record<string, any>)['size_bytes'] === undefined)) return false;
     return true;
 }
 
@@ -128,15 +128,15 @@ export function UploadBeginInFromJSONTyped(json: any, ignoreDiscriminator: boole
         'path': json['path'],
         'contentType': json['content_type'] == null ? undefined : json['content_type'],
         'sizeBytes': json['size_bytes'],
-        'crc32c': json['crc32c'] == null ? undefined : json['crc32c'],
-        'labels': json['labels'] == null ? undefined : json['labels'],
-        'metadata': json['metadata'] == null ? undefined : json['metadata'],
-        'source': json['source'] == null ? undefined : ArtifactSourceFromJSON(json['source']),
-        'actorName': json['actor_name'] == null ? undefined : json['actor_name'],
-        'changeSummary': json['change_summary'] == null ? undefined : json['change_summary'],
-        'ifMatch': json['if_match'] == null ? undefined : json['if_match'],
+        'crc32c': json['crc32c'] === undefined ? undefined : json['crc32c'] === null ? null : json['crc32c'],
+        'labels': json['labels'] === undefined ? undefined : json['labels'] === null ? null : json['labels'],
+        'metadata': json['metadata'] === undefined ? undefined : json['metadata'] === null ? null : json['metadata'],
+        'source': json['source'] === undefined ? undefined : json['source'] === null ? null : ArtifactSourceFromJSON(json['source']),
+        'actorName': json['actor_name'] === undefined ? undefined : json['actor_name'] === null ? null : json['actor_name'],
+        'changeSummary': json['change_summary'] === undefined ? undefined : json['change_summary'] === null ? null : json['change_summary'],
+        'ifMatch': json['if_match'] === undefined ? undefined : json['if_match'] === null ? null : json['if_match'],
         'ifNoneMatch': json['if_none_match'] == null ? undefined : json['if_none_match'],
-        'corsOrigin': json['cors_origin'] == null ? undefined : json['cors_origin'],
+        'corsOrigin': json['cors_origin'] === undefined ? undefined : json['cors_origin'] === null ? null : json['cors_origin'],
     };
 }
 

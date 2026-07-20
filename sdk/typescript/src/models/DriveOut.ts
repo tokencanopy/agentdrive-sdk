@@ -72,9 +72,9 @@ export interface DriveOut {
 export function instanceOfDriveOut(value: object): value is DriveOut {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
-    if ((!('organizationId' in value) && !('organization_id' in value)) || (value['organizationId'] === undefined && value['organization_id'] === undefined)) return false;
-    if ((!('storageBytes' in value) && !('storage_bytes' in value)) || (value['storageBytes'] === undefined && value['storage_bytes'] === undefined)) return false;
-    if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
+    if ((!('organizationId' in (value as Record<string, any>)) && !('organization_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['organizationId'] === undefined && (value as Record<string, any>)['organization_id'] === undefined)) return false;
+    if ((!('storageBytes' in (value as Record<string, any>)) && !('storage_bytes' in (value as Record<string, any>))) || ((value as Record<string, any>)['storageBytes'] === undefined && (value as Record<string, any>)['storage_bytes'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
     return true;
 }
 
@@ -91,8 +91,8 @@ export function DriveOutFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'id': json['id'],
         'name': json['name'],
         'organizationId': json['organization_id'],
-        'ownerUserId': json['owner_user_id'] == null ? undefined : json['owner_user_id'],
-        'ownerEmail': json['owner_email'] == null ? undefined : json['owner_email'],
+        'ownerUserId': json['owner_user_id'] === undefined ? undefined : json['owner_user_id'] === null ? null : json['owner_user_id'],
+        'ownerEmail': json['owner_email'] === undefined ? undefined : json['owner_email'] === null ? null : json['owner_email'],
         'storageBytes': json['storage_bytes'],
         'createdAt': (new Date(json['created_at'])),
     };

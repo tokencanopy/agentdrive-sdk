@@ -3634,7 +3634,7 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.DefaultApi(api_client)
     q = 'q_example' # str | 
-    mode = hybrid # str |  (optional) (default to hybrid)
+    mode = 'hybrid' # str |  (optional) (default to 'hybrid')
     label = ['label_example'] # List[str] |  (optional)
     file_type = 'file_type_example' # str |  (optional)
     prefix = 'prefix_example' # str |  (optional)
@@ -3661,7 +3661,7 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **q** | **str**|  | 
- **mode** | **str**|  | [optional] [default to hybrid]
+ **mode** | **str**|  | [optional] [default to &#39;hybrid&#39;]
  **label** | [**List[str]**](str.md)|  | [optional] 
  **file_type** | **str**|  | [optional] 
  **prefix** | **str**|  | [optional] 
@@ -9856,11 +9856,10 @@ View Artifact Version
 
 Render version `version` of an artifact, read-only.
 
-Authorization is byte-for-byte identical to viewing the artifact via
-`/a/{art_id}`: the same drive-blind `can_read` gate runs, so a viewer
-who can see the artifact can see its versions, and one who cannot gets
-the identical sign-in-or-404 response (no existence leak). A pruned or
-never-existed version renders a friendly unavailable state, never a 500.
+Version history is owner-only. The drive-blind `can_read` gate still
+provides the same sign-in-or-404 masking as `/a/{art_id}`, but readable
+non-owners cannot browse snapshots. A pruned or never-existed version
+renders a friendly unavailable state, never a 500.
 `?raw=1` / `?download=1` stream the version's bytes (powering the bar's
 Raw / Download buttons) with the same sandbox+nosniff headers as the
 head raw path.

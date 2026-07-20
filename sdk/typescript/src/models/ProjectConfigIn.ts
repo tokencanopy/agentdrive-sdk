@@ -58,7 +58,7 @@ export function ProjectConfigInFromJSONTyped(json: any, ignoreDiscriminator: boo
     return {
         
         'entrypoint': json['entrypoint'],
-        'engine': json['engine'] == null ? undefined : json['engine'],
+        'engine': json['engine'] === undefined ? undefined : json['engine'] === null ? null : json['engine'],
         'autoCompile': json['auto_compile'] == null ? undefined : json['auto_compile'],
     };
 }

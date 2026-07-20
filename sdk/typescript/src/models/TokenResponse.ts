@@ -58,8 +58,8 @@ export interface TokenResponse {
  * Check if a given object implements the TokenResponse interface.
  */
 export function instanceOfTokenResponse(value: object): value is TokenResponse {
-    if ((!('accessToken' in value) && !('access_token' in value)) || (value['accessToken'] === undefined && value['access_token'] === undefined)) return false;
-    if ((!('expiresIn' in value) && !('expires_in' in value)) || (value['expiresIn'] === undefined && value['expires_in'] === undefined)) return false;
+    if ((!('accessToken' in (value as Record<string, any>)) && !('access_token' in (value as Record<string, any>))) || ((value as Record<string, any>)['accessToken'] === undefined && (value as Record<string, any>)['access_token'] === undefined)) return false;
+    if ((!('expiresIn' in (value as Record<string, any>)) && !('expires_in' in (value as Record<string, any>))) || ((value as Record<string, any>)['expiresIn'] === undefined && (value as Record<string, any>)['expires_in'] === undefined)) return false;
     if (!('scope' in value) || value['scope'] === undefined) return false;
     return true;
 }
@@ -78,7 +78,7 @@ export function TokenResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
         'tokenType': json['token_type'] == null ? undefined : json['token_type'],
         'expiresIn': json['expires_in'],
         'scope': json['scope'],
-        'identityAssertion': json['identity_assertion'] == null ? undefined : json['identity_assertion'],
+        'identityAssertion': json['identity_assertion'] === undefined ? undefined : json['identity_assertion'] === null ? null : json['identity_assertion'],
     };
 }
 

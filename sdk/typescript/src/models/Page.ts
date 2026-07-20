@@ -60,7 +60,7 @@ export function PageFromJSONTyped(json: any, ignoreDiscriminator: boolean): Page
     return {
         
         'items': ((json['items'] as Array<any>).map(ArtifactOutFromJSON)),
-        'nextCursor': json['next_cursor'] == null ? undefined : json['next_cursor'],
+        'nextCursor': json['next_cursor'] === undefined ? undefined : json['next_cursor'] === null ? null : json['next_cursor'],
     };
 }
 

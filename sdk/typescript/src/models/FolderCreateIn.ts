@@ -46,7 +46,7 @@ export function FolderCreateInFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'description': json['description'] == null ? undefined : json['description'],
+        'description': json['description'] === undefined ? undefined : json['description'] === null ? null : json['description'],
     };
 }
 

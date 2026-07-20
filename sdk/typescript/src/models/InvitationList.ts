@@ -60,7 +60,7 @@ export function InvitationListFromJSONTyped(json: any, ignoreDiscriminator: bool
     return {
         
         'items': ((json['items'] as Array<any>).map(InvitationOutFromJSON)),
-        'nextCursor': json['next_cursor'] == null ? undefined : json['next_cursor'],
+        'nextCursor': json['next_cursor'] === undefined ? undefined : json['next_cursor'] === null ? null : json['next_cursor'],
     };
 }
 

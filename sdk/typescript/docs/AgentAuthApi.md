@@ -153,7 +153,7 @@ No authorization required
 
 ## jwksWellKnownJwksJsonGet
 
-> { [key: string]: any; } jwksWellKnownJwksJsonGet()
+> { [key: string]: any | null; } jwksWellKnownJwksJsonGet()
 
 JSON Web Key Set — public keys for verifying AgentDrive JWTs
 
@@ -190,7 +190,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**{ [key: string]: any; }**
+**{ [key: string]: any | null; }**
 
 ### Authorization
 
@@ -286,7 +286,7 @@ No authorization required
 
 ## oauthAuthorizationServerWellKnownOauthAuthorizationServerGet
 
-> { [key: string]: any; } oauthAuthorizationServerWellKnownOauthAuthorizationServerGet()
+> { [key: string]: any | null; } oauthAuthorizationServerWellKnownOauthAuthorizationServerGet()
 
 Authorization-server metadata (RFC 8414 + auth.md agent_auth block)
 
@@ -323,7 +323,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**{ [key: string]: any; }**
+**{ [key: string]: any | null; }**
 
 ### Authorization
 
@@ -345,7 +345,7 @@ No authorization required
 
 ## oauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGet
 
-> { [key: string]: any; } oauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGet()
+> { [key: string]: any | null; } oauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGet()
 
 Protected-resource metadata for the MCP endpoint (RFC 9728 §3.1)
 
@@ -382,7 +382,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**{ [key: string]: any; }**
+**{ [key: string]: any | null; }**
 
 ### Authorization
 
@@ -404,7 +404,7 @@ No authorization required
 
 ## oauthProtectedResourceWellKnownOauthProtectedResourceGet
 
-> { [key: string]: any; } oauthProtectedResourceWellKnownOauthProtectedResourceGet()
+> { [key: string]: any | null; } oauthProtectedResourceWellKnownOauthProtectedResourceGet()
 
 Protected-resource metadata (auth.md / RFC 9728-like discovery)
 
@@ -441,7 +441,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**{ [key: string]: any; }**
+**{ [key: string]: any | null; }**
 
 ### Authorization
 
@@ -483,7 +483,7 @@ async function example() {
   const api = new AgentAuthApi();
 
   const body = {
-    // { [key: string]: any; }
+    // { [key: string]: any | null; }
     requestBody: Object,
   } satisfies RegisterAgentIdentityAgentIdentityPostRequest;
 
@@ -504,7 +504,7 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **requestBody** | `{ [key: string]: any; }` |  | |
+| **requestBody** | `{ [key: string]: any | null; }` |  | |
 
 ### Return type
 

@@ -71,8 +71,8 @@ export function instanceOfWorkspaceOut(value: object): value is WorkspaceOut {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
     if (!('role' in value) || value['role'] === undefined) return false;
-    if ((!('tierId' in value) && !('tier_id' in value)) || (value['tierId'] === undefined && value['tier_id'] === undefined)) return false;
-    if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
+    if ((!('tierId' in (value as Record<string, any>)) && !('tier_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['tierId'] === undefined && (value as Record<string, any>)['tier_id'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
     return true;
 }
 

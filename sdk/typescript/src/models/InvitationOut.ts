@@ -97,12 +97,12 @@ export type InvitationOutStatusEnum = typeof InvitationOutStatusEnum[keyof typeo
  */
 export function instanceOfInvitationOut(value: object): value is InvitationOut {
     if (!('id' in value) || value['id'] === undefined) return false;
-    if ((!('organizationId' in value) && !('organization_id' in value)) || (value['organizationId'] === undefined && value['organization_id'] === undefined)) return false;
+    if ((!('organizationId' in (value as Record<string, any>)) && !('organization_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['organizationId'] === undefined && (value as Record<string, any>)['organization_id'] === undefined)) return false;
     if (!('email' in value) || value['email'] === undefined) return false;
     if (!('role' in value) || value['role'] === undefined) return false;
     if (!('status' in value) || value['status'] === undefined) return false;
-    if ((!('expiresAt' in value) && !('expires_at' in value)) || (value['expiresAt'] === undefined && value['expires_at'] === undefined)) return false;
-    if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
+    if ((!('expiresAt' in (value as Record<string, any>)) && !('expires_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['expiresAt'] === undefined && (value as Record<string, any>)['expires_at'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
     return true;
 }
 
@@ -121,7 +121,7 @@ export function InvitationOutFromJSONTyped(json: any, ignoreDiscriminator: boole
         'email': json['email'],
         'role': json['role'],
         'status': json['status'],
-        'invitedBy': json['invited_by'] == null ? undefined : json['invited_by'],
+        'invitedBy': json['invited_by'] === undefined ? undefined : json['invited_by'] === null ? null : json['invited_by'],
         'expiresAt': (new Date(json['expires_at'])),
         'createdAt': (new Date(json['created_at'])),
     };

@@ -73,10 +73,10 @@ export type MemberOutRoleEnum = typeof MemberOutRoleEnum[keyof typeof MemberOutR
  * Check if a given object implements the MemberOut interface.
  */
 export function instanceOfMemberOut(value: object): value is MemberOut {
-    if ((!('userId' in value) && !('user_id' in value)) || (value['userId'] === undefined && value['user_id'] === undefined)) return false;
+    if ((!('userId' in (value as Record<string, any>)) && !('user_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['userId'] === undefined && (value as Record<string, any>)['user_id'] === undefined)) return false;
     if (!('email' in value) || value['email'] === undefined) return false;
     if (!('role' in value) || value['role'] === undefined) return false;
-    if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
     return true;
 }
 
@@ -92,8 +92,8 @@ export function MemberOutFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         
         'userId': json['user_id'],
         'email': json['email'],
-        'firstName': json['first_name'] == null ? undefined : json['first_name'],
-        'lastName': json['last_name'] == null ? undefined : json['last_name'],
+        'firstName': json['first_name'] === undefined ? undefined : json['first_name'] === null ? null : json['first_name'],
+        'lastName': json['last_name'] === undefined ? undefined : json['last_name'] === null ? null : json['last_name'],
         'role': json['role'],
         'createdAt': (new Date(json['created_at'])),
     };

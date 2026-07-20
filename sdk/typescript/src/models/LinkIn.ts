@@ -50,8 +50,8 @@ export function LinkInFromJSONTyped(json: any, ignoreDiscriminator: boolean): Li
     }
     return {
         
-        'password': json['password'] == null ? undefined : json['password'],
-        'expiresIn': json['expires_in'] == null ? undefined : json['expires_in'],
+        'password': json['password'] === undefined ? undefined : json['password'] === null ? null : json['password'],
+        'expiresIn': json['expires_in'] === undefined ? undefined : json['expires_in'] === null ? null : json['expires_in'],
     };
 }
 

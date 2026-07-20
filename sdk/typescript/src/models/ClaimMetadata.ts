@@ -39,7 +39,7 @@ export interface ClaimMetadata {
  * Check if a given object implements the ClaimMetadata interface.
  */
 export function instanceOfClaimMetadata(value: object): value is ClaimMetadata {
-    if ((!('claimEndpoint' in value) && !('claim_endpoint' in value)) || (value['claimEndpoint'] === undefined && value['claim_endpoint'] === undefined)) return false;
+    if ((!('claimEndpoint' in (value as Record<string, any>)) && !('claim_endpoint' in (value as Record<string, any>))) || ((value as Record<string, any>)['claimEndpoint'] === undefined && (value as Record<string, any>)['claim_endpoint'] === undefined)) return false;
     return true;
 }
 

@@ -64,8 +64,8 @@ export function GrantPatchInFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
-        'role': json['role'] == null ? undefined : json['role'],
-        'expiresIn': json['expires_in'] == null ? undefined : json['expires_in'],
+        'role': json['role'] === undefined ? undefined : json['role'] === null ? null : json['role'],
+        'expiresIn': json['expires_in'] === undefined ? undefined : json['expires_in'] === null ? null : json['expires_in'],
     };
 }
 

@@ -83,9 +83,9 @@ export function ArtifactPatchInFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'labels': json['labels'] == null ? undefined : json['labels'],
-        'metadata': json['metadata'] == null ? undefined : json['metadata'],
-        'source': json['source'] == null ? undefined : ArtifactSourceFromJSON(json['source']),
+        'labels': json['labels'] === undefined ? undefined : json['labels'] === null ? null : json['labels'],
+        'metadata': json['metadata'] === undefined ? undefined : json['metadata'] === null ? null : json['metadata'],
+        'source': json['source'] === undefined ? undefined : json['source'] === null ? null : ArtifactSourceFromJSON(json['source']),
     };
 }
 
