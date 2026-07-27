@@ -12748,7 +12748,7 @@ class DefaultApi:
     ) -> object:
         """Extension Start
 
-        Begin a WorkOS sign-in flow on behalf of a Chrome extension.  Stamps `for=ext` + `ext_id` into the signed OAuth state so the callback handler knows to render the extension handoff page instead of setting a session cookie.  Three short-circuits, all surface as actionable errors:   * EXTENSION_AUTH_DISABLED (503): kill switch flipped off.   * UNKNOWN_EXTENSION (400): `ext_id` not on the allow-list.   * Missing `ext_id` query string (400 INVALID_REQUEST).
+        Begin a sign-in flow on behalf of a Chrome extension.  Provider follows AUTH_MODE (WorkOS AuthKit or the TokenCanopy hub), exactly like /auth/login. Stamps `for=ext` + `ext_id` into the signed OAuth state so the callback handler knows to render the extension handoff page instead of setting a session cookie.  Three short-circuits, all surface as actionable errors:   * EXTENSION_AUTH_DISABLED (503): kill switch flipped off.   * UNKNOWN_EXTENSION (400): `ext_id` not on the allow-list.   * Missing `ext_id` query string (400 INVALID_REQUEST).
 
         :param ext_id:
         :type ext_id: str
@@ -12816,7 +12816,7 @@ class DefaultApi:
     ) -> ApiResponse[object]:
         """Extension Start
 
-        Begin a WorkOS sign-in flow on behalf of a Chrome extension.  Stamps `for=ext` + `ext_id` into the signed OAuth state so the callback handler knows to render the extension handoff page instead of setting a session cookie.  Three short-circuits, all surface as actionable errors:   * EXTENSION_AUTH_DISABLED (503): kill switch flipped off.   * UNKNOWN_EXTENSION (400): `ext_id` not on the allow-list.   * Missing `ext_id` query string (400 INVALID_REQUEST).
+        Begin a sign-in flow on behalf of a Chrome extension.  Provider follows AUTH_MODE (WorkOS AuthKit or the TokenCanopy hub), exactly like /auth/login. Stamps `for=ext` + `ext_id` into the signed OAuth state so the callback handler knows to render the extension handoff page instead of setting a session cookie.  Three short-circuits, all surface as actionable errors:   * EXTENSION_AUTH_DISABLED (503): kill switch flipped off.   * UNKNOWN_EXTENSION (400): `ext_id` not on the allow-list.   * Missing `ext_id` query string (400 INVALID_REQUEST).
 
         :param ext_id:
         :type ext_id: str
@@ -12884,7 +12884,7 @@ class DefaultApi:
     ) -> RESTResponseType:
         """Extension Start
 
-        Begin a WorkOS sign-in flow on behalf of a Chrome extension.  Stamps `for=ext` + `ext_id` into the signed OAuth state so the callback handler knows to render the extension handoff page instead of setting a session cookie.  Three short-circuits, all surface as actionable errors:   * EXTENSION_AUTH_DISABLED (503): kill switch flipped off.   * UNKNOWN_EXTENSION (400): `ext_id` not on the allow-list.   * Missing `ext_id` query string (400 INVALID_REQUEST).
+        Begin a sign-in flow on behalf of a Chrome extension.  Provider follows AUTH_MODE (WorkOS AuthKit or the TokenCanopy hub), exactly like /auth/login. Stamps `for=ext` + `ext_id` into the signed OAuth state so the callback handler knows to render the extension handoff page instead of setting a session cookie.  Three short-circuits, all surface as actionable errors:   * EXTENSION_AUTH_DISABLED (503): kill switch flipped off.   * UNKNOWN_EXTENSION (400): `ext_id` not on the allow-list.   * Missing `ext_id` query string (400 INVALID_REQUEST).
 
         :param ext_id:
         :type ext_id: str

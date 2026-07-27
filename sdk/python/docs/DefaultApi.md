@@ -3373,11 +3373,12 @@ No authorization required
 
 Extension Start
 
-Begin a WorkOS sign-in flow on behalf of a Chrome extension.
+Begin a sign-in flow on behalf of a Chrome extension.
 
-Stamps `for=ext` + `ext_id` into the signed OAuth state so the
-callback handler knows to render the extension handoff page
-instead of setting a session cookie.
+Provider follows AUTH_MODE (WorkOS AuthKit or the TokenCanopy hub),
+exactly like /auth/login. Stamps `for=ext` + `ext_id` into the
+signed OAuth state so the callback handler knows to render the
+extension handoff page instead of setting a session cookie.
 
 Three short-circuits, all surface as actionable errors:
   * EXTENSION_AUTH_DISABLED (503): kill switch flipped off.

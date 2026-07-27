@@ -3645,7 +3645,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Begin a WorkOS sign-in flow on behalf of a Chrome extension.  Stamps `for=ext` + `ext_id` into the signed OAuth state so the callback handler knows to render the extension handoff page instead of setting a session cookie.  Three short-circuits, all surface as actionable errors:   * EXTENSION_AUTH_DISABLED (503): kill switch flipped off.   * UNKNOWN_EXTENSION (400): `ext_id` not on the allow-list.   * Missing `ext_id` query string (400 INVALID_REQUEST).
+     * Begin a sign-in flow on behalf of a Chrome extension.  Provider follows AUTH_MODE (WorkOS AuthKit or the TokenCanopy hub), exactly like /auth/login. Stamps `for=ext` + `ext_id` into the signed OAuth state so the callback handler knows to render the extension handoff page instead of setting a session cookie.  Three short-circuits, all surface as actionable errors:   * EXTENSION_AUTH_DISABLED (503): kill switch flipped off.   * UNKNOWN_EXTENSION (400): `ext_id` not on the allow-list.   * Missing `ext_id` query string (400 INVALID_REQUEST).
      * Extension Start
      */
     async extensionStartAuthExtensionStartGetRaw(requestParameters: ExtensionStartAuthExtensionStartGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
@@ -3660,7 +3660,7 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Begin a WorkOS sign-in flow on behalf of a Chrome extension.  Stamps `for=ext` + `ext_id` into the signed OAuth state so the callback handler knows to render the extension handoff page instead of setting a session cookie.  Three short-circuits, all surface as actionable errors:   * EXTENSION_AUTH_DISABLED (503): kill switch flipped off.   * UNKNOWN_EXTENSION (400): `ext_id` not on the allow-list.   * Missing `ext_id` query string (400 INVALID_REQUEST).
+     * Begin a sign-in flow on behalf of a Chrome extension.  Provider follows AUTH_MODE (WorkOS AuthKit or the TokenCanopy hub), exactly like /auth/login. Stamps `for=ext` + `ext_id` into the signed OAuth state so the callback handler knows to render the extension handoff page instead of setting a session cookie.  Three short-circuits, all surface as actionable errors:   * EXTENSION_AUTH_DISABLED (503): kill switch flipped off.   * UNKNOWN_EXTENSION (400): `ext_id` not on the allow-list.   * Missing `ext_id` query string (400 INVALID_REQUEST).
      * Extension Start
      */
     async extensionStartAuthExtensionStartGet(requestParameters: ExtensionStartAuthExtensionStartGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {

@@ -3261,7 +3261,7 @@ No authorization required
 
 Extension Start
 
-Begin a WorkOS sign-in flow on behalf of a Chrome extension.  Stamps &#x60;for&#x3D;ext&#x60; + &#x60;ext_id&#x60; into the signed OAuth state so the callback handler knows to render the extension handoff page instead of setting a session cookie.  Three short-circuits, all surface as actionable errors:   * EXTENSION_AUTH_DISABLED (503): kill switch flipped off.   * UNKNOWN_EXTENSION (400): &#x60;ext_id&#x60; not on the allow-list.   * Missing &#x60;ext_id&#x60; query string (400 INVALID_REQUEST).
+Begin a sign-in flow on behalf of a Chrome extension.  Provider follows AUTH_MODE (WorkOS AuthKit or the TokenCanopy hub), exactly like /auth/login. Stamps &#x60;for&#x3D;ext&#x60; + &#x60;ext_id&#x60; into the signed OAuth state so the callback handler knows to render the extension handoff page instead of setting a session cookie.  Three short-circuits, all surface as actionable errors:   * EXTENSION_AUTH_DISABLED (503): kill switch flipped off.   * UNKNOWN_EXTENSION (400): &#x60;ext_id&#x60; not on the allow-list.   * Missing &#x60;ext_id&#x60; query string (400 INVALID_REQUEST).
 
 ### Example
 
