@@ -1,27 +1,36 @@
 # AgentDrive SDKs
 
-REST clients for the AgentDrive API, **generated** from the live OpenAPI spec
-(`https://api.agentdrive.run/openapi.json`, ~110 endpoints) using
-[openapi-generator](https://openapi-generator.tech/).
+REST clients for the AgentDrive API, generated from the reviewed contract
+committed at [`openapi.json`](openapi.json) using pinned OpenAPI Generator
+7.24.0. [`openapi.provenance.json`](openapi.provenance.json) records the exact
+AgentDrive source commit and snapshot digest.
 
 | Language | Directory | Package | Generator |
 |---|---|---|---|
 | Python | [`python/`](python/) | `agentdrive-sdk` (PyPI) | `python` (urllib3) |
-| TypeScript | [`typescript/`](typescript/) | `@agentdrive/sdk` (npm) | `typescript-fetch` |
+| TypeScript | [`typescript/`](typescript/) | `@mnexa-ai/agentdrive-sdk` (npm) | `typescript-fetch` |
 | Go | [`go/`](go/) | `github.com/Mnexa-AI/agentdrive-sdk/sdk/go` | `go` |
 
 ## Regenerating
 
-The clients are regenerated in CI (`.github/workflows/generate-sdks.yml`) on a
-schedule and on demand. To regenerate locally (needs Java + Node):
+An AgentDrive API change first updates the handler-generated
+`tests/openapi.golden.json` in the private server repository. A coordinated SDK
+PR imports that reviewed snapshot with its exact source commit:
 
 ```bash
-curl -sSf https://api.agentdrive.run/openapi.json -o sdk/openapi.json
+python3 scripts/import_agentdrive_contract.py \
+  /path/to/agentdrive/tests/openapi.golden.json \
+  --source-commit <agentdrive-commit>
 bash scripts/generate-sdks.sh sdk/openapi.json
 ```
 
-`sdk/openapi.json` is the committed snapshot of the spec used for the last
-generation; the source of truth is always the live endpoint.
+Generation requires Docker. CI first verifies the source digest and generator
+pin recorded in `openapi.provenance.json`, regenerates from the committed
+contract, and requires a clean worktree including untracked files. It then
+checks that Python, TypeScript, and Go expose every contract `operationId`
+without language-specific name collisions or stale operations. It never
+fetches the live production endpoint and never auto-commits or publishes
+generated changes.
 
 ## Authentication
 

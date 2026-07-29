@@ -6,19 +6,19 @@ POST /v0/folders/{fld_id}/copy response — the newly-created folder resource (s
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | 
-**drive_id** | **str** |  | 
-**path** | **str** |  | 
-**description** | **str** |  | [optional] 
+**created_at** | **datetime** |  |
+**deleted_at** | **datetime** |  | [optional]
+**description** | **str** |  | [optional]
+**drive_id** | **str** |  |
+**etag** | **str** |  |
+**from_fld_id** | **str** |  |
+**id** | **str** |  |
 **inherit_grants** | **bool** |  | [optional] [default to True]
 **metageneration** | **int** |  | [optional] [default to 1]
-**etag** | **str** |  | 
-**created_at** | **datetime** |  | 
-**updated_at** | **datetime** |  | 
-**deleted_at** | **datetime** |  | [optional] 
-**purge_at** | **datetime** |  | [optional] 
-**from_fld_id** | **str** |  | 
-**n_artifacts_copied** | **int** |  | 
+**n_artifacts_copied** | **int** |  |
+**path** | **str** |  |
+**purge_at** | **datetime** |  | [optional]
+**updated_at** | **datetime** |  |
 
 ## Example
 
@@ -38,5 +38,3 @@ folder_copy_out_dict = folder_copy_out_instance.to_dict()
 folder_copy_out_from_dict = FolderCopyOut.from_dict(folder_copy_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

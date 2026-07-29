@@ -6,9 +6,9 @@ Who a grant is for. `anyone` carries no id/email; `org`/`agent` require `id`; `u
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **str** |  | 
-**id** | **str** |  | [optional] 
-**email** | **str** |  | [optional] 
+**email** | **str** |  | [optional]
+**id** | **str** |  | [optional]
+**type** | **str** |  |
 
 ## Example
 
@@ -28,5 +28,3 @@ grant_principal_in_dict = grant_principal_in_instance.to_dict()
 grant_principal_in_from_dict = GrantPrincipalIn.from_dict(grant_principal_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

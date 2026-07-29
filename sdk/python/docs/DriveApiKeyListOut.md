@@ -6,9 +6,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**items** | [**List[DriveApiKeyOut]**](DriveApiKeyOut.md) |  | 
-**keys** | [**List[DriveApiKeyOut]**](DriveApiKeyOut.md) |  | 
-**next_cursor** | **str** |  | [optional] 
+**items** | [**List[DriveApiKeyOut]**](DriveApiKeyOut.md) |  |
+**keys** | [**List[DriveApiKeyOut]**](DriveApiKeyOut.md) |  |
+**next_cursor** | **str** |  | [optional]
 
 ## Example
 
@@ -28,5 +28,3 @@ drive_api_key_list_out_dict = drive_api_key_list_out_instance.to_dict()
 drive_api_key_list_out_from_dict = DriveApiKeyListOut.from_dict(drive_api_key_list_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

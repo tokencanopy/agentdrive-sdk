@@ -7,9 +7,9 @@ DELETE /v0/drives/{drive_id} response — the drive soft-delete receipt. Reversi
 
 Name | Type
 ------------ | -------------
-`ok` | boolean
-`id` | string
 `deletedAt` | Date
+`id` | string
+`ok` | boolean
 `purgeAt` | Date
 `restoreUrl` | string
 
@@ -20,9 +20,9 @@ import type { DriveDeleteOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "ok": null,
-  "id": null,
   "deletedAt": null,
+  "id": null,
+  "ok": null,
   "purgeAt": null,
   "restoreUrl": null,
 } satisfies DriveDeleteOut
@@ -39,5 +39,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

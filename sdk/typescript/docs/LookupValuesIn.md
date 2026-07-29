@@ -6,8 +6,8 @@
 
 Name | Type
 ------------ | -------------
-`dataset` | string
 `column` | string
+`dataset` | string
 `limit` | number
 
 ## Example
@@ -17,8 +17,8 @@ import type { LookupValuesIn } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "dataset": null,
   "column": null,
+  "dataset": null,
   "limit": null,
 } satisfies LookupValuesIn
 
@@ -34,5 +34,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

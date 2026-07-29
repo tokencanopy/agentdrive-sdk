@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**items** | [**List[WorkspaceOut]**](WorkspaceOut.md) |  | 
-**next_cursor** | **str** |  | [optional] 
+**items** | [**List[WorkspaceOut]**](WorkspaceOut.md) |  |
+**next_cursor** | **str** |  | [optional]
 
 ## Example
 
@@ -26,5 +26,3 @@ workspace_list_dict = workspace_list_instance.to_dict()
 workspace_list_from_dict = WorkspaceList.from_dict(workspace_list_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

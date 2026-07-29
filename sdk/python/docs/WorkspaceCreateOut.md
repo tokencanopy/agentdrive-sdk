@@ -6,9 +6,9 @@ POST /v0/workspaces response. Carries the new workspace + its starter drive's `a
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**workspace** | [**WorkspaceOut**](WorkspaceOut.md) |  | 
-**starter_drive_id** | **str** |  | 
-**starter_drive_api_key** | **str** |  | 
+**starter_drive_api_key** | **str** |  |
+**starter_drive_id** | **str** |  |
+**workspace** | [**WorkspaceOut**](WorkspaceOut.md) |  |
 
 ## Example
 
@@ -28,5 +28,3 @@ workspace_create_out_dict = workspace_create_out_instance.to_dict()
 workspace_create_out_from_dict = WorkspaceCreateOut.from_dict(workspace_create_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

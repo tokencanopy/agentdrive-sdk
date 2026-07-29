@@ -6,8 +6,8 @@ Single-use ticket → JWT pair. Called by `auth-complete.html` inside the SnipIt
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ext_id** | **str** | The extension&#39;s ID (Chrome Web Store ID or unpacked dev ID). | 
-**ticket** | **str** | The opaque ticket from the /auth/callback handoff. | 
+**ext_id** | **str** | The extension&#39;s ID (Chrome Web Store ID or unpacked dev ID). |
+**ticket** | **str** | The opaque ticket from the /auth/callback handoff. |
 
 ## Example
 
@@ -27,5 +27,3 @@ extension_exchange_request_dict = extension_exchange_request_instance.to_dict()
 extension_exchange_request_from_dict = ExtensionExchangeRequest.from_dict(extension_exchange_request_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

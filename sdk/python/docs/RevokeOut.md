@@ -6,9 +6,9 @@ DELETE /v0/grants/{grn_id}, DELETE /v0/shares/{shr_id}, DELETE /v0/invitations/{
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **str** |  |
 **ok** | **bool** |  | [optional] [default to True]
-**id** | **str** |  | 
-**revoked** | **int** |  | 
+**revoked** | **int** |  |
 
 ## Example
 
@@ -28,5 +28,3 @@ revoke_out_dict = revoke_out_instance.to_dict()
 revoke_out_from_dict = RevokeOut.from_dict(revoke_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

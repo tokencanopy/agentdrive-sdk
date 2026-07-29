@@ -6,18 +6,18 @@ The create/rotate response — the ONLY place the `share_key` and its redemption
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | 
-**resource_type** | **str** |  | 
-**resource_id** | **str** |  | 
-**role** | **str** |  | 
-**audience** | **str** |  | 
-**has_password** | **bool** |  | 
-**created_at** | **datetime** |  | 
-**expires_at** | **datetime** |  | [optional] 
-**last_accessed_at** | **datetime** |  | [optional] 
 **access_count** | **int** |  | [optional] [default to 0]
-**share_key** | **str** |  | 
-**url** | **str** |  | 
+**audience** | **str** |  |
+**created_at** | **datetime** |  |
+**expires_at** | **datetime** |  | [optional]
+**has_password** | **bool** |  |
+**id** | **str** |  |
+**last_accessed_at** | **datetime** |  | [optional]
+**resource_id** | **str** |  |
+**resource_type** | **str** |  |
+**role** | **str** |  |
+**share_key** | **str** |  |
+**url** | **str** |  |
 
 ## Example
 
@@ -37,5 +37,3 @@ share_mint_out_dict = share_mint_out_instance.to_dict()
 share_mint_out_from_dict = ShareMintOut.from_dict(share_mint_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

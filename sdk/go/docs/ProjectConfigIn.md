@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Entrypoint** | **string** |  | 
-**Engine** | Pointer to **NullableString** |  | [optional] 
 **AutoCompile** | Pointer to **bool** |  | [optional] [default to false]
+**Engine** | Pointer to **NullableString** |  | [optional]
+**Entrypoint** | **string** |  |
 
 ## Methods
 
@@ -27,25 +27,30 @@ NewProjectConfigInWithDefaults instantiates a new ProjectConfigIn object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetEntrypoint
+### GetAutoCompile
 
-`func (o *ProjectConfigIn) GetEntrypoint() string`
+`func (o *ProjectConfigIn) GetAutoCompile() bool`
 
-GetEntrypoint returns the Entrypoint field if non-nil, zero value otherwise.
+GetAutoCompile returns the AutoCompile field if non-nil, zero value otherwise.
 
-### GetEntrypointOk
+### GetAutoCompileOk
 
-`func (o *ProjectConfigIn) GetEntrypointOk() (*string, bool)`
+`func (o *ProjectConfigIn) GetAutoCompileOk() (*bool, bool)`
 
-GetEntrypointOk returns a tuple with the Entrypoint field if it's non-nil, zero value otherwise
+GetAutoCompileOk returns a tuple with the AutoCompile field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetEntrypoint
+### SetAutoCompile
 
-`func (o *ProjectConfigIn) SetEntrypoint(v string)`
+`func (o *ProjectConfigIn) SetAutoCompile(v bool)`
 
-SetEntrypoint sets Entrypoint field to given value.
+SetAutoCompile sets AutoCompile field to given value.
 
+### HasAutoCompile
+
+`func (o *ProjectConfigIn) HasAutoCompile() bool`
+
+HasAutoCompile returns a boolean if a field has been set.
 
 ### GetEngine
 
@@ -82,32 +87,25 @@ HasEngine returns a boolean if a field has been set.
 `func (o *ProjectConfigIn) UnsetEngine()`
 
 UnsetEngine ensures that no value is present for Engine, not even an explicit nil
-### GetAutoCompile
+### GetEntrypoint
 
-`func (o *ProjectConfigIn) GetAutoCompile() bool`
+`func (o *ProjectConfigIn) GetEntrypoint() string`
 
-GetAutoCompile returns the AutoCompile field if non-nil, zero value otherwise.
+GetEntrypoint returns the Entrypoint field if non-nil, zero value otherwise.
 
-### GetAutoCompileOk
+### GetEntrypointOk
 
-`func (o *ProjectConfigIn) GetAutoCompileOk() (*bool, bool)`
+`func (o *ProjectConfigIn) GetEntrypointOk() (*string, bool)`
 
-GetAutoCompileOk returns a tuple with the AutoCompile field if it's non-nil, zero value otherwise
+GetEntrypointOk returns a tuple with the Entrypoint field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetAutoCompile
+### SetEntrypoint
 
-`func (o *ProjectConfigIn) SetAutoCompile(v bool)`
+`func (o *ProjectConfigIn) SetEntrypoint(v string)`
 
-SetAutoCompile sets AutoCompile field to given value.
+SetEntrypoint sets Entrypoint field to given value.
 
-### HasAutoCompile
-
-`func (o *ProjectConfigIn) HasAutoCompile() bool`
-
-HasAutoCompile returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

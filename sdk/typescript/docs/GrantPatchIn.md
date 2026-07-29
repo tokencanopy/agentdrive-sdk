@@ -7,8 +7,8 @@ PATCH /v0/grants/{grn_id} body. Field absence = unchanged; explicit `expires_in:
 
 Name | Type
 ------------ | -------------
-`role` | string
 `expiresIn` | number
+`role` | string
 
 ## Example
 
@@ -17,8 +17,8 @@ import type { GrantPatchIn } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "role": null,
   "expiresIn": null,
+  "role": null,
 } satisfies GrantPatchIn
 
 console.log(example)
@@ -33,5 +33,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

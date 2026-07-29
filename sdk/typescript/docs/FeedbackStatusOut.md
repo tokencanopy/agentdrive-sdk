@@ -7,14 +7,14 @@ GET /v0/feedback/{fbk_id} response — lifecycle status of feedback THIS drive f
 
 Name | Type
 ------------ | -------------
-`id` | string
-`status` | string
-`kind` | string
-`title` | string
 `contact` | boolean
-`duplicateOf` | string
 `createdAt` | Date
+`duplicateOf` | string
+`id` | string
+`kind` | string
+`status` | string
 `statusChangedAt` | Date
+`title` | string
 
 ## Example
 
@@ -23,14 +23,14 @@ import type { FeedbackStatusOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "id": null,
-  "status": null,
-  "kind": null,
-  "title": null,
   "contact": null,
-  "duplicateOf": null,
   "createdAt": null,
+  "duplicateOf": null,
+  "id": null,
+  "kind": null,
+  "status": null,
   "statusChangedAt": null,
+  "title": null,
 } satisfies FeedbackStatusOut
 
 console.log(example)
@@ -45,5 +45,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

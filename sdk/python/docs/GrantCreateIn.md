@@ -6,10 +6,10 @@ POST /v0/grants body. `resource` is an `art_*`/`fld_*` id or a path (resolved wi
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**resource** | **str** |  | 
-**principal** | [**GrantPrincipalIn**](GrantPrincipalIn.md) |  | 
-**role** | **str** |  | 
-**expires_in** | **int** |  | [optional] 
+**expires_in** | **int** |  | [optional]
+**principal** | [**GrantPrincipalIn**](GrantPrincipalIn.md) |  |
+**resource** | **str** |  |
+**role** | **str** |  |
 
 ## Example
 
@@ -29,5 +29,3 @@ grant_create_in_dict = grant_create_in_instance.to_dict()
 grant_create_in_from_dict = GrantCreateIn.from_dict(grant_create_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

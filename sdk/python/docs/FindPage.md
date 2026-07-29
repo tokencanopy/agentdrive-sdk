@@ -6,7 +6,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**items** | [**List[FindHitOut]**](FindHitOut.md) |  | 
+**items** | [**List[FindHitOut]**](FindHitOut.md) |  |
 
 ## Example
 
@@ -26,5 +26,3 @@ find_page_dict = find_page_instance.to_dict()
 find_page_from_dict = FindPage.from_dict(find_page_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

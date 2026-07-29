@@ -7,8 +7,8 @@ DELETE /v0/members/{user_id} response — the member-removal receipt. `id` is th
 
 Name | Type
 ------------ | -------------
-`ok` | boolean
 `id` | string
+`ok` | boolean
 `organizationId` | string
 
 ## Example
@@ -18,8 +18,8 @@ import type { MemberRemoveOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "ok": null,
   "id": null,
+  "ok": null,
   "organizationId": null,
 } satisfies MemberRemoveOut
 
@@ -35,5 +35,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

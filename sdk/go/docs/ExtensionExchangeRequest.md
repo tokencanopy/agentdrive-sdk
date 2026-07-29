@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ExtId** | **string** | The extension&#39;s ID (Chrome Web Store ID or unpacked dev ID). | 
-**Ticket** | **string** | The opaque ticket from the /auth/callback handoff. | 
+**ExtId** | **string** | The extension&#39;s ID (Chrome Web Store ID or unpacked dev ID). |
+**Ticket** | **string** | The opaque ticket from the /auth/callback handoff. |
 
 ## Methods
 
@@ -68,5 +68,3 @@ SetTicket sets Ticket field to given value.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

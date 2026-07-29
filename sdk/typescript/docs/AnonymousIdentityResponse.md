@@ -7,12 +7,12 @@
 
 Name | Type
 ------------ | -------------
-`identityAssertion` | string
-`claimToken` | string
-`claimMetadata` | [ClaimMetadata](ClaimMetadata.md)
-`driveId` | string
 `agentIdentityId` | string
+`claimMetadata` | [ClaimMetadata](ClaimMetadata.md)
+`claimToken` | string
+`driveId` | string
 `expiresAt` | Date
+`identityAssertion` | string
 
 ## Example
 
@@ -21,12 +21,12 @@ import type { AnonymousIdentityResponse } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "identityAssertion": null,
-  "claimToken": null,
-  "claimMetadata": null,
-  "driveId": null,
   "agentIdentityId": null,
+  "claimMetadata": null,
+  "claimToken": null,
+  "driveId": null,
   "expiresAt": null,
+  "identityAssertion": null,
 } satisfies AnonymousIdentityResponse
 
 console.log(example)
@@ -41,5 +41,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**items** | [**List[ArtifactOut]**](ArtifactOut.md) |  | 
-**next_cursor** | **str** |  | [optional] 
+**items** | [**List[ArtifactOut]**](ArtifactOut.md) |  |
+**next_cursor** | **str** |  | [optional]
 
 ## Example
 
@@ -26,5 +26,3 @@ page_dict = page_instance.to_dict()
 page_from_dict = Page.from_dict(page_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

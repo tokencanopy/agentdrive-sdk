@@ -42,7 +42,7 @@ configuration = agentdrive_sdk.Configuration(
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.AgentAuthApi(api_client)
-    extension_exchange_request = agentdrive_sdk.ExtensionExchangeRequest() # ExtensionExchangeRequest | 
+    extension_exchange_request = agentdrive_sdk.ExtensionExchangeRequest() # ExtensionExchangeRequest |
 
     try:
         # Redeem an extension OAuth ticket for a JWT pair
@@ -60,7 +60,7 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **extension_exchange_request** | [**ExtensionExchangeRequest**](ExtensionExchangeRequest.md)|  | 
+ **extension_exchange_request** | [**ExtensionExchangeRequest**](ExtensionExchangeRequest.md)|  |
 
 ### Return type
 
@@ -79,8 +79,11 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**400** | The extension ID or ticket is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | Too many extension sign-in attempts. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**503** | Extension authentication or token signing is unavailable. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -112,7 +115,7 @@ configuration = agentdrive_sdk.Configuration(
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.AgentAuthApi(api_client)
-    claim_init_request = agentdrive_sdk.ClaimInitRequest() # ClaimInitRequest | 
+    claim_init_request = agentdrive_sdk.ClaimInitRequest() # ClaimInitRequest |
 
     try:
         # Initiate the human-claim ceremony for an agent identity
@@ -130,7 +133,7 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **claim_init_request** | [**ClaimInitRequest**](ClaimInitRequest.md)|  | 
+ **claim_init_request** | [**ClaimInitRequest**](ClaimInitRequest.md)|  |
 
 ### Return type
 
@@ -149,13 +152,13 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **jwks_well_known_jwks_json_get**
-> Dict[str, Optional[object]] jwks_well_known_jwks_json_get()
+> JwksOut jwks_well_known_jwks_json_get()
 
 JSON Web Key Set — public keys for verifying AgentDrive JWTs
 
@@ -166,6 +169,7 @@ Public half of the RSA signing key for identity_assertion + access_token JWTs is
 
 ```python
 import agentdrive_sdk
+from agentdrive_sdk.models.jwks_out import JwksOut
 from agentdrive_sdk.rest import ApiException
 from pprint import pprint
 
@@ -198,7 +202,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Dict[str, Optional[object]]**
+[**JwksOut**](JwksOut.md)
 
 ### Authorization
 
@@ -213,7 +217,7 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -248,7 +252,7 @@ configuration = agentdrive_sdk.Configuration(
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.AgentAuthApi(api_client)
-    grant_type = 'grant_type_example' # str | 
+    grant_type = 'grant_type_example' # str |
     assertion = 'assertion_example' # str |  (optional)
     claim_token = 'claim_token_example' # str |  (optional)
 
@@ -268,9 +272,9 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **grant_type** | **str**|  | 
- **assertion** | **str**|  | [optional] 
- **claim_token** | **str**|  | [optional] 
+ **grant_type** | **str**|  |
+ **assertion** | **str**|  | [optional]
+ **claim_token** | **str**|  | [optional]
 
 ### Return type
 
@@ -289,13 +293,13 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **oauth_authorization_server_well_known_oauth_authorization_server_get**
-> Dict[str, Optional[object]] oauth_authorization_server_well_known_oauth_authorization_server_get()
+> AuthorizationServerMetadataOut oauth_authorization_server_well_known_oauth_authorization_server_get()
 
 Authorization-server metadata (RFC 8414 + auth.md agent_auth block)
 
@@ -306,6 +310,7 @@ Discovery document for the auth.md protocol. Carries the standard RFC 8414 field
 
 ```python
 import agentdrive_sdk
+from agentdrive_sdk.models.authorization_server_metadata_out import AuthorizationServerMetadataOut
 from agentdrive_sdk.rest import ApiException
 from pprint import pprint
 
@@ -338,7 +343,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Dict[str, Optional[object]]**
+[**AuthorizationServerMetadataOut**](AuthorizationServerMetadataOut.md)
 
 ### Authorization
 
@@ -353,12 +358,12 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **oauth_protected_resource_mcp_well_known_oauth_protected_resource_mcp_get**
-> Dict[str, Optional[object]] oauth_protected_resource_mcp_well_known_oauth_protected_resource_mcp_get()
+> ProtectedResourceMetadataOut oauth_protected_resource_mcp_well_known_oauth_protected_resource_mcp_get()
 
 Protected-resource metadata for the MCP endpoint (RFC 9728 §3.1)
 
@@ -369,6 +374,7 @@ Path-inserted variant of the protected-resource document. MCP clients derive thi
 
 ```python
 import agentdrive_sdk
+from agentdrive_sdk.models.protected_resource_metadata_out import ProtectedResourceMetadataOut
 from agentdrive_sdk.rest import ApiException
 from pprint import pprint
 
@@ -401,7 +407,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Dict[str, Optional[object]]**
+[**ProtectedResourceMetadataOut**](ProtectedResourceMetadataOut.md)
 
 ### Authorization
 
@@ -416,12 +422,12 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **oauth_protected_resource_well_known_oauth_protected_resource_get**
-> Dict[str, Optional[object]] oauth_protected_resource_well_known_oauth_protected_resource_get()
+> ProtectedResourceMetadataOut oauth_protected_resource_well_known_oauth_protected_resource_get()
 
 Protected-resource metadata (auth.md / RFC 9728-like discovery)
 
@@ -432,6 +438,7 @@ Names this server as a protected resource and points clients at the authorizatio
 
 ```python
 import agentdrive_sdk
+from agentdrive_sdk.models.protected_resource_metadata_out import ProtectedResourceMetadataOut
 from agentdrive_sdk.rest import ApiException
 from pprint import pprint
 
@@ -464,7 +471,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Dict[str, Optional[object]]**
+[**ProtectedResourceMetadataOut**](ProtectedResourceMetadataOut.md)
 
 ### Authorization
 
@@ -479,7 +486,7 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -514,7 +521,7 @@ configuration = agentdrive_sdk.Configuration(
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.AgentAuthApi(api_client)
-    request_body = None # Dict[str, Optional[object]] | 
+    request_body = None # Dict[str, Optional[object]] |
 
     try:
         # Register an agent identity (anonymous or ID-JAG)
@@ -532,7 +539,7 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**Dict[str, Optional[object]]**](object.md)|  | 
+ **request_body** | [**Dict[str, Optional[object]]**](object.md)|  |
 
 ### Return type
 
@@ -551,8 +558,8 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**503** | Agent identity signing is not configured. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-

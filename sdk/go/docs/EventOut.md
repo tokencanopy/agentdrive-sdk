@@ -4,19 +4,19 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** |  | 
-**DriveId** | **string** |  | 
-**ArtId** | Pointer to **NullableString** |  | [optional] 
-**ActorName** | Pointer to **NullableString** |  | [optional] 
-**Action** | **string** |  | 
-**Metadata** | Pointer to **map[string]interface{}** |  | [optional] 
-**CreatedAt** | **time.Time** |  | 
+**Action** | **string** |  |
+**ActorName** | Pointer to **NullableString** |  | [optional]
+**ArtId** | Pointer to **NullableString** |  | [optional]
+**CreatedAt** | **time.Time** |  |
+**DriveId** | **string** |  |
+**Id** | **string** |  |
+**Metadata** | Pointer to **map[string]interface{}** |  | [optional]
 
 ## Methods
 
 ### NewEventOut
 
-`func NewEventOut(id string, driveId string, action string, createdAt time.Time, ) *EventOut`
+`func NewEventOut(action string, createdAt time.Time, driveId string, id string, ) *EventOut`
 
 NewEventOut instantiates a new EventOut object
 This constructor will assign default values to properties that have it defined,
@@ -31,81 +31,26 @@ NewEventOutWithDefaults instantiates a new EventOut object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetId
+### GetAction
 
-`func (o *EventOut) GetId() string`
+`func (o *EventOut) GetAction() string`
 
-GetId returns the Id field if non-nil, zero value otherwise.
+GetAction returns the Action field if non-nil, zero value otherwise.
 
-### GetIdOk
+### GetActionOk
 
-`func (o *EventOut) GetIdOk() (*string, bool)`
+`func (o *EventOut) GetActionOk() (*string, bool)`
 
-GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+GetActionOk returns a tuple with the Action field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetId
+### SetAction
 
-`func (o *EventOut) SetId(v string)`
+`func (o *EventOut) SetAction(v string)`
 
-SetId sets Id field to given value.
-
-
-### GetDriveId
-
-`func (o *EventOut) GetDriveId() string`
-
-GetDriveId returns the DriveId field if non-nil, zero value otherwise.
-
-### GetDriveIdOk
-
-`func (o *EventOut) GetDriveIdOk() (*string, bool)`
-
-GetDriveIdOk returns a tuple with the DriveId field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDriveId
-
-`func (o *EventOut) SetDriveId(v string)`
-
-SetDriveId sets DriveId field to given value.
+SetAction sets Action field to given value.
 
 
-### GetArtId
-
-`func (o *EventOut) GetArtId() string`
-
-GetArtId returns the ArtId field if non-nil, zero value otherwise.
-
-### GetArtIdOk
-
-`func (o *EventOut) GetArtIdOk() (*string, bool)`
-
-GetArtIdOk returns a tuple with the ArtId field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetArtId
-
-`func (o *EventOut) SetArtId(v string)`
-
-SetArtId sets ArtId field to given value.
-
-### HasArtId
-
-`func (o *EventOut) HasArtId() bool`
-
-HasArtId returns a boolean if a field has been set.
-
-### SetArtIdNil
-
-`func (o *EventOut) SetArtIdNil(b bool)`
-
- SetArtIdNil sets the value for ArtId to be an explicit nil
-
-### UnsetArtId
-`func (o *EventOut) UnsetArtId()`
-
-UnsetArtId ensures that no value is present for ArtId, not even an explicit nil
 ### GetActorName
 
 `func (o *EventOut) GetActorName() string`
@@ -141,24 +86,99 @@ HasActorName returns a boolean if a field has been set.
 `func (o *EventOut) UnsetActorName()`
 
 UnsetActorName ensures that no value is present for ActorName, not even an explicit nil
-### GetAction
+### GetArtId
 
-`func (o *EventOut) GetAction() string`
+`func (o *EventOut) GetArtId() string`
 
-GetAction returns the Action field if non-nil, zero value otherwise.
+GetArtId returns the ArtId field if non-nil, zero value otherwise.
 
-### GetActionOk
+### GetArtIdOk
 
-`func (o *EventOut) GetActionOk() (*string, bool)`
+`func (o *EventOut) GetArtIdOk() (*string, bool)`
 
-GetActionOk returns a tuple with the Action field if it's non-nil, zero value otherwise
+GetArtIdOk returns a tuple with the ArtId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetAction
+### SetArtId
 
-`func (o *EventOut) SetAction(v string)`
+`func (o *EventOut) SetArtId(v string)`
 
-SetAction sets Action field to given value.
+SetArtId sets ArtId field to given value.
+
+### HasArtId
+
+`func (o *EventOut) HasArtId() bool`
+
+HasArtId returns a boolean if a field has been set.
+
+### SetArtIdNil
+
+`func (o *EventOut) SetArtIdNil(b bool)`
+
+ SetArtIdNil sets the value for ArtId to be an explicit nil
+
+### UnsetArtId
+`func (o *EventOut) UnsetArtId()`
+
+UnsetArtId ensures that no value is present for ArtId, not even an explicit nil
+### GetCreatedAt
+
+`func (o *EventOut) GetCreatedAt() time.Time`
+
+GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
+
+### GetCreatedAtOk
+
+`func (o *EventOut) GetCreatedAtOk() (*time.Time, bool)`
+
+GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCreatedAt
+
+`func (o *EventOut) SetCreatedAt(v time.Time)`
+
+SetCreatedAt sets CreatedAt field to given value.
+
+
+### GetDriveId
+
+`func (o *EventOut) GetDriveId() string`
+
+GetDriveId returns the DriveId field if non-nil, zero value otherwise.
+
+### GetDriveIdOk
+
+`func (o *EventOut) GetDriveIdOk() (*string, bool)`
+
+GetDriveIdOk returns a tuple with the DriveId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDriveId
+
+`func (o *EventOut) SetDriveId(v string)`
+
+SetDriveId sets DriveId field to given value.
+
+
+### GetId
+
+`func (o *EventOut) GetId() string`
+
+GetId returns the Id field if non-nil, zero value otherwise.
+
+### GetIdOk
+
+`func (o *EventOut) GetIdOk() (*string, bool)`
+
+GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetId
+
+`func (o *EventOut) SetId(v string)`
+
+SetId sets Id field to given value.
 
 
 ### GetMetadata
@@ -186,27 +206,5 @@ SetMetadata sets Metadata field to given value.
 
 HasMetadata returns a boolean if a field has been set.
 
-### GetCreatedAt
-
-`func (o *EventOut) GetCreatedAt() time.Time`
-
-GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
-
-### GetCreatedAtOk
-
-`func (o *EventOut) GetCreatedAtOk() (*time.Time, bool)`
-
-GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCreatedAt
-
-`func (o *EventOut) SetCreatedAt(v time.Time)`
-
-SetCreatedAt sets CreatedAt field to given value.
-
-
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

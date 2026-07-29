@@ -6,8 +6,8 @@ PATCH /v0/folders/{fld_id} body — partial update. Field absence = unchanged. `
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**description** | **str** |  | [optional] 
-**inherit_grants** | **bool** |  | [optional] 
+**description** | **str** |  | [optional]
+**inherit_grants** | **bool** |  | [optional]
 
 ## Example
 
@@ -27,5 +27,3 @@ folder_patch_in_dict = folder_patch_in_instance.to_dict()
 folder_patch_in_from_dict = FolderPatchIn.from_dict(folder_patch_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

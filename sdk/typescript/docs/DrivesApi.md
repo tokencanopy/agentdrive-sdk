@@ -16,7 +16,7 @@ All URIs are relative to *https://api.agentdrive.run*
 
 ## createDriveKeyRouteV0DrivesDriveIdKeysPost
 
-> DriveApiKeyCreateOut createDriveKeyRouteV0DrivesDriveIdKeysPost(driveId, driveApiKeyCreateIn, authorization)
+> DriveApiKeyCreateOut createDriveKeyRouteV0DrivesDriveIdKeysPost(driveId, driveApiKeyCreateIn)
 
 Create a drive API key
 
@@ -33,15 +33,17 @@ import type { CreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest } from '@mnexa-a
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DrivesApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DrivesApi(config);
 
   const body = {
     // string
     driveId: driveId_example,
     // DriveApiKeyCreateIn
     driveApiKeyCreateIn: ...,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies CreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest;
 
   try {
@@ -63,7 +65,6 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **driveId** | `string` |  | [Defaults to `undefined`] |
 | **driveApiKeyCreateIn** | [DriveApiKeyCreateIn](DriveApiKeyCreateIn.md) |  | |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -71,7 +72,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -82,15 +83,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The key label or scope is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The drive does not exist for this user. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## createDriveRouteV0DrivesPost
 
-> DriveCreateOut createDriveRouteV0DrivesPost(driveCreateIn, authorization)
+> DriveCreateOut createDriveRouteV0DrivesPost(driveCreateIn)
 
 Create a drive in your active space
 
@@ -107,13 +113,15 @@ import type { CreateDriveRouteV0DrivesPostRequest } from '@mnexa-ai/agentdrive-s
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DrivesApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DrivesApi(config);
 
   const body = {
     // DriveCreateIn
     driveCreateIn: ...,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies CreateDriveRouteV0DrivesPostRequest;
 
   try {
@@ -134,7 +142,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **driveCreateIn** | [DriveCreateIn](DriveCreateIn.md) |  | |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -142,7 +149,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -153,15 +160,18 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **201** | Successful Response |  * Location - Canonical URL of the created resource. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## listDriveKeysRouteV0DrivesDriveIdKeysGet
 
-> DriveApiKeyListOut listDriveKeysRouteV0DrivesDriveIdKeysGet(driveId, cursor, limit, authorization)
+> DriveApiKeyListOut listDriveKeysRouteV0DrivesDriveIdKeysGet(driveId, cursor, limit)
 
 List a drive\&#39;s API keys
 
@@ -178,7 +188,11 @@ import type { ListDriveKeysRouteV0DrivesDriveIdKeysGetRequest } from '@mnexa-ai/
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DrivesApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DrivesApi(config);
 
   const body = {
     // string
@@ -187,8 +201,6 @@ async function example() {
     cursor: cursor_example,
     // number (optional)
     limit: 56,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies ListDriveKeysRouteV0DrivesDriveIdKeysGetRequest;
 
   try {
@@ -211,7 +223,6 @@ example().catch(console.error);
 | **driveId** | `string` |  | [Defaults to `undefined`] |
 | **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -219,7 +230,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -230,15 +241,19 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The drive does not exist for this user. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## listDrivesRouteV0DrivesGet
 
-> DriveList listDrivesRouteV0DrivesGet(cursor, limit, authorization)
+> DriveList listDrivesRouteV0DrivesGet(cursor, limit)
 
 List the drives you can see
 
@@ -255,15 +270,17 @@ import type { ListDrivesRouteV0DrivesGetRequest } from '@mnexa-ai/agentdrive-sdk
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DrivesApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DrivesApi(config);
 
   const body = {
     // string (optional)
     cursor: cursor_example,
     // number (optional)
     limit: 56,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies ListDrivesRouteV0DrivesGetRequest;
 
   try {
@@ -285,7 +302,6 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -293,7 +309,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -304,15 +320,18 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## renameDriveRouteV0DrivesDriveIdPatch
 
-> DriveOut renameDriveRouteV0DrivesDriveIdPatch(driveId, driveRenameIn, authorization)
+> DriveOut renameDriveRouteV0DrivesDriveIdPatch(driveId, driveRenameIn)
 
 Rename a drive you own
 
@@ -329,15 +348,17 @@ import type { RenameDriveRouteV0DrivesDriveIdPatchRequest } from '@mnexa-ai/agen
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DrivesApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DrivesApi(config);
 
   const body = {
     // string
     driveId: driveId_example,
     // DriveRenameIn
     driveRenameIn: ...,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies RenameDriveRouteV0DrivesDriveIdPatchRequest;
 
   try {
@@ -359,7 +380,6 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **driveId** | `string` |  | [Defaults to `undefined`] |
 | **driveRenameIn** | [DriveRenameIn](DriveRenameIn.md) |  | |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -367,7 +387,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -378,15 +398,21 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The drive update is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | No such drive exists for this principal. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | The drive update conflicts with current workspace state. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost
 
-> revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost(driveId, keyId, authorization)
+> revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost(driveId, keyId)
 
 Revoke a drive API key
 
@@ -403,15 +429,17 @@ import type { RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest } fro
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DrivesApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DrivesApi(config);
 
   const body = {
     // string
     driveId: driveId_example,
     // string
     keyId: keyId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest;
 
   try {
@@ -433,7 +461,6 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **driveId** | `string` |  | [Defaults to `undefined`] |
 | **keyId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -441,7 +468,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -452,15 +479,19 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **204** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **204** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The drive or key does not exist for this user. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost
 
-> DriveApiKeyCreateOut rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost(driveId, keyId, authorization)
+> DriveApiKeyCreateOut rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost(driveId, keyId)
 
 Rotate one API key
 
@@ -477,15 +508,17 @@ import type { RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest } from 
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DrivesApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DrivesApi(config);
 
   const body = {
     // string
     driveId: driveId_example,
     // string
     keyId: keyId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest;
 
   try {
@@ -507,7 +540,6 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **driveId** | `string` |  | [Defaults to `undefined`] |
 | **keyId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -515,7 +547,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -526,8 +558,11 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The drive or key does not exist for this user. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-

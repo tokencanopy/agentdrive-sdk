@@ -7,19 +7,19 @@ POST /v0/folders/{fld_id}/copy response — the newly-created folder resource (s
 
 Name | Type
 ------------ | -------------
-`id` | string
-`driveId` | string
-`path` | string
+`createdAt` | Date
+`deletedAt` | Date
 `description` | string
+`driveId` | string
+`etag` | string
+`fromFldId` | string
+`id` | string
 `inheritGrants` | boolean
 `metageneration` | number
-`etag` | string
-`createdAt` | Date
-`updatedAt` | Date
-`deletedAt` | Date
-`purgeAt` | Date
-`fromFldId` | string
 `nArtifactsCopied` | number
+`path` | string
+`purgeAt` | Date
+`updatedAt` | Date
 
 ## Example
 
@@ -28,19 +28,19 @@ import type { FolderCopyOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "id": null,
-  "driveId": null,
-  "path": null,
+  "createdAt": null,
+  "deletedAt": null,
   "description": null,
+  "driveId": null,
+  "etag": null,
+  "fromFldId": null,
+  "id": null,
   "inheritGrants": null,
   "metageneration": null,
-  "etag": null,
-  "createdAt": null,
-  "updatedAt": null,
-  "deletedAt": null,
-  "purgeAt": null,
-  "fromFldId": null,
   "nArtifactsCopied": null,
+  "path": null,
+  "purgeAt": null,
+  "updatedAt": null,
 } satisfies FolderCopyOut
 
 console.log(example)
@@ -55,5 +55,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

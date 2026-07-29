@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Items** | [**[]DriveApiKeyOut**](DriveApiKeyOut.md) |  | 
-**Keys** | [**[]DriveApiKeyOut**](DriveApiKeyOut.md) |  | 
-**NextCursor** | Pointer to **NullableString** |  | [optional] 
+**Items** | [**[]DriveApiKeyOut**](DriveApiKeyOut.md) |  |
+**Keys** | [**[]DriveApiKeyOut**](DriveApiKeyOut.md) |  |
+**NextCursor** | Pointer to **NullableString** |  | [optional]
 
 ## Methods
 
@@ -104,5 +104,3 @@ HasNextCursor returns a boolean if a field has been set.
 UnsetNextCursor ensures that no value is present for NextCursor, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

@@ -4,22 +4,22 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** |  | 
-**ResourceType** | **string** |  | 
-**ResourceId** | **string** |  | 
-**Role** | **string** |  | 
-**Audience** | **string** |  | 
-**HasPassword** | **bool** |  | 
-**CreatedAt** | **time.Time** |  | 
-**ExpiresAt** | Pointer to **NullableTime** |  | [optional] 
-**LastAccessedAt** | Pointer to **NullableTime** |  | [optional] 
 **AccessCount** | Pointer to **int32** |  | [optional] [default to 0]
+**Audience** | **string** |  |
+**CreatedAt** | **time.Time** |  |
+**ExpiresAt** | Pointer to **NullableTime** |  | [optional]
+**HasPassword** | **bool** |  |
+**Id** | **string** |  |
+**LastAccessedAt** | Pointer to **NullableTime** |  | [optional]
+**ResourceId** | **string** |  |
+**ResourceType** | **string** |  |
+**Role** | **string** |  |
 
 ## Methods
 
 ### NewShareOut
 
-`func NewShareOut(id string, resourceType string, resourceId string, role string, audience string, hasPassword bool, createdAt time.Time, ) *ShareOut`
+`func NewShareOut(audience string, createdAt time.Time, hasPassword bool, id string, resourceId string, resourceType string, role string, ) *ShareOut`
 
 NewShareOut instantiates a new ShareOut object
 This constructor will assign default values to properties that have it defined,
@@ -34,85 +34,30 @@ NewShareOutWithDefaults instantiates a new ShareOut object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetId
+### GetAccessCount
 
-`func (o *ShareOut) GetId() string`
+`func (o *ShareOut) GetAccessCount() int32`
 
-GetId returns the Id field if non-nil, zero value otherwise.
+GetAccessCount returns the AccessCount field if non-nil, zero value otherwise.
 
-### GetIdOk
+### GetAccessCountOk
 
-`func (o *ShareOut) GetIdOk() (*string, bool)`
+`func (o *ShareOut) GetAccessCountOk() (*int32, bool)`
 
-GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+GetAccessCountOk returns a tuple with the AccessCount field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetId
+### SetAccessCount
 
-`func (o *ShareOut) SetId(v string)`
+`func (o *ShareOut) SetAccessCount(v int32)`
 
-SetId sets Id field to given value.
+SetAccessCount sets AccessCount field to given value.
 
+### HasAccessCount
 
-### GetResourceType
+`func (o *ShareOut) HasAccessCount() bool`
 
-`func (o *ShareOut) GetResourceType() string`
-
-GetResourceType returns the ResourceType field if non-nil, zero value otherwise.
-
-### GetResourceTypeOk
-
-`func (o *ShareOut) GetResourceTypeOk() (*string, bool)`
-
-GetResourceTypeOk returns a tuple with the ResourceType field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetResourceType
-
-`func (o *ShareOut) SetResourceType(v string)`
-
-SetResourceType sets ResourceType field to given value.
-
-
-### GetResourceId
-
-`func (o *ShareOut) GetResourceId() string`
-
-GetResourceId returns the ResourceId field if non-nil, zero value otherwise.
-
-### GetResourceIdOk
-
-`func (o *ShareOut) GetResourceIdOk() (*string, bool)`
-
-GetResourceIdOk returns a tuple with the ResourceId field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetResourceId
-
-`func (o *ShareOut) SetResourceId(v string)`
-
-SetResourceId sets ResourceId field to given value.
-
-
-### GetRole
-
-`func (o *ShareOut) GetRole() string`
-
-GetRole returns the Role field if non-nil, zero value otherwise.
-
-### GetRoleOk
-
-`func (o *ShareOut) GetRoleOk() (*string, bool)`
-
-GetRoleOk returns a tuple with the Role field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRole
-
-`func (o *ShareOut) SetRole(v string)`
-
-SetRole sets Role field to given value.
-
+HasAccessCount returns a boolean if a field has been set.
 
 ### GetAudience
 
@@ -132,26 +77,6 @@ and a boolean to check if the value has been set.
 `func (o *ShareOut) SetAudience(v string)`
 
 SetAudience sets Audience field to given value.
-
-
-### GetHasPassword
-
-`func (o *ShareOut) GetHasPassword() bool`
-
-GetHasPassword returns the HasPassword field if non-nil, zero value otherwise.
-
-### GetHasPasswordOk
-
-`func (o *ShareOut) GetHasPasswordOk() (*bool, bool)`
-
-GetHasPasswordOk returns a tuple with the HasPassword field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetHasPassword
-
-`func (o *ShareOut) SetHasPassword(v bool)`
-
-SetHasPassword sets HasPassword field to given value.
 
 
 ### GetCreatedAt
@@ -209,6 +134,46 @@ HasExpiresAt returns a boolean if a field has been set.
 `func (o *ShareOut) UnsetExpiresAt()`
 
 UnsetExpiresAt ensures that no value is present for ExpiresAt, not even an explicit nil
+### GetHasPassword
+
+`func (o *ShareOut) GetHasPassword() bool`
+
+GetHasPassword returns the HasPassword field if non-nil, zero value otherwise.
+
+### GetHasPasswordOk
+
+`func (o *ShareOut) GetHasPasswordOk() (*bool, bool)`
+
+GetHasPasswordOk returns a tuple with the HasPassword field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHasPassword
+
+`func (o *ShareOut) SetHasPassword(v bool)`
+
+SetHasPassword sets HasPassword field to given value.
+
+
+### GetId
+
+`func (o *ShareOut) GetId() string`
+
+GetId returns the Id field if non-nil, zero value otherwise.
+
+### GetIdOk
+
+`func (o *ShareOut) GetIdOk() (*string, bool)`
+
+GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetId
+
+`func (o *ShareOut) SetId(v string)`
+
+SetId sets Id field to given value.
+
+
 ### GetLastAccessedAt
 
 `func (o *ShareOut) GetLastAccessedAt() time.Time`
@@ -244,32 +209,65 @@ HasLastAccessedAt returns a boolean if a field has been set.
 `func (o *ShareOut) UnsetLastAccessedAt()`
 
 UnsetLastAccessedAt ensures that no value is present for LastAccessedAt, not even an explicit nil
-### GetAccessCount
+### GetResourceId
 
-`func (o *ShareOut) GetAccessCount() int32`
+`func (o *ShareOut) GetResourceId() string`
 
-GetAccessCount returns the AccessCount field if non-nil, zero value otherwise.
+GetResourceId returns the ResourceId field if non-nil, zero value otherwise.
 
-### GetAccessCountOk
+### GetResourceIdOk
 
-`func (o *ShareOut) GetAccessCountOk() (*int32, bool)`
+`func (o *ShareOut) GetResourceIdOk() (*string, bool)`
 
-GetAccessCountOk returns a tuple with the AccessCount field if it's non-nil, zero value otherwise
+GetResourceIdOk returns a tuple with the ResourceId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetAccessCount
+### SetResourceId
 
-`func (o *ShareOut) SetAccessCount(v int32)`
+`func (o *ShareOut) SetResourceId(v string)`
 
-SetAccessCount sets AccessCount field to given value.
+SetResourceId sets ResourceId field to given value.
 
-### HasAccessCount
 
-`func (o *ShareOut) HasAccessCount() bool`
+### GetResourceType
 
-HasAccessCount returns a boolean if a field has been set.
+`func (o *ShareOut) GetResourceType() string`
+
+GetResourceType returns the ResourceType field if non-nil, zero value otherwise.
+
+### GetResourceTypeOk
+
+`func (o *ShareOut) GetResourceTypeOk() (*string, bool)`
+
+GetResourceTypeOk returns a tuple with the ResourceType field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetResourceType
+
+`func (o *ShareOut) SetResourceType(v string)`
+
+SetResourceType sets ResourceType field to given value.
+
+
+### GetRole
+
+`func (o *ShareOut) GetRole() string`
+
+GetRole returns the Role field if non-nil, zero value otherwise.
+
+### GetRoleOk
+
+`func (o *ShareOut) GetRoleOk() (*string, bool)`
+
+GetRoleOk returns a tuple with the Role field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRole
+
+`func (o *ShareOut) SetRole(v string)`
+
+SetRole sets Role field to given value.
+
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

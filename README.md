@@ -48,7 +48,7 @@ Full paste-ready blocks: [`docs/add-to-your-agent.md`](docs/add-to-your-agent.md
 | Path | Contents |
 |---|---|
 | [`plugin/`](plugin/) | The **Claude Code plugin** — wires the MCP + bundles the skill + `/publish` `/drive` `/compile`. Installed via the `marketplace.json` at the repo root. |
-| [`sdk/`](sdk/) | REST SDKs for **Python**, **TypeScript**, and **Go**, generated from the live OpenAPI spec |
+| [`sdk/`](sdk/) | REST SDKs for **Python**, **TypeScript**, and **Go**, generated from AgentDrive's committed contract |
 | [`skills/`](skills/) | The `agentdrive` agent Skill (synced from the production service) |
 | [`connector/`](connector/) | `server.json` (MCP registry manifest), connector icon, `llms.txt` |
 | [`docs/`](docs/) | Connect-your-agent guide, plus mirrored `setup.md` / `auth.md` / `api.md` |
@@ -56,14 +56,16 @@ Full paste-ready blocks: [`docs/add-to-your-agent.md`](docs/add-to-your-agent.md
 
 ## SDKs
 
-Generated from `https://api.agentdrive.run/openapi.json` via [openapi-generator](https://openapi-generator.tech/). See [`sdk/README.md`](sdk/README.md).
+Generated reproducibly from the reviewed AgentDrive contract via pinned
+[OpenAPI Generator](https://openapi-generator.tech/). See
+[`sdk/README.md`](sdk/README.md).
 
 ```bash
 # Python  (once published)
 pip install agentdrive-sdk
 
 # TypeScript / Node  (once published)
-npm install @agentdrive/sdk
+npm install @mnexa-ai/agentdrive-sdk
 
 # Go
 go get github.com/Mnexa-AI/agentdrive-sdk/sdk/go

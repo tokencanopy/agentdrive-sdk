@@ -6,13 +6,13 @@ One drive in a listing — metadata only (workspaces-design §4.2). Carries NO c
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | 
-**name** | **str** |  | 
-**organization_id** | **str** |  | 
-**owner_user_id** | **str** |  | [optional] 
-**owner_email** | **str** |  | [optional] 
-**storage_bytes** | **int** |  | 
-**created_at** | **datetime** |  | 
+**created_at** | **datetime** |  |
+**id** | **str** |  |
+**name** | **str** |  |
+**organization_id** | **str** |  |
+**owner_email** | **str** |  | [optional]
+**owner_user_id** | **str** |  | [optional]
+**storage_bytes** | **int** |  |
 
 ## Example
 
@@ -32,5 +32,3 @@ drive_out_dict = drive_out_instance.to_dict()
 drive_out_from_dict = DriveOut.from_dict(drive_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

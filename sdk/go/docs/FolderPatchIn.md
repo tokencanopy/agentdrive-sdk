@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Description** | Pointer to **NullableString** |  | [optional] 
-**InheritGrants** | Pointer to **NullableBool** |  | [optional] 
+**Description** | Pointer to **NullableString** |  | [optional]
+**InheritGrants** | Pointer to **NullableBool** |  | [optional]
 
 ## Methods
 
@@ -98,5 +98,3 @@ HasInheritGrants returns a boolean if a field has been set.
 UnsetInheritGrants ensures that no value is present for InheritGrants, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

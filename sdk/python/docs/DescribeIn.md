@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**dataset** | **str** |  | 
+**dataset** | **str** |  |
 
 ## Example
 
@@ -25,5 +25,3 @@ describe_in_dict = describe_in_instance.to_dict()
 describe_in_from_dict = DescribeIn.from_dict(describe_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

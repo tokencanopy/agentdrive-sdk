@@ -7,13 +7,13 @@ One drive in a listing — metadata only (workspaces-design §4.2). Carries NO c
 
 Name | Type
 ------------ | -------------
+`createdAt` | Date
 `id` | string
 `name` | string
 `organizationId` | string
-`ownerUserId` | string
 `ownerEmail` | string
+`ownerUserId` | string
 `storageBytes` | number
-`createdAt` | Date
 
 ## Example
 
@@ -22,13 +22,13 @@ import type { DriveOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
+  "createdAt": null,
   "id": null,
   "name": null,
   "organizationId": null,
-  "ownerUserId": null,
   "ownerEmail": null,
+  "ownerUserId": null,
   "storageBytes": null,
-  "createdAt": null,
 } satisfies DriveOut
 
 console.log(example)
@@ -43,5 +43,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

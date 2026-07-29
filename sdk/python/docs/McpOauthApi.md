@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **oauth2_register_oauth2_register_post**
-> object oauth2_register_oauth2_register_post()
+> ClientRegistrationOut oauth2_register_oauth2_register_post()
 
 Dynamic Client Registration (RFC 7591)
 
@@ -20,6 +20,7 @@ Anonymous registration endpoint for MCP clients. Public clients only (PKCE, no c
 
 ```python
 import agentdrive_sdk
+from agentdrive_sdk.models.client_registration_out import ClientRegistrationOut
 from agentdrive_sdk.rest import ApiException
 from pprint import pprint
 
@@ -52,7 +53,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**object**
+[**ClientRegistrationOut**](ClientRegistrationOut.md)
 
 ### Authorization
 
@@ -67,7 +68,9 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Successful Response |  -  |
+**201** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**400** | Invalid client metadata. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | Registration rate limit exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -130,7 +133,10 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**400** | Invalid revocation request. |  * X-Request-Id - Request correlation identifier. <br>  |
+**401** | Client authentication failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**403** | Token type is unsupported. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | Revocation rate limit exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-

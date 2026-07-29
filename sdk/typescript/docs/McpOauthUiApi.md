@@ -11,7 +11,7 @@ All URIs are relative to *https://api.agentdrive.run*
 
 ## authorizeDecisionOauth2AuthorizePost
 
-> any authorizeDecisionOauth2AuthorizePost(csrf)
+> authorizeDecisionOauth2AuthorizePost(csrf)
 
 Authorize Decision
 
@@ -54,7 +54,7 @@ example().catch(console.error);
 
 ### Return type
 
-**any**
+`void` (Empty response body)
 
 ### Authorization
 
@@ -69,8 +69,12 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **302** | Redirect to the canonical or authentication URL. |  * Location - Redirect target. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **303** | Continue after the form submission at the redirect target. |  * Location - Redirect target. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The authorization decision or request is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The selected drive is unavailable or the browser CSRF check failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | Authorization rate limit exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -121,13 +125,15 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `text/html`
+- **Accept**: `text/html`, `application/json`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **302** | Redirect to the canonical or authentication URL. |  * Location - Redirect target. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The authorization request is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | Authorization rate limit exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-

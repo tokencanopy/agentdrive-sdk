@@ -6,7 +6,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**label** | **str** |  | 
+**label** | **str** |  |
 
 ## Example
 
@@ -26,5 +26,3 @@ drive_api_key_create_in_dict = drive_api_key_create_in_instance.to_dict()
 drive_api_key_create_in_from_dict = DriveApiKeyCreateIn.from_dict(drive_api_key_create_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

@@ -5,13 +5,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | 
-**drive_id** | **str** |  | 
-**art_id** | **str** |  | [optional] 
-**actor_name** | **str** |  | [optional] 
-**action** | **str** |  | 
-**metadata** | **Dict[str, object]** |  | [optional] 
-**created_at** | **datetime** |  | 
+**action** | **str** |  |
+**actor_name** | **str** |  | [optional]
+**art_id** | **str** |  | [optional]
+**created_at** | **datetime** |  |
+**drive_id** | **str** |  |
+**id** | **str** |  |
+**metadata** | **Dict[str, object]** |  | [optional]
 
 ## Example
 
@@ -31,5 +31,3 @@ event_out_dict = event_out_instance.to_dict()
 event_out_from_dict = EventOut.from_dict(event_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

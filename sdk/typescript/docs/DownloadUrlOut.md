@@ -7,12 +7,12 @@ A URL the caller can GET to fetch the artifact\'s bytes.  `direct=True` ⇒ a sh
 
 Name | Type
 ------------ | -------------
-`downloadUrl` | string
-`direct` | boolean
-`expiresAt` | Date
-`sizeBytes` | number
 `contentType` | string
+`direct` | boolean
+`downloadUrl` | string
+`expiresAt` | Date
 `filename` | string
+`sizeBytes` | number
 
 ## Example
 
@@ -21,12 +21,12 @@ import type { DownloadUrlOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "downloadUrl": null,
-  "direct": null,
-  "expiresAt": null,
-  "sizeBytes": null,
   "contentType": null,
+  "direct": null,
+  "downloadUrl": null,
+  "expiresAt": null,
   "filename": null,
+  "sizeBytes": null,
 } satisfies DownloadUrlOut
 
 console.log(example)
@@ -41,5 +41,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

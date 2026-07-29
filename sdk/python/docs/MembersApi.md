@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **invite_member_v0_members_invite_post**
-> InviteCreateOut invite_member_v0_members_invite_post(member_invite_in, authorization=authorization)
+> InviteCreateOut invite_member_v0_members_invite_post(member_invite_in)
 
 Invite a person to your workspace by email
 
@@ -21,6 +21,7 @@ Create a pending invitation in the caller's active workspace and enqueue the inv
 
 ### Example
 
+* Bearer (ad_live_ | ad_user_ | JWT) Authentication (BearerAuth):
 
 ```python
 import agentdrive_sdk
@@ -35,17 +36,25 @@ configuration = agentdrive_sdk.Configuration(
     host = "https://api.agentdrive.run"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (ad_live_ | ad_user_ | JWT): BearerAuth
+configuration = agentdrive_sdk.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
 
 # Enter a context with an instance of the API client
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.MembersApi(api_client)
-    member_invite_in = agentdrive_sdk.MemberInviteIn() # MemberInviteIn | 
-    authorization = 'authorization_example' # str |  (optional)
+    member_invite_in = agentdrive_sdk.MemberInviteIn() # MemberInviteIn |
 
     try:
         # Invite a person to your workspace by email
-        api_response = api_instance.invite_member_v0_members_invite_post(member_invite_in, authorization=authorization)
+        api_response = api_instance.invite_member_v0_members_invite_post(member_invite_in)
         print("The response of MembersApi->invite_member_v0_members_invite_post:\n")
         pprint(api_response)
     except Exception as e:
@@ -59,8 +68,7 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **member_invite_in** | [**MemberInviteIn**](MemberInviteIn.md)|  | 
- **authorization** | **str**|  | [optional] 
+ **member_invite_in** | [**MemberInviteIn**](MemberInviteIn.md)|  |
 
 ### Return type
 
@@ -68,7 +76,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -79,13 +87,18 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**201** | Successful Response |  * Location - Canonical URL of the created resource. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**400** | The email or role is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+**401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+**409** | The user is already a member or has a pending invitation. |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_invitations_v0_invitations_get**
-> InvitationList list_invitations_v0_invitations_get(cursor=cursor, limit=limit, authorization=authorization)
+> InvitationList list_invitations_v0_invitations_get(cursor=cursor, limit=limit)
 
 List pending invitations
 
@@ -95,6 +108,7 @@ Newest first (`created_at` descending, tie-broken by `id`). Paginated: `limit` i
 
 ### Example
 
+* Bearer (ad_live_ | ad_user_ | JWT) Authentication (BearerAuth):
 
 ```python
 import agentdrive_sdk
@@ -108,6 +122,15 @@ configuration = agentdrive_sdk.Configuration(
     host = "https://api.agentdrive.run"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (ad_live_ | ad_user_ | JWT): BearerAuth
+configuration = agentdrive_sdk.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
 
 # Enter a context with an instance of the API client
 with agentdrive_sdk.ApiClient(configuration) as api_client:
@@ -115,11 +138,10 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     api_instance = agentdrive_sdk.MembersApi(api_client)
     cursor = 'cursor_example' # str |  (optional)
     limit = 56 # int |  (optional)
-    authorization = 'authorization_example' # str |  (optional)
 
     try:
         # List pending invitations
-        api_response = api_instance.list_invitations_v0_invitations_get(cursor=cursor, limit=limit, authorization=authorization)
+        api_response = api_instance.list_invitations_v0_invitations_get(cursor=cursor, limit=limit)
         print("The response of MembersApi->list_invitations_v0_invitations_get:\n")
         pprint(api_response)
     except Exception as e:
@@ -133,9 +155,8 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **cursor** | **str**|  | [optional] 
- **limit** | **int**|  | [optional] 
- **authorization** | **str**|  | [optional] 
+ **cursor** | **str**|  | [optional]
+ **limit** | **int**|  | [optional]
 
 ### Return type
 
@@ -143,7 +164,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -154,13 +175,16 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_members_v0_members_get**
-> MemberList list_members_v0_members_get(cursor=cursor, limit=limit, authorization=authorization)
+> MemberList list_members_v0_members_get(cursor=cursor, limit=limit)
 
 List the members of your active workspace
 
@@ -170,6 +194,7 @@ Ordered by join time (`created_at`, tie-broken by `user_id`) — **no role group
 
 ### Example
 
+* Bearer (ad_live_ | ad_user_ | JWT) Authentication (BearerAuth):
 
 ```python
 import agentdrive_sdk
@@ -183,6 +208,15 @@ configuration = agentdrive_sdk.Configuration(
     host = "https://api.agentdrive.run"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (ad_live_ | ad_user_ | JWT): BearerAuth
+configuration = agentdrive_sdk.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
 
 # Enter a context with an instance of the API client
 with agentdrive_sdk.ApiClient(configuration) as api_client:
@@ -190,11 +224,10 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     api_instance = agentdrive_sdk.MembersApi(api_client)
     cursor = 'cursor_example' # str |  (optional)
     limit = 56 # int |  (optional)
-    authorization = 'authorization_example' # str |  (optional)
 
     try:
         # List the members of your active workspace
-        api_response = api_instance.list_members_v0_members_get(cursor=cursor, limit=limit, authorization=authorization)
+        api_response = api_instance.list_members_v0_members_get(cursor=cursor, limit=limit)
         print("The response of MembersApi->list_members_v0_members_get:\n")
         pprint(api_response)
     except Exception as e:
@@ -208,9 +241,8 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **cursor** | **str**|  | [optional] 
- **limit** | **int**|  | [optional] 
- **authorization** | **str**|  | [optional] 
+ **cursor** | **str**|  | [optional]
+ **limit** | **int**|  | [optional]
 
 ### Return type
 
@@ -218,7 +250,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -229,13 +261,16 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **remove_member_v0_members_target_user_id_delete**
-> MemberRemoveOut remove_member_v0_members_target_user_id_delete(target_user_id, confirm=confirm, authorization=authorization)
+> MemberRemoveOut remove_member_v0_members_target_user_id_delete(target_user_id, confirm=confirm)
 
 Remove a member (or leave)
 
@@ -247,6 +282,7 @@ Deliberately takes NO `If-Match`: membership rows carry no generation/metagenera
 
 ### Example
 
+* Bearer (ad_live_ | ad_user_ | JWT) Authentication (BearerAuth):
 
 ```python
 import agentdrive_sdk
@@ -260,18 +296,26 @@ configuration = agentdrive_sdk.Configuration(
     host = "https://api.agentdrive.run"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (ad_live_ | ad_user_ | JWT): BearerAuth
+configuration = agentdrive_sdk.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
 
 # Enter a context with an instance of the API client
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.MembersApi(api_client)
-    target_user_id = 'target_user_id_example' # str | 
+    target_user_id = 'target_user_id_example' # str |
     confirm = 'confirm_example' # str |  (optional)
-    authorization = 'authorization_example' # str |  (optional)
 
     try:
         # Remove a member (or leave)
-        api_response = api_instance.remove_member_v0_members_target_user_id_delete(target_user_id, confirm=confirm, authorization=authorization)
+        api_response = api_instance.remove_member_v0_members_target_user_id_delete(target_user_id, confirm=confirm)
         print("The response of MembersApi->remove_member_v0_members_target_user_id_delete:\n")
         pprint(api_response)
     except Exception as e:
@@ -285,9 +329,8 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **target_user_id** | **str**|  | 
- **confirm** | **str**|  | [optional] 
- **authorization** | **str**|  | [optional] 
+ **target_user_id** | **str**|  |
+ **confirm** | **str**|  | [optional]
 
 ### Return type
 
@@ -295,7 +338,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -306,13 +349,18 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+**404** | The member does not exist in this workspace. |  * X-Request-Id - Request correlation identifier. <br>  |
+**409** | The removal would violate workspace ownership requirements. |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **revoke_invitation_v0_invitations_invitation_id_delete**
-> RevokeOut revoke_invitation_v0_invitations_invitation_id_delete(invitation_id, authorization=authorization)
+> RevokeOut revoke_invitation_v0_invitations_invitation_id_delete(invitation_id)
 
 Revoke a pending invitation
 
@@ -320,6 +368,7 @@ Revoke a pending invitation in the caller's active workspace. **Admin only**, `f
 
 ### Example
 
+* Bearer (ad_live_ | ad_user_ | JWT) Authentication (BearerAuth):
 
 ```python
 import agentdrive_sdk
@@ -333,17 +382,25 @@ configuration = agentdrive_sdk.Configuration(
     host = "https://api.agentdrive.run"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (ad_live_ | ad_user_ | JWT): BearerAuth
+configuration = agentdrive_sdk.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
 
 # Enter a context with an instance of the API client
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.MembersApi(api_client)
-    invitation_id = 'invitation_id_example' # str | 
-    authorization = 'authorization_example' # str |  (optional)
+    invitation_id = 'invitation_id_example' # str |
 
     try:
         # Revoke a pending invitation
-        api_response = api_instance.revoke_invitation_v0_invitations_invitation_id_delete(invitation_id, authorization=authorization)
+        api_response = api_instance.revoke_invitation_v0_invitations_invitation_id_delete(invitation_id)
         print("The response of MembersApi->revoke_invitation_v0_invitations_invitation_id_delete:\n")
         pprint(api_response)
     except Exception as e:
@@ -357,8 +414,7 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **invitation_id** | **str**|  | 
- **authorization** | **str**|  | [optional] 
+ **invitation_id** | **str**|  |
 
 ### Return type
 
@@ -366,7 +422,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -377,13 +433,17 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+**404** | The invitation does not exist in this workspace. |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **set_member_role_v0_members_target_user_id_patch**
-> MemberOut set_member_role_v0_members_target_user_id_patch(target_user_id, member_role_in, authorization=authorization)
+> MemberOut set_member_role_v0_members_target_user_id_patch(target_user_id, member_role_in)
 
 Change a member's role
 
@@ -391,6 +451,7 @@ Promote/demote a member in the caller's active workspace. **Admin only**, `full`
 
 ### Example
 
+* Bearer (ad_live_ | ad_user_ | JWT) Authentication (BearerAuth):
 
 ```python
 import agentdrive_sdk
@@ -405,18 +466,26 @@ configuration = agentdrive_sdk.Configuration(
     host = "https://api.agentdrive.run"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (ad_live_ | ad_user_ | JWT): BearerAuth
+configuration = agentdrive_sdk.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
 
 # Enter a context with an instance of the API client
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.MembersApi(api_client)
-    target_user_id = 'target_user_id_example' # str | 
-    member_role_in = agentdrive_sdk.MemberRoleIn() # MemberRoleIn | 
-    authorization = 'authorization_example' # str |  (optional)
+    target_user_id = 'target_user_id_example' # str |
+    member_role_in = agentdrive_sdk.MemberRoleIn() # MemberRoleIn |
 
     try:
         # Change a member's role
-        api_response = api_instance.set_member_role_v0_members_target_user_id_patch(target_user_id, member_role_in, authorization=authorization)
+        api_response = api_instance.set_member_role_v0_members_target_user_id_patch(target_user_id, member_role_in)
         print("The response of MembersApi->set_member_role_v0_members_target_user_id_patch:\n")
         pprint(api_response)
     except Exception as e:
@@ -430,9 +499,8 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **target_user_id** | **str**|  | 
- **member_role_in** | [**MemberRoleIn**](MemberRoleIn.md)|  | 
- **authorization** | **str**|  | [optional] 
+ **target_user_id** | **str**|  |
+ **member_role_in** | [**MemberRoleIn**](MemberRoleIn.md)|  |
 
 ### Return type
 
@@ -440,7 +508,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -451,8 +519,13 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**400** | The membership update is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+**401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+**404** | The member does not exist in this workspace. |  * X-Request-Id - Request correlation identifier. <br>  |
+**409** | The update would violate workspace ownership requirements. |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-

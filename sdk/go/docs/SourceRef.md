@@ -4,15 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Type** | **string** |  | 
-**Id** | **string** |  | 
-**Metadata** | Pointer to **map[string]interface{}** |  | [optional] 
+**Id** | **string** |  |
+**Metadata** | Pointer to **map[string]interface{}** |  | [optional]
+**Type** | **string** |  |
 
 ## Methods
 
 ### NewSourceRef
 
-`func NewSourceRef(type_ string, id string, ) *SourceRef`
+`func NewSourceRef(id string, type_ string, ) *SourceRef`
 
 NewSourceRef instantiates a new SourceRef object
 This constructor will assign default values to properties that have it defined,
@@ -26,26 +26,6 @@ will change when the set of required properties is changed
 NewSourceRefWithDefaults instantiates a new SourceRef object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetType
-
-`func (o *SourceRef) GetType() string`
-
-GetType returns the Type field if non-nil, zero value otherwise.
-
-### GetTypeOk
-
-`func (o *SourceRef) GetTypeOk() (*string, bool)`
-
-GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetType
-
-`func (o *SourceRef) SetType(v string)`
-
-SetType sets Type field to given value.
-
 
 ### GetId
 
@@ -102,7 +82,25 @@ HasMetadata returns a boolean if a field has been set.
 `func (o *SourceRef) UnsetMetadata()`
 
 UnsetMetadata ensures that no value is present for Metadata, not even an explicit nil
+### GetType
+
+`func (o *SourceRef) GetType() string`
+
+GetType returns the Type field if non-nil, zero value otherwise.
+
+### GetTypeOk
+
+`func (o *SourceRef) GetTypeOk() (*string, bool)`
+
+GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetType
+
+`func (o *SourceRef) SetType(v string)`
+
+SetType sets Type field to given value.
+
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

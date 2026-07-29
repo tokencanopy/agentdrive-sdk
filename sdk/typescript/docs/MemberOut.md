@@ -7,12 +7,12 @@ One live member of a workspace — metadata for the members page / `GET /v0/memb
 
 Name | Type
 ------------ | -------------
-`userId` | string
+`createdAt` | Date
 `email` | string
 `firstName` | string
 `lastName` | string
 `role` | string
-`createdAt` | Date
+`userId` | string
 
 ## Example
 
@@ -21,12 +21,12 @@ import type { MemberOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "userId": null,
+  "createdAt": null,
   "email": null,
   "firstName": null,
   "lastName": null,
   "role": null,
-  "createdAt": null,
+  "userId": null,
 } satisfies MemberOut
 
 console.log(example)
@@ -41,5 +41,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

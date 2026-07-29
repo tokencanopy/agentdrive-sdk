@@ -6,7 +6,7 @@ POST /v0/members/invite body — invite a person by email.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**email** | **str** |  | 
+**email** | **str** |  |
 **role** | **str** |  | [optional] [default to 'member']
 
 ## Example
@@ -27,5 +27,3 @@ member_invite_in_dict = member_invite_in_instance.to_dict()
 member_invite_in_from_dict = MemberInviteIn.from_dict(member_invite_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

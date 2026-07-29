@@ -15,7 +15,7 @@ All URIs are relative to *https://api.agentdrive.run*
 
 ## inviteMemberV0MembersInvitePost
 
-> InviteCreateOut inviteMemberV0MembersInvitePost(memberInviteIn, authorization)
+> InviteCreateOut inviteMemberV0MembersInvitePost(memberInviteIn)
 
 Invite a person to your workspace by email
 
@@ -32,13 +32,15 @@ import type { InviteMemberV0MembersInvitePostRequest } from '@mnexa-ai/agentdriv
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new MembersApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new MembersApi(config);
 
   const body = {
     // MemberInviteIn
     memberInviteIn: ...,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies InviteMemberV0MembersInvitePostRequest;
 
   try {
@@ -59,7 +61,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **memberInviteIn** | [MemberInviteIn](MemberInviteIn.md) |  | |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -67,7 +68,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -78,15 +79,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **201** | Successful Response |  * Location - Canonical URL of the created resource. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The email or role is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | The user is already a member or has a pending invitation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## listInvitationsV0InvitationsGet
 
-> InvitationList listInvitationsV0InvitationsGet(cursor, limit, authorization)
+> InvitationList listInvitationsV0InvitationsGet(cursor, limit)
 
 List pending invitations
 
@@ -103,15 +109,17 @@ import type { ListInvitationsV0InvitationsGetRequest } from '@mnexa-ai/agentdriv
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new MembersApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new MembersApi(config);
 
   const body = {
     // string (optional)
     cursor: cursor_example,
     // number (optional)
     limit: 56,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies ListInvitationsV0InvitationsGetRequest;
 
   try {
@@ -133,7 +141,6 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -141,7 +148,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -152,15 +159,18 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## listMembersV0MembersGet
 
-> MemberList listMembersV0MembersGet(cursor, limit, authorization)
+> MemberList listMembersV0MembersGet(cursor, limit)
 
 List the members of your active workspace
 
@@ -177,15 +187,17 @@ import type { ListMembersV0MembersGetRequest } from '@mnexa-ai/agentdrive-sdk';
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new MembersApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new MembersApi(config);
 
   const body = {
     // string (optional)
     cursor: cursor_example,
     // number (optional)
     limit: 56,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies ListMembersV0MembersGetRequest;
 
   try {
@@ -207,7 +219,6 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -215,7 +226,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -226,15 +237,18 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## removeMemberV0MembersTargetUserIdDelete
 
-> MemberRemoveOut removeMemberV0MembersTargetUserIdDelete(targetUserId, confirm, authorization)
+> MemberRemoveOut removeMemberV0MembersTargetUserIdDelete(targetUserId, confirm)
 
 Remove a member (or leave)
 
@@ -251,15 +265,17 @@ import type { RemoveMemberV0MembersTargetUserIdDeleteRequest } from '@mnexa-ai/a
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new MembersApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new MembersApi(config);
 
   const body = {
     // string
     targetUserId: targetUserId_example,
     // string (optional)
     confirm: confirm_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies RemoveMemberV0MembersTargetUserIdDeleteRequest;
 
   try {
@@ -281,7 +297,6 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **targetUserId** | `string` |  | [Defaults to `undefined`] |
 | **confirm** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -289,7 +304,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -300,15 +315,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The member does not exist in this workspace. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | The removal would violate workspace ownership requirements. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## revokeInvitationV0InvitationsInvitationIdDelete
 
-> RevokeOut revokeInvitationV0InvitationsInvitationIdDelete(invitationId, authorization)
+> RevokeOut revokeInvitationV0InvitationsInvitationIdDelete(invitationId)
 
 Revoke a pending invitation
 
@@ -325,13 +345,15 @@ import type { RevokeInvitationV0InvitationsInvitationIdDeleteRequest } from '@mn
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new MembersApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new MembersApi(config);
 
   const body = {
     // string
     invitationId: invitationId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies RevokeInvitationV0InvitationsInvitationIdDeleteRequest;
 
   try {
@@ -352,7 +374,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **invitationId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -360,7 +381,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -371,15 +392,19 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The invitation does not exist in this workspace. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## setMemberRoleV0MembersTargetUserIdPatch
 
-> MemberOut setMemberRoleV0MembersTargetUserIdPatch(targetUserId, memberRoleIn, authorization)
+> MemberOut setMemberRoleV0MembersTargetUserIdPatch(targetUserId, memberRoleIn)
 
 Change a member\&#39;s role
 
@@ -396,15 +421,17 @@ import type { SetMemberRoleV0MembersTargetUserIdPatchRequest } from '@mnexa-ai/a
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new MembersApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new MembersApi(config);
 
   const body = {
     // string
     targetUserId: targetUserId_example,
     // MemberRoleIn
     memberRoleIn: ...,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies SetMemberRoleV0MembersTargetUserIdPatchRequest;
 
   try {
@@ -426,7 +453,6 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **targetUserId** | `string` |  | [Defaults to `undefined`] |
 | **memberRoleIn** | [MemberRoleIn](MemberRoleIn.md) |  | |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -434,7 +460,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -445,8 +471,13 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The membership update is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The member does not exist in this workspace. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | The update would violate workspace ownership requirements. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-

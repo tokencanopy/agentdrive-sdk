@@ -6,9 +6,9 @@ POST /v0/artifacts/{art_id}/copy body — duplicate to new path.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**path** | **str** |  | 
-**source** | [**ArtifactSource**](ArtifactSource.md) |  | [optional] 
-**from_generation** | **int** |  | [optional] 
+**from_generation** | **int** |  | [optional]
+**path** | **str** |  |
+**source** | [**ArtifactSource**](ArtifactSource.md) |  | [optional]
 
 ## Example
 
@@ -28,5 +28,3 @@ copy_in_dict = copy_in_instance.to_dict()
 copy_in_from_dict = CopyIn.from_dict(copy_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

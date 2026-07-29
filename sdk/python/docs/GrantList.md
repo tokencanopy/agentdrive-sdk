@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**items** | [**List[GrantOut]**](GrantOut.md) |  | 
-**next_cursor** | **str** |  | [optional] 
+**items** | [**List[GrantOut]**](GrantOut.md) |  |
+**next_cursor** | **str** |  | [optional]
 
 ## Example
 
@@ -26,5 +26,3 @@ grant_list_dict = grant_list_instance.to_dict()
 grant_list_from_dict = GrantList.from_dict(grant_list_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

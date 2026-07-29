@@ -4,15 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Workspace** | [**WorkspaceOut**](WorkspaceOut.md) |  | 
-**StarterDriveId** | **string** |  | 
-**StarterDriveApiKey** | **string** |  | 
+**StarterDriveApiKey** | **string** |  |
+**StarterDriveId** | **string** |  |
+**Workspace** | [**WorkspaceOut**](WorkspaceOut.md) |  |
 
 ## Methods
 
 ### NewWorkspaceCreateOut
 
-`func NewWorkspaceCreateOut(workspace WorkspaceOut, starterDriveId string, starterDriveApiKey string, ) *WorkspaceCreateOut`
+`func NewWorkspaceCreateOut(starterDriveApiKey string, starterDriveId string, workspace WorkspaceOut, ) *WorkspaceCreateOut`
 
 NewWorkspaceCreateOut instantiates a new WorkspaceCreateOut object
 This constructor will assign default values to properties that have it defined,
@@ -27,24 +27,24 @@ NewWorkspaceCreateOutWithDefaults instantiates a new WorkspaceCreateOut object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetWorkspace
+### GetStarterDriveApiKey
 
-`func (o *WorkspaceCreateOut) GetWorkspace() WorkspaceOut`
+`func (o *WorkspaceCreateOut) GetStarterDriveApiKey() string`
 
-GetWorkspace returns the Workspace field if non-nil, zero value otherwise.
+GetStarterDriveApiKey returns the StarterDriveApiKey field if non-nil, zero value otherwise.
 
-### GetWorkspaceOk
+### GetStarterDriveApiKeyOk
 
-`func (o *WorkspaceCreateOut) GetWorkspaceOk() (*WorkspaceOut, bool)`
+`func (o *WorkspaceCreateOut) GetStarterDriveApiKeyOk() (*string, bool)`
 
-GetWorkspaceOk returns a tuple with the Workspace field if it's non-nil, zero value otherwise
+GetStarterDriveApiKeyOk returns a tuple with the StarterDriveApiKey field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetWorkspace
+### SetStarterDriveApiKey
 
-`func (o *WorkspaceCreateOut) SetWorkspace(v WorkspaceOut)`
+`func (o *WorkspaceCreateOut) SetStarterDriveApiKey(v string)`
 
-SetWorkspace sets Workspace field to given value.
+SetStarterDriveApiKey sets StarterDriveApiKey field to given value.
 
 
 ### GetStarterDriveId
@@ -67,27 +67,25 @@ and a boolean to check if the value has been set.
 SetStarterDriveId sets StarterDriveId field to given value.
 
 
-### GetStarterDriveApiKey
+### GetWorkspace
 
-`func (o *WorkspaceCreateOut) GetStarterDriveApiKey() string`
+`func (o *WorkspaceCreateOut) GetWorkspace() WorkspaceOut`
 
-GetStarterDriveApiKey returns the StarterDriveApiKey field if non-nil, zero value otherwise.
+GetWorkspace returns the Workspace field if non-nil, zero value otherwise.
 
-### GetStarterDriveApiKeyOk
+### GetWorkspaceOk
 
-`func (o *WorkspaceCreateOut) GetStarterDriveApiKeyOk() (*string, bool)`
+`func (o *WorkspaceCreateOut) GetWorkspaceOk() (*WorkspaceOut, bool)`
 
-GetStarterDriveApiKeyOk returns a tuple with the StarterDriveApiKey field if it's non-nil, zero value otherwise
+GetWorkspaceOk returns a tuple with the Workspace field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetStarterDriveApiKey
+### SetWorkspace
 
-`func (o *WorkspaceCreateOut) SetStarterDriveApiKey(v string)`
+`func (o *WorkspaceCreateOut) SetWorkspace(v WorkspaceOut)`
 
-SetStarterDriveApiKey sets StarterDriveApiKey field to given value.
+SetWorkspace sets Workspace field to given value.
 
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

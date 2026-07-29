@@ -6,9 +6,9 @@ POST /v0/members/invite response. `already_member` is True when the email was al
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**invitation** | [**InvitationOut**](InvitationOut.md) |  | [optional] 
 **already_member** | **bool** |  | [optional] [default to False]
 **email_delivered** | **bool** |  | [optional] [default to True]
+**invitation** | [**InvitationOut**](InvitationOut.md) |  | [optional]
 
 ## Example
 
@@ -28,5 +28,3 @@ invite_create_out_dict = invite_create_out_instance.to_dict()
 invite_create_out_from_dict = InviteCreateOut.from_dict(invite_create_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

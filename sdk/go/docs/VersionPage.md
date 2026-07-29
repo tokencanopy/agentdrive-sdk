@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Items** | [**[]VersionOut**](VersionOut.md) |  | 
-**NextCursor** | Pointer to **NullableString** |  | [optional] 
-**PrunedBefore** | Pointer to **NullableInt32** |  | [optional] 
+**Items** | [**[]VersionOut**](VersionOut.md) |  |
+**NextCursor** | Pointer to **NullableString** |  | [optional]
+**PrunedBefore** | Pointer to **NullableInt32** |  | [optional]
 
 ## Methods
 
@@ -119,5 +119,3 @@ HasPrunedBefore returns a boolean if a field has been set.
 UnsetPrunedBefore ensures that no value is present for PrunedBefore, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

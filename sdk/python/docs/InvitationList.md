@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**items** | [**List[InvitationOut]**](InvitationOut.md) |  | 
-**next_cursor** | **str** |  | [optional] 
+**items** | [**List[InvitationOut]**](InvitationOut.md) |  |
+**next_cursor** | **str** |  | [optional]
 
 ## Example
 
@@ -26,5 +26,3 @@ invitation_list_dict = invitation_list_instance.to_dict()
 invitation_list_from_dict = InvitationList.from_dict(invitation_list_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

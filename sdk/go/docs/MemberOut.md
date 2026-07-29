@@ -4,18 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**UserId** | **string** |  | 
-**Email** | **string** |  | 
-**FirstName** | Pointer to **NullableString** |  | [optional] 
-**LastName** | Pointer to **NullableString** |  | [optional] 
-**Role** | **string** |  | 
-**CreatedAt** | **time.Time** |  | 
+**CreatedAt** | **time.Time** |  |
+**Email** | **string** |  |
+**FirstName** | Pointer to **NullableString** |  | [optional]
+**LastName** | Pointer to **NullableString** |  | [optional]
+**Role** | **string** |  |
+**UserId** | **string** |  |
 
 ## Methods
 
 ### NewMemberOut
 
-`func NewMemberOut(userId string, email string, role string, createdAt time.Time, ) *MemberOut`
+`func NewMemberOut(createdAt time.Time, email string, role string, userId string, ) *MemberOut`
 
 NewMemberOut instantiates a new MemberOut object
 This constructor will assign default values to properties that have it defined,
@@ -30,24 +30,24 @@ NewMemberOutWithDefaults instantiates a new MemberOut object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetUserId
+### GetCreatedAt
 
-`func (o *MemberOut) GetUserId() string`
+`func (o *MemberOut) GetCreatedAt() time.Time`
 
-GetUserId returns the UserId field if non-nil, zero value otherwise.
+GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
 
-### GetUserIdOk
+### GetCreatedAtOk
 
-`func (o *MemberOut) GetUserIdOk() (*string, bool)`
+`func (o *MemberOut) GetCreatedAtOk() (*time.Time, bool)`
 
-GetUserIdOk returns a tuple with the UserId field if it's non-nil, zero value otherwise
+GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetUserId
+### SetCreatedAt
 
-`func (o *MemberOut) SetUserId(v string)`
+`func (o *MemberOut) SetCreatedAt(v time.Time)`
 
-SetUserId sets UserId field to given value.
+SetCreatedAt sets CreatedAt field to given value.
 
 
 ### GetEmail
@@ -160,27 +160,25 @@ and a boolean to check if the value has been set.
 SetRole sets Role field to given value.
 
 
-### GetCreatedAt
+### GetUserId
 
-`func (o *MemberOut) GetCreatedAt() time.Time`
+`func (o *MemberOut) GetUserId() string`
 
-GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
+GetUserId returns the UserId field if non-nil, zero value otherwise.
 
-### GetCreatedAtOk
+### GetUserIdOk
 
-`func (o *MemberOut) GetCreatedAtOk() (*time.Time, bool)`
+`func (o *MemberOut) GetUserIdOk() (*string, bool)`
 
-GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
+GetUserIdOk returns a tuple with the UserId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetCreatedAt
+### SetUserId
 
-`func (o *MemberOut) SetCreatedAt(v time.Time)`
+`func (o *MemberOut) SetUserId(v string)`
 
-SetCreatedAt sets CreatedAt field to given value.
+SetUserId sets UserId field to given value.
 
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

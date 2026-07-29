@@ -7,14 +7,14 @@ The create response — the ONLY place (besides key-rotate) a raw `ad_live_` key
 
 Name | Type
 ------------ | -------------
+`apiKey` | string
+`createdAt` | Date
 `id` | string
 `name` | string
 `organizationId` | string
-`ownerUserId` | string
 `ownerEmail` | string
+`ownerUserId` | string
 `storageBytes` | number
-`createdAt` | Date
-`apiKey` | string
 
 ## Example
 
@@ -23,14 +23,14 @@ import type { DriveCreateOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
+  "apiKey": null,
+  "createdAt": null,
   "id": null,
   "name": null,
   "organizationId": null,
-  "ownerUserId": null,
   "ownerEmail": null,
+  "ownerUserId": null,
   "storageBytes": null,
-  "createdAt": null,
-  "apiKey": null,
 } satisfies DriveCreateOut
 
 console.log(example)
@@ -45,5 +45,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

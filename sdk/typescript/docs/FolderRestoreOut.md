@@ -7,19 +7,19 @@ POST /v0/folders/{fld_id}/restore response — the restored (live) folder resour
 
 Name | Type
 ------------ | -------------
-`id` | string
-`driveId` | string
-`path` | string
+`createdAt` | Date
+`deletedAt` | Date
 `description` | string
+`driveId` | string
+`etag` | string
+`id` | string
 `inheritGrants` | boolean
 `metageneration` | number
-`etag` | string
-`createdAt` | Date
-`updatedAt` | Date
-`deletedAt` | Date
-`purgeAt` | Date
-`nSubfoldersRestored` | number
 `nArtifactsRestored` | number
+`nSubfoldersRestored` | number
+`path` | string
+`purgeAt` | Date
+`updatedAt` | Date
 
 ## Example
 
@@ -28,19 +28,19 @@ import type { FolderRestoreOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "id": null,
-  "driveId": null,
-  "path": null,
+  "createdAt": null,
+  "deletedAt": null,
   "description": null,
+  "driveId": null,
+  "etag": null,
+  "id": null,
   "inheritGrants": null,
   "metageneration": null,
-  "etag": null,
-  "createdAt": null,
-  "updatedAt": null,
-  "deletedAt": null,
-  "purgeAt": null,
-  "nSubfoldersRestored": null,
   "nArtifactsRestored": null,
+  "nSubfoldersRestored": null,
+  "path": null,
+  "purgeAt": null,
+  "updatedAt": null,
 } satisfies FolderRestoreOut
 
 console.log(example)
@@ -55,5 +55,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

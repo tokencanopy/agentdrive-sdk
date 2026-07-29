@@ -6,9 +6,9 @@ DELETE /v0/members/{user_id} response — the member-removal receipt. `id` is th
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **str** |  |
 **ok** | **bool** |  | [optional] [default to True]
-**id** | **str** |  | 
-**organization_id** | **str** |  | 
+**organization_id** | **str** |  |
 
 ## Example
 
@@ -28,5 +28,3 @@ member_remove_out_dict = member_remove_out_instance.to_dict()
 member_remove_out_from_dict = MemberRemoveOut.from_dict(member_remove_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

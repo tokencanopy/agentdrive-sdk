@@ -4,17 +4,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** |  | 
-**ApiKey** | **string** |  | 
-**Prefix** | **string** |  | 
-**Label** | Pointer to **NullableString** |  | [optional] 
-**CreatedAt** | **time.Time** |  | 
+**ApiKey** | **string** |  |
+**CreatedAt** | **time.Time** |  |
+**Id** | **string** |  |
+**Label** | Pointer to **NullableString** |  | [optional]
+**Prefix** | **string** |  |
 
 ## Methods
 
 ### NewDriveApiKeyCreateOut
 
-`func NewDriveApiKeyCreateOut(id string, apiKey string, prefix string, createdAt time.Time, ) *DriveApiKeyCreateOut`
+`func NewDriveApiKeyCreateOut(apiKey string, createdAt time.Time, id string, prefix string, ) *DriveApiKeyCreateOut`
 
 NewDriveApiKeyCreateOut instantiates a new DriveApiKeyCreateOut object
 This constructor will assign default values to properties that have it defined,
@@ -28,26 +28,6 @@ will change when the set of required properties is changed
 NewDriveApiKeyCreateOutWithDefaults instantiates a new DriveApiKeyCreateOut object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetId
-
-`func (o *DriveApiKeyCreateOut) GetId() string`
-
-GetId returns the Id field if non-nil, zero value otherwise.
-
-### GetIdOk
-
-`func (o *DriveApiKeyCreateOut) GetIdOk() (*string, bool)`
-
-GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetId
-
-`func (o *DriveApiKeyCreateOut) SetId(v string)`
-
-SetId sets Id field to given value.
-
 
 ### GetApiKey
 
@@ -69,24 +49,44 @@ and a boolean to check if the value has been set.
 SetApiKey sets ApiKey field to given value.
 
 
-### GetPrefix
+### GetCreatedAt
 
-`func (o *DriveApiKeyCreateOut) GetPrefix() string`
+`func (o *DriveApiKeyCreateOut) GetCreatedAt() time.Time`
 
-GetPrefix returns the Prefix field if non-nil, zero value otherwise.
+GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
 
-### GetPrefixOk
+### GetCreatedAtOk
 
-`func (o *DriveApiKeyCreateOut) GetPrefixOk() (*string, bool)`
+`func (o *DriveApiKeyCreateOut) GetCreatedAtOk() (*time.Time, bool)`
 
-GetPrefixOk returns a tuple with the Prefix field if it's non-nil, zero value otherwise
+GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetPrefix
+### SetCreatedAt
 
-`func (o *DriveApiKeyCreateOut) SetPrefix(v string)`
+`func (o *DriveApiKeyCreateOut) SetCreatedAt(v time.Time)`
 
-SetPrefix sets Prefix field to given value.
+SetCreatedAt sets CreatedAt field to given value.
+
+
+### GetId
+
+`func (o *DriveApiKeyCreateOut) GetId() string`
+
+GetId returns the Id field if non-nil, zero value otherwise.
+
+### GetIdOk
+
+`func (o *DriveApiKeyCreateOut) GetIdOk() (*string, bool)`
+
+GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetId
+
+`func (o *DriveApiKeyCreateOut) SetId(v string)`
+
+SetId sets Id field to given value.
 
 
 ### GetLabel
@@ -124,27 +124,25 @@ HasLabel returns a boolean if a field has been set.
 `func (o *DriveApiKeyCreateOut) UnsetLabel()`
 
 UnsetLabel ensures that no value is present for Label, not even an explicit nil
-### GetCreatedAt
+### GetPrefix
 
-`func (o *DriveApiKeyCreateOut) GetCreatedAt() time.Time`
+`func (o *DriveApiKeyCreateOut) GetPrefix() string`
 
-GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
+GetPrefix returns the Prefix field if non-nil, zero value otherwise.
 
-### GetCreatedAtOk
+### GetPrefixOk
 
-`func (o *DriveApiKeyCreateOut) GetCreatedAtOk() (*time.Time, bool)`
+`func (o *DriveApiKeyCreateOut) GetPrefixOk() (*string, bool)`
 
-GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
+GetPrefixOk returns a tuple with the Prefix field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetCreatedAt
+### SetPrefix
 
-`func (o *DriveApiKeyCreateOut) SetCreatedAt(v time.Time)`
+`func (o *DriveApiKeyCreateOut) SetPrefix(v string)`
 
-SetCreatedAt sets CreatedAt field to given value.
+SetPrefix sets Prefix field to given value.
 
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

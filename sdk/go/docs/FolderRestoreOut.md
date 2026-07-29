@@ -4,25 +4,25 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** |  | 
-**DriveId** | **string** |  | 
-**Path** | **string** |  | 
-**Description** | Pointer to **NullableString** |  | [optional] 
+**CreatedAt** | **time.Time** |  |
+**DeletedAt** | Pointer to **NullableTime** |  | [optional]
+**Description** | Pointer to **NullableString** |  | [optional]
+**DriveId** | **string** |  |
+**Etag** | **string** |  |
+**Id** | **string** |  |
 **InheritGrants** | Pointer to **bool** |  | [optional] [default to true]
 **Metageneration** | Pointer to **int32** |  | [optional] [default to 1]
-**Etag** | **string** |  | 
-**CreatedAt** | **time.Time** |  | 
-**UpdatedAt** | **time.Time** |  | 
-**DeletedAt** | Pointer to **NullableTime** |  | [optional] 
-**PurgeAt** | Pointer to **NullableTime** |  | [optional] 
-**NSubfoldersRestored** | **int32** |  | 
-**NArtifactsRestored** | **int32** |  | 
+**NArtifactsRestored** | **int32** |  |
+**NSubfoldersRestored** | **int32** |  |
+**Path** | **string** |  |
+**PurgeAt** | Pointer to **NullableTime** |  | [optional]
+**UpdatedAt** | **time.Time** |  |
 
 ## Methods
 
 ### NewFolderRestoreOut
 
-`func NewFolderRestoreOut(id string, driveId string, path string, etag string, createdAt time.Time, updatedAt time.Time, nSubfoldersRestored int32, nArtifactsRestored int32, ) *FolderRestoreOut`
+`func NewFolderRestoreOut(createdAt time.Time, driveId string, etag string, id string, nArtifactsRestored int32, nSubfoldersRestored int32, path string, updatedAt time.Time, ) *FolderRestoreOut`
 
 NewFolderRestoreOut instantiates a new FolderRestoreOut object
 This constructor will assign default values to properties that have it defined,
@@ -37,66 +37,61 @@ NewFolderRestoreOutWithDefaults instantiates a new FolderRestoreOut object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetId
+### GetCreatedAt
 
-`func (o *FolderRestoreOut) GetId() string`
+`func (o *FolderRestoreOut) GetCreatedAt() time.Time`
 
-GetId returns the Id field if non-nil, zero value otherwise.
+GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
 
-### GetIdOk
+### GetCreatedAtOk
 
-`func (o *FolderRestoreOut) GetIdOk() (*string, bool)`
+`func (o *FolderRestoreOut) GetCreatedAtOk() (*time.Time, bool)`
 
-GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetId
+### SetCreatedAt
 
-`func (o *FolderRestoreOut) SetId(v string)`
+`func (o *FolderRestoreOut) SetCreatedAt(v time.Time)`
 
-SetId sets Id field to given value.
+SetCreatedAt sets CreatedAt field to given value.
 
 
-### GetDriveId
+### GetDeletedAt
 
-`func (o *FolderRestoreOut) GetDriveId() string`
+`func (o *FolderRestoreOut) GetDeletedAt() time.Time`
 
-GetDriveId returns the DriveId field if non-nil, zero value otherwise.
+GetDeletedAt returns the DeletedAt field if non-nil, zero value otherwise.
 
-### GetDriveIdOk
+### GetDeletedAtOk
 
-`func (o *FolderRestoreOut) GetDriveIdOk() (*string, bool)`
+`func (o *FolderRestoreOut) GetDeletedAtOk() (*time.Time, bool)`
 
-GetDriveIdOk returns a tuple with the DriveId field if it's non-nil, zero value otherwise
+GetDeletedAtOk returns a tuple with the DeletedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetDriveId
+### SetDeletedAt
 
-`func (o *FolderRestoreOut) SetDriveId(v string)`
+`func (o *FolderRestoreOut) SetDeletedAt(v time.Time)`
 
-SetDriveId sets DriveId field to given value.
+SetDeletedAt sets DeletedAt field to given value.
 
+### HasDeletedAt
 
-### GetPath
+`func (o *FolderRestoreOut) HasDeletedAt() bool`
 
-`func (o *FolderRestoreOut) GetPath() string`
+HasDeletedAt returns a boolean if a field has been set.
 
-GetPath returns the Path field if non-nil, zero value otherwise.
+### SetDeletedAtNil
 
-### GetPathOk
+`func (o *FolderRestoreOut) SetDeletedAtNil(b bool)`
 
-`func (o *FolderRestoreOut) GetPathOk() (*string, bool)`
+ SetDeletedAtNil sets the value for DeletedAt to be an explicit nil
 
-GetPathOk returns a tuple with the Path field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
+### UnsetDeletedAt
+`func (o *FolderRestoreOut) UnsetDeletedAt()`
 
-### SetPath
-
-`func (o *FolderRestoreOut) SetPath(v string)`
-
-SetPath sets Path field to given value.
-
-
+UnsetDeletedAt ensures that no value is present for DeletedAt, not even an explicit nil
 ### GetDescription
 
 `func (o *FolderRestoreOut) GetDescription() string`
@@ -132,6 +127,66 @@ HasDescription returns a boolean if a field has been set.
 `func (o *FolderRestoreOut) UnsetDescription()`
 
 UnsetDescription ensures that no value is present for Description, not even an explicit nil
+### GetDriveId
+
+`func (o *FolderRestoreOut) GetDriveId() string`
+
+GetDriveId returns the DriveId field if non-nil, zero value otherwise.
+
+### GetDriveIdOk
+
+`func (o *FolderRestoreOut) GetDriveIdOk() (*string, bool)`
+
+GetDriveIdOk returns a tuple with the DriveId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDriveId
+
+`func (o *FolderRestoreOut) SetDriveId(v string)`
+
+SetDriveId sets DriveId field to given value.
+
+
+### GetEtag
+
+`func (o *FolderRestoreOut) GetEtag() string`
+
+GetEtag returns the Etag field if non-nil, zero value otherwise.
+
+### GetEtagOk
+
+`func (o *FolderRestoreOut) GetEtagOk() (*string, bool)`
+
+GetEtagOk returns a tuple with the Etag field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEtag
+
+`func (o *FolderRestoreOut) SetEtag(v string)`
+
+SetEtag sets Etag field to given value.
+
+
+### GetId
+
+`func (o *FolderRestoreOut) GetId() string`
+
+GetId returns the Id field if non-nil, zero value otherwise.
+
+### GetIdOk
+
+`func (o *FolderRestoreOut) GetIdOk() (*string, bool)`
+
+GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetId
+
+`func (o *FolderRestoreOut) SetId(v string)`
+
+SetId sets Id field to given value.
+
+
 ### GetInheritGrants
 
 `func (o *FolderRestoreOut) GetInheritGrants() bool`
@@ -182,101 +237,66 @@ SetMetageneration sets Metageneration field to given value.
 
 HasMetageneration returns a boolean if a field has been set.
 
-### GetEtag
+### GetNArtifactsRestored
 
-`func (o *FolderRestoreOut) GetEtag() string`
+`func (o *FolderRestoreOut) GetNArtifactsRestored() int32`
 
-GetEtag returns the Etag field if non-nil, zero value otherwise.
+GetNArtifactsRestored returns the NArtifactsRestored field if non-nil, zero value otherwise.
 
-### GetEtagOk
+### GetNArtifactsRestoredOk
 
-`func (o *FolderRestoreOut) GetEtagOk() (*string, bool)`
+`func (o *FolderRestoreOut) GetNArtifactsRestoredOk() (*int32, bool)`
 
-GetEtagOk returns a tuple with the Etag field if it's non-nil, zero value otherwise
+GetNArtifactsRestoredOk returns a tuple with the NArtifactsRestored field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetEtag
+### SetNArtifactsRestored
 
-`func (o *FolderRestoreOut) SetEtag(v string)`
+`func (o *FolderRestoreOut) SetNArtifactsRestored(v int32)`
 
-SetEtag sets Etag field to given value.
+SetNArtifactsRestored sets NArtifactsRestored field to given value.
 
 
-### GetCreatedAt
+### GetNSubfoldersRestored
 
-`func (o *FolderRestoreOut) GetCreatedAt() time.Time`
+`func (o *FolderRestoreOut) GetNSubfoldersRestored() int32`
 
-GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
+GetNSubfoldersRestored returns the NSubfoldersRestored field if non-nil, zero value otherwise.
 
-### GetCreatedAtOk
+### GetNSubfoldersRestoredOk
 
-`func (o *FolderRestoreOut) GetCreatedAtOk() (*time.Time, bool)`
+`func (o *FolderRestoreOut) GetNSubfoldersRestoredOk() (*int32, bool)`
 
-GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
+GetNSubfoldersRestoredOk returns a tuple with the NSubfoldersRestored field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetCreatedAt
+### SetNSubfoldersRestored
 
-`func (o *FolderRestoreOut) SetCreatedAt(v time.Time)`
+`func (o *FolderRestoreOut) SetNSubfoldersRestored(v int32)`
 
-SetCreatedAt sets CreatedAt field to given value.
+SetNSubfoldersRestored sets NSubfoldersRestored field to given value.
 
 
-### GetUpdatedAt
+### GetPath
 
-`func (o *FolderRestoreOut) GetUpdatedAt() time.Time`
+`func (o *FolderRestoreOut) GetPath() string`
 
-GetUpdatedAt returns the UpdatedAt field if non-nil, zero value otherwise.
+GetPath returns the Path field if non-nil, zero value otherwise.
 
-### GetUpdatedAtOk
+### GetPathOk
 
-`func (o *FolderRestoreOut) GetUpdatedAtOk() (*time.Time, bool)`
+`func (o *FolderRestoreOut) GetPathOk() (*string, bool)`
 
-GetUpdatedAtOk returns a tuple with the UpdatedAt field if it's non-nil, zero value otherwise
+GetPathOk returns a tuple with the Path field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetUpdatedAt
+### SetPath
 
-`func (o *FolderRestoreOut) SetUpdatedAt(v time.Time)`
+`func (o *FolderRestoreOut) SetPath(v string)`
 
-SetUpdatedAt sets UpdatedAt field to given value.
+SetPath sets Path field to given value.
 
 
-### GetDeletedAt
-
-`func (o *FolderRestoreOut) GetDeletedAt() time.Time`
-
-GetDeletedAt returns the DeletedAt field if non-nil, zero value otherwise.
-
-### GetDeletedAtOk
-
-`func (o *FolderRestoreOut) GetDeletedAtOk() (*time.Time, bool)`
-
-GetDeletedAtOk returns a tuple with the DeletedAt field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDeletedAt
-
-`func (o *FolderRestoreOut) SetDeletedAt(v time.Time)`
-
-SetDeletedAt sets DeletedAt field to given value.
-
-### HasDeletedAt
-
-`func (o *FolderRestoreOut) HasDeletedAt() bool`
-
-HasDeletedAt returns a boolean if a field has been set.
-
-### SetDeletedAtNil
-
-`func (o *FolderRestoreOut) SetDeletedAtNil(b bool)`
-
- SetDeletedAtNil sets the value for DeletedAt to be an explicit nil
-
-### UnsetDeletedAt
-`func (o *FolderRestoreOut) UnsetDeletedAt()`
-
-UnsetDeletedAt ensures that no value is present for DeletedAt, not even an explicit nil
 ### GetPurgeAt
 
 `func (o *FolderRestoreOut) GetPurgeAt() time.Time`
@@ -312,47 +332,25 @@ HasPurgeAt returns a boolean if a field has been set.
 `func (o *FolderRestoreOut) UnsetPurgeAt()`
 
 UnsetPurgeAt ensures that no value is present for PurgeAt, not even an explicit nil
-### GetNSubfoldersRestored
+### GetUpdatedAt
 
-`func (o *FolderRestoreOut) GetNSubfoldersRestored() int32`
+`func (o *FolderRestoreOut) GetUpdatedAt() time.Time`
 
-GetNSubfoldersRestored returns the NSubfoldersRestored field if non-nil, zero value otherwise.
+GetUpdatedAt returns the UpdatedAt field if non-nil, zero value otherwise.
 
-### GetNSubfoldersRestoredOk
+### GetUpdatedAtOk
 
-`func (o *FolderRestoreOut) GetNSubfoldersRestoredOk() (*int32, bool)`
+`func (o *FolderRestoreOut) GetUpdatedAtOk() (*time.Time, bool)`
 
-GetNSubfoldersRestoredOk returns a tuple with the NSubfoldersRestored field if it's non-nil, zero value otherwise
+GetUpdatedAtOk returns a tuple with the UpdatedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetNSubfoldersRestored
+### SetUpdatedAt
 
-`func (o *FolderRestoreOut) SetNSubfoldersRestored(v int32)`
+`func (o *FolderRestoreOut) SetUpdatedAt(v time.Time)`
 
-SetNSubfoldersRestored sets NSubfoldersRestored field to given value.
-
-
-### GetNArtifactsRestored
-
-`func (o *FolderRestoreOut) GetNArtifactsRestored() int32`
-
-GetNArtifactsRestored returns the NArtifactsRestored field if non-nil, zero value otherwise.
-
-### GetNArtifactsRestoredOk
-
-`func (o *FolderRestoreOut) GetNArtifactsRestoredOk() (*int32, bool)`
-
-GetNArtifactsRestoredOk returns a tuple with the NArtifactsRestored field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetNArtifactsRestored
-
-`func (o *FolderRestoreOut) SetNArtifactsRestored(v int32)`
-
-SetNArtifactsRestored sets NArtifactsRestored field to given value.
+SetUpdatedAt sets UpdatedAt field to given value.
 
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

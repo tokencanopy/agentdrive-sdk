@@ -6,7 +6,7 @@ PUT /v0/folders/{path} body for the optional metadata params. Empty body is fine
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**description** | **str** |  | [optional] 
+**description** | **str** |  | [optional]
 
 ## Example
 
@@ -26,5 +26,3 @@ folder_create_in_dict = folder_create_in_instance.to_dict()
 folder_create_in_from_dict = FolderCreateIn.from_dict(folder_create_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

@@ -6,8 +6,8 @@ PATCH /v0/grants/{grn_id} body. Field absence = unchanged; explicit `expires_in:
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**role** | **str** |  | [optional] 
-**expires_in** | **int** |  | [optional] 
+**expires_in** | **int** |  | [optional]
+**role** | **str** |  | [optional]
 
 ## Example
 
@@ -27,5 +27,3 @@ grant_patch_in_dict = grant_patch_in_instance.to_dict()
 grant_patch_in_from_dict = GrantPatchIn.from_dict(grant_patch_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

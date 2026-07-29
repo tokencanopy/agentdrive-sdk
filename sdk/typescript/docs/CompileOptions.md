@@ -6,8 +6,8 @@
 
 Name | Type
 ------------ | -------------
-`entrypoint` | string
 `engine` | string
+`entrypoint` | string
 `wait` | boolean
 
 ## Example
@@ -17,8 +17,8 @@ import type { CompileOptions } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "entrypoint": null,
   "engine": null,
+  "entrypoint": null,
   "wait": null,
 } satisfies CompileOptions
 
@@ -34,5 +34,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **authorize_decision_oauth2_authorize_post**
-> object authorize_decision_oauth2_authorize_post(csrf)
+> authorize_decision_oauth2_authorize_post(csrf)
 
 Authorize Decision
 
@@ -32,13 +32,11 @@ configuration = agentdrive_sdk.Configuration(
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.McpOauthUiApi(api_client)
-    csrf = 'csrf_example' # str | 
+    csrf = 'csrf_example' # str |
 
     try:
         # Authorize Decision
-        api_response = api_instance.authorize_decision_oauth2_authorize_post(csrf)
-        print("The response of McpOauthUiApi->authorize_decision_oauth2_authorize_post:\n")
-        pprint(api_response)
+        api_instance.authorize_decision_oauth2_authorize_post(csrf)
     except Exception as e:
         print("Exception when calling McpOauthUiApi->authorize_decision_oauth2_authorize_post: %s\n" % e)
 ```
@@ -50,11 +48,11 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **csrf** | **str**|  | 
+ **csrf** | **str**|  |
 
 ### Return type
 
-**object**
+void (empty response body)
 
 ### Authorization
 
@@ -69,8 +67,12 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**302** | Redirect to the canonical or authentication URL. |  * Location - Canonical URL of the created resource. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**303** | Continue after the form submission at the redirect target. |  * Location - Canonical URL of the created resource. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**400** | The authorization decision or request is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+**403** | The selected drive is unavailable or the browser CSRF check failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | Authorization rate limit exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -125,13 +127,15 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: text/html
+ - **Accept**: text/html, application/json
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**302** | Redirect to the canonical or authentication URL. |  * Location - Canonical URL of the created resource. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**400** | The authorization request is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | Authorization rate limit exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-

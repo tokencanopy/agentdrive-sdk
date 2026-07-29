@@ -7,8 +7,8 @@ POST /v0/folders/{fld_id}/copy body — duplicate the subtree to a new path. `pa
 
 Name | Type
 ------------ | -------------
-`path` | string
 `fromMetageneration` | number
+`path` | string
 
 ## Example
 
@@ -17,8 +17,8 @@ import type { FolderCopyIn } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "path": null,
   "fromMetageneration": null,
+  "path": null,
 } satisfies FolderCopyIn
 
 console.log(example)
@@ -33,5 +33,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

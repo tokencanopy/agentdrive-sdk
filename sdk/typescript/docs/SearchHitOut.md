@@ -7,15 +7,15 @@
 Name | Type
 ------------ | -------------
 `artId` | string
-`driveId` | string
-`path` | string
-`url` | string
 `contentType` | string
+`driveId` | string
 `fileType` | string
 `labels` | Array&lt;string&gt;
-`snippet` | string
+`path` | string
 `score` | number
+`snippet` | string
 `updatedAt` | Date
+`url` | string
 `versionNumber` | number
 
 ## Example
@@ -26,15 +26,15 @@ import type { SearchHitOut } from '@mnexa-ai/agentdrive-sdk'
 // TODO: Update the object below with actual values
 const example = {
   "artId": null,
-  "driveId": null,
-  "path": null,
-  "url": null,
   "contentType": null,
+  "driveId": null,
   "fileType": null,
   "labels": null,
-  "snippet": null,
+  "path": null,
   "score": null,
+  "snippet": null,
   "updatedAt": null,
+  "url": null,
   "versionNumber": null,
 } satisfies SearchHitOut
 
@@ -50,5 +50,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

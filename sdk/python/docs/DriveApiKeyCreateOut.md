@@ -6,11 +6,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | 
-**api_key** | **str** |  | 
-**prefix** | **str** |  | 
-**label** | **str** |  | [optional] 
-**created_at** | **datetime** |  | 
+**api_key** | **str** |  |
+**created_at** | **datetime** |  |
+**id** | **str** |  |
+**label** | **str** |  | [optional]
+**prefix** | **str** |  |
 
 ## Example
 
@@ -30,5 +30,3 @@ drive_api_key_create_out_dict = drive_api_key_create_out_instance.to_dict()
 drive_api_key_create_out_from_dict = DriveApiKeyCreateOut.from_dict(drive_api_key_create_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

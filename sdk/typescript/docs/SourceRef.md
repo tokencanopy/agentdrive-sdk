@@ -7,9 +7,9 @@ One typed provenance ref. `type` is open-vocabulary (server validates only lengt
 
 Name | Type
 ------------ | -------------
-`type` | string
 `id` | string
 `metadata` | { [key: string]: any; }
+`type` | string
 
 ## Example
 
@@ -18,9 +18,9 @@ import type { SourceRef } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "type": null,
   "id": null,
   "metadata": null,
+  "type": null,
 } satisfies SourceRef
 
 console.log(example)
@@ -35,5 +35,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

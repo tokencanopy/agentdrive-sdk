@@ -6,7 +6,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**items** | [**List[SearchHitOut]**](SearchHitOut.md) |  | 
+**items** | [**List[SearchHitOut]**](SearchHitOut.md) |  |
 
 ## Example
 
@@ -26,5 +26,3 @@ search_page_dict = search_page_instance.to_dict()
 search_page_from_dict = SearchPage.from_dict(search_page_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

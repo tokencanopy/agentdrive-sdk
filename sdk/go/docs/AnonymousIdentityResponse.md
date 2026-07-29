@@ -4,18 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**IdentityAssertion** | **string** | JWT signed by AgentDrive, scope&#x3D;pre_claim. 30-day TTL. | 
-**ClaimToken** | **string** | Opaque server-issued secret. Present at POST /agent/identity/claim and at POST /oauth2/token (grant_type&#x3D;claim). | 
-**ClaimMetadata** | [**ClaimMetadata**](ClaimMetadata.md) |  | 
-**DriveId** | **string** |  | 
-**AgentIdentityId** | **string** |  | 
-**ExpiresAt** | **time.Time** |  | 
+**AgentIdentityId** | **string** |  |
+**ClaimMetadata** | [**ClaimMetadata**](ClaimMetadata.md) |  |
+**ClaimToken** | **string** | Opaque server-issued secret. Present at POST /agent/identity/claim and at POST /oauth2/token (grant_type&#x3D;claim). |
+**DriveId** | **string** |  |
+**ExpiresAt** | **time.Time** |  |
+**IdentityAssertion** | **string** | JWT signed by AgentDrive, scope&#x3D;pre_claim. 30-day TTL. |
 
 ## Methods
 
 ### NewAnonymousIdentityResponse
 
-`func NewAnonymousIdentityResponse(identityAssertion string, claimToken string, claimMetadata ClaimMetadata, driveId string, agentIdentityId string, expiresAt time.Time, ) *AnonymousIdentityResponse`
+`func NewAnonymousIdentityResponse(agentIdentityId string, claimMetadata ClaimMetadata, claimToken string, driveId string, expiresAt time.Time, identityAssertion string, ) *AnonymousIdentityResponse`
 
 NewAnonymousIdentityResponse instantiates a new AnonymousIdentityResponse object
 This constructor will assign default values to properties that have it defined,
@@ -30,44 +30,24 @@ NewAnonymousIdentityResponseWithDefaults instantiates a new AnonymousIdentityRes
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetIdentityAssertion
+### GetAgentIdentityId
 
-`func (o *AnonymousIdentityResponse) GetIdentityAssertion() string`
+`func (o *AnonymousIdentityResponse) GetAgentIdentityId() string`
 
-GetIdentityAssertion returns the IdentityAssertion field if non-nil, zero value otherwise.
+GetAgentIdentityId returns the AgentIdentityId field if non-nil, zero value otherwise.
 
-### GetIdentityAssertionOk
+### GetAgentIdentityIdOk
 
-`func (o *AnonymousIdentityResponse) GetIdentityAssertionOk() (*string, bool)`
+`func (o *AnonymousIdentityResponse) GetAgentIdentityIdOk() (*string, bool)`
 
-GetIdentityAssertionOk returns a tuple with the IdentityAssertion field if it's non-nil, zero value otherwise
+GetAgentIdentityIdOk returns a tuple with the AgentIdentityId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetIdentityAssertion
+### SetAgentIdentityId
 
-`func (o *AnonymousIdentityResponse) SetIdentityAssertion(v string)`
+`func (o *AnonymousIdentityResponse) SetAgentIdentityId(v string)`
 
-SetIdentityAssertion sets IdentityAssertion field to given value.
-
-
-### GetClaimToken
-
-`func (o *AnonymousIdentityResponse) GetClaimToken() string`
-
-GetClaimToken returns the ClaimToken field if non-nil, zero value otherwise.
-
-### GetClaimTokenOk
-
-`func (o *AnonymousIdentityResponse) GetClaimTokenOk() (*string, bool)`
-
-GetClaimTokenOk returns a tuple with the ClaimToken field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetClaimToken
-
-`func (o *AnonymousIdentityResponse) SetClaimToken(v string)`
-
-SetClaimToken sets ClaimToken field to given value.
+SetAgentIdentityId sets AgentIdentityId field to given value.
 
 
 ### GetClaimMetadata
@@ -90,6 +70,26 @@ and a boolean to check if the value has been set.
 SetClaimMetadata sets ClaimMetadata field to given value.
 
 
+### GetClaimToken
+
+`func (o *AnonymousIdentityResponse) GetClaimToken() string`
+
+GetClaimToken returns the ClaimToken field if non-nil, zero value otherwise.
+
+### GetClaimTokenOk
+
+`func (o *AnonymousIdentityResponse) GetClaimTokenOk() (*string, bool)`
+
+GetClaimTokenOk returns a tuple with the ClaimToken field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetClaimToken
+
+`func (o *AnonymousIdentityResponse) SetClaimToken(v string)`
+
+SetClaimToken sets ClaimToken field to given value.
+
+
 ### GetDriveId
 
 `func (o *AnonymousIdentityResponse) GetDriveId() string`
@@ -108,26 +108,6 @@ and a boolean to check if the value has been set.
 `func (o *AnonymousIdentityResponse) SetDriveId(v string)`
 
 SetDriveId sets DriveId field to given value.
-
-
-### GetAgentIdentityId
-
-`func (o *AnonymousIdentityResponse) GetAgentIdentityId() string`
-
-GetAgentIdentityId returns the AgentIdentityId field if non-nil, zero value otherwise.
-
-### GetAgentIdentityIdOk
-
-`func (o *AnonymousIdentityResponse) GetAgentIdentityIdOk() (*string, bool)`
-
-GetAgentIdentityIdOk returns a tuple with the AgentIdentityId field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAgentIdentityId
-
-`func (o *AnonymousIdentityResponse) SetAgentIdentityId(v string)`
-
-SetAgentIdentityId sets AgentIdentityId field to given value.
 
 
 ### GetExpiresAt
@@ -150,7 +130,25 @@ and a boolean to check if the value has been set.
 SetExpiresAt sets ExpiresAt field to given value.
 
 
+### GetIdentityAssertion
+
+`func (o *AnonymousIdentityResponse) GetIdentityAssertion() string`
+
+GetIdentityAssertion returns the IdentityAssertion field if non-nil, zero value otherwise.
+
+### GetIdentityAssertionOk
+
+`func (o *AnonymousIdentityResponse) GetIdentityAssertionOk() (*string, bool)`
+
+GetIdentityAssertionOk returns a tuple with the IdentityAssertion field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIdentityAssertion
+
+`func (o *AnonymousIdentityResponse) SetIdentityAssertion(v string)`
+
+SetIdentityAssertion sets IdentityAssertion field to given value.
+
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

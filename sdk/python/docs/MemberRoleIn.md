@@ -6,7 +6,7 @@ PATCH /v0/members/{user} body — promote/demote a member.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**role** | **str** |  | 
+**role** | **str** |  |
 
 ## Example
 
@@ -26,5 +26,3 @@ member_role_in_dict = member_role_in_instance.to_dict()
 member_role_in_from_dict = MemberRoleIn.from_dict(member_role_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

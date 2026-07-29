@@ -6,9 +6,9 @@
 
 Name | Type
 ------------ | -------------
-`entrypoint` | string
-`engine` | string
 `autoCompile` | boolean
+`engine` | string
+`entrypoint` | string
 
 ## Example
 
@@ -17,9 +17,9 @@ import type { ProjectConfigIn } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "entrypoint": null,
-  "engine": null,
   "autoCompile": null,
+  "engine": null,
+  "entrypoint": null,
 } satisfies ProjectConfigIn
 
 console.log(example)
@@ -34,5 +34,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

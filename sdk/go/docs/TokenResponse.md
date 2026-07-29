@@ -4,11 +4,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AccessToken** | **string** |  | 
+**AccessToken** | **string** |  |
+**ExpiresIn** | **int32** | Seconds until access_token expiry. |
+**IdentityAssertion** | Pointer to **NullableString** |  | [optional]
+**Scope** | **string** |  |
 **TokenType** | Pointer to **string** |  | [optional] [default to "Bearer"]
-**ExpiresIn** | **int32** | Seconds until access_token expiry. | 
-**Scope** | **string** |  | 
-**IdentityAssertion** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -49,31 +49,6 @@ and a boolean to check if the value has been set.
 SetAccessToken sets AccessToken field to given value.
 
 
-### GetTokenType
-
-`func (o *TokenResponse) GetTokenType() string`
-
-GetTokenType returns the TokenType field if non-nil, zero value otherwise.
-
-### GetTokenTypeOk
-
-`func (o *TokenResponse) GetTokenTypeOk() (*string, bool)`
-
-GetTokenTypeOk returns a tuple with the TokenType field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetTokenType
-
-`func (o *TokenResponse) SetTokenType(v string)`
-
-SetTokenType sets TokenType field to given value.
-
-### HasTokenType
-
-`func (o *TokenResponse) HasTokenType() bool`
-
-HasTokenType returns a boolean if a field has been set.
-
 ### GetExpiresIn
 
 `func (o *TokenResponse) GetExpiresIn() int32`
@@ -92,26 +67,6 @@ and a boolean to check if the value has been set.
 `func (o *TokenResponse) SetExpiresIn(v int32)`
 
 SetExpiresIn sets ExpiresIn field to given value.
-
-
-### GetScope
-
-`func (o *TokenResponse) GetScope() string`
-
-GetScope returns the Scope field if non-nil, zero value otherwise.
-
-### GetScopeOk
-
-`func (o *TokenResponse) GetScopeOk() (*string, bool)`
-
-GetScopeOk returns a tuple with the Scope field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetScope
-
-`func (o *TokenResponse) SetScope(v string)`
-
-SetScope sets Scope field to given value.
 
 
 ### GetIdentityAssertion
@@ -149,7 +104,50 @@ HasIdentityAssertion returns a boolean if a field has been set.
 `func (o *TokenResponse) UnsetIdentityAssertion()`
 
 UnsetIdentityAssertion ensures that no value is present for IdentityAssertion, not even an explicit nil
+### GetScope
+
+`func (o *TokenResponse) GetScope() string`
+
+GetScope returns the Scope field if non-nil, zero value otherwise.
+
+### GetScopeOk
+
+`func (o *TokenResponse) GetScopeOk() (*string, bool)`
+
+GetScopeOk returns a tuple with the Scope field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetScope
+
+`func (o *TokenResponse) SetScope(v string)`
+
+SetScope sets Scope field to given value.
+
+
+### GetTokenType
+
+`func (o *TokenResponse) GetTokenType() string`
+
+GetTokenType returns the TokenType field if non-nil, zero value otherwise.
+
+### GetTokenTypeOk
+
+`func (o *TokenResponse) GetTokenTypeOk() (*string, bool)`
+
+GetTokenTypeOk returns a tuple with the TokenType field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTokenType
+
+`func (o *TokenResponse) SetTokenType(v string)`
+
+SetTokenType sets TokenType field to given value.
+
+### HasTokenType
+
+`func (o *TokenResponse) HasTokenType() bool`
+
+HasTokenType returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

@@ -2,79 +2,104 @@
 # Generate the Python / TypeScript / Go SDKs from the AgentDrive OpenAPI spec.
 #
 # Usage: scripts/generate-sdks.sh [path-to-openapi.json]
-# Requires: Java (for openapi-generator) + Node (npx). CI provides both.
+# Requires: Docker. The generator image is pinned below and in provenance.
 set -euo pipefail
 
-SPEC="${1:-sdk/openapi.json}"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SPEC_INPUT="${1:-sdk/openapi.json}"
+SPEC="$(python3 "$ROOT/scripts/resolve_repo_path.py" "$ROOT" "$SPEC_INPUT")"
+cd "$ROOT"
 VERSION="${SDK_VERSION:-0.0.1}"
 GIT_HOST="github.com"
 GIT_USER="Mnexa-AI"
 GIT_REPO="agentdrive-sdk"
-GEN="npx --yes @openapitools/openapi-generator-cli@latest generate"
+OAG_IMAGE="$(tr -d '\r\n' < "$ROOT/sdk/openapi-generator-image.txt")"
+if [[ -z "$OAG_IMAGE" ]]; then
+  echo "sdk/openapi-generator-image.txt must not be empty" >&2
+  exit 2
+fi
 
-echo "Generating SDKs from ${SPEC} (version ${VERSION})"
+echo "Generating SDKs from ${SPEC} with ${OAG_IMAGE} (version ${VERSION})"
 
 # openapi-generator's Go templates emit invalid code for object/array `default`
 # values (e.g. `var options CompileOptions = {wait=false}`). Strip those defaults
 # into a sanitized spec used for generation; scalar defaults are left intact.
-CLEAN_SPEC="$(dirname "$SPEC")/.openapi.clean.json"
-python3 - "$SPEC" "$CLEAN_SPEC" <<'PY'
-import json, sys
-src, dst = sys.argv[1], sys.argv[2]
-d = json.load(open(src))
+CLEAN_SPEC="$(dirname "$SPEC")/.openapi.codegen.json"
+TYPESCRIPT_SPEC="$(dirname "$SPEC")/.openapi.codegen.typescript.json"
+GO_SPEC="$(dirname "$SPEC")/.openapi.codegen.go.json"
+LOCK_BACKUP="$(mktemp "${TMPDIR:-/tmp}/agentdrive-sdk-package-lock.XXXXXX")"
+had_lock=false
+if [[ -f "$ROOT/sdk/typescript/package-lock.json" ]]; then
+  cp "$ROOT/sdk/typescript/package-lock.json" "$LOCK_BACKUP"
+  had_lock=true
+fi
+cleanup() {
+  if [[ "$had_lock" = true && -f "$LOCK_BACKUP" ]]; then
+    mkdir -p "$ROOT/sdk/typescript"
+    cp "$LOCK_BACKUP" "$ROOT/sdk/typescript/package-lock.json"
+  fi
+  rm -f \
+    "$ROOT/$CLEAN_SPEC" \
+    "$ROOT/$TYPESCRIPT_SPEC" \
+    "$ROOT/$GO_SPEC" \
+    "$LOCK_BACKUP"
+}
+trap cleanup EXIT
 
-# 1. Drop internal-only endpoints so the public SDKs never ship clients for them.
-#    (Belt-and-suspenders: these are also being removed from the live public
-#    OpenAPI schema upstream.)
-paths = d.get("paths", {})
-dropped = [p for p in paths if p.startswith("/internal/")]
-for p in dropped:
-    del paths[p]
-
-# 2. openapi-generator's Go templates emit invalid code for object/array `default`
-#    values (e.g. `var options CompileOptions = {wait=false}`). Strip those;
-#    scalar defaults are left intact.
-def walk(o):
-    if isinstance(o, dict):
-        if isinstance(o.get("default"), (dict, list)):
-            del o["default"]
-        for v in o.values():
-            walk(v)
-    elif isinstance(o, list):
-        for v in o:
-            walk(v)
-walk(d)
-
-json.dump(d, open(dst, "w"))
-print(f"  dropped {len(dropped)} internal path(s): {dropped}", file=sys.stderr)
-PY
+python3 "$ROOT/scripts/prepare_codegen_contract.py" \
+  "$ROOT/$SPEC" "$ROOT/$CLEAN_SPEC"
+python3 "$ROOT/scripts/prepare_codegen_contract.py" \
+  "$ROOT/$SPEC" "$ROOT/$TYPESCRIPT_SPEC" --language typescript
+python3 "$ROOT/scripts/prepare_codegen_contract.py" \
+  "$ROOT/$SPEC" "$ROOT/$GO_SPEC" --language go
 SPEC="$CLEAN_SPEC"
 echo "Sanitized spec -> ${SPEC}"
 
 # openapi-generator does not delete files for operations that no longer exist;
 # wipe the generated dirs first so dropped endpoints (e.g. /internal/*) don't
 # linger as stale clients.
-rm -rf sdk/python sdk/typescript sdk/go
+# Verify Docker and the pinned image before deleting the recoverable generated
+# tree, so a missing daemon or failed image pull leaves the worktree untouched.
+docker info >/dev/null
+docker image inspect "$OAG_IMAGE" >/dev/null 2>&1 || docker pull "$OAG_IMAGE"
+rm -rf "$ROOT/sdk/python" "$ROOT/sdk/typescript" "$ROOT/sdk/go"
+
+generate() {
+  docker run --rm \
+    --user "$(id -u):$(id -g)" \
+    --volume "$ROOT:/local" \
+    --workdir /local \
+    "$OAG_IMAGE" generate "$@"
+}
 
 # --- Python -> package: agentdrive_sdk, PyPI dist: agentdrive-sdk ---
-$GEN -i "$SPEC" -g python -o sdk/python \
-  --additional-properties=packageName=agentdrive_sdk,projectName=agentdrive-sdk,packageVersion="${VERSION}",library=urllib3 \
+generate -i "/local/$SPEC" -g python -o /local/sdk/python \
+  --additional-properties=packageName=agentdrive_sdk,projectName=agentdrive-sdk,packageVersion="${VERSION}",library=urllib3,hideGenerationTimestamp=true \
   --git-host="$GIT_HOST" --git-user-id="$GIT_USER" --git-repo-id="$GIT_REPO"
 
 # --- TypeScript (fetch-based: works in browser + Node, no axios dep) -> npm: @mnexa-ai/agentdrive-sdk ---
-$GEN -i "$SPEC" -g typescript-fetch -o sdk/typescript \
-  --additional-properties=npmName=@mnexa-ai/agentdrive-sdk,npmVersion="${VERSION}",supportsES6=true,typescriptThreePlus=true \
+generate -i "/local/$TYPESCRIPT_SPEC" -g typescript-fetch -o /local/sdk/typescript \
+  --additional-properties=npmName=@mnexa-ai/agentdrive-sdk,npmVersion="${VERSION}",supportsES6=true,typescriptThreePlus=true,hideGenerationTimestamp=true \
   --git-host="$GIT_HOST" --git-user-id="$GIT_USER" --git-repo-id="$GIT_REPO"
 
 # --- Go -> module: github.com/Mnexa-AI/agentdrive-sdk/sdk/go ---
-$GEN -i "$SPEC" -g go -o sdk/go \
-  --additional-properties=packageName=agentdrive,isGoSubmodule=true,enumClassPrefix=true \
+generate -i "/local/$GO_SPEC" -g go -o /local/sdk/go \
+  --additional-properties=packageName=agentdrive,isGoSubmodule=true,enumClassPrefix=true,hideGenerationTimestamp=true \
   --git-host="$GIT_HOST" --git-user-id="$GIT_USER" --git-repo-id="$GIT_REPO"
+
+# The generator's Go test stubs import `<repo>/<packageName>` even though this
+# repository intentionally publishes the module at `sdk/go`. They contain
+# only skipped placeholder calls and are not contract tests; remove them and
+# compile/test the actual module with `go test ./...`.
+rm -rf "$ROOT/sdk/go/test"
 
 # The module must be importable at its location in the monorepo so that
 # `go get github.com/Mnexa-AI/agentdrive-sdk/sdk/go@<tag>` resolves. Version
 # tags for this submodule are `sdk/go/vX.Y.Z` (see publish.yml).
 GO_MODULE="${GIT_HOST}/${GIT_USER}/${GIT_REPO}/sdk/go"
-sed -i.bak "1s|^module .*|module ${GO_MODULE}|" sdk/go/go.mod && rm -f sdk/go/go.mod.bak
+sed -i.bak "1s|^module .*|module ${GO_MODULE}|" "$ROOT/sdk/go/go.mod"
+rm -f "$ROOT/sdk/go/go.mod.bak"
+python3 "$ROOT/scripts/normalize_generated_text.py" \
+  "$ROOT/sdk/python" "$ROOT/sdk/typescript" "$ROOT/sdk/go"
 
 echo "Done. SDKs written to sdk/{python,typescript,go}."

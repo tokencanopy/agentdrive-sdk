@@ -7,9 +7,9 @@ POST /v0/artifacts/{art_id}/copy body — duplicate to new path.
 
 Name | Type
 ------------ | -------------
+`fromGeneration` | number
 `path` | string
 `source` | [ArtifactSource](ArtifactSource.md)
-`fromGeneration` | number
 
 ## Example
 
@@ -18,9 +18,9 @@ import type { CopyIn } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
+  "fromGeneration": null,
   "path": null,
   "source": null,
-  "fromGeneration": null,
 } satisfies CopyIn
 
 console.log(example)
@@ -35,5 +35,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

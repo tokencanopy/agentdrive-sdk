@@ -6,9 +6,9 @@ PATCH /v0/artifacts/{art_id} body — metadata-only partial (JSON-merge-patch) u
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**labels** | **List[str]** |  | [optional] 
-**metadata** | **Dict[str, object]** |  | [optional] 
-**source** | [**ArtifactSource**](ArtifactSource.md) |  | [optional] 
+**labels** | **List[str]** |  | [optional]
+**metadata** | **Dict[str, object]** |  | [optional]
+**source** | [**ArtifactSource**](ArtifactSource.md) |  | [optional]
 
 ## Example
 
@@ -28,5 +28,3 @@ artifact_patch_in_dict = artifact_patch_in_instance.to_dict()
 artifact_patch_in_from_dict = ArtifactPatchIn.from_dict(artifact_patch_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

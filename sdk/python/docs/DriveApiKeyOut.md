@@ -6,12 +6,12 @@ One per-drive `ad_live_` key — metadata only (never the raw key or hash). Item
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | 
-**prefix** | **str** |  | 
-**label** | **str** |  | [optional] 
-**last_used_at** | **datetime** |  | [optional] 
-**created_at** | **datetime** |  | 
-**revoked_at** | **datetime** |  | [optional] 
+**created_at** | **datetime** |  |
+**id** | **str** |  |
+**label** | **str** |  | [optional]
+**last_used_at** | **datetime** |  | [optional]
+**prefix** | **str** |  |
+**revoked_at** | **datetime** |  | [optional]
 
 ## Example
 
@@ -31,5 +31,3 @@ drive_api_key_out_dict = drive_api_key_out_instance.to_dict()
 drive_api_key_out_from_dict = DriveApiKeyOut.from_dict(drive_api_key_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

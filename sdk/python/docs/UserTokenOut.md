@@ -6,15 +6,15 @@ One `ad_user_` token — metadata only. The raw token is NEVER exposed over the 
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | 
-**prefix** | **str** |  | 
-**label** | **str** |  | [optional] 
-**scope** | **str** |  | 
-**default_drive_id** | **str** |  | [optional] 
-**last_used_at** | **datetime** |  | [optional] 
-**expires_at** | **datetime** |  | [optional] 
-**created_at** | **datetime** |  | 
-**revoked_at** | **datetime** |  | [optional] 
+**created_at** | **datetime** |  |
+**default_drive_id** | **str** |  | [optional]
+**expires_at** | **datetime** |  | [optional]
+**id** | **str** |  |
+**label** | **str** |  | [optional]
+**last_used_at** | **datetime** |  | [optional]
+**prefix** | **str** |  |
+**revoked_at** | **datetime** |  | [optional]
+**scope** | **str** |  |
 
 ## Example
 
@@ -34,5 +34,3 @@ user_token_out_dict = user_token_out_instance.to_dict()
 user_token_out_from_dict = UserTokenOut.from_dict(user_token_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

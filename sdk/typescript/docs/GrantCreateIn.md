@@ -7,10 +7,10 @@ POST /v0/grants body. `resource` is an `art_*`/`fld_*` id or a path (resolved wi
 
 Name | Type
 ------------ | -------------
-`resource` | string
-`principal` | [GrantPrincipalIn](GrantPrincipalIn.md)
-`role` | string
 `expiresIn` | number
+`principal` | [GrantPrincipalIn](GrantPrincipalIn.md)
+`resource` | string
+`role` | string
 
 ## Example
 
@@ -19,10 +19,10 @@ import type { GrantCreateIn } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "resource": null,
-  "principal": null,
-  "role": null,
   "expiresIn": null,
+  "principal": null,
+  "resource": null,
+  "role": null,
 } satisfies GrantCreateIn
 
 console.log(example)
@@ -37,5 +37,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

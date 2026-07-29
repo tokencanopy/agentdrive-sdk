@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Id** | **string** |  |
 **Ok** | Pointer to **bool** |  | [optional] [default to true]
-**Id** | **string** |  | 
-**OrganizationId** | **string** |  | 
+**OrganizationId** | **string** |  |
 
 ## Methods
 
@@ -26,6 +26,26 @@ will change when the set of required properties is changed
 NewMemberRemoveOutWithDefaults instantiates a new MemberRemoveOut object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetId
+
+`func (o *MemberRemoveOut) GetId() string`
+
+GetId returns the Id field if non-nil, zero value otherwise.
+
+### GetIdOk
+
+`func (o *MemberRemoveOut) GetIdOk() (*string, bool)`
+
+GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetId
+
+`func (o *MemberRemoveOut) SetId(v string)`
+
+SetId sets Id field to given value.
+
 
 ### GetOk
 
@@ -52,26 +72,6 @@ SetOk sets Ok field to given value.
 
 HasOk returns a boolean if a field has been set.
 
-### GetId
-
-`func (o *MemberRemoveOut) GetId() string`
-
-GetId returns the Id field if non-nil, zero value otherwise.
-
-### GetIdOk
-
-`func (o *MemberRemoveOut) GetIdOk() (*string, bool)`
-
-GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetId
-
-`func (o *MemberRemoveOut) SetId(v string)`
-
-SetId sets Id field to given value.
-
-
 ### GetOrganizationId
 
 `func (o *MemberRemoveOut) GetOrganizationId() string`
@@ -94,5 +94,3 @@ SetOrganizationId sets OrganizationId field to given value.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

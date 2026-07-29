@@ -4,34 +4,34 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ArtId** | **string** |  | 
-**DriveId** | **string** |  | 
-**Path** | **string** |  | 
-**Url** | **string** |  | 
-**ContentType** | **string** |  | 
-**FileType** | **string** |  | 
-**Labels** | Pointer to **[]string** |  | [optional] 
-**UpdatedAt** | **time.Time** |  | 
-**VersionNumber** | **int32** |  | 
-**Modality** | **string** |  | 
-**Ord** | **int32** |  | 
-**Text** | **string** |  | 
-**Snippet** | **string** |  | 
-**Score** | **float32** |  | 
-**RankLexical** | Pointer to **NullableInt32** |  | [optional] 
-**RankSemantic** | Pointer to **NullableInt32** |  | [optional] 
-**CharStart** | Pointer to **NullableInt32** |  | [optional] 
-**CharEnd** | Pointer to **NullableInt32** |  | [optional] 
-**PageStart** | Pointer to **NullableInt32** |  | [optional] 
-**PageEnd** | Pointer to **NullableInt32** |  | [optional] 
-**TimeStartMs** | Pointer to **NullableInt32** |  | [optional] 
-**TimeEndMs** | Pointer to **NullableInt32** |  | [optional] 
+**ArtId** | **string** |  |
+**CharEnd** | Pointer to **NullableInt32** |  | [optional]
+**CharStart** | Pointer to **NullableInt32** |  | [optional]
+**ContentType** | **string** |  |
+**DriveId** | **string** |  |
+**FileType** | **string** |  |
+**Labels** | Pointer to **[]string** |  | [optional]
+**Modality** | **string** |  |
+**Ord** | **int32** |  |
+**PageEnd** | Pointer to **NullableInt32** |  | [optional]
+**PageStart** | Pointer to **NullableInt32** |  | [optional]
+**Path** | **string** |  |
+**RankLexical** | Pointer to **NullableInt32** |  | [optional]
+**RankSemantic** | Pointer to **NullableInt32** |  | [optional]
+**Score** | **float32** |  |
+**Snippet** | **string** |  |
+**Text** | **string** |  |
+**TimeEndMs** | Pointer to **NullableInt32** |  | [optional]
+**TimeStartMs** | Pointer to **NullableInt32** |  | [optional]
+**UpdatedAt** | **time.Time** |  |
+**Url** | **string** |  |
+**VersionNumber** | **int32** |  |
 
 ## Methods
 
 ### NewFindHitOut
 
-`func NewFindHitOut(artId string, driveId string, path string, url string, contentType string, fileType string, updatedAt time.Time, versionNumber int32, modality string, ord int32, text string, snippet string, score float32, ) *FindHitOut`
+`func NewFindHitOut(artId string, contentType string, driveId string, fileType string, modality string, ord int32, path string, score float32, snippet string, text string, updatedAt time.Time, url string, versionNumber int32, ) *FindHitOut`
 
 NewFindHitOut instantiates a new FindHitOut object
 This constructor will assign default values to properties that have it defined,
@@ -66,66 +66,76 @@ and a boolean to check if the value has been set.
 SetArtId sets ArtId field to given value.
 
 
-### GetDriveId
+### GetCharEnd
 
-`func (o *FindHitOut) GetDriveId() string`
+`func (o *FindHitOut) GetCharEnd() int32`
 
-GetDriveId returns the DriveId field if non-nil, zero value otherwise.
+GetCharEnd returns the CharEnd field if non-nil, zero value otherwise.
 
-### GetDriveIdOk
+### GetCharEndOk
 
-`func (o *FindHitOut) GetDriveIdOk() (*string, bool)`
+`func (o *FindHitOut) GetCharEndOk() (*int32, bool)`
 
-GetDriveIdOk returns a tuple with the DriveId field if it's non-nil, zero value otherwise
+GetCharEndOk returns a tuple with the CharEnd field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetDriveId
+### SetCharEnd
 
-`func (o *FindHitOut) SetDriveId(v string)`
+`func (o *FindHitOut) SetCharEnd(v int32)`
 
-SetDriveId sets DriveId field to given value.
+SetCharEnd sets CharEnd field to given value.
 
+### HasCharEnd
 
-### GetPath
+`func (o *FindHitOut) HasCharEnd() bool`
 
-`func (o *FindHitOut) GetPath() string`
+HasCharEnd returns a boolean if a field has been set.
 
-GetPath returns the Path field if non-nil, zero value otherwise.
+### SetCharEndNil
 
-### GetPathOk
+`func (o *FindHitOut) SetCharEndNil(b bool)`
 
-`func (o *FindHitOut) GetPathOk() (*string, bool)`
+ SetCharEndNil sets the value for CharEnd to be an explicit nil
 
-GetPathOk returns a tuple with the Path field if it's non-nil, zero value otherwise
+### UnsetCharEnd
+`func (o *FindHitOut) UnsetCharEnd()`
+
+UnsetCharEnd ensures that no value is present for CharEnd, not even an explicit nil
+### GetCharStart
+
+`func (o *FindHitOut) GetCharStart() int32`
+
+GetCharStart returns the CharStart field if non-nil, zero value otherwise.
+
+### GetCharStartOk
+
+`func (o *FindHitOut) GetCharStartOk() (*int32, bool)`
+
+GetCharStartOk returns a tuple with the CharStart field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetPath
+### SetCharStart
 
-`func (o *FindHitOut) SetPath(v string)`
+`func (o *FindHitOut) SetCharStart(v int32)`
 
-SetPath sets Path field to given value.
+SetCharStart sets CharStart field to given value.
 
+### HasCharStart
 
-### GetUrl
+`func (o *FindHitOut) HasCharStart() bool`
 
-`func (o *FindHitOut) GetUrl() string`
+HasCharStart returns a boolean if a field has been set.
 
-GetUrl returns the Url field if non-nil, zero value otherwise.
+### SetCharStartNil
 
-### GetUrlOk
+`func (o *FindHitOut) SetCharStartNil(b bool)`
 
-`func (o *FindHitOut) GetUrlOk() (*string, bool)`
+ SetCharStartNil sets the value for CharStart to be an explicit nil
 
-GetUrlOk returns a tuple with the Url field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
+### UnsetCharStart
+`func (o *FindHitOut) UnsetCharStart()`
 
-### SetUrl
-
-`func (o *FindHitOut) SetUrl(v string)`
-
-SetUrl sets Url field to given value.
-
-
+UnsetCharStart ensures that no value is present for CharStart, not even an explicit nil
 ### GetContentType
 
 `func (o *FindHitOut) GetContentType() string`
@@ -144,6 +154,26 @@ and a boolean to check if the value has been set.
 `func (o *FindHitOut) SetContentType(v string)`
 
 SetContentType sets ContentType field to given value.
+
+
+### GetDriveId
+
+`func (o *FindHitOut) GetDriveId() string`
+
+GetDriveId returns the DriveId field if non-nil, zero value otherwise.
+
+### GetDriveIdOk
+
+`func (o *FindHitOut) GetDriveIdOk() (*string, bool)`
+
+GetDriveIdOk returns a tuple with the DriveId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDriveId
+
+`func (o *FindHitOut) SetDriveId(v string)`
+
+SetDriveId sets DriveId field to given value.
 
 
 ### GetFileType
@@ -191,46 +221,6 @@ SetLabels sets Labels field to given value.
 
 HasLabels returns a boolean if a field has been set.
 
-### GetUpdatedAt
-
-`func (o *FindHitOut) GetUpdatedAt() time.Time`
-
-GetUpdatedAt returns the UpdatedAt field if non-nil, zero value otherwise.
-
-### GetUpdatedAtOk
-
-`func (o *FindHitOut) GetUpdatedAtOk() (*time.Time, bool)`
-
-GetUpdatedAtOk returns a tuple with the UpdatedAt field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetUpdatedAt
-
-`func (o *FindHitOut) SetUpdatedAt(v time.Time)`
-
-SetUpdatedAt sets UpdatedAt field to given value.
-
-
-### GetVersionNumber
-
-`func (o *FindHitOut) GetVersionNumber() int32`
-
-GetVersionNumber returns the VersionNumber field if non-nil, zero value otherwise.
-
-### GetVersionNumberOk
-
-`func (o *FindHitOut) GetVersionNumberOk() (*int32, bool)`
-
-GetVersionNumberOk returns a tuple with the VersionNumber field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetVersionNumber
-
-`func (o *FindHitOut) SetVersionNumber(v int32)`
-
-SetVersionNumber sets VersionNumber field to given value.
-
-
 ### GetModality
 
 `func (o *FindHitOut) GetModality() string`
@@ -271,64 +261,94 @@ and a boolean to check if the value has been set.
 SetOrd sets Ord field to given value.
 
 
-### GetText
+### GetPageEnd
 
-`func (o *FindHitOut) GetText() string`
+`func (o *FindHitOut) GetPageEnd() int32`
 
-GetText returns the Text field if non-nil, zero value otherwise.
+GetPageEnd returns the PageEnd field if non-nil, zero value otherwise.
 
-### GetTextOk
+### GetPageEndOk
 
-`func (o *FindHitOut) GetTextOk() (*string, bool)`
+`func (o *FindHitOut) GetPageEndOk() (*int32, bool)`
 
-GetTextOk returns a tuple with the Text field if it's non-nil, zero value otherwise
+GetPageEndOk returns a tuple with the PageEnd field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetText
+### SetPageEnd
 
-`func (o *FindHitOut) SetText(v string)`
+`func (o *FindHitOut) SetPageEnd(v int32)`
 
-SetText sets Text field to given value.
+SetPageEnd sets PageEnd field to given value.
 
+### HasPageEnd
 
-### GetSnippet
+`func (o *FindHitOut) HasPageEnd() bool`
 
-`func (o *FindHitOut) GetSnippet() string`
+HasPageEnd returns a boolean if a field has been set.
 
-GetSnippet returns the Snippet field if non-nil, zero value otherwise.
+### SetPageEndNil
 
-### GetSnippetOk
+`func (o *FindHitOut) SetPageEndNil(b bool)`
 
-`func (o *FindHitOut) GetSnippetOk() (*string, bool)`
+ SetPageEndNil sets the value for PageEnd to be an explicit nil
 
-GetSnippetOk returns a tuple with the Snippet field if it's non-nil, zero value otherwise
+### UnsetPageEnd
+`func (o *FindHitOut) UnsetPageEnd()`
+
+UnsetPageEnd ensures that no value is present for PageEnd, not even an explicit nil
+### GetPageStart
+
+`func (o *FindHitOut) GetPageStart() int32`
+
+GetPageStart returns the PageStart field if non-nil, zero value otherwise.
+
+### GetPageStartOk
+
+`func (o *FindHitOut) GetPageStartOk() (*int32, bool)`
+
+GetPageStartOk returns a tuple with the PageStart field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetSnippet
+### SetPageStart
 
-`func (o *FindHitOut) SetSnippet(v string)`
+`func (o *FindHitOut) SetPageStart(v int32)`
 
-SetSnippet sets Snippet field to given value.
+SetPageStart sets PageStart field to given value.
 
+### HasPageStart
 
-### GetScore
+`func (o *FindHitOut) HasPageStart() bool`
 
-`func (o *FindHitOut) GetScore() float32`
+HasPageStart returns a boolean if a field has been set.
 
-GetScore returns the Score field if non-nil, zero value otherwise.
+### SetPageStartNil
 
-### GetScoreOk
+`func (o *FindHitOut) SetPageStartNil(b bool)`
 
-`func (o *FindHitOut) GetScoreOk() (*float32, bool)`
+ SetPageStartNil sets the value for PageStart to be an explicit nil
 
-GetScoreOk returns a tuple with the Score field if it's non-nil, zero value otherwise
+### UnsetPageStart
+`func (o *FindHitOut) UnsetPageStart()`
+
+UnsetPageStart ensures that no value is present for PageStart, not even an explicit nil
+### GetPath
+
+`func (o *FindHitOut) GetPath() string`
+
+GetPath returns the Path field if non-nil, zero value otherwise.
+
+### GetPathOk
+
+`func (o *FindHitOut) GetPathOk() (*string, bool)`
+
+GetPathOk returns a tuple with the Path field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetScore
+### SetPath
 
-`func (o *FindHitOut) SetScore(v float32)`
+`func (o *FindHitOut) SetPath(v string)`
 
-SetScore sets Score field to given value.
+SetPath sets Path field to given value.
 
 
 ### GetRankLexical
@@ -401,181 +421,66 @@ HasRankSemantic returns a boolean if a field has been set.
 `func (o *FindHitOut) UnsetRankSemantic()`
 
 UnsetRankSemantic ensures that no value is present for RankSemantic, not even an explicit nil
-### GetCharStart
+### GetScore
 
-`func (o *FindHitOut) GetCharStart() int32`
+`func (o *FindHitOut) GetScore() float32`
 
-GetCharStart returns the CharStart field if non-nil, zero value otherwise.
+GetScore returns the Score field if non-nil, zero value otherwise.
 
-### GetCharStartOk
+### GetScoreOk
 
-`func (o *FindHitOut) GetCharStartOk() (*int32, bool)`
+`func (o *FindHitOut) GetScoreOk() (*float32, bool)`
 
-GetCharStartOk returns a tuple with the CharStart field if it's non-nil, zero value otherwise
+GetScoreOk returns a tuple with the Score field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetCharStart
+### SetScore
 
-`func (o *FindHitOut) SetCharStart(v int32)`
+`func (o *FindHitOut) SetScore(v float32)`
 
-SetCharStart sets CharStart field to given value.
+SetScore sets Score field to given value.
 
-### HasCharStart
 
-`func (o *FindHitOut) HasCharStart() bool`
+### GetSnippet
 
-HasCharStart returns a boolean if a field has been set.
+`func (o *FindHitOut) GetSnippet() string`
 
-### SetCharStartNil
+GetSnippet returns the Snippet field if non-nil, zero value otherwise.
 
-`func (o *FindHitOut) SetCharStartNil(b bool)`
+### GetSnippetOk
 
- SetCharStartNil sets the value for CharStart to be an explicit nil
+`func (o *FindHitOut) GetSnippetOk() (*string, bool)`
 
-### UnsetCharStart
-`func (o *FindHitOut) UnsetCharStart()`
-
-UnsetCharStart ensures that no value is present for CharStart, not even an explicit nil
-### GetCharEnd
-
-`func (o *FindHitOut) GetCharEnd() int32`
-
-GetCharEnd returns the CharEnd field if non-nil, zero value otherwise.
-
-### GetCharEndOk
-
-`func (o *FindHitOut) GetCharEndOk() (*int32, bool)`
-
-GetCharEndOk returns a tuple with the CharEnd field if it's non-nil, zero value otherwise
+GetSnippetOk returns a tuple with the Snippet field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetCharEnd
+### SetSnippet
 
-`func (o *FindHitOut) SetCharEnd(v int32)`
+`func (o *FindHitOut) SetSnippet(v string)`
 
-SetCharEnd sets CharEnd field to given value.
+SetSnippet sets Snippet field to given value.
 
-### HasCharEnd
 
-`func (o *FindHitOut) HasCharEnd() bool`
+### GetText
 
-HasCharEnd returns a boolean if a field has been set.
+`func (o *FindHitOut) GetText() string`
 
-### SetCharEndNil
+GetText returns the Text field if non-nil, zero value otherwise.
 
-`func (o *FindHitOut) SetCharEndNil(b bool)`
+### GetTextOk
 
- SetCharEndNil sets the value for CharEnd to be an explicit nil
+`func (o *FindHitOut) GetTextOk() (*string, bool)`
 
-### UnsetCharEnd
-`func (o *FindHitOut) UnsetCharEnd()`
-
-UnsetCharEnd ensures that no value is present for CharEnd, not even an explicit nil
-### GetPageStart
-
-`func (o *FindHitOut) GetPageStart() int32`
-
-GetPageStart returns the PageStart field if non-nil, zero value otherwise.
-
-### GetPageStartOk
-
-`func (o *FindHitOut) GetPageStartOk() (*int32, bool)`
-
-GetPageStartOk returns a tuple with the PageStart field if it's non-nil, zero value otherwise
+GetTextOk returns a tuple with the Text field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetPageStart
+### SetText
 
-`func (o *FindHitOut) SetPageStart(v int32)`
+`func (o *FindHitOut) SetText(v string)`
 
-SetPageStart sets PageStart field to given value.
+SetText sets Text field to given value.
 
-### HasPageStart
 
-`func (o *FindHitOut) HasPageStart() bool`
-
-HasPageStart returns a boolean if a field has been set.
-
-### SetPageStartNil
-
-`func (o *FindHitOut) SetPageStartNil(b bool)`
-
- SetPageStartNil sets the value for PageStart to be an explicit nil
-
-### UnsetPageStart
-`func (o *FindHitOut) UnsetPageStart()`
-
-UnsetPageStart ensures that no value is present for PageStart, not even an explicit nil
-### GetPageEnd
-
-`func (o *FindHitOut) GetPageEnd() int32`
-
-GetPageEnd returns the PageEnd field if non-nil, zero value otherwise.
-
-### GetPageEndOk
-
-`func (o *FindHitOut) GetPageEndOk() (*int32, bool)`
-
-GetPageEndOk returns a tuple with the PageEnd field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPageEnd
-
-`func (o *FindHitOut) SetPageEnd(v int32)`
-
-SetPageEnd sets PageEnd field to given value.
-
-### HasPageEnd
-
-`func (o *FindHitOut) HasPageEnd() bool`
-
-HasPageEnd returns a boolean if a field has been set.
-
-### SetPageEndNil
-
-`func (o *FindHitOut) SetPageEndNil(b bool)`
-
- SetPageEndNil sets the value for PageEnd to be an explicit nil
-
-### UnsetPageEnd
-`func (o *FindHitOut) UnsetPageEnd()`
-
-UnsetPageEnd ensures that no value is present for PageEnd, not even an explicit nil
-### GetTimeStartMs
-
-`func (o *FindHitOut) GetTimeStartMs() int32`
-
-GetTimeStartMs returns the TimeStartMs field if non-nil, zero value otherwise.
-
-### GetTimeStartMsOk
-
-`func (o *FindHitOut) GetTimeStartMsOk() (*int32, bool)`
-
-GetTimeStartMsOk returns a tuple with the TimeStartMs field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetTimeStartMs
-
-`func (o *FindHitOut) SetTimeStartMs(v int32)`
-
-SetTimeStartMs sets TimeStartMs field to given value.
-
-### HasTimeStartMs
-
-`func (o *FindHitOut) HasTimeStartMs() bool`
-
-HasTimeStartMs returns a boolean if a field has been set.
-
-### SetTimeStartMsNil
-
-`func (o *FindHitOut) SetTimeStartMsNil(b bool)`
-
- SetTimeStartMsNil sets the value for TimeStartMs to be an explicit nil
-
-### UnsetTimeStartMs
-`func (o *FindHitOut) UnsetTimeStartMs()`
-
-UnsetTimeStartMs ensures that no value is present for TimeStartMs, not even an explicit nil
 ### GetTimeEndMs
 
 `func (o *FindHitOut) GetTimeEndMs() int32`
@@ -611,7 +516,100 @@ HasTimeEndMs returns a boolean if a field has been set.
 `func (o *FindHitOut) UnsetTimeEndMs()`
 
 UnsetTimeEndMs ensures that no value is present for TimeEndMs, not even an explicit nil
+### GetTimeStartMs
+
+`func (o *FindHitOut) GetTimeStartMs() int32`
+
+GetTimeStartMs returns the TimeStartMs field if non-nil, zero value otherwise.
+
+### GetTimeStartMsOk
+
+`func (o *FindHitOut) GetTimeStartMsOk() (*int32, bool)`
+
+GetTimeStartMsOk returns a tuple with the TimeStartMs field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTimeStartMs
+
+`func (o *FindHitOut) SetTimeStartMs(v int32)`
+
+SetTimeStartMs sets TimeStartMs field to given value.
+
+### HasTimeStartMs
+
+`func (o *FindHitOut) HasTimeStartMs() bool`
+
+HasTimeStartMs returns a boolean if a field has been set.
+
+### SetTimeStartMsNil
+
+`func (o *FindHitOut) SetTimeStartMsNil(b bool)`
+
+ SetTimeStartMsNil sets the value for TimeStartMs to be an explicit nil
+
+### UnsetTimeStartMs
+`func (o *FindHitOut) UnsetTimeStartMs()`
+
+UnsetTimeStartMs ensures that no value is present for TimeStartMs, not even an explicit nil
+### GetUpdatedAt
+
+`func (o *FindHitOut) GetUpdatedAt() time.Time`
+
+GetUpdatedAt returns the UpdatedAt field if non-nil, zero value otherwise.
+
+### GetUpdatedAtOk
+
+`func (o *FindHitOut) GetUpdatedAtOk() (*time.Time, bool)`
+
+GetUpdatedAtOk returns a tuple with the UpdatedAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUpdatedAt
+
+`func (o *FindHitOut) SetUpdatedAt(v time.Time)`
+
+SetUpdatedAt sets UpdatedAt field to given value.
+
+
+### GetUrl
+
+`func (o *FindHitOut) GetUrl() string`
+
+GetUrl returns the Url field if non-nil, zero value otherwise.
+
+### GetUrlOk
+
+`func (o *FindHitOut) GetUrlOk() (*string, bool)`
+
+GetUrlOk returns a tuple with the Url field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUrl
+
+`func (o *FindHitOut) SetUrl(v string)`
+
+SetUrl sets Url field to given value.
+
+
+### GetVersionNumber
+
+`func (o *FindHitOut) GetVersionNumber() int32`
+
+GetVersionNumber returns the VersionNumber field if non-nil, zero value otherwise.
+
+### GetVersionNumberOk
+
+`func (o *FindHitOut) GetVersionNumberOk() (*int32, bool)`
+
+GetVersionNumberOk returns a tuple with the VersionNumber field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetVersionNumber
+
+`func (o *FindHitOut) SetVersionNumber(v int32)`
+
+SetVersionNumber sets VersionNumber field to given value.
+
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-
