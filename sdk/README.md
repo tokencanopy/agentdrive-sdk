@@ -8,7 +8,7 @@ AgentDrive source commit and snapshot digest.
 | Language | Directory | Package | Generator |
 |---|---|---|---|
 | Python | [`python/`](python/) | `agentdrive-sdk` (PyPI) | `python` (urllib3) |
-| TypeScript | [`typescript/`](typescript/) | `@agentdrive/sdk` (npm) | `typescript-fetch` |
+| TypeScript | [`typescript/`](typescript/) | `@mnexa-ai/agentdrive-sdk` (npm) | `typescript-fetch` |
 | Go | [`go/`](go/) | `github.com/Mnexa-AI/agentdrive-sdk/sdk/go` | `go` |
 
 ## Regenerating
@@ -24,10 +24,13 @@ python3 scripts/import_agentdrive_contract.py \
 bash scripts/generate-sdks.sh sdk/openapi.json
 ```
 
-Generation requires Docker. CI regenerates from the committed contract and
-fails on any diff, then checks that Python, TypeScript, and Go expose every
-contract `operationId` and no stale operations. It never fetches the live
-production endpoint and never auto-commits or publishes generated changes.
+Generation requires Docker. CI first verifies the source digest and generator
+pin recorded in `openapi.provenance.json`, regenerates from the committed
+contract, and requires a clean worktree including untracked files. It then
+checks that Python, TypeScript, and Go expose every contract `operationId`
+without language-specific name collisions or stale operations. It never
+fetches the live production endpoint and never auto-commits or publishes
+generated changes.
 
 ## Authentication
 

@@ -10,6 +10,11 @@ The generated Python, TypeScript, and Go clients derive from
 - the source snapshot SHA-256;
 - the pinned OpenAPI Generator image.
 
+CI reconstructs the handler-generated source snapshot from the committed SDK
+contract (replacing only the documented server value), verifies its SHA-256
+against that provenance, and requires the recorded generator image to match
+`sdk/openapi-generator-image.txt`.
+
 The import changes only the snapshot's deployment-derived `servers` sentinel
 to the separately reviewed public SDK default
 `https://api.agentdrive.run`. It rejects pre-freeze contracts, non-SDK routes,

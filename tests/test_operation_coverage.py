@@ -99,6 +99,39 @@ class OperationCoverageTest(unittest.TestCase):
                     go_dir=root / "go",
                 )
 
+    def test_language_specific_name_collisions_are_rejected(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            spec_path = root / "openapi.json"
+            spec_path.write_text(
+                json.dumps(
+                    {
+                        "paths": {
+                            "/v0/first": {
+                                "get": {"operationId": "get_widget"}
+                            },
+                            "/v0/second": {
+                                "get": {"operationId": "get__widget"}
+                            },
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            for name in ("python", "typescript", "go"):
+                (root / name).mkdir()
+
+            with self.assertRaisesRegex(
+                CoverageError,
+                "python generated-name collision.*get_widget.*get__widget",
+            ):
+                check_operation_coverage(
+                    spec_path,
+                    python_dir=root / "python",
+                    typescript_dir=root / "typescript",
+                    go_dir=root / "go",
+                )
+
 
 if __name__ == "__main__":
     unittest.main()

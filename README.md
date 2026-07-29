@@ -65,7 +65,7 @@ Generated reproducibly from the reviewed AgentDrive contract via pinned
 pip install agentdrive-sdk
 
 # TypeScript / Node  (once published)
-npm install @agentdrive/sdk
+npm install @mnexa-ai/agentdrive-sdk
 
 # Go
 go get github.com/Mnexa-AI/agentdrive-sdk/sdk/go

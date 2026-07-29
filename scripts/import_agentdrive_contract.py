@@ -14,7 +14,9 @@ SDK_SERVER = {
 }
 SOURCE_REPOSITORY = "https://github.com/tokencanopy/agentdrive"
 SOURCE_PATH = "tests/openapi.golden.json"
-GENERATOR_IMAGE = "openapitools/openapi-generator-cli:v7.24.0"
+GENERATOR_IMAGE = (
+    Path(__file__).resolve().parents[1] / "sdk/openapi-generator-image.txt"
+).read_text(encoding="utf-8").strip()
 HTTP_METHODS = frozenset(
     {"get", "put", "post", "delete", "patch", "head", "options", "trace"}
 )

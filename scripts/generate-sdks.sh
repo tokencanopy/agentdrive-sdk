@@ -7,20 +7,17 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SPEC_INPUT="${1:-sdk/openapi.json}"
-if [[ "$SPEC_INPUT" = /* ]]; then
-  SPEC="${SPEC_INPUT#"$ROOT/"}"
-else
-  SPEC="$SPEC_INPUT"
-fi
-if [[ "$SPEC" = /* || ! -f "$ROOT/$SPEC" ]]; then
-  echo "spec must be a file inside the repository: $SPEC_INPUT" >&2
-  exit 2
-fi
+SPEC="$(python3 "$ROOT/scripts/resolve_repo_path.py" "$ROOT" "$SPEC_INPUT")"
+cd "$ROOT"
 VERSION="${SDK_VERSION:-0.0.1}"
 GIT_HOST="github.com"
 GIT_USER="Mnexa-AI"
 GIT_REPO="agentdrive-sdk"
-OAG_IMAGE="openapitools/openapi-generator-cli:v7.24.0"
+OAG_IMAGE="$(tr -d '\r\n' < "$ROOT/sdk/openapi-generator-image.txt")"
+if [[ -z "$OAG_IMAGE" ]]; then
+  echo "sdk/openapi-generator-image.txt must not be empty" >&2
+  exit 2
+fi
 
 echo "Generating SDKs from ${SPEC} with ${OAG_IMAGE} (version ${VERSION})"
 
@@ -37,6 +34,10 @@ if [[ -f "$ROOT/sdk/typescript/package-lock.json" ]]; then
   had_lock=true
 fi
 cleanup() {
+  if [[ "$had_lock" = true && -f "$LOCK_BACKUP" ]]; then
+    mkdir -p "$ROOT/sdk/typescript"
+    cp "$LOCK_BACKUP" "$ROOT/sdk/typescript/package-lock.json"
+  fi
   rm -f \
     "$ROOT/$CLEAN_SPEC" \
     "$ROOT/$TYPESCRIPT_SPEC" \
@@ -57,7 +58,11 @@ echo "Sanitized spec -> ${SPEC}"
 # openapi-generator does not delete files for operations that no longer exist;
 # wipe the generated dirs first so dropped endpoints (e.g. /internal/*) don't
 # linger as stale clients.
-rm -rf sdk/python sdk/typescript sdk/go
+# Verify Docker and the pinned image before deleting the recoverable generated
+# tree, so a missing daemon or failed image pull leaves the worktree untouched.
+docker info >/dev/null
+docker image inspect "$OAG_IMAGE" >/dev/null 2>&1 || docker pull "$OAG_IMAGE"
+rm -rf "$ROOT/sdk/python" "$ROOT/sdk/typescript" "$ROOT/sdk/go"
 
 generate() {
   docker run --rm \
@@ -86,17 +91,15 @@ generate -i "/local/$GO_SPEC" -g go -o /local/sdk/go \
 # repository intentionally publishes the module at `sdk/go`. They contain
 # only skipped placeholder calls and are not contract tests; remove them and
 # compile/test the actual module with `go test ./...`.
-rm -rf sdk/go/test
-
-if [[ "$had_lock" = true ]]; then
-  cp "$LOCK_BACKUP" "$ROOT/sdk/typescript/package-lock.json"
-fi
+rm -rf "$ROOT/sdk/go/test"
 
 # The module must be importable at its location in the monorepo so that
 # `go get github.com/Mnexa-AI/agentdrive-sdk/sdk/go@<tag>` resolves. Version
 # tags for this submodule are `sdk/go/vX.Y.Z` (see publish.yml).
 GO_MODULE="${GIT_HOST}/${GIT_USER}/${GIT_REPO}/sdk/go"
-sed -i.bak "1s|^module .*|module ${GO_MODULE}|" sdk/go/go.mod && rm -f sdk/go/go.mod.bak
-python3 scripts/normalize_generated_text.py sdk/python sdk/typescript sdk/go
+sed -i.bak "1s|^module .*|module ${GO_MODULE}|" "$ROOT/sdk/go/go.mod"
+rm -f "$ROOT/sdk/go/go.mod.bak"
+python3 "$ROOT/scripts/normalize_generated_text.py" \
+  "$ROOT/sdk/python" "$ROOT/sdk/typescript" "$ROOT/sdk/go"
 
 echo "Done. SDKs written to sdk/{python,typescript,go}."

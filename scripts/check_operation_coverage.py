@@ -92,10 +92,22 @@ def check_operation_coverage(
     go_dir: Path,
 ) -> None:
     operation_ids = _operation_ids(spec_path)
-    expected = {
-        language: {generated_names(operation_id)[language] for operation_id in operation_ids}
-        for language in ("python", "typescript", "go")
-    }
+    expected = {}
+    for language in ("python", "typescript", "go"):
+        owners: Dict[str, list[str]] = {}
+        for operation_id in operation_ids:
+            generated = generated_names(operation_id)[language]
+            owners.setdefault(generated, []).append(operation_id)
+        collisions = {
+            name: sorted(ids)
+            for name, ids in owners.items()
+            if len(ids) > 1
+        }
+        if collisions:
+            raise CoverageError(
+                f"{language} generated-name collision: {collisions}"
+            )
+        expected[language] = set(owners)
     actual = {
         "python": _python_operations(python_dir),
         "typescript": _typescript_operations(typescript_dir),
