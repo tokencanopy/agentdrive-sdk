@@ -7,10 +7,10 @@ DELETE /v0/artifacts/{art_id} response — the soft-delete receipt. Reversible u
 
 Name | Type
 ------------ | -------------
-`ok` | boolean
-`id` | string
-`path` | string
 `deletedAt` | Date
+`id` | string
+`ok` | boolean
+`path` | string
 `purgeAt` | Date
 `restoreUrl` | string
 
@@ -21,10 +21,10 @@ import type { ArtifactDeleteOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "ok": null,
-  "id": null,
-  "path": null,
   "deletedAt": null,
+  "id": null,
+  "ok": null,
+  "path": null,
   "purgeAt": null,
   "restoreUrl": null,
 } satisfies ArtifactDeleteOut
@@ -41,5 +41,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

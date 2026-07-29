@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Entrypoint** | Pointer to **NullableString** |  | [optional] 
-**Engine** | Pointer to **NullableString** |  | [optional] 
+**Engine** | Pointer to **NullableString** |  | [optional]
+**Entrypoint** | Pointer to **NullableString** |  | [optional]
 **Wait** | Pointer to **bool** |  | [optional] [default to false]
 
 ## Methods
@@ -27,41 +27,6 @@ NewCompileOptionsWithDefaults instantiates a new CompileOptions object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetEntrypoint
-
-`func (o *CompileOptions) GetEntrypoint() string`
-
-GetEntrypoint returns the Entrypoint field if non-nil, zero value otherwise.
-
-### GetEntrypointOk
-
-`func (o *CompileOptions) GetEntrypointOk() (*string, bool)`
-
-GetEntrypointOk returns a tuple with the Entrypoint field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetEntrypoint
-
-`func (o *CompileOptions) SetEntrypoint(v string)`
-
-SetEntrypoint sets Entrypoint field to given value.
-
-### HasEntrypoint
-
-`func (o *CompileOptions) HasEntrypoint() bool`
-
-HasEntrypoint returns a boolean if a field has been set.
-
-### SetEntrypointNil
-
-`func (o *CompileOptions) SetEntrypointNil(b bool)`
-
- SetEntrypointNil sets the value for Entrypoint to be an explicit nil
-
-### UnsetEntrypoint
-`func (o *CompileOptions) UnsetEntrypoint()`
-
-UnsetEntrypoint ensures that no value is present for Entrypoint, not even an explicit nil
 ### GetEngine
 
 `func (o *CompileOptions) GetEngine() string`
@@ -97,6 +62,41 @@ HasEngine returns a boolean if a field has been set.
 `func (o *CompileOptions) UnsetEngine()`
 
 UnsetEngine ensures that no value is present for Engine, not even an explicit nil
+### GetEntrypoint
+
+`func (o *CompileOptions) GetEntrypoint() string`
+
+GetEntrypoint returns the Entrypoint field if non-nil, zero value otherwise.
+
+### GetEntrypointOk
+
+`func (o *CompileOptions) GetEntrypointOk() (*string, bool)`
+
+GetEntrypointOk returns a tuple with the Entrypoint field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEntrypoint
+
+`func (o *CompileOptions) SetEntrypoint(v string)`
+
+SetEntrypoint sets Entrypoint field to given value.
+
+### HasEntrypoint
+
+`func (o *CompileOptions) HasEntrypoint() bool`
+
+HasEntrypoint returns a boolean if a field has been set.
+
+### SetEntrypointNil
+
+`func (o *CompileOptions) SetEntrypointNil(b bool)`
+
+ SetEntrypointNil sets the value for Entrypoint to be an explicit nil
+
+### UnsetEntrypoint
+`func (o *CompileOptions) UnsetEntrypoint()`
+
+UnsetEntrypoint ensures that no value is present for Entrypoint, not even an explicit nil
 ### GetWait
 
 `func (o *CompileOptions) GetWait() bool`
@@ -124,5 +124,3 @@ HasWait returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

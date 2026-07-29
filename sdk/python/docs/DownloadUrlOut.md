@@ -6,12 +6,12 @@ A URL the caller can GET to fetch the artifact's bytes.  `direct=True` ⇒ a sho
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**download_url** | **str** |  | 
-**direct** | **bool** |  | 
-**expires_at** | **datetime** |  | [optional] 
-**size_bytes** | **int** |  | 
-**content_type** | **str** |  | 
-**filename** | **str** |  | 
+**content_type** | **str** |  |
+**direct** | **bool** |  |
+**download_url** | **str** |  |
+**expires_at** | **datetime** |  | [optional]
+**filename** | **str** |  |
+**size_bytes** | **int** |  |
 
 ## Example
 
@@ -31,5 +31,3 @@ download_url_out_dict = download_url_out_instance.to_dict()
 download_url_out_from_dict = DownloadUrlOut.from_dict(download_url_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

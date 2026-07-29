@@ -5,17 +5,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**art_id** | **str** |  | 
-**drive_id** | **str** |  | 
-**path** | **str** |  | 
-**url** | **str** |  | 
-**content_type** | **str** |  | 
-**file_type** | **str** |  | 
-**labels** | **List[str]** |  | [optional] 
-**snippet** | **str** |  | 
-**score** | **float** |  | 
-**updated_at** | **datetime** |  | 
-**version_number** | **int** |  | 
+**art_id** | **str** |  |
+**content_type** | **str** |  |
+**drive_id** | **str** |  |
+**file_type** | **str** |  |
+**labels** | **List[str]** |  | [optional]
+**path** | **str** |  |
+**score** | **float** |  |
+**snippet** | **str** |  |
+**updated_at** | **datetime** |  |
+**url** | **str** |  |
+**version_number** | **int** |  |
 
 ## Example
 
@@ -35,5 +35,3 @@ search_hit_out_dict = search_hit_out_instance.to_dict()
 search_hit_out_from_dict = SearchHitOut.from_dict(search_hit_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

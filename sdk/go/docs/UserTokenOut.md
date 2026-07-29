@@ -4,21 +4,21 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** |  | 
-**Prefix** | **string** |  | 
-**Label** | Pointer to **NullableString** |  | [optional] 
-**Scope** | **string** |  | 
-**DefaultDriveId** | Pointer to **NullableString** |  | [optional] 
-**LastUsedAt** | Pointer to **NullableTime** |  | [optional] 
-**ExpiresAt** | Pointer to **NullableTime** |  | [optional] 
-**CreatedAt** | **time.Time** |  | 
-**RevokedAt** | Pointer to **NullableTime** |  | [optional] 
+**CreatedAt** | **time.Time** |  |
+**DefaultDriveId** | Pointer to **NullableString** |  | [optional]
+**ExpiresAt** | Pointer to **NullableTime** |  | [optional]
+**Id** | **string** |  |
+**Label** | Pointer to **NullableString** |  | [optional]
+**LastUsedAt** | Pointer to **NullableTime** |  | [optional]
+**Prefix** | **string** |  |
+**RevokedAt** | Pointer to **NullableTime** |  | [optional]
+**Scope** | **string** |  |
 
 ## Methods
 
 ### NewUserTokenOut
 
-`func NewUserTokenOut(id string, prefix string, scope string, createdAt time.Time, ) *UserTokenOut`
+`func NewUserTokenOut(createdAt time.Time, id string, prefix string, scope string, ) *UserTokenOut`
 
 NewUserTokenOut instantiates a new UserTokenOut object
 This constructor will assign default values to properties that have it defined,
@@ -33,99 +33,24 @@ NewUserTokenOutWithDefaults instantiates a new UserTokenOut object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetId
+### GetCreatedAt
 
-`func (o *UserTokenOut) GetId() string`
+`func (o *UserTokenOut) GetCreatedAt() time.Time`
 
-GetId returns the Id field if non-nil, zero value otherwise.
+GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
 
-### GetIdOk
+### GetCreatedAtOk
 
-`func (o *UserTokenOut) GetIdOk() (*string, bool)`
+`func (o *UserTokenOut) GetCreatedAtOk() (*time.Time, bool)`
 
-GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetId
+### SetCreatedAt
 
-`func (o *UserTokenOut) SetId(v string)`
+`func (o *UserTokenOut) SetCreatedAt(v time.Time)`
 
-SetId sets Id field to given value.
-
-
-### GetPrefix
-
-`func (o *UserTokenOut) GetPrefix() string`
-
-GetPrefix returns the Prefix field if non-nil, zero value otherwise.
-
-### GetPrefixOk
-
-`func (o *UserTokenOut) GetPrefixOk() (*string, bool)`
-
-GetPrefixOk returns a tuple with the Prefix field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPrefix
-
-`func (o *UserTokenOut) SetPrefix(v string)`
-
-SetPrefix sets Prefix field to given value.
-
-
-### GetLabel
-
-`func (o *UserTokenOut) GetLabel() string`
-
-GetLabel returns the Label field if non-nil, zero value otherwise.
-
-### GetLabelOk
-
-`func (o *UserTokenOut) GetLabelOk() (*string, bool)`
-
-GetLabelOk returns a tuple with the Label field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetLabel
-
-`func (o *UserTokenOut) SetLabel(v string)`
-
-SetLabel sets Label field to given value.
-
-### HasLabel
-
-`func (o *UserTokenOut) HasLabel() bool`
-
-HasLabel returns a boolean if a field has been set.
-
-### SetLabelNil
-
-`func (o *UserTokenOut) SetLabelNil(b bool)`
-
- SetLabelNil sets the value for Label to be an explicit nil
-
-### UnsetLabel
-`func (o *UserTokenOut) UnsetLabel()`
-
-UnsetLabel ensures that no value is present for Label, not even an explicit nil
-### GetScope
-
-`func (o *UserTokenOut) GetScope() string`
-
-GetScope returns the Scope field if non-nil, zero value otherwise.
-
-### GetScopeOk
-
-`func (o *UserTokenOut) GetScopeOk() (*string, bool)`
-
-GetScopeOk returns a tuple with the Scope field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetScope
-
-`func (o *UserTokenOut) SetScope(v string)`
-
-SetScope sets Scope field to given value.
+SetCreatedAt sets CreatedAt field to given value.
 
 
 ### GetDefaultDriveId
@@ -163,41 +88,6 @@ HasDefaultDriveId returns a boolean if a field has been set.
 `func (o *UserTokenOut) UnsetDefaultDriveId()`
 
 UnsetDefaultDriveId ensures that no value is present for DefaultDriveId, not even an explicit nil
-### GetLastUsedAt
-
-`func (o *UserTokenOut) GetLastUsedAt() time.Time`
-
-GetLastUsedAt returns the LastUsedAt field if non-nil, zero value otherwise.
-
-### GetLastUsedAtOk
-
-`func (o *UserTokenOut) GetLastUsedAtOk() (*time.Time, bool)`
-
-GetLastUsedAtOk returns a tuple with the LastUsedAt field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetLastUsedAt
-
-`func (o *UserTokenOut) SetLastUsedAt(v time.Time)`
-
-SetLastUsedAt sets LastUsedAt field to given value.
-
-### HasLastUsedAt
-
-`func (o *UserTokenOut) HasLastUsedAt() bool`
-
-HasLastUsedAt returns a boolean if a field has been set.
-
-### SetLastUsedAtNil
-
-`func (o *UserTokenOut) SetLastUsedAtNil(b bool)`
-
- SetLastUsedAtNil sets the value for LastUsedAt to be an explicit nil
-
-### UnsetLastUsedAt
-`func (o *UserTokenOut) UnsetLastUsedAt()`
-
-UnsetLastUsedAt ensures that no value is present for LastUsedAt, not even an explicit nil
 ### GetExpiresAt
 
 `func (o *UserTokenOut) GetExpiresAt() time.Time`
@@ -233,24 +123,114 @@ HasExpiresAt returns a boolean if a field has been set.
 `func (o *UserTokenOut) UnsetExpiresAt()`
 
 UnsetExpiresAt ensures that no value is present for ExpiresAt, not even an explicit nil
-### GetCreatedAt
+### GetId
 
-`func (o *UserTokenOut) GetCreatedAt() time.Time`
+`func (o *UserTokenOut) GetId() string`
 
-GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
+GetId returns the Id field if non-nil, zero value otherwise.
 
-### GetCreatedAtOk
+### GetIdOk
 
-`func (o *UserTokenOut) GetCreatedAtOk() (*time.Time, bool)`
+`func (o *UserTokenOut) GetIdOk() (*string, bool)`
 
-GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
+GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetCreatedAt
+### SetId
 
-`func (o *UserTokenOut) SetCreatedAt(v time.Time)`
+`func (o *UserTokenOut) SetId(v string)`
 
-SetCreatedAt sets CreatedAt field to given value.
+SetId sets Id field to given value.
+
+
+### GetLabel
+
+`func (o *UserTokenOut) GetLabel() string`
+
+GetLabel returns the Label field if non-nil, zero value otherwise.
+
+### GetLabelOk
+
+`func (o *UserTokenOut) GetLabelOk() (*string, bool)`
+
+GetLabelOk returns a tuple with the Label field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLabel
+
+`func (o *UserTokenOut) SetLabel(v string)`
+
+SetLabel sets Label field to given value.
+
+### HasLabel
+
+`func (o *UserTokenOut) HasLabel() bool`
+
+HasLabel returns a boolean if a field has been set.
+
+### SetLabelNil
+
+`func (o *UserTokenOut) SetLabelNil(b bool)`
+
+ SetLabelNil sets the value for Label to be an explicit nil
+
+### UnsetLabel
+`func (o *UserTokenOut) UnsetLabel()`
+
+UnsetLabel ensures that no value is present for Label, not even an explicit nil
+### GetLastUsedAt
+
+`func (o *UserTokenOut) GetLastUsedAt() time.Time`
+
+GetLastUsedAt returns the LastUsedAt field if non-nil, zero value otherwise.
+
+### GetLastUsedAtOk
+
+`func (o *UserTokenOut) GetLastUsedAtOk() (*time.Time, bool)`
+
+GetLastUsedAtOk returns a tuple with the LastUsedAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLastUsedAt
+
+`func (o *UserTokenOut) SetLastUsedAt(v time.Time)`
+
+SetLastUsedAt sets LastUsedAt field to given value.
+
+### HasLastUsedAt
+
+`func (o *UserTokenOut) HasLastUsedAt() bool`
+
+HasLastUsedAt returns a boolean if a field has been set.
+
+### SetLastUsedAtNil
+
+`func (o *UserTokenOut) SetLastUsedAtNil(b bool)`
+
+ SetLastUsedAtNil sets the value for LastUsedAt to be an explicit nil
+
+### UnsetLastUsedAt
+`func (o *UserTokenOut) UnsetLastUsedAt()`
+
+UnsetLastUsedAt ensures that no value is present for LastUsedAt, not even an explicit nil
+### GetPrefix
+
+`func (o *UserTokenOut) GetPrefix() string`
+
+GetPrefix returns the Prefix field if non-nil, zero value otherwise.
+
+### GetPrefixOk
+
+`func (o *UserTokenOut) GetPrefixOk() (*string, bool)`
+
+GetPrefixOk returns a tuple with the Prefix field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPrefix
+
+`func (o *UserTokenOut) SetPrefix(v string)`
+
+SetPrefix sets Prefix field to given value.
 
 
 ### GetRevokedAt
@@ -288,7 +268,25 @@ HasRevokedAt returns a boolean if a field has been set.
 `func (o *UserTokenOut) UnsetRevokedAt()`
 
 UnsetRevokedAt ensures that no value is present for RevokedAt, not even an explicit nil
+### GetScope
+
+`func (o *UserTokenOut) GetScope() string`
+
+GetScope returns the Scope field if non-nil, zero value otherwise.
+
+### GetScopeOk
+
+`func (o *UserTokenOut) GetScopeOk() (*string, bool)`
+
+GetScopeOk returns a tuple with the Scope field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetScope
+
+`func (o *UserTokenOut) SetScope(v string)`
+
+SetScope sets Scope field to given value.
+
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

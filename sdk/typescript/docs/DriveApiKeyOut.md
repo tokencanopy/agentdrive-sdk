@@ -7,11 +7,11 @@ One per-drive `ad_live_` key — metadata only (never the raw key or hash). Item
 
 Name | Type
 ------------ | -------------
+`createdAt` | Date
 `id` | string
-`prefix` | string
 `label` | string
 `lastUsedAt` | Date
-`createdAt` | Date
+`prefix` | string
 `revokedAt` | Date
 
 ## Example
@@ -21,11 +21,11 @@ import type { DriveApiKeyOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
+  "createdAt": null,
   "id": null,
-  "prefix": null,
   "label": null,
   "lastUsedAt": null,
-  "createdAt": null,
+  "prefix": null,
   "revokedAt": null,
 } satisfies DriveApiKeyOut
 
@@ -41,5 +41,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

@@ -6,11 +6,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**access_token** | **str** |  | 
+**access_token** | **str** |  |
+**expires_in** | **int** | Seconds until access_token expiry. |
+**identity_assertion** | **str** |  | [optional]
+**scope** | **str** |  |
 **token_type** | **str** |  | [optional] [default to 'Bearer']
-**expires_in** | **int** | Seconds until access_token expiry. | 
-**scope** | **str** |  | 
-**identity_assertion** | **str** |  | [optional] 
 
 ## Example
 
@@ -30,5 +30,3 @@ token_response_dict = token_response_instance.to_dict()
 token_response_from_dict = TokenResponse.from_dict(token_response_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

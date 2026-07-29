@@ -8,27 +8,27 @@ One passage-level hit from `/v0/find` (hybrid chunk RAG over `embed_chunks`). Th
 Name | Type
 ------------ | -------------
 `artId` | string
-`driveId` | string
-`path` | string
-`url` | string
+`charEnd` | number
+`charStart` | number
 `contentType` | string
+`driveId` | string
 `fileType` | string
 `labels` | Array&lt;string&gt;
-`updatedAt` | Date
-`versionNumber` | number
 `modality` | string
 `ord` | number
-`text` | string
-`snippet` | string
-`score` | number
+`pageEnd` | number
+`pageStart` | number
+`path` | string
 `rankLexical` | number
 `rankSemantic` | number
-`charStart` | number
-`charEnd` | number
-`pageStart` | number
-`pageEnd` | number
-`timeStartMs` | number
+`score` | number
+`snippet` | string
+`text` | string
 `timeEndMs` | number
+`timeStartMs` | number
+`updatedAt` | Date
+`url` | string
+`versionNumber` | number
 
 ## Example
 
@@ -38,27 +38,27 @@ import type { FindHitOut } from '@mnexa-ai/agentdrive-sdk'
 // TODO: Update the object below with actual values
 const example = {
   "artId": null,
-  "driveId": null,
-  "path": null,
-  "url": null,
+  "charEnd": null,
+  "charStart": null,
   "contentType": null,
+  "driveId": null,
   "fileType": null,
   "labels": null,
-  "updatedAt": null,
-  "versionNumber": null,
   "modality": null,
   "ord": null,
-  "text": null,
-  "snippet": null,
-  "score": null,
+  "pageEnd": null,
+  "pageStart": null,
+  "path": null,
   "rankLexical": null,
   "rankSemantic": null,
-  "charStart": null,
-  "charEnd": null,
-  "pageStart": null,
-  "pageEnd": null,
-  "timeStartMs": null,
+  "score": null,
+  "snippet": null,
+  "text": null,
   "timeEndMs": null,
+  "timeStartMs": null,
+  "updatedAt": null,
+  "url": null,
+  "versionNumber": null,
 } satisfies FindHitOut
 
 console.log(example)
@@ -73,5 +73,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

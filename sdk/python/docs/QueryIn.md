@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**sql** | **str** |  | 
-**inputs** | **Dict[str, str]** |  | [optional] 
 **dry_run** | **bool** |  | [optional] [default to False]
+**inputs** | **Dict[str, str]** |  | [optional]
+**sql** | **str** |  |
 
 ## Example
 
@@ -27,5 +27,3 @@ query_in_dict = query_in_instance.to_dict()
 query_in_from_dict = QueryIn.from_dict(query_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

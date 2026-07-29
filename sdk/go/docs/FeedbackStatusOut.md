@@ -4,20 +4,20 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** |  | 
-**Status** | **string** |  | 
-**Kind** | **string** |  | 
-**Title** | **string** |  | 
-**Contact** | **bool** |  | 
-**DuplicateOf** | Pointer to **NullableString** |  | [optional] 
-**CreatedAt** | **time.Time** |  | 
-**StatusChangedAt** | **time.Time** |  | 
+**Contact** | **bool** |  |
+**CreatedAt** | **time.Time** |  |
+**DuplicateOf** | Pointer to **NullableString** |  | [optional]
+**Id** | **string** |  |
+**Kind** | **string** |  |
+**Status** | **string** |  |
+**StatusChangedAt** | **time.Time** |  |
+**Title** | **string** |  |
 
 ## Methods
 
 ### NewFeedbackStatusOut
 
-`func NewFeedbackStatusOut(id string, status string, kind string, title string, contact bool, createdAt time.Time, statusChangedAt time.Time, ) *FeedbackStatusOut`
+`func NewFeedbackStatusOut(contact bool, createdAt time.Time, id string, kind string, status string, statusChangedAt time.Time, title string, ) *FeedbackStatusOut`
 
 NewFeedbackStatusOut instantiates a new FeedbackStatusOut object
 This constructor will assign default values to properties that have it defined,
@@ -31,86 +31,6 @@ will change when the set of required properties is changed
 NewFeedbackStatusOutWithDefaults instantiates a new FeedbackStatusOut object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetId
-
-`func (o *FeedbackStatusOut) GetId() string`
-
-GetId returns the Id field if non-nil, zero value otherwise.
-
-### GetIdOk
-
-`func (o *FeedbackStatusOut) GetIdOk() (*string, bool)`
-
-GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetId
-
-`func (o *FeedbackStatusOut) SetId(v string)`
-
-SetId sets Id field to given value.
-
-
-### GetStatus
-
-`func (o *FeedbackStatusOut) GetStatus() string`
-
-GetStatus returns the Status field if non-nil, zero value otherwise.
-
-### GetStatusOk
-
-`func (o *FeedbackStatusOut) GetStatusOk() (*string, bool)`
-
-GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetStatus
-
-`func (o *FeedbackStatusOut) SetStatus(v string)`
-
-SetStatus sets Status field to given value.
-
-
-### GetKind
-
-`func (o *FeedbackStatusOut) GetKind() string`
-
-GetKind returns the Kind field if non-nil, zero value otherwise.
-
-### GetKindOk
-
-`func (o *FeedbackStatusOut) GetKindOk() (*string, bool)`
-
-GetKindOk returns a tuple with the Kind field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetKind
-
-`func (o *FeedbackStatusOut) SetKind(v string)`
-
-SetKind sets Kind field to given value.
-
-
-### GetTitle
-
-`func (o *FeedbackStatusOut) GetTitle() string`
-
-GetTitle returns the Title field if non-nil, zero value otherwise.
-
-### GetTitleOk
-
-`func (o *FeedbackStatusOut) GetTitleOk() (*string, bool)`
-
-GetTitleOk returns a tuple with the Title field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetTitle
-
-`func (o *FeedbackStatusOut) SetTitle(v string)`
-
-SetTitle sets Title field to given value.
-
 
 ### GetContact
 
@@ -130,6 +50,26 @@ and a boolean to check if the value has been set.
 `func (o *FeedbackStatusOut) SetContact(v bool)`
 
 SetContact sets Contact field to given value.
+
+
+### GetCreatedAt
+
+`func (o *FeedbackStatusOut) GetCreatedAt() time.Time`
+
+GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
+
+### GetCreatedAtOk
+
+`func (o *FeedbackStatusOut) GetCreatedAtOk() (*time.Time, bool)`
+
+GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCreatedAt
+
+`func (o *FeedbackStatusOut) SetCreatedAt(v time.Time)`
+
+SetCreatedAt sets CreatedAt field to given value.
 
 
 ### GetDuplicateOf
@@ -167,24 +107,64 @@ HasDuplicateOf returns a boolean if a field has been set.
 `func (o *FeedbackStatusOut) UnsetDuplicateOf()`
 
 UnsetDuplicateOf ensures that no value is present for DuplicateOf, not even an explicit nil
-### GetCreatedAt
+### GetId
 
-`func (o *FeedbackStatusOut) GetCreatedAt() time.Time`
+`func (o *FeedbackStatusOut) GetId() string`
 
-GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
+GetId returns the Id field if non-nil, zero value otherwise.
 
-### GetCreatedAtOk
+### GetIdOk
 
-`func (o *FeedbackStatusOut) GetCreatedAtOk() (*time.Time, bool)`
+`func (o *FeedbackStatusOut) GetIdOk() (*string, bool)`
 
-GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
+GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetCreatedAt
+### SetId
 
-`func (o *FeedbackStatusOut) SetCreatedAt(v time.Time)`
+`func (o *FeedbackStatusOut) SetId(v string)`
 
-SetCreatedAt sets CreatedAt field to given value.
+SetId sets Id field to given value.
+
+
+### GetKind
+
+`func (o *FeedbackStatusOut) GetKind() string`
+
+GetKind returns the Kind field if non-nil, zero value otherwise.
+
+### GetKindOk
+
+`func (o *FeedbackStatusOut) GetKindOk() (*string, bool)`
+
+GetKindOk returns a tuple with the Kind field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetKind
+
+`func (o *FeedbackStatusOut) SetKind(v string)`
+
+SetKind sets Kind field to given value.
+
+
+### GetStatus
+
+`func (o *FeedbackStatusOut) GetStatus() string`
+
+GetStatus returns the Status field if non-nil, zero value otherwise.
+
+### GetStatusOk
+
+`func (o *FeedbackStatusOut) GetStatusOk() (*string, bool)`
+
+GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStatus
+
+`func (o *FeedbackStatusOut) SetStatus(v string)`
+
+SetStatus sets Status field to given value.
 
 
 ### GetStatusChangedAt
@@ -207,7 +187,25 @@ and a boolean to check if the value has been set.
 SetStatusChangedAt sets StatusChangedAt field to given value.
 
 
+### GetTitle
+
+`func (o *FeedbackStatusOut) GetTitle() string`
+
+GetTitle returns the Title field if non-nil, zero value otherwise.
+
+### GetTitleOk
+
+`func (o *FeedbackStatusOut) GetTitleOk() (*string, bool)`
+
+GetTitleOk returns a tuple with the Title field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTitle
+
+`func (o *FeedbackStatusOut) SetTitle(v string)`
+
+SetTitle sets Title field to given value.
+
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

@@ -6,19 +6,19 @@ POST /v0/folders/{fld_id}/restore response — the restored (live) folder resour
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | 
-**drive_id** | **str** |  | 
-**path** | **str** |  | 
-**description** | **str** |  | [optional] 
+**created_at** | **datetime** |  |
+**deleted_at** | **datetime** |  | [optional]
+**description** | **str** |  | [optional]
+**drive_id** | **str** |  |
+**etag** | **str** |  |
+**id** | **str** |  |
 **inherit_grants** | **bool** |  | [optional] [default to True]
 **metageneration** | **int** |  | [optional] [default to 1]
-**etag** | **str** |  | 
-**created_at** | **datetime** |  | 
-**updated_at** | **datetime** |  | 
-**deleted_at** | **datetime** |  | [optional] 
-**purge_at** | **datetime** |  | [optional] 
-**n_subfolders_restored** | **int** |  | 
-**n_artifacts_restored** | **int** |  | 
+**n_artifacts_restored** | **int** |  |
+**n_subfolders_restored** | **int** |  |
+**path** | **str** |  |
+**purge_at** | **datetime** |  | [optional]
+**updated_at** | **datetime** |  |
 
 ## Example
 
@@ -38,5 +38,3 @@ folder_restore_out_dict = folder_restore_out_instance.to_dict()
 folder_restore_out_from_dict = FolderRestoreOut.from_dict(folder_restore_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

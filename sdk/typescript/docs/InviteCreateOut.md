@@ -7,9 +7,9 @@ POST /v0/members/invite response. `already_member` is True when the email was al
 
 Name | Type
 ------------ | -------------
-`invitation` | [InvitationOut](InvitationOut.md)
 `alreadyMember` | boolean
 `emailDelivered` | boolean
+`invitation` | [InvitationOut](InvitationOut.md)
 
 ## Example
 
@@ -18,9 +18,9 @@ import type { InviteCreateOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "invitation": null,
   "alreadyMember": null,
   "emailDelivered": null,
+  "invitation": null,
 } satisfies InviteCreateOut
 
 console.log(example)
@@ -35,5 +35,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

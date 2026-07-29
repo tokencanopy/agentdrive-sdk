@@ -1,46 +1,68 @@
-name: Generate SDKs
+name: SDK contract
 
 on:
   workflow_dispatch: {}
-  schedule:
-    - cron: "0 9 * * 1" # Mondays 09:00 UTC
+  pull_request:
+  push:
+    branches: [main]
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: generate-sdks
-  cancel-in-progress: false
+  group: sdk-contract-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  generate:
+  contract:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
+      - name: Test contract workflow helpers
+        run: python3 -m unittest discover -s tests -v
 
+      - name: Regenerate with pinned OpenAPI Generator
+        run: bash scripts/generate-sdks.sh sdk/openapi.json
+
+      - name: Check generated-code freshness
+        run: git diff --exit-code
+
+      - name: Check generated operation coverage
+        run: python3 scripts/check_operation_coverage.py
+
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -r sdk/python/requirements.txt -r sdk/python/test-requirements.txt
+      - run: python -m pytest sdk/python/test -q
+
+  typescript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: npm
+          cache-dependency-path: sdk/typescript/package-lock.json
+      - run: npm ci
+        working-directory: sdk/typescript
+      - run: npm run build
+        working-directory: sdk/typescript
 
-      - name: Fetch latest OpenAPI spec
-        run: curl -sSf https://api.agentdrive.run/openapi.json -o sdk/openapi.json
-
-      - name: Generate SDKs
-        run: bash scripts/generate-sdks.sh sdk/openapi.json
-
-      - name: Commit regenerated SDKs
-        run: |
-          git config user.name  "agentdrive-bot"
-          git config user.email "support@agentdrive.run"
-          git add -A
-          if git diff --cached --quiet; then
-            echo "No SDK changes."
-          else
-            git commit -m "chore(sdk): regenerate from openapi.json"
-            git push
-          fi
+  go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: sdk/go/go.mod
+          cache-dependency-path: sdk/go/go.sum
+      - run: go test ./...
+        working-directory: sdk/go

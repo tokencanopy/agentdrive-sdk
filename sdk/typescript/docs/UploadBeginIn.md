@@ -7,18 +7,18 @@ Body of `POST /v0/uploads` — the large-upload begin call (large-upload- design
 
 Name | Type
 ------------ | -------------
-`path` | string
-`contentType` | string
-`sizeBytes` | number
-`crc32c` | string
-`labels` | Array&lt;string&gt;
-`metadata` | { [key: string]: any; }
-`source` | [ArtifactSource](ArtifactSource.md)
 `actorName` | string
 `changeSummary` | string
+`contentType` | string
+`corsOrigin` | string
+`crc32c` | string
 `ifMatch` | number
 `ifNoneMatch` | boolean
-`corsOrigin` | string
+`labels` | Array&lt;string&gt;
+`metadata` | { [key: string]: any; }
+`path` | string
+`sizeBytes` | number
+`source` | [ArtifactSource](ArtifactSource.md)
 
 ## Example
 
@@ -27,18 +27,18 @@ import type { UploadBeginIn } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "path": null,
-  "contentType": null,
-  "sizeBytes": null,
-  "crc32c": null,
-  "labels": null,
-  "metadata": null,
-  "source": null,
   "actorName": null,
   "changeSummary": null,
+  "contentType": null,
+  "corsOrigin": null,
+  "crc32c": null,
   "ifMatch": null,
   "ifNoneMatch": null,
-  "corsOrigin": null,
+  "labels": null,
+  "metadata": null,
+  "path": null,
+  "sizeBytes": null,
+  "source": null,
 } satisfies UploadBeginIn
 
 console.log(example)
@@ -53,5 +53,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

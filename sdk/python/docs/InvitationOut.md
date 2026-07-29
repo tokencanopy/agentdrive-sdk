@@ -6,14 +6,14 @@ One workspace invitation — metadata only; the raw token is never surfaced over
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | 
-**organization_id** | **str** |  | 
-**email** | **str** |  | 
-**role** | **str** |  | 
-**status** | **str** |  | 
-**invited_by** | **str** |  | [optional] 
-**expires_at** | **datetime** |  | 
-**created_at** | **datetime** |  | 
+**created_at** | **datetime** |  |
+**email** | **str** |  |
+**expires_at** | **datetime** |  |
+**id** | **str** |  |
+**invited_by** | **str** |  | [optional]
+**organization_id** | **str** |  |
+**role** | **str** |  |
+**status** | **str** |  |
 
 ## Example
 
@@ -33,5 +33,3 @@ invitation_out_dict = invitation_out_instance.to_dict()
 invitation_out_from_dict = InvitationOut.from_dict(invitation_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

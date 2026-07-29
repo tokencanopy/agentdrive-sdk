@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **list_tokens_v0_tokens_get**
-> UserTokenList list_tokens_v0_tokens_get(cursor=cursor, limit=limit, authorization=authorization)
+> UserTokenList list_tokens_v0_tokens_get(cursor=cursor, limit=limit)
 
 List your user-identity tokens
 
@@ -19,6 +19,7 @@ List the `ad_user_` tokens belonging to the authenticated user. Metadata only â€
 
 ### Example
 
+* Bearer (ad_live_ | ad_user_ | JWT) Authentication (BearerAuth):
 
 ```python
 import agentdrive_sdk
@@ -32,6 +33,15 @@ configuration = agentdrive_sdk.Configuration(
     host = "https://api.agentdrive.run"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (ad_live_ | ad_user_ | JWT): BearerAuth
+configuration = agentdrive_sdk.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
 
 # Enter a context with an instance of the API client
 with agentdrive_sdk.ApiClient(configuration) as api_client:
@@ -39,11 +49,10 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     api_instance = agentdrive_sdk.TokensApi(api_client)
     cursor = 'cursor_example' # str |  (optional)
     limit = 56 # int |  (optional)
-    authorization = 'authorization_example' # str |  (optional)
 
     try:
         # List your user-identity tokens
-        api_response = api_instance.list_tokens_v0_tokens_get(cursor=cursor, limit=limit, authorization=authorization)
+        api_response = api_instance.list_tokens_v0_tokens_get(cursor=cursor, limit=limit)
         print("The response of TokensApi->list_tokens_v0_tokens_get:\n")
         pprint(api_response)
     except Exception as e:
@@ -57,9 +66,8 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **cursor** | **str**|  | [optional] 
- **limit** | **int**|  | [optional] 
- **authorization** | **str**|  | [optional] 
+ **cursor** | **str**|  | [optional]
+ **limit** | **int**|  | [optional]
 
 ### Return type
 
@@ -67,7 +75,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -78,13 +86,16 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **revoke_token_v0_tokens_token_id_revoke_post**
-> UserTokenOut revoke_token_v0_tokens_token_id_revoke_post(token_id, authorization=authorization)
+> UserTokenOut revoke_token_v0_tokens_token_id_revoke_post(token_id)
 
 Revoke one of your user-identity tokens
 
@@ -92,6 +103,7 @@ Revoke a single `ad_user_` token by id. Scoped to the authenticated user: a toke
 
 ### Example
 
+* Bearer (ad_live_ | ad_user_ | JWT) Authentication (BearerAuth):
 
 ```python
 import agentdrive_sdk
@@ -105,17 +117,25 @@ configuration = agentdrive_sdk.Configuration(
     host = "https://api.agentdrive.run"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (ad_live_ | ad_user_ | JWT): BearerAuth
+configuration = agentdrive_sdk.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
 
 # Enter a context with an instance of the API client
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.TokensApi(api_client)
-    token_id = 'token_id_example' # str | 
-    authorization = 'authorization_example' # str |  (optional)
+    token_id = 'token_id_example' # str |
 
     try:
         # Revoke one of your user-identity tokens
-        api_response = api_instance.revoke_token_v0_tokens_token_id_revoke_post(token_id, authorization=authorization)
+        api_response = api_instance.revoke_token_v0_tokens_token_id_revoke_post(token_id)
         print("The response of TokensApi->revoke_token_v0_tokens_token_id_revoke_post:\n")
         pprint(api_response)
     except Exception as e:
@@ -129,8 +149,7 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **token_id** | **str**|  | 
- **authorization** | **str**|  | [optional] 
+ **token_id** | **str**|  |
 
 ### Return type
 
@@ -138,7 +157,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -149,8 +168,11 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+**404** | The token does not exist for this user. |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-

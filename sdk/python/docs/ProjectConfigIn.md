@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**entrypoint** | **str** |  | 
-**engine** | **str** |  | [optional] 
 **auto_compile** | **bool** |  | [optional] [default to False]
+**engine** | **str** |  | [optional]
+**entrypoint** | **str** |  |
 
 ## Example
 
@@ -27,5 +27,3 @@ project_config_in_dict = project_config_in_instance.to_dict()
 project_config_in_from_dict = ProjectConfigIn.from_dict(project_config_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

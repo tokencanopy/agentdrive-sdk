@@ -7,15 +7,15 @@ One `ad_user_` token — metadata only. The raw token is NEVER exposed over the 
 
 Name | Type
 ------------ | -------------
-`id` | string
-`prefix` | string
-`label` | string
-`scope` | string
-`defaultDriveId` | string
-`lastUsedAt` | Date
-`expiresAt` | Date
 `createdAt` | Date
+`defaultDriveId` | string
+`expiresAt` | Date
+`id` | string
+`label` | string
+`lastUsedAt` | Date
+`prefix` | string
 `revokedAt` | Date
+`scope` | string
 
 ## Example
 
@@ -24,15 +24,15 @@ import type { UserTokenOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "id": null,
-  "prefix": null,
-  "label": null,
-  "scope": null,
-  "defaultDriveId": null,
-  "lastUsedAt": null,
-  "expiresAt": null,
   "createdAt": null,
+  "defaultDriveId": null,
+  "expiresAt": null,
+  "id": null,
+  "label": null,
+  "lastUsedAt": null,
+  "prefix": null,
   "revokedAt": null,
+  "scope": null,
 } satisfies UserTokenOut
 
 console.log(example)
@@ -47,5 +47,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

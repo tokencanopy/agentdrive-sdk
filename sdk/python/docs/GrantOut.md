@@ -6,19 +6,19 @@ A live grant. Audit fields (`granted_by_*`, `on_behalf_of`) are surfaced so a ma
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | 
-**resource_type** | **str** |  | 
-**resource_id** | **str** |  | 
-**principal_type** | **str** |  | 
-**principal_id** | **str** |  | [optional] 
-**principal_email** | **str** |  | [optional] 
-**role** | **str** |  | 
-**granted_by_type** | **str** |  | 
-**granted_by_id** | **str** |  | 
-**on_behalf_of** | **str** |  | [optional] 
-**created_at** | **datetime** |  | 
-**expires_at** | **datetime** |  | [optional] 
-**artifacts_affected** | **int** |  | [optional] 
+**artifacts_affected** | **int** |  | [optional]
+**created_at** | **datetime** |  |
+**expires_at** | **datetime** |  | [optional]
+**granted_by_id** | **str** |  |
+**granted_by_type** | **str** |  |
+**id** | **str** |  |
+**on_behalf_of** | **str** |  | [optional]
+**principal_email** | **str** |  | [optional]
+**principal_id** | **str** |  | [optional]
+**principal_type** | **str** |  |
+**resource_id** | **str** |  |
+**resource_type** | **str** |  |
+**role** | **str** |  |
 
 ## Example
 
@@ -38,5 +38,3 @@ grant_out_dict = grant_out_instance.to_dict()
 grant_out_from_dict = GrantOut.from_dict(grant_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

@@ -6,13 +6,13 @@
 
 Name | Type
 ------------ | -------------
-`id` | string
-`driveId` | string
-`artId` | string
-`actorName` | string
 `action` | string
-`metadata` | { [key: string]: any; }
+`actorName` | string
+`artId` | string
 `createdAt` | Date
+`driveId` | string
+`id` | string
+`metadata` | { [key: string]: any; }
 
 ## Example
 
@@ -21,13 +21,13 @@ import type { EventOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "id": null,
-  "driveId": null,
-  "artId": null,
-  "actorName": null,
   "action": null,
-  "metadata": null,
+  "actorName": null,
+  "artId": null,
   "createdAt": null,
+  "driveId": null,
+  "id": null,
+  "metadata": null,
 } satisfies EventOut
 
 console.log(example)
@@ -42,5 +42,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

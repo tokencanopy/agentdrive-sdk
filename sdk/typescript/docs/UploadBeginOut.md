@@ -7,12 +7,12 @@ Response of `POST /v0/uploads`. PUT the bytes to `upload_url` (no auth header â€
 
 Name | Type
 ------------ | -------------
+`expiresAt` | Date
+`headers` | { [key: string]: string; }
+`maxBytes` | number
+`method` | string
 `uploadId` | string
 `uploadUrl` | string
-`method` | string
-`headers` | { [key: string]: string; }
-`expiresAt` | Date
-`maxBytes` | number
 
 ## Example
 
@@ -21,12 +21,12 @@ import type { UploadBeginOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
+  "expiresAt": null,
+  "headers": null,
+  "maxBytes": null,
+  "method": null,
   "uploadId": null,
   "uploadUrl": null,
-  "method": null,
-  "headers": null,
-  "expiresAt": null,
-  "maxBytes": null,
 } satisfies UploadBeginOut
 
 console.log(example)
@@ -41,5 +41,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

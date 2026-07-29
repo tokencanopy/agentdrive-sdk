@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**items** | [**List[EventOut]**](EventOut.md) |  | 
-**next_cursor** | **str** |  | [optional] 
+**items** | [**List[EventOut]**](EventOut.md) |  |
+**next_cursor** | **str** |  | [optional]
 
 ## Example
 
@@ -26,5 +26,3 @@ event_page_dict = event_page_instance.to_dict()
 event_page_from_dict = EventPage.from_dict(event_page_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

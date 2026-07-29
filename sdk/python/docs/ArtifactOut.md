@@ -5,26 +5,26 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | 
-**drive_id** | **str** |  | 
-**path** | **str** |  | 
-**url** | **str** |  | 
-**permalink** | **str** |  | 
-**content_type** | **str** |  | 
-**file_type** | **str** |  | 
-**size_bytes** | **int** |  | 
-**hash** | **str** |  | 
-**version_number** | **int** |  | [optional] [default to 1]
+**content_type** | **str** |  |
+**created_at** | **datetime** |  |
+**drive_id** | **str** |  |
+**embedded_at** | **datetime** |  | [optional]
+**etag** | **str** |  |
+**file_type** | **str** |  |
+**hash** | **str** |  |
+**id** | **str** |  |
+**indexed_at** | **datetime** |  | [optional]
+**labels** | **List[str]** |  | [optional]
+**llm_index** | **Dict[str, object]** |  | [optional]
+**metadata** | **Dict[str, object]** |  | [optional]
 **metageneration** | **int** |  | [optional] [default to 1]
-**etag** | **str** |  | 
-**labels** | **List[str]** |  | [optional] 
-**metadata** | **Dict[str, object]** |  | [optional] 
-**source** | [**ArtifactSource**](ArtifactSource.md) |  | [optional] 
-**indexed_at** | **datetime** |  | [optional] 
-**embedded_at** | **datetime** |  | [optional] 
-**created_at** | **datetime** |  | 
-**updated_at** | **datetime** |  | 
-**llm_index** | **Dict[str, object]** |  | [optional] 
+**path** | **str** |  |
+**permalink** | **str** |  |
+**size_bytes** | **int** |  |
+**source** | [**ArtifactSource**](ArtifactSource.md) |  | [optional]
+**updated_at** | **datetime** |  |
+**url** | **str** |  |
+**version_number** | **int** |  | [optional] [default to 1]
 
 ## Example
 
@@ -44,5 +44,3 @@ artifact_out_dict = artifact_out_instance.to_dict()
 artifact_out_from_dict = ArtifactOut.from_dict(artifact_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

@@ -6,26 +6,26 @@
 
 Name | Type
 ------------ | -------------
-`id` | string
-`driveId` | string
-`path` | string
-`url` | string
-`permalink` | string
 `contentType` | string
-`fileType` | string
-`sizeBytes` | number
-`hash` | string
-`versionNumber` | number
-`metageneration` | number
-`etag` | string
-`labels` | Array&lt;string&gt;
-`metadata` | { [key: string]: any; }
-`source` | [ArtifactSource](ArtifactSource.md)
-`indexedAt` | Date
-`embeddedAt` | Date
 `createdAt` | Date
-`updatedAt` | Date
+`driveId` | string
+`embeddedAt` | Date
+`etag` | string
+`fileType` | string
+`hash` | string
+`id` | string
+`indexedAt` | Date
+`labels` | Array&lt;string&gt;
 `llmIndex` | { [key: string]: any; }
+`metadata` | { [key: string]: any; }
+`metageneration` | number
+`path` | string
+`permalink` | string
+`sizeBytes` | number
+`source` | [ArtifactSource](ArtifactSource.md)
+`updatedAt` | Date
+`url` | string
+`versionNumber` | number
 
 ## Example
 
@@ -34,26 +34,26 @@ import type { ArtifactOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "id": null,
-  "driveId": null,
-  "path": null,
-  "url": null,
-  "permalink": null,
   "contentType": null,
-  "fileType": null,
-  "sizeBytes": null,
-  "hash": null,
-  "versionNumber": null,
-  "metageneration": null,
-  "etag": null,
-  "labels": null,
-  "metadata": null,
-  "source": null,
-  "indexedAt": null,
-  "embeddedAt": null,
   "createdAt": null,
-  "updatedAt": null,
+  "driveId": null,
+  "embeddedAt": null,
+  "etag": null,
+  "fileType": null,
+  "hash": null,
+  "id": null,
+  "indexedAt": null,
+  "labels": null,
   "llmIndex": null,
+  "metadata": null,
+  "metageneration": null,
+  "path": null,
+  "permalink": null,
+  "sizeBytes": null,
+  "source": null,
+  "updatedAt": null,
+  "url": null,
+  "versionNumber": null,
 } satisfies ArtifactOut
 
 console.log(example)
@@ -68,5 +68,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

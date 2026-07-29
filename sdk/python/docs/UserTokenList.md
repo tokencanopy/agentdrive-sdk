@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**items** | [**List[UserTokenOut]**](UserTokenOut.md) |  | 
-**next_cursor** | **str** |  | [optional] 
+**items** | [**List[UserTokenOut]**](UserTokenOut.md) |  |
+**next_cursor** | **str** |  | [optional]
 
 ## Example
 
@@ -26,5 +26,3 @@ user_token_list_dict = user_token_list_instance.to_dict()
 user_token_list_from_dict = UserTokenList.from_dict(user_token_list_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

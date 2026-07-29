@@ -6,10 +6,10 @@ POST /v0/shares body. `resource` is an `art_*`/`fld_*` id or a path. `expires_in
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**resource** | **str** |  | 
+**expires_in** | **int** |  | [optional]
+**password** | **str** |  | [optional]
+**resource** | **str** |  |
 **role** | **str** |  | [optional] [default to 'viewer']
-**expires_in** | **int** |  | [optional] 
-**password** | **str** |  | [optional] 
 
 ## Example
 
@@ -29,5 +29,3 @@ share_create_in_dict = share_create_in_instance.to_dict()
 share_create_in_from_dict = ShareCreateIn.from_dict(share_create_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

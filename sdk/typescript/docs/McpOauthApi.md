@@ -11,7 +11,7 @@ All URIs are relative to *https://api.agentdrive.run*
 
 ## oauth2RegisterOauth2RegisterPost
 
-> any oauth2RegisterOauth2RegisterPost()
+> ClientRegistrationOut oauth2RegisterOauth2RegisterPost()
 
 Dynamic Client Registration (RFC 7591)
 
@@ -48,7 +48,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**any**
+[**ClientRegistrationOut**](ClientRegistrationOut.md)
 
 ### Authorization
 
@@ -63,14 +63,16 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Successful Response |  -  |
+| **201** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | Invalid client metadata. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | Registration rate limit exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## oauth2RevokeOauth2RevokePost
 
-> any oauth2RevokeOauth2RevokePost()
+> object oauth2RevokeOauth2RevokePost()
 
 Token revocation (RFC 7009)
 
@@ -107,7 +109,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**any**
+**object**
 
 ### Authorization
 
@@ -122,7 +124,10 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | Invalid revocation request. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Client authentication failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | Token type is unsupported. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | Revocation rate limit exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-

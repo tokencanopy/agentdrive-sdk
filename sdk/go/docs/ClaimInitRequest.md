@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ClaimToken** | **string** | The per-identity claim_token returned by POST /agent/identity. | 
-**Email** | Pointer to **NullableString** | Optional hint to display on the /claim page so the human knows which account the agent expected. Not enforced (design §14 question #3). | [optional] 
+**ClaimToken** | **string** | The per-identity claim_token returned by POST /agent/identity. |
+**Email** | Pointer to **NullableString** | Optional hint to display on the /claim page so the human knows which account the agent expected. Not enforced (design §14 question #3). | [optional]
 
 ## Methods
 
@@ -83,5 +83,3 @@ HasEmail returns a boolean if a field has been set.
 UnsetEmail ensures that no value is present for Email, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

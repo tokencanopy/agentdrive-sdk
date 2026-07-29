@@ -6,7 +6,7 @@ Caller-supplied provenance metadata, attached to an artifact.  v0.6 model: a lis
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**refs** | [**List[SourceRef]**](SourceRef.md) |  | [optional] 
+**refs** | [**List[SourceRef]**](SourceRef.md) |  | [optional]
 
 ## Example
 
@@ -26,5 +26,3 @@ artifact_source_dict = artifact_source_instance.to_dict()
 artifact_source_from_dict = ArtifactSource.from_dict(artifact_source_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

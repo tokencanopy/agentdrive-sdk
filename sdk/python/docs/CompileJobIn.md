@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**options** | [**CompileOptions**](CompileOptions.md) |  | [optional]
 **task** | **str** |  | [optional] [default to 'latex.compile']
-**options** | [**CompileOptions**](CompileOptions.md) |  | [optional] 
 
 ## Example
 
@@ -26,5 +26,3 @@ compile_job_in_dict = compile_job_in_instance.to_dict()
 compile_job_in_from_dict = CompileJobIn.from_dict(compile_job_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

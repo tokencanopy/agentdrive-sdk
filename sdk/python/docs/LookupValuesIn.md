@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**dataset** | **str** |  | 
-**column** | **str** |  | 
+**column** | **str** |  |
+**dataset** | **str** |  |
 **limit** | **int** |  | [optional] [default to 50]
 
 ## Example
@@ -27,5 +27,3 @@ lookup_values_in_dict = lookup_values_in_instance.to_dict()
 lookup_values_in_from_dict = LookupValuesIn.from_dict(lookup_values_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

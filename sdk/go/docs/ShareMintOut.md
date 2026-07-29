@@ -4,24 +4,24 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** |  | 
-**ResourceType** | **string** |  | 
-**ResourceId** | **string** |  | 
-**Role** | **string** |  | 
-**Audience** | **string** |  | 
-**HasPassword** | **bool** |  | 
-**CreatedAt** | **time.Time** |  | 
-**ExpiresAt** | Pointer to **NullableTime** |  | [optional] 
-**LastAccessedAt** | Pointer to **NullableTime** |  | [optional] 
 **AccessCount** | Pointer to **int32** |  | [optional] [default to 0]
-**ShareKey** | **string** |  | 
-**Url** | **string** |  | 
+**Audience** | **string** |  |
+**CreatedAt** | **time.Time** |  |
+**ExpiresAt** | Pointer to **NullableTime** |  | [optional]
+**HasPassword** | **bool** |  |
+**Id** | **string** |  |
+**LastAccessedAt** | Pointer to **NullableTime** |  | [optional]
+**ResourceId** | **string** |  |
+**ResourceType** | **string** |  |
+**Role** | **string** |  |
+**ShareKey** | **string** |  |
+**Url** | **string** |  |
 
 ## Methods
 
 ### NewShareMintOut
 
-`func NewShareMintOut(id string, resourceType string, resourceId string, role string, audience string, hasPassword bool, createdAt time.Time, shareKey string, url string, ) *ShareMintOut`
+`func NewShareMintOut(audience string, createdAt time.Time, hasPassword bool, id string, resourceId string, resourceType string, role string, shareKey string, url string, ) *ShareMintOut`
 
 NewShareMintOut instantiates a new ShareMintOut object
 This constructor will assign default values to properties that have it defined,
@@ -36,85 +36,30 @@ NewShareMintOutWithDefaults instantiates a new ShareMintOut object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetId
+### GetAccessCount
 
-`func (o *ShareMintOut) GetId() string`
+`func (o *ShareMintOut) GetAccessCount() int32`
 
-GetId returns the Id field if non-nil, zero value otherwise.
+GetAccessCount returns the AccessCount field if non-nil, zero value otherwise.
 
-### GetIdOk
+### GetAccessCountOk
 
-`func (o *ShareMintOut) GetIdOk() (*string, bool)`
+`func (o *ShareMintOut) GetAccessCountOk() (*int32, bool)`
 
-GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+GetAccessCountOk returns a tuple with the AccessCount field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetId
+### SetAccessCount
 
-`func (o *ShareMintOut) SetId(v string)`
+`func (o *ShareMintOut) SetAccessCount(v int32)`
 
-SetId sets Id field to given value.
+SetAccessCount sets AccessCount field to given value.
 
+### HasAccessCount
 
-### GetResourceType
+`func (o *ShareMintOut) HasAccessCount() bool`
 
-`func (o *ShareMintOut) GetResourceType() string`
-
-GetResourceType returns the ResourceType field if non-nil, zero value otherwise.
-
-### GetResourceTypeOk
-
-`func (o *ShareMintOut) GetResourceTypeOk() (*string, bool)`
-
-GetResourceTypeOk returns a tuple with the ResourceType field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetResourceType
-
-`func (o *ShareMintOut) SetResourceType(v string)`
-
-SetResourceType sets ResourceType field to given value.
-
-
-### GetResourceId
-
-`func (o *ShareMintOut) GetResourceId() string`
-
-GetResourceId returns the ResourceId field if non-nil, zero value otherwise.
-
-### GetResourceIdOk
-
-`func (o *ShareMintOut) GetResourceIdOk() (*string, bool)`
-
-GetResourceIdOk returns a tuple with the ResourceId field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetResourceId
-
-`func (o *ShareMintOut) SetResourceId(v string)`
-
-SetResourceId sets ResourceId field to given value.
-
-
-### GetRole
-
-`func (o *ShareMintOut) GetRole() string`
-
-GetRole returns the Role field if non-nil, zero value otherwise.
-
-### GetRoleOk
-
-`func (o *ShareMintOut) GetRoleOk() (*string, bool)`
-
-GetRoleOk returns a tuple with the Role field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRole
-
-`func (o *ShareMintOut) SetRole(v string)`
-
-SetRole sets Role field to given value.
-
+HasAccessCount returns a boolean if a field has been set.
 
 ### GetAudience
 
@@ -134,26 +79,6 @@ and a boolean to check if the value has been set.
 `func (o *ShareMintOut) SetAudience(v string)`
 
 SetAudience sets Audience field to given value.
-
-
-### GetHasPassword
-
-`func (o *ShareMintOut) GetHasPassword() bool`
-
-GetHasPassword returns the HasPassword field if non-nil, zero value otherwise.
-
-### GetHasPasswordOk
-
-`func (o *ShareMintOut) GetHasPasswordOk() (*bool, bool)`
-
-GetHasPasswordOk returns a tuple with the HasPassword field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetHasPassword
-
-`func (o *ShareMintOut) SetHasPassword(v bool)`
-
-SetHasPassword sets HasPassword field to given value.
 
 
 ### GetCreatedAt
@@ -211,6 +136,46 @@ HasExpiresAt returns a boolean if a field has been set.
 `func (o *ShareMintOut) UnsetExpiresAt()`
 
 UnsetExpiresAt ensures that no value is present for ExpiresAt, not even an explicit nil
+### GetHasPassword
+
+`func (o *ShareMintOut) GetHasPassword() bool`
+
+GetHasPassword returns the HasPassword field if non-nil, zero value otherwise.
+
+### GetHasPasswordOk
+
+`func (o *ShareMintOut) GetHasPasswordOk() (*bool, bool)`
+
+GetHasPasswordOk returns a tuple with the HasPassword field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHasPassword
+
+`func (o *ShareMintOut) SetHasPassword(v bool)`
+
+SetHasPassword sets HasPassword field to given value.
+
+
+### GetId
+
+`func (o *ShareMintOut) GetId() string`
+
+GetId returns the Id field if non-nil, zero value otherwise.
+
+### GetIdOk
+
+`func (o *ShareMintOut) GetIdOk() (*string, bool)`
+
+GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetId
+
+`func (o *ShareMintOut) SetId(v string)`
+
+SetId sets Id field to given value.
+
+
 ### GetLastAccessedAt
 
 `func (o *ShareMintOut) GetLastAccessedAt() time.Time`
@@ -246,30 +211,65 @@ HasLastAccessedAt returns a boolean if a field has been set.
 `func (o *ShareMintOut) UnsetLastAccessedAt()`
 
 UnsetLastAccessedAt ensures that no value is present for LastAccessedAt, not even an explicit nil
-### GetAccessCount
+### GetResourceId
 
-`func (o *ShareMintOut) GetAccessCount() int32`
+`func (o *ShareMintOut) GetResourceId() string`
 
-GetAccessCount returns the AccessCount field if non-nil, zero value otherwise.
+GetResourceId returns the ResourceId field if non-nil, zero value otherwise.
 
-### GetAccessCountOk
+### GetResourceIdOk
 
-`func (o *ShareMintOut) GetAccessCountOk() (*int32, bool)`
+`func (o *ShareMintOut) GetResourceIdOk() (*string, bool)`
 
-GetAccessCountOk returns a tuple with the AccessCount field if it's non-nil, zero value otherwise
+GetResourceIdOk returns a tuple with the ResourceId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetAccessCount
+### SetResourceId
 
-`func (o *ShareMintOut) SetAccessCount(v int32)`
+`func (o *ShareMintOut) SetResourceId(v string)`
 
-SetAccessCount sets AccessCount field to given value.
+SetResourceId sets ResourceId field to given value.
 
-### HasAccessCount
 
-`func (o *ShareMintOut) HasAccessCount() bool`
+### GetResourceType
 
-HasAccessCount returns a boolean if a field has been set.
+`func (o *ShareMintOut) GetResourceType() string`
+
+GetResourceType returns the ResourceType field if non-nil, zero value otherwise.
+
+### GetResourceTypeOk
+
+`func (o *ShareMintOut) GetResourceTypeOk() (*string, bool)`
+
+GetResourceTypeOk returns a tuple with the ResourceType field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetResourceType
+
+`func (o *ShareMintOut) SetResourceType(v string)`
+
+SetResourceType sets ResourceType field to given value.
+
+
+### GetRole
+
+`func (o *ShareMintOut) GetRole() string`
+
+GetRole returns the Role field if non-nil, zero value otherwise.
+
+### GetRoleOk
+
+`func (o *ShareMintOut) GetRoleOk() (*string, bool)`
+
+GetRoleOk returns a tuple with the Role field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRole
+
+`func (o *ShareMintOut) SetRole(v string)`
+
+SetRole sets Role field to given value.
+
 
 ### GetShareKey
 
@@ -313,5 +313,3 @@ SetUrl sets Url field to given value.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

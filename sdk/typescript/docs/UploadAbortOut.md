@@ -7,9 +7,9 @@ Response of `DELETE /v0/uploads/{upload_id}` — the session is released. `relea
 
 Name | Type
 ------------ | -------------
-`uploadId` | string
-`state` | string
 `releasedBytes` | number
+`state` | string
+`uploadId` | string
 
 ## Example
 
@@ -18,9 +18,9 @@ import type { UploadAbortOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "uploadId": null,
-  "state": null,
   "releasedBytes": null,
+  "state": null,
+  "uploadId": null,
 } satisfies UploadAbortOut
 
 console.log(example)
@@ -35,5 +35,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

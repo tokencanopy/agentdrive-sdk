@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**items** | [**List[ShareOut]**](ShareOut.md) |  | 
-**next_cursor** | **str** |  | [optional] 
+**items** | [**List[ShareOut]**](ShareOut.md) |  |
+**next_cursor** | **str** |  | [optional]
 
 ## Example
 
@@ -26,5 +26,3 @@ share_list_dict = share_list_instance.to_dict()
 share_list_from_dict = ShareList.from_dict(share_list_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Labels** | Pointer to **[]string** |  | [optional] 
-**Metadata** | Pointer to **map[string]interface{}** |  | [optional] 
-**Source** | Pointer to [**NullableArtifactSource**](ArtifactSource.md) |  | [optional] 
+**Labels** | Pointer to **[]string** |  | [optional]
+**Metadata** | Pointer to **map[string]interface{}** |  | [optional]
+**Source** | Pointer to [**NullableArtifactSource**](ArtifactSource.md) |  | [optional]
 
 ## Methods
 
@@ -134,5 +134,3 @@ HasSource returns a boolean if a field has been set.
 UnsetSource ensures that no value is present for Source, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

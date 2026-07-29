@@ -6,7 +6,7 @@ Hints the agent's UI/CLI can use when initiating the claim ceremony. Decoupled f
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**claim_endpoint** | **str** |  | 
+**claim_endpoint** | **str** |  |
 **supported_email_hints** | **bool** |  | [optional] [default to True]
 
 ## Example
@@ -27,5 +27,3 @@ claim_metadata_dict = claim_metadata_instance.to_dict()
 claim_metadata_from_dict = ClaimMetadata.from_dict(claim_metadata_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

@@ -7,15 +7,15 @@ Response of `GET /v0/uploads/{upload_id}` — the live state of a direct-to-GCS 
 
 Name | Type
 ------------ | -------------
-`uploadId` | string
-`path` | string
+`committedAt` | Date
 `contentType` | string
+`createdAt` | Date
+`expiresAt` | Date
+`maxBytes` | number
+`path` | string
 `sizeBytes` | number
 `state` | string
-`maxBytes` | number
-`expiresAt` | Date
-`createdAt` | Date
-`committedAt` | Date
+`uploadId` | string
 
 ## Example
 
@@ -24,15 +24,15 @@ import type { UploadStatusOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "uploadId": null,
-  "path": null,
+  "committedAt": null,
   "contentType": null,
+  "createdAt": null,
+  "expiresAt": null,
+  "maxBytes": null,
+  "path": null,
   "sizeBytes": null,
   "state": null,
-  "maxBytes": null,
-  "expiresAt": null,
-  "createdAt": null,
-  "committedAt": null,
+  "uploadId": null,
 } satisfies UploadStatusOut
 
 console.log(example)
@@ -47,5 +47,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

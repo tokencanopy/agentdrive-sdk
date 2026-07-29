@@ -6,9 +6,9 @@
 
 Name | Type
 ------------ | -------------
-`sql` | string
-`inputs` | { [key: string]: string; }
 `dryRun` | boolean
+`inputs` | { [key: string]: string; }
+`sql` | string
 
 ## Example
 
@@ -17,9 +17,9 @@ import type { QueryIn } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "sql": null,
-  "inputs": null,
   "dryRun": null,
+  "inputs": null,
+  "sql": null,
 } satisfies QueryIn
 
 console.log(example)
@@ -34,5 +34,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

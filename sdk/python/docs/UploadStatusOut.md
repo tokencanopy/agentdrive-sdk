@@ -6,15 +6,15 @@ Response of `GET /v0/uploads/{upload_id}` — the live state of a direct-to-GCS 
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**upload_id** | **str** |  | 
-**path** | **str** |  | 
-**content_type** | **str** |  | 
-**size_bytes** | **int** |  | 
-**state** | **str** |  | 
-**max_bytes** | **int** |  | 
-**expires_at** | **datetime** |  | 
-**created_at** | **datetime** |  | 
-**committed_at** | **datetime** |  | [optional] 
+**committed_at** | **datetime** |  | [optional]
+**content_type** | **str** |  |
+**created_at** | **datetime** |  |
+**expires_at** | **datetime** |  |
+**max_bytes** | **int** |  |
+**path** | **str** |  |
+**size_bytes** | **int** |  |
+**state** | **str** |  |
+**upload_id** | **str** |  |
 
 ## Example
 
@@ -34,5 +34,3 @@ upload_status_out_dict = upload_status_out_instance.to_dict()
 upload_status_out_from_dict = UploadStatusOut.from_dict(upload_status_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

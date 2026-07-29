@@ -6,11 +6,11 @@ One workspace in a listing — metadata only. `role` is the CALLER's role in it 
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | 
-**name** | **str** |  | 
-**role** | **str** |  | 
-**tier_id** | **str** |  | 
-**created_at** | **datetime** |  | 
+**created_at** | **datetime** |  |
+**id** | **str** |  |
+**name** | **str** |  |
+**role** | **str** |  |
+**tier_id** | **str** |  |
 
 ## Example
 
@@ -30,5 +30,3 @@ workspace_out_dict = workspace_out_instance.to_dict()
 workspace_out_from_dict = WorkspaceOut.from_dict(workspace_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

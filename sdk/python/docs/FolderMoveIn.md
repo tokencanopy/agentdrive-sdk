@@ -6,7 +6,7 @@ POST /v0/folders/{fld_id}/move body — rename / move.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**path** | **str** |  | 
+**path** | **str** |  |
 
 ## Example
 
@@ -26,5 +26,3 @@ folder_move_in_dict = folder_move_in_instance.to_dict()
 folder_move_in_from_dict = FolderMoveIn.from_dict(folder_move_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

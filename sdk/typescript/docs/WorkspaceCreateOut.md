@@ -7,9 +7,9 @@ POST /v0/workspaces response. Carries the new workspace + its starter drive\'s `
 
 Name | Type
 ------------ | -------------
-`workspace` | [WorkspaceOut](WorkspaceOut.md)
-`starterDriveId` | string
 `starterDriveApiKey` | string
+`starterDriveId` | string
+`workspace` | [WorkspaceOut](WorkspaceOut.md)
 
 ## Example
 
@@ -18,9 +18,9 @@ import type { WorkspaceCreateOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "workspace": null,
-  "starterDriveId": null,
   "starterDriveApiKey": null,
+  "starterDriveId": null,
+  "workspace": null,
 } satisfies WorkspaceCreateOut
 
 console.log(example)
@@ -35,5 +35,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

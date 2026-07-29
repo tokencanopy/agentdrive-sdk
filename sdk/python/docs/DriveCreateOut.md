@@ -6,14 +6,14 @@ The create response — the ONLY place (besides key-rotate) a raw `ad_live_` key
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | 
-**name** | **str** |  | 
-**organization_id** | **str** |  | 
-**owner_user_id** | **str** |  | [optional] 
-**owner_email** | **str** |  | [optional] 
-**storage_bytes** | **int** |  | 
-**created_at** | **datetime** |  | 
-**api_key** | **str** |  | 
+**api_key** | **str** |  |
+**created_at** | **datetime** |  |
+**id** | **str** |  |
+**name** | **str** |  |
+**organization_id** | **str** |  |
+**owner_email** | **str** |  | [optional]
+**owner_user_id** | **str** |  | [optional]
+**storage_bytes** | **int** |  |
 
 ## Example
 
@@ -33,5 +33,3 @@ drive_create_out_dict = drive_create_out_instance.to_dict()
 drive_create_out_from_dict = DriveCreateOut.from_dict(drive_create_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

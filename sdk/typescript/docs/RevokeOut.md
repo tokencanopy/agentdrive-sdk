@@ -7,8 +7,8 @@ DELETE /v0/grants/{grn_id}, DELETE /v0/shares/{shr_id}, DELETE /v0/invitations/{
 
 Name | Type
 ------------ | -------------
-`ok` | boolean
 `id` | string
+`ok` | boolean
 `revoked` | number
 
 ## Example
@@ -18,8 +18,8 @@ import type { RevokeOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "ok": null,
   "id": null,
+  "ok": null,
   "revoked": null,
 } satisfies RevokeOut
 
@@ -35,5 +35,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

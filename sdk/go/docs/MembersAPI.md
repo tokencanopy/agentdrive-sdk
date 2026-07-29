@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 ## InviteMemberV0MembersInvitePost
 
-> InviteCreateOut InviteMemberV0MembersInvitePost(ctx).MemberInviteIn(memberInviteIn).Authorization(authorization).Execute()
+> InviteCreateOut InviteMemberV0MembersInvitePost(ctx).MemberInviteIn(memberInviteIn).Execute()
 
 Invite a person to your workspace by email
 
@@ -34,12 +34,11 @@ import (
 )
 
 func main() {
-	memberInviteIn := *openapiclient.NewMemberInviteIn("Email_example") // MemberInviteIn | 
-	authorization := "authorization_example" // string |  (optional)
+	memberInviteIn := *openapiclient.NewMemberInviteIn("Email_example") // MemberInviteIn |
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MembersAPI.InviteMemberV0MembersInvitePost(context.Background()).MemberInviteIn(memberInviteIn).Authorization(authorization).Execute()
+	resp, r, err := apiClient.MembersAPI.InviteMemberV0MembersInvitePost(context.Background()).MemberInviteIn(memberInviteIn).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `MembersAPI.InviteMemberV0MembersInvitePost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -60,8 +59,7 @@ Other parameters are passed through a pointer to a apiInviteMemberV0MembersInvit
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **memberInviteIn** | [**MemberInviteIn**](MemberInviteIn.md) |  | 
- **authorization** | **string** |  | 
+ **memberInviteIn** | [**MemberInviteIn**](MemberInviteIn.md) |  |
 
 ### Return type
 
@@ -69,7 +67,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -83,7 +81,7 @@ No authorization required
 
 ## ListInvitationsV0InvitationsGet
 
-> InvitationList ListInvitationsV0InvitationsGet(ctx).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
+> InvitationList ListInvitationsV0InvitationsGet(ctx).Cursor(cursor).Limit(limit).Execute()
 
 List pending invitations
 
@@ -104,11 +102,10 @@ import (
 func main() {
 	cursor := "cursor_example" // string |  (optional)
 	limit := int32(56) // int32 |  (optional)
-	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MembersAPI.ListInvitationsV0InvitationsGet(context.Background()).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
+	resp, r, err := apiClient.MembersAPI.ListInvitationsV0InvitationsGet(context.Background()).Cursor(cursor).Limit(limit).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `MembersAPI.ListInvitationsV0InvitationsGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -129,9 +126,8 @@ Other parameters are passed through a pointer to a apiListInvitationsV0Invitatio
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **cursor** | **string** |  | 
- **limit** | **int32** |  | 
- **authorization** | **string** |  | 
+ **cursor** | **string** |  |
+ **limit** | **int32** |  |
 
 ### Return type
 
@@ -139,7 +135,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -153,7 +149,7 @@ No authorization required
 
 ## ListMembersV0MembersGet
 
-> MemberList ListMembersV0MembersGet(ctx).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
+> MemberList ListMembersV0MembersGet(ctx).Cursor(cursor).Limit(limit).Execute()
 
 List the members of your active workspace
 
@@ -174,11 +170,10 @@ import (
 func main() {
 	cursor := "cursor_example" // string |  (optional)
 	limit := int32(56) // int32 |  (optional)
-	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MembersAPI.ListMembersV0MembersGet(context.Background()).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
+	resp, r, err := apiClient.MembersAPI.ListMembersV0MembersGet(context.Background()).Cursor(cursor).Limit(limit).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `MembersAPI.ListMembersV0MembersGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -199,9 +194,8 @@ Other parameters are passed through a pointer to a apiListMembersV0MembersGetReq
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **cursor** | **string** |  | 
- **limit** | **int32** |  | 
- **authorization** | **string** |  | 
+ **cursor** | **string** |  |
+ **limit** | **int32** |  |
 
 ### Return type
 
@@ -209,7 +203,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -223,7 +217,7 @@ No authorization required
 
 ## RemoveMemberV0MembersTargetUserIdDelete
 
-> MemberRemoveOut RemoveMemberV0MembersTargetUserIdDelete(ctx, targetUserId).Confirm(confirm).Authorization(authorization).Execute()
+> MemberRemoveOut RemoveMemberV0MembersTargetUserIdDelete(ctx, targetUserId).Confirm(confirm).Execute()
 
 Remove a member (or leave)
 
@@ -242,13 +236,12 @@ import (
 )
 
 func main() {
-	targetUserId := "targetUserId_example" // string | 
+	targetUserId := "targetUserId_example" // string |
 	confirm := "confirm_example" // string |  (optional)
-	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MembersAPI.RemoveMemberV0MembersTargetUserIdDelete(context.Background(), targetUserId).Confirm(confirm).Authorization(authorization).Execute()
+	resp, r, err := apiClient.MembersAPI.RemoveMemberV0MembersTargetUserIdDelete(context.Background(), targetUserId).Confirm(confirm).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `MembersAPI.RemoveMemberV0MembersTargetUserIdDelete``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -264,7 +257,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**targetUserId** | **string** |  | 
+**targetUserId** | **string** |  |
 
 ### Other Parameters
 
@@ -274,8 +267,7 @@ Other parameters are passed through a pointer to a apiRemoveMemberV0MembersTarge
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **confirm** | **string** |  | 
- **authorization** | **string** |  | 
+ **confirm** | **string** |  |
 
 ### Return type
 
@@ -283,7 +275,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -297,7 +289,7 @@ No authorization required
 
 ## RevokeInvitationV0InvitationsInvitationIdDelete
 
-> RevokeOut RevokeInvitationV0InvitationsInvitationIdDelete(ctx, invitationId).Authorization(authorization).Execute()
+> RevokeOut RevokeInvitationV0InvitationsInvitationIdDelete(ctx, invitationId).Execute()
 
 Revoke a pending invitation
 
@@ -316,12 +308,11 @@ import (
 )
 
 func main() {
-	invitationId := "invitationId_example" // string | 
-	authorization := "authorization_example" // string |  (optional)
+	invitationId := "invitationId_example" // string |
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MembersAPI.RevokeInvitationV0InvitationsInvitationIdDelete(context.Background(), invitationId).Authorization(authorization).Execute()
+	resp, r, err := apiClient.MembersAPI.RevokeInvitationV0InvitationsInvitationIdDelete(context.Background(), invitationId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `MembersAPI.RevokeInvitationV0InvitationsInvitationIdDelete``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -337,7 +328,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**invitationId** | **string** |  | 
+**invitationId** | **string** |  |
 
 ### Other Parameters
 
@@ -347,7 +338,6 @@ Other parameters are passed through a pointer to a apiRevokeInvitationV0Invitati
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **authorization** | **string** |  | 
 
 ### Return type
 
@@ -355,7 +345,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -369,7 +359,7 @@ No authorization required
 
 ## SetMemberRoleV0MembersTargetUserIdPatch
 
-> MemberOut SetMemberRoleV0MembersTargetUserIdPatch(ctx, targetUserId).MemberRoleIn(memberRoleIn).Authorization(authorization).Execute()
+> MemberOut SetMemberRoleV0MembersTargetUserIdPatch(ctx, targetUserId).MemberRoleIn(memberRoleIn).Execute()
 
 Change a member's role
 
@@ -388,13 +378,12 @@ import (
 )
 
 func main() {
-	targetUserId := "targetUserId_example" // string | 
-	memberRoleIn := *openapiclient.NewMemberRoleIn("Role_example") // MemberRoleIn | 
-	authorization := "authorization_example" // string |  (optional)
+	targetUserId := "targetUserId_example" // string |
+	memberRoleIn := *openapiclient.NewMemberRoleIn("Role_example") // MemberRoleIn |
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MembersAPI.SetMemberRoleV0MembersTargetUserIdPatch(context.Background(), targetUserId).MemberRoleIn(memberRoleIn).Authorization(authorization).Execute()
+	resp, r, err := apiClient.MembersAPI.SetMemberRoleV0MembersTargetUserIdPatch(context.Background(), targetUserId).MemberRoleIn(memberRoleIn).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `MembersAPI.SetMemberRoleV0MembersTargetUserIdPatch``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -410,7 +399,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**targetUserId** | **string** |  | 
+**targetUserId** | **string** |  |
 
 ### Other Parameters
 
@@ -420,8 +409,7 @@ Other parameters are passed through a pointer to a apiSetMemberRoleV0MembersTarg
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **memberRoleIn** | [**MemberRoleIn**](MemberRoleIn.md) |  | 
- **authorization** | **string** |  | 
+ **memberRoleIn** | [**MemberRoleIn**](MemberRoleIn.md) |  |
 
 ### Return type
 
@@ -429,7 +417,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -439,4 +427,3 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
-

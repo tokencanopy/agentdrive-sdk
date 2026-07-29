@@ -4,23 +4,23 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ArtId** | **string** |  | 
-**DriveId** | **string** |  | 
-**Path** | **string** |  | 
-**Url** | **string** |  | 
-**ContentType** | **string** |  | 
-**FileType** | **string** |  | 
-**Labels** | Pointer to **[]string** |  | [optional] 
-**Snippet** | **string** |  | 
-**Score** | **float32** |  | 
-**UpdatedAt** | **time.Time** |  | 
-**VersionNumber** | **int32** |  | 
+**ArtId** | **string** |  |
+**ContentType** | **string** |  |
+**DriveId** | **string** |  |
+**FileType** | **string** |  |
+**Labels** | Pointer to **[]string** |  | [optional]
+**Path** | **string** |  |
+**Score** | **float32** |  |
+**Snippet** | **string** |  |
+**UpdatedAt** | **time.Time** |  |
+**Url** | **string** |  |
+**VersionNumber** | **int32** |  |
 
 ## Methods
 
 ### NewSearchHitOut
 
-`func NewSearchHitOut(artId string, driveId string, path string, url string, contentType string, fileType string, snippet string, score float32, updatedAt time.Time, versionNumber int32, ) *SearchHitOut`
+`func NewSearchHitOut(artId string, contentType string, driveId string, fileType string, path string, score float32, snippet string, updatedAt time.Time, url string, versionNumber int32, ) *SearchHitOut`
 
 NewSearchHitOut instantiates a new SearchHitOut object
 This constructor will assign default values to properties that have it defined,
@@ -55,66 +55,6 @@ and a boolean to check if the value has been set.
 SetArtId sets ArtId field to given value.
 
 
-### GetDriveId
-
-`func (o *SearchHitOut) GetDriveId() string`
-
-GetDriveId returns the DriveId field if non-nil, zero value otherwise.
-
-### GetDriveIdOk
-
-`func (o *SearchHitOut) GetDriveIdOk() (*string, bool)`
-
-GetDriveIdOk returns a tuple with the DriveId field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDriveId
-
-`func (o *SearchHitOut) SetDriveId(v string)`
-
-SetDriveId sets DriveId field to given value.
-
-
-### GetPath
-
-`func (o *SearchHitOut) GetPath() string`
-
-GetPath returns the Path field if non-nil, zero value otherwise.
-
-### GetPathOk
-
-`func (o *SearchHitOut) GetPathOk() (*string, bool)`
-
-GetPathOk returns a tuple with the Path field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPath
-
-`func (o *SearchHitOut) SetPath(v string)`
-
-SetPath sets Path field to given value.
-
-
-### GetUrl
-
-`func (o *SearchHitOut) GetUrl() string`
-
-GetUrl returns the Url field if non-nil, zero value otherwise.
-
-### GetUrlOk
-
-`func (o *SearchHitOut) GetUrlOk() (*string, bool)`
-
-GetUrlOk returns a tuple with the Url field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetUrl
-
-`func (o *SearchHitOut) SetUrl(v string)`
-
-SetUrl sets Url field to given value.
-
-
 ### GetContentType
 
 `func (o *SearchHitOut) GetContentType() string`
@@ -133,6 +73,26 @@ and a boolean to check if the value has been set.
 `func (o *SearchHitOut) SetContentType(v string)`
 
 SetContentType sets ContentType field to given value.
+
+
+### GetDriveId
+
+`func (o *SearchHitOut) GetDriveId() string`
+
+GetDriveId returns the DriveId field if non-nil, zero value otherwise.
+
+### GetDriveIdOk
+
+`func (o *SearchHitOut) GetDriveIdOk() (*string, bool)`
+
+GetDriveIdOk returns a tuple with the DriveId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDriveId
+
+`func (o *SearchHitOut) SetDriveId(v string)`
+
+SetDriveId sets DriveId field to given value.
 
 
 ### GetFileType
@@ -180,24 +140,24 @@ SetLabels sets Labels field to given value.
 
 HasLabels returns a boolean if a field has been set.
 
-### GetSnippet
+### GetPath
 
-`func (o *SearchHitOut) GetSnippet() string`
+`func (o *SearchHitOut) GetPath() string`
 
-GetSnippet returns the Snippet field if non-nil, zero value otherwise.
+GetPath returns the Path field if non-nil, zero value otherwise.
 
-### GetSnippetOk
+### GetPathOk
 
-`func (o *SearchHitOut) GetSnippetOk() (*string, bool)`
+`func (o *SearchHitOut) GetPathOk() (*string, bool)`
 
-GetSnippetOk returns a tuple with the Snippet field if it's non-nil, zero value otherwise
+GetPathOk returns a tuple with the Path field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetSnippet
+### SetPath
 
-`func (o *SearchHitOut) SetSnippet(v string)`
+`func (o *SearchHitOut) SetPath(v string)`
 
-SetSnippet sets Snippet field to given value.
+SetPath sets Path field to given value.
 
 
 ### GetScore
@@ -220,6 +180,26 @@ and a boolean to check if the value has been set.
 SetScore sets Score field to given value.
 
 
+### GetSnippet
+
+`func (o *SearchHitOut) GetSnippet() string`
+
+GetSnippet returns the Snippet field if non-nil, zero value otherwise.
+
+### GetSnippetOk
+
+`func (o *SearchHitOut) GetSnippetOk() (*string, bool)`
+
+GetSnippetOk returns a tuple with the Snippet field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSnippet
+
+`func (o *SearchHitOut) SetSnippet(v string)`
+
+SetSnippet sets Snippet field to given value.
+
+
 ### GetUpdatedAt
 
 `func (o *SearchHitOut) GetUpdatedAt() time.Time`
@@ -238,6 +218,26 @@ and a boolean to check if the value has been set.
 `func (o *SearchHitOut) SetUpdatedAt(v time.Time)`
 
 SetUpdatedAt sets UpdatedAt field to given value.
+
+
+### GetUrl
+
+`func (o *SearchHitOut) GetUrl() string`
+
+GetUrl returns the Url field if non-nil, zero value otherwise.
+
+### GetUrlOk
+
+`func (o *SearchHitOut) GetUrlOk() (*string, bool)`
+
+GetUrlOk returns a tuple with the Url field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUrl
+
+`func (o *SearchHitOut) SetUrl(v string)`
+
+SetUrl sets Url field to given value.
 
 
 ### GetVersionNumber
@@ -262,5 +262,3 @@ SetVersionNumber sets VersionNumber field to given value.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

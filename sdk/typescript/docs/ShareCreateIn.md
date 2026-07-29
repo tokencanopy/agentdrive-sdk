@@ -7,10 +7,10 @@ POST /v0/shares body. `resource` is an `art_*`/`fld_*` id or a path. `expires_in
 
 Name | Type
 ------------ | -------------
-`resource` | string
-`role` | string
 `expiresIn` | number
 `password` | string
+`resource` | string
+`role` | string
 
 ## Example
 
@@ -19,10 +19,10 @@ import type { ShareCreateIn } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "resource": null,
-  "role": null,
   "expiresIn": null,
   "password": null,
+  "resource": null,
+  "role": null,
 } satisfies ShareCreateIn
 
 console.log(example)
@@ -37,5 +37,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## Oauth2RegisterOauth2RegisterPost
 
-> interface{} Oauth2RegisterOauth2RegisterPost(ctx).Execute()
+> ClientRegistrationOut Oauth2RegisterOauth2RegisterPost(ctx).Execute()
 
 Dynamic Client Registration (RFC 7591)
 
@@ -38,7 +38,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `McpOauthAPI.Oauth2RegisterOauth2RegisterPost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `Oauth2RegisterOauth2RegisterPost`: interface{}
+	// response from `Oauth2RegisterOauth2RegisterPost`: ClientRegistrationOut
 	fmt.Fprintf(os.Stdout, "Response from `McpOauthAPI.Oauth2RegisterOauth2RegisterPost`: %v\n", resp)
 }
 ```
@@ -54,7 +54,7 @@ Other parameters are passed through a pointer to a apiOauth2RegisterOauth2Regist
 
 ### Return type
 
-**interface{}**
+[**ClientRegistrationOut**](ClientRegistrationOut.md)
 
 ### Authorization
 
@@ -72,7 +72,7 @@ No authorization required
 
 ## Oauth2RevokeOauth2RevokePost
 
-> interface{} Oauth2RevokeOauth2RevokePost(ctx).Execute()
+> map[string]interface{} Oauth2RevokeOauth2RevokePost(ctx).Execute()
 
 Token revocation (RFC 7009)
 
@@ -99,7 +99,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `McpOauthAPI.Oauth2RevokeOauth2RevokePost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `Oauth2RevokeOauth2RevokePost`: interface{}
+	// response from `Oauth2RevokeOauth2RevokePost`: map[string]interface{}
 	fmt.Fprintf(os.Stdout, "Response from `McpOauthAPI.Oauth2RevokeOauth2RevokePost`: %v\n", resp)
 }
 ```
@@ -115,7 +115,7 @@ Other parameters are passed through a pointer to a apiOauth2RevokeOauth2RevokePo
 
 ### Return type
 
-**interface{}**
+**map[string]interface{}**
 
 ### Authorization
 
@@ -129,4 +129,3 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
-

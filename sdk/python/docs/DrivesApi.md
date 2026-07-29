@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 
 # **create_drive_key_route_v0_drives_drive_id_keys_post**
-> DriveApiKeyCreateOut create_drive_key_route_v0_drives_drive_id_keys_post(drive_id, drive_api_key_create_in, authorization=authorization)
+> DriveApiKeyCreateOut create_drive_key_route_v0_drives_drive_id_keys_post(drive_id, drive_api_key_create_in)
 
 Create a drive API key
 
@@ -22,6 +22,7 @@ Mint a new `ad_live_` key for a drive you manage — a drive may hold several (o
 
 ### Example
 
+* Bearer (ad_live_ | ad_user_ | JWT) Authentication (BearerAuth):
 
 ```python
 import agentdrive_sdk
@@ -36,18 +37,26 @@ configuration = agentdrive_sdk.Configuration(
     host = "https://api.agentdrive.run"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (ad_live_ | ad_user_ | JWT): BearerAuth
+configuration = agentdrive_sdk.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
 
 # Enter a context with an instance of the API client
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.DrivesApi(api_client)
-    drive_id = 'drive_id_example' # str | 
-    drive_api_key_create_in = agentdrive_sdk.DriveApiKeyCreateIn() # DriveApiKeyCreateIn | 
-    authorization = 'authorization_example' # str |  (optional)
+    drive_id = 'drive_id_example' # str |
+    drive_api_key_create_in = agentdrive_sdk.DriveApiKeyCreateIn() # DriveApiKeyCreateIn |
 
     try:
         # Create a drive API key
-        api_response = api_instance.create_drive_key_route_v0_drives_drive_id_keys_post(drive_id, drive_api_key_create_in, authorization=authorization)
+        api_response = api_instance.create_drive_key_route_v0_drives_drive_id_keys_post(drive_id, drive_api_key_create_in)
         print("The response of DrivesApi->create_drive_key_route_v0_drives_drive_id_keys_post:\n")
         pprint(api_response)
     except Exception as e:
@@ -61,9 +70,8 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **drive_id** | **str**|  | 
- **drive_api_key_create_in** | [**DriveApiKeyCreateIn**](DriveApiKeyCreateIn.md)|  | 
- **authorization** | **str**|  | [optional] 
+ **drive_id** | **str**|  |
+ **drive_api_key_create_in** | [**DriveApiKeyCreateIn**](DriveApiKeyCreateIn.md)|  |
 
 ### Return type
 
@@ -71,7 +79,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -82,13 +90,18 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**400** | The key label or scope is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+**401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+**404** | The drive does not exist for this user. |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_drive_route_v0_drives_post**
-> DriveCreateOut create_drive_route_v0_drives_post(drive_create_in, authorization=authorization)
+> DriveCreateOut create_drive_route_v0_drives_post(drive_create_in)
 
 Create a drive in your active space
 
@@ -100,6 +113,7 @@ A space may hold up to its plan's drive limit (workspaces-v2 §4.6; seat-aware f
 
 ### Example
 
+* Bearer (ad_live_ | ad_user_ | JWT) Authentication (BearerAuth):
 
 ```python
 import agentdrive_sdk
@@ -114,17 +128,25 @@ configuration = agentdrive_sdk.Configuration(
     host = "https://api.agentdrive.run"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (ad_live_ | ad_user_ | JWT): BearerAuth
+configuration = agentdrive_sdk.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
 
 # Enter a context with an instance of the API client
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.DrivesApi(api_client)
-    drive_create_in = agentdrive_sdk.DriveCreateIn() # DriveCreateIn | 
-    authorization = 'authorization_example' # str |  (optional)
+    drive_create_in = agentdrive_sdk.DriveCreateIn() # DriveCreateIn |
 
     try:
         # Create a drive in your active space
-        api_response = api_instance.create_drive_route_v0_drives_post(drive_create_in, authorization=authorization)
+        api_response = api_instance.create_drive_route_v0_drives_post(drive_create_in)
         print("The response of DrivesApi->create_drive_route_v0_drives_post:\n")
         pprint(api_response)
     except Exception as e:
@@ -138,8 +160,7 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **drive_create_in** | [**DriveCreateIn**](DriveCreateIn.md)|  | 
- **authorization** | **str**|  | [optional] 
+ **drive_create_in** | [**DriveCreateIn**](DriveCreateIn.md)|  |
 
 ### Return type
 
@@ -147,7 +168,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -158,13 +179,16 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**201** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**201** | Successful Response |  * Location - Canonical URL of the created resource. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_drive_keys_route_v0_drives_drive_id_keys_get**
-> DriveApiKeyListOut list_drive_keys_route_v0_drives_drive_id_keys_get(drive_id, cursor=cursor, limit=limit, authorization=authorization)
+> DriveApiKeyListOut list_drive_keys_route_v0_drives_drive_id_keys_get(drive_id, cursor=cursor, limit=limit)
 
 List a drive's API keys
 
@@ -174,6 +198,7 @@ List the `ad_live_` keys for a drive you manage (oldest first, including recentl
 
 ### Example
 
+* Bearer (ad_live_ | ad_user_ | JWT) Authentication (BearerAuth):
 
 ```python
 import agentdrive_sdk
@@ -187,19 +212,27 @@ configuration = agentdrive_sdk.Configuration(
     host = "https://api.agentdrive.run"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (ad_live_ | ad_user_ | JWT): BearerAuth
+configuration = agentdrive_sdk.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
 
 # Enter a context with an instance of the API client
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.DrivesApi(api_client)
-    drive_id = 'drive_id_example' # str | 
+    drive_id = 'drive_id_example' # str |
     cursor = 'cursor_example' # str |  (optional)
     limit = 56 # int |  (optional)
-    authorization = 'authorization_example' # str |  (optional)
 
     try:
         # List a drive's API keys
-        api_response = api_instance.list_drive_keys_route_v0_drives_drive_id_keys_get(drive_id, cursor=cursor, limit=limit, authorization=authorization)
+        api_response = api_instance.list_drive_keys_route_v0_drives_drive_id_keys_get(drive_id, cursor=cursor, limit=limit)
         print("The response of DrivesApi->list_drive_keys_route_v0_drives_drive_id_keys_get:\n")
         pprint(api_response)
     except Exception as e:
@@ -213,10 +246,9 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **drive_id** | **str**|  | 
- **cursor** | **str**|  | [optional] 
- **limit** | **int**|  | [optional] 
- **authorization** | **str**|  | [optional] 
+ **drive_id** | **str**|  |
+ **cursor** | **str**|  | [optional]
+ **limit** | **int**|  | [optional]
 
 ### Return type
 
@@ -224,7 +256,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -235,13 +267,17 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+**404** | The drive does not exist for this user. |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **list_drives_route_v0_drives_get**
-> DriveList list_drives_route_v0_drives_get(cursor=cursor, limit=limit, authorization=authorization)
+> DriveList list_drives_route_v0_drives_get(cursor=cursor, limit=limit)
 
 List the drives you can see
 
@@ -251,6 +287,7 @@ Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whol
 
 ### Example
 
+* Bearer (ad_live_ | ad_user_ | JWT) Authentication (BearerAuth):
 
 ```python
 import agentdrive_sdk
@@ -264,6 +301,15 @@ configuration = agentdrive_sdk.Configuration(
     host = "https://api.agentdrive.run"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (ad_live_ | ad_user_ | JWT): BearerAuth
+configuration = agentdrive_sdk.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
 
 # Enter a context with an instance of the API client
 with agentdrive_sdk.ApiClient(configuration) as api_client:
@@ -271,11 +317,10 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
     api_instance = agentdrive_sdk.DrivesApi(api_client)
     cursor = 'cursor_example' # str |  (optional)
     limit = 56 # int |  (optional)
-    authorization = 'authorization_example' # str |  (optional)
 
     try:
         # List the drives you can see
-        api_response = api_instance.list_drives_route_v0_drives_get(cursor=cursor, limit=limit, authorization=authorization)
+        api_response = api_instance.list_drives_route_v0_drives_get(cursor=cursor, limit=limit)
         print("The response of DrivesApi->list_drives_route_v0_drives_get:\n")
         pprint(api_response)
     except Exception as e:
@@ -289,9 +334,8 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **cursor** | **str**|  | [optional] 
- **limit** | **int**|  | [optional] 
- **authorization** | **str**|  | [optional] 
+ **cursor** | **str**|  | [optional]
+ **limit** | **int**|  | [optional]
 
 ### Return type
 
@@ -299,7 +343,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -310,13 +354,16 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **rename_drive_route_v0_drives_drive_id_patch**
-> DriveOut rename_drive_route_v0_drives_drive_id_patch(drive_id, drive_rename_in, authorization=authorization)
+> DriveOut rename_drive_route_v0_drives_drive_id_patch(drive_id, drive_rename_in)
 
 Rename a drive you own
 
@@ -324,6 +371,7 @@ Rename a drive. **Owner only** — a drive id that isn't yours returns 404 (no-l
 
 ### Example
 
+* Bearer (ad_live_ | ad_user_ | JWT) Authentication (BearerAuth):
 
 ```python
 import agentdrive_sdk
@@ -338,18 +386,26 @@ configuration = agentdrive_sdk.Configuration(
     host = "https://api.agentdrive.run"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (ad_live_ | ad_user_ | JWT): BearerAuth
+configuration = agentdrive_sdk.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
 
 # Enter a context with an instance of the API client
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.DrivesApi(api_client)
-    drive_id = 'drive_id_example' # str | 
-    drive_rename_in = agentdrive_sdk.DriveRenameIn() # DriveRenameIn | 
-    authorization = 'authorization_example' # str |  (optional)
+    drive_id = 'drive_id_example' # str |
+    drive_rename_in = agentdrive_sdk.DriveRenameIn() # DriveRenameIn |
 
     try:
         # Rename a drive you own
-        api_response = api_instance.rename_drive_route_v0_drives_drive_id_patch(drive_id, drive_rename_in, authorization=authorization)
+        api_response = api_instance.rename_drive_route_v0_drives_drive_id_patch(drive_id, drive_rename_in)
         print("The response of DrivesApi->rename_drive_route_v0_drives_drive_id_patch:\n")
         pprint(api_response)
     except Exception as e:
@@ -363,9 +419,8 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **drive_id** | **str**|  | 
- **drive_rename_in** | [**DriveRenameIn**](DriveRenameIn.md)|  | 
- **authorization** | **str**|  | [optional] 
+ **drive_id** | **str**|  |
+ **drive_rename_in** | [**DriveRenameIn**](DriveRenameIn.md)|  |
 
 ### Return type
 
@@ -373,7 +428,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -384,13 +439,19 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**400** | The drive update is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+**401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+**404** | No such drive exists for this principal. |  * X-Request-Id - Request correlation identifier. <br>  |
+**409** | The drive update conflicts with current workspace state. |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **revoke_drive_key_route_v0_drives_drive_id_keys_key_id_revoke_post**
-> revoke_drive_key_route_v0_drives_drive_id_keys_key_id_revoke_post(drive_id, key_id, authorization=authorization)
+> revoke_drive_key_route_v0_drives_drive_id_keys_key_id_revoke_post(drive_id, key_id)
 
 Revoke a drive API key
 
@@ -398,6 +459,7 @@ Revoke one `ad_live_` key of a drive you manage — anything using it loses acce
 
 ### Example
 
+* Bearer (ad_live_ | ad_user_ | JWT) Authentication (BearerAuth):
 
 ```python
 import agentdrive_sdk
@@ -410,18 +472,26 @@ configuration = agentdrive_sdk.Configuration(
     host = "https://api.agentdrive.run"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (ad_live_ | ad_user_ | JWT): BearerAuth
+configuration = agentdrive_sdk.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
 
 # Enter a context with an instance of the API client
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.DrivesApi(api_client)
-    drive_id = 'drive_id_example' # str | 
-    key_id = 'key_id_example' # str | 
-    authorization = 'authorization_example' # str |  (optional)
+    drive_id = 'drive_id_example' # str |
+    key_id = 'key_id_example' # str |
 
     try:
         # Revoke a drive API key
-        api_instance.revoke_drive_key_route_v0_drives_drive_id_keys_key_id_revoke_post(drive_id, key_id, authorization=authorization)
+        api_instance.revoke_drive_key_route_v0_drives_drive_id_keys_key_id_revoke_post(drive_id, key_id)
     except Exception as e:
         print("Exception when calling DrivesApi->revoke_drive_key_route_v0_drives_drive_id_keys_key_id_revoke_post: %s\n" % e)
 ```
@@ -433,9 +503,8 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **drive_id** | **str**|  | 
- **key_id** | **str**|  | 
- **authorization** | **str**|  | [optional] 
+ **drive_id** | **str**|  |
+ **key_id** | **str**|  |
 
 ### Return type
 
@@ -443,7 +512,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -454,13 +523,17 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**204** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**204** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+**404** | The drive or key does not exist for this user. |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **rotate_one_key_route_v0_drives_drive_id_keys_key_id_rotate_post**
-> DriveApiKeyCreateOut rotate_one_key_route_v0_drives_drive_id_keys_key_id_rotate_post(drive_id, key_id, authorization=authorization)
+> DriveApiKeyCreateOut rotate_one_key_route_v0_drives_drive_id_keys_key_id_rotate_post(drive_id, key_id)
 
 Rotate one API key
 
@@ -468,6 +541,7 @@ Rotate a single `ad_live_` key: revoke `key_id` and mint a replacement that inhe
 
 ### Example
 
+* Bearer (ad_live_ | ad_user_ | JWT) Authentication (BearerAuth):
 
 ```python
 import agentdrive_sdk
@@ -481,18 +555,26 @@ configuration = agentdrive_sdk.Configuration(
     host = "https://api.agentdrive.run"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure Bearer authorization (ad_live_ | ad_user_ | JWT): BearerAuth
+configuration = agentdrive_sdk.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
 
 # Enter a context with an instance of the API client
 with agentdrive_sdk.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = agentdrive_sdk.DrivesApi(api_client)
-    drive_id = 'drive_id_example' # str | 
-    key_id = 'key_id_example' # str | 
-    authorization = 'authorization_example' # str |  (optional)
+    drive_id = 'drive_id_example' # str |
+    key_id = 'key_id_example' # str |
 
     try:
         # Rotate one API key
-        api_response = api_instance.rotate_one_key_route_v0_drives_drive_id_keys_key_id_rotate_post(drive_id, key_id, authorization=authorization)
+        api_response = api_instance.rotate_one_key_route_v0_drives_drive_id_keys_key_id_rotate_post(drive_id, key_id)
         print("The response of DrivesApi->rotate_one_key_route_v0_drives_drive_id_keys_key_id_rotate_post:\n")
         pprint(api_response)
     except Exception as e:
@@ -506,9 +588,8 @@ with agentdrive_sdk.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **drive_id** | **str**|  | 
- **key_id** | **str**|  | 
- **authorization** | **str**|  | [optional] 
+ **drive_id** | **str**|  |
+ **key_id** | **str**|  |
 
 ### Return type
 
@@ -516,7 +597,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -527,8 +608,11 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Successful Response |  -  |
-**422** | Validation Error |  -  |
+**200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+**401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+**403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+**404** | The drive or key does not exist for this user. |  * X-Request-Id - Request correlation identifier. <br>  |
+**422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+**429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-

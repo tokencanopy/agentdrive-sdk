@@ -7,14 +7,14 @@ DELETE response — surfaces cascade counts so the caller can confirm scope of a
 
 Name | Type
 ------------ | -------------
-`ok` | boolean
-`id` | string
-`path` | string
 `deletedAt` | Date
+`id` | string
+`nArtifactsDeleted` | number
+`nSubfoldersDeleted` | number
+`ok` | boolean
+`path` | string
 `purgeAt` | Date
 `retentionDays` | number
-`nSubfoldersDeleted` | number
-`nArtifactsDeleted` | number
 
 ## Example
 
@@ -23,14 +23,14 @@ import type { FolderDeleteOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "ok": null,
-  "id": null,
-  "path": null,
   "deletedAt": null,
+  "id": null,
+  "nArtifactsDeleted": null,
+  "nSubfoldersDeleted": null,
+  "ok": null,
+  "path": null,
   "purgeAt": null,
   "retentionDays": null,
-  "nSubfoldersDeleted": null,
-  "nArtifactsDeleted": null,
 } satisfies FolderDeleteOut
 
 console.log(example)
@@ -45,5 +45,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

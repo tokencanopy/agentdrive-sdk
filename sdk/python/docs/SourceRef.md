@@ -6,9 +6,9 @@ One typed provenance ref. `type` is open-vocabulary (server validates only lengt
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **str** |  | 
-**id** | **str** |  | 
-**metadata** | **Dict[str, object]** |  | [optional] 
+**id** | **str** |  |
+**metadata** | **Dict[str, object]** |  | [optional]
+**type** | **str** |  |
 
 ## Example
 
@@ -28,5 +28,3 @@ source_ref_dict = source_ref_instance.to_dict()
 source_ref_from_dict = SourceRef.from_dict(source_ref_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

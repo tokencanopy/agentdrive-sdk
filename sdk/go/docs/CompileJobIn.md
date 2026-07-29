@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Options** | Pointer to [**CompileOptions**](CompileOptions.md) |  | [optional]
 **Task** | Pointer to **string** |  | [optional] [default to "latex.compile"]
-**Options** | Pointer to [**CompileOptions**](CompileOptions.md) |  | [optional] 
 
 ## Methods
 
@@ -25,31 +25,6 @@ will change when the set of required properties is changed
 NewCompileJobInWithDefaults instantiates a new CompileJobIn object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetTask
-
-`func (o *CompileJobIn) GetTask() string`
-
-GetTask returns the Task field if non-nil, zero value otherwise.
-
-### GetTaskOk
-
-`func (o *CompileJobIn) GetTaskOk() (*string, bool)`
-
-GetTaskOk returns a tuple with the Task field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetTask
-
-`func (o *CompileJobIn) SetTask(v string)`
-
-SetTask sets Task field to given value.
-
-### HasTask
-
-`func (o *CompileJobIn) HasTask() bool`
-
-HasTask returns a boolean if a field has been set.
 
 ### GetOptions
 
@@ -76,7 +51,30 @@ SetOptions sets Options field to given value.
 
 HasOptions returns a boolean if a field has been set.
 
+### GetTask
+
+`func (o *CompileJobIn) GetTask() string`
+
+GetTask returns the Task field if non-nil, zero value otherwise.
+
+### GetTaskOk
+
+`func (o *CompileJobIn) GetTaskOk() (*string, bool)`
+
+GetTaskOk returns a tuple with the Task field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTask
+
+`func (o *CompileJobIn) SetTask(v string)`
+
+SetTask sets Task field to given value.
+
+### HasTask
+
+`func (o *CompileJobIn) HasTask() bool`
+
+HasTask returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

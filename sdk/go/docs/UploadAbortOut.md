@@ -4,15 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**UploadId** | **string** |  | 
+**ReleasedBytes** | **int32** |  |
 **State** | Pointer to **string** |  | [optional] [default to "aborted"]
-**ReleasedBytes** | **int32** |  | 
+**UploadId** | **string** |  |
 
 ## Methods
 
 ### NewUploadAbortOut
 
-`func NewUploadAbortOut(uploadId string, releasedBytes int32, ) *UploadAbortOut`
+`func NewUploadAbortOut(releasedBytes int32, uploadId string, ) *UploadAbortOut`
 
 NewUploadAbortOut instantiates a new UploadAbortOut object
 This constructor will assign default values to properties that have it defined,
@@ -27,24 +27,24 @@ NewUploadAbortOutWithDefaults instantiates a new UploadAbortOut object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetUploadId
+### GetReleasedBytes
 
-`func (o *UploadAbortOut) GetUploadId() string`
+`func (o *UploadAbortOut) GetReleasedBytes() int32`
 
-GetUploadId returns the UploadId field if non-nil, zero value otherwise.
+GetReleasedBytes returns the ReleasedBytes field if non-nil, zero value otherwise.
 
-### GetUploadIdOk
+### GetReleasedBytesOk
 
-`func (o *UploadAbortOut) GetUploadIdOk() (*string, bool)`
+`func (o *UploadAbortOut) GetReleasedBytesOk() (*int32, bool)`
 
-GetUploadIdOk returns a tuple with the UploadId field if it's non-nil, zero value otherwise
+GetReleasedBytesOk returns a tuple with the ReleasedBytes field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetUploadId
+### SetReleasedBytes
 
-`func (o *UploadAbortOut) SetUploadId(v string)`
+`func (o *UploadAbortOut) SetReleasedBytes(v int32)`
 
-SetUploadId sets UploadId field to given value.
+SetReleasedBytes sets ReleasedBytes field to given value.
 
 
 ### GetState
@@ -72,27 +72,25 @@ SetState sets State field to given value.
 
 HasState returns a boolean if a field has been set.
 
-### GetReleasedBytes
+### GetUploadId
 
-`func (o *UploadAbortOut) GetReleasedBytes() int32`
+`func (o *UploadAbortOut) GetUploadId() string`
 
-GetReleasedBytes returns the ReleasedBytes field if non-nil, zero value otherwise.
+GetUploadId returns the UploadId field if non-nil, zero value otherwise.
 
-### GetReleasedBytesOk
+### GetUploadIdOk
 
-`func (o *UploadAbortOut) GetReleasedBytesOk() (*int32, bool)`
+`func (o *UploadAbortOut) GetUploadIdOk() (*string, bool)`
 
-GetReleasedBytesOk returns a tuple with the ReleasedBytes field if it's non-nil, zero value otherwise
+GetUploadIdOk returns a tuple with the UploadId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetReleasedBytes
+### SetUploadId
 
-`func (o *UploadAbortOut) SetReleasedBytes(v int32)`
+`func (o *UploadAbortOut) SetUploadId(v string)`
 
-SetReleasedBytes sets ReleasedBytes field to given value.
+SetUploadId sets UploadId field to given value.
 
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

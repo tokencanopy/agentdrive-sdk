@@ -7,11 +7,11 @@
 Name | Type
 ------------ | -------------
 `accessToken` | string
-`tokenType` | string
-`expiresIn` | number
-`scope` | string
-`identityAssertion` | string
 `driveId` | string
+`expiresIn` | number
+`identityAssertion` | string
+`scope` | string
+`tokenType` | string
 
 ## Example
 
@@ -21,11 +21,11 @@ import type { ExtensionExchangeResponse } from '@mnexa-ai/agentdrive-sdk'
 // TODO: Update the object below with actual values
 const example = {
   "accessToken": null,
-  "tokenType": null,
-  "expiresIn": null,
-  "scope": null,
-  "identityAssertion": null,
   "driveId": null,
+  "expiresIn": null,
+  "identityAssertion": null,
+  "scope": null,
+  "tokenType": null,
 } satisfies ExtensionExchangeResponse
 
 console.log(example)
@@ -40,5 +40,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

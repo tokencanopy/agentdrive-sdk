@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Path** | **string** |  | 
-**FromMetageneration** | Pointer to **NullableInt32** |  | [optional] 
+**FromMetageneration** | Pointer to **NullableInt32** |  | [optional]
+**Path** | **string** |  |
 
 ## Methods
 
@@ -25,26 +25,6 @@ will change when the set of required properties is changed
 NewFolderCopyInWithDefaults instantiates a new FolderCopyIn object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetPath
-
-`func (o *FolderCopyIn) GetPath() string`
-
-GetPath returns the Path field if non-nil, zero value otherwise.
-
-### GetPathOk
-
-`func (o *FolderCopyIn) GetPathOk() (*string, bool)`
-
-GetPathOk returns a tuple with the Path field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPath
-
-`func (o *FolderCopyIn) SetPath(v string)`
-
-SetPath sets Path field to given value.
-
 
 ### GetFromMetageneration
 
@@ -81,7 +61,25 @@ HasFromMetageneration returns a boolean if a field has been set.
 `func (o *FolderCopyIn) UnsetFromMetageneration()`
 
 UnsetFromMetageneration ensures that no value is present for FromMetageneration, not even an explicit nil
+### GetPath
+
+`func (o *FolderCopyIn) GetPath() string`
+
+GetPath returns the Path field if non-nil, zero value otherwise.
+
+### GetPathOk
+
+`func (o *FolderCopyIn) GetPathOk() (*string, bool)`
+
+GetPathOk returns a tuple with the Path field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPath
+
+`func (o *FolderCopyIn) SetPath(v string)`
+
+SetPath sets Path field to given value.
+
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**entrypoint** | **str** |  | [optional] 
-**engine** | **str** |  | [optional] 
+**engine** | **str** |  | [optional]
+**entrypoint** | **str** |  | [optional]
 **wait** | **bool** |  | [optional] [default to False]
 
 ## Example
@@ -27,5 +27,3 @@ compile_options_dict = compile_options_instance.to_dict()
 compile_options_from_dict = CompileOptions.from_dict(compile_options_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

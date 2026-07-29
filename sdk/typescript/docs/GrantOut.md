@@ -7,19 +7,19 @@ A live grant. Audit fields (`granted_by_*`, `on_behalf_of`) are surfaced so a ma
 
 Name | Type
 ------------ | -------------
-`id` | string
-`resourceType` | string
-`resourceId` | string
-`principalType` | string
-`principalId` | string
-`principalEmail` | string
-`role` | string
-`grantedByType` | string
-`grantedById` | string
-`onBehalfOf` | string
+`artifactsAffected` | number
 `createdAt` | Date
 `expiresAt` | Date
-`artifactsAffected` | number
+`grantedById` | string
+`grantedByType` | string
+`id` | string
+`onBehalfOf` | string
+`principalEmail` | string
+`principalId` | string
+`principalType` | string
+`resourceId` | string
+`resourceType` | string
+`role` | string
 
 ## Example
 
@@ -28,19 +28,19 @@ import type { GrantOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "id": null,
-  "resourceType": null,
-  "resourceId": null,
-  "principalType": null,
-  "principalId": null,
-  "principalEmail": null,
-  "role": null,
-  "grantedByType": null,
-  "grantedById": null,
-  "onBehalfOf": null,
+  "artifactsAffected": null,
   "createdAt": null,
   "expiresAt": null,
-  "artifactsAffected": null,
+  "grantedById": null,
+  "grantedByType": null,
+  "id": null,
+  "onBehalfOf": null,
+  "principalEmail": null,
+  "principalId": null,
+  "principalType": null,
+  "resourceId": null,
+  "resourceType": null,
+  "role": null,
 } satisfies GrantOut
 
 console.log(example)
@@ -55,5 +55,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

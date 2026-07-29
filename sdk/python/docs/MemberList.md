@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**items** | [**List[MemberOut]**](MemberOut.md) |  | 
-**next_cursor** | **str** |  | [optional] 
+**items** | [**List[MemberOut]**](MemberOut.md) |  |
+**next_cursor** | **str** |  | [optional]
 
 ## Example
 
@@ -26,5 +26,3 @@ member_list_dict = member_list_instance.to_dict()
 member_list_from_dict = MemberList.from_dict(member_list_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

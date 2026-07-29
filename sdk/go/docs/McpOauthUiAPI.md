@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## AuthorizeDecisionOauth2AuthorizePost
 
-> interface{} AuthorizeDecisionOauth2AuthorizePost(ctx).Csrf(csrf).Execute()
+> AuthorizeDecisionOauth2AuthorizePost(ctx).Csrf(csrf).Execute()
 
 Authorize Decision
 
@@ -28,17 +28,15 @@ import (
 )
 
 func main() {
-	csrf := "csrf_example" // string | 
+	csrf := "csrf_example" // string |
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.McpOauthUiAPI.AuthorizeDecisionOauth2AuthorizePost(context.Background()).Csrf(csrf).Execute()
+	r, err := apiClient.McpOauthUiAPI.AuthorizeDecisionOauth2AuthorizePost(context.Background()).Csrf(csrf).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `McpOauthUiAPI.AuthorizeDecisionOauth2AuthorizePost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `AuthorizeDecisionOauth2AuthorizePost`: interface{}
-	fmt.Fprintf(os.Stdout, "Response from `McpOauthUiAPI.AuthorizeDecisionOauth2AuthorizePost`: %v\n", resp)
 }
 ```
 
@@ -53,11 +51,11 @@ Other parameters are passed through a pointer to a apiAuthorizeDecisionOauth2Aut
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **csrf** | **string** |  | 
+ **csrf** | **string** |  |
 
 ### Return type
 
-**interface{}**
+ (empty response body)
 
 ### Authorization
 
@@ -125,9 +123,8 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: text/html
+- **Accept**: text/html, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
-

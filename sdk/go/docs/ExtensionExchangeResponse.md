@@ -4,18 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AccessToken** | **string** | 15-minute access_token (scope&#x3D;extension). | 
-**TokenType** | Pointer to **string** |  | [optional] [default to "Bearer"]
-**ExpiresIn** | **int32** | Seconds until access_token expiry. | 
+**AccessToken** | **string** | 15-minute access_token (scope&#x3D;extension). |
+**DriveId** | **string** | The drive these credentials are scoped to. |
+**ExpiresIn** | **int32** | Seconds until access_token expiry. |
+**IdentityAssertion** | **string** | 90-day identity_assertion. Refresh via POST /oauth2/token. |
 **Scope** | Pointer to **string** |  | [optional] [default to "extension"]
-**IdentityAssertion** | **string** | 90-day identity_assertion. Refresh via POST /oauth2/token. | 
-**DriveId** | **string** | The drive these credentials are scoped to. | 
+**TokenType** | Pointer to **string** |  | [optional] [default to "Bearer"]
 
 ## Methods
 
 ### NewExtensionExchangeResponse
 
-`func NewExtensionExchangeResponse(accessToken string, expiresIn int32, identityAssertion string, driveId string, ) *ExtensionExchangeResponse`
+`func NewExtensionExchangeResponse(accessToken string, driveId string, expiresIn int32, identityAssertion string, ) *ExtensionExchangeResponse`
 
 NewExtensionExchangeResponse instantiates a new ExtensionExchangeResponse object
 This constructor will assign default values to properties that have it defined,
@@ -50,30 +50,25 @@ and a boolean to check if the value has been set.
 SetAccessToken sets AccessToken field to given value.
 
 
-### GetTokenType
+### GetDriveId
 
-`func (o *ExtensionExchangeResponse) GetTokenType() string`
+`func (o *ExtensionExchangeResponse) GetDriveId() string`
 
-GetTokenType returns the TokenType field if non-nil, zero value otherwise.
+GetDriveId returns the DriveId field if non-nil, zero value otherwise.
 
-### GetTokenTypeOk
+### GetDriveIdOk
 
-`func (o *ExtensionExchangeResponse) GetTokenTypeOk() (*string, bool)`
+`func (o *ExtensionExchangeResponse) GetDriveIdOk() (*string, bool)`
 
-GetTokenTypeOk returns a tuple with the TokenType field if it's non-nil, zero value otherwise
+GetDriveIdOk returns a tuple with the DriveId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetTokenType
+### SetDriveId
 
-`func (o *ExtensionExchangeResponse) SetTokenType(v string)`
+`func (o *ExtensionExchangeResponse) SetDriveId(v string)`
 
-SetTokenType sets TokenType field to given value.
+SetDriveId sets DriveId field to given value.
 
-### HasTokenType
-
-`func (o *ExtensionExchangeResponse) HasTokenType() bool`
-
-HasTokenType returns a boolean if a field has been set.
 
 ### GetExpiresIn
 
@@ -93,6 +88,26 @@ and a boolean to check if the value has been set.
 `func (o *ExtensionExchangeResponse) SetExpiresIn(v int32)`
 
 SetExpiresIn sets ExpiresIn field to given value.
+
+
+### GetIdentityAssertion
+
+`func (o *ExtensionExchangeResponse) GetIdentityAssertion() string`
+
+GetIdentityAssertion returns the IdentityAssertion field if non-nil, zero value otherwise.
+
+### GetIdentityAssertionOk
+
+`func (o *ExtensionExchangeResponse) GetIdentityAssertionOk() (*string, bool)`
+
+GetIdentityAssertionOk returns a tuple with the IdentityAssertion field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIdentityAssertion
+
+`func (o *ExtensionExchangeResponse) SetIdentityAssertion(v string)`
+
+SetIdentityAssertion sets IdentityAssertion field to given value.
 
 
 ### GetScope
@@ -120,47 +135,30 @@ SetScope sets Scope field to given value.
 
 HasScope returns a boolean if a field has been set.
 
-### GetIdentityAssertion
+### GetTokenType
 
-`func (o *ExtensionExchangeResponse) GetIdentityAssertion() string`
+`func (o *ExtensionExchangeResponse) GetTokenType() string`
 
-GetIdentityAssertion returns the IdentityAssertion field if non-nil, zero value otherwise.
+GetTokenType returns the TokenType field if non-nil, zero value otherwise.
 
-### GetIdentityAssertionOk
+### GetTokenTypeOk
 
-`func (o *ExtensionExchangeResponse) GetIdentityAssertionOk() (*string, bool)`
+`func (o *ExtensionExchangeResponse) GetTokenTypeOk() (*string, bool)`
 
-GetIdentityAssertionOk returns a tuple with the IdentityAssertion field if it's non-nil, zero value otherwise
+GetTokenTypeOk returns a tuple with the TokenType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetIdentityAssertion
+### SetTokenType
 
-`func (o *ExtensionExchangeResponse) SetIdentityAssertion(v string)`
+`func (o *ExtensionExchangeResponse) SetTokenType(v string)`
 
-SetIdentityAssertion sets IdentityAssertion field to given value.
+SetTokenType sets TokenType field to given value.
 
+### HasTokenType
 
-### GetDriveId
+`func (o *ExtensionExchangeResponse) HasTokenType() bool`
 
-`func (o *ExtensionExchangeResponse) GetDriveId() string`
-
-GetDriveId returns the DriveId field if non-nil, zero value otherwise.
-
-### GetDriveIdOk
-
-`func (o *ExtensionExchangeResponse) GetDriveIdOk() (*string, bool)`
-
-GetDriveIdOk returns a tuple with the DriveId field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDriveId
-
-`func (o *ExtensionExchangeResponse) SetDriveId(v string)`
-
-SetDriveId sets DriveId field to given value.
-
+HasTokenType returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

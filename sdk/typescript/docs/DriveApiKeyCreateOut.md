@@ -7,11 +7,11 @@
 
 Name | Type
 ------------ | -------------
-`id` | string
 `apiKey` | string
-`prefix` | string
-`label` | string
 `createdAt` | Date
+`id` | string
+`label` | string
+`prefix` | string
 
 ## Example
 
@@ -20,11 +20,11 @@ import type { DriveApiKeyCreateOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "id": null,
   "apiKey": null,
-  "prefix": null,
-  "label": null,
   "createdAt": null,
+  "id": null,
+  "label": null,
+  "prefix": null,
 } satisfies DriveApiKeyCreateOut
 
 console.log(example)
@@ -39,5 +39,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

@@ -6,7 +6,7 @@ PATCH /v0/drives/{id} body — rename a drive the caller owns.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**name** | **str** |  | 
+**name** | **str** |  |
 
 ## Example
 
@@ -26,5 +26,3 @@ drive_rename_in_dict = drive_rename_in_instance.to_dict()
 drive_rename_in_from_dict = DriveRenameIn.from_dict(drive_rename_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

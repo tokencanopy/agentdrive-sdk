@@ -6,14 +6,14 @@ DELETE response — surfaces cascade counts so the caller can confirm scope of a
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**deleted_at** | **datetime** |  |
+**id** | **str** |  |
+**n_artifacts_deleted** | **int** |  |
+**n_subfolders_deleted** | **int** |  |
 **ok** | **bool** |  | [optional] [default to True]
-**id** | **str** |  | 
-**path** | **str** |  | 
-**deleted_at** | **datetime** |  | 
-**purge_at** | **datetime** |  | 
-**retention_days** | **int** |  | 
-**n_subfolders_deleted** | **int** |  | 
-**n_artifacts_deleted** | **int** |  | 
+**path** | **str** |  |
+**purge_at** | **datetime** |  |
+**retention_days** | **int** |  |
 
 ## Example
 
@@ -33,5 +33,3 @@ folder_delete_out_dict = folder_delete_out_instance.to_dict()
 folder_delete_out_from_dict = FolderDeleteOut.from_dict(folder_delete_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

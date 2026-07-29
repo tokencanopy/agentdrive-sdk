@@ -7,14 +7,14 @@ One workspace invitation — metadata only; the raw token is never surfaced over
 
 Name | Type
 ------------ | -------------
-`id` | string
-`organizationId` | string
+`createdAt` | Date
 `email` | string
+`expiresAt` | Date
+`id` | string
+`invitedBy` | string
+`organizationId` | string
 `role` | string
 `status` | string
-`invitedBy` | string
-`expiresAt` | Date
-`createdAt` | Date
 
 ## Example
 
@@ -23,14 +23,14 @@ import type { InvitationOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "id": null,
-  "organizationId": null,
+  "createdAt": null,
   "email": null,
+  "expiresAt": null,
+  "id": null,
+  "invitedBy": null,
+  "organizationId": null,
   "role": null,
   "status": null,
-  "invitedBy": null,
-  "expiresAt": null,
-  "createdAt": null,
 } satisfies InvitationOut
 
 console.log(example)
@@ -45,5 +45,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

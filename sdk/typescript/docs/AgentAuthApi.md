@@ -77,8 +77,11 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The extension ID or ticket is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | Too many extension sign-in attempts. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **503** | Extension authentication or token signing is unavailable. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -145,15 +148,15 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## jwksWellKnownJwksJsonGet
 
-> { [key: string]: any | null; } jwksWellKnownJwksJsonGet()
+> JwksOut jwksWellKnownJwksJsonGet()
 
 JSON Web Key Set — public keys for verifying AgentDrive JWTs
 
@@ -190,7 +193,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**{ [key: string]: any | null; }**
+[**JwksOut**](JwksOut.md)
 
 ### Authorization
 
@@ -205,7 +208,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -278,15 +281,15 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## oauthAuthorizationServerWellKnownOauthAuthorizationServerGet
 
-> { [key: string]: any | null; } oauthAuthorizationServerWellKnownOauthAuthorizationServerGet()
+> AuthorizationServerMetadataOut oauthAuthorizationServerWellKnownOauthAuthorizationServerGet()
 
 Authorization-server metadata (RFC 8414 + auth.md agent_auth block)
 
@@ -323,7 +326,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**{ [key: string]: any | null; }**
+[**AuthorizationServerMetadataOut**](AuthorizationServerMetadataOut.md)
 
 ### Authorization
 
@@ -338,14 +341,14 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## oauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGet
 
-> { [key: string]: any | null; } oauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGet()
+> ProtectedResourceMetadataOut oauthProtectedResourceMcpWellKnownOauthProtectedResourceMcpGet()
 
 Protected-resource metadata for the MCP endpoint (RFC 9728 §3.1)
 
@@ -382,7 +385,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**{ [key: string]: any | null; }**
+[**ProtectedResourceMetadataOut**](ProtectedResourceMetadataOut.md)
 
 ### Authorization
 
@@ -397,14 +400,14 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## oauthProtectedResourceWellKnownOauthProtectedResourceGet
 
-> { [key: string]: any | null; } oauthProtectedResourceWellKnownOauthProtectedResourceGet()
+> ProtectedResourceMetadataOut oauthProtectedResourceWellKnownOauthProtectedResourceGet()
 
 Protected-resource metadata (auth.md / RFC 9728-like discovery)
 
@@ -441,7 +444,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**{ [key: string]: any | null; }**
+[**ProtectedResourceMetadataOut**](ProtectedResourceMetadataOut.md)
 
 ### Authorization
 
@@ -456,7 +459,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -523,8 +526,8 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **503** | Agent identity signing is not configured. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-

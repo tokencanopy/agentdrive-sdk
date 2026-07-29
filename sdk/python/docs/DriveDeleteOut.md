@@ -6,11 +6,11 @@ DELETE /v0/drives/{drive_id} response — the drive soft-delete receipt. Reversi
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**deleted_at** | **datetime** |  |
+**id** | **str** |  |
 **ok** | **bool** |  | [optional] [default to True]
-**id** | **str** |  | 
-**deleted_at** | **datetime** |  | 
-**purge_at** | **datetime** |  | 
-**restore_url** | **str** |  | [optional] 
+**purge_at** | **datetime** |  |
+**restore_url** | **str** |  | [optional]
 
 ## Example
 
@@ -30,5 +30,3 @@ drive_delete_out_dict = drive_delete_out_instance.to_dict()
 drive_delete_out_from_dict = DriveDeleteOut.from_dict(drive_delete_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

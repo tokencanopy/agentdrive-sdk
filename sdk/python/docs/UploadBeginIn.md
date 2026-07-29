@@ -6,18 +6,18 @@ Body of `POST /v0/uploads` — the large-upload begin call (large-upload- design
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**path** | **str** |  | 
+**actor_name** | **str** |  | [optional]
+**change_summary** | **str** |  | [optional]
 **content_type** | **str** |  | [optional] [default to 'application/octet-stream']
-**size_bytes** | **int** |  | 
-**crc32c** | **str** |  | [optional] 
-**labels** | **List[str]** |  | [optional] 
-**metadata** | **Dict[str, object]** |  | [optional] 
-**source** | [**ArtifactSource**](ArtifactSource.md) |  | [optional] 
-**actor_name** | **str** |  | [optional] 
-**change_summary** | **str** |  | [optional] 
-**if_match** | **int** |  | [optional] 
+**cors_origin** | **str** | Web origin (scheme://host[:port]) of the browser that will PUT the bytes, e.g. &#x60;https://app.example.com&#x60;. Set this when the &#x60;upload_url&#x60; is handed to browser code: GCS binds CORS at session initiate, so the returned session only echoes &#x60;Access-Control-Allow-Origin&#x60; (and is thus PUT-able from a browser) when opened with the caller&#39;s origin. A trusted backend relaying a browser upload forwards the browser&#39;s &#x60;Origin&#x60; here. Omit for server/desktop uploads (no CORS enforcement). | [optional]
+**crc32c** | **str** |  | [optional]
+**if_match** | **int** |  | [optional]
 **if_none_match** | **bool** |  | [optional] [default to False]
-**cors_origin** | **str** | Web origin (scheme://host[:port]) of the browser that will PUT the bytes, e.g. &#x60;https://app.example.com&#x60;. Set this when the &#x60;upload_url&#x60; is handed to browser code: GCS binds CORS at session initiate, so the returned session only echoes &#x60;Access-Control-Allow-Origin&#x60; (and is thus PUT-able from a browser) when opened with the caller&#39;s origin. A trusted backend relaying a browser upload forwards the browser&#39;s &#x60;Origin&#x60; here. Omit for server/desktop uploads (no CORS enforcement). | [optional] 
+**labels** | **List[str]** |  | [optional]
+**metadata** | **Dict[str, object]** |  | [optional]
+**path** | **str** |  |
+**size_bytes** | **int** |  |
+**source** | [**ArtifactSource**](ArtifactSource.md) |  | [optional]
 
 ## Example
 
@@ -37,5 +37,3 @@ upload_begin_in_dict = upload_begin_in_instance.to_dict()
 upload_begin_in_from_dict = UploadBeginIn.from_dict(upload_begin_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

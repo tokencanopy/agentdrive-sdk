@@ -6,8 +6,8 @@ POST /v0/folders/{fld_id}/copy body — duplicate the subtree to a new path. `pa
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**path** | **str** |  | 
-**from_metageneration** | **int** |  | [optional] 
+**from_metageneration** | **int** |  | [optional]
+**path** | **str** |  |
 
 ## Example
 
@@ -27,5 +27,3 @@ folder_copy_in_dict = folder_copy_in_instance.to_dict()
 folder_copy_in_from_dict = FolderCopyIn.from_dict(folder_copy_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

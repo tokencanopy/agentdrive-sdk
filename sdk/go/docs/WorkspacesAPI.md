@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## CreateWorkspaceRouteV0WorkspacesPost
 
-> WorkspaceCreateOut CreateWorkspaceRouteV0WorkspacesPost(ctx).WorkspaceCreateIn(workspaceCreateIn).Authorization(authorization).Execute()
+> WorkspaceCreateOut CreateWorkspaceRouteV0WorkspacesPost(ctx).WorkspaceCreateIn(workspaceCreateIn).Execute()
 
 Create a new shared drive
 
@@ -31,12 +31,11 @@ import (
 )
 
 func main() {
-	workspaceCreateIn := *openapiclient.NewWorkspaceCreateIn("Name_example") // WorkspaceCreateIn | 
-	authorization := "authorization_example" // string |  (optional)
+	workspaceCreateIn := *openapiclient.NewWorkspaceCreateIn("Name_example") // WorkspaceCreateIn |
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.WorkspacesAPI.CreateWorkspaceRouteV0WorkspacesPost(context.Background()).WorkspaceCreateIn(workspaceCreateIn).Authorization(authorization).Execute()
+	resp, r, err := apiClient.WorkspacesAPI.CreateWorkspaceRouteV0WorkspacesPost(context.Background()).WorkspaceCreateIn(workspaceCreateIn).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `WorkspacesAPI.CreateWorkspaceRouteV0WorkspacesPost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -57,8 +56,7 @@ Other parameters are passed through a pointer to a apiCreateWorkspaceRouteV0Work
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **workspaceCreateIn** | [**WorkspaceCreateIn**](WorkspaceCreateIn.md) |  | 
- **authorization** | **string** |  | 
+ **workspaceCreateIn** | [**WorkspaceCreateIn**](WorkspaceCreateIn.md) |  |
 
 ### Return type
 
@@ -66,7 +64,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -80,7 +78,7 @@ No authorization required
 
 ## ListWorkspacesRouteV0WorkspacesGet
 
-> WorkspaceList ListWorkspacesRouteV0WorkspacesGet(ctx).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
+> WorkspaceList ListWorkspacesRouteV0WorkspacesGet(ctx).Cursor(cursor).Limit(limit).Execute()
 
 List the spaces you belong to
 
@@ -101,11 +99,10 @@ import (
 func main() {
 	cursor := "cursor_example" // string |  (optional)
 	limit := int32(56) // int32 |  (optional)
-	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.WorkspacesAPI.ListWorkspacesRouteV0WorkspacesGet(context.Background()).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
+	resp, r, err := apiClient.WorkspacesAPI.ListWorkspacesRouteV0WorkspacesGet(context.Background()).Cursor(cursor).Limit(limit).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `WorkspacesAPI.ListWorkspacesRouteV0WorkspacesGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -126,9 +123,8 @@ Other parameters are passed through a pointer to a apiListWorkspacesRouteV0Works
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **cursor** | **string** |  | 
- **limit** | **int32** |  | 
- **authorization** | **string** |  | 
+ **cursor** | **string** |  |
+ **limit** | **int32** |  |
 
 ### Return type
 
@@ -136,7 +132,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -150,7 +146,7 @@ No authorization required
 
 ## RenameWorkspaceRouteV0WorkspacesOrgIdPatch
 
-> WorkspaceOut RenameWorkspaceRouteV0WorkspacesOrgIdPatch(ctx, orgId).WorkspaceRenameIn(workspaceRenameIn).Authorization(authorization).Execute()
+> WorkspaceOut RenameWorkspaceRouteV0WorkspacesOrgIdPatch(ctx, orgId).WorkspaceRenameIn(workspaceRenameIn).Execute()
 
 Rename a shared drive you administer
 
@@ -169,13 +165,12 @@ import (
 )
 
 func main() {
-	orgId := "orgId_example" // string | 
-	workspaceRenameIn := *openapiclient.NewWorkspaceRenameIn("Name_example") // WorkspaceRenameIn | 
-	authorization := "authorization_example" // string |  (optional)
+	orgId := "orgId_example" // string |
+	workspaceRenameIn := *openapiclient.NewWorkspaceRenameIn("Name_example") // WorkspaceRenameIn |
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.WorkspacesAPI.RenameWorkspaceRouteV0WorkspacesOrgIdPatch(context.Background(), orgId).WorkspaceRenameIn(workspaceRenameIn).Authorization(authorization).Execute()
+	resp, r, err := apiClient.WorkspacesAPI.RenameWorkspaceRouteV0WorkspacesOrgIdPatch(context.Background(), orgId).WorkspaceRenameIn(workspaceRenameIn).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `WorkspacesAPI.RenameWorkspaceRouteV0WorkspacesOrgIdPatch``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -191,7 +186,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**orgId** | **string** |  | 
+**orgId** | **string** |  |
 
 ### Other Parameters
 
@@ -201,8 +196,7 @@ Other parameters are passed through a pointer to a apiRenameWorkspaceRouteV0Work
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **workspaceRenameIn** | [**WorkspaceRenameIn**](WorkspaceRenameIn.md) |  | 
- **authorization** | **string** |  | 
+ **workspaceRenameIn** | [**WorkspaceRenameIn**](WorkspaceRenameIn.md) |  |
 
 ### Return type
 
@@ -210,7 +204,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -220,4 +214,3 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
-

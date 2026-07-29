@@ -6,14 +6,14 @@ GET /v0/feedback/{fbk_id} response — lifecycle status of feedback THIS drive f
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | 
-**status** | **str** |  | 
-**kind** | **str** |  | 
-**title** | **str** |  | 
-**contact** | **bool** |  | 
-**duplicate_of** | **str** |  | [optional] 
-**created_at** | **datetime** |  | 
-**status_changed_at** | **datetime** |  | 
+**contact** | **bool** |  |
+**created_at** | **datetime** |  |
+**duplicate_of** | **str** |  | [optional]
+**id** | **str** |  |
+**kind** | **str** |  |
+**status** | **str** |  |
+**status_changed_at** | **datetime** |  |
+**title** | **str** |  |
 
 ## Example
 
@@ -33,5 +33,3 @@ feedback_status_out_dict = feedback_status_out_instance.to_dict()
 feedback_status_out_from_dict = FeedbackStatusOut.from_dict(feedback_status_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

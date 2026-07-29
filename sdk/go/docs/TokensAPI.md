@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## ListTokensV0TokensGet
 
-> UserTokenList ListTokensV0TokensGet(ctx).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
+> UserTokenList ListTokensV0TokensGet(ctx).Cursor(cursor).Limit(limit).Execute()
 
 List your user-identity tokens
 
@@ -32,11 +32,10 @@ import (
 func main() {
 	cursor := "cursor_example" // string |  (optional)
 	limit := int32(56) // int32 |  (optional)
-	authorization := "authorization_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TokensAPI.ListTokensV0TokensGet(context.Background()).Cursor(cursor).Limit(limit).Authorization(authorization).Execute()
+	resp, r, err := apiClient.TokensAPI.ListTokensV0TokensGet(context.Background()).Cursor(cursor).Limit(limit).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TokensAPI.ListTokensV0TokensGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -57,9 +56,8 @@ Other parameters are passed through a pointer to a apiListTokensV0TokensGetReque
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **cursor** | **string** |  | 
- **limit** | **int32** |  | 
- **authorization** | **string** |  | 
+ **cursor** | **string** |  |
+ **limit** | **int32** |  |
 
 ### Return type
 
@@ -67,7 +65,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -81,7 +79,7 @@ No authorization required
 
 ## RevokeTokenV0TokensTokenIdRevokePost
 
-> UserTokenOut RevokeTokenV0TokensTokenIdRevokePost(ctx, tokenId).Authorization(authorization).Execute()
+> UserTokenOut RevokeTokenV0TokensTokenIdRevokePost(ctx, tokenId).Execute()
 
 Revoke one of your user-identity tokens
 
@@ -100,12 +98,11 @@ import (
 )
 
 func main() {
-	tokenId := "tokenId_example" // string | 
-	authorization := "authorization_example" // string |  (optional)
+	tokenId := "tokenId_example" // string |
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TokensAPI.RevokeTokenV0TokensTokenIdRevokePost(context.Background(), tokenId).Authorization(authorization).Execute()
+	resp, r, err := apiClient.TokensAPI.RevokeTokenV0TokensTokenIdRevokePost(context.Background(), tokenId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TokensAPI.RevokeTokenV0TokensTokenIdRevokePost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -121,7 +118,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**tokenId** | **string** |  | 
+**tokenId** | **string** |  |
 
 ### Other Parameters
 
@@ -131,7 +128,6 @@ Other parameters are passed through a pointer to a apiRevokeTokenV0TokensTokenId
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **authorization** | **string** |  | 
 
 ### Return type
 
@@ -139,7 +135,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -149,4 +145,3 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
-

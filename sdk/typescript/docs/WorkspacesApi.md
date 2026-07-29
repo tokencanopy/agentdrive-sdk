@@ -12,7 +12,7 @@ All URIs are relative to *https://api.agentdrive.run*
 
 ## createWorkspaceRouteV0WorkspacesPost
 
-> WorkspaceCreateOut createWorkspaceRouteV0WorkspacesPost(workspaceCreateIn, authorization)
+> WorkspaceCreateOut createWorkspaceRouteV0WorkspacesPost(workspaceCreateIn)
 
 Create a new shared drive
 
@@ -29,13 +29,15 @@ import type { CreateWorkspaceRouteV0WorkspacesPostRequest } from '@mnexa-ai/agen
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new WorkspacesApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new WorkspacesApi(config);
 
   const body = {
     // WorkspaceCreateIn
     workspaceCreateIn: ...,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies CreateWorkspaceRouteV0WorkspacesPostRequest;
 
   try {
@@ -56,7 +58,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **workspaceCreateIn** | [WorkspaceCreateIn](WorkspaceCreateIn.md) |  | |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -64,7 +65,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -75,15 +76,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **201** | Successful Response |  * Location - Canonical URL of the created resource. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The workspace name or request is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | The workspace conflicts with an existing organization. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## listWorkspacesRouteV0WorkspacesGet
 
-> WorkspaceList listWorkspacesRouteV0WorkspacesGet(cursor, limit, authorization)
+> WorkspaceList listWorkspacesRouteV0WorkspacesGet(cursor, limit)
 
 List the spaces you belong to
 
@@ -100,15 +106,17 @@ import type { ListWorkspacesRouteV0WorkspacesGetRequest } from '@mnexa-ai/agentd
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new WorkspacesApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new WorkspacesApi(config);
 
   const body = {
     // string (optional)
     cursor: cursor_example,
     // number (optional)
     limit: 56,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies ListWorkspacesRouteV0WorkspacesGetRequest;
 
   try {
@@ -130,7 +138,6 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -138,7 +145,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -149,15 +156,18 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## renameWorkspaceRouteV0WorkspacesOrgIdPatch
 
-> WorkspaceOut renameWorkspaceRouteV0WorkspacesOrgIdPatch(orgId, workspaceRenameIn, authorization)
+> WorkspaceOut renameWorkspaceRouteV0WorkspacesOrgIdPatch(orgId, workspaceRenameIn)
 
 Rename a shared drive you administer
 
@@ -174,15 +184,17 @@ import type { RenameWorkspaceRouteV0WorkspacesOrgIdPatchRequest } from '@mnexa-a
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new WorkspacesApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new WorkspacesApi(config);
 
   const body = {
     // string
     orgId: orgId_example,
     // WorkspaceRenameIn
     workspaceRenameIn: ...,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies RenameWorkspaceRouteV0WorkspacesOrgIdPatchRequest;
 
   try {
@@ -204,7 +216,6 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **orgId** | `string` |  | [Defaults to `undefined`] |
 | **workspaceRenameIn** | [WorkspaceRenameIn](WorkspaceRenameIn.md) |  | |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -212,7 +223,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -223,8 +234,12 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The workspace update is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The workspace does not exist for this user. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-

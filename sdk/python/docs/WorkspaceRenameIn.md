@@ -6,7 +6,7 @@ PATCH /v0/workspaces/{org} body — rename a workspace the caller administers.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**name** | **str** |  | 
+**name** | **str** |  |
 
 ## Example
 
@@ -26,5 +26,3 @@ workspace_rename_in_dict = workspace_rename_in_instance.to_dict()
 workspace_rename_in_from_dict = WorkspaceRenameIn.from_dict(workspace_rename_in_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

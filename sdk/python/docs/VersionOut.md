@@ -5,14 +5,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**art_id** | **str** |  | 
-**version_number** | **int** |  | 
-**size_bytes** | **int** |  | 
-**hash** | **str** |  | 
-**content_type** | **str** |  | 
-**actor_name** | **str** |  | [optional] 
-**change_summary** | **str** |  | [optional] 
-**created_at** | **datetime** |  | 
+**actor_name** | **str** |  | [optional]
+**art_id** | **str** |  |
+**change_summary** | **str** |  | [optional]
+**content_type** | **str** |  |
+**created_at** | **datetime** |  |
+**hash** | **str** |  |
+**size_bytes** | **int** |  |
+**version_number** | **int** |  |
 
 ## Example
 
@@ -32,5 +32,3 @@ version_out_dict = version_out_instance.to_dict()
 version_out_from_dict = VersionOut.from_dict(version_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

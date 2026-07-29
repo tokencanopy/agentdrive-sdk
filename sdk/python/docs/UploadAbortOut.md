@@ -6,9 +6,9 @@ Response of `DELETE /v0/uploads/{upload_id}` — the session is released. `relea
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**upload_id** | **str** |  | 
+**released_bytes** | **int** |  |
 **state** | **str** |  | [optional] [default to 'aborted']
-**released_bytes** | **int** |  | 
+**upload_id** | **str** |  |
 
 ## Example
 
@@ -28,5 +28,3 @@ upload_abort_out_dict = upload_abort_out_instance.to_dict()
 upload_abort_out_from_dict = UploadAbortOut.from_dict(upload_abort_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

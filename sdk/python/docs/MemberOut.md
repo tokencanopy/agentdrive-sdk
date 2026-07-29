@@ -6,12 +6,12 @@ One live member of a workspace — metadata for the members page / `GET /v0/memb
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**user_id** | **str** |  | 
-**email** | **str** |  | 
-**first_name** | **str** |  | [optional] 
-**last_name** | **str** |  | [optional] 
-**role** | **str** |  | 
-**created_at** | **datetime** |  | 
+**created_at** | **datetime** |  |
+**email** | **str** |  |
+**first_name** | **str** |  | [optional]
+**last_name** | **str** |  | [optional]
+**role** | **str** |  |
+**user_id** | **str** |  |
 
 ## Example
 
@@ -31,5 +31,3 @@ member_out_dict = member_out_instance.to_dict()
 member_out_from_dict = MemberOut.from_dict(member_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

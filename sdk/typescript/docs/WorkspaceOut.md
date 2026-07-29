@@ -7,11 +7,11 @@ One workspace in a listing — metadata only. `role` is the CALLER\'s role in it
 
 Name | Type
 ------------ | -------------
+`createdAt` | Date
 `id` | string
 `name` | string
 `role` | string
 `tierId` | string
-`createdAt` | Date
 
 ## Example
 
@@ -20,11 +20,11 @@ import type { WorkspaceOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
+  "createdAt": null,
   "id": null,
   "name": null,
   "role": null,
   "tierId": null,
-  "createdAt": null,
 } satisfies WorkspaceOut
 
 console.log(example)
@@ -39,5 +39,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

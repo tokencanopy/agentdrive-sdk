@@ -6,12 +6,12 @@ DELETE /v0/artifacts/{art_id} response — the soft-delete receipt. Reversible u
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**deleted_at** | **datetime** |  |
+**id** | **str** |  |
 **ok** | **bool** |  | [optional] [default to True]
-**id** | **str** |  | 
-**path** | **str** |  | 
-**deleted_at** | **datetime** |  | 
-**purge_at** | **datetime** |  | 
-**restore_url** | **str** |  | [optional] 
+**path** | **str** |  |
+**purge_at** | **datetime** |  |
+**restore_url** | **str** |  | [optional]
 
 ## Example
 
@@ -31,5 +31,3 @@ artifact_delete_out_dict = artifact_delete_out_instance.to_dict()
 artifact_delete_out_from_dict = ArtifactDeleteOut.from_dict(artifact_delete_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

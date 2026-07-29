@@ -6,12 +6,12 @@ Response of `POST /v0/uploads`. PUT the bytes to `upload_url` (no auth header â€
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**upload_id** | **str** |  | 
-**upload_url** | **str** |  | 
+**expires_at** | **datetime** |  |
+**headers** | **Dict[str, str]** |  |
+**max_bytes** | **int** |  |
 **method** | **str** |  | [optional] [default to 'PUT']
-**headers** | **Dict[str, str]** |  | 
-**expires_at** | **datetime** |  | 
-**max_bytes** | **int** |  | 
+**upload_id** | **str** |  |
+**upload_url** | **str** |  |
 
 ## Example
 
@@ -31,5 +31,3 @@ upload_begin_out_dict = upload_begin_out_instance.to_dict()
 upload_begin_out_from_dict = UploadBeginOut.from_dict(upload_begin_out_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

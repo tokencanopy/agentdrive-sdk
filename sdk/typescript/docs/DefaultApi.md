@@ -5,51 +5,30 @@ All URIs are relative to *https://api.agentdrive.run*
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
 | [**abortUploadV0UploadsUploadIdDelete**](DefaultApi.md#abortuploadv0uploadsuploadiddelete) | **DELETE** /v0/uploads/{upload_id} | Abort a large (direct-to-GCS) upload session |
-| [**acceptInvitationInvitationsTokenGet**](DefaultApi.md#acceptinvitationinvitationstokenget) | **GET** /invitations/{token} | Accept Invitation |
-| [**activityFeedActivityGet**](DefaultApi.md#activityfeedactivityget) | **GET** /activity | Activity Feed |
-| [**addGrantWebShareRidGrantPost**](DefaultApi.md#addgrantwebshareridgrantpost) | **POST** /web/share/{rid}/grant | Add Grant |
-| [**artifactDetailPreviewPreviewArtifactDetailGet**](DefaultApi.md#artifactdetailpreviewpreviewartifactdetailget) | **GET** /preview/artifact-detail | Artifact Detail Preview |
 | [**beginUploadV0UploadsPost**](DefaultApi.md#beginuploadv0uploadspost) | **POST** /v0/uploads | Begin a large (direct-to-GCS) upload |
 | [**callbackAuthCallbackGet**](DefaultApi.md#callbackauthcallbackget) | **GET** /auth/callback | Callback |
 | [**cancelJobV0JobsJobIdCancelPost**](DefaultApi.md#canceljobv0jobsjobidcancelpost) | **POST** /v0/jobs/{job_id}/cancel | Cancel a queued/running job |
-| [**collectionDetailCollectionsSlugGet**](DefaultApi.md#collectiondetailcollectionsslugget) | **GET** /collections/{slug} | Collection Detail |
 | [**commitUploadV0UploadsUploadIdCommitPost**](DefaultApi.md#commituploadv0uploadsuploadidcommitpost) | **POST** /v0/uploads/{upload_id}/commit | Commit a large (direct-to-GCS) upload |
-| [**connectorsPageConnectorsGet**](DefaultApi.md#connectorspageconnectorsget) | **GET** /connectors | Connectors Page |
 | [**copyArtifactRouteV0ArtifactsArtIdCopyPost**](DefaultApi.md#copyartifactroutev0artifactsartidcopypost) | **POST** /v0/artifacts/{art_id}/copy | Duplicate an artifact to a new path (CAS-shared, new ID) |
 | [**copyFolderByIdV0FoldersFldIdCopyPost**](DefaultApi.md#copyfolderbyidv0foldersfldidcopypost) | **POST** /v0/folders/{fld_id}/copy | Duplicate a folder subtree to a new path (CAS-shared, new IDs) |
-| [**createDriveKeyWebWebDrivesDriveIdKeysCreatePost**](DefaultApi.md#createdrivekeywebwebdrivesdriveidkeyscreatepost) | **POST** /web/drives/{drive_id}/keys/create | Create Drive Key Web |
-| [**createDriveWebWebDrivesPost**](DefaultApi.md#createdrivewebwebdrivespost) | **POST** /web/drives | Create Drive Web |
 | [**createFolderByPathV0FoldersPathPut**](DefaultApi.md#createfolderbypathv0folderspathput) | **PUT** /v0/folders/{path} | Create a folder (idempotent) |
 | [**createGrantRouteV0GrantsPost**](DefaultApi.md#creategrantroutev0grantspost) | **POST** /v0/grants | Create (or fetch) a per-principal grant on a resource |
-| [**createKeyWebKeysCreatePost**](DefaultApi.md#createkeywebkeyscreatepost) | **POST** /web/keys/create | Create Key |
-| [**createLinkWebShareRidLinkPost**](DefaultApi.md#createlinkwebshareridlinkpost) | **POST** /web/share/{rid}/link | Create Link |
 | [**createShareRouteV0SharesPost**](DefaultApi.md#createshareroutev0sharespost) | **POST** /v0/shares | Mint a share link (returns the share_key once) |
-| [**createUserTokenWebTokensCreatePost**](DefaultApi.md#createusertokenwebtokenscreatepost) | **POST** /web/tokens/create | Create User Token |
-| [**createWorkspaceWebWebWorkspacesPost**](DefaultApi.md#createworkspacewebwebworkspacespost) | **POST** /web/workspaces | Create Workspace Web |
-| [**dangerZoneOldDashboardDangerGet**](DefaultApi.md#dangerzoneolddashboarddangerget) | **GET** /dashboard/danger | Danger Zone Old |
-| [**dangerZoneSettingsDangerGet**](DefaultApi.md#dangerzonesettingsdangerget) | **GET** /settings/danger | Danger Zone |
-| [**dashboardDashboardGet**](DefaultApi.md#dashboarddashboardget) | **GET** /dashboard | Dashboard |
-| [**deleteAccountWebAccountDeletePost**](DefaultApi.md#deleteaccountwebaccountdeletepost) | **POST** /web/account/delete | Delete Account |
 | [**deleteArtifactByIdRouteV0ArtifactsArtIdDelete**](DefaultApi.md#deleteartifactbyidroutev0artifactsartiddelete) | **DELETE** /v0/artifacts/{art_id} | Soft-delete an artifact by its stable ID |
 | [**deleteArtifactV0ArtifactsPathDelete**](DefaultApi.md#deleteartifactv0artifactspathdelete) | **DELETE** /v0/artifacts/{path} | Delete Artifact |
 | [**deleteDriveRouteV0DrivesDriveIdDelete**](DefaultApi.md#deletedriveroutev0drivesdriveiddelete) | **DELETE** /v0/drives/{drive_id} | Soft-delete a drive |
-| [**deleteDriveWebWebDrivesDriveIdDeletePost**](DefaultApi.md#deletedrivewebwebdrivesdriveiddeletepost) | **POST** /web/drives/{drive_id}/delete | Delete Drive Web |
 | [**deleteFolderByIdV0FoldersFldIdDelete**](DefaultApi.md#deletefolderbyidv0foldersfldiddelete) | **DELETE** /v0/folders/{fld_id} | Soft-delete a folder by stable ID (cascade with ?recursive&#x3D;true) |
 | [**deleteFolderByPathV0FoldersPathDelete**](DefaultApi.md#deletefolderbypathv0folderspathdelete) | **DELETE** /v0/folders/{path} | Soft-delete a folder (cascade with ?recursive&#x3D;true) |
 | [**deleteGrantRouteV0GrantsGrnIdDelete**](DefaultApi.md#deletegrantroutev0grantsgrniddelete) | **DELETE** /v0/grants/{grn_id} | Revoke a grant (can_manage, or self-revoke own grant) |
 | [**deleteShareRouteV0SharesShrIdDelete**](DefaultApi.md#deleteshareroutev0sharesshriddelete) | **DELETE** /v0/shares/{shr_id} | Revoke a share link (requires can_manage) |
-| [**deleteWorkspaceWebWebWorkspacesOrgIdDeletePost**](DefaultApi.md#deleteworkspacewebwebworkspacesorgiddeletepost) | **POST** /web/workspaces/{org_id}/delete | Delete Workspace Web |
 | [**downloadArtifactByIdV0ArtifactsArtIdDownloadGet**](DefaultApi.md#downloadartifactbyidv0artifactsartiddownloadget) | **GET** /v0/artifacts/{art_id}/download | Stream the artifact bytes by stable ID (never rendered HTML) |
 | [**downloadArtifactByPathV0ArtifactsPathDownloadGet**](DefaultApi.md#downloadartifactbypathv0artifactspathdownloadget) | **GET** /v0/artifacts/{path}/download | Stream the artifact bytes by path (never rendered HTML) |
 | [**downloadArtifactVersionV0ArtifactsArtIdVersionsVersionNumberDownloadGet**](DefaultApi.md#downloadartifactversionv0artifactsartidversionsversionnumberdownloadget) | **GET** /v0/artifacts/{art_id}/versions/{version_number}/download | Stream bytes for a specific version (machine surface) |
 | [**downloadUrlByIdV0ArtifactsArtIdDownloadUrlGet**](DefaultApi.md#downloadurlbyidv0artifactsartiddownloadurlget) | **GET** /v0/artifacts/{art_id}/download-url | Signed direct-from-GCS download URL by stable ID |
 | [**downloadUrlByPathV0ArtifactsPathDownloadUrlGet**](DefaultApi.md#downloadurlbypathv0artifactspathdownloadurlget) | **GET** /v0/artifacts/{path}/download-url | Signed direct-from-GCS download URL by path |
 | [**downloadUrlVersionV0ArtifactsArtIdVersionsVersionNumberDownloadUrlGet**](DefaultApi.md#downloadurlversionv0artifactsartidversionsversionnumberdownloadurlget) | **GET** /v0/artifacts/{art_id}/versions/{version_number}/download-url | Signed direct-from-GCS download URL for a specific version |
-| [**editArtifactAArtIdEditGet**](DefaultApi.md#editartifactaartideditget) | **GET** /a/{art_id}/edit | Edit Artifact |
 | [**enqueueJobV0ProjectsFldIdJobsPost**](DefaultApi.md#enqueuejobv0projectsfldidjobspost) | **POST** /v0/projects/{fld_id}/jobs | Enqueue a compile job for a project (folder) |
 | [**extensionStartAuthExtensionStartGet**](DefaultApi.md#extensionstartauthextensionstartget) | **GET** /auth/extension/start | Extension Start |
-| [**feedbackFormFeedbackGet**](DefaultApi.md#feedbackformfeedbackget) | **GET** /feedback | Feedback Form |
-| [**feedbackSubmitFeedbackPost**](DefaultApi.md#feedbacksubmitfeedbackpost) | **POST** /feedback | Feedback Submit |
 | [**findV0FindGet**](DefaultApi.md#findv0findget) | **GET** /v0/find | Hybrid passage retrieval over the full file body |
 | [**getArtifactByIdMetaV0ArtifactsArtIdMetaGet**](DefaultApi.md#getartifactbyidmetav0artifactsartidmetaget) | **GET** /v0/artifacts/{art_id}/meta | Artifact metadata by stable ID (same shape as path /meta) |
 | [**getArtifactByIdV0ArtifactsArtIdGet**](DefaultApi.md#getartifactbyidv0artifactsartidget) | **GET** /v0/artifacts/{art_id} | Canonical lookup of an artifact by its stable ID |
@@ -66,10 +45,8 @@ All URIs are relative to *https://api.agentdrive.run*
 | [**getJobV0JobsJobIdGet**](DefaultApi.md#getjobv0jobsjobidget) | **GET** /v0/jobs/{job_id} | Poll a job |
 | [**getProjectV0ProjectsFldIdGet**](DefaultApi.md#getprojectv0projectsfldidget) | **GET** /v0/projects/{fld_id} | Get a project\&#39;s compile config |
 | [**getShareRouteV0SharesShrIdGet**](DefaultApi.md#getshareroutev0sharesshridget) | **GET** /v0/shares/{shr_id} | Read a single share link\&#39;s metadata (requires can_manage) |
-| [**getShareStateWebShareRidGet**](DefaultApi.md#getsharestatewebshareridget) | **GET** /web/share/{rid} | Get Share State |
 | [**getUploadStatusV0UploadsUploadIdGet**](DefaultApi.md#getuploadstatusv0uploadsuploadidget) | **GET** /v0/uploads/{upload_id} | Get the status of a large (direct-to-GCS) upload session |
 | [**healthHealthGet**](DefaultApi.md#healthhealthget) | **GET** /health | Health |
-| [**inviteMemberWebWebMembersInvitePost**](DefaultApi.md#invitememberwebwebmembersinvitepost) | **POST** /web/members/invite | Invite Member Web |
 | [**listArtifactVersionsV0ArtifactsArtIdVersionsGet**](DefaultApi.md#listartifactversionsv0artifactsartidversionsget) | **GET** /v0/artifacts/{art_id}/versions | List versions of an artifact, newest first |
 | [**listArtifactsV0ArtifactsGet**](DefaultApi.md#listartifactsv0artifactsget) | **GET** /v0/artifacts | List artifacts in the drive |
 | [**listEventsRouteV0EventsGet**](DefaultApi.md#listeventsroutev0eventsget) | **GET** /v0/events | Read the append-only event log for the authenticated drive |
@@ -79,15 +56,11 @@ All URIs are relative to *https://api.agentdrive.run*
 | [**listTrashRouteV0DrivesDriveIdTrashGet**](DefaultApi.md#listtrashroutev0drivesdriveidtrashget) | **GET** /v0/drives/{drive_id}/trash | List the authenticated drive\&#39;s trash |
 | [**loginAuthLoginGet**](DefaultApi.md#loginauthloginget) | **GET** /auth/login | Login |
 | [**logoutAuthLogoutPost**](DefaultApi.md#logoutauthlogoutpost) | **POST** /auth/logout | Logout |
-| [**marketingGet**](DefaultApi.md#marketingget) | **GET** / | Marketing |
-| [**marketplaceBrowseMarketplaceGet**](DefaultApi.md#marketplacebrowsemarketplaceget) | **GET** /marketplace | Marketplace Browse |
-| [**marketplaceDetailMarketplaceSlugGet**](DefaultApi.md#marketplacedetailmarketplaceslugget) | **GET** /marketplace/{slug} | Marketplace Detail |
 | [**meUsageV0DrivesMeUsageGet**](DefaultApi.md#meusagev0drivesmeusageget) | **GET** /v0/drives/me/usage | Current-period usage + caps for the authenticated drive |
 | [**meV0DrivesMeGet**](DefaultApi.md#mev0drivesmeget) | **GET** /v0/drives/me | Me |
 | [**moveArtifactRouteV0ArtifactsArtIdMovePost**](DefaultApi.md#moveartifactroutev0artifactsartidmovepost) | **POST** /v0/artifacts/{art_id}/move | Rename / move an artifact to a new path |
 | [**moveFolderByIdV0FoldersFldIdMovePost**](DefaultApi.md#movefolderbyidv0foldersfldidmovepost) | **POST** /v0/folders/{fld_id}/move | Rename / move a folder by stable ID (cascade descendants) |
 | [**moveFolderByPathV0FoldersPathMovePost**](DefaultApi.md#movefolderbypathv0folderspathmovepost) | **POST** /v0/folders/{path}/move | Rename / move a folder (cascade-update descendants) |
-| [**oauthDisconnectWebOauthDisconnectPost**](DefaultApi.md#oauthdisconnectweboauthdisconnectpost) | **POST** /web/oauth/disconnect | Oauth Disconnect |
 | [**patchArtifactRouteV0ArtifactsArtIdPatch**](DefaultApi.md#patchartifactroutev0artifactsartidpatch) | **PATCH** /v0/artifacts/{art_id} | Edit artifact metadata (labels / metadata / source) |
 | [**patchFolderByIdV0FoldersFldIdPatch**](DefaultApi.md#patchfolderbyidv0foldersfldidpatch) | **PATCH** /v0/folders/{fld_id} | Update folder metadata by stable ID |
 | [**patchFolderByPathV0FoldersPathPatch**](DefaultApi.md#patchfolderbypathv0folderspathpatch) | **PATCH** /v0/folders/{path} | Update folder metadata by path |
@@ -96,73 +69,27 @@ All URIs are relative to *https://api.agentdrive.run*
 | [**postFeedbackV0FeedbackPost**](DefaultApi.md#postfeedbackv0feedbackpost) | **POST** /v0/feedback | Post Feedback |
 | [**postLookupValuesV0QueryLookupValuesPost**](DefaultApi.md#postlookupvaluesv0querylookupvaluespost) | **POST** /v0/query/lookup-values | List distinct values of a dataset column |
 | [**postQueryV0QueryPost**](DefaultApi.md#postqueryv0querypost) | **POST** /v0/query | Run a read-only SQL query over authorized datasets |
-| [**privacyPagePrivacyGet**](DefaultApi.md#privacypageprivacyget) | **GET** /privacy | Privacy Page |
-| [**projectPreviewPageFFldIdPreviewGet**](DefaultApi.md#projectpreviewpageffldidpreviewget) | **GET** /f/{fld_id}/preview | Project Preview Page |
-| [**publisherProfilePublishersHandleGet**](DefaultApi.md#publisherprofilepublishershandleget) | **GET** /publishers/{handle} | Publisher Profile |
 | [**putArtifactV0ArtifactsPathPut**](DefaultApi.md#putartifactv0artifactspathput) | **PUT** /v0/artifacts/{path} | Upload (or overwrite) an artifact |
 | [**putProjectV0ProjectsFldIdPut**](DefaultApi.md#putprojectv0projectsfldidput) | **PUT** /v0/projects/{fld_id} | Set a project\&#39;s compile config (entrypoint/engine/auto_compile) |
-| [**recoveryNewAccountAuthRecoveryNewAccountPost**](DefaultApi.md#recoverynewaccountauthrecoverynewaccountpost) | **POST** /auth/recovery/new-account | Recovery New Account |
-| [**recoveryNewAccountExpiredAuthRecoveryNewAccountExpiredGet**](DefaultApi.md#recoverynewaccountexpiredauthrecoverynewaccountexpiredget) | **GET** /auth/recovery/new-account-expired | Recovery New Account Expired |
-| [**recoveryPageAuthRecoveryGet**](DefaultApi.md#recoverypageauthrecoveryget) | **GET** /auth/recovery | Recovery Page |
-| [**recoveryRestoreAuthRecoveryRestorePost**](DefaultApi.md#recoveryrestoreauthrecoveryrestorepost) | **POST** /auth/recovery/restore | Recovery Restore |
 | [**redeemShareSShareKeyGet**](DefaultApi.md#redeemsharessharekeyget) | **GET** /s/{share_key} | Redeem Share |
 | [**redeemShareWithPasswordSShareKeyPost**](DefaultApi.md#redeemsharewithpasswordssharekeypost) | **POST** /s/{share_key} | Redeem Share With Password |
-| [**removeMemberWebWebMembersTargetUserIdRemovePost**](DefaultApi.md#removememberwebwebmemberstargetuseridremovepost) | **POST** /web/members/{target_user_id}/remove | Remove Member Web |
-| [**renameDriveWebWebDrivesDriveIdRenamePost**](DefaultApi.md#renamedrivewebwebdrivesdriveidrenamepost) | **POST** /web/drives/{drive_id}/rename | Rename Drive Web |
-| [**renameWorkspaceWebWebWorkspacesOrgIdRenamePost**](DefaultApi.md#renameworkspacewebwebworkspacesorgidrenamepost) | **POST** /web/workspaces/{org_id}/rename | Rename Workspace Web |
-| [**resendInvitationWebWebInvitationsInvitationIdResendPost**](DefaultApi.md#resendinvitationwebwebinvitationsinvitationidresendpost) | **POST** /web/invitations/{invitation_id}/resend | Resend Invitation Web |
 | [**restoreArtifactV0ArtifactsArtIdRestorePost**](DefaultApi.md#restoreartifactv0artifactsartidrestorepost) | **POST** /v0/artifacts/{art_id}/restore | Restore a soft-deleted artifact |
 | [**restoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost**](DefaultApi.md#restoreartifactversionv0artifactsartidversionsversionnumberrestorepost) | **POST** /v0/artifacts/{art_id}/versions/{version_number}/restore | Restore a previous version as a new head version |
 | [**restoreDriveRouteV0DrivesDriveIdRestorePost**](DefaultApi.md#restoredriveroutev0drivesdriveidrestorepost) | **POST** /v0/drives/{drive_id}/restore | Restore a soft-deleted drive |
 | [**restoreFolderByIdV0FoldersFldIdRestorePost**](DefaultApi.md#restorefolderbyidv0foldersfldidrestorepost) | **POST** /v0/folders/{fld_id}/restore | Restore a soft-deleted folder (cascade) |
-| [**revokeGrantWebShareRidGrantGrnIdRevokePost**](DefaultApi.md#revokegrantwebshareridgrantgrnidrevokepost) | **POST** /web/share/{rid}/grant/{grn_id}/revoke | Revoke Grant |
-| [**revokeInvitationWebWebInvitationsInvitationIdRevokePost**](DefaultApi.md#revokeinvitationwebwebinvitationsinvitationidrevokepost) | **POST** /web/invitations/{invitation_id}/revoke | Revoke Invitation Web |
-| [**revokeKeyWebKeysRevokePost**](DefaultApi.md#revokekeywebkeysrevokepost) | **POST** /web/keys/revoke | Revoke Key |
-| [**revokeLinkWebShareRidLinkShrIdRevokePost**](DefaultApi.md#revokelinkwebshareridlinkshridrevokepost) | **POST** /web/share/{rid}/link/{shr_id}/revoke | Revoke Link |
-| [**revokeUserTokenWebTokensRevokePost**](DefaultApi.md#revokeusertokenwebtokensrevokepost) | **POST** /web/tokens/revoke | Revoke User Token |
 | [**rotateShareRouteV0SharesShrIdRotatePost**](DefaultApi.md#rotateshareroutev0sharesshridrotatepost) | **POST** /v0/shares/{shr_id}/rotate | Revoke + reissue a share link\&#39;s key (requires can_share) |
 | [**searchV0SearchGet**](DefaultApi.md#searchv0searchget) | **GET** /v0/search | Full-text search over artifacts in the drive |
-| [**setMemberRoleWebWebMembersTargetUserIdRolePost**](DefaultApi.md#setmemberrolewebwebmemberstargetuseridrolepost) | **POST** /web/members/{target_user_id}/role | Set Member Role Web |
-| [**setPublicWebShareRidPublicPost**](DefaultApi.md#setpublicwebshareridpublicpost) | **POST** /web/share/{rid}/public | Set Public |
-| [**setSealWebShareRidSealPost**](DefaultApi.md#setsealwebshareridsealpost) | **POST** /web/share/{rid}/seal | Set Seal |
-| [**settingsAccountSettingsGet**](DefaultApi.md#settingsaccountsettingsget) | **GET** /settings | Settings Account |
-| [**settingsApiKeysSettingsApiKeysGet**](DefaultApi.md#settingsapikeyssettingsapikeysget) | **GET** /settings/api-keys | Settings Api Keys |
-| [**settingsQuickstartSettingsQuickstartGet**](DefaultApi.md#settingsquickstartsettingsquickstartget) | **GET** /settings/quickstart | Settings Quickstart |
-| [**settingsWorkspaceSettingsWorkspaceGet**](DefaultApi.md#settingsworkspacesettingsworkspaceget) | **GET** /settings/workspace | Settings Workspace |
-| [**sharedFilesSharedGet**](DefaultApi.md#sharedfilessharedget) | **GET** /shared | Shared Files |
-| [**switchDriveWebSwitchPost**](DefaultApi.md#switchdrivewebswitchpost) | **POST** /web/switch | Switch Drive |
-| [**termsPageTermsGet**](DefaultApi.md#termspagetermsget) | **GET** /terms | Terms Page |
-| [**toggleIndexingWebAccountIndexingPost**](DefaultApi.md#toggleindexingwebaccountindexingpost) | **POST** /web/account/indexing | Toggle Indexing |
-| [**trashWebTrashGet**](DefaultApi.md#trashwebtrashget) | **GET** /web/trash | Trash |
 | [**viewArtifactHeadAArtIdHeadGet**](DefaultApi.md#viewartifactheadaartidheadget) | **GET** /a/{art_id}/head | View Artifact Head |
 | [**viewArtifactVersionVArtIdVersionGet**](DefaultApi.md#viewartifactversionvartidversionget) | **GET** /v/{art_id}/{version} | View Artifact Version |
 | [**viewFileDriveIdPathGet**](DefaultApi.md#viewfiledriveidpathget) | **GET** /{drive_id}/{path} | View File |
 | [**viewPermalinkArtifactAArtIdGet**](DefaultApi.md#viewpermalinkartifactaartidget) | **GET** /a/{art_id} | View Permalink Artifact |
 | [**viewPermalinkFolderFFldIdGet**](DefaultApi.md#viewpermalinkfolderffldidget) | **GET** /f/{fld_id} | View Permalink Folder |
-| [**webArtifactIndexedWebArtifactsIndexedGet**](DefaultApi.md#webartifactindexedwebartifactsindexedget) | **GET** /web/artifacts/indexed | Web Artifact Indexed |
-| [**webCopyArtifactWebArtifactsCopyPost**](DefaultApi.md#webcopyartifactwebartifactscopypost) | **POST** /web/artifacts/copy | Web Copy Artifact |
-| [**webDeleteArtifactOpWebArtifactsDeletePost**](DefaultApi.md#webdeleteartifactopwebartifactsdeletepost) | **POST** /web/artifacts/delete | Web Delete Artifact Op |
-| [**webDeleteArtifactWebArtifactsPathDelete**](DefaultApi.md#webdeleteartifactwebartifactspathdelete) | **DELETE** /web/artifacts/{path} | Web Delete Artifact |
-| [**webDeleteFolderWebFoldersDeletePost**](DefaultApi.md#webdeletefolderwebfoldersdeletepost) | **POST** /web/folders/delete | Web Delete Folder |
-| [**webMoveFolderWebFoldersMovePost**](DefaultApi.md#webmovefolderwebfoldersmovepost) | **POST** /web/folders/move | Web Move Folder |
-| [**webNewFolderWebFoldersNewPost**](DefaultApi.md#webnewfolderwebfoldersnewpost) | **POST** /web/folders/new | Web New Folder |
-| [**webProjectCompileWebProjectsFldIdCompilePost**](DefaultApi.md#webprojectcompilewebprojectsfldidcompilepost) | **POST** /web/projects/{fld_id}/compile | Web Project Compile |
-| [**webProjectFilesWebProjectsFldIdFilesGet**](DefaultApi.md#webprojectfileswebprojectsfldidfilesget) | **GET** /web/projects/{fld_id}/files | Web Project Files |
-| [**webProjectPreviewWebProjectsFldIdPreviewGet**](DefaultApi.md#webprojectpreviewwebprojectsfldidpreviewget) | **GET** /web/projects/{fld_id}/preview | Web Project Preview |
-| [**webPutArtifactWebArtifactsPathPut**](DefaultApi.md#webputartifactwebartifactspathput) | **PUT** /web/artifacts/{path} | Web Put Artifact |
-| [**webRenameArtifactWebArtifactsRenamePost**](DefaultApi.md#webrenameartifactwebartifactsrenamepost) | **POST** /web/artifacts/rename | Web Rename Artifact |
-| [**webRestoreArtifactWebArtifactsRestorePost**](DefaultApi.md#webrestoreartifactwebartifactsrestorepost) | **POST** /web/artifacts/restore | Web Restore Artifact |
-| [**webRestoreFolderWebFoldersRestorePost**](DefaultApi.md#webrestorefolderwebfoldersrestorepost) | **POST** /web/folders/restore | Web Restore Folder |
-| [**webSetMetadataWebSetPost**](DefaultApi.md#websetmetadatawebsetpost) | **POST** /web/set | Web Set Metadata |
-| [**webUploadWebUploadPost**](DefaultApi.md#webuploadwebuploadpost) | **POST** /web/upload | Web Upload |
-| [**webhooksPageWebhooksGet**](DefaultApi.md#webhookspagewebhooksget) | **GET** /webhooks | Webhooks Page |
-| [**welcomeWelcomeGet**](DefaultApi.md#welcomewelcomeget) | **GET** /welcome | Welcome |
 
 
 
 ## abortUploadV0UploadsUploadIdDelete
 
-> UploadAbortOut abortUploadV0UploadsUploadIdDelete(uploadId, authorization)
+> UploadAbortOut abortUploadV0UploadsUploadIdDelete(uploadId)
 
 Abort a large (direct-to-GCS) upload session
 
@@ -179,13 +106,15 @@ import type { AbortUploadV0UploadsUploadIdDeleteRequest } from '@mnexa-ai/agentd
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     uploadId: uploadId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies AbortUploadV0UploadsUploadIdDeleteRequest;
 
   try {
@@ -206,7 +135,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **uploadId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -214,7 +142,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -225,271 +153,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **404** | No such upload for this drive |  -  |
-| **409** | Upload already committed — cannot abort |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## acceptInvitationInvitationsTokenGet
-
-> string acceptInvitationInvitationsTokenGet(token)
-
-Accept Invitation
-
-Accept a workspace invitation (workspaces-design §4.4). Top-level route — deliberately OFF the reserved single-letter prefixes (&#x60;/a /f /s /v /_&#x60;).  If the visitor isn\&#39;t signed in, bounce through &#x60;/auth/login&#x60; with a same-origin &#x60;return_to&#x60; back here (the login flow validates return_to, so the path is safe). Once signed in, validate + accept:   * email mismatch / expired / revoked / unknown → friendly error page,   * success → join the workspace, set it active, land on the dashboard.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { AcceptInvitationInvitationsTokenGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    token: token_example,
-  } satisfies AcceptInvitationInvitationsTokenGetRequest;
-
-  try {
-    const data = await api.acceptInvitationInvitationsTokenGet(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **token** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`, `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## activityFeedActivityGet
-
-> string activityFeedActivityGet()
-
-Activity Feed
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { ActivityFeedActivityGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.activityFeedActivityGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## addGrantWebShareRidGrantPost
-
-> any addGrantWebShareRidGrantPost(rid, grantIn, xCsrfToken)
-
-Add Grant
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { AddGrantWebShareRidGrantPostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    rid: rid_example,
-    // GrantIn
-    grantIn: ...,
-    // string (optional)
-    xCsrfToken: xCsrfToken_example,
-  } satisfies AddGrantWebShareRidGrantPostRequest;
-
-  try {
-    const data = await api.addGrantWebShareRidGrantPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **rid** | `string` |  | [Defaults to `undefined`] |
-| **grantIn** | [GrantIn](GrantIn.md) |  | |
-| **xCsrfToken** | `string` |  | [Optional] [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/json`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## artifactDetailPreviewPreviewArtifactDetailGet
-
-> string artifactDetailPreviewPreviewArtifactDetailGet()
-
-Artifact Detail Preview
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { ArtifactDetailPreviewPreviewArtifactDetailGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.artifactDetailPreviewPreviewArtifactDetailGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | No such upload for this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | Upload already committed and cannot be aborted. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## beginUploadV0UploadsPost
 
-> UploadBeginOut beginUploadV0UploadsPost(uploadBeginIn, authorization)
+> UploadBeginOut beginUploadV0UploadsPost(uploadBeginIn)
 
 Begin a large (direct-to-GCS) upload
 
@@ -506,13 +183,15 @@ import type { BeginUploadV0UploadsPostRequest } from '@mnexa-ai/agentdrive-sdk';
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // UploadBeginIn
     uploadBeginIn: ...,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies BeginUploadV0UploadsPostRequest;
 
   try {
@@ -533,7 +212,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **uploadBeginIn** | [UploadBeginIn](UploadBeginIn.md) |  | |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -541,7 +219,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -552,19 +230,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **400** | Invalid path / labels / metadata / source |  -  |
-| **403** | Path reserved for the system (WIKI_RESERVED) |  -  |
-| **413** | size_bytes exceeds the drive\&#39;s per-artifact cap, or drive storage quota would be exceeded |  -  |
-| **429** | Drive\&#39;s per-hour write budget exhausted |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | Invalid path, labels, metadata, or source. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | Path reserved for the system (WIKI_RESERVED). |  * X-Request-Id - Request correlation identifier. <br>  |
+| **413** | size_bytes exceeds the per-artifact cap or storage quota. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | Drive\&#39;s per-hour write budget exhausted. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## callbackAuthCallbackGet
 
-> any callbackAuthCallbackGet(code, state, error)
+> string callbackAuthCallbackGet(code, state, error)
 
 Callback
 
@@ -615,7 +294,7 @@ example().catch(console.error);
 
 ### Return type
 
-**any**
+**string**
 
 ### Authorization
 
@@ -624,21 +303,26 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`
+- **Accept**: `text/html`, `application/json`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Extension authentication handoff page. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **302** | Redirect to the canonical or authentication URL. |  * Location - Redirect target. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The login flow or authorization code is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | Account recovery is required or the Hub principal conflicts with the existing account link. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **502** | The upstream identity provider is temporarily unavailable. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **503** | Extension authentication is temporarily disabled. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## cancelJobV0JobsJobIdCancelPost
 
-> any cancelJobV0JobsJobIdCancelPost(jobId, authorization)
+> CompileJobOut cancelJobV0JobsJobIdCancelPost(jobId)
 
 Cancel a queued/running job
 
@@ -653,13 +337,15 @@ import type { CancelJobV0JobsJobIdCancelPostRequest } from '@mnexa-ai/agentdrive
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     jobId: jobId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies CancelJobV0JobsJobIdCancelPostRequest;
 
   try {
@@ -680,15 +366,14 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **jobId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**any**
+[**CompileJobOut**](CompileJobOut.md)
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -699,85 +384,23 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## collectionDetailCollectionsSlugGet
-
-> string collectionDetailCollectionsSlugGet(slug)
-
-Collection Detail
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { CollectionDetailCollectionsSlugGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    slug: slug_example,
-  } satisfies CollectionDetailCollectionsSlugGetRequest;
-
-  try {
-    const data = await api.collectionDetailCollectionsSlugGet(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **slug** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`, `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | No such compile job exists in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## commitUploadV0UploadsUploadIdCommitPost
 
-> ArtifactOut commitUploadV0UploadsUploadIdCommitPost(uploadId, authorization)
+> ArtifactOut commitUploadV0UploadsUploadIdCommitPost(uploadId)
 
 Commit a large (direct-to-GCS) upload
 
-Finalize the upload begun at &#x60;/v0/uploads&#x60;: AgentDrive verifies the object that landed in GCS (size + checksum) and creates the artifact. Idempotent — a retry after a successful commit returns the same artifact. The write budget is charged here (begin is free metadata).
+Finalize the upload begun at &#x60;/v0/uploads&#x60;: AgentDrive verifies the object that landed in GCS (size + checksum) and creates the artifact. Idempotent — a retry after a successful commit returns the same artifact. The write budget is charged when the upload session is created; commit retries are not charged again.
 
 ### Example
 
@@ -790,13 +413,15 @@ import type { CommitUploadV0UploadsUploadIdCommitPostRequest } from '@mnexa-ai/a
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     uploadId: uploadId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies CommitUploadV0UploadsUploadIdCommitPostRequest;
 
   try {
@@ -817,7 +442,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **uploadId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -825,7 +449,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -836,79 +460,23 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **404** | No such upload for this drive |  -  |
-| **409** | Uploaded object size !&#x3D; declared size_bytes |  -  |
-| **410** | Upload session expired |  -  |
-| **412** | If-Match precondition failed / create-only conflict |  -  |
-| **429** | Drive\&#39;s per-hour write budget exhausted |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## connectorsPageConnectorsGet
-
-> string connectorsPageConnectorsGet()
-
-Connectors Page
-
-Connectors landing — Google Drive, Notion, etc. Each connector pipes its files into a virtual folder at the drive root (&#x60;gdrive/&#x60;, &#x60;notion/&#x60;) so the indexer can build wiki pages across all of an org\&#39;s knowledge. No backend in v0; cards read from &#x60;mock/data.py&#x60;.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { ConnectorsPageConnectorsGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.connectorsPageConnectorsGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | No such upload for this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | Uploaded object size differs from declared size_bytes. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **410** | Upload session expired. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | If-Match precondition failed or create-only conflict. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **413** | Committing the upload would exceed the storage quota. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | Drive\&#39;s per-hour write budget exhausted. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## copyArtifactRouteV0ArtifactsArtIdCopyPost
 
-> ArtifactOut copyArtifactRouteV0ArtifactsArtIdCopyPost(artId, copyIn, xAgentdriveActor, ifNoneMatch, authorization)
+> ArtifactOut copyArtifactRouteV0ArtifactsArtIdCopyPost(artId, copyIn, xAgentdriveActor, ifNoneMatch)
 
 Duplicate an artifact to a new path (CAS-shared, new ID)
 
@@ -925,7 +493,11 @@ import type { CopyArtifactRouteV0ArtifactsArtIdCopyPostRequest } from '@mnexa-ai
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -936,8 +508,6 @@ async function example() {
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
     ifNoneMatch: ifNoneMatch_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies CopyArtifactRouteV0ArtifactsArtIdCopyPostRequest;
 
   try {
@@ -961,7 +531,6 @@ example().catch(console.error);
 | **copyIn** | [CopyIn](CopyIn.md) |  | |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **ifNoneMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -969,7 +538,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -980,15 +549,23 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **201** | Successful Response |  * ETag - Current strong entity tag. <br>  * Location - Canonical URL of the created resource. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The destination path or source metadata is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The source artifact does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | The destination path is already occupied. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | A request precondition did not match. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **413** | The copy would exceed the drive storage limit. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## copyFolderByIdV0FoldersFldIdCopyPost
 
-> FolderCopyOut copyFolderByIdV0FoldersFldIdCopyPost(fldId, folderCopyIn, xAgentdriveActor, ifNoneMatch, authorization)
+> FolderCopyOut copyFolderByIdV0FoldersFldIdCopyPost(fldId, folderCopyIn, xAgentdriveActor, ifNoneMatch)
 
 Duplicate a folder subtree to a new path (CAS-shared, new IDs)
 
@@ -1005,7 +582,11 @@ import type { CopyFolderByIdV0FoldersFldIdCopyPostRequest } from '@mnexa-ai/agen
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -1016,8 +597,6 @@ async function example() {
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
     ifNoneMatch: ifNoneMatch_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies CopyFolderByIdV0FoldersFldIdCopyPostRequest;
 
   try {
@@ -1041,7 +620,6 @@ example().catch(console.error);
 | **folderCopyIn** | [FolderCopyIn](FolderCopyIn.md) |  | |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **ifNoneMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -1049,7 +627,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -1060,160 +638,23 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## createDriveKeyWebWebDrivesDriveIdKeysCreatePost
-
-> any createDriveKeyWebWebDrivesDriveIdKeysCreatePost(driveId, csrf, label)
-
-Create Drive Key Web
-
-Mint a new &#x60;ad_live_&#x60; key for a specific owned drive + reveal once (workspaces-design §5.6). Manager-only (no-leak no-op otherwise).  The per-drive twin of &#x60;/web/keys/create&#x60; (which acts on the active drive). Pins the target drive active so the reveal on the api-keys tab shows the key for the drive the user just minted on.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { CreateDriveKeyWebWebDrivesDriveIdKeysCreatePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    driveId: driveId_example,
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    label: label_example,
-  } satisfies CreateDriveKeyWebWebDrivesDriveIdKeysCreatePostRequest;
-
-  try {
-    const data = await api.createDriveKeyWebWebDrivesDriveIdKeysCreatePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **driveId** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **label** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## createDriveWebWebDrivesPost
-
-> any createDriveWebWebDrivesPost(name, csrf)
-
-Create Drive Web
-
-Create a drive in the active workspace + reveal its key once (workspaces-design §4.5, §5.6).  The web (session+CSRF) twin of &#x60;POST /v0/drives&#x60;. Any MEMBER of the active workspace may create a drive; the creator becomes its owner. The new drive\&#39;s &#x60;ad_live_&#x60; key is shown ONCE via the same &#x60;reveal_key&#x60;-in-session mechanism the api-keys tab consumes; we also pin the new drive as active and land on the api-keys tab so the user sees the reveal.  Authorization is by &#x60;current_user&#x60; + membership, NOT &#x60;current_drive&#x60; (workspaces-design §4.3 empty state): a freshly-invited member owns 0 drives, so &#x60;current_drive&#x60; is None for them — yet this is exactly the \&quot;create your first drive\&quot; moment that MUST work. Gating on a pre-existing drive would dead-end the web onboarding path. Membership + the per-member cap are the real guards; both hold whether or not the user already owns a drive.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { CreateDriveWebWebDrivesPostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    name: name_example,
-    // string
-    csrf: csrf_example,
-  } satisfies CreateDriveWebWebDrivesPostRequest;
-
-  try {
-    const data = await api.createDriveWebWebDrivesPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **name** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **201** | Successful Response |  * ETag - Current strong entity tag. <br>  * Location - Canonical URL of the created resource. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The destination path is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The folder does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | The destination path is already occupied. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | A request precondition did not match. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **413** | The copied subtree would exceed the drive storage limit. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## createFolderByPathV0FoldersPathPut
 
-> FolderOut createFolderByPathV0FoldersPathPut(path, xAgentdriveActor, ifNoneMatch, authorization, folderCreateIn)
+> FolderOut createFolderByPathV0FoldersPathPut(path, xAgentdriveActor, ifNoneMatch, folderCreateIn)
 
 Create a folder (idempotent)
 
@@ -1230,7 +671,11 @@ import type { CreateFolderByPathV0FoldersPathPutRequest } from '@mnexa-ai/agentd
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -1239,8 +684,6 @@ async function example() {
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
     ifNoneMatch: ifNoneMatch_example,
-    // string (optional)
-    authorization: authorization_example,
     // FolderCreateIn (optional)
     folderCreateIn: ...,
   } satisfies CreateFolderByPathV0FoldersPathPutRequest;
@@ -1265,7 +708,6 @@ example().catch(console.error);
 | **path** | `string` |  | [Defaults to `undefined`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **ifNoneMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **folderCreateIn** | [FolderCreateIn](FolderCreateIn.md) |  | [Optional] |
 
 ### Return type
@@ -1274,7 +716,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -1285,15 +727,22 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | The existing folder was returned unchanged. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **201** | Successful Response |  * ETag - Current strong entity tag. <br>  * Location - Canonical URL of the created resource. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The folder path is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | The folder conflicts with an existing path. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | A request precondition did not match. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## createGrantRouteV0GrantsPost
 
-> GrantOut createGrantRouteV0GrantsPost(grantCreateIn, xAgentdriveActor, authorization)
+> GrantOut createGrantRouteV0GrantsPost(grantCreateIn, xAgentdriveActor)
 
 Create (or fetch) a per-principal grant on a resource
 
@@ -1308,15 +757,17 @@ import type { CreateGrantRouteV0GrantsPostRequest } from '@mnexa-ai/agentdrive-s
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // GrantCreateIn
     grantCreateIn: ...,
     // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies CreateGrantRouteV0GrantsPostRequest;
 
   try {
@@ -1338,7 +789,6 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **grantCreateIn** | [GrantCreateIn](GrantCreateIn.md) |  | |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -1346,7 +796,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -1357,160 +807,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## createKeyWebKeysCreatePost
-
-> any createKeyWebKeysCreatePost(csrf, label)
-
-Create Key
-
-Mint a new &#x60;ad_live_&#x60; key for the active drive (reveal-once).  A drive may hold several keys — this appends one rather than replacing. Management gate (workspaces-v2 §4.4): personal → owner, team → admin. Without it a team MEMBER (who now reaches the shared drive) could mint a shared key. No-leak redirect on non-manage.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { CreateKeyWebKeysCreatePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    label: label_example,
-  } satisfies CreateKeyWebKeysCreatePostRequest;
-
-  try {
-    const data = await api.createKeyWebKeysCreatePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **label** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## createLinkWebShareRidLinkPost
-
-> any createLinkWebShareRidLinkPost(rid, linkIn, xCsrfToken)
-
-Create Link
-
-Mint a viewer share link. Returns the fresh state PLUS &#x60;minted&#x60; with the raw &#x60;share_key&#x60; + url — the ONLY response that carries the key. Artifacts only (v1: folder share links are not supported).
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { CreateLinkWebShareRidLinkPostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    rid: rid_example,
-    // LinkIn
-    linkIn: ...,
-    // string (optional)
-    xCsrfToken: xCsrfToken_example,
-  } satisfies CreateLinkWebShareRidLinkPostRequest;
-
-  try {
-    const data = await api.createLinkWebShareRidLinkPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **rid** | `string` |  | [Defaults to `undefined`] |
-| **linkIn** | [LinkIn](LinkIn.md) |  | |
-| **xCsrfToken** | `string` |  | [Optional] [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/json`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **201** | Successful Response |  * Location - Canonical URL of the created resource. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The grant or expiry is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The target resource does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## createShareRouteV0SharesPost
 
-> ShareMintOut createShareRouteV0SharesPost(shareCreateIn, xAgentdriveActor, authorization)
+> ShareMintOut createShareRouteV0SharesPost(shareCreateIn, xAgentdriveActor)
 
 Mint a share link (returns the share_key once)
 
@@ -1525,15 +835,17 @@ import type { CreateShareRouteV0SharesPostRequest } from '@mnexa-ai/agentdrive-s
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // ShareCreateIn
     shareCreateIn: ...,
     // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies CreateShareRouteV0SharesPostRequest;
 
   try {
@@ -1555,7 +867,6 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **shareCreateIn** | [ShareCreateIn](ShareCreateIn.md) |  | |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -1563,7 +874,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -1574,438 +885,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## createUserTokenWebTokensCreatePost
-
-> any createUserTokenWebTokensCreatePost(csrf, label, scope)
-
-Create User Token
-
-Mint an &#x60;ad_user_&#x60; user-identity token (workspaces-design §5.2, §5.6).  **Web-only minting**: the bootstrap chicken-and-egg is solved here, and a leaked token must not be able to mint persistent siblings — so this path exists only behind the browser session + CSRF, never over the &#x60;/v0/&#x60; API.  The raw token is shown ONCE via &#x60;reveal_token&#x60; in the session, then consumed on the next GET of the api-keys tab.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { CreateUserTokenWebTokensCreatePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    label: label_example,
-    // string (optional)
-    scope: scope_example,
-  } satisfies CreateUserTokenWebTokensCreatePostRequest;
-
-  try {
-    const data = await api.createUserTokenWebTokensCreatePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **label** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-| **scope** | `string` |  | [Optional] [Defaults to `&#39;full&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## createWorkspaceWebWebWorkspacesPost
-
-> any createWorkspaceWebWebWorkspacesPost(name, csrf)
-
-Create Workspace Web
-
-Create a new workspace, set it active, reveal its starter key once (workspaces-design §4.7).  The web (session+CSRF) twin of &#x60;POST /v0/workspaces&#x60;. A user may administer up to their plan\&#39;s number of TEAM workspaces (&#x60;core.entitlements.can_create_workspace&#x60;, tier-governed — workspaces-v2 §4.6); a blocked create bounces to the dashboard with a limit-reached affordance (&#x60;?err&#x3D;workspace_limit&#x60;). On success the new workspace + its starter drive become active and we land on the api-keys tab so the user sees the one-time key reveal.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { CreateWorkspaceWebWebWorkspacesPostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    name: name_example,
-    // string
-    csrf: csrf_example,
-  } satisfies CreateWorkspaceWebWebWorkspacesPostRequest;
-
-  try {
-    const data = await api.createWorkspaceWebWebWorkspacesPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **name** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## dangerZoneOldDashboardDangerGet
-
-> any dangerZoneOldDashboardDangerGet()
-
-Danger Zone Old
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { DangerZoneOldDashboardDangerGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.dangerZoneOldDashboardDangerGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## dangerZoneSettingsDangerGet
-
-> string dangerZoneSettingsDangerGet()
-
-Danger Zone
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { DangerZoneSettingsDangerGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.dangerZoneSettingsDangerGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## dashboardDashboardGet
-
-> string dashboardDashboardGet(q, path, wiki, type, label, after, before, view, sort, dir)
-
-Dashboard
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { DashboardDashboardGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string (optional)
-    q: q_example,
-    // string (optional)
-    path: path_example,
-    // number (optional)
-    wiki: 56,
-    // string (optional)
-    type: type_example,
-    // Array<string> (optional)
-    label: ...,
-    // string (optional)
-    after: after_example,
-    // string (optional)
-    before: before_example,
-    // string (optional)
-    view: view_example,
-    // string (optional)
-    sort: sort_example,
-    // string (optional)
-    dir: dir_example,
-  } satisfies DashboardDashboardGetRequest;
-
-  try {
-    const data = await api.dashboardDashboardGet(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **q** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-| **path** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-| **wiki** | `number` |  | [Optional] [Defaults to `0`] |
-| **type** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-| **label** | `Array<string>` |  | [Optional] |
-| **after** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-| **before** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-| **view** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-| **sort** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-| **dir** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`, `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## deleteAccountWebAccountDeletePost
-
-> any deleteAccountWebAccountDeletePost(confirm, csrf)
-
-Delete Account
-
-Soft-delete the user + their solo workspace + drive.  v1 semantics (solo orgs): deleting the account also deletes the workspace and its data under one aligned retention window, after which everything is hard-purged. \&quot;Delete my account\&quot; means \&quot;delete everything mine,\&quot; matching Notion / Linear / Slack consumer-tier semantics. Membership-transfer for shared orgs lands in v1.5+.  The response routes through the auth provider\&#39;s logout so the upstream session is cleared before the user returns, preventing a silent re-authentication that would re-provision the just-deleted account. Falls back to a local-only redirect when there is no upstream session to clear.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { DeleteAccountWebAccountDeletePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    confirm: confirm_example,
-    // string
-    csrf: csrf_example,
-  } satisfies DeleteAccountWebAccountDeletePostRequest;
-
-  try {
-    const data = await api.deleteAccountWebAccountDeletePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **confirm** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **201** | Successful Response |  * Location - Canonical URL of the created resource. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The share settings or expiry are invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The target resource does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## deleteArtifactByIdRouteV0ArtifactsArtIdDelete
 
-> any deleteArtifactByIdRouteV0ArtifactsArtIdDelete(artId, ifMatch, xAgentdriveActor, authorization)
+> ArtifactDeleteOut deleteArtifactByIdRouteV0ArtifactsArtIdDelete(artId, ifMatch, xAgentdriveActor)
 
 Soft-delete an artifact by its stable ID
 
@@ -2022,7 +915,11 @@ import type { DeleteArtifactByIdRouteV0ArtifactsArtIdDeleteRequest } from '@mnex
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -2031,8 +928,6 @@ async function example() {
     ifMatch: ifMatch_example,
     // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies DeleteArtifactByIdRouteV0ArtifactsArtIdDeleteRequest;
 
   try {
@@ -2055,15 +950,14 @@ example().catch(console.error);
 | **artId** | `string` |  | [Defaults to `undefined`] |
 | **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**any**
+[**ArtifactDeleteOut**](ArtifactDeleteOut.md)
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -2074,15 +968,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | No live artifact with this ID exists. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | If-Match does not match the current artifact. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## deleteArtifactV0ArtifactsPathDelete
 
-> ArtifactDeleteOut deleteArtifactV0ArtifactsPathDelete(path, ifMatch, xAgentdriveActor, authorization)
+> ArtifactDeleteOut deleteArtifactV0ArtifactsPathDelete(path, ifMatch, xAgentdriveActor)
 
 Delete Artifact
 
@@ -2099,7 +998,11 @@ import type { DeleteArtifactV0ArtifactsPathDeleteRequest } from '@mnexa-ai/agent
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -2108,8 +1011,6 @@ async function example() {
     ifMatch: ifMatch_example,
     // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies DeleteArtifactV0ArtifactsPathDeleteRequest;
 
   try {
@@ -2132,7 +1033,6 @@ example().catch(console.error);
 | **path** | `string` |  | [Defaults to `undefined`] |
 | **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -2140,7 +1040,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -2151,15 +1051,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | No such live artifact exists in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | A request precondition did not match. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## deleteDriveRouteV0DrivesDriveIdDelete
 
-> DriveDeleteOut deleteDriveRouteV0DrivesDriveIdDelete(driveId, confirm, xAgentdriveActor, ifMatch, authorization)
+> DriveDeleteOut deleteDriveRouteV0DrivesDriveIdDelete(driveId, confirm, xAgentdriveActor, ifMatch)
 
 Soft-delete a drive
 
@@ -2176,7 +1081,11 @@ import type { DeleteDriveRouteV0DrivesDriveIdDeleteRequest } from '@mnexa-ai/age
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -2187,8 +1096,6 @@ async function example() {
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
     ifMatch: ifMatch_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies DeleteDriveRouteV0DrivesDriveIdDeleteRequest;
 
   try {
@@ -2212,7 +1119,6 @@ example().catch(console.error);
 | **confirm** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -2220,7 +1126,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -2231,86 +1137,22 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## deleteDriveWebWebDrivesDriveIdDeletePost
-
-> any deleteDriveWebWebDrivesDriveIdDeletePost(driveId, csrf)
-
-Delete Drive Web
-
-Soft-delete a drive the caller owns, with the last-drive guard (workspaces-design §8). Owner-only (no-leak no-op otherwise).  Guard: blocks deleting the workspace\&#39;s LAST live drive — a member must always land somewhere. On a successful delete of the *active* drive, we drop the pin so &#x60;current_drive&#x60; falls back to the user\&#39;s next oldest owned drive.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { DeleteDriveWebWebDrivesDriveIdDeletePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    driveId: driveId_example,
-    // string
-    csrf: csrf_example,
-  } satisfies DeleteDriveWebWebDrivesDriveIdDeletePostRequest;
-
-  try {
-    const data = await api.deleteDriveWebWebDrivesDriveIdDeletePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **driveId** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The explicit DELETE confirmation is missing. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | No such drive exists for this principal. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | The workspace must retain at least one live drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | A request precondition did not match. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## deleteFolderByIdV0FoldersFldIdDelete
 
-> FolderDeleteOut deleteFolderByIdV0FoldersFldIdDelete(fldId, recursive, xAgentdriveActor, ifMatch, authorization)
+> FolderDeleteOut deleteFolderByIdV0FoldersFldIdDelete(fldId, recursive, xAgentdriveActor, ifMatch)
 
 Soft-delete a folder by stable ID (cascade with ?recursive&#x3D;true)
 
@@ -2325,7 +1167,11 @@ import type { DeleteFolderByIdV0FoldersFldIdDeleteRequest } from '@mnexa-ai/agen
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -2336,8 +1182,6 @@ async function example() {
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
     ifMatch: ifMatch_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies DeleteFolderByIdV0FoldersFldIdDeleteRequest;
 
   try {
@@ -2361,7 +1205,6 @@ example().catch(console.error);
 | **recursive** | `boolean` |  | [Optional] [Defaults to `false`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -2369,7 +1212,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -2380,15 +1223,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The folder does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | A request precondition did not match. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## deleteFolderByPathV0FoldersPathDelete
 
-> FolderDeleteOut deleteFolderByPathV0FoldersPathDelete(path, recursive, xAgentdriveActor, ifMatch, authorization)
+> FolderDeleteOut deleteFolderByPathV0FoldersPathDelete(path, recursive, xAgentdriveActor, ifMatch)
 
 Soft-delete a folder (cascade with ?recursive&#x3D;true)
 
@@ -2405,7 +1253,11 @@ import type { DeleteFolderByPathV0FoldersPathDeleteRequest } from '@mnexa-ai/age
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -2416,8 +1268,6 @@ async function example() {
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
     ifMatch: ifMatch_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies DeleteFolderByPathV0FoldersPathDeleteRequest;
 
   try {
@@ -2441,7 +1291,6 @@ example().catch(console.error);
 | **recursive** | `boolean` |  | [Optional] [Defaults to `false`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -2449,7 +1298,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -2460,15 +1309,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The folder does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | A request precondition did not match. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## deleteGrantRouteV0GrantsGrnIdDelete
 
-> RevokeOut deleteGrantRouteV0GrantsGrnIdDelete(grnId, xAgentdriveActor, authorization)
+> RevokeOut deleteGrantRouteV0GrantsGrnIdDelete(grnId, xAgentdriveActor)
 
 Revoke a grant (can_manage, or self-revoke own grant)
 
@@ -2483,15 +1337,17 @@ import type { DeleteGrantRouteV0GrantsGrnIdDeleteRequest } from '@mnexa-ai/agent
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     grnId: grnId_example,
     // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies DeleteGrantRouteV0GrantsGrnIdDeleteRequest;
 
   try {
@@ -2513,7 +1369,6 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **grnId** | `string` |  | [Defaults to `undefined`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -2521,7 +1376,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -2532,15 +1387,19 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The grant does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## deleteShareRouteV0SharesShrIdDelete
 
-> RevokeOut deleteShareRouteV0SharesShrIdDelete(shrId, xAgentdriveActor, authorization)
+> RevokeOut deleteShareRouteV0SharesShrIdDelete(shrId, xAgentdriveActor)
 
 Revoke a share link (requires can_manage)
 
@@ -2555,15 +1414,17 @@ import type { DeleteShareRouteV0SharesShrIdDeleteRequest } from '@mnexa-ai/agent
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     shrId: shrId_example,
     // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies DeleteShareRouteV0SharesShrIdDeleteRequest;
 
   try {
@@ -2585,7 +1446,6 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **shrId** | `string` |  | [Defaults to `undefined`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -2593,7 +1453,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -2604,89 +1464,19 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## deleteWorkspaceWebWebWorkspacesOrgIdDeletePost
-
-> any deleteWorkspaceWebWebWorkspacesOrgIdDeletePost(orgId, csrf, confirm)
-
-Delete Workspace Web
-
-Explicit delete-workspace path (workspaces-design §4.4): a sole admin who can\&#39;t leave (members remain) may instead destroy the workspace — cascade soft-delete the org + all its live drives.  Admin-gated against the PATH org (not just the session) so a stale cookie can\&#39;t redirect the cascade. A non-admin is a no-leak no-op.  **Typed confirmation required** (parallel to &#x60;delete_account&#x60;\&#39;s &#x60;confirm &#x3D;&#x3D; \&quot;DELETE\&quot;&#x60;): this cascade soft-deletes the WHOLE workspace plus every member\&#39;s drives in it, so a single mis-clicked CSRF POST must not be able to trigger it. The caller must type either the literal &#x60;DELETE&#x60; or the exact workspace name; anything else bounces with no cascade. (Restricting to sole-admin is a separate product question, flagged to the user — not changed here.)
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { DeleteWorkspaceWebWebWorkspacesOrgIdDeletePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    orgId: orgId_example,
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    confirm: confirm_example,
-  } satisfies DeleteWorkspaceWebWebWorkspacesOrgIdDeletePostRequest;
-
-  try {
-    const data = await api.deleteWorkspaceWebWebWorkspacesOrgIdDeletePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **orgId** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **confirm** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The share does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## downloadArtifactByIdV0ArtifactsArtIdDownloadGet
 
-> any downloadArtifactByIdV0ArtifactsArtIdDownloadGet(artId, authorization)
+> Blob downloadArtifactByIdV0ArtifactsArtIdDownloadGet(artId)
 
 Stream the artifact bytes by stable ID (never rendered HTML)
 
@@ -2701,13 +1491,15 @@ import type { DownloadArtifactByIdV0ArtifactsArtIdDownloadGetRequest } from '@mn
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     artId: artId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies DownloadArtifactByIdV0ArtifactsArtIdDownloadGetRequest;
 
   try {
@@ -2728,34 +1520,37 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **artId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**any**
+**Blob**
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`
+- **Accept**: `application/octet-stream`, `application/json`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Raw artifact bytes. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | No live artifact with this ID exists. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## downloadArtifactByPathV0ArtifactsPathDownloadGet
 
-> any downloadArtifactByPathV0ArtifactsPathDownloadGet(path, authorization)
+> Blob downloadArtifactByPathV0ArtifactsPathDownloadGet(path)
 
 Stream the artifact bytes by path (never rendered HTML)
 
@@ -2772,13 +1567,15 @@ import type { DownloadArtifactByPathV0ArtifactsPathDownloadGetRequest } from '@m
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     path: path_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies DownloadArtifactByPathV0ArtifactsPathDownloadGetRequest;
 
   try {
@@ -2799,34 +1596,37 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **path** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**any**
+**Blob**
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`
+- **Accept**: `application/octet-stream`, `application/json`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Raw artifact bytes. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | No live artifact exists at this path. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## downloadArtifactVersionV0ArtifactsArtIdVersionsVersionNumberDownloadGet
 
-> any downloadArtifactVersionV0ArtifactsArtIdVersionsVersionNumberDownloadGet(artId, versionNumber, authorization)
+> Blob downloadArtifactVersionV0ArtifactsArtIdVersionsVersionNumberDownloadGet(artId, versionNumber)
 
 Stream bytes for a specific version (machine surface)
 
@@ -2841,15 +1641,17 @@ import type { DownloadArtifactVersionV0ArtifactsArtIdVersionsVersionNumberDownlo
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     artId: artId_example,
     // number
     versionNumber: 56,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies DownloadArtifactVersionV0ArtifactsArtIdVersionsVersionNumberDownloadGetRequest;
 
   try {
@@ -2871,34 +1673,38 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **artId** | `string` |  | [Defaults to `undefined`] |
 | **versionNumber** | `number` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**any**
+**Blob**
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`
+- **Accept**: `application/octet-stream`, `application/json`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Raw artifact bytes. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The artifact or version does not exist. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **410** | The requested version has been pruned. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## downloadUrlByIdV0ArtifactsArtIdDownloadUrlGet
 
-> DownloadUrlOut downloadUrlByIdV0ArtifactsArtIdDownloadUrlGet(artId, authorization)
+> DownloadUrlOut downloadUrlByIdV0ArtifactsArtIdDownloadUrlGet(artId)
 
 Signed direct-from-GCS download URL by stable ID
 
@@ -2915,13 +1721,15 @@ import type { DownloadUrlByIdV0ArtifactsArtIdDownloadUrlGetRequest } from '@mnex
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     artId: artId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies DownloadUrlByIdV0ArtifactsArtIdDownloadUrlGetRequest;
 
   try {
@@ -2942,7 +1750,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **artId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -2950,7 +1757,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -2961,15 +1768,19 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The artifact does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## downloadUrlByPathV0ArtifactsPathDownloadUrlGet
 
-> DownloadUrlOut downloadUrlByPathV0ArtifactsPathDownloadUrlGet(path, authorization)
+> DownloadUrlOut downloadUrlByPathV0ArtifactsPathDownloadUrlGet(path)
 
 Signed direct-from-GCS download URL by path
 
@@ -2986,13 +1797,15 @@ import type { DownloadUrlByPathV0ArtifactsPathDownloadUrlGetRequest } from '@mne
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     path: path_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies DownloadUrlByPathV0ArtifactsPathDownloadUrlGetRequest;
 
   try {
@@ -3013,7 +1826,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **path** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -3021,7 +1833,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -3032,15 +1844,19 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The artifact does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## downloadUrlVersionV0ArtifactsArtIdVersionsVersionNumberDownloadUrlGet
 
-> DownloadUrlOut downloadUrlVersionV0ArtifactsArtIdVersionsVersionNumberDownloadUrlGet(artId, versionNumber, authorization)
+> DownloadUrlOut downloadUrlVersionV0ArtifactsArtIdVersionsVersionNumberDownloadUrlGet(artId, versionNumber)
 
 Signed direct-from-GCS download URL for a specific version
 
@@ -3057,15 +1873,17 @@ import type { DownloadUrlVersionV0ArtifactsArtIdVersionsVersionNumberDownloadUrl
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     artId: artId_example,
     // number
     versionNumber: 56,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies DownloadUrlVersionV0ArtifactsArtIdVersionsVersionNumberDownloadUrlGetRequest;
 
   try {
@@ -3087,7 +1905,6 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **artId** | `string` |  | [Defaults to `undefined`] |
 | **versionNumber** | `number` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -3095,7 +1912,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -3106,83 +1923,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## editArtifactAArtIdEditGet
-
-> string editArtifactAArtIdEditGet(artId)
-
-Edit Artifact
-
-SnipIt annotation editor for an image artifact.  URL pattern mirrors the artifact permalink (&#x60;/a/{art_id}&#x60; → viewer; &#x60;/a/{art_id}/edit&#x60; → editor). FastAPI matches the more-specific &#x60;/edit&#x60; path before &#x60;/a/{art_id}&#x60; so there\&#39;s no collision.  Owner-only: requires a signed-in session cookie AND the artifact must belong to the user\&#39;s currently-active drive. Non-owners and anonymous viewers redirect to /auth/login with this URL as &#x60;return_to&#x60; so they land back here after sign-in.  Renders an editor shell — the editor JS owns all behavior (load the PNG, draw annotations on a canvas overlay, auto-save via &#x60;PUT /web/artifacts/{path}&#x60; with cookie auth). v0 supports image artifacts only; non-image art_ids redirect to the canonical viewer URL.  Pairs with the SnipIt Chrome extension: after auto-upload finishes the extension\&#39;s SW navigates the tab to this URL, so the user\&#39;s URL bar shows the real &#x60;agentdrive.run/a/&lt;art_id&gt;/edit&#x60; instead of a chrome-extension://... page. Editing on the web app side also means the same flow is reachable from the dashboard (\&quot;Edit this clip\&quot;) without the extension installed.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { EditArtifactAArtIdEditGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    artId: artId_example,
-  } satisfies EditArtifactAArtIdEditGetRequest;
-
-  try {
-    const data = await api.editArtifactAArtIdEditGet(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **artId** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`, `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The artifact or version does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **410** | The requested version was pruned by retention. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## enqueueJobV0ProjectsFldIdJobsPost
 
-> any enqueueJobV0ProjectsFldIdJobsPost(fldId, compileJobIn, xAgentdriveActor, authorization)
+> CompileJobOut enqueueJobV0ProjectsFldIdJobsPost(fldId, compileJobIn, xAgentdriveActor)
 
 Enqueue a compile job for a project (folder)
 
@@ -3197,7 +1951,11 @@ import type { EnqueueJobV0ProjectsFldIdJobsPostRequest } from '@mnexa-ai/agentdr
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -3206,8 +1964,6 @@ async function example() {
     compileJobIn: ...,
     // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies EnqueueJobV0ProjectsFldIdJobsPostRequest;
 
   try {
@@ -3230,15 +1986,14 @@ example().catch(console.error);
 | **fldId** | `string` |  | [Defaults to `undefined`] |
 | **compileJobIn** | [CompileJobIn](CompileJobIn.md) |  | |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**any**
+[**CompileJobOut**](CompileJobOut.md)
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -3249,15 +2004,23 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **202** | Compile accepted and queued or running. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The task, engine, entrypoint, or project is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **402** | The current plan does not permit this compile. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The project folder does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **413** | The compile project exceeds an input or storage limit. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## extensionStartAuthExtensionStartGet
 
-> any extensionStartAuthExtensionStartGet(extId)
+> extensionStartAuthExtensionStartGet(extId)
 
 Extension Start
 
@@ -3302,7 +2065,7 @@ example().catch(console.error);
 
 ### Return type
 
-**any**
+`void` (Empty response body)
 
 ### Authorization
 
@@ -3317,161 +2080,21 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## feedbackFormFeedbackGet
-
-> string feedbackFormFeedbackGet()
-
-Feedback Form
-
-Render the feedback form. Auth-required.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { FeedbackFormFeedbackGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.feedbackFormFeedbackGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## feedbackSubmitFeedbackPost
-
-> any feedbackSubmitFeedbackPost(csrf, category, title, message, contact, attachments)
-
-Feedback Submit
-
-Validate, charge the feedback budget, insert the ticket, redirect with a flash.  Validation runs BEFORE the quota charge so users get clear field errors without burning budget. The ticket insert is LLM-free and GitHub-free (§5.2) — the triage lane picks it up on its next tick.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { FeedbackSubmitFeedbackPostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    csrf: 'csrf_example',
-    // string (optional)
-    category: 'category_example',
-    // string (optional)
-    title: 'title_example',
-    // string (optional)
-    message: 'message_example',
-    // string (optional)
-    contact: 'contact_example',
-    // Array<Blob> (optional)
-    attachments: [new Blob(['example file content'], { type: 'application/octet-stream' })],
-  } satisfies FeedbackSubmitFeedbackPostRequest;
-
-  try {
-    const data = await api.feedbackSubmitFeedbackPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **category** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-| **title** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-| **message** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-| **contact** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-| **attachments** | `Array<Blob>` |  | [Optional] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `multipart/form-data`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **302** | Redirect to the canonical or authentication URL. |  * Location - Redirect target. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The extension ID is missing or not allowed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **503** | Extension authentication is temporarily disabled. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## findV0FindGet
 
-> FindPage findV0FindGet(q, mode, label, fileType, prefix, modality, updatedAfter, updatedBefore, limit, authorization)
+> FindPage findV0FindGet(q, mode, label, fileType, prefix, modality, updatedAfter, updatedBefore, limit)
 
 Hybrid passage retrieval over the full file body
 
-Passage-level chunk RAG over &#x60;embed_chunks&#x60;. Lexical (&#x60;chunk_tsv&#x60;, GIN) + semantic (HNSW over &#x60;embedding&#x60;) are run in parallel and fused via Reciprocal Rank Fusion (k&#x3D;60). Unlike &#x60;/v0/search&#x60;, which only sees the first ~16 KB preview of each artifact, &#x60;/v0/find&#x60; reaches the full file body.  **Modes:** - &#x60;hybrid&#x60; (default) — lexical + semantic, RRF-fused. - &#x60;lexical&#x60; — &#x60;chunk_tsv&#x60; only. Best for exact tokens, identifiers, code snippets. - &#x60;semantic&#x60; — embedding only. Best for conceptual queries where the surface terms differ from the query phrasing.  **Granularity:** results are passages, not files. A long document with multiple matching regions returns multiple hits with distinct &#x60;ord&#x60; values; consecutive &#x60;ord&#x60;s overlap by ~400 tokens. Dedupe by &#x60;art_id&#x60; if you want one row per file.  **Span citations:** &#x60;char_start&#x60;/&#x60;char_end&#x60; for text &amp; code, &#x60;page_start&#x60;/&#x60;page_end&#x60; for PDFs, &#x60;time_start_ms&#x60;/&#x60;time_end_ms&#x60; for audio &amp; video. Only the modality-relevant pair is populated.  **Filters:** &#x60;label&#x60;, &#x60;file_type&#x60;, &#x60;prefix&#x60;, &#x60;modality&#x60; (repeatable), &#x60;updated_after&#x60; / &#x60;updated_before&#x60; (RFC 3339 timestamps, inclusive bounds on &#x60;updated_at&#x60;, applied to both legs).  **Wiki coverage:** &#x60;/v0/find&#x60; excludes &#x60;_wiki/&#x60; paths by default and — importantly — does NOT cover them even when the caller passes &#x60;prefix&#x3D;_wiki/...&#x60;. Wiki pages are not embedded by the pipeline (they\&#39;re system-generated output, not user input), so &#x60;embed_chunks&#x60; has no rows for them and the join returns empty. Use &#x60;wiki_search&#x60; (or &#x60;list&#x60;/&#x60;grep&#x60; with a &#x60;_wiki/&#x60; prefix) for the wiki layer.  **Embedding availability:** when &#x60;GEMINI_API_KEY&#x60; is not configured, &#x60;mode&#x3D;semantic&#x60; returns 500; &#x60;mode&#x3D;hybrid&#x60; logs a warning and falls back to lexical-only; &#x60;mode&#x3D;lexical&#x60; is unaffected.
+Passage-level chunk RAG over &#x60;embed_chunks&#x60;. Lexical (&#x60;chunk_tsv&#x60;, GIN) + semantic (HNSW over &#x60;embedding&#x60;) are run in parallel and fused via Reciprocal Rank Fusion (k&#x3D;60). Unlike &#x60;/v0/search&#x60;, which only sees the first ~16 KB preview of each artifact, &#x60;/v0/find&#x60; reaches the full file body.  **Modes:** - &#x60;hybrid&#x60; (default) — lexical + semantic, RRF-fused. - &#x60;lexical&#x60; — &#x60;chunk_tsv&#x60; only. Best for exact tokens, identifiers, code snippets. - &#x60;semantic&#x60; — embedding only. Best for conceptual queries where the surface terms differ from the query phrasing.  **Granularity:** results are passages, not files. A long document with multiple matching regions returns multiple hits with distinct &#x60;ord&#x60; values; consecutive &#x60;ord&#x60;s overlap by ~400 tokens. Dedupe by &#x60;art_id&#x60; if you want one row per file.  **Span citations:** &#x60;char_start&#x60;/&#x60;char_end&#x60; for text &amp; code, &#x60;page_start&#x60;/&#x60;page_end&#x60; for PDFs, &#x60;time_start_ms&#x60;/&#x60;time_end_ms&#x60; for audio &amp; video. Only the modality-relevant pair is populated.  **Filters:** &#x60;label&#x60;, &#x60;file_type&#x60;, &#x60;prefix&#x60;, &#x60;modality&#x60; (repeatable), &#x60;updated_after&#x60; / &#x60;updated_before&#x60; (RFC 3339 timestamps, inclusive bounds on &#x60;updated_at&#x60;, applied to both legs).  **Wiki coverage:** &#x60;/v0/find&#x60; excludes &#x60;_wiki/&#x60; paths by default and — importantly — does NOT cover them even when the caller passes &#x60;prefix&#x3D;_wiki/...&#x60;. Wiki pages are not embedded by the pipeline (they\&#39;re system-generated output, not user input), so &#x60;embed_chunks&#x60; has no rows for them and the join returns empty. Use &#x60;wiki_search&#x60; (or &#x60;list&#x60;/&#x60;grep&#x60; with a &#x60;_wiki/&#x60; prefix) for the wiki layer.  **Embedding availability:** when &#x60;GEMINI_API_KEY&#x60; is not configured, &#x60;mode&#x3D;semantic&#x60; returns 503; &#x60;mode&#x3D;hybrid&#x60; logs a warning and falls back to lexical-only; &#x60;mode&#x3D;lexical&#x60; is unaffected.
 
 ### Example
 
@@ -3484,7 +2107,11 @@ import type { FindV0FindGetRequest } from '@mnexa-ai/agentdrive-sdk';
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -3505,8 +2132,6 @@ async function example() {
     updatedBefore: 2013-10-20T19:20:30+01:00,
     // number (optional)
     limit: 56,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies FindV0FindGetRequest;
 
   try {
@@ -3535,7 +2160,6 @@ example().catch(console.error);
 | **updatedAfter** | `Date` |  | [Optional] [Defaults to `undefined`] |
 | **updatedBefore** | `Date` |  | [Optional] [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `20`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -3543,7 +2167,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -3554,15 +2178,19 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **503** | Semantic embeddings are unavailable; use lexical or hybrid mode. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getArtifactByIdMetaV0ArtifactsArtIdMetaGet
 
-> ArtifactOut getArtifactByIdMetaV0ArtifactsArtIdMetaGet(artId, authorization)
+> ArtifactOut getArtifactByIdMetaV0ArtifactsArtIdMetaGet(artId)
 
 Artifact metadata by stable ID (same shape as path /meta)
 
@@ -3577,13 +2205,15 @@ import type { GetArtifactByIdMetaV0ArtifactsArtIdMetaGetRequest } from '@mnexa-a
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     artId: artId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies GetArtifactByIdMetaV0ArtifactsArtIdMetaGetRequest;
 
   try {
@@ -3604,7 +2234,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **artId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -3612,7 +2241,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -3623,15 +2252,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **304** | The current entity tag or modification date matched. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | No such artifact exists in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getArtifactByIdV0ArtifactsArtIdGet
 
-> ArtifactOut getArtifactByIdV0ArtifactsArtIdGet(artId, authorization)
+> ArtifactOut getArtifactByIdV0ArtifactsArtIdGet(artId)
 
 Canonical lookup of an artifact by its stable ID
 
@@ -3646,13 +2280,15 @@ import type { GetArtifactByIdV0ArtifactsArtIdGetRequest } from '@mnexa-ai/agentd
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     artId: artId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies GetArtifactByIdV0ArtifactsArtIdGetRequest;
 
   try {
@@ -3673,7 +2309,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **artId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -3681,7 +2316,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -3692,15 +2327,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **304** | The current entity tag or modification date matched. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | No such artifact exists in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getArtifactMetaV0ArtifactsPathMetaGet
 
-> ArtifactOut getArtifactMetaV0ArtifactsPathMetaGet(path, authorization)
+> ArtifactOut getArtifactMetaV0ArtifactsPathMetaGet(path)
 
 Get Artifact Meta
 
@@ -3715,13 +2355,15 @@ import type { GetArtifactMetaV0ArtifactsPathMetaGetRequest } from '@mnexa-ai/age
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     path: path_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies GetArtifactMetaV0ArtifactsPathMetaGetRequest;
 
   try {
@@ -3742,7 +2384,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **path** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -3750,7 +2391,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -3761,15 +2402,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **304** | The current entity tag or modification date matched. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The artifact does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getArtifactVersionV0ArtifactsArtIdVersionsVersionNumberGet
 
-> VersionOut getArtifactVersionV0ArtifactsArtIdVersionsVersionNumberGet(artId, versionNumber, authorization)
+> VersionOut getArtifactVersionV0ArtifactsArtIdVersionsVersionNumberGet(artId, versionNumber)
 
 Metadata for a specific version of an artifact
 
@@ -3784,15 +2430,17 @@ import type { GetArtifactVersionV0ArtifactsArtIdVersionsVersionNumberGetRequest 
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     artId: artId_example,
     // number
     versionNumber: 56,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies GetArtifactVersionV0ArtifactsArtIdVersionsVersionNumberGetRequest;
 
   try {
@@ -3814,7 +2462,6 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **artId** | `string` |  | [Defaults to `undefined`] |
 | **versionNumber** | `number` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -3822,7 +2469,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -3833,15 +2480,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The artifact or version does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **410** | The requested version was pruned by retention. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getDriveRouteV0DrivesDriveIdGet
 
-> any getDriveRouteV0DrivesDriveIdGet(driveId, authorization)
+> DriveReadOut getDriveRouteV0DrivesDriveIdGet(driveId)
 
 Drive overview by id (same shape as /drives/me)
 
@@ -3858,13 +2510,15 @@ import type { GetDriveRouteV0DrivesDriveIdGetRequest } from '@mnexa-ai/agentdriv
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     driveId: driveId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies GetDriveRouteV0DrivesDriveIdGetRequest;
 
   try {
@@ -3885,15 +2539,14 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **driveId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**any**
+[**DriveReadOut**](DriveReadOut.md)
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -3904,15 +2557,19 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | No matching authenticated drive exists. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getFeedbackStatusV0FeedbackFbkIdGet
 
-> FeedbackStatusOut getFeedbackStatusV0FeedbackFbkIdGet(fbkId, authorization)
+> FeedbackStatusOut getFeedbackStatusV0FeedbackFbkIdGet(fbkId)
 
 Get Feedback Status
 
@@ -3929,13 +2586,15 @@ import type { GetFeedbackStatusV0FeedbackFbkIdGetRequest } from '@mnexa-ai/agent
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     fbkId: fbkId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies GetFeedbackStatusV0FeedbackFbkIdGetRequest;
 
   try {
@@ -3956,7 +2615,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **fbkId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -3964,7 +2622,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -3975,15 +2633,19 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The feedback ticket does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getFolderByIdMetaV0FoldersFldIdMetaGet
 
-> FolderOut getFolderByIdMetaV0FoldersFldIdMetaGet(fldId, authorization)
+> FolderOut getFolderByIdMetaV0FoldersFldIdMetaGet(fldId)
 
 Folder metadata by stable ID (same shape as the bare id route)
 
@@ -3998,13 +2660,15 @@ import type { GetFolderByIdMetaV0FoldersFldIdMetaGetRequest } from '@mnexa-ai/ag
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     fldId: fldId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies GetFolderByIdMetaV0FoldersFldIdMetaGetRequest;
 
   try {
@@ -4025,7 +2689,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **fldId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -4033,7 +2696,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -4044,15 +2707,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **304** | The current entity tag or modification date matched. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The folder does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getFolderByIdV0FoldersFldIdGet
 
-> FolderOut getFolderByIdV0FoldersFldIdGet(fldId, authorization)
+> FolderOut getFolderByIdV0FoldersFldIdGet(fldId)
 
 Canonical lookup of a folder by its stable ID
 
@@ -4067,13 +2735,15 @@ import type { GetFolderByIdV0FoldersFldIdGetRequest } from '@mnexa-ai/agentdrive
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     fldId: fldId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies GetFolderByIdV0FoldersFldIdGetRequest;
 
   try {
@@ -4094,7 +2764,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **fldId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -4102,7 +2771,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -4113,15 +2782,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **304** | The current entity tag or modification date matched. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The folder does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getFolderByPathMetaV0FoldersPathMetaGet
 
-> FolderOut getFolderByPathMetaV0FoldersPathMetaGet(path, authorization)
+> FolderOut getFolderByPathMetaV0FoldersPathMetaGet(path)
 
 Folder metadata by path (same shape as the bare path route)
 
@@ -4136,13 +2810,15 @@ import type { GetFolderByPathMetaV0FoldersPathMetaGetRequest } from '@mnexa-ai/a
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     path: path_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies GetFolderByPathMetaV0FoldersPathMetaGetRequest;
 
   try {
@@ -4163,7 +2839,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **path** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -4171,7 +2846,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -4182,15 +2857,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **304** | The current entity tag or modification date matched. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The folder does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getFolderByPathV0FoldersPathGet
 
-> FolderOut getFolderByPathV0FoldersPathGet(path, authorization)
+> FolderOut getFolderByPathV0FoldersPathGet(path)
 
 Read folder metadata by path
 
@@ -4205,13 +2885,15 @@ import type { GetFolderByPathV0FoldersPathGetRequest } from '@mnexa-ai/agentdriv
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     path: path_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies GetFolderByPathV0FoldersPathGetRequest;
 
   try {
@@ -4232,7 +2914,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **path** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -4240,7 +2921,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -4251,15 +2932,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **304** | The current entity tag or modification date matched. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The folder does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getGrantRouteV0GrantsGrnIdGet
 
-> GrantOut getGrantRouteV0GrantsGrnIdGet(grnId, authorization)
+> GrantOut getGrantRouteV0GrantsGrnIdGet(grnId)
 
 Read a single grant (can_manage, or the grant\&#39;s own principal)
 
@@ -4276,13 +2962,15 @@ import type { GetGrantRouteV0GrantsGrnIdGetRequest } from '@mnexa-ai/agentdrive-
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     grnId: grnId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies GetGrantRouteV0GrantsGrnIdGetRequest;
 
   try {
@@ -4303,7 +2991,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **grnId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -4311,7 +2998,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -4322,15 +3009,19 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The grant does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getJobLogsV0JobsJobIdLogsGet
 
-> any getJobLogsV0JobsJobIdLogsGet(jobId, authorization)
+> string getJobLogsV0JobsJobIdLogsGet(jobId)
 
 Raw compile log (text/plain)
 
@@ -4345,13 +3036,15 @@ import type { GetJobLogsV0JobsJobIdLogsGetRequest } from '@mnexa-ai/agentdrive-s
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     jobId: jobId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies GetJobLogsV0JobsJobIdLogsGetRequest;
 
   try {
@@ -4372,34 +3065,37 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **jobId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**any**
+**string**
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`
+- **Accept**: `text/plain`, `application/json`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Raw compile log. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The job or its captured log does not exist. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getJobV0JobsJobIdGet
 
-> any getJobV0JobsJobIdGet(jobId, authorization)
+> CompileJobOut getJobV0JobsJobIdGet(jobId)
 
 Poll a job
 
@@ -4414,13 +3110,15 @@ import type { GetJobV0JobsJobIdGetRequest } from '@mnexa-ai/agentdrive-sdk';
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     jobId: jobId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies GetJobV0JobsJobIdGetRequest;
 
   try {
@@ -4441,15 +3139,14 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **jobId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**any**
+[**CompileJobOut**](CompileJobOut.md)
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -4460,15 +3157,19 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | No such compile job exists in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getProjectV0ProjectsFldIdGet
 
-> any getProjectV0ProjectsFldIdGet(fldId, authorization)
+> CompileProjectOut getProjectV0ProjectsFldIdGet(fldId)
 
 Get a project\&#39;s compile config
 
@@ -4483,13 +3184,15 @@ import type { GetProjectV0ProjectsFldIdGetRequest } from '@mnexa-ai/agentdrive-s
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     fldId: fldId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies GetProjectV0ProjectsFldIdGetRequest;
 
   try {
@@ -4510,15 +3213,14 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **fldId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**any**
+[**CompileProjectOut**](CompileProjectOut.md)
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -4529,15 +3231,19 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The project folder does not exist or has no compile configuration. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getShareRouteV0SharesShrIdGet
 
-> ShareOut getShareRouteV0SharesShrIdGet(shrId, authorization)
+> ShareOut getShareRouteV0SharesShrIdGet(shrId)
 
 Read a single share link\&#39;s metadata (requires can_manage)
 
@@ -4554,13 +3260,15 @@ import type { GetShareRouteV0SharesShrIdGetRequest } from '@mnexa-ai/agentdrive-
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     shrId: shrId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies GetShareRouteV0SharesShrIdGetRequest;
 
   try {
@@ -4581,7 +3289,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **shrId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -4589,7 +3296,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -4600,81 +3307,19 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## getShareStateWebShareRidGet
-
-> any getShareStateWebShareRidGet(rid)
-
-Get Share State
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { GetShareStateWebShareRidGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    rid: rid_example,
-  } satisfies GetShareStateWebShareRidGetRequest;
-
-  try {
-    const data = await api.getShareStateWebShareRidGet(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **rid** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The share does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getUploadStatusV0UploadsUploadIdGet
 
-> UploadStatusOut getUploadStatusV0UploadsUploadIdGet(uploadId, authorization)
+> UploadStatusOut getUploadStatusV0UploadsUploadIdGet(uploadId)
 
 Get the status of a large (direct-to-GCS) upload session
 
@@ -4691,13 +3336,15 @@ import type { GetUploadStatusV0UploadsUploadIdGetRequest } from '@mnexa-ai/agent
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     uploadId: uploadId_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies GetUploadStatusV0UploadsUploadIdGetRequest;
 
   try {
@@ -4718,7 +3365,6 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **uploadId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -4726,7 +3372,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -4737,16 +3383,19 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **404** | No such upload for this drive |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | No such upload for this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## healthHealthGet
 
-> any healthHealthGet()
+> HealthOut healthHealthGet()
 
 Health
 
@@ -4783,7 +3432,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**any**
+[**HealthOut**](HealthOut.md)
 
 ### Authorization
 
@@ -4798,91 +3447,15 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## inviteMemberWebWebMembersInvitePost
-
-> any inviteMemberWebWebMembersInvitePost(email, csrf, role, workspaceName)
-
-Invite Member Web
-
-Admin invites a person by email (workspaces-design §4.4). Sends the invite email via the e2a lane. Admin-only; a non-admin is bounced.  Rename-on-first-invite (workspaces-design §4.6): a single-member workspace still carries its onboarding default name. The invite form offers an optional &#x60;workspace_name&#x60; — a LIGHT prompt, not a gate. If non-empty, we rename the workspace in the SAME submit (before sending) so teammates land in a named workspace, not \&quot;Someone\&#39;s Drive\&quot;.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { InviteMemberWebWebMembersInvitePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    email: email_example,
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    role: role_example,
-    // string (optional)
-    workspaceName: workspaceName_example,
-  } satisfies InviteMemberWebWebMembersInvitePostRequest;
-
-  try {
-    const data = await api.inviteMemberWebWebMembersInvitePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **email** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **role** | `string` |  | [Optional] [Defaults to `&#39;member&#39;`] |
-| **workspaceName** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **503** | The database reachability probe failed. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## listArtifactVersionsV0ArtifactsArtIdVersionsGet
 
-> VersionPage listArtifactVersionsV0ArtifactsArtIdVersionsGet(artId, cursor, limit, authorization)
+> VersionPage listArtifactVersionsV0ArtifactsArtIdVersionsGet(artId, cursor, limit)
 
 List versions of an artifact, newest first
 
@@ -4899,7 +3472,11 @@ import type { ListArtifactVersionsV0ArtifactsArtIdVersionsGetRequest } from '@mn
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -4908,8 +3485,6 @@ async function example() {
     cursor: cursor_example,
     // number (optional)
     limit: 56,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies ListArtifactVersionsV0ArtifactsArtIdVersionsGetRequest;
 
   try {
@@ -4932,7 +3507,6 @@ example().catch(console.error);
 | **artId** | `string` |  | [Defaults to `undefined`] |
 | **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `50`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -4940,7 +3514,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -4951,15 +3525,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The pagination cursor is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The artifact does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## listArtifactsV0ArtifactsGet
 
-> Page listArtifactsV0ArtifactsGet(prefix, label, fileType, cursor, limit, authorization)
+> Page listArtifactsV0ArtifactsGet(prefix, label, fileType, cursor, limit)
 
 List artifacts in the drive
 
@@ -4976,7 +3555,11 @@ import type { ListArtifactsV0ArtifactsGetRequest } from '@mnexa-ai/agentdrive-sd
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string (optional)
@@ -4989,8 +3572,6 @@ async function example() {
     cursor: cursor_example,
     // number (optional)
     limit: 56,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies ListArtifactsV0ArtifactsGetRequest;
 
   try {
@@ -5015,7 +3596,6 @@ example().catch(console.error);
 | **fileType** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `50`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -5023,7 +3603,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -5034,15 +3614,19 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The pagination cursor is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## listEventsRouteV0EventsGet
 
-> EventPage listEventsRouteV0EventsGet(artId, action, since, before, cursor, limit, authorization)
+> EventPage listEventsRouteV0EventsGet(artId, action, since, before, cursor, limit)
 
 Read the append-only event log for the authenticated drive
 
@@ -5059,7 +3643,11 @@ import type { ListEventsRouteV0EventsGetRequest } from '@mnexa-ai/agentdrive-sdk
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string (optional)
@@ -5074,8 +3662,6 @@ async function example() {
     cursor: cursor_example,
     // number (optional)
     limit: 56,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies ListEventsRouteV0EventsGetRequest;
 
   try {
@@ -5101,7 +3687,6 @@ example().catch(console.error);
 | **before** | `Date` |  | [Optional] [Defaults to `undefined`] |
 | **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `50`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -5109,7 +3694,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -5120,15 +3705,19 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The pagination cursor is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## listGrantsRouteV0GrantsGet
 
-> GrantList listGrantsRouteV0GrantsGet(resource, cursor, limit, authorization)
+> GrantList listGrantsRouteV0GrantsGet(resource, cursor, limit)
 
 List live grants on a resource (requires can_manage)
 
@@ -5145,7 +3734,11 @@ import type { ListGrantsRouteV0GrantsGetRequest } from '@mnexa-ai/agentdrive-sdk
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string | art_*_/fld_* id or a path
@@ -5154,8 +3747,6 @@ async function example() {
     cursor: cursor_example,
     // number (optional)
     limit: 56,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies ListGrantsRouteV0GrantsGetRequest;
 
   try {
@@ -5178,7 +3769,6 @@ example().catch(console.error);
 | **resource** | `string` | art_*_/fld_* id or a path | [Defaults to `undefined`] |
 | **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -5186,7 +3776,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -5197,17 +3787,24 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The cursor or resource reference is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The target resource does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## listProjectJobsV0ProjectsFldIdJobsGet
 
-> any listProjectJobsV0ProjectsFldIdJobsGet(fldId, status, limit, authorization)
+> CompileJobListOut listProjectJobsV0ProjectsFldIdJobsGet(fldId, status, limit, cursor)
 
 List a project\&#39;s jobs
+
+List compile jobs newest first in stable &#x60;(created_at, job_id)&#x60; descending order. Pass a non-null &#x60;next_cursor&#x60; back as &#x60;cursor&#x60; to continue; malformed cursors return &#x60;400 BAD_CURSOR&#x60;. The cursor contains only the keyset position, so a &#x60;status&#x60; filter must be re-sent unchanged on every page. &#x60;limit&#x60; retains its existing default of 50 and validated range of 1 through 200.
 
 ### Example
 
@@ -5220,7 +3817,11 @@ import type { ListProjectJobsV0ProjectsFldIdJobsGetRequest } from '@mnexa-ai/age
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -5230,7 +3831,7 @@ async function example() {
     // number (optional)
     limit: 56,
     // string (optional)
-    authorization: authorization_example,
+    cursor: cursor_example,
   } satisfies ListProjectJobsV0ProjectsFldIdJobsGetRequest;
 
   try {
@@ -5253,15 +3854,15 @@ example().catch(console.error);
 | **fldId** | `string` |  | [Defaults to `undefined`] |
 | **status** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `50`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**any**
+[**CompileJobListOut**](CompileJobListOut.md)
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -5272,15 +3873,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The status filter is invalid, or the cursor is malformed (&#x60;BAD_CURSOR&#x60;). |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The project folder does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## listSharesRouteV0SharesGet
 
-> ShareList listSharesRouteV0SharesGet(resource, cursor, limit, authorization)
+> ShareList listSharesRouteV0SharesGet(resource, cursor, limit)
 
 List live share links on a resource (requires can_manage)
 
@@ -5297,7 +3903,11 @@ import type { ListSharesRouteV0SharesGetRequest } from '@mnexa-ai/agentdrive-sdk
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string | art_*_/fld_* id or a path
@@ -5306,8 +3916,6 @@ async function example() {
     cursor: cursor_example,
     // number (optional)
     limit: 56,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies ListSharesRouteV0SharesGetRequest;
 
   try {
@@ -5330,7 +3938,6 @@ example().catch(console.error);
 | **resource** | `string` | art_*_/fld_* id or a path | [Defaults to `undefined`] |
 | **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -5338,7 +3945,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -5349,19 +3956,24 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The cursor or resource reference is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The target resource does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## listTrashRouteV0DrivesDriveIdTrashGet
 
-> any listTrashRouteV0DrivesDriveIdTrashGet(driveId, authorization)
+> TrashOut listTrashRouteV0DrivesDriveIdTrashGet(driveId, cursor, limit)
 
 List the authenticated drive\&#39;s trash
 
-Returns soft-deleted artifacts on the drive plus the drive\&#39;s own soft-delete state (if applicable). The path-param &#x60;drive_id&#x60; MUST match the authenticated drive.
+Returns soft-deleted artifacts on the drive plus the drive\&#39;s own soft-delete state (if applicable). The path-param &#x60;drive_id&#x60; MUST match the authenticated drive.  **Compatibility window:** &#x60;limit&#x60; or &#x60;cursor&#x60; opts into cursor pagination. Unadorned requests retain the legacy complete result during the migration window. Paginated requests are clamped to 1–100 items (default 50 when only &#x60;cursor&#x60; is supplied). &#x60;items&#x60; is canonical; &#x60;artifacts&#x60; is a deprecated same-value alias.
 
 ### Example
 
@@ -5374,13 +3986,19 @@ import type { ListTrashRouteV0DrivesDriveIdTrashGetRequest } from '@mnexa-ai/age
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     driveId: driveId_example,
     // string (optional)
-    authorization: authorization_example,
+    cursor: cursor_example,
+    // number (optional)
+    limit: 56,
   } satisfies ListTrashRouteV0DrivesDriveIdTrashGetRequest;
 
   try {
@@ -5401,15 +4019,16 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **driveId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **limit** | `number` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**any**
+[**TrashOut**](TrashOut.md)
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -5420,15 +4039,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The cursor is malformed (&#x60;BAD_CURSOR&#x60;). |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | No matching authenticated drive exists. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## loginAuthLoginGet
 
-> any loginAuthLoginGet(returnTo)
+> loginAuthLoginGet(returnTo)
 
 Login
 
@@ -5473,7 +4097,7 @@ example().catch(console.error);
 
 ### Return type
 
-**any**
+`void` (Empty response body)
 
 ### Authorization
 
@@ -5488,15 +4112,15 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **302** | Redirect to the canonical or authentication URL. |  * Location - Redirect target. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## logoutAuthLogoutPost
 
-> any logoutAuthLogoutPost(csrf)
+> logoutAuthLogoutPost(csrf)
 
 Logout
 
@@ -5541,7 +4165,7 @@ example().catch(console.error);
 
 ### Return type
 
-**any**
+`void` (Empty response body)
 
 ### Authorization
 
@@ -5556,195 +4180,16 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## marketingGet
-
-> string marketingGet()
-
-Marketing
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { MarketingGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.marketingGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## marketplaceBrowseMarketplaceGet
-
-> string marketplaceBrowseMarketplaceGet()
-
-Marketplace Browse
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { MarketplaceBrowseMarketplaceGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.marketplaceBrowseMarketplaceGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## marketplaceDetailMarketplaceSlugGet
-
-> string marketplaceDetailMarketplaceSlugGet(slug)
-
-Marketplace Detail
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { MarketplaceDetailMarketplaceSlugGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    slug: slug_example,
-  } satisfies MarketplaceDetailMarketplaceSlugGetRequest;
-
-  try {
-    const data = await api.marketplaceDetailMarketplaceSlugGet(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **slug** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`, `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **302** | Redirect to the canonical or authentication URL. |  * Location - Redirect target. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The browser CSRF check failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## meUsageV0DrivesMeUsageGet
 
-> any meUsageV0DrivesMeUsageGet(authorization)
+> DriveUsageOut meUsageV0DrivesMeUsageGet()
 
 Current-period usage + caps for the authenticated drive
 
@@ -5761,15 +4206,14 @@ import type { MeUsageV0DrivesMeUsageGetRequest } from '@mnexa-ai/agentdrive-sdk'
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string (optional)
-    authorization: authorization_example,
-  } satisfies MeUsageV0DrivesMeUsageGetRequest;
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   try {
-    const data = await api.meUsageV0DrivesMeUsageGet(body);
+    const data = await api.meUsageV0DrivesMeUsageGet();
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -5782,18 +4226,15 @@ example().catch(console.error);
 
 ### Parameters
 
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
+This endpoint does not need any parameter.
 
 ### Return type
 
-**any**
+[**DriveUsageOut**](DriveUsageOut.md)
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -5804,15 +4245,18 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## meV0DrivesMeGet
 
-> any meV0DrivesMeGet(authorization)
+> DriveReadOut meV0DrivesMeGet()
 
 Me
 
@@ -5829,15 +4273,14 @@ import type { MeV0DrivesMeGetRequest } from '@mnexa-ai/agentdrive-sdk';
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string (optional)
-    authorization: authorization_example,
-  } satisfies MeV0DrivesMeGetRequest;
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   try {
-    const data = await api.meV0DrivesMeGet(body);
+    const data = await api.meV0DrivesMeGet();
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -5850,18 +4293,15 @@ example().catch(console.error);
 
 ### Parameters
 
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
+This endpoint does not need any parameter.
 
 ### Return type
 
-**any**
+[**DriveReadOut**](DriveReadOut.md)
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -5872,15 +4312,18 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## moveArtifactRouteV0ArtifactsArtIdMovePost
 
-> ArtifactOut moveArtifactRouteV0ArtifactsArtIdMovePost(artId, artifactMoveIn, xAgentdriveActor, ifMatch, authorization)
+> ArtifactOut moveArtifactRouteV0ArtifactsArtIdMovePost(artId, artifactMoveIn, xAgentdriveActor, ifMatch)
 
 Rename / move an artifact to a new path
 
@@ -5897,7 +4340,11 @@ import type { MoveArtifactRouteV0ArtifactsArtIdMovePostRequest } from '@mnexa-ai
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -5908,8 +4355,6 @@ async function example() {
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
     ifMatch: ifMatch_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies MoveArtifactRouteV0ArtifactsArtIdMovePostRequest;
 
   try {
@@ -5933,7 +4378,6 @@ example().catch(console.error);
 | **artifactMoveIn** | [ArtifactMoveIn](ArtifactMoveIn.md) |  | |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -5941,7 +4385,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -5952,15 +4396,21 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | No such artifact exists in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | The destination path is already occupied. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | A request precondition did not match. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## moveFolderByIdV0FoldersFldIdMovePost
 
-> FolderOut moveFolderByIdV0FoldersFldIdMovePost(fldId, folderMoveIn, xAgentdriveActor, ifMatch, authorization)
+> FolderOut moveFolderByIdV0FoldersFldIdMovePost(fldId, folderMoveIn, xAgentdriveActor, ifMatch)
 
 Rename / move a folder by stable ID (cascade descendants)
 
@@ -5975,7 +4425,11 @@ import type { MoveFolderByIdV0FoldersFldIdMovePostRequest } from '@mnexa-ai/agen
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -5986,8 +4440,6 @@ async function example() {
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
     ifMatch: ifMatch_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies MoveFolderByIdV0FoldersFldIdMovePostRequest;
 
   try {
@@ -6011,7 +4463,6 @@ example().catch(console.error);
 | **folderMoveIn** | [FolderMoveIn](FolderMoveIn.md) |  | |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -6019,7 +4470,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -6030,15 +4481,22 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The destination path is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The folder does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | The destination path is already occupied. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | A request precondition did not match. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## moveFolderByPathV0FoldersPathMovePost
 
-> FolderOut moveFolderByPathV0FoldersPathMovePost(path, folderMoveIn, xAgentdriveActor, ifMatch, authorization)
+> FolderOut moveFolderByPathV0FoldersPathMovePost(path, folderMoveIn, xAgentdriveActor, ifMatch)
 
 Rename / move a folder (cascade-update descendants)
 
@@ -6055,7 +4513,11 @@ import type { MoveFolderByPathV0FoldersPathMovePostRequest } from '@mnexa-ai/age
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -6066,8 +4528,6 @@ async function example() {
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
     ifMatch: ifMatch_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies MoveFolderByPathV0FoldersPathMovePostRequest;
 
   try {
@@ -6091,7 +4551,6 @@ example().catch(console.error);
 | **folderMoveIn** | [FolderMoveIn](FolderMoveIn.md) |  | |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -6099,7 +4558,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -6110,86 +4569,22 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## oauthDisconnectWebOauthDisconnectPost
-
-> any oauthDisconnectWebOauthDisconnectPost(chainId, csrf)
-
-Oauth Disconnect
-
-Disconnect one MCP client: revoke its whole rotation chain (mcp-oauth-design §4.8). Ownership is checked against the chain\&#39;s user_id — the form value is attacker-controllable.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { OauthDisconnectWebOauthDisconnectPostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    chainId: chainId_example,
-    // string
-    csrf: csrf_example,
-  } satisfies OauthDisconnectWebOauthDisconnectPostRequest;
-
-  try {
-    const data = await api.oauthDisconnectWebOauthDisconnectPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **chainId** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The source or destination path is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The source folder does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | The destination path is already occupied. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | A request precondition did not match. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## patchArtifactRouteV0ArtifactsArtIdPatch
 
-> ArtifactOut patchArtifactRouteV0ArtifactsArtIdPatch(artId, artifactPatchIn, xAgentdriveActor, ifMatch, authorization)
+> ArtifactOut patchArtifactRouteV0ArtifactsArtIdPatch(artId, artifactPatchIn, xAgentdriveActor, ifMatch)
 
 Edit artifact metadata (labels / metadata / source)
 
@@ -6206,7 +4601,11 @@ import type { PatchArtifactRouteV0ArtifactsArtIdPatchRequest } from '@mnexa-ai/a
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -6217,8 +4616,6 @@ async function example() {
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
     ifMatch: ifMatch_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies PatchArtifactRouteV0ArtifactsArtIdPatchRequest;
 
   try {
@@ -6242,7 +4639,6 @@ example().catch(console.error);
 | **artifactPatchIn** | [ArtifactPatchIn](ArtifactPatchIn.md) |  | |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -6250,7 +4646,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -6261,15 +4657,21 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The labels or source metadata are invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | No such live artifact exists in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | A request precondition did not match. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## patchFolderByIdV0FoldersFldIdPatch
 
-> FolderOut patchFolderByIdV0FoldersFldIdPatch(fldId, folderPatchIn, xAgentdriveActor, ifMatch, authorization)
+> FolderOut patchFolderByIdV0FoldersFldIdPatch(fldId, folderPatchIn, xAgentdriveActor, ifMatch)
 
 Update folder metadata by stable ID
 
@@ -6284,7 +4686,11 @@ import type { PatchFolderByIdV0FoldersFldIdPatchRequest } from '@mnexa-ai/agentd
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -6295,8 +4701,6 @@ async function example() {
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
     ifMatch: ifMatch_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies PatchFolderByIdV0FoldersFldIdPatchRequest;
 
   try {
@@ -6320,7 +4724,6 @@ example().catch(console.error);
 | **folderPatchIn** | [FolderPatchIn](FolderPatchIn.md) |  | |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -6328,7 +4731,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -6339,15 +4742,21 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The folder update is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The folder does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | A request precondition did not match. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## patchFolderByPathV0FoldersPathPatch
 
-> FolderOut patchFolderByPathV0FoldersPathPatch(path, folderPatchIn, xAgentdriveActor, ifMatch, authorization)
+> FolderOut patchFolderByPathV0FoldersPathPatch(path, folderPatchIn, xAgentdriveActor, ifMatch)
 
 Update folder metadata by path
 
@@ -6364,7 +4773,11 @@ import type { PatchFolderByPathV0FoldersPathPatchRequest } from '@mnexa-ai/agent
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -6375,8 +4788,6 @@ async function example() {
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
     ifMatch: ifMatch_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies PatchFolderByPathV0FoldersPathPatchRequest;
 
   try {
@@ -6400,7 +4811,6 @@ example().catch(console.error);
 | **folderPatchIn** | [FolderPatchIn](FolderPatchIn.md) |  | |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -6408,7 +4818,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -6419,15 +4829,21 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The folder update is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The folder does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | A request precondition did not match. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## patchGrantRouteV0GrantsGrnIdPatch
 
-> GrantOut patchGrantRouteV0GrantsGrnIdPatch(grnId, grantPatchIn, xAgentdriveActor, authorization)
+> GrantOut patchGrantRouteV0GrantsGrnIdPatch(grnId, grantPatchIn, xAgentdriveActor)
 
 Update a grant\&#39;s role and/or expiry (requires can_manage)
 
@@ -6442,7 +4858,11 @@ import type { PatchGrantRouteV0GrantsGrnIdPatchRequest } from '@mnexa-ai/agentdr
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -6451,8 +4871,6 @@ async function example() {
     grantPatchIn: ...,
     // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies PatchGrantRouteV0GrantsGrnIdPatchRequest;
 
   try {
@@ -6475,7 +4893,6 @@ example().catch(console.error);
 | **grnId** | `string` |  | [Defaults to `undefined`] |
 | **grantPatchIn** | [GrantPatchIn](GrantPatchIn.md) |  | |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -6483,7 +4900,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -6494,15 +4911,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The grant update or expiry is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The grant does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## postDescribeV0QueryDescribePost
 
-> any postDescribeV0QueryDescribePost(describeIn, authorization)
+> DatasetDescriptionOut postDescribeV0QueryDescribePost(describeIn)
 
 Describe a dataset\&#39;s column schema
 
@@ -6517,13 +4939,15 @@ import type { PostDescribeV0QueryDescribePostRequest } from '@mnexa-ai/agentdriv
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // DescribeIn
     describeIn: ...,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies PostDescribeV0QueryDescribePostRequest;
 
   try {
@@ -6544,15 +4968,14 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **describeIn** | [DescribeIn](DescribeIn.md) |  | |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**any**
+[**DatasetDescriptionOut**](DatasetDescriptionOut.md)
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -6563,15 +4986,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The referenced dataset is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **503** | The configured query engine is unavailable. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## postFeedbackV0FeedbackPost
 
-> any postFeedbackV0FeedbackPost(authorization)
+> FeedbackCreateOut postFeedbackV0FeedbackPost()
 
 Post Feedback
 
@@ -6588,15 +5016,14 @@ import type { PostFeedbackV0FeedbackPostRequest } from '@mnexa-ai/agentdrive-sdk
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string (optional)
-    authorization: authorization_example,
-  } satisfies PostFeedbackV0FeedbackPostRequest;
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   try {
-    const data = await api.postFeedbackV0FeedbackPost(body);
+    const data = await api.postFeedbackV0FeedbackPost();
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -6609,18 +5036,15 @@ example().catch(console.error);
 
 ### Parameters
 
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
+This endpoint does not need any parameter.
 
 ### Return type
 
-**any**
+[**FeedbackCreateOut**](FeedbackCreateOut.md)
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -6631,15 +5055,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **201** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **201** | Successful Response |  * Location - Canonical URL of the created resource. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The feedback body or attachment list is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | An attached artifact does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## postLookupValuesV0QueryLookupValuesPost
 
-> any postLookupValuesV0QueryLookupValuesPost(lookupValuesIn, authorization)
+> LookupValuesOut postLookupValuesV0QueryLookupValuesPost(lookupValuesIn)
 
 List distinct values of a dataset column
 
@@ -6654,13 +5083,15 @@ import type { PostLookupValuesV0QueryLookupValuesPostRequest } from '@mnexa-ai/a
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // LookupValuesIn
     lookupValuesIn: ...,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies PostLookupValuesV0QueryLookupValuesPostRequest;
 
   try {
@@ -6681,15 +5112,14 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **lookupValuesIn** | [LookupValuesIn](LookupValuesIn.md) |  | |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**any**
+[**LookupValuesOut**](LookupValuesOut.md)
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -6700,15 +5130,21 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The dataset, column, or limit is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **402** | The current plan does not permit this query. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **503** | The configured query engine is unavailable. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## postQueryV0QueryPost
 
-> any postQueryV0QueryPost(queryIn, authorization)
+> ResponsePostQueryV0QueryPost postQueryV0QueryPost(queryIn)
 
 Run a read-only SQL query over authorized datasets
 
@@ -6723,13 +5159,15 @@ import type { PostQueryV0QueryPostRequest } from '@mnexa-ai/agentdrive-sdk';
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // QueryIn
     queryIn: ...,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies PostQueryV0QueryPostRequest;
 
   try {
@@ -6750,15 +5188,14 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **queryIn** | [QueryIn](QueryIn.md) |  | |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**any**
+[**ResponsePostQueryV0QueryPost**](ResponsePostQueryV0QueryPost.md)
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -6769,208 +5206,21 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## privacyPagePrivacyGet
-
-> string privacyPagePrivacyGet()
-
-Privacy Page
-
-Public privacy &amp; data-handling disclosure. Linked from the marketing footer and the per-drive privacy settings card. Public — same disclosure for every visitor; no per-drive personalization.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { PrivacyPagePrivacyGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.privacyPagePrivacyGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## projectPreviewPageFFldIdPreviewGet
-
-> string projectPreviewPageFFldIdPreviewGet(fldId)
-
-Project Preview Page
-
-Live PDF preview for a project folder (latex-live-preview-design.md).  URL mirrors the folder permalink (&#x60;/f/{fld_id}&#x60; → dashboard; &#x60;/f/{fld_id}/preview&#x60; → live preview) and the editor (&#x60;/a/{art_id}/edit&#x60;). Owner-only focused viewer: the page polls &#x60;/web/projects/{fld_id}/preview&#x60; and re-renders the compiled PDF in place (PDF.js) as the agent recompiles. Anonymous / non-owner → bounce through login with this URL as return_to. The page renders an empty shell; preview.js owns all behavior.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { ProjectPreviewPageFFldIdPreviewGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    fldId: fldId_example,
-  } satisfies ProjectPreviewPageFFldIdPreviewGetRequest;
-
-  try {
-    const data = await api.projectPreviewPageFFldIdPreviewGet(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **fldId** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`, `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## publisherProfilePublishersHandleGet
-
-> string publisherProfilePublishersHandleGet(handle)
-
-Publisher Profile
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { PublisherProfilePublishersHandleGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    handle: handle_example,
-  } satisfies PublisherProfilePublishersHandleGetRequest;
-
-  try {
-    const data = await api.publisherProfilePublishersHandleGet(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **handle** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`, `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The SQL or referenced dataset is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **402** | The current plan does not permit this query. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **503** | The configured query engine is unavailable. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## putArtifactV0ArtifactsPathPut
 
-> ArtifactOut putArtifactV0ArtifactsPathPut(path, contentType, xAgentdriveLabels, xAgentdriveMetadata, xAgentdriveSource, xAgentdriveActor, xAgentdriveChangeSummary, xAgentdriveChecksum, contentMd5, ifMatch, ifNoneMatch, authorization)
+> ArtifactOut putArtifactV0ArtifactsPathPut(path, contentType, xAgentdriveLabels, xAgentdriveMetadata, xAgentdriveSource, xAgentdriveActor, xAgentdriveChangeSummary, xAgentdriveChecksum, contentMd5, ifMatch, ifNoneMatch)
 
 Upload (or overwrite) an artifact
 
@@ -6987,7 +5237,11 @@ import type { PutArtifactV0ArtifactsPathPutRequest } from '@mnexa-ai/agentdrive-
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -7012,8 +5266,6 @@ async function example() {
     ifMatch: ifMatch_example,
     // string (optional)
     ifNoneMatch: ifNoneMatch_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies PutArtifactV0ArtifactsPathPutRequest;
 
   try {
@@ -7044,7 +5296,6 @@ example().catch(console.error);
 | **contentMd5** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **ifNoneMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -7052,7 +5303,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -7063,15 +5314,23 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **201** | Artifact created at a previously unused path. |  * ETag - Current strong entity tag. <br>  * Location - Canonical URL of the created resource. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The path, metadata, source, or conditional headers are invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | The path is occupied and overwrite semantics do not permit replacement. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | A request precondition did not match. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **413** | The artifact or resulting drive storage exceeds its limit. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## putProjectV0ProjectsFldIdPut
 
-> any putProjectV0ProjectsFldIdPut(fldId, projectConfigIn, authorization)
+> CompileProjectOut putProjectV0ProjectsFldIdPut(fldId, projectConfigIn)
 
 Set a project\&#39;s compile config (entrypoint/engine/auto_compile)
 
@@ -7086,15 +5345,17 @@ import type { PutProjectV0ProjectsFldIdPutRequest } from '@mnexa-ai/agentdrive-s
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     fldId: fldId_example,
     // ProjectConfigIn
     projectConfigIn: ...,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies PutProjectV0ProjectsFldIdPutRequest;
 
   try {
@@ -7116,15 +5377,14 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **fldId** | `string` |  | [Defaults to `undefined`] |
 | **projectConfigIn** | [ProjectConfigIn](ProjectConfigIn.md) |  | |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**any**
+[**CompileProjectOut**](CompileProjectOut.md)
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -7135,272 +5395,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## recoveryNewAccountAuthRecoveryNewAccountPost
-
-> any recoveryNewAccountAuthRecoveryNewAccountPost(csrf, claim)
-
-Recovery New Account
-
-Start fresh under the same identity.  Provisions a new user / org / drive; the soft-deleted record stays in trash until garbage-collected. Lands on /welcome so the user sees the freshly-minted API key once.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { RecoveryNewAccountAuthRecoveryNewAccountPostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    claim: claim_example,
-  } satisfies RecoveryNewAccountAuthRecoveryNewAccountPostRequest;
-
-  try {
-    const data = await api.recoveryNewAccountAuthRecoveryNewAccountPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **claim** | `string` |  | [Optional] [Defaults to `&#39;bind&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## recoveryNewAccountExpiredAuthRecoveryNewAccountExpiredGet
-
-> any recoveryNewAccountExpiredAuthRecoveryNewAccountExpiredGet()
-
-Recovery New Account Expired
-
-Friendly landing for the rare race where the soft-deleted row has been hard-purged between callback and recovery-page render. Clears the recovery cookie (only when one is present) and tells the user to retry — fresh sign-in will JIT-provision cleanly since no soft-deleted record blocks it any more.  Gated on &#x60;pending_recovery&#x60; so a normal signed-in user who navigates here directly doesn\&#39;t get their session wiped. Without a pending payload there\&#39;s nothing to expire; bounce home.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { RecoveryNewAccountExpiredAuthRecoveryNewAccountExpiredGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.recoveryNewAccountExpiredAuthRecoveryNewAccountExpiredGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## recoveryPageAuthRecoveryGet
-
-> any recoveryPageAuthRecoveryGet()
-
-Recovery Page
-
-Show the recover-or-start-fresh decision. Requires a valid &#x60;pending_recovery&#x60; payload — direct hits without one bounce to /auth/login (the recovery state is only meaningful inside the callback → recovery → resolve chain).
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { RecoveryPageAuthRecoveryGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.recoveryPageAuthRecoveryGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## recoveryRestoreAuthRecoveryRestorePost
-
-> any recoveryRestoreAuthRecoveryRestorePost(csrf)
-
-Recovery Restore
-
-Recover the soft-deleted account. Undelete cascade runs in &#x60;onboarding.recover_account&#x60;; on success we set the normal session and bounce to /dashboard. If the retention window has lapsed between page-render and POST (the GC raced us), surface the same \&quot;expired\&quot; redirect so the user lands somewhere actionable.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { RecoveryRestoreAuthRecoveryRestorePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    csrf: csrf_example,
-  } satisfies RecoveryRestoreAuthRecoveryRestorePostRequest;
-
-  try {
-    const data = await api.recoveryRestoreAuthRecoveryRestorePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The compile engine or entrypoint is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The project folder does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## redeemShareSShareKeyGet
 
-> any redeemShareSShareKeyGet(shareKey)
+> ShareRedeemOut redeemShareSShareKeyGet(shareKey)
 
 Redeem Share
 
@@ -7443,7 +5451,7 @@ example().catch(console.error);
 
 ### Return type
 
-**any**
+[**ShareRedeemOut**](ShareRedeemOut.md)
 
 ### Authorization
 
@@ -7452,21 +5460,24 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`
+- **Accept**: `application/json`, `text/html`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | JSON capability response or browser password form. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **302** | Browser redemption succeeded; continue to the canonical URL. |  * Location - Redirect target. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | A password is required or the supplied password is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The share is invalid, expired, or no longer authorized. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## redeemShareWithPasswordSShareKeyPost
 
-> any redeemShareWithPasswordSShareKeyPost(shareKey, password)
+> ShareRedeemOut redeemShareWithPasswordSShareKeyPost(shareKey, password)
 
 Redeem Share With Password
 
@@ -7512,7 +5523,7 @@ example().catch(console.error);
 
 ### Return type
 
-**any**
+[**ShareRedeemOut**](ShareRedeemOut.md)
 
 ### Authorization
 
@@ -7521,314 +5532,24 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
+- **Accept**: `application/json`, `text/html`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## removeMemberWebWebMembersTargetUserIdRemovePost
-
-> any removeMemberWebWebMembersTargetUserIdRemovePost(targetUserId, csrf, organizationId)
-
-Remove Member Web
-
-Remove a member (admin) or self-leave (any member). Soft-deletes the member\&#39;s owned drives in that workspace (workspaces-design §4.4). The sole-admin-with-members case is blocked (promote-or-delete).  Org scoping: defaults to the session\&#39;s active workspace. The \&quot;Your workspaces\&quot; list passes an explicit &#x60;organization_id&#x60; so a user can Leave a NON-active workspace too — authorized against THAT org\&#39;s standing (self-leave for any member there; admin to remove others). A forged/non-member org id is a no-leak forbidden.  Auth: gates on &#x60;current_user&#x60; + per-org standing, NOT &#x60;current_drive&#x60; (a driveless member of the target workspace must still be able to leave it). Attribution uses the user\&#39;s email.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { RemoveMemberWebWebMembersTargetUserIdRemovePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    targetUserId: targetUserId_example,
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    organizationId: organizationId_example,
-  } satisfies RemoveMemberWebWebMembersTargetUserIdRemovePostRequest;
-
-  try {
-    const data = await api.removeMemberWebWebMembersTargetUserIdRemovePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **targetUserId** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **organizationId** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## renameDriveWebWebDrivesDriveIdRenamePost
-
-> any renameDriveWebWebDrivesDriveIdRenamePost(driveId, name, csrf)
-
-Rename Drive Web
-
-Rename a drive the caller owns (workspaces-design §4.5).  Owner-only: &#x60;drives.get_owned_drive&#x60; returns None for a peer-owned / forged / soft-deleted id, which we treat as a silent no-op (no-leak) and bounce back to the dashboard.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { RenameDriveWebWebDrivesDriveIdRenamePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    driveId: driveId_example,
-    // string
-    name: name_example,
-    // string
-    csrf: csrf_example,
-  } satisfies RenameDriveWebWebDrivesDriveIdRenamePostRequest;
-
-  try {
-    const data = await api.renameDriveWebWebDrivesDriveIdRenamePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **driveId** | `string` |  | [Defaults to `undefined`] |
-| **name** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## renameWorkspaceWebWebWorkspacesOrgIdRenamePost
-
-> any renameWorkspaceWebWebWorkspacesOrgIdRenamePost(orgId, name, csrf)
-
-Rename Workspace Web
-
-Rename a workspace the caller administers (workspaces-design §4.6).  Admin-gated against the PATH org (not just the session) so a stale cookie can\&#39;t redirect the rename. A non-admin / non-member is a no-leak no-op.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { RenameWorkspaceWebWebWorkspacesOrgIdRenamePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    orgId: orgId_example,
-    // string
-    name: name_example,
-    // string
-    csrf: csrf_example,
-  } satisfies RenameWorkspaceWebWebWorkspacesOrgIdRenamePostRequest;
-
-  try {
-    const data = await api.renameWorkspaceWebWebWorkspacesOrgIdRenamePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **orgId** | `string` |  | [Defaults to `undefined`] |
-| **name** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## resendInvitationWebWebInvitationsInvitationIdResendPost
-
-> any resendInvitationWebWebInvitationsInvitationIdResendPost(invitationId, csrf)
-
-Resend Invitation Web
-
-Admin re-mints + re-emails a pending invite (workspaces-design §8).
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { ResendInvitationWebWebInvitationsInvitationIdResendPostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    invitationId: invitationId_example,
-    // string
-    csrf: csrf_example,
-  } satisfies ResendInvitationWebWebInvitationsInvitationIdResendPostRequest;
-
-  try {
-    const data = await api.resendInvitationWebWebInvitationsInvitationIdResendPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **invitationId** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | JSON capability response or browser password form. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **302** | Browser redemption succeeded; continue to the canonical URL. |  * Location - Redirect target. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | A password is required or the supplied password is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The share is invalid, expired, or no longer authorized. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## restoreArtifactV0ArtifactsArtIdRestorePost
 
-> ArtifactOut restoreArtifactV0ArtifactsArtIdRestorePost(artId, rename, overwrite, xAgentdriveActor, ifMatch, authorization)
+> ArtifactOut restoreArtifactV0ArtifactsArtIdRestorePost(artId, rename, overwrite, xAgentdriveActor, ifMatch)
 
 Restore a soft-deleted artifact
 
@@ -7845,7 +5566,11 @@ import type { RestoreArtifactV0ArtifactsArtIdRestorePostRequest } from '@mnexa-a
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -7858,8 +5583,6 @@ async function example() {
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
     ifMatch: ifMatch_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies RestoreArtifactV0ArtifactsArtIdRestorePostRequest;
 
   try {
@@ -7884,7 +5607,6 @@ example().catch(console.error);
 | **overwrite** | `boolean` | Soft-delete the live occupant at the original path and restore there. Audit &#x60;metadata.cause&#x3D;\&#39;restore_conflict_overwrite\&#39;&#x60;. Mutually exclusive with &#x60;rename&#x60;. | [Optional] [Defaults to `false`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -7892,7 +5614,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -7903,15 +5625,21 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | No restorable artifact exists with this ID. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | The original or requested restore path is occupied. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | A request precondition did not match. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## restoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost
 
-> ArtifactOut restoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost(artId, versionNumber, xAgentdriveActor, ifMatch, authorization)
+> ArtifactOut restoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePost(artId, versionNumber, xAgentdriveActor, ifMatch)
 
 Restore a previous version as a new head version
 
@@ -7928,7 +5656,11 @@ import type { RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestore
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -7939,8 +5671,6 @@ async function example() {
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
     ifMatch: ifMatch_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies RestoreArtifactVersionV0ArtifactsArtIdVersionsVersionNumberRestorePostRequest;
 
   try {
@@ -7964,7 +5694,6 @@ example().catch(console.error);
 | **versionNumber** | `number` |  | [Defaults to `undefined`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -7972,7 +5701,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -7983,15 +5712,21 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The artifact or version does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **410** | The requested version was pruned by retention. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | A request precondition did not match. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## restoreDriveRouteV0DrivesDriveIdRestorePost
 
-> any restoreDriveRouteV0DrivesDriveIdRestorePost(driveId, xAgentdriveActor, ifMatch, authorization)
+> DriveRestoreOut restoreDriveRouteV0DrivesDriveIdRestorePost(driveId, xAgentdriveActor, ifMatch)
 
 Restore a soft-deleted drive
 
@@ -8008,7 +5743,11 @@ import type { RestoreDriveRouteV0DrivesDriveIdRestorePostRequest } from '@mnexa-
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -8017,8 +5756,6 @@ async function example() {
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
     ifMatch: ifMatch_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies RestoreDriveRouteV0DrivesDriveIdRestorePostRequest;
 
   try {
@@ -8041,15 +5778,14 @@ example().catch(console.error);
 | **driveId** | `string` |  | [Defaults to `undefined`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-**any**
+[**DriveRestoreOut**](DriveRestoreOut.md)
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -8060,15 +5796,21 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The drive does not exist or is not in trash. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | The drive cannot be restored into its current workspace state. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | If-Match does not match the current drive. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## restoreFolderByIdV0FoldersFldIdRestorePost
 
-> FolderRestoreOut restoreFolderByIdV0FoldersFldIdRestorePost(fldId, xAgentdriveActor, ifMatch, authorization)
+> FolderRestoreOut restoreFolderByIdV0FoldersFldIdRestorePost(fldId, xAgentdriveActor, ifMatch)
 
 Restore a soft-deleted folder (cascade)
 
@@ -8085,7 +5827,11 @@ import type { RestoreFolderByIdV0FoldersFldIdRestorePostRequest } from '@mnexa-a
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -8094,8 +5840,6 @@ async function example() {
     xAgentdriveActor: xAgentdriveActor_example,
     // string (optional)
     ifMatch: ifMatch_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies RestoreFolderByIdV0FoldersFldIdRestorePostRequest;
 
   try {
@@ -8118,7 +5862,6 @@ example().catch(console.error);
 | **fldId** | `string` |  | [Defaults to `undefined`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **ifMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -8126,7 +5869,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -8137,372 +5880,21 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## revokeGrantWebShareRidGrantGrnIdRevokePost
-
-> any revokeGrantWebShareRidGrantGrnIdRevokePost(rid, grnId, xCsrfToken)
-
-Revoke Grant
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { RevokeGrantWebShareRidGrantGrnIdRevokePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    rid: rid_example,
-    // string
-    grnId: grnId_example,
-    // string (optional)
-    xCsrfToken: xCsrfToken_example,
-  } satisfies RevokeGrantWebShareRidGrantGrnIdRevokePostRequest;
-
-  try {
-    const data = await api.revokeGrantWebShareRidGrantGrnIdRevokePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **rid** | `string` |  | [Defaults to `undefined`] |
-| **grnId** | `string` |  | [Defaults to `undefined`] |
-| **xCsrfToken** | `string` |  | [Optional] [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## revokeInvitationWebWebInvitationsInvitationIdRevokePost
-
-> any revokeInvitationWebWebInvitationsInvitationIdRevokePost(invitationId, csrf)
-
-Revoke Invitation Web
-
-Admin revokes a pending invite (org-scoped, no-leak).
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { RevokeInvitationWebWebInvitationsInvitationIdRevokePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    invitationId: invitationId_example,
-    // string
-    csrf: csrf_example,
-  } satisfies RevokeInvitationWebWebInvitationsInvitationIdRevokePostRequest;
-
-  try {
-    const data = await api.revokeInvitationWebWebInvitationsInvitationIdRevokePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **invitationId** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## revokeKeyWebKeysRevokePost
-
-> any revokeKeyWebKeysRevokePost(keyId, csrf)
-
-Revoke Key
-
-Revoke one of the active drive\&#39;s &#x60;ad_live_&#x60; keys.  Management gate (workspaces-v2 §4.4): revoking a shared drive\&#39;s key is admin-for-team / owner-for-personal — a mere member must not revoke a key out from under the team. &#x60;drive_keys.revoke&#x60; is additionally scoped by drive_id, so the form\&#39;s &#x60;key_id&#x60; can\&#39;t reach another drive\&#39;s key.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { RevokeKeyWebKeysRevokePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    keyId: keyId_example,
-    // string
-    csrf: csrf_example,
-  } satisfies RevokeKeyWebKeysRevokePostRequest;
-
-  try {
-    const data = await api.revokeKeyWebKeysRevokePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **keyId** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## revokeLinkWebShareRidLinkShrIdRevokePost
-
-> any revokeLinkWebShareRidLinkShrIdRevokePost(rid, shrId, xCsrfToken)
-
-Revoke Link
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { RevokeLinkWebShareRidLinkShrIdRevokePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    rid: rid_example,
-    // string
-    shrId: shrId_example,
-    // string (optional)
-    xCsrfToken: xCsrfToken_example,
-  } satisfies RevokeLinkWebShareRidLinkShrIdRevokePostRequest;
-
-  try {
-    const data = await api.revokeLinkWebShareRidLinkShrIdRevokePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **rid** | `string` |  | [Defaults to `undefined`] |
-| **shrId** | `string` |  | [Defaults to `undefined`] |
-| **xCsrfToken** | `string` |  | [Optional] [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## revokeUserTokenWebTokensRevokePost
-
-> any revokeUserTokenWebTokensRevokePost(tokenId, csrf)
-
-Revoke User Token
-
-Revoke one of the caller\&#39;s &#x60;ad_user_&#x60; tokens.  Ownership is enforced inside &#x60;user_tokens.revoke(token_id, user_id)&#x60; — the form\&#39;s &#x60;token_id&#x60; is attacker-controllable, so we never revoke by id alone. A non-matching id is a silent no-op (same redirect).
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { RevokeUserTokenWebTokensRevokePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    tokenId: tokenId_example,
-    // string
-    csrf: csrf_example,
-  } satisfies RevokeUserTokenWebTokensRevokePostRequest;
-
-  try {
-    const data = await api.revokeUserTokenWebTokensRevokePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **tokenId** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | No restorable folder exists with this ID. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | The restore destination is already occupied. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | A request precondition did not match. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## rotateShareRouteV0SharesShrIdRotatePost
 
-> ShareMintOut rotateShareRouteV0SharesShrIdRotatePost(shrId, xAgentdriveActor, authorization)
+> ShareMintOut rotateShareRouteV0SharesShrIdRotatePost(shrId, xAgentdriveActor)
 
 Revoke + reissue a share link\&#39;s key (requires can_share)
 
@@ -8517,15 +5909,17 @@ import type { RotateShareRouteV0SharesShrIdRotatePostRequest } from '@mnexa-ai/a
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
     shrId: shrId_example,
     // string (optional)
     xAgentdriveActor: xAgentdriveActor_example,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies RotateShareRouteV0SharesShrIdRotatePostRequest;
 
   try {
@@ -8547,7 +5941,6 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **shrId** | `string` |  | [Defaults to `undefined`] |
 | **xAgentdriveActor** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -8555,7 +5948,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -8566,15 +5959,20 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The replacement password is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The share does not exist in this drive. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## searchV0SearchGet
 
-> SearchPage searchV0SearchGet(q, label, fileType, prefix, updatedAfter, updatedBefore, limit, authorization)
+> SearchPage searchV0SearchGet(q, label, fileType, prefix, updatedAfter, updatedBefore, limit)
 
 Full-text search over artifacts in the drive
 
@@ -8591,7 +5989,11 @@ import type { SearchV0SearchGetRequest } from '@mnexa-ai/agentdrive-sdk';
 
 async function example() {
   console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: BearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DefaultApi(config);
 
   const body = {
     // string
@@ -8608,8 +6010,6 @@ async function example() {
     updatedBefore: 2013-10-20T19:20:30+01:00,
     // number (optional)
     limit: 56,
-    // string (optional)
-    authorization: authorization_example,
   } satisfies SearchV0SearchGetRequest;
 
   try {
@@ -8636,7 +6036,6 @@ example().catch(console.error);
 | **updatedAfter** | `Date` |  | [Optional] [Defaults to `undefined`] |
 | **updatedBefore** | `Date` |  | [Optional] [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `20`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -8644,7 +6043,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[BearerAuth](../README.md#BearerAuth)
 
 ### HTTP request headers
 
@@ -8655,793 +6054,19 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## setMemberRoleWebWebMembersTargetUserIdRolePost
-
-> any setMemberRoleWebWebMembersTargetUserIdRolePost(targetUserId, role, csrf)
-
-Set Member Role Web
-
-Admin promotes/demotes a member. Last-admin demote is blocked (workspaces-design §4.4).
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { SetMemberRoleWebWebMembersTargetUserIdRolePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    targetUserId: targetUserId_example,
-    // string
-    role: role_example,
-    // string
-    csrf: csrf_example,
-  } satisfies SetMemberRoleWebWebMembersTargetUserIdRolePostRequest;
-
-  try {
-    const data = await api.setMemberRoleWebWebMembersTargetUserIdRolePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **targetUserId** | `string` |  | [Defaults to `undefined`] |
-| **role** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## setPublicWebShareRidPublicPost
-
-> any setPublicWebShareRidPublicPost(rid, publicIn, xCsrfToken)
-
-Set Public
-
-Toggle world-readable: create (idempotent) or revoke the &#x60;anyone:viewer&#x60; grant. On a folder this cascades to the subtree (the response carries the blast-radius the UI confirmed).
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { SetPublicWebShareRidPublicPostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    rid: rid_example,
-    // PublicIn
-    publicIn: ...,
-    // string (optional)
-    xCsrfToken: xCsrfToken_example,
-  } satisfies SetPublicWebShareRidPublicPostRequest;
-
-  try {
-    const data = await api.setPublicWebShareRidPublicPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **rid** | `string` |  | [Defaults to `undefined`] |
-| **publicIn** | [PublicIn](PublicIn.md) |  | |
-| **xCsrfToken** | `string` |  | [Optional] [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/json`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## setSealWebShareRidSealPost
-
-> any setSealWebShareRidSealPost(rid, sealIn, xCsrfToken)
-
-Set Seal
-
-Set the limited-access seal (&#x60;inherit_grants&#x60;). &#x60;false&#x60; makes the resource ignore grants inherited from ancestor folders (§4.6/§4.11). Gated on &#x60;can_manage&#x60; (changing who can reach the resource).
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { SetSealWebShareRidSealPostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    rid: rid_example,
-    // SealIn
-    sealIn: ...,
-    // string (optional)
-    xCsrfToken: xCsrfToken_example,
-  } satisfies SetSealWebShareRidSealPostRequest;
-
-  try {
-    const data = await api.setSealWebShareRidSealPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **rid** | `string` |  | [Defaults to `undefined`] |
-| **sealIn** | [SealIn](SealIn.md) |  | |
-| **xCsrfToken** | `string` |  | [Optional] [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/json`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## settingsAccountSettingsGet
-
-> string settingsAccountSettingsGet()
-
-Settings Account
-
-Default settings landing — Account info + Usage + Danger zone.  Usage folded in here (was a standalone &#x60;/settings/usage&#x60; tab): the same meter data is fetched via &#x60;_usage_context&#x60; and rendered as a section on this page.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { SettingsAccountSettingsGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.settingsAccountSettingsGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## settingsApiKeysSettingsApiKeysGet
-
-> string settingsApiKeysSettingsApiKeysGet()
-
-Settings Api Keys
-
-API key tab. Also where &#x60;reveal_key&#x60; is rendered once after a key is minted; the reveal is consumed (removed from session) on first read.  Surfaces two credential classes (workspaces-design §5.6):   * the drive\&#39;s &#x60;ad_live_&#x60; per-drive keys (&#x60;drive_keys.list_for_drive&#x60;) —     a drive may hold several, each created/revoked individually.   * the user\&#39;s &#x60;ad_user_&#x60; identity tokens (&#x60;user_tokens&#x60;, mint/list/     revoke). Minting reveals the raw token once via the same     &#x60;reveal_key&#x60;-in-session mechanism as the drive keys.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { SettingsApiKeysSettingsApiKeysGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.settingsApiKeysSettingsApiKeysGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## settingsQuickstartSettingsQuickstartGet
-
-> string settingsQuickstartSettingsQuickstartGet()
-
-Settings Quickstart
-
-Quickstart tab — the single connect-and-use surface, consolidating the former Skill + MCP-setup tabs. Hero is the copy-paste bootstrap prompt (for terminal-less agents); the &#x60;claude mcp add&#x60; one-liner is second (for Claude Code). Connected clients fold into a collapsible section below.  The full tool reference lives at &#x60;/agentdrive.md&#x60; (rendered from &#x60;skills/SKILL.md&#x60;); the bootstrap prompt points the agent there rather than inlining it here, keeping the tab drift-free.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { SettingsQuickstartSettingsQuickstartGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.settingsQuickstartSettingsQuickstartGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## settingsWorkspaceSettingsWorkspaceGet
-
-> string settingsWorkspaceSettingsWorkspaceGet()
-
-Settings Workspace
-
-Standalone workspace settings page (decision O4): members list + pending invites + invite form + role change + remove.  Admin-gated for the management actions; a member sees the roster but no management controls (the template hides them unless &#x60;is_admin&#x60;). The active workspace is the session\&#39;s &#x60;active_organization_id&#x60;.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { SettingsWorkspaceSettingsWorkspaceGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.settingsWorkspaceSettingsWorkspaceGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## sharedFilesSharedGet
-
-> string sharedFilesSharedGet()
-
-Shared Files
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { SharedFilesSharedGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.sharedFilesSharedGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## switchDriveWebSwitchPost
-
-> any switchDriveWebSwitchPost(csrf, driveId, organizationId)
-
-Switch Drive
-
-Switch the active workspace (and drive) — workspace-first (workspaces-design §4.3).  Two modes, mirroring the Linear/Slack/GitHub \&quot;switch by workspace\&quot; model:    * **Workspace switch** (&#x60;organization_id&#x60;): membership-check the     target org for the user; on success set it active and pin the     user\&#39;s OLDEST owned live drive there (deterministic), or None if     they own none — in which case the dashboard\&#39;s     &#x60;resolve_driveless_member&#x60; renders the \&quot;create your first drive\&quot;     empty state for that workspace.   * **Drive switch** (&#x60;drive_id&#x60;): validate the user OWNS the posted     drive (and is a live member of its workspace) via     &#x60;drives_svc.user_owns_drive&#x60;, then set both org + drive active.     Lets a multi-drive workspace pick a specific drive. If BOTH are     posted, the explicit &#x60;drive_id&#x60; wins (subject to its own check).  Both forms are no-leak: a forged / peer-owned / non-member target fails its check and is treated identically to \&quot;no such target\&quot; (303 back to /dashboard without mutating the session — no leak, no error oracle).
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { SwitchDriveWebSwitchPostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    driveId: driveId_example,
-    // string (optional)
-    organizationId: organizationId_example,
-  } satisfies SwitchDriveWebSwitchPostRequest;
-
-  try {
-    const data = await api.switchDriveWebSwitchPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **driveId** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-| **organizationId** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## termsPageTermsGet
-
-> string termsPageTermsGet()
-
-Terms Page
-
-Public beta terms of service. Linked from the marketing footer.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { TermsPageTermsGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.termsPageTermsGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## toggleIndexingWebAccountIndexingPost
-
-> any toggleIndexingWebAccountIndexingPost(csrf, enabled)
-
-Toggle Indexing
-
-Flip the per-drive &#x60;indexing_enabled&#x60; flag (privacy opt-out for sending file content to Gemini). Checkbox semantics: a checked HTML &#x60;&lt;input type&#x3D;checkbox name&#x3D;enabled value&#x3D;on&gt;&#x60; POSTs &#x60;enabled&#x3D;on&#x60;; unchecked posts NO &#x60;enabled&#x60; field at all, which Form(default&#x3D;\&#39;\&#39;) surfaces as the empty string.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { ToggleIndexingWebAccountIndexingPostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    enabled: enabled_example,
-  } satisfies ToggleIndexingWebAccountIndexingPostRequest;
-
-  try {
-    const data = await api.toggleIndexingWebAccountIndexingPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **enabled** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## trashWebTrashGet
-
-> string trashWebTrashGet()
-
-Trash
-
-Drive-wide Trash: soft-deleted artifacts + folder roots, each with a Restore action. Restore wiring lives in web/file_ops.py.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { TrashWebTrashGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.trashWebTrashGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **400** | The search query or filter is invalid. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Bearer credential is missing or invalid. |  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **403** | The authenticated principal is not allowed to perform this operation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | A request, operation, or quota rate limit was exceeded. |  * Retry-After - Seconds until the caller should retry. <br>  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## viewArtifactHeadAArtIdHeadGet
 
-> any viewArtifactHeadAArtIdHeadGet(artId)
+> ArtifactHeadOut viewArtifactHeadAArtIdHeadGet(artId)
 
 View Artifact Head
 
@@ -9486,7 +6111,7 @@ example().catch(console.error);
 
 ### Return type
 
-**any**
+[**ArtifactHeadOut**](ArtifactHeadOut.md)
 
 ### Authorization
 
@@ -9501,15 +6126,15 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## viewArtifactVersionVArtIdVersionGet
 
-> any viewArtifactVersionVArtIdVersionGet(artId, version, raw, download)
+> Blob viewArtifactVersionVArtIdVersionGet(artId, version, raw, download)
 
 View Artifact Version
 
@@ -9563,7 +6188,7 @@ example().catch(console.error);
 
 ### Return type
 
-**any**
+**Blob**
 
 ### Authorization
 
@@ -9572,21 +6197,21 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`
+- **Accept**: `application/octet-stream`, `text/html`, `application/json`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Rendered HTML or raw artifact bytes. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## viewFileDriveIdPathGet
 
-> any viewFileDriveIdPathGet(driveId, path, raw, download)
+> Blob viewFileDriveIdPathGet(driveId, path, raw, download)
 
 View File
 
@@ -9638,7 +6263,7 @@ example().catch(console.error);
 
 ### Return type
 
-**any**
+**Blob**
 
 ### Authorization
 
@@ -9647,21 +6272,21 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`
+- **Accept**: `application/octet-stream`, `text/html`, `application/json`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Rendered HTML or raw artifact bytes. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## viewPermalinkArtifactAArtIdGet
 
-> any viewPermalinkArtifactAArtIdGet(artId)
+> viewPermalinkArtifactAArtIdGet(artId)
 
 View Permalink Artifact
 
@@ -9706,7 +6331,7 @@ example().catch(console.error);
 
 ### Return type
 
-**any**
+`void` (Empty response body)
 
 ### Authorization
 
@@ -9721,15 +6346,16 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **302** | Redirect to the canonical or authentication URL. |  * Location - Redirect target. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The artifact does not exist or is not readable. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## viewPermalinkFolderFFldIdGet
 
-> any viewPermalinkFolderFFldIdGet(fldId)
+> viewPermalinkFolderFFldIdGet(fldId)
 
 View Permalink Folder
 
@@ -9774,7 +6400,7 @@ example().catch(console.error);
 
 ### Return type
 
-**any**
+`void` (Empty response body)
 
 ### Authorization
 
@@ -9789,1288 +6415,8 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **302** | Redirect to the canonical or authentication URL. |  * Location - Redirect target. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The folder does not exist or is not readable. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## webArtifactIndexedWebArtifactsIndexedGet
-
-> any webArtifactIndexedWebArtifactsIndexedGet(path)
-
-Web Artifact Indexed
-
-Session-auth companion to &#x60;/v0/artifacts/{path}/meta&#x60; used by the wiki-banner poller in the browser. The poller runs in any logged-in owner\&#39;s tab; the v0 endpoint requires Bearer auth and was therefore dead for browser owners (the banner spinner never resolved).  Returns &#x60;{indexed_at, has_index}&#x60; so the poller can detect when the extraction finishes and reload the page. 401 if not signed in (anon viewer); 404 if the path doesn\&#39;t exist in the caller\&#39;s drive.  Rate limit is generous (120/min) because the banner polls every 5s and a user might leave multiple tabs open. Per-IP keying so one abusive client doesn\&#39;t starve out concurrent legit polls from other users.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { WebArtifactIndexedWebArtifactsIndexedGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    path: path_example,
-  } satisfies WebArtifactIndexedWebArtifactsIndexedGetRequest;
-
-  try {
-    const data = await api.webArtifactIndexedWebArtifactsIndexedGet(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **path** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## webCopyArtifactWebArtifactsCopyPost
-
-> any webCopyArtifactWebArtifactsCopyPost(artId, newPath, csrf, returnTo)
-
-Web Copy Artifact
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { WebCopyArtifactWebArtifactsCopyPostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    artId: artId_example,
-    // string
-    newPath: newPath_example,
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    returnTo: returnTo_example,
-  } satisfies WebCopyArtifactWebArtifactsCopyPostRequest;
-
-  try {
-    const data = await api.webCopyArtifactWebArtifactsCopyPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **artId** | `string` |  | [Defaults to `undefined`] |
-| **newPath** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **returnTo** | `string` |  | [Optional] [Defaults to `&#39;/dashboard&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## webDeleteArtifactOpWebArtifactsDeletePost
-
-> any webDeleteArtifactOpWebArtifactsDeletePost(path, csrf, returnTo)
-
-Web Delete Artifact Op
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { WebDeleteArtifactOpWebArtifactsDeletePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    path: path_example,
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    returnTo: returnTo_example,
-  } satisfies WebDeleteArtifactOpWebArtifactsDeletePostRequest;
-
-  try {
-    const data = await api.webDeleteArtifactOpWebArtifactsDeletePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **path** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **returnTo** | `string` |  | [Optional] [Defaults to `&#39;/dashboard&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## webDeleteArtifactWebArtifactsPathDelete
-
-> any webDeleteArtifactWebArtifactsPathDelete(path, xCsrfToken)
-
-Web Delete Artifact
-
-Cookie-authed delete used by the editor\&#39;s Discard button (&#x60;/a/{art_id}/edit&#x60;): if the user isn\&#39;t happy with a capture, they delete it right there instead of round-tripping through the dashboard. The bearer-authed &#x60;DELETE /v0/artifacts/{path}&#x60; won\&#39;t accept a cookie-only session, hence this &#x60;/web/...&#x60; alias — the same split as the autosave PUT above.  Mirrors the v0 DELETE\&#39;s guards: CSRF header (cross-site fetch can\&#39;t forge the token), write-quota consumption, and reserved &#x60;_wiki/&#x60; namespace rejection. Soft-delete semantics are identical too — the artifact lands in trash and is restorable until the GC cron purges it at &#x60;purge_at&#x60;, so a misclick through the confirm dialog is recoverable. &#x60;If-Match&#x60; is deliberately not supported: the editor is the only intended caller and always deletes whatever is current.  Note: &#x60;restore_url&#x60; in the response points at the bearer-authed v0 endpoint, which this cookie-only caller can\&#39;t hit — it\&#39;s kept for shape parity with the v0 DELETE and is informational here (a future web trash UI would need a &#x60;/web/...&#x60; restore alias).
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { WebDeleteArtifactWebArtifactsPathDeleteRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    path: path_example,
-    // string (optional)
-    xCsrfToken: xCsrfToken_example,
-  } satisfies WebDeleteArtifactWebArtifactsPathDeleteRequest;
-
-  try {
-    const data = await api.webDeleteArtifactWebArtifactsPathDelete(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **path** | `string` |  | [Defaults to `undefined`] |
-| **xCsrfToken** | `string` |  | [Optional] [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## webDeleteFolderWebFoldersDeletePost
-
-> any webDeleteFolderWebFoldersDeletePost(fldId, csrf, recursive, returnTo)
-
-Web Delete Folder
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { WebDeleteFolderWebFoldersDeletePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    fldId: fldId_example,
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    recursive: recursive_example,
-    // string (optional)
-    returnTo: returnTo_example,
-  } satisfies WebDeleteFolderWebFoldersDeletePostRequest;
-
-  try {
-    const data = await api.webDeleteFolderWebFoldersDeletePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **fldId** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **recursive** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-| **returnTo** | `string` |  | [Optional] [Defaults to `&#39;/dashboard&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## webMoveFolderWebFoldersMovePost
-
-> any webMoveFolderWebFoldersMovePost(fldId, newPath, csrf, returnTo)
-
-Web Move Folder
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { WebMoveFolderWebFoldersMovePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    fldId: fldId_example,
-    // string
-    newPath: newPath_example,
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    returnTo: returnTo_example,
-  } satisfies WebMoveFolderWebFoldersMovePostRequest;
-
-  try {
-    const data = await api.webMoveFolderWebFoldersMovePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **fldId** | `string` |  | [Defaults to `undefined`] |
-| **newPath** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **returnTo** | `string` |  | [Optional] [Defaults to `&#39;/dashboard&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## webNewFolderWebFoldersNewPost
-
-> any webNewFolderWebFoldersNewPost(name, csrf, parent, returnTo)
-
-Web New Folder
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { WebNewFolderWebFoldersNewPostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    name: name_example,
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    parent: parent_example,
-    // string (optional)
-    returnTo: returnTo_example,
-  } satisfies WebNewFolderWebFoldersNewPostRequest;
-
-  try {
-    const data = await api.webNewFolderWebFoldersNewPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **name** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **parent** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-| **returnTo** | `string` |  | [Optional] [Defaults to `&#39;/dashboard&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## webProjectCompileWebProjectsFldIdCompilePost
-
-> any webProjectCompileWebProjectsFldIdCompilePost(fldId, csrf, engine, entrypoint)
-
-Web Project Compile
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { WebProjectCompileWebProjectsFldIdCompilePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    fldId: fldId_example,
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    engine: engine_example,
-    // string (optional)
-    entrypoint: entrypoint_example,
-  } satisfies WebProjectCompileWebProjectsFldIdCompilePostRequest;
-
-  try {
-    const data = await api.webProjectCompileWebProjectsFldIdCompilePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **fldId** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **engine** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-| **entrypoint** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## webProjectFilesWebProjectsFldIdFilesGet
-
-> any webProjectFilesWebProjectsFldIdFilesGet(fldId)
-
-Web Project Files
-
-Cookie-authed file tree + read-only source manifest for the LaTeX workspace (handoff §3). Same auth contract as the preview poll (401 / 404-not-403). Source bytes themselves stream from &#x60;/a/{art_id}?raw&#x3D;1&#x60; (owner session authorizes private files) — this endpoint only lists.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { WebProjectFilesWebProjectsFldIdFilesGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    fldId: fldId_example,
-  } satisfies WebProjectFilesWebProjectsFldIdFilesGetRequest;
-
-  try {
-    const data = await api.webProjectFilesWebProjectsFldIdFilesGet(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **fldId** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## webProjectPreviewWebProjectsFldIdPreviewGet
-
-> any webProjectPreviewWebProjectsFldIdPreviewGet(fldId)
-
-Web Project Preview
-
-Session-auth poll for the live PDF preview page (latex-live-preview- design.md §4.2). The browser uses the session cookie (the &#x60;/v0&#x60; jobs API is Bearer-only), so this is the cookie-authed companion. Returns the current compile status + the last successful PDF + diagnostics so the page updates in place. 401 if not signed in; 404 (not 403) if the folder isn\&#39;t in the caller\&#39;s drive, to avoid existence leakage.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { WebProjectPreviewWebProjectsFldIdPreviewGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    fldId: fldId_example,
-  } satisfies WebProjectPreviewWebProjectsFldIdPreviewGetRequest;
-
-  try {
-    const data = await api.webProjectPreviewWebProjectsFldIdPreviewGet(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **fldId** | `string` |  | [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## webPutArtifactWebArtifactsPathPut
-
-> any webPutArtifactWebArtifactsPathPut(path, xCsrfToken)
-
-Web Put Artifact
-
-Cookie-authed write of an image artifact. Used by the SnipIt web editor (&#x60;/a/{art_id}/edit&#x60;) for autosave; the bearer-authed &#x60;PUT /v0/artifacts/{path}&#x60; won\&#39;t accept a cookie-only session.  Owner-only; the path is checked against the signed-in user\&#39;s drive. Accepts &#x60;image/_*&#x60; (SnipIt editor autosave) and &#x60;application/pdf&#x60; (the PDF viewer\&#39;s annotation save) only — refuses everything else so the editor can\&#39;t smuggle markdown/HTML or anything else through this surface. Mirrors every guard the v0 PUT enforces — write quota, reserved &#x60;_wiki/&#x60; namespace rejection, per-tier max-bytes cap (both &#x60;Content-Length&#x60; short-circuit and post-body length check) — so a logged-in user can\&#39;t bypass quota or write into the wiki by routing autosaves through this endpoint instead of the v0 API. CSRF is checked via the &#x60;X-CSRF-Token&#x60; header (see &#x60;csrf.require_csrf_header&#x60;); the editor reads the token from the &#x60;&lt;meta name&#x3D;\&quot;csrf-token\&quot;&gt;&#x60; tag rendered into the edit page. Rate-limited per-IP/user at the same cadence the editor\&#39;s 1.5s autosave can sustain without flagging abuse.  Cross-workspace (design §4.3): the editor page is reached by a stable-id URL that may name a drive outside the session\&#39;s active workspace, so the write must target the RESOURCE\&#39;s drive, not the active one. The editor sends the resolved drive in an &#x60;X-Drive-Id&#x60; header; we authorize ownership of THAT drive via &#x60;resolve_owned_drive&#x60; (it returns None for a forged / unowned id → 401, never a write). Absent header ⇒ fall back to &#x60;current_drive&#x60; (pre-fast-follow behavior; a cached old client still works, only without the cross-workspace fix).
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { WebPutArtifactWebArtifactsPathPutRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    path: path_example,
-    // string (optional)
-    xCsrfToken: xCsrfToken_example,
-  } satisfies WebPutArtifactWebArtifactsPathPutRequest;
-
-  try {
-    const data = await api.webPutArtifactWebArtifactsPathPut(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **path** | `string` |  | [Defaults to `undefined`] |
-| **xCsrfToken** | `string` |  | [Optional] [Defaults to `undefined`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## webRenameArtifactWebArtifactsRenamePost
-
-> any webRenameArtifactWebArtifactsRenamePost(artId, newPath, csrf, returnTo)
-
-Web Rename Artifact
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { WebRenameArtifactWebArtifactsRenamePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    artId: artId_example,
-    // string
-    newPath: newPath_example,
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    returnTo: returnTo_example,
-  } satisfies WebRenameArtifactWebArtifactsRenamePostRequest;
-
-  try {
-    const data = await api.webRenameArtifactWebArtifactsRenamePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **artId** | `string` |  | [Defaults to `undefined`] |
-| **newPath** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **returnTo** | `string` |  | [Optional] [Defaults to `&#39;/dashboard&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## webRestoreArtifactWebArtifactsRestorePost
-
-> any webRestoreArtifactWebArtifactsRestorePost(artId, csrf, returnTo)
-
-Web Restore Artifact
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { WebRestoreArtifactWebArtifactsRestorePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    artId: artId_example,
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    returnTo: returnTo_example,
-  } satisfies WebRestoreArtifactWebArtifactsRestorePostRequest;
-
-  try {
-    const data = await api.webRestoreArtifactWebArtifactsRestorePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **artId** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **returnTo** | `string` |  | [Optional] [Defaults to `&#39;/web/trash&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## webRestoreFolderWebFoldersRestorePost
-
-> any webRestoreFolderWebFoldersRestorePost(fldId, csrf, returnTo)
-
-Web Restore Folder
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { WebRestoreFolderWebFoldersRestorePostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    fldId: fldId_example,
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    returnTo: returnTo_example,
-  } satisfies WebRestoreFolderWebFoldersRestorePostRequest;
-
-  try {
-    const data = await api.webRestoreFolderWebFoldersRestorePost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **fldId** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **returnTo** | `string` |  | [Optional] [Defaults to `&#39;/web/trash&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## webSetMetadataWebSetPost
-
-> any webSetMetadataWebSetPost(target, csrf, description, returnTo)
-
-Web Set Metadata
-
-Folder description edit (target &#x3D; &#x60;fld_&lt;id&gt;&#x60;).  \&quot;Public/private\&quot; is no longer a folder/artifact flag — access is expressed through grants (permission-sharing-design §4.4), so this endpoint only edits folder descriptions. Artifact targets are rejected; publishing an artifact is the dedicated grant/&#x60;publish&#x60; flow, not a metadata toggle.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { WebSetMetadataWebSetPostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // string
-    target: target_example,
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    description: description_example,
-    // string (optional)
-    returnTo: returnTo_example,
-  } satisfies WebSetMetadataWebSetPostRequest;
-
-  try {
-    const data = await api.webSetMetadataWebSetPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **target** | `string` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **description** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-| **returnTo** | `string` |  | [Optional] [Defaults to `&#39;/dashboard&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/x-www-form-urlencoded`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## webUploadWebUploadPost
-
-> any webUploadWebUploadPost(file, csrf, destDir, returnTo)
-
-Web Upload
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { WebUploadWebUploadPostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  const body = {
-    // Blob
-    file: BINARY_DATA_HERE,
-    // string
-    csrf: csrf_example,
-    // string (optional)
-    destDir: destDir_example,
-    // string (optional)
-    returnTo: returnTo_example,
-  } satisfies WebUploadWebUploadPostRequest;
-
-  try {
-    const data = await api.webUploadWebUploadPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **file** | `Blob` |  | [Defaults to `undefined`] |
-| **csrf** | `string` |  | [Defaults to `undefined`] |
-| **destDir** | `string` |  | [Optional] [Defaults to `&#39;&#39;`] |
-| **returnTo** | `string` |  | [Optional] [Defaults to `&#39;/dashboard&#39;`] |
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `multipart/form-data`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## webhooksPageWebhooksGet
-
-> string webhooksPageWebhooksGet()
-
-Webhooks Page
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { WebhooksPageWebhooksGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.webhooksPageWebhooksGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## welcomeWelcomeGet
-
-> string welcomeWelcomeGet()
-
-Welcome
-
-Show the three-step welcome screen and consume &#x60;reveal_key&#x60;.  Auth-required. If no key is in the session, redirect onward to &#x60;/dashboard&#x60; (the user has already saved theirs, or is a returning visitor who arrived here by typing the URL).
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DefaultApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { WelcomeWelcomeGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DefaultApi();
-
-  try {
-    const data = await api.welcomeWelcomeGet();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**string**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `text/html`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-

@@ -7,16 +7,16 @@ The create/rotate response — the ONLY place the `share_key` and its redemption
 
 Name | Type
 ------------ | -------------
-`id` | string
-`resourceType` | string
-`resourceId` | string
-`role` | string
+`accessCount` | number
 `audience` | string
-`hasPassword` | boolean
 `createdAt` | Date
 `expiresAt` | Date
+`hasPassword` | boolean
+`id` | string
 `lastAccessedAt` | Date
-`accessCount` | number
+`resourceId` | string
+`resourceType` | string
+`role` | string
 `shareKey` | string
 `url` | string
 
@@ -27,16 +27,16 @@ import type { ShareMintOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "id": null,
-  "resourceType": null,
-  "resourceId": null,
-  "role": null,
+  "accessCount": null,
   "audience": null,
-  "hasPassword": null,
   "createdAt": null,
   "expiresAt": null,
+  "hasPassword": null,
+  "id": null,
   "lastAccessedAt": null,
-  "accessCount": null,
+  "resourceId": null,
+  "resourceType": null,
+  "role": null,
   "shareKey": null,
   "url": null,
 } satisfies ShareMintOut
@@ -53,5 +53,3 @@ console.log(exampleParsed)
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
