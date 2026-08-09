@@ -1,13 +1,12 @@
 
 # ErrorResponse
 
-Canonical non-validation error envelope emitted by AgentDrive.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`detail` | [ErrorDetail](ErrorDetail.md)
+`error` | [DrivesCreate400ResponseError](DrivesCreate400ResponseError.md)
 
 ## Example
 
@@ -16,7 +15,7 @@ import type { ErrorResponse } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "detail": null,
+  "error": null,
 } satisfies ErrorResponse
 
 console.log(example)

@@ -5,18 +5,24 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CreatedAt** | **time.Time** |  |
+**CreatedBy** | **NullableString** |  |
+**DeletedAt** | **NullableTime** |  |
 **Id** | **string** |  |
+**Metadata** | **map[string]interface{}** |  |
 **Name** | **string** |  |
-**OrganizationId** | **string** |  |
-**OwnerEmail** | Pointer to **NullableString** |  | [optional]
-**OwnerUserId** | Pointer to **NullableString** |  | [optional]
+**RetrievalBytes** | **int32** |  |
+**Revision** | **string** |  |
+**RootFolderId** | **string** |  |
+**State** | **string** |  |
 **StorageBytes** | **int32** |  |
+**UpdatedAt** | **time.Time** |  |
+**WorkspaceId** | **string** |  |
 
 ## Methods
 
 ### NewDriveOut
 
-`func NewDriveOut(createdAt time.Time, id string, name string, organizationId string, storageBytes int32, ) *DriveOut`
+`func NewDriveOut(createdAt time.Time, createdBy NullableString, deletedAt NullableTime, id string, metadata map[string]interface{}, name string, retrievalBytes int32, revision string, rootFolderId string, state string, storageBytes int32, updatedAt time.Time, workspaceId string, ) *DriveOut`
 
 NewDriveOut instantiates a new DriveOut object
 This constructor will assign default values to properties that have it defined,
@@ -51,6 +57,66 @@ and a boolean to check if the value has been set.
 SetCreatedAt sets CreatedAt field to given value.
 
 
+### GetCreatedBy
+
+`func (o *DriveOut) GetCreatedBy() string`
+
+GetCreatedBy returns the CreatedBy field if non-nil, zero value otherwise.
+
+### GetCreatedByOk
+
+`func (o *DriveOut) GetCreatedByOk() (*string, bool)`
+
+GetCreatedByOk returns a tuple with the CreatedBy field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCreatedBy
+
+`func (o *DriveOut) SetCreatedBy(v string)`
+
+SetCreatedBy sets CreatedBy field to given value.
+
+
+### SetCreatedByNil
+
+`func (o *DriveOut) SetCreatedByNil(b bool)`
+
+ SetCreatedByNil sets the value for CreatedBy to be an explicit nil
+
+### UnsetCreatedBy
+`func (o *DriveOut) UnsetCreatedBy()`
+
+UnsetCreatedBy ensures that no value is present for CreatedBy, not even an explicit nil
+### GetDeletedAt
+
+`func (o *DriveOut) GetDeletedAt() time.Time`
+
+GetDeletedAt returns the DeletedAt field if non-nil, zero value otherwise.
+
+### GetDeletedAtOk
+
+`func (o *DriveOut) GetDeletedAtOk() (*time.Time, bool)`
+
+GetDeletedAtOk returns a tuple with the DeletedAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDeletedAt
+
+`func (o *DriveOut) SetDeletedAt(v time.Time)`
+
+SetDeletedAt sets DeletedAt field to given value.
+
+
+### SetDeletedAtNil
+
+`func (o *DriveOut) SetDeletedAtNil(b bool)`
+
+ SetDeletedAtNil sets the value for DeletedAt to be an explicit nil
+
+### UnsetDeletedAt
+`func (o *DriveOut) UnsetDeletedAt()`
+
+UnsetDeletedAt ensures that no value is present for DeletedAt, not even an explicit nil
 ### GetId
 
 `func (o *DriveOut) GetId() string`
@@ -69,6 +135,26 @@ and a boolean to check if the value has been set.
 `func (o *DriveOut) SetId(v string)`
 
 SetId sets Id field to given value.
+
+
+### GetMetadata
+
+`func (o *DriveOut) GetMetadata() map[string]interface{}`
+
+GetMetadata returns the Metadata field if non-nil, zero value otherwise.
+
+### GetMetadataOk
+
+`func (o *DriveOut) GetMetadataOk() (*map[string]interface{}, bool)`
+
+GetMetadataOk returns a tuple with the Metadata field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMetadata
+
+`func (o *DriveOut) SetMetadata(v map[string]interface{})`
+
+SetMetadata sets Metadata field to given value.
 
 
 ### GetName
@@ -91,96 +177,86 @@ and a boolean to check if the value has been set.
 SetName sets Name field to given value.
 
 
-### GetOrganizationId
+### GetRetrievalBytes
 
-`func (o *DriveOut) GetOrganizationId() string`
+`func (o *DriveOut) GetRetrievalBytes() int32`
 
-GetOrganizationId returns the OrganizationId field if non-nil, zero value otherwise.
+GetRetrievalBytes returns the RetrievalBytes field if non-nil, zero value otherwise.
 
-### GetOrganizationIdOk
+### GetRetrievalBytesOk
 
-`func (o *DriveOut) GetOrganizationIdOk() (*string, bool)`
+`func (o *DriveOut) GetRetrievalBytesOk() (*int32, bool)`
 
-GetOrganizationIdOk returns a tuple with the OrganizationId field if it's non-nil, zero value otherwise
+GetRetrievalBytesOk returns a tuple with the RetrievalBytes field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetOrganizationId
+### SetRetrievalBytes
 
-`func (o *DriveOut) SetOrganizationId(v string)`
+`func (o *DriveOut) SetRetrievalBytes(v int32)`
 
-SetOrganizationId sets OrganizationId field to given value.
+SetRetrievalBytes sets RetrievalBytes field to given value.
 
 
-### GetOwnerEmail
+### GetRevision
 
-`func (o *DriveOut) GetOwnerEmail() string`
+`func (o *DriveOut) GetRevision() string`
 
-GetOwnerEmail returns the OwnerEmail field if non-nil, zero value otherwise.
+GetRevision returns the Revision field if non-nil, zero value otherwise.
 
-### GetOwnerEmailOk
+### GetRevisionOk
 
-`func (o *DriveOut) GetOwnerEmailOk() (*string, bool)`
+`func (o *DriveOut) GetRevisionOk() (*string, bool)`
 
-GetOwnerEmailOk returns a tuple with the OwnerEmail field if it's non-nil, zero value otherwise
+GetRevisionOk returns a tuple with the Revision field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetOwnerEmail
+### SetRevision
 
-`func (o *DriveOut) SetOwnerEmail(v string)`
+`func (o *DriveOut) SetRevision(v string)`
 
-SetOwnerEmail sets OwnerEmail field to given value.
+SetRevision sets Revision field to given value.
 
-### HasOwnerEmail
 
-`func (o *DriveOut) HasOwnerEmail() bool`
+### GetRootFolderId
 
-HasOwnerEmail returns a boolean if a field has been set.
+`func (o *DriveOut) GetRootFolderId() string`
 
-### SetOwnerEmailNil
+GetRootFolderId returns the RootFolderId field if non-nil, zero value otherwise.
 
-`func (o *DriveOut) SetOwnerEmailNil(b bool)`
+### GetRootFolderIdOk
 
- SetOwnerEmailNil sets the value for OwnerEmail to be an explicit nil
+`func (o *DriveOut) GetRootFolderIdOk() (*string, bool)`
 
-### UnsetOwnerEmail
-`func (o *DriveOut) UnsetOwnerEmail()`
-
-UnsetOwnerEmail ensures that no value is present for OwnerEmail, not even an explicit nil
-### GetOwnerUserId
-
-`func (o *DriveOut) GetOwnerUserId() string`
-
-GetOwnerUserId returns the OwnerUserId field if non-nil, zero value otherwise.
-
-### GetOwnerUserIdOk
-
-`func (o *DriveOut) GetOwnerUserIdOk() (*string, bool)`
-
-GetOwnerUserIdOk returns a tuple with the OwnerUserId field if it's non-nil, zero value otherwise
+GetRootFolderIdOk returns a tuple with the RootFolderId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetOwnerUserId
+### SetRootFolderId
 
-`func (o *DriveOut) SetOwnerUserId(v string)`
+`func (o *DriveOut) SetRootFolderId(v string)`
 
-SetOwnerUserId sets OwnerUserId field to given value.
+SetRootFolderId sets RootFolderId field to given value.
 
-### HasOwnerUserId
 
-`func (o *DriveOut) HasOwnerUserId() bool`
+### GetState
 
-HasOwnerUserId returns a boolean if a field has been set.
+`func (o *DriveOut) GetState() string`
 
-### SetOwnerUserIdNil
+GetState returns the State field if non-nil, zero value otherwise.
 
-`func (o *DriveOut) SetOwnerUserIdNil(b bool)`
+### GetStateOk
 
- SetOwnerUserIdNil sets the value for OwnerUserId to be an explicit nil
+`func (o *DriveOut) GetStateOk() (*string, bool)`
 
-### UnsetOwnerUserId
-`func (o *DriveOut) UnsetOwnerUserId()`
+GetStateOk returns a tuple with the State field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
 
-UnsetOwnerUserId ensures that no value is present for OwnerUserId, not even an explicit nil
+### SetState
+
+`func (o *DriveOut) SetState(v string)`
+
+SetState sets State field to given value.
+
+
 ### GetStorageBytes
 
 `func (o *DriveOut) GetStorageBytes() int32`
@@ -199,6 +275,46 @@ and a boolean to check if the value has been set.
 `func (o *DriveOut) SetStorageBytes(v int32)`
 
 SetStorageBytes sets StorageBytes field to given value.
+
+
+### GetUpdatedAt
+
+`func (o *DriveOut) GetUpdatedAt() time.Time`
+
+GetUpdatedAt returns the UpdatedAt field if non-nil, zero value otherwise.
+
+### GetUpdatedAtOk
+
+`func (o *DriveOut) GetUpdatedAtOk() (*time.Time, bool)`
+
+GetUpdatedAtOk returns a tuple with the UpdatedAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUpdatedAt
+
+`func (o *DriveOut) SetUpdatedAt(v time.Time)`
+
+SetUpdatedAt sets UpdatedAt field to given value.
+
+
+### GetWorkspaceId
+
+`func (o *DriveOut) GetWorkspaceId() string`
+
+GetWorkspaceId returns the WorkspaceId field if non-nil, zero value otherwise.
+
+### GetWorkspaceIdOk
+
+`func (o *DriveOut) GetWorkspaceIdOk() (*string, bool)`
+
+GetWorkspaceIdOk returns a tuple with the WorkspaceId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWorkspaceId
+
+`func (o *DriveOut) SetWorkspaceId(v string)`
+
+SetWorkspaceId sets WorkspaceId field to given value.
 
 
 

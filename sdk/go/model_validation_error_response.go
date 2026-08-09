@@ -1,7 +1,7 @@
 /*
 AgentDrive
 
-AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
 
 API version: <PINNED>
 */
@@ -12,16 +12,16 @@ package agentdrive
 
 import (
 	"encoding/json"
+	"bytes"
 	"fmt"
 )
 
 // checks if the ValidationErrorResponse type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ValidationErrorResponse{}
 
-// ValidationErrorResponse The runtime `VALIDATION_ERROR` response for request parsing failures.
+// ValidationErrorResponse struct for ValidationErrorResponse
 type ValidationErrorResponse struct {
-	Detail ValidationErrorDetail `json:"detail"`
-	AdditionalProperties map[string]interface{}
+	Error ValidationErrorResponseError `json:"error"`
 }
 
 type _ValidationErrorResponse ValidationErrorResponse
@@ -30,9 +30,9 @@ type _ValidationErrorResponse ValidationErrorResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewValidationErrorResponse(detail ValidationErrorDetail) *ValidationErrorResponse {
+func NewValidationErrorResponse(error_ ValidationErrorResponseError) *ValidationErrorResponse {
 	this := ValidationErrorResponse{}
-	this.Detail = detail
+	this.Error = error_
 	return &this
 }
 
@@ -44,28 +44,28 @@ func NewValidationErrorResponseWithDefaults() *ValidationErrorResponse {
 	return &this
 }
 
-// GetDetail returns the Detail field value
-func (o *ValidationErrorResponse) GetDetail() ValidationErrorDetail {
+// GetError returns the Error field value
+func (o *ValidationErrorResponse) GetError() ValidationErrorResponseError {
 	if o == nil {
-		var ret ValidationErrorDetail
+		var ret ValidationErrorResponseError
 		return ret
 	}
 
-	return o.Detail
+	return o.Error
 }
 
-// GetDetailOk returns a tuple with the Detail field value
+// GetErrorOk returns a tuple with the Error field value
 // and a boolean to check if the value has been set.
-func (o *ValidationErrorResponse) GetDetailOk() (*ValidationErrorDetail, bool) {
+func (o *ValidationErrorResponse) GetErrorOk() (*ValidationErrorResponseError, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Detail, true
+	return &o.Error, true
 }
 
-// SetDetail sets field value
-func (o *ValidationErrorResponse) SetDetail(v ValidationErrorDetail) {
-	o.Detail = v
+// SetError sets field value
+func (o *ValidationErrorResponse) SetError(v ValidationErrorResponseError) {
+	o.Error = v
 }
 
 func (o ValidationErrorResponse) MarshalJSON() ([]byte, error) {
@@ -78,12 +78,7 @@ func (o ValidationErrorResponse) MarshalJSON() ([]byte, error) {
 
 func (o ValidationErrorResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["detail"] = o.Detail
-
-	for key, value := range o.AdditionalProperties {
-		toSerialize[key] = value
-	}
-
+	toSerialize["error"] = o.Error
 	return toSerialize, nil
 }
 
@@ -92,7 +87,7 @@ func (o *ValidationErrorResponse) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"detail",
+		"error",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -111,20 +106,15 @@ func (o *ValidationErrorResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varValidationErrorResponse := _ValidationErrorResponse{}
 
-	err = json.Unmarshal(data, &varValidationErrorResponse)
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varValidationErrorResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ValidationErrorResponse(varValidationErrorResponse)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "detail")
-		o.AdditionalProperties = additionalProperties
-	}
 
 	return err
 }

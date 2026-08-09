@@ -6,19 +6,8 @@
 
 Name | Type
 ------------ | -------------
-`accountFootprint` | [StorageFootprintOut](StorageFootprintOut.md)
-`egressBytes` | [UsageCounterOut](UsageCounterOut.md)
-`footprint` | [StorageFootprintOut](StorageFootprintOut.md)
-`indexedBytes` | [UsageCounterOut](UsageCounterOut.md)
-`indexingOps` | [UsageCounterOut](UsageCounterOut.md)
-`opsThisMonth` | [OperationUsageOut](OperationUsageOut.md)
-`period` | [UsagePeriodOut](UsagePeriodOut.md)
-`retrievalQueries` | [UsageCounterOut](UsageCounterOut.md)
-`storage` | [UsageCounterOut](UsageCounterOut.md)
-`storageBreakdown` | [StorageBreakdownOut](StorageBreakdownOut.md)
-`tokensThisMonth` | [TokenUsageOut](TokenUsageOut.md)
-`versionRetention` | [VersionRetentionOut](VersionRetentionOut.md)
-`writesThisHour` | [HourlyUsageCounterOut](HourlyUsageCounterOut.md)
+`retrievalBytes` | number
+`storageBytes` | number
 
 ## Example
 
@@ -27,19 +16,8 @@ import type { DriveUsageOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "accountFootprint": null,
-  "egressBytes": null,
-  "footprint": null,
-  "indexedBytes": null,
-  "indexingOps": null,
-  "opsThisMonth": null,
-  "period": null,
-  "retrievalQueries": null,
-  "storage": null,
-  "storageBreakdown": null,
-  "tokensThisMonth": null,
-  "versionRetention": null,
-  "writesThisHour": null,
+  "retrievalBytes": null,
+  "storageBytes": null,
 } satisfies DriveUsageOut
 
 console.log(example)

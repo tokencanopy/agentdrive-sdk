@@ -1,7 +1,7 @@
 /*
 AgentDrive
 
-AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
 
 API version: <PINNED>
 */
@@ -22,26 +22,22 @@ var _ MappedNullable = &ArtifactOut{}
 
 // ArtifactOut struct for ArtifactOut
 type ArtifactOut struct {
-	ContentType string `json:"content_type"`
+	ContentPreview NullableString `json:"content_preview"`
+	ContentType NullableString `json:"content_type"`
 	CreatedAt time.Time `json:"created_at"`
-	DriveId string `json:"drive_id"`
-	EmbeddedAt NullableTime `json:"embedded_at,omitempty"`
-	Etag string `json:"etag"`
-	FileType string `json:"file_type"`
-	Hash string `json:"hash"`
-	Id string `json:"id"`
-	IndexedAt NullableTime `json:"indexed_at,omitempty"`
-	Labels []string `json:"labels,omitempty"`
-	LlmIndex map[string]interface{} `json:"llm_index,omitempty"`
-	Metadata map[string]interface{} `json:"metadata,omitempty"`
-	Metageneration *int32 `json:"metageneration,omitempty"`
-	Path string `json:"path"`
-	Permalink string `json:"permalink"`
-	SizeBytes int32 `json:"size_bytes"`
-	Source NullableArtifactSource `json:"source,omitempty"`
+	DeletedAt NullableTime `json:"deleted_at"`
+	DriveId string `json:"drive_id" validate:"regexp=^drv_[a-f0-9]{16}$"`
+	// Server-computed exposure summary, resolved over the artifact's live grants, its folder ancestry (bounded by the nearest sealed folder), and the drive. 'public' when any live grant has principal_type 'public'; otherwise 'shared' when a live grant names a principal other than the drive's creator; otherwise 'private'. Describes exposure, NOT the caller's own access.
+	EffectiveVisibility string `json:"effective_visibility"`
+	HeadVersionId NullableString `json:"head_version_id"`
+	Id string `json:"id" validate:"regexp=^art_[a-f0-9]{16}$"`
+	Labels []string `json:"labels"`
+	Metadata map[string]interface{} `json:"metadata"`
+	Name string `json:"name"`
+	ParentId string `json:"parent_id" validate:"regexp=^fld_[a-f0-9]{16}$"`
+	Revision string `json:"revision" validate:"regexp=^rev_[a-f0-9]{16}$"`
+	State string `json:"state"`
 	UpdatedAt time.Time `json:"updated_at"`
-	Url string `json:"url"`
-	VersionNumber *int32 `json:"version_number,omitempty"`
 }
 
 type _ArtifactOut ArtifactOut
@@ -50,24 +46,23 @@ type _ArtifactOut ArtifactOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewArtifactOut(contentType string, createdAt time.Time, driveId string, etag string, fileType string, hash string, id string, path string, permalink string, sizeBytes int32, updatedAt time.Time, url string) *ArtifactOut {
+func NewArtifactOut(contentPreview NullableString, contentType NullableString, createdAt time.Time, deletedAt NullableTime, driveId string, effectiveVisibility string, headVersionId NullableString, id string, labels []string, metadata map[string]interface{}, name string, parentId string, revision string, state string, updatedAt time.Time) *ArtifactOut {
 	this := ArtifactOut{}
+	this.ContentPreview = contentPreview
 	this.ContentType = contentType
 	this.CreatedAt = createdAt
+	this.DeletedAt = deletedAt
 	this.DriveId = driveId
-	this.Etag = etag
-	this.FileType = fileType
-	this.Hash = hash
+	this.EffectiveVisibility = effectiveVisibility
+	this.HeadVersionId = headVersionId
 	this.Id = id
-	var metageneration int32 = 1
-	this.Metageneration = &metageneration
-	this.Path = path
-	this.Permalink = permalink
-	this.SizeBytes = sizeBytes
+	this.Labels = labels
+	this.Metadata = metadata
+	this.Name = name
+	this.ParentId = parentId
+	this.Revision = revision
+	this.State = state
 	this.UpdatedAt = updatedAt
-	this.Url = url
-	var versionNumber int32 = 1
-	this.VersionNumber = &versionNumber
 	return &this
 }
 
@@ -76,35 +71,59 @@ func NewArtifactOut(contentType string, createdAt time.Time, driveId string, eta
 // but it doesn't guarantee that properties required by API are set
 func NewArtifactOutWithDefaults() *ArtifactOut {
 	this := ArtifactOut{}
-	var metageneration int32 = 1
-	this.Metageneration = &metageneration
-	var versionNumber int32 = 1
-	this.VersionNumber = &versionNumber
 	return &this
 }
 
-// GetContentType returns the ContentType field value
-func (o *ArtifactOut) GetContentType() string {
-	if o == nil {
+// GetContentPreview returns the ContentPreview field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *ArtifactOut) GetContentPreview() string {
+	if o == nil || o.ContentPreview.Get() == nil {
 		var ret string
 		return ret
 	}
 
-	return o.ContentType
+	return *o.ContentPreview.Get()
+}
+
+// GetContentPreviewOk returns a tuple with the ContentPreview field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ArtifactOut) GetContentPreviewOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ContentPreview.Get(), o.ContentPreview.IsSet()
+}
+
+// SetContentPreview sets field value
+func (o *ArtifactOut) SetContentPreview(v string) {
+	o.ContentPreview.Set(&v)
+}
+
+// GetContentType returns the ContentType field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *ArtifactOut) GetContentType() string {
+	if o == nil || o.ContentType.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.ContentType.Get()
 }
 
 // GetContentTypeOk returns a tuple with the ContentType field value
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ArtifactOut) GetContentTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.ContentType, true
+	return o.ContentType.Get(), o.ContentType.IsSet()
 }
 
 // SetContentType sets field value
 func (o *ArtifactOut) SetContentType(v string) {
-	o.ContentType = v
+	o.ContentType.Set(&v)
 }
 
 // GetCreatedAt returns the CreatedAt field value
@@ -131,6 +150,32 @@ func (o *ArtifactOut) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
+// GetDeletedAt returns the DeletedAt field value
+// If the value is explicit nil, the zero value for time.Time will be returned
+func (o *ArtifactOut) GetDeletedAt() time.Time {
+	if o == nil || o.DeletedAt.Get() == nil {
+		var ret time.Time
+		return ret
+	}
+
+	return *o.DeletedAt.Get()
+}
+
+// GetDeletedAtOk returns a tuple with the DeletedAt field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ArtifactOut) GetDeletedAtOk() (*time.Time, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.DeletedAt.Get(), o.DeletedAt.IsSet()
+}
+
+// SetDeletedAt sets field value
+func (o *ArtifactOut) SetDeletedAt(v time.Time) {
+	o.DeletedAt.Set(&v)
+}
+
 // GetDriveId returns the DriveId field value
 func (o *ArtifactOut) GetDriveId() string {
 	if o == nil {
@@ -155,118 +200,54 @@ func (o *ArtifactOut) SetDriveId(v string) {
 	o.DriveId = v
 }
 
-// GetEmbeddedAt returns the EmbeddedAt field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ArtifactOut) GetEmbeddedAt() time.Time {
-	if o == nil || IsNil(o.EmbeddedAt.Get()) {
-		var ret time.Time
+// GetEffectiveVisibility returns the EffectiveVisibility field value
+func (o *ArtifactOut) GetEffectiveVisibility() string {
+	if o == nil {
+		var ret string
 		return ret
 	}
-	return *o.EmbeddedAt.Get()
+
+	return o.EffectiveVisibility
 }
 
-// GetEmbeddedAtOk returns a tuple with the EmbeddedAt field value if set, nil otherwise
+// GetEffectiveVisibilityOk returns a tuple with the EffectiveVisibility field value
+// and a boolean to check if the value has been set.
+func (o *ArtifactOut) GetEffectiveVisibilityOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.EffectiveVisibility, true
+}
+
+// SetEffectiveVisibility sets field value
+func (o *ArtifactOut) SetEffectiveVisibility(v string) {
+	o.EffectiveVisibility = v
+}
+
+// GetHeadVersionId returns the HeadVersionId field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *ArtifactOut) GetHeadVersionId() string {
+	if o == nil || o.HeadVersionId.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.HeadVersionId.Get()
+}
+
+// GetHeadVersionIdOk returns a tuple with the HeadVersionId field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ArtifactOut) GetEmbeddedAtOk() (*time.Time, bool) {
+func (o *ArtifactOut) GetHeadVersionIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.EmbeddedAt.Get(), o.EmbeddedAt.IsSet()
+	return o.HeadVersionId.Get(), o.HeadVersionId.IsSet()
 }
 
-// HasEmbeddedAt returns a boolean if a field has been set.
-func (o *ArtifactOut) HasEmbeddedAt() bool {
-	if o != nil && o.EmbeddedAt.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetEmbeddedAt gets a reference to the given NullableTime and assigns it to the EmbeddedAt field.
-func (o *ArtifactOut) SetEmbeddedAt(v time.Time) {
-	o.EmbeddedAt.Set(&v)
-}
-// SetEmbeddedAtNil sets the value for EmbeddedAt to be an explicit nil
-func (o *ArtifactOut) SetEmbeddedAtNil() {
-	o.EmbeddedAt.Set(nil)
-}
-
-// UnsetEmbeddedAt ensures that no value is present for EmbeddedAt, not even an explicit nil
-func (o *ArtifactOut) UnsetEmbeddedAt() {
-	o.EmbeddedAt.Unset()
-}
-
-// GetEtag returns the Etag field value
-func (o *ArtifactOut) GetEtag() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Etag
-}
-
-// GetEtagOk returns a tuple with the Etag field value
-// and a boolean to check if the value has been set.
-func (o *ArtifactOut) GetEtagOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Etag, true
-}
-
-// SetEtag sets field value
-func (o *ArtifactOut) SetEtag(v string) {
-	o.Etag = v
-}
-
-// GetFileType returns the FileType field value
-func (o *ArtifactOut) GetFileType() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.FileType
-}
-
-// GetFileTypeOk returns a tuple with the FileType field value
-// and a boolean to check if the value has been set.
-func (o *ArtifactOut) GetFileTypeOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.FileType, true
-}
-
-// SetFileType sets field value
-func (o *ArtifactOut) SetFileType(v string) {
-	o.FileType = v
-}
-
-// GetHash returns the Hash field value
-func (o *ArtifactOut) GetHash() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Hash
-}
-
-// GetHashOk returns a tuple with the Hash field value
-// and a boolean to check if the value has been set.
-func (o *ArtifactOut) GetHashOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Hash, true
-}
-
-// SetHash sets field value
-func (o *ArtifactOut) SetHash(v string) {
-	o.Hash = v
+// SetHeadVersionId sets field value
+func (o *ArtifactOut) SetHeadVersionId(v string) {
+	o.HeadVersionId.Set(&v)
 }
 
 // GetId returns the Id field value
@@ -293,289 +274,148 @@ func (o *ArtifactOut) SetId(v string) {
 	o.Id = v
 }
 
-// GetIndexedAt returns the IndexedAt field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ArtifactOut) GetIndexedAt() time.Time {
-	if o == nil || IsNil(o.IndexedAt.Get()) {
-		var ret time.Time
-		return ret
-	}
-	return *o.IndexedAt.Get()
-}
-
-// GetIndexedAtOk returns a tuple with the IndexedAt field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ArtifactOut) GetIndexedAtOk() (*time.Time, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.IndexedAt.Get(), o.IndexedAt.IsSet()
-}
-
-// HasIndexedAt returns a boolean if a field has been set.
-func (o *ArtifactOut) HasIndexedAt() bool {
-	if o != nil && o.IndexedAt.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetIndexedAt gets a reference to the given NullableTime and assigns it to the IndexedAt field.
-func (o *ArtifactOut) SetIndexedAt(v time.Time) {
-	o.IndexedAt.Set(&v)
-}
-// SetIndexedAtNil sets the value for IndexedAt to be an explicit nil
-func (o *ArtifactOut) SetIndexedAtNil() {
-	o.IndexedAt.Set(nil)
-}
-
-// UnsetIndexedAt ensures that no value is present for IndexedAt, not even an explicit nil
-func (o *ArtifactOut) UnsetIndexedAt() {
-	o.IndexedAt.Unset()
-}
-
-// GetLabels returns the Labels field value if set, zero value otherwise.
+// GetLabels returns the Labels field value
 func (o *ArtifactOut) GetLabels() []string {
-	if o == nil || IsNil(o.Labels) {
+	if o == nil {
 		var ret []string
 		return ret
 	}
+
 	return o.Labels
 }
 
-// GetLabelsOk returns a tuple with the Labels field value if set, nil otherwise
+// GetLabelsOk returns a tuple with the Labels field value
 // and a boolean to check if the value has been set.
 func (o *ArtifactOut) GetLabelsOk() ([]string, bool) {
-	if o == nil || IsNil(o.Labels) {
+	if o == nil {
 		return nil, false
 	}
 	return o.Labels, true
 }
 
-// HasLabels returns a boolean if a field has been set.
-func (o *ArtifactOut) HasLabels() bool {
-	if o != nil && !IsNil(o.Labels) {
-		return true
-	}
-
-	return false
-}
-
-// SetLabels gets a reference to the given []string and assigns it to the Labels field.
+// SetLabels sets field value
 func (o *ArtifactOut) SetLabels(v []string) {
 	o.Labels = v
 }
 
-// GetLlmIndex returns the LlmIndex field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ArtifactOut) GetLlmIndex() map[string]interface{} {
+// GetMetadata returns the Metadata field value
+func (o *ArtifactOut) GetMetadata() map[string]interface{} {
 	if o == nil {
 		var ret map[string]interface{}
 		return ret
 	}
-	return o.LlmIndex
-}
 
-// GetLlmIndexOk returns a tuple with the LlmIndex field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ArtifactOut) GetLlmIndexOk() (map[string]interface{}, bool) {
-	if o == nil || IsNil(o.LlmIndex) {
-		return map[string]interface{}{}, false
-	}
-	return o.LlmIndex, true
-}
-
-// HasLlmIndex returns a boolean if a field has been set.
-func (o *ArtifactOut) HasLlmIndex() bool {
-	if o != nil && !IsNil(o.LlmIndex) {
-		return true
-	}
-
-	return false
-}
-
-// SetLlmIndex gets a reference to the given map[string]interface{} and assigns it to the LlmIndex field.
-func (o *ArtifactOut) SetLlmIndex(v map[string]interface{}) {
-	o.LlmIndex = v
-}
-
-// GetMetadata returns the Metadata field value if set, zero value otherwise.
-func (o *ArtifactOut) GetMetadata() map[string]interface{} {
-	if o == nil || IsNil(o.Metadata) {
-		var ret map[string]interface{}
-		return ret
-	}
 	return o.Metadata
 }
 
-// GetMetadataOk returns a tuple with the Metadata field value if set, nil otherwise
+// GetMetadataOk returns a tuple with the Metadata field value
 // and a boolean to check if the value has been set.
 func (o *ArtifactOut) GetMetadataOk() (map[string]interface{}, bool) {
-	if o == nil || IsNil(o.Metadata) {
+	if o == nil {
 		return map[string]interface{}{}, false
 	}
 	return o.Metadata, true
 }
 
-// HasMetadata returns a boolean if a field has been set.
-func (o *ArtifactOut) HasMetadata() bool {
-	if o != nil && !IsNil(o.Metadata) {
-		return true
-	}
-
-	return false
-}
-
-// SetMetadata gets a reference to the given map[string]interface{} and assigns it to the Metadata field.
+// SetMetadata sets field value
 func (o *ArtifactOut) SetMetadata(v map[string]interface{}) {
 	o.Metadata = v
 }
 
-// GetMetageneration returns the Metageneration field value if set, zero value otherwise.
-func (o *ArtifactOut) GetMetageneration() int32 {
-	if o == nil || IsNil(o.Metageneration) {
-		var ret int32
-		return ret
-	}
-	return *o.Metageneration
-}
-
-// GetMetagenerationOk returns a tuple with the Metageneration field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ArtifactOut) GetMetagenerationOk() (*int32, bool) {
-	if o == nil || IsNil(o.Metageneration) {
-		return nil, false
-	}
-	return o.Metageneration, true
-}
-
-// HasMetageneration returns a boolean if a field has been set.
-func (o *ArtifactOut) HasMetageneration() bool {
-	if o != nil && !IsNil(o.Metageneration) {
-		return true
-	}
-
-	return false
-}
-
-// SetMetageneration gets a reference to the given int32 and assigns it to the Metageneration field.
-func (o *ArtifactOut) SetMetageneration(v int32) {
-	o.Metageneration = &v
-}
-
-// GetPath returns the Path field value
-func (o *ArtifactOut) GetPath() string {
+// GetName returns the Name field value
+func (o *ArtifactOut) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.Path
+	return o.Name
 }
 
-// GetPathOk returns a tuple with the Path field value
+// GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *ArtifactOut) GetPathOk() (*string, bool) {
+func (o *ArtifactOut) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Path, true
+	return &o.Name, true
 }
 
-// SetPath sets field value
-func (o *ArtifactOut) SetPath(v string) {
-	o.Path = v
+// SetName sets field value
+func (o *ArtifactOut) SetName(v string) {
+	o.Name = v
 }
 
-// GetPermalink returns the Permalink field value
-func (o *ArtifactOut) GetPermalink() string {
+// GetParentId returns the ParentId field value
+func (o *ArtifactOut) GetParentId() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.Permalink
+	return o.ParentId
 }
 
-// GetPermalinkOk returns a tuple with the Permalink field value
+// GetParentIdOk returns a tuple with the ParentId field value
 // and a boolean to check if the value has been set.
-func (o *ArtifactOut) GetPermalinkOk() (*string, bool) {
+func (o *ArtifactOut) GetParentIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Permalink, true
+	return &o.ParentId, true
 }
 
-// SetPermalink sets field value
-func (o *ArtifactOut) SetPermalink(v string) {
-	o.Permalink = v
+// SetParentId sets field value
+func (o *ArtifactOut) SetParentId(v string) {
+	o.ParentId = v
 }
 
-// GetSizeBytes returns the SizeBytes field value
-func (o *ArtifactOut) GetSizeBytes() int32 {
+// GetRevision returns the Revision field value
+func (o *ArtifactOut) GetRevision() string {
 	if o == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 
-	return o.SizeBytes
+	return o.Revision
 }
 
-// GetSizeBytesOk returns a tuple with the SizeBytes field value
+// GetRevisionOk returns a tuple with the Revision field value
 // and a boolean to check if the value has been set.
-func (o *ArtifactOut) GetSizeBytesOk() (*int32, bool) {
+func (o *ArtifactOut) GetRevisionOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.SizeBytes, true
+	return &o.Revision, true
 }
 
-// SetSizeBytes sets field value
-func (o *ArtifactOut) SetSizeBytes(v int32) {
-	o.SizeBytes = v
+// SetRevision sets field value
+func (o *ArtifactOut) SetRevision(v string) {
+	o.Revision = v
 }
 
-// GetSource returns the Source field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ArtifactOut) GetSource() ArtifactSource {
-	if o == nil || IsNil(o.Source.Get()) {
-		var ret ArtifactSource
+// GetState returns the State field value
+func (o *ArtifactOut) GetState() string {
+	if o == nil {
+		var ret string
 		return ret
 	}
-	return *o.Source.Get()
+
+	return o.State
 }
 
-// GetSourceOk returns a tuple with the Source field value if set, nil otherwise
+// GetStateOk returns a tuple with the State field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ArtifactOut) GetSourceOk() (*ArtifactSource, bool) {
+func (o *ArtifactOut) GetStateOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.Source.Get(), o.Source.IsSet()
+	return &o.State, true
 }
 
-// HasSource returns a boolean if a field has been set.
-func (o *ArtifactOut) HasSource() bool {
-	if o != nil && o.Source.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetSource gets a reference to the given NullableArtifactSource and assigns it to the Source field.
-func (o *ArtifactOut) SetSource(v ArtifactSource) {
-	o.Source.Set(&v)
-}
-// SetSourceNil sets the value for Source to be an explicit nil
-func (o *ArtifactOut) SetSourceNil() {
-	o.Source.Set(nil)
-}
-
-// UnsetSource ensures that no value is present for Source, not even an explicit nil
-func (o *ArtifactOut) UnsetSource() {
-	o.Source.Unset()
+// SetState sets field value
+func (o *ArtifactOut) SetState(v string) {
+	o.State = v
 }
 
 // GetUpdatedAt returns the UpdatedAt field value
@@ -602,62 +442,6 @@ func (o *ArtifactOut) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
 
-// GetUrl returns the Url field value
-func (o *ArtifactOut) GetUrl() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Url
-}
-
-// GetUrlOk returns a tuple with the Url field value
-// and a boolean to check if the value has been set.
-func (o *ArtifactOut) GetUrlOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Url, true
-}
-
-// SetUrl sets field value
-func (o *ArtifactOut) SetUrl(v string) {
-	o.Url = v
-}
-
-// GetVersionNumber returns the VersionNumber field value if set, zero value otherwise.
-func (o *ArtifactOut) GetVersionNumber() int32 {
-	if o == nil || IsNil(o.VersionNumber) {
-		var ret int32
-		return ret
-	}
-	return *o.VersionNumber
-}
-
-// GetVersionNumberOk returns a tuple with the VersionNumber field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ArtifactOut) GetVersionNumberOk() (*int32, bool) {
-	if o == nil || IsNil(o.VersionNumber) {
-		return nil, false
-	}
-	return o.VersionNumber, true
-}
-
-// HasVersionNumber returns a boolean if a field has been set.
-func (o *ArtifactOut) HasVersionNumber() bool {
-	if o != nil && !IsNil(o.VersionNumber) {
-		return true
-	}
-
-	return false
-}
-
-// SetVersionNumber gets a reference to the given int32 and assigns it to the VersionNumber field.
-func (o *ArtifactOut) SetVersionNumber(v int32) {
-	o.VersionNumber = &v
-}
-
 func (o ArtifactOut) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -668,42 +452,21 @@ func (o ArtifactOut) MarshalJSON() ([]byte, error) {
 
 func (o ArtifactOut) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["content_type"] = o.ContentType
+	toSerialize["content_preview"] = o.ContentPreview.Get()
+	toSerialize["content_type"] = o.ContentType.Get()
 	toSerialize["created_at"] = o.CreatedAt
+	toSerialize["deleted_at"] = o.DeletedAt.Get()
 	toSerialize["drive_id"] = o.DriveId
-	if o.EmbeddedAt.IsSet() {
-		toSerialize["embedded_at"] = o.EmbeddedAt.Get()
-	}
-	toSerialize["etag"] = o.Etag
-	toSerialize["file_type"] = o.FileType
-	toSerialize["hash"] = o.Hash
+	toSerialize["effective_visibility"] = o.EffectiveVisibility
+	toSerialize["head_version_id"] = o.HeadVersionId.Get()
 	toSerialize["id"] = o.Id
-	if o.IndexedAt.IsSet() {
-		toSerialize["indexed_at"] = o.IndexedAt.Get()
-	}
-	if !IsNil(o.Labels) {
-		toSerialize["labels"] = o.Labels
-	}
-	if o.LlmIndex != nil {
-		toSerialize["llm_index"] = o.LlmIndex
-	}
-	if !IsNil(o.Metadata) {
-		toSerialize["metadata"] = o.Metadata
-	}
-	if !IsNil(o.Metageneration) {
-		toSerialize["metageneration"] = o.Metageneration
-	}
-	toSerialize["path"] = o.Path
-	toSerialize["permalink"] = o.Permalink
-	toSerialize["size_bytes"] = o.SizeBytes
-	if o.Source.IsSet() {
-		toSerialize["source"] = o.Source.Get()
-	}
+	toSerialize["labels"] = o.Labels
+	toSerialize["metadata"] = o.Metadata
+	toSerialize["name"] = o.Name
+	toSerialize["parent_id"] = o.ParentId
+	toSerialize["revision"] = o.Revision
+	toSerialize["state"] = o.State
 	toSerialize["updated_at"] = o.UpdatedAt
-	toSerialize["url"] = o.Url
-	if !IsNil(o.VersionNumber) {
-		toSerialize["version_number"] = o.VersionNumber
-	}
 	return toSerialize, nil
 }
 
@@ -712,18 +475,21 @@ func (o *ArtifactOut) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
+		"content_preview",
 		"content_type",
 		"created_at",
+		"deleted_at",
 		"drive_id",
-		"etag",
-		"file_type",
-		"hash",
+		"effective_visibility",
+		"head_version_id",
 		"id",
-		"path",
-		"permalink",
-		"size_bytes",
+		"labels",
+		"metadata",
+		"name",
+		"parent_id",
+		"revision",
+		"state",
 		"updated_at",
-		"url",
 	}
 
 	allProperties := make(map[string]interface{})

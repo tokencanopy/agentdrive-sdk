@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: <PINNED>
  *
@@ -24,13 +24,7 @@ export interface SearchHitOut {
      * @type {string}
      * @memberof SearchHitOut
      */
-    artId: string;
-    /**
-     *
-     * @type {string}
-     * @memberof SearchHitOut
-     */
-    contentType: string;
+    contentType: string | null;
     /**
      *
      * @type {string}
@@ -42,27 +36,27 @@ export interface SearchHitOut {
      * @type {string}
      * @memberof SearchHitOut
      */
-    fileType: string;
-    /**
-     *
-     * @type {Array<string>}
-     * @memberof SearchHitOut
-     */
-    labels?: Array<string>;
+    id: string;
     /**
      *
      * @type {string}
      * @memberof SearchHitOut
      */
-    path: string;
+    name: string;
+    /**
+     *
+     * @type {string}
+     * @memberof SearchHitOut
+     */
+    parentId: string | null;
     /**
      *
      * @type {number}
      * @memberof SearchHitOut
      */
-    score: number;
+    rank: number;
     /**
-     *
+     * HTML-safe highlighted excerpt. The ONLY markup it may contain is the server's own <mark>...</mark> highlight pair; artifact content is entity-escaped, so this may be rendered as HTML.
      * @type {string}
      * @memberof SearchHitOut
      */
@@ -78,29 +72,22 @@ export interface SearchHitOut {
      * @type {string}
      * @memberof SearchHitOut
      */
-    url: string;
-    /**
-     *
-     * @type {number}
-     * @memberof SearchHitOut
-     */
-    versionNumber: number;
+    versionId: string | null;
 }
 
 /**
  * Check if a given object implements the SearchHitOut interface.
  */
 export function instanceOfSearchHitOut(value: object): value is SearchHitOut {
-    if ((!('artId' in (value as Record<string, any>)) && !('art_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['artId'] === undefined && (value as Record<string, any>)['art_id'] === undefined)) return false;
     if ((!('contentType' in (value as Record<string, any>)) && !('content_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['contentType'] === undefined && (value as Record<string, any>)['content_type'] === undefined)) return false;
     if ((!('driveId' in (value as Record<string, any>)) && !('drive_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['driveId'] === undefined && (value as Record<string, any>)['drive_id'] === undefined)) return false;
-    if ((!('fileType' in (value as Record<string, any>)) && !('file_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['fileType'] === undefined && (value as Record<string, any>)['file_type'] === undefined)) return false;
-    if (!('path' in value) || value['path'] === undefined) return false;
-    if (!('score' in value) || value['score'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if ((!('parentId' in (value as Record<string, any>)) && !('parent_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['parentId'] === undefined && (value as Record<string, any>)['parent_id'] === undefined)) return false;
+    if (!('rank' in value) || value['rank'] === undefined) return false;
     if (!('snippet' in value) || value['snippet'] === undefined) return false;
     if ((!('updatedAt' in (value as Record<string, any>)) && !('updated_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['updatedAt'] === undefined && (value as Record<string, any>)['updated_at'] === undefined)) return false;
-    if (!('url' in value) || value['url'] === undefined) return false;
-    if ((!('versionNumber' in (value as Record<string, any>)) && !('version_number' in (value as Record<string, any>))) || ((value as Record<string, any>)['versionNumber'] === undefined && (value as Record<string, any>)['version_number'] === undefined)) return false;
+    if ((!('versionId' in (value as Record<string, any>)) && !('version_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['versionId'] === undefined && (value as Record<string, any>)['version_id'] === undefined)) return false;
     return true;
 }
 
@@ -114,17 +101,15 @@ export function SearchHitOutFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
 
-        'artId': json['art_id'],
         'contentType': json['content_type'],
         'driveId': json['drive_id'],
-        'fileType': json['file_type'],
-        'labels': json['labels'] == null ? undefined : json['labels'],
-        'path': json['path'],
-        'score': json['score'],
+        'id': json['id'],
+        'name': json['name'],
+        'parentId': json['parent_id'],
+        'rank': json['rank'],
         'snippet': json['snippet'],
         'updatedAt': (new Date(json['updated_at'])),
-        'url': json['url'],
-        'versionNumber': json['version_number'],
+        'versionId': json['version_id'],
     };
 }
 
@@ -139,16 +124,14 @@ export function SearchHitOutToJSONTyped(value?: SearchHitOut | null, ignoreDiscr
 
     return {
 
-        'art_id': value['artId'],
         'content_type': value['contentType'],
         'drive_id': value['driveId'],
-        'file_type': value['fileType'],
-        'labels': value['labels'],
-        'path': value['path'],
-        'score': value['score'],
+        'id': value['id'],
+        'name': value['name'],
+        'parent_id': value['parentId'],
+        'rank': value['rank'],
         'snippet': value['snippet'],
         'updated_at': value['updatedAt'].toISOString(),
-        'url': value['url'],
-        'version_number': value['versionNumber'],
+        'version_id': value['versionId'],
     };
 }

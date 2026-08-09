@@ -6,12 +6,13 @@
 
 Name | Type
 ------------ | -------------
-`actorName` | string
-`artId` | string
-`changeSummary` | string
+`artifactId` | string
 `contentType` | string
 `createdAt` | Date
+`createdBy` | string
 `hash` | string
+`id` | string
+`parentVersionId` | string
 `sizeBytes` | number
 `versionNumber` | number
 
@@ -22,12 +23,13 @@ import type { VersionOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "actorName": null,
-  "artId": null,
-  "changeSummary": null,
+  "artifactId": null,
   "contentType": null,
   "createdAt": null,
+  "createdBy": null,
   "hash": null,
+  "id": null,
+  "parentVersionId": null,
   "sizeBytes": null,
   "versionNumber": null,
 } satisfies VersionOut

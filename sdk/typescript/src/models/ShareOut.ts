@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: <PINNED>
  *
@@ -14,24 +14,11 @@
 
 import { mapValues } from '../runtime';
 /**
- * A live share link as seen on list/management — NEVER carries the
- * `share_key` (that is the credential, returned only at mint/rotate).
+ *
  * @export
  * @interface ShareOut
  */
 export interface ShareOut {
-    /**
-     *
-     * @type {number}
-     * @memberof ShareOut
-     */
-    accessCount?: number;
-    /**
-     *
-     * @type {string}
-     * @memberof ShareOut
-     */
-    audience: string;
     /**
      *
      * @type {Date}
@@ -40,28 +27,28 @@ export interface ShareOut {
     createdAt: Date;
     /**
      *
+     * @type {string}
+     * @memberof ShareOut
+     */
+    createdBy: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof ShareOut
+     */
+    driveId: string;
+    /**
+     *
      * @type {Date}
      * @memberof ShareOut
      */
-    expiresAt?: Date | null;
-    /**
-     *
-     * @type {boolean}
-     * @memberof ShareOut
-     */
-    hasPassword: boolean;
+    expiresAt: Date | null;
     /**
      *
      * @type {string}
      * @memberof ShareOut
      */
     id: string;
-    /**
-     *
-     * @type {Date}
-     * @memberof ShareOut
-     */
-    lastAccessedAt?: Date | null;
     /**
      *
      * @type {string}
@@ -76,10 +63,28 @@ export interface ShareOut {
     resourceType: ShareOutResourceTypeEnum;
     /**
      *
-     * @type {ShareOutRoleEnum}
+     * @type {string}
      * @memberof ShareOut
      */
-    role: ShareOutRoleEnum;
+    revision: string;
+    /**
+     *
+     * @type {Date}
+     * @memberof ShareOut
+     */
+    revokedAt: Date | null;
+    /**
+     *
+     * @type {Date}
+     * @memberof ShareOut
+     */
+    rotatedAt: Date | null;
+    /**
+     *
+     * @type {ShareOutStateEnum}
+     * @memberof ShareOut
+     */
+    state: ShareOutStateEnum;
 }
 
 
@@ -88,6 +93,7 @@ export interface ShareOut {
  */
 export const ShareOutResourceTypeEnum = {
     Artifact: 'artifact',
+    ArtifactVersion: 'artifact_version',
     Folder: 'folder'
 } as const;
 export type ShareOutResourceTypeEnum = typeof ShareOutResourceTypeEnum[keyof typeof ShareOutResourceTypeEnum];
@@ -95,25 +101,28 @@ export type ShareOutResourceTypeEnum = typeof ShareOutResourceTypeEnum[keyof typ
 /**
  * @export
  */
-export const ShareOutRoleEnum = {
-    Viewer: 'viewer',
-    Commenter: 'commenter',
-    Editor: 'editor'
+export const ShareOutStateEnum = {
+    Active: 'active',
+    Revoked: 'revoked'
 } as const;
-export type ShareOutRoleEnum = typeof ShareOutRoleEnum[keyof typeof ShareOutRoleEnum];
+export type ShareOutStateEnum = typeof ShareOutStateEnum[keyof typeof ShareOutStateEnum];
 
 
 /**
  * Check if a given object implements the ShareOut interface.
  */
 export function instanceOfShareOut(value: object): value is ShareOut {
-    if (!('audience' in value) || value['audience'] === undefined) return false;
     if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
-    if ((!('hasPassword' in (value as Record<string, any>)) && !('has_password' in (value as Record<string, any>))) || ((value as Record<string, any>)['hasPassword'] === undefined && (value as Record<string, any>)['has_password'] === undefined)) return false;
+    if ((!('createdBy' in (value as Record<string, any>)) && !('created_by' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdBy'] === undefined && (value as Record<string, any>)['created_by'] === undefined)) return false;
+    if ((!('driveId' in (value as Record<string, any>)) && !('drive_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['driveId'] === undefined && (value as Record<string, any>)['drive_id'] === undefined)) return false;
+    if ((!('expiresAt' in (value as Record<string, any>)) && !('expires_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['expiresAt'] === undefined && (value as Record<string, any>)['expires_at'] === undefined)) return false;
     if (!('id' in value) || value['id'] === undefined) return false;
     if ((!('resourceId' in (value as Record<string, any>)) && !('resource_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['resourceId'] === undefined && (value as Record<string, any>)['resource_id'] === undefined)) return false;
     if ((!('resourceType' in (value as Record<string, any>)) && !('resource_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['resourceType'] === undefined && (value as Record<string, any>)['resource_type'] === undefined)) return false;
-    if (!('role' in value) || value['role'] === undefined) return false;
+    if (!('revision' in value) || value['revision'] === undefined) return false;
+    if ((!('revokedAt' in (value as Record<string, any>)) && !('revoked_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['revokedAt'] === undefined && (value as Record<string, any>)['revoked_at'] === undefined)) return false;
+    if ((!('rotatedAt' in (value as Record<string, any>)) && !('rotated_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['rotatedAt'] === undefined && (value as Record<string, any>)['rotated_at'] === undefined)) return false;
+    if (!('state' in value) || value['state'] === undefined) return false;
     return true;
 }
 
@@ -127,16 +136,17 @@ export function ShareOutFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
 
-        'accessCount': json['access_count'] == null ? undefined : json['access_count'],
-        'audience': json['audience'],
         'createdAt': (new Date(json['created_at'])),
-        'expiresAt': json['expires_at'] === undefined ? undefined : json['expires_at'] === null ? null : (new Date(json['expires_at'])),
-        'hasPassword': json['has_password'],
+        'createdBy': json['created_by'],
+        'driveId': json['drive_id'],
+        'expiresAt': (json['expires_at'] == null ? null : new Date(json['expires_at'])),
         'id': json['id'],
-        'lastAccessedAt': json['last_accessed_at'] === undefined ? undefined : json['last_accessed_at'] === null ? null : (new Date(json['last_accessed_at'])),
         'resourceId': json['resource_id'],
         'resourceType': json['resource_type'],
-        'role': json['role'],
+        'revision': json['revision'],
+        'revokedAt': (json['revoked_at'] == null ? null : new Date(json['revoked_at'])),
+        'rotatedAt': (json['rotated_at'] == null ? null : new Date(json['rotated_at'])),
+        'state': json['state'],
     };
 }
 
@@ -151,15 +161,16 @@ export function ShareOutToJSONTyped(value?: ShareOut | null, ignoreDiscriminator
 
     return {
 
-        'access_count': value['accessCount'],
-        'audience': value['audience'],
         'created_at': value['createdAt'].toISOString(),
+        'created_by': value['createdBy'],
+        'drive_id': value['driveId'],
         'expires_at': value['expiresAt'] == null ? value['expiresAt'] : value['expiresAt'].toISOString(),
-        'has_password': value['hasPassword'],
         'id': value['id'],
-        'last_accessed_at': value['lastAccessedAt'] == null ? value['lastAccessedAt'] : value['lastAccessedAt'].toISOString(),
         'resource_id': value['resourceId'],
         'resource_type': value['resourceType'],
-        'role': value['role'],
+        'revision': value['revision'],
+        'revoked_at': value['revokedAt'] == null ? value['revokedAt'] : value['revokedAt'].toISOString(),
+        'rotated_at': value['rotatedAt'] == null ? value['rotatedAt'] : value['rotatedAt'].toISOString(),
+        'state': value['state'],
     };
 }

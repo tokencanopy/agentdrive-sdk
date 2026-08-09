@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: <PINNED>
  *
@@ -13,34 +13,33 @@
  */
 
 import { mapValues } from '../runtime';
-import type { ValidationErrorDetail } from './ValidationErrorDetail';
+import type { ValidationErrorResponseError } from './ValidationErrorResponseError';
 import {
-    ValidationErrorDetailFromJSON,
-    ValidationErrorDetailFromJSONTyped,
-    ValidationErrorDetailToJSON,
-    ValidationErrorDetailToJSONTyped,
-} from './ValidationErrorDetail';
+    ValidationErrorResponseErrorFromJSON,
+    ValidationErrorResponseErrorFromJSONTyped,
+    ValidationErrorResponseErrorToJSON,
+    ValidationErrorResponseErrorToJSONTyped,
+} from './ValidationErrorResponseError';
 
 /**
- * The runtime `VALIDATION_ERROR` response for request parsing failures.
+ *
  * @export
  * @interface ValidationErrorResponse
  */
 export interface ValidationErrorResponse {
-    [key: string]: any | any;
     /**
      *
-     * @type {ValidationErrorDetail}
+     * @type {ValidationErrorResponseError}
      * @memberof ValidationErrorResponse
      */
-    detail: ValidationErrorDetail;
+    error: ValidationErrorResponseError;
 }
 
 /**
  * Check if a given object implements the ValidationErrorResponse interface.
  */
 export function instanceOfValidationErrorResponse(value: object): value is ValidationErrorResponse {
-    if (!('detail' in value) || value['detail'] === undefined) return false;
+    if (!('error' in value) || value['error'] === undefined) return false;
     return true;
 }
 
@@ -54,8 +53,7 @@ export function ValidationErrorResponseFromJSONTyped(json: any, ignoreDiscrimina
     }
     return {
 
-            ...json,
-        'detail': ValidationErrorDetailFromJSON(json['detail']),
+        'error': ValidationErrorResponseErrorFromJSON(json['error']),
     };
 }
 
@@ -70,7 +68,6 @@ export function ValidationErrorResponseToJSONTyped(value?: ValidationErrorRespon
 
     return {
 
-            ...value,
-        'detail': ValidationErrorDetailToJSON(value['detail']),
+        'error': ValidationErrorResponseErrorToJSON(value['error']),
     };
 }

@@ -1,22 +1,22 @@
 
 # ShareOut
 
-A live share link as seen on list/management — NEVER carries the `share_key` (that is the credential, returned only at mint/rotate).
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`accessCount` | number
-`audience` | string
 `createdAt` | Date
+`createdBy` | string
+`driveId` | string
 `expiresAt` | Date
-`hasPassword` | boolean
 `id` | string
-`lastAccessedAt` | Date
 `resourceId` | string
 `resourceType` | string
-`role` | string
+`revision` | string
+`revokedAt` | Date
+`rotatedAt` | Date
+`state` | string
 
 ## Example
 
@@ -25,16 +25,17 @@ import type { ShareOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "accessCount": null,
-  "audience": null,
   "createdAt": null,
+  "createdBy": null,
+  "driveId": null,
   "expiresAt": null,
-  "hasPassword": null,
   "id": null,
-  "lastAccessedAt": null,
   "resourceId": null,
   "resourceType": null,
-  "role": null,
+  "revision": null,
+  "revokedAt": null,
+  "rotatedAt": null,
+  "state": null,
 } satisfies ShareOut
 
 console.log(example)

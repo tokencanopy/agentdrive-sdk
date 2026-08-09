@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path
 from typing import Any, Dict
 
@@ -43,7 +44,7 @@ def _validate(document: Dict[str, Any]) -> None:
     scheme = (
         document.get("components", {})
         .get("securitySchemes", {})
-        .get("BearerAuth")
+        .get("bearerAuth")
     )
     if (
         not isinstance(scheme, dict)
@@ -51,7 +52,7 @@ def _validate(document: Dict[str, Any]) -> None:
         or scheme.get("scheme") != "bearer"
         or not scheme.get("bearerFormat")
     ):
-        raise ContractImportError("source contract lacks canonical BearerAuth")
+        raise ContractImportError("source contract lacks canonical bearerAuth")
 
     operation_ids = []
     for path_item in document.get("paths", {}).values():
@@ -72,6 +73,8 @@ def import_contract(
     *,
     source_commit: str,
 ) -> None:
+    if not re.fullmatch(r"[0-9a-f]{40}", source_commit):
+        raise ContractImportError("source_commit must be a full lowercase Git SHA")
     source_bytes = source.read_bytes()
     document = json.loads(source_bytes)
     _validate(document)

@@ -39,15 +39,23 @@ class OperationCoverageTest(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
-            python_dir = root / "python"
+            python_sync_dir = root / "python-sync"
+            python_async_dir = root / "python-async"
             typescript_dir = root / "typescript"
             go_dir = root / "go"
-            python_dir.mkdir()
+            python_sync_dir.mkdir()
+            python_async_dir.mkdir()
             typescript_dir.mkdir()
             go_dir.mkdir()
-            (python_dir / "widgets_api.py").write_text(
+            (python_sync_dir / "widgets_api.py").write_text(
                 "class WidgetsApi:\n"
                 "    def list_widgets_v0_widgets_get(self):\n"
+                "        pass\n",
+                encoding="utf-8",
+            )
+            (python_async_dir / "widgets_api.py").write_text(
+                "class WidgetsApi:\n"
+                "    async def list_widgets_v0_widgets_get(self):\n"
                 "        pass\n",
                 encoding="utf-8",
             )
@@ -65,7 +73,8 @@ class OperationCoverageTest(unittest.TestCase):
 
             check_operation_coverage(
                 spec_path,
-                python_dir=python_dir,
+                python_sync_dir=python_sync_dir,
+                python_async_dir=python_async_dir,
                 typescript_dir=typescript_dir,
                 go_dir=go_dir,
             )
@@ -86,15 +95,17 @@ class OperationCoverageTest(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
-            for name in ("python", "typescript", "go"):
+            for name in ("python-sync", "python-async", "typescript", "go"):
                 (root / name).mkdir()
 
             with self.assertRaisesRegex(
-                CoverageError, "python missing.*list_widgets_v0_widgets_get"
+                CoverageError,
+                "python sync missing.*list_widgets_v0_widgets_get",
             ):
                 check_operation_coverage(
                     spec_path,
-                    python_dir=root / "python",
+                    python_sync_dir=root / "python-sync",
+                    python_async_dir=root / "python-async",
                     typescript_dir=root / "typescript",
                     go_dir=root / "go",
                 )
@@ -118,16 +129,17 @@ class OperationCoverageTest(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
-            for name in ("python", "typescript", "go"):
+            for name in ("python-sync", "python-async", "typescript", "go"):
                 (root / name).mkdir()
 
             with self.assertRaisesRegex(
                 CoverageError,
-                "python generated-name collision.*get_widget.*get__widget",
+                "python sync generated-name collision.*get_widget.*get__widget",
             ):
                 check_operation_coverage(
                     spec_path,
-                    python_dir=root / "python",
+                    python_sync_dir=root / "python-sync",
+                    python_async_dir=root / "python-async",
                     typescript_dir=root / "typescript",
                     go_dir=root / "go",
                 )

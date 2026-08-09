@@ -1,12 +1,13 @@
 
 # DriveCreateIn
 
-POST /v0/drives body. `name` is the user-facing drive label; the creator becomes the owner.
+POST /v0/drives body.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
+`metadata` | { [key: string]: any; }
 `name` | string
 
 ## Example
@@ -16,6 +17,7 @@ import type { DriveCreateIn } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
+  "metadata": null,
   "name": null,
 } satisfies DriveCreateIn
 

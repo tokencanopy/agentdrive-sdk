@@ -51,7 +51,13 @@ def _contents(paths: Iterable[Path]) -> str:
 
 def _python_operations(directory: Path) -> Set[str]:
     content = _contents(directory.glob("*_api.py"))
-    names = set(re.findall(r"^    def ([A-Za-z0-9_]+)\(", content, re.MULTILINE))
+    names = set(
+        re.findall(
+            r"^    (?:async )?def ([A-Za-z0-9_]+)\(",
+            content,
+            re.MULTILINE,
+        )
+    )
     return {
         name
         for name in names
@@ -87,16 +93,23 @@ def _go_operations(directory: Path) -> Set[str]:
 def check_operation_coverage(
     spec_path: Path,
     *,
-    python_dir: Path,
+    python_sync_dir: Path,
+    python_async_dir: Path,
     typescript_dir: Path,
     go_dir: Path,
 ) -> None:
     operation_ids = _operation_ids(spec_path)
     expected = {}
-    for language in ("python", "typescript", "go"):
+    language_conventions = {
+        "python sync": "python",
+        "python async": "python",
+        "typescript": "typescript",
+        "go": "go",
+    }
+    for language, convention in language_conventions.items():
         owners: Dict[str, list[str]] = {}
         for operation_id in operation_ids:
-            generated = generated_names(operation_id)[language]
+            generated = generated_names(operation_id)[convention]
             owners.setdefault(generated, []).append(operation_id)
         collisions = {
             name: sorted(ids)
@@ -109,13 +122,14 @@ def check_operation_coverage(
             )
         expected[language] = set(owners)
     actual = {
-        "python": _python_operations(python_dir),
+        "python sync": _python_operations(python_sync_dir),
+        "python async": _python_operations(python_async_dir),
         "typescript": _typescript_operations(typescript_dir),
         "go": _go_operations(go_dir),
     }
 
     failures = []
-    for language in ("python", "typescript", "go"):
+    for language in language_conventions:
         missing = sorted(expected[language] - actual[language])
         extra = sorted(actual[language] - expected[language])
         if missing:
@@ -132,7 +146,12 @@ def main() -> None:
     args = parser.parse_args()
     check_operation_coverage(
         args.spec,
-        python_dir=Path("sdk/python/agentdrive_sdk/api"),
+        python_sync_dir=Path(
+            "sdk/python/src/agentdrive_sdk/generated/sync/api"
+        ),
+        python_async_dir=Path(
+            "sdk/python/src/agentdrive_sdk/generated/async_client/api"
+        ),
         typescript_dir=Path("sdk/typescript/src/apis"),
         go_dir=Path("sdk/go"),
     )

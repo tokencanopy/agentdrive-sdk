@@ -1,7 +1,7 @@
 /*
 AgentDrive
 
-AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
 
 API version: <PINNED>
 */
@@ -12,6 +12,7 @@ package agentdrive
 
 import (
 	"encoding/json"
+	"time"
 	"bytes"
 	"fmt"
 )
@@ -19,11 +20,13 @@ import (
 // checks if the GrantCreateIn type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GrantCreateIn{}
 
-// GrantCreateIn POST /v0/grants body. `resource` is an `art_*`/`fld_*` id or a path (resolved within the caller's drive). `expires_in` is seconds from now (omit for a permanent grant).
+// GrantCreateIn POST /v0/drives/{id}/grants body.
 type GrantCreateIn struct {
-	ExpiresIn NullableInt32 `json:"expires_in,omitempty"`
-	Principal GrantPrincipalIn `json:"principal"`
-	Resource string `json:"resource"`
+	ExpiresAt NullableTime `json:"expires_at,omitempty"`
+	PrincipalId NullableString `json:"principal_id,omitempty"`
+	PrincipalType string `json:"principal_type"`
+	ResourceId string `json:"resource_id"`
+	ResourceType string `json:"resource_type"`
 	Role string `json:"role"`
 }
 
@@ -33,10 +36,11 @@ type _GrantCreateIn GrantCreateIn
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGrantCreateIn(principal GrantPrincipalIn, resource string, role string) *GrantCreateIn {
+func NewGrantCreateIn(principalType string, resourceId string, resourceType string, role string) *GrantCreateIn {
 	this := GrantCreateIn{}
-	this.Principal = principal
-	this.Resource = resource
+	this.PrincipalType = principalType
+	this.ResourceId = resourceId
+	this.ResourceType = resourceType
 	this.Role = role
 	return &this
 }
@@ -49,94 +53,160 @@ func NewGrantCreateInWithDefaults() *GrantCreateIn {
 	return &this
 }
 
-// GetExpiresIn returns the ExpiresIn field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GrantCreateIn) GetExpiresIn() int32 {
-	if o == nil || IsNil(o.ExpiresIn.Get()) {
-		var ret int32
+// GetExpiresAt returns the ExpiresAt field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *GrantCreateIn) GetExpiresAt() time.Time {
+	if o == nil || IsNil(o.ExpiresAt.Get()) {
+		var ret time.Time
 		return ret
 	}
-	return *o.ExpiresIn.Get()
+	return *o.ExpiresAt.Get()
 }
 
-// GetExpiresInOk returns a tuple with the ExpiresIn field value if set, nil otherwise
+// GetExpiresAtOk returns a tuple with the ExpiresAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GrantCreateIn) GetExpiresInOk() (*int32, bool) {
+func (o *GrantCreateIn) GetExpiresAtOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.ExpiresIn.Get(), o.ExpiresIn.IsSet()
+	return o.ExpiresAt.Get(), o.ExpiresAt.IsSet()
 }
 
-// HasExpiresIn returns a boolean if a field has been set.
-func (o *GrantCreateIn) HasExpiresIn() bool {
-	if o != nil && o.ExpiresIn.IsSet() {
+// HasExpiresAt returns a boolean if a field has been set.
+func (o *GrantCreateIn) HasExpiresAt() bool {
+	if o != nil && o.ExpiresAt.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetExpiresIn gets a reference to the given NullableInt32 and assigns it to the ExpiresIn field.
-func (o *GrantCreateIn) SetExpiresIn(v int32) {
-	o.ExpiresIn.Set(&v)
+// SetExpiresAt gets a reference to the given NullableTime and assigns it to the ExpiresAt field.
+func (o *GrantCreateIn) SetExpiresAt(v time.Time) {
+	o.ExpiresAt.Set(&v)
 }
-// SetExpiresInNil sets the value for ExpiresIn to be an explicit nil
-func (o *GrantCreateIn) SetExpiresInNil() {
-	o.ExpiresIn.Set(nil)
-}
-
-// UnsetExpiresIn ensures that no value is present for ExpiresIn, not even an explicit nil
-func (o *GrantCreateIn) UnsetExpiresIn() {
-	o.ExpiresIn.Unset()
+// SetExpiresAtNil sets the value for ExpiresAt to be an explicit nil
+func (o *GrantCreateIn) SetExpiresAtNil() {
+	o.ExpiresAt.Set(nil)
 }
 
-// GetPrincipal returns the Principal field value
-func (o *GrantCreateIn) GetPrincipal() GrantPrincipalIn {
-	if o == nil {
-		var ret GrantPrincipalIn
+// UnsetExpiresAt ensures that no value is present for ExpiresAt, not even an explicit nil
+func (o *GrantCreateIn) UnsetExpiresAt() {
+	o.ExpiresAt.Unset()
+}
+
+// GetPrincipalId returns the PrincipalId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *GrantCreateIn) GetPrincipalId() string {
+	if o == nil || IsNil(o.PrincipalId.Get()) {
+		var ret string
 		return ret
 	}
-
-	return o.Principal
+	return *o.PrincipalId.Get()
 }
 
-// GetPrincipalOk returns a tuple with the Principal field value
+// GetPrincipalIdOk returns a tuple with the PrincipalId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *GrantCreateIn) GetPrincipalOk() (*GrantPrincipalIn, bool) {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *GrantCreateIn) GetPrincipalIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Principal, true
+	return o.PrincipalId.Get(), o.PrincipalId.IsSet()
 }
 
-// SetPrincipal sets field value
-func (o *GrantCreateIn) SetPrincipal(v GrantPrincipalIn) {
-	o.Principal = v
+// HasPrincipalId returns a boolean if a field has been set.
+func (o *GrantCreateIn) HasPrincipalId() bool {
+	if o != nil && o.PrincipalId.IsSet() {
+		return true
+	}
+
+	return false
 }
 
-// GetResource returns the Resource field value
-func (o *GrantCreateIn) GetResource() string {
+// SetPrincipalId gets a reference to the given NullableString and assigns it to the PrincipalId field.
+func (o *GrantCreateIn) SetPrincipalId(v string) {
+	o.PrincipalId.Set(&v)
+}
+// SetPrincipalIdNil sets the value for PrincipalId to be an explicit nil
+func (o *GrantCreateIn) SetPrincipalIdNil() {
+	o.PrincipalId.Set(nil)
+}
+
+// UnsetPrincipalId ensures that no value is present for PrincipalId, not even an explicit nil
+func (o *GrantCreateIn) UnsetPrincipalId() {
+	o.PrincipalId.Unset()
+}
+
+// GetPrincipalType returns the PrincipalType field value
+func (o *GrantCreateIn) GetPrincipalType() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.Resource
+	return o.PrincipalType
 }
 
-// GetResourceOk returns a tuple with the Resource field value
+// GetPrincipalTypeOk returns a tuple with the PrincipalType field value
 // and a boolean to check if the value has been set.
-func (o *GrantCreateIn) GetResourceOk() (*string, bool) {
+func (o *GrantCreateIn) GetPrincipalTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Resource, true
+	return &o.PrincipalType, true
 }
 
-// SetResource sets field value
-func (o *GrantCreateIn) SetResource(v string) {
-	o.Resource = v
+// SetPrincipalType sets field value
+func (o *GrantCreateIn) SetPrincipalType(v string) {
+	o.PrincipalType = v
+}
+
+// GetResourceId returns the ResourceId field value
+func (o *GrantCreateIn) GetResourceId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.ResourceId
+}
+
+// GetResourceIdOk returns a tuple with the ResourceId field value
+// and a boolean to check if the value has been set.
+func (o *GrantCreateIn) GetResourceIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ResourceId, true
+}
+
+// SetResourceId sets field value
+func (o *GrantCreateIn) SetResourceId(v string) {
+	o.ResourceId = v
+}
+
+// GetResourceType returns the ResourceType field value
+func (o *GrantCreateIn) GetResourceType() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.ResourceType
+}
+
+// GetResourceTypeOk returns a tuple with the ResourceType field value
+// and a boolean to check if the value has been set.
+func (o *GrantCreateIn) GetResourceTypeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ResourceType, true
+}
+
+// SetResourceType sets field value
+func (o *GrantCreateIn) SetResourceType(v string) {
+	o.ResourceType = v
 }
 
 // GetRole returns the Role field value
@@ -173,11 +243,15 @@ func (o GrantCreateIn) MarshalJSON() ([]byte, error) {
 
 func (o GrantCreateIn) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.ExpiresIn.IsSet() {
-		toSerialize["expires_in"] = o.ExpiresIn.Get()
+	if o.ExpiresAt.IsSet() {
+		toSerialize["expires_at"] = o.ExpiresAt.Get()
 	}
-	toSerialize["principal"] = o.Principal
-	toSerialize["resource"] = o.Resource
+	if o.PrincipalId.IsSet() {
+		toSerialize["principal_id"] = o.PrincipalId.Get()
+	}
+	toSerialize["principal_type"] = o.PrincipalType
+	toSerialize["resource_id"] = o.ResourceId
+	toSerialize["resource_type"] = o.ResourceType
 	toSerialize["role"] = o.Role
 	return toSerialize, nil
 }
@@ -187,8 +261,9 @@ func (o *GrantCreateIn) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"principal",
-		"resource",
+		"principal_type",
+		"resource_id",
+		"resource_type",
 		"role",
 	}
 

@@ -1,7 +1,7 @@
 /*
 AgentDrive
 
-AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
 
 API version: <PINNED>
 */
@@ -12,22 +12,33 @@ package agentdrive
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // checks if the FolderCreateIn type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &FolderCreateIn{}
 
-// FolderCreateIn PUT /v0/folders/{path} body for the optional metadata params. Empty body is fine — `mkdir` with no description just creates the folder row.
+// FolderCreateIn POST /v0/drives/{id}/folders body.
 type FolderCreateIn struct {
-	Description NullableString `json:"description,omitempty"`
+	GrantInheritance *string `json:"grant_inheritance,omitempty"`
+	Metadata map[string]interface{} `json:"metadata,omitempty"`
+	Name string `json:"name"`
+	ParentId string `json:"parent_id" validate:"regexp=^fld_[a-f0-9]{16}$"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _FolderCreateIn FolderCreateIn
 
 // NewFolderCreateIn instantiates a new FolderCreateIn object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFolderCreateIn() *FolderCreateIn {
+func NewFolderCreateIn(name string, parentId string) *FolderCreateIn {
 	this := FolderCreateIn{}
+	var grantInheritance string = "inherit"
+	this.GrantInheritance = &grantInheritance
+	this.Name = name
+	this.ParentId = parentId
 	return &this
 }
 
@@ -36,49 +47,121 @@ func NewFolderCreateIn() *FolderCreateIn {
 // but it doesn't guarantee that properties required by API are set
 func NewFolderCreateInWithDefaults() *FolderCreateIn {
 	this := FolderCreateIn{}
+	var grantInheritance string = "inherit"
+	this.GrantInheritance = &grantInheritance
 	return &this
 }
 
-// GetDescription returns the Description field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *FolderCreateIn) GetDescription() string {
-	if o == nil || IsNil(o.Description.Get()) {
+// GetGrantInheritance returns the GrantInheritance field value if set, zero value otherwise.
+func (o *FolderCreateIn) GetGrantInheritance() string {
+	if o == nil || IsNil(o.GrantInheritance) {
 		var ret string
 		return ret
 	}
-	return *o.Description.Get()
+	return *o.GrantInheritance
 }
 
-// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// GetGrantInheritanceOk returns a tuple with the GrantInheritance field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *FolderCreateIn) GetDescriptionOk() (*string, bool) {
-	if o == nil {
+func (o *FolderCreateIn) GetGrantInheritanceOk() (*string, bool) {
+	if o == nil || IsNil(o.GrantInheritance) {
 		return nil, false
 	}
-	return o.Description.Get(), o.Description.IsSet()
+	return o.GrantInheritance, true
 }
 
-// HasDescription returns a boolean if a field has been set.
-func (o *FolderCreateIn) HasDescription() bool {
-	if o != nil && o.Description.IsSet() {
+// HasGrantInheritance returns a boolean if a field has been set.
+func (o *FolderCreateIn) HasGrantInheritance() bool {
+	if o != nil && !IsNil(o.GrantInheritance) {
 		return true
 	}
 
 	return false
 }
 
-// SetDescription gets a reference to the given NullableString and assigns it to the Description field.
-func (o *FolderCreateIn) SetDescription(v string) {
-	o.Description.Set(&v)
-}
-// SetDescriptionNil sets the value for Description to be an explicit nil
-func (o *FolderCreateIn) SetDescriptionNil() {
-	o.Description.Set(nil)
+// SetGrantInheritance gets a reference to the given string and assigns it to the GrantInheritance field.
+func (o *FolderCreateIn) SetGrantInheritance(v string) {
+	o.GrantInheritance = &v
 }
 
-// UnsetDescription ensures that no value is present for Description, not even an explicit nil
-func (o *FolderCreateIn) UnsetDescription() {
-	o.Description.Unset()
+// GetMetadata returns the Metadata field value if set, zero value otherwise.
+func (o *FolderCreateIn) GetMetadata() map[string]interface{} {
+	if o == nil || IsNil(o.Metadata) {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.Metadata
+}
+
+// GetMetadataOk returns a tuple with the Metadata field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *FolderCreateIn) GetMetadataOk() (map[string]interface{}, bool) {
+	if o == nil || IsNil(o.Metadata) {
+		return map[string]interface{}{}, false
+	}
+	return o.Metadata, true
+}
+
+// HasMetadata returns a boolean if a field has been set.
+func (o *FolderCreateIn) HasMetadata() bool {
+	if o != nil && !IsNil(o.Metadata) {
+		return true
+	}
+
+	return false
+}
+
+// SetMetadata gets a reference to the given map[string]interface{} and assigns it to the Metadata field.
+func (o *FolderCreateIn) SetMetadata(v map[string]interface{}) {
+	o.Metadata = v
+}
+
+// GetName returns the Name field value
+func (o *FolderCreateIn) GetName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Name
+}
+
+// GetNameOk returns a tuple with the Name field value
+// and a boolean to check if the value has been set.
+func (o *FolderCreateIn) GetNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Name, true
+}
+
+// SetName sets field value
+func (o *FolderCreateIn) SetName(v string) {
+	o.Name = v
+}
+
+// GetParentId returns the ParentId field value
+func (o *FolderCreateIn) GetParentId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.ParentId
+}
+
+// GetParentIdOk returns a tuple with the ParentId field value
+// and a boolean to check if the value has been set.
+func (o *FolderCreateIn) GetParentIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ParentId, true
+}
+
+// SetParentId sets field value
+func (o *FolderCreateIn) SetParentId(v string) {
+	o.ParentId = v
 }
 
 func (o FolderCreateIn) MarshalJSON() ([]byte, error) {
@@ -91,10 +174,66 @@ func (o FolderCreateIn) MarshalJSON() ([]byte, error) {
 
 func (o FolderCreateIn) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Description.IsSet() {
-		toSerialize["description"] = o.Description.Get()
+	if !IsNil(o.GrantInheritance) {
+		toSerialize["grant_inheritance"] = o.GrantInheritance
 	}
+	if !IsNil(o.Metadata) {
+		toSerialize["metadata"] = o.Metadata
+	}
+	toSerialize["name"] = o.Name
+	toSerialize["parent_id"] = o.ParentId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *FolderCreateIn) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"name",
+		"parent_id",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varFolderCreateIn := _FolderCreateIn{}
+
+	err = json.Unmarshal(data, &varFolderCreateIn)
+
+	if err != nil {
+		return err
+	}
+
+	*o = FolderCreateIn(varFolderCreateIn)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "grant_inheritance")
+		delete(additionalProperties, "metadata")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "parent_id")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableFolderCreateIn struct {
