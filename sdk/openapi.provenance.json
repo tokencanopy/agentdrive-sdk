@@ -1,7 +1,7 @@
 {
-  "generator_image": "openapitools/openapi-generator-cli:v7.24.0",
-  "source_commit": "190b558bf1a6e1c33fcef9f3a5f2816d4b57badb",
+  "generator_image": "openapitools/openapi-generator-cli:v7.24.0@sha256:5bf3dc75f764c584da8e3344c51b2f3f1e74703461d46a035b5ac1d31515cc88",
+  "source_commit": "31cd35c8e12aef1cbee228e965289107cb51092c",
   "source_path": "tests/openapi.golden.json",
   "source_repository": "https://github.com/tokencanopy/agentdrive",
-  "source_sha256": "8c43a5fe17c937d9a8514fbeb4e99c5292ad1bb12056269ab8376ae2c6077922"
+  "source_sha256": "e420f70cc9ea20fb4707b9fbb5a48d17b988effe61d382cab4c70c5deaee35d7"
 }

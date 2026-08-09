@@ -1,7 +1,7 @@
 /*
 AgentDrive
 
-AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
 
 API version: <PINNED>
 */
@@ -21,19 +21,8 @@ var _ MappedNullable = &DriveUsageOut{}
 
 // DriveUsageOut struct for DriveUsageOut
 type DriveUsageOut struct {
-	AccountFootprint StorageFootprintOut `json:"account_footprint"`
-	EgressBytes UsageCounterOut `json:"egress_bytes"`
-	Footprint StorageFootprintOut `json:"footprint"`
-	IndexedBytes UsageCounterOut `json:"indexed_bytes"`
-	IndexingOps UsageCounterOut `json:"indexing_ops"`
-	OpsThisMonth OperationUsageOut `json:"ops_this_month"`
-	Period UsagePeriodOut `json:"period"`
-	RetrievalQueries UsageCounterOut `json:"retrieval_queries"`
-	Storage UsageCounterOut `json:"storage"`
-	StorageBreakdown NullableStorageBreakdownOut `json:"storage_breakdown,omitempty"`
-	TokensThisMonth TokenUsageOut `json:"tokens_this_month"`
-	VersionRetention VersionRetentionOut `json:"version_retention"`
-	WritesThisHour HourlyUsageCounterOut `json:"writes_this_hour"`
+	RetrievalBytes int32 `json:"retrieval_bytes"`
+	StorageBytes int32 `json:"storage_bytes"`
 }
 
 type _DriveUsageOut DriveUsageOut
@@ -42,20 +31,10 @@ type _DriveUsageOut DriveUsageOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDriveUsageOut(accountFootprint StorageFootprintOut, egressBytes UsageCounterOut, footprint StorageFootprintOut, indexedBytes UsageCounterOut, indexingOps UsageCounterOut, opsThisMonth OperationUsageOut, period UsagePeriodOut, retrievalQueries UsageCounterOut, storage UsageCounterOut, tokensThisMonth TokenUsageOut, versionRetention VersionRetentionOut, writesThisHour HourlyUsageCounterOut) *DriveUsageOut {
+func NewDriveUsageOut(retrievalBytes int32, storageBytes int32) *DriveUsageOut {
 	this := DriveUsageOut{}
-	this.AccountFootprint = accountFootprint
-	this.EgressBytes = egressBytes
-	this.Footprint = footprint
-	this.IndexedBytes = indexedBytes
-	this.IndexingOps = indexingOps
-	this.OpsThisMonth = opsThisMonth
-	this.Period = period
-	this.RetrievalQueries = retrievalQueries
-	this.Storage = storage
-	this.TokensThisMonth = tokensThisMonth
-	this.VersionRetention = versionRetention
-	this.WritesThisHour = writesThisHour
+	this.RetrievalBytes = retrievalBytes
+	this.StorageBytes = storageBytes
 	return &this
 }
 
@@ -67,334 +46,52 @@ func NewDriveUsageOutWithDefaults() *DriveUsageOut {
 	return &this
 }
 
-// GetAccountFootprint returns the AccountFootprint field value
-func (o *DriveUsageOut) GetAccountFootprint() StorageFootprintOut {
+// GetRetrievalBytes returns the RetrievalBytes field value
+func (o *DriveUsageOut) GetRetrievalBytes() int32 {
 	if o == nil {
-		var ret StorageFootprintOut
+		var ret int32
 		return ret
 	}
 
-	return o.AccountFootprint
+	return o.RetrievalBytes
 }
 
-// GetAccountFootprintOk returns a tuple with the AccountFootprint field value
+// GetRetrievalBytesOk returns a tuple with the RetrievalBytes field value
 // and a boolean to check if the value has been set.
-func (o *DriveUsageOut) GetAccountFootprintOk() (*StorageFootprintOut, bool) {
+func (o *DriveUsageOut) GetRetrievalBytesOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.AccountFootprint, true
+	return &o.RetrievalBytes, true
 }
 
-// SetAccountFootprint sets field value
-func (o *DriveUsageOut) SetAccountFootprint(v StorageFootprintOut) {
-	o.AccountFootprint = v
+// SetRetrievalBytes sets field value
+func (o *DriveUsageOut) SetRetrievalBytes(v int32) {
+	o.RetrievalBytes = v
 }
 
-// GetEgressBytes returns the EgressBytes field value
-func (o *DriveUsageOut) GetEgressBytes() UsageCounterOut {
+// GetStorageBytes returns the StorageBytes field value
+func (o *DriveUsageOut) GetStorageBytes() int32 {
 	if o == nil {
-		var ret UsageCounterOut
+		var ret int32
 		return ret
 	}
 
-	return o.EgressBytes
+	return o.StorageBytes
 }
 
-// GetEgressBytesOk returns a tuple with the EgressBytes field value
+// GetStorageBytesOk returns a tuple with the StorageBytes field value
 // and a boolean to check if the value has been set.
-func (o *DriveUsageOut) GetEgressBytesOk() (*UsageCounterOut, bool) {
+func (o *DriveUsageOut) GetStorageBytesOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.EgressBytes, true
+	return &o.StorageBytes, true
 }
 
-// SetEgressBytes sets field value
-func (o *DriveUsageOut) SetEgressBytes(v UsageCounterOut) {
-	o.EgressBytes = v
-}
-
-// GetFootprint returns the Footprint field value
-func (o *DriveUsageOut) GetFootprint() StorageFootprintOut {
-	if o == nil {
-		var ret StorageFootprintOut
-		return ret
-	}
-
-	return o.Footprint
-}
-
-// GetFootprintOk returns a tuple with the Footprint field value
-// and a boolean to check if the value has been set.
-func (o *DriveUsageOut) GetFootprintOk() (*StorageFootprintOut, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Footprint, true
-}
-
-// SetFootprint sets field value
-func (o *DriveUsageOut) SetFootprint(v StorageFootprintOut) {
-	o.Footprint = v
-}
-
-// GetIndexedBytes returns the IndexedBytes field value
-func (o *DriveUsageOut) GetIndexedBytes() UsageCounterOut {
-	if o == nil {
-		var ret UsageCounterOut
-		return ret
-	}
-
-	return o.IndexedBytes
-}
-
-// GetIndexedBytesOk returns a tuple with the IndexedBytes field value
-// and a boolean to check if the value has been set.
-func (o *DriveUsageOut) GetIndexedBytesOk() (*UsageCounterOut, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.IndexedBytes, true
-}
-
-// SetIndexedBytes sets field value
-func (o *DriveUsageOut) SetIndexedBytes(v UsageCounterOut) {
-	o.IndexedBytes = v
-}
-
-// GetIndexingOps returns the IndexingOps field value
-func (o *DriveUsageOut) GetIndexingOps() UsageCounterOut {
-	if o == nil {
-		var ret UsageCounterOut
-		return ret
-	}
-
-	return o.IndexingOps
-}
-
-// GetIndexingOpsOk returns a tuple with the IndexingOps field value
-// and a boolean to check if the value has been set.
-func (o *DriveUsageOut) GetIndexingOpsOk() (*UsageCounterOut, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.IndexingOps, true
-}
-
-// SetIndexingOps sets field value
-func (o *DriveUsageOut) SetIndexingOps(v UsageCounterOut) {
-	o.IndexingOps = v
-}
-
-// GetOpsThisMonth returns the OpsThisMonth field value
-func (o *DriveUsageOut) GetOpsThisMonth() OperationUsageOut {
-	if o == nil {
-		var ret OperationUsageOut
-		return ret
-	}
-
-	return o.OpsThisMonth
-}
-
-// GetOpsThisMonthOk returns a tuple with the OpsThisMonth field value
-// and a boolean to check if the value has been set.
-func (o *DriveUsageOut) GetOpsThisMonthOk() (*OperationUsageOut, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.OpsThisMonth, true
-}
-
-// SetOpsThisMonth sets field value
-func (o *DriveUsageOut) SetOpsThisMonth(v OperationUsageOut) {
-	o.OpsThisMonth = v
-}
-
-// GetPeriod returns the Period field value
-func (o *DriveUsageOut) GetPeriod() UsagePeriodOut {
-	if o == nil {
-		var ret UsagePeriodOut
-		return ret
-	}
-
-	return o.Period
-}
-
-// GetPeriodOk returns a tuple with the Period field value
-// and a boolean to check if the value has been set.
-func (o *DriveUsageOut) GetPeriodOk() (*UsagePeriodOut, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Period, true
-}
-
-// SetPeriod sets field value
-func (o *DriveUsageOut) SetPeriod(v UsagePeriodOut) {
-	o.Period = v
-}
-
-// GetRetrievalQueries returns the RetrievalQueries field value
-func (o *DriveUsageOut) GetRetrievalQueries() UsageCounterOut {
-	if o == nil {
-		var ret UsageCounterOut
-		return ret
-	}
-
-	return o.RetrievalQueries
-}
-
-// GetRetrievalQueriesOk returns a tuple with the RetrievalQueries field value
-// and a boolean to check if the value has been set.
-func (o *DriveUsageOut) GetRetrievalQueriesOk() (*UsageCounterOut, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.RetrievalQueries, true
-}
-
-// SetRetrievalQueries sets field value
-func (o *DriveUsageOut) SetRetrievalQueries(v UsageCounterOut) {
-	o.RetrievalQueries = v
-}
-
-// GetStorage returns the Storage field value
-func (o *DriveUsageOut) GetStorage() UsageCounterOut {
-	if o == nil {
-		var ret UsageCounterOut
-		return ret
-	}
-
-	return o.Storage
-}
-
-// GetStorageOk returns a tuple with the Storage field value
-// and a boolean to check if the value has been set.
-func (o *DriveUsageOut) GetStorageOk() (*UsageCounterOut, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Storage, true
-}
-
-// SetStorage sets field value
-func (o *DriveUsageOut) SetStorage(v UsageCounterOut) {
-	o.Storage = v
-}
-
-// GetStorageBreakdown returns the StorageBreakdown field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *DriveUsageOut) GetStorageBreakdown() StorageBreakdownOut {
-	if o == nil || IsNil(o.StorageBreakdown.Get()) {
-		var ret StorageBreakdownOut
-		return ret
-	}
-	return *o.StorageBreakdown.Get()
-}
-
-// GetStorageBreakdownOk returns a tuple with the StorageBreakdown field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *DriveUsageOut) GetStorageBreakdownOk() (*StorageBreakdownOut, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.StorageBreakdown.Get(), o.StorageBreakdown.IsSet()
-}
-
-// HasStorageBreakdown returns a boolean if a field has been set.
-func (o *DriveUsageOut) HasStorageBreakdown() bool {
-	if o != nil && o.StorageBreakdown.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetStorageBreakdown gets a reference to the given NullableStorageBreakdownOut and assigns it to the StorageBreakdown field.
-func (o *DriveUsageOut) SetStorageBreakdown(v StorageBreakdownOut) {
-	o.StorageBreakdown.Set(&v)
-}
-// SetStorageBreakdownNil sets the value for StorageBreakdown to be an explicit nil
-func (o *DriveUsageOut) SetStorageBreakdownNil() {
-	o.StorageBreakdown.Set(nil)
-}
-
-// UnsetStorageBreakdown ensures that no value is present for StorageBreakdown, not even an explicit nil
-func (o *DriveUsageOut) UnsetStorageBreakdown() {
-	o.StorageBreakdown.Unset()
-}
-
-// GetTokensThisMonth returns the TokensThisMonth field value
-func (o *DriveUsageOut) GetTokensThisMonth() TokenUsageOut {
-	if o == nil {
-		var ret TokenUsageOut
-		return ret
-	}
-
-	return o.TokensThisMonth
-}
-
-// GetTokensThisMonthOk returns a tuple with the TokensThisMonth field value
-// and a boolean to check if the value has been set.
-func (o *DriveUsageOut) GetTokensThisMonthOk() (*TokenUsageOut, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.TokensThisMonth, true
-}
-
-// SetTokensThisMonth sets field value
-func (o *DriveUsageOut) SetTokensThisMonth(v TokenUsageOut) {
-	o.TokensThisMonth = v
-}
-
-// GetVersionRetention returns the VersionRetention field value
-func (o *DriveUsageOut) GetVersionRetention() VersionRetentionOut {
-	if o == nil {
-		var ret VersionRetentionOut
-		return ret
-	}
-
-	return o.VersionRetention
-}
-
-// GetVersionRetentionOk returns a tuple with the VersionRetention field value
-// and a boolean to check if the value has been set.
-func (o *DriveUsageOut) GetVersionRetentionOk() (*VersionRetentionOut, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.VersionRetention, true
-}
-
-// SetVersionRetention sets field value
-func (o *DriveUsageOut) SetVersionRetention(v VersionRetentionOut) {
-	o.VersionRetention = v
-}
-
-// GetWritesThisHour returns the WritesThisHour field value
-func (o *DriveUsageOut) GetWritesThisHour() HourlyUsageCounterOut {
-	if o == nil {
-		var ret HourlyUsageCounterOut
-		return ret
-	}
-
-	return o.WritesThisHour
-}
-
-// GetWritesThisHourOk returns a tuple with the WritesThisHour field value
-// and a boolean to check if the value has been set.
-func (o *DriveUsageOut) GetWritesThisHourOk() (*HourlyUsageCounterOut, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.WritesThisHour, true
-}
-
-// SetWritesThisHour sets field value
-func (o *DriveUsageOut) SetWritesThisHour(v HourlyUsageCounterOut) {
-	o.WritesThisHour = v
+// SetStorageBytes sets field value
+func (o *DriveUsageOut) SetStorageBytes(v int32) {
+	o.StorageBytes = v
 }
 
 func (o DriveUsageOut) MarshalJSON() ([]byte, error) {
@@ -407,21 +104,8 @@ func (o DriveUsageOut) MarshalJSON() ([]byte, error) {
 
 func (o DriveUsageOut) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["account_footprint"] = o.AccountFootprint
-	toSerialize["egress_bytes"] = o.EgressBytes
-	toSerialize["footprint"] = o.Footprint
-	toSerialize["indexed_bytes"] = o.IndexedBytes
-	toSerialize["indexing_ops"] = o.IndexingOps
-	toSerialize["ops_this_month"] = o.OpsThisMonth
-	toSerialize["period"] = o.Period
-	toSerialize["retrieval_queries"] = o.RetrievalQueries
-	toSerialize["storage"] = o.Storage
-	if o.StorageBreakdown.IsSet() {
-		toSerialize["storage_breakdown"] = o.StorageBreakdown.Get()
-	}
-	toSerialize["tokens_this_month"] = o.TokensThisMonth
-	toSerialize["version_retention"] = o.VersionRetention
-	toSerialize["writes_this_hour"] = o.WritesThisHour
+	toSerialize["retrieval_bytes"] = o.RetrievalBytes
+	toSerialize["storage_bytes"] = o.StorageBytes
 	return toSerialize, nil
 }
 
@@ -430,18 +114,8 @@ func (o *DriveUsageOut) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"account_footprint",
-		"egress_bytes",
-		"footprint",
-		"indexed_bytes",
-		"indexing_ops",
-		"ops_this_month",
-		"period",
-		"retrieval_queries",
-		"storage",
-		"tokens_this_month",
-		"version_retention",
-		"writes_this_hour",
+		"retrieval_bytes",
+		"storage_bytes",
 	}
 
 	allProperties := make(map[string]interface{})

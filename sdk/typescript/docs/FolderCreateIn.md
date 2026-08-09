@@ -1,13 +1,16 @@
 
 # FolderCreateIn
 
-PUT /v0/folders/{path} body for the optional metadata params. Empty body is fine — `mkdir` with no description just creates the folder row.
+POST /v0/drives/{id}/folders body.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`description` | string
+`grantInheritance` | string
+`metadata` | { [key: string]: any; }
+`name` | string
+`parentId` | string
 
 ## Example
 
@@ -16,7 +19,10 @@ import type { FolderCreateIn } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "description": null,
+  "grantInheritance": null,
+  "metadata": null,
+  "name": null,
+  "parentId": null,
 } satisfies FolderCreateIn
 
 console.log(example)

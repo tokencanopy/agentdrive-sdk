@@ -1,25 +1,23 @@
 
 # GrantOut
 
-A live grant. Audit fields (`granted_by_*`, `on_behalf_of`) are surfaced so a manager can see who shared what.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`artifactsAffected` | number
 `createdAt` | Date
+`driveId` | string
 `expiresAt` | Date
-`grantedById` | string
-`grantedByType` | string
 `id` | string
-`onBehalfOf` | string
-`principalEmail` | string
 `principalId` | string
 `principalType` | string
 `resourceId` | string
 `resourceType` | string
+`revision` | string
+`revokedAt` | Date
 `role` | string
+`state` | string
 
 ## Example
 
@@ -28,19 +26,18 @@ import type { GrantOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "artifactsAffected": null,
   "createdAt": null,
+  "driveId": null,
   "expiresAt": null,
-  "grantedById": null,
-  "grantedByType": null,
   "id": null,
-  "onBehalfOf": null,
-  "principalEmail": null,
   "principalId": null,
   "principalType": null,
   "resourceId": null,
   "resourceType": null,
+  "revision": null,
+  "revokedAt": null,
   "role": null,
+  "state": null,
 } satisfies GrantOut
 
 console.log(example)

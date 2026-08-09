@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: <PINNED>
  *
@@ -14,56 +14,49 @@
 
 import { mapValues } from '../runtime';
 /**
- * POST /v0/shares body. `resource` is an `art_*`/`fld_*` id or a path.
- * `expires_in` is seconds from now (omit for the default: none for a human
- * creator, a short TTL for an agent). `password` (optional) gates redemption.
+ * POST /v0/drives/{id}/shares body.
  * @export
  * @interface ShareCreateIn
  */
 export interface ShareCreateIn {
     /**
      *
-     * @type {number}
+     * @type {Date}
      * @memberof ShareCreateIn
      */
-    expiresIn?: number | null;
+    expiresAt?: Date | null;
     /**
      *
      * @type {string}
      * @memberof ShareCreateIn
      */
-    password?: string | null;
+    resourceId: string;
     /**
      *
-     * @type {string}
+     * @type {ShareCreateInResourceTypeEnum}
      * @memberof ShareCreateIn
      */
-    resource: string;
-    /**
-     *
-     * @type {ShareCreateInRoleEnum}
-     * @memberof ShareCreateIn
-     */
-    role?: ShareCreateInRoleEnum;
+    resourceType: ShareCreateInResourceTypeEnum;
 }
 
 
 /**
  * @export
  */
-export const ShareCreateInRoleEnum = {
-    Viewer: 'viewer',
-    Commenter: 'commenter',
-    Editor: 'editor'
+export const ShareCreateInResourceTypeEnum = {
+    Artifact: 'artifact',
+    ArtifactVersion: 'artifact_version',
+    Folder: 'folder'
 } as const;
-export type ShareCreateInRoleEnum = typeof ShareCreateInRoleEnum[keyof typeof ShareCreateInRoleEnum];
+export type ShareCreateInResourceTypeEnum = typeof ShareCreateInResourceTypeEnum[keyof typeof ShareCreateInResourceTypeEnum];
 
 
 /**
  * Check if a given object implements the ShareCreateIn interface.
  */
 export function instanceOfShareCreateIn(value: object): value is ShareCreateIn {
-    if (!('resource' in value) || value['resource'] === undefined) return false;
+    if ((!('resourceId' in (value as Record<string, any>)) && !('resource_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['resourceId'] === undefined && (value as Record<string, any>)['resource_id'] === undefined)) return false;
+    if ((!('resourceType' in (value as Record<string, any>)) && !('resource_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['resourceType'] === undefined && (value as Record<string, any>)['resource_type'] === undefined)) return false;
     return true;
 }
 
@@ -77,10 +70,9 @@ export function ShareCreateInFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
 
-        'expiresIn': json['expires_in'] === undefined ? undefined : json['expires_in'] === null ? null : json['expires_in'],
-        'password': json['password'] === undefined ? undefined : json['password'] === null ? null : json['password'],
-        'resource': json['resource'],
-        'role': json['role'] == null ? undefined : json['role'],
+        'expiresAt': json['expires_at'] === undefined ? undefined : json['expires_at'] === null ? null : (new Date(json['expires_at'])),
+        'resourceId': json['resource_id'],
+        'resourceType': json['resource_type'],
     };
 }
 
@@ -95,9 +87,8 @@ export function ShareCreateInToJSONTyped(value?: ShareCreateIn | null, ignoreDis
 
     return {
 
-        'expires_in': value['expiresIn'],
-        'password': value['password'],
-        'resource': value['resource'],
-        'role': value['role'],
+        'expires_at': value['expiresAt'] == null ? value['expiresAt'] : value['expiresAt'].toISOString(),
+        'resource_id': value['resourceId'],
+        'resource_type': value['resourceType'],
     };
 }

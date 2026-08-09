@@ -20,10 +20,10 @@ class ImportContractTest(unittest.TestCase):
                     "x-agentdrive-compatibility-policy": 1,
                     "components": {
                         "securitySchemes": {
-                            "BearerAuth": {
+                            "bearerAuth": {
                                 "type": "http",
                                 "scheme": "bearer",
-                                "bearerFormat": "AgentDrive API key or JWT",
+                                "bearerFormat": "JWT",
                             }
                         }
                     },
@@ -50,7 +50,7 @@ class ImportContractTest(unittest.TestCase):
                 source,
                 output,
                 provenance,
-                source_commit="abc123",
+                source_commit="a" * 40,
             )
 
             contract = json.loads(output.read_text(encoding="utf-8"))
@@ -64,7 +64,7 @@ class ImportContractTest(unittest.TestCase):
                 ],
             )
             metadata = json.loads(provenance.read_text(encoding="utf-8"))
-            self.assertEqual(metadata["source_commit"], "abc123")
+            self.assertEqual(metadata["source_commit"], "a" * 40)
             self.assertEqual(
                 metadata["source_path"], "tests/openapi.golden.json"
             )
@@ -81,6 +81,17 @@ class ImportContractTest(unittest.TestCase):
             with self.assertRaisesRegex(ContractImportError, "policy"):
                 import_contract(
                     source,
+                    root / "openapi.json",
+                    root / "openapi.provenance.json",
+                    source_commit="a" * 40,
+                )
+
+    def test_import_rejects_a_noncanonical_source_commit(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            with self.assertRaisesRegex(ContractImportError, "full lowercase Git SHA"):
+                import_contract(
+                    self._source(root),
                     root / "openapi.json",
                     root / "openapi.provenance.json",
                     source_commit="abc123",

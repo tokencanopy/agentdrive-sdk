@@ -7,7 +7,7 @@ AgentDrive source commit and snapshot digest.
 
 | Language | Directory | Package | Generator |
 |---|---|---|---|
-| Python | [`python/`](python/) | `agentdrive-sdk` (PyPI) | `python` (urllib3) |
+| Python | [`python/`](python/) | `agentdrive-sdk` (PyPI) | `python` (`urllib3` sync + `httpx` async) |
 | TypeScript | [`typescript/`](typescript/) | `@mnexa-ai/agentdrive-sdk` (npm) | `typescript-fetch` |
 | Go | [`go/`](go/) | `github.com/Mnexa-AI/agentdrive-sdk/sdk/go` | `go` |
 
@@ -32,12 +32,24 @@ without language-specific name collisions or stale operations. It never
 fetches the live production endpoint and never auto-commits or publishes
 generated changes.
 
+Python has two generated cores under
+`python/src/agentdrive_sdk/generated/{sync,async_client}`. Everything else in
+the Python package—metadata, README, type marker, tests, and the future
+ergonomic facade—is hand-owned and survives regeneration. The Python gates
+also verify exact callable/wire parity, component fields and
+required/nullable shape, model constraint hashes, raw response-header
+preservation, request strictness, response forward compatibility, and the
+generated [API reference](../docs/python-sdk-api-reference.md).
+
 ## Authentication
 
 All three clients talk to `https://api.agentdrive.run`. Authenticate with an API
 key (`ad_live_...`) or an OAuth access token as a bearer credential — see
 [`../docs/auth.md`](../docs/auth.md) and [`../docs/api.md`](../docs/api.md).
 
-> **Generated code.** Don't hand-edit files under `python/`, `typescript/`, or
-> `go/` — changes are overwritten on the next generation. Adjust
-> `scripts/generate-sdks.sh` instead.
+> **Generated code.** In Python, only
+> `python/src/agentdrive_sdk/generated/sync` and
+> `python/src/agentdrive_sdk/generated/async_client` are generated. TypeScript
+> and Go remain generator-owned package trees. Change the contract or
+> deterministic generation/postprocessing scripts instead of editing those
+> generated files.

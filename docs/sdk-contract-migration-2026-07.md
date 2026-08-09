@@ -1,41 +1,73 @@
-# SDK contract migration — July 2026
+# SDK Phase 1 contract migration — July–August 2026
 
-This regeneration switches the SDK source from the live production
-`/openapi.json` endpoint to AgentDrive's reviewed, committed PR 3 contract.
-No package is published by this change.
+This PR replaces the pre-Phase 1 generated surface with AgentDrive's reviewed,
+committed SDK contract and introduces the Python `0.1.0` generated core. No
+package is published by this repository change.
 
 ## Generated surface
 
-| | Before | After |
+| | Pre-Phase 1 (`0.0.1`) | Phase 1 (`0.1.0`) |
 |---|---:|---:|
-| OpenAPI paths | 159 | 86 |
-| Operations | 185 | 110 |
-| Component schemas | 123 | 128 |
+| OpenAPI paths | 86 | 27 |
+| Operations | 110 | 42 |
+| Component schemas | 128 | 38 |
 
-The removed generated methods were browser pages, `/web/*` forms, and other UI
-or internal operations that never belonged in a machine SDK. Their runtime
-routes are unchanged.
+The 68 removed operations were browser pages, internal/admin services, and
+other routes outside the supported machine SDK. Their removal from this client
+contract does not claim that their server routes disappeared. The Phase 1
+surface contains 39 bearer-authenticated operations and three anonymous
+discovery/health/share-redemption operations.
 
-The corrected generated surface adds:
+The old `agentdrive-sdk` `0.0.1` distribution is pre-Phase 1 and superseded by
+this reviewed contract. Separately, the bare `agentdrive` PyPI name is only a
+parked `0.0.1` placeholder; the retired stdio MCP companion is not part of the
+new SDK architecture.
 
-- the HTTP Bearer authentication scheme used by `ad_live_`, `ad_user_`, and
-  supported JWT credentials;
-- canonical structured error and validation models;
-- typed JSON success payloads plus correct binary/text response types;
-- PR 2 cursor inputs and `next_cursor` outputs for trash and compile-job
-  listings, while retaining their deprecated response aliases.
+## Python architecture
 
-Generated method and model changes should be reviewed as a client-surface
-correction. Before publishing, choose an SDK version appropriate to the
-packages' current stability promise and include these notes in the release.
+The Python package is now hand-owned except for two isolated generated trees:
 
-## Workflow change
+- synchronous `urllib3` client at
+  `src/agentdrive_sdk/generated/sync`;
+- asynchronous `httpx` client at
+  `src/agentdrive_sdk/generated/async_client`.
 
-- Input is the committed `sdk/openapi.json` with exact AgentDrive commit and
-  SHA-256 provenance.
-- OpenAPI Generator is pinned to 7.24.0.
-- CI regenerates and fails on drift.
-- Python, TypeScript, and Go must expose exactly the contract's operation IDs.
-- All language builds/tests run before merge.
-- Scheduled production fetches, bot auto-commits, and implicit publishing are
-  removed.
+Both cores cover all 42 operations and expose the primary,
+`*_with_http_info`, and `*_without_preload_content` variants. The ergonomic
+resource facade is a later phase; `0.1.0` intentionally exposes the complete
+generated cores first. Exact callable signatures and generated docstrings are
+in `docs/python-sdk-api-reference.md`.
+
+Generated request models reject unknown fields, keep request enums closed, and
+distinguish omitted PATCH fields from explicit null. Optional but non-nullable
+wire fields reject explicit null. Generated response models ignore additive
+fields and accept future enum strings. Both transports disable automatic
+redirect following so credentials are not forwarded across hosts, while
+`ApiResponse.headers` preserves the complete raw response-header mapping.
+
+## Compatibility and review gates
+
+The 110-to-42 transition is an intentional one-time reset. It is authorized by
+`sdk/openapi.compatibility-reset.json`, bound to the exact old/new canonical
+contract digests and AgentDrive source commit
+`31cd35c8e12aef1cbee228e965289107cb51092c`. Any different candidate fails the
+reset match. After this contract reaches the base branch, CI performs normal
+directional compatibility checks and rejects breaking request or response
+changes.
+
+CI additionally requires:
+
+- exact provenance and pinned-generator verification;
+- byte-identical regeneration and exact operation coverage in all languages;
+- exact sync/async Python callable and wire parity;
+- direct component property/requiredness/nullability comparison plus reviewed
+  constraint, response status/media/header, and generated AST hashes;
+- generated model evolution and transport conformance tests on Python 3.10,
+  3.12, and 3.14;
+- a current generated API reference and contract-shape manifest;
+- release input/tag equality with every package version before any publish job.
+
+Publishing remains a separate human-approved action. Before publishing
+`0.1.0`, verify PyPI and npm trusted-publisher ownership after the GitHub
+repository transfer; immutable existing versions are hard failures, not
+silently skipped.

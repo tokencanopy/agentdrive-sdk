@@ -2,11 +2,11 @@ name: Publish SDKs
 
 # Publishes the generated SDKs:
 #   - Python  -> PyPI  (agentdrive-sdk)        via OIDC trusted publishing (no token)
-#   - TS      -> npm   (@mnexa-ai/agentdrive-sdk) via NPM_TOKEN secret
+#   - TS      -> npm   (@mnexa-ai/agentdrive-sdk) via OIDC trusted publishing
 #   - Go      -> git tag go/vX.Y.Z              (consumed with `go get .../go@vX.Y.Z`)
 #
-# Publishes the version currently baked into the generated package metadata.
-# Bump by re-running "Generate SDKs" with SDK_VERSION set, then release.
+# Every publish is gated on the release/dispatch version matching sdk/SDK_VERSION
+# and every language's package metadata. Existing versions are hard failures.
 
 on:
   release:
@@ -14,15 +14,72 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Version being published (e.g. 0.0.1), used for the Go tag."
+        description: "Exact SDK version being published (e.g. 0.1.0)."
         required: true
-        default: "0.0.1"
+        default: "0.1.0"
 
 jobs:
+  release-policy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Require an approved main-branch commit
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          RELEASE_REF: ${{ github.ref }}
+          RELEASE_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ "$RELEASE_REF" != "refs/heads/main" ]; then
+            echo "Manual SDK publishing is allowed only from refs/heads/main; got $RELEASE_REF." >&2
+            exit 1
+          fi
+          if [ "$EVENT_NAME" = "release" ]; then
+            git fetch --no-tags origin \
+              '+refs/heads/main:refs/remotes/origin/main'
+            if ! git merge-base --is-ancestor "$RELEASE_SHA" refs/remotes/origin/main; then
+              echo "Release commit $RELEASE_SHA is not contained in origin/main." >&2
+              exit 1
+            fi
+          fi
+
+  acceptance:
+    needs: release-policy
+    uses: ./.github/workflows/_sdk-acceptance.yml
+
+  release-integrity:
+    needs: acceptance
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Match publish input to every package version
+        id: version
+        env:
+          REQUESTED_VERSION: ${{ github.event.release.tag_name || github.event.inputs.version }}
+        run: |
+          set -euo pipefail
+          VERSION="$(python3 scripts/check_release_version.py \
+            --requested "$REQUESTED_VERSION" \
+            --event "${{ github.event_name }}")"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
   pypi:
+    needs: [acceptance, release-integrity]
     runs-on: ubuntu-latest
     environment: pypi
     permissions:
+      contents: read
       id-token: write # OIDC trusted publishing
     steps:
       - uses: actions/checkout@v4
@@ -38,9 +95,9 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: sdk/python/dist
-          skip-existing: true
 
   npm:
+    needs: [acceptance, release-integrity]
     runs-on: ubuntu-latest
     permissions:
       id-token: write # OIDC trusted publishing (no NPM token)
@@ -57,25 +114,12 @@ jobs:
       - name: Build & publish (OIDC, no token)
         working-directory: sdk/typescript
         run: |
-          npm install
+          npm ci
           npm run build
-          VERSION="$(node -p "require('./package.json').version")"
-          if npm view "@mnexa-ai/agentdrive-sdk@${VERSION}" version >/dev/null 2>&1; then
-            echo "npm: @mnexa-ai/agentdrive-sdk@${VERSION} already published — skipping."
-            exit 0
-          fi
-          # `npm view` reads a replica that lags the authoritative write path,
-          # so a freshly/concurrently published version can still 403 here.
-          # Treat "cannot publish over previously published" as success.
-          set +e
-          OUT="$(npm publish --access public 2>&1)"; CODE=$?
-          set -e
-          printf '%s\n' "$OUT"
-          if [ "$CODE" -ne 0 ] && ! printf '%s' "$OUT" | grep -q "cannot publish over the previously published versions"; then
-            exit "$CODE"
-          fi
+          npm publish --access public
 
   go-tag:
+    needs: [acceptance, release-integrity]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -84,16 +128,16 @@ jobs:
         with:
           fetch-depth: 0
       - name: Create Go submodule version tag
+        env:
+          VERSION: ${{ needs.release-integrity.outputs.version }}
         run: |
           set -euo pipefail
-          RAW="${{ github.event.inputs.version || github.event.release.tag_name }}"
-          VERSION="${RAW#v}"
           TAG="sdk/go/v${VERSION}"
           git config user.name  "agentdrive-bot"
           git config user.email "support@agentdrive.run"
           if git rev-parse "$TAG" >/dev/null 2>&1; then
-            echo "Tag $TAG already exists."
-          else
-            git tag "$TAG"
-            git push origin "$TAG"
+            echo "Refusing to reuse immutable tag $TAG." >&2
+            exit 1
           fi
+          git tag "$TAG"
+          git push origin "$TAG"

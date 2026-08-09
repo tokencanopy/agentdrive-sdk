@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: <PINNED>
  *
@@ -13,34 +13,33 @@
  */
 
 import { mapValues } from '../runtime';
-import type { ErrorDetail } from './ErrorDetail';
+import type { DrivesCreate400ResponseError } from './DrivesCreate400ResponseError';
 import {
-    ErrorDetailFromJSON,
-    ErrorDetailFromJSONTyped,
-    ErrorDetailToJSON,
-    ErrorDetailToJSONTyped,
-} from './ErrorDetail';
+    DrivesCreate400ResponseErrorFromJSON,
+    DrivesCreate400ResponseErrorFromJSONTyped,
+    DrivesCreate400ResponseErrorToJSON,
+    DrivesCreate400ResponseErrorToJSONTyped,
+} from './DrivesCreate400ResponseError';
 
 /**
- * Canonical non-validation error envelope emitted by AgentDrive.
+ *
  * @export
  * @interface ErrorResponse
  */
 export interface ErrorResponse {
-    [key: string]: any | any;
     /**
      *
-     * @type {ErrorDetail}
+     * @type {DrivesCreate400ResponseError}
      * @memberof ErrorResponse
      */
-    detail: ErrorDetail;
+    error: DrivesCreate400ResponseError;
 }
 
 /**
  * Check if a given object implements the ErrorResponse interface.
  */
 export function instanceOfErrorResponse(value: object): value is ErrorResponse {
-    if (!('detail' in value) || value['detail'] === undefined) return false;
+    if (!('error' in value) || value['error'] === undefined) return false;
     return true;
 }
 
@@ -54,8 +53,7 @@ export function ErrorResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
 
-            ...json,
-        'detail': ErrorDetailFromJSON(json['detail']),
+        'error': DrivesCreate400ResponseErrorFromJSON(json['error']),
     };
 }
 
@@ -70,7 +68,6 @@ export function ErrorResponseToJSONTyped(value?: ErrorResponse | null, ignoreDis
 
     return {
 
-            ...value,
-        'detail': ErrorDetailToJSON(value['detail']),
+        'error': DrivesCreate400ResponseErrorToJSON(value['error']),
     };
 }

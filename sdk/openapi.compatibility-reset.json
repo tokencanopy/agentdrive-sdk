@@ -1,0 +1,7 @@
+{
+  "format": 1,
+  "from_sha256": "bf63bad6da953d072d38054ddec628b4ad48238394cb505862b1ef2d4bbc69ee",
+  "reason": "Reviewed Phase 1 reset: supersede the pre-Phase 1 0.0.1 client contract and remove browser/internal routes from the supported SDK surface.",
+  "source_commit": "31cd35c8e12aef1cbee228e965289107cb51092c",
+  "to_sha256": "dd8145c12035f5827e9056d40c0ae9e56f1892c98580f81d5f005007ef7a0f6a"
+}

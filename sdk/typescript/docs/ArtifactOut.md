@@ -6,26 +6,21 @@
 
 Name | Type
 ------------ | -------------
+`contentPreview` | string
 `contentType` | string
 `createdAt` | Date
+`deletedAt` | Date
 `driveId` | string
-`embeddedAt` | Date
-`etag` | string
-`fileType` | string
-`hash` | string
+`effectiveVisibility` | string
+`headVersionId` | string
 `id` | string
-`indexedAt` | Date
 `labels` | Array&lt;string&gt;
-`llmIndex` | { [key: string]: any; }
 `metadata` | { [key: string]: any; }
-`metageneration` | number
-`path` | string
-`permalink` | string
-`sizeBytes` | number
-`source` | [ArtifactSource](ArtifactSource.md)
+`name` | string
+`parentId` | string
+`revision` | string
+`state` | string
 `updatedAt` | Date
-`url` | string
-`versionNumber` | number
 
 ## Example
 
@@ -34,26 +29,21 @@ import type { ArtifactOut } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
+  "contentPreview": null,
   "contentType": null,
   "createdAt": null,
+  "deletedAt": null,
   "driveId": null,
-  "embeddedAt": null,
-  "etag": null,
-  "fileType": null,
-  "hash": null,
+  "effectiveVisibility": null,
+  "headVersionId": null,
   "id": null,
-  "indexedAt": null,
   "labels": null,
-  "llmIndex": null,
   "metadata": null,
-  "metageneration": null,
-  "path": null,
-  "permalink": null,
-  "sizeBytes": null,
-  "source": null,
+  "name": null,
+  "parentId": null,
+  "revision": null,
+  "state": null,
   "updatedAt": null,
-  "url": null,
-  "versionNumber": null,
 } satisfies ArtifactOut
 
 console.log(example)

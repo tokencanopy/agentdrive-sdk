@@ -58,7 +58,9 @@ Full paste-ready blocks: [`docs/add-to-your-agent.md`](docs/add-to-your-agent.md
 
 Generated reproducibly from the reviewed AgentDrive contract via pinned
 [OpenAPI Generator](https://openapi-generator.tech/). See
-[`sdk/README.md`](sdk/README.md).
+[`sdk/README.md`](sdk/README.md). The Phase 1 Python package includes complete
+sync and async generated clients; its exact callable and wire reference is
+[`docs/python-sdk-api-reference.md`](docs/python-sdk-api-reference.md).
 
 ```bash
 # Python  (once published)
@@ -71,7 +73,9 @@ npm install @mnexa-ai/agentdrive-sdk
 go get github.com/Mnexa-AI/agentdrive-sdk/sdk/go
 ```
 
-> The bare `agentdrive` package on PyPI is the [stdio MCP companion](https://pypi.org/project/agentdrive/); the REST SDK ships as `agentdrive-sdk`.
+> The bare `agentdrive` name on PyPI is a parked `0.0.1` placeholder. The old
+> stdio MCP companion is retired; local-file transfers use the hosted MCP upload
+> session tools or this REST SDK. The REST SDK ships as `agentdrive-sdk`.
 
 ## Links
 

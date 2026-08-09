@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: <PINNED>
  *
@@ -13,63 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { StorageBreakdownOut } from './StorageBreakdownOut';
-import {
-    StorageBreakdownOutFromJSON,
-    StorageBreakdownOutFromJSONTyped,
-    StorageBreakdownOutToJSON,
-    StorageBreakdownOutToJSONTyped,
-} from './StorageBreakdownOut';
-import type { UsageCounterOut } from './UsageCounterOut';
-import {
-    UsageCounterOutFromJSON,
-    UsageCounterOutFromJSONTyped,
-    UsageCounterOutToJSON,
-    UsageCounterOutToJSONTyped,
-} from './UsageCounterOut';
-import type { OperationUsageOut } from './OperationUsageOut';
-import {
-    OperationUsageOutFromJSON,
-    OperationUsageOutFromJSONTyped,
-    OperationUsageOutToJSON,
-    OperationUsageOutToJSONTyped,
-} from './OperationUsageOut';
-import type { TokenUsageOut } from './TokenUsageOut';
-import {
-    TokenUsageOutFromJSON,
-    TokenUsageOutFromJSONTyped,
-    TokenUsageOutToJSON,
-    TokenUsageOutToJSONTyped,
-} from './TokenUsageOut';
-import type { UsagePeriodOut } from './UsagePeriodOut';
-import {
-    UsagePeriodOutFromJSON,
-    UsagePeriodOutFromJSONTyped,
-    UsagePeriodOutToJSON,
-    UsagePeriodOutToJSONTyped,
-} from './UsagePeriodOut';
-import type { HourlyUsageCounterOut } from './HourlyUsageCounterOut';
-import {
-    HourlyUsageCounterOutFromJSON,
-    HourlyUsageCounterOutFromJSONTyped,
-    HourlyUsageCounterOutToJSON,
-    HourlyUsageCounterOutToJSONTyped,
-} from './HourlyUsageCounterOut';
-import type { StorageFootprintOut } from './StorageFootprintOut';
-import {
-    StorageFootprintOutFromJSON,
-    StorageFootprintOutFromJSONTyped,
-    StorageFootprintOutToJSON,
-    StorageFootprintOutToJSONTyped,
-} from './StorageFootprintOut';
-import type { VersionRetentionOut } from './VersionRetentionOut';
-import {
-    VersionRetentionOutFromJSON,
-    VersionRetentionOutFromJSONTyped,
-    VersionRetentionOutToJSON,
-    VersionRetentionOutToJSONTyped,
-} from './VersionRetentionOut';
-
 /**
  *
  * @export
@@ -78,100 +21,24 @@ import {
 export interface DriveUsageOut {
     /**
      *
-     * @type {StorageFootprintOut}
+     * @type {number}
      * @memberof DriveUsageOut
      */
-    accountFootprint: StorageFootprintOut;
+    retrievalBytes: number;
     /**
      *
-     * @type {UsageCounterOut}
+     * @type {number}
      * @memberof DriveUsageOut
      */
-    egressBytes: UsageCounterOut;
-    /**
-     *
-     * @type {StorageFootprintOut}
-     * @memberof DriveUsageOut
-     */
-    footprint: StorageFootprintOut;
-    /**
-     *
-     * @type {UsageCounterOut}
-     * @memberof DriveUsageOut
-     */
-    indexedBytes: UsageCounterOut;
-    /**
-     *
-     * @type {UsageCounterOut}
-     * @memberof DriveUsageOut
-     */
-    indexingOps: UsageCounterOut;
-    /**
-     *
-     * @type {OperationUsageOut}
-     * @memberof DriveUsageOut
-     */
-    opsThisMonth: OperationUsageOut;
-    /**
-     *
-     * @type {UsagePeriodOut}
-     * @memberof DriveUsageOut
-     */
-    period: UsagePeriodOut;
-    /**
-     *
-     * @type {UsageCounterOut}
-     * @memberof DriveUsageOut
-     */
-    retrievalQueries: UsageCounterOut;
-    /**
-     *
-     * @type {UsageCounterOut}
-     * @memberof DriveUsageOut
-     */
-    storage: UsageCounterOut;
-    /**
-     *
-     * @type {StorageBreakdownOut}
-     * @memberof DriveUsageOut
-     */
-    storageBreakdown?: StorageBreakdownOut | null;
-    /**
-     *
-     * @type {TokenUsageOut}
-     * @memberof DriveUsageOut
-     */
-    tokensThisMonth: TokenUsageOut;
-    /**
-     *
-     * @type {VersionRetentionOut}
-     * @memberof DriveUsageOut
-     */
-    versionRetention: VersionRetentionOut;
-    /**
-     *
-     * @type {HourlyUsageCounterOut}
-     * @memberof DriveUsageOut
-     */
-    writesThisHour: HourlyUsageCounterOut;
+    storageBytes: number;
 }
 
 /**
  * Check if a given object implements the DriveUsageOut interface.
  */
 export function instanceOfDriveUsageOut(value: object): value is DriveUsageOut {
-    if ((!('accountFootprint' in (value as Record<string, any>)) && !('account_footprint' in (value as Record<string, any>))) || ((value as Record<string, any>)['accountFootprint'] === undefined && (value as Record<string, any>)['account_footprint'] === undefined)) return false;
-    if ((!('egressBytes' in (value as Record<string, any>)) && !('egress_bytes' in (value as Record<string, any>))) || ((value as Record<string, any>)['egressBytes'] === undefined && (value as Record<string, any>)['egress_bytes'] === undefined)) return false;
-    if (!('footprint' in value) || value['footprint'] === undefined) return false;
-    if ((!('indexedBytes' in (value as Record<string, any>)) && !('indexed_bytes' in (value as Record<string, any>))) || ((value as Record<string, any>)['indexedBytes'] === undefined && (value as Record<string, any>)['indexed_bytes'] === undefined)) return false;
-    if ((!('indexingOps' in (value as Record<string, any>)) && !('indexing_ops' in (value as Record<string, any>))) || ((value as Record<string, any>)['indexingOps'] === undefined && (value as Record<string, any>)['indexing_ops'] === undefined)) return false;
-    if ((!('opsThisMonth' in (value as Record<string, any>)) && !('ops_this_month' in (value as Record<string, any>))) || ((value as Record<string, any>)['opsThisMonth'] === undefined && (value as Record<string, any>)['ops_this_month'] === undefined)) return false;
-    if (!('period' in value) || value['period'] === undefined) return false;
-    if ((!('retrievalQueries' in (value as Record<string, any>)) && !('retrieval_queries' in (value as Record<string, any>))) || ((value as Record<string, any>)['retrievalQueries'] === undefined && (value as Record<string, any>)['retrieval_queries'] === undefined)) return false;
-    if (!('storage' in value) || value['storage'] === undefined) return false;
-    if ((!('tokensThisMonth' in (value as Record<string, any>)) && !('tokens_this_month' in (value as Record<string, any>))) || ((value as Record<string, any>)['tokensThisMonth'] === undefined && (value as Record<string, any>)['tokens_this_month'] === undefined)) return false;
-    if ((!('versionRetention' in (value as Record<string, any>)) && !('version_retention' in (value as Record<string, any>))) || ((value as Record<string, any>)['versionRetention'] === undefined && (value as Record<string, any>)['version_retention'] === undefined)) return false;
-    if ((!('writesThisHour' in (value as Record<string, any>)) && !('writes_this_hour' in (value as Record<string, any>))) || ((value as Record<string, any>)['writesThisHour'] === undefined && (value as Record<string, any>)['writes_this_hour'] === undefined)) return false;
+    if ((!('retrievalBytes' in (value as Record<string, any>)) && !('retrieval_bytes' in (value as Record<string, any>))) || ((value as Record<string, any>)['retrievalBytes'] === undefined && (value as Record<string, any>)['retrieval_bytes'] === undefined)) return false;
+    if ((!('storageBytes' in (value as Record<string, any>)) && !('storage_bytes' in (value as Record<string, any>))) || ((value as Record<string, any>)['storageBytes'] === undefined && (value as Record<string, any>)['storage_bytes'] === undefined)) return false;
     return true;
 }
 
@@ -185,19 +52,8 @@ export function DriveUsageOutFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
 
-        'accountFootprint': StorageFootprintOutFromJSON(json['account_footprint']),
-        'egressBytes': UsageCounterOutFromJSON(json['egress_bytes']),
-        'footprint': StorageFootprintOutFromJSON(json['footprint']),
-        'indexedBytes': UsageCounterOutFromJSON(json['indexed_bytes']),
-        'indexingOps': UsageCounterOutFromJSON(json['indexing_ops']),
-        'opsThisMonth': OperationUsageOutFromJSON(json['ops_this_month']),
-        'period': UsagePeriodOutFromJSON(json['period']),
-        'retrievalQueries': UsageCounterOutFromJSON(json['retrieval_queries']),
-        'storage': UsageCounterOutFromJSON(json['storage']),
-        'storageBreakdown': json['storage_breakdown'] === undefined ? undefined : json['storage_breakdown'] === null ? null : StorageBreakdownOutFromJSON(json['storage_breakdown']),
-        'tokensThisMonth': TokenUsageOutFromJSON(json['tokens_this_month']),
-        'versionRetention': VersionRetentionOutFromJSON(json['version_retention']),
-        'writesThisHour': HourlyUsageCounterOutFromJSON(json['writes_this_hour']),
+        'retrievalBytes': json['retrieval_bytes'],
+        'storageBytes': json['storage_bytes'],
     };
 }
 
@@ -212,18 +68,7 @@ export function DriveUsageOutToJSONTyped(value?: DriveUsageOut | null, ignoreDis
 
     return {
 
-        'account_footprint': StorageFootprintOutToJSON(value['accountFootprint']),
-        'egress_bytes': UsageCounterOutToJSON(value['egressBytes']),
-        'footprint': StorageFootprintOutToJSON(value['footprint']),
-        'indexed_bytes': UsageCounterOutToJSON(value['indexedBytes']),
-        'indexing_ops': UsageCounterOutToJSON(value['indexingOps']),
-        'ops_this_month': OperationUsageOutToJSON(value['opsThisMonth']),
-        'period': UsagePeriodOutToJSON(value['period']),
-        'retrieval_queries': UsageCounterOutToJSON(value['retrievalQueries']),
-        'storage': UsageCounterOutToJSON(value['storage']),
-        'storage_breakdown': StorageBreakdownOutToJSON(value['storageBreakdown']),
-        'tokens_this_month': TokenUsageOutToJSON(value['tokensThisMonth']),
-        'version_retention': VersionRetentionOutToJSON(value['versionRetention']),
-        'writes_this_hour': HourlyUsageCounterOutToJSON(value['writesThisHour']),
+        'retrieval_bytes': value['retrievalBytes'],
+        'storage_bytes': value['storageBytes'],
     };
 }

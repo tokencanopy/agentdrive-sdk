@@ -4,22 +4,23 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AccessCount** | Pointer to **int32** |  | [optional] [default to 0]
-**Audience** | **string** |  |
 **CreatedAt** | **time.Time** |  |
-**ExpiresAt** | Pointer to **NullableTime** |  | [optional]
-**HasPassword** | **bool** |  |
+**CreatedBy** | **NullableString** |  |
+**DriveId** | **string** |  |
+**ExpiresAt** | **NullableTime** |  |
 **Id** | **string** |  |
-**LastAccessedAt** | Pointer to **NullableTime** |  | [optional]
 **ResourceId** | **string** |  |
 **ResourceType** | **string** |  |
-**Role** | **string** |  |
+**Revision** | **string** |  |
+**RevokedAt** | **NullableTime** |  |
+**RotatedAt** | **NullableTime** |  |
+**State** | **string** |  |
 
 ## Methods
 
 ### NewShareOut
 
-`func NewShareOut(audience string, createdAt time.Time, hasPassword bool, id string, resourceId string, resourceType string, role string, ) *ShareOut`
+`func NewShareOut(createdAt time.Time, createdBy NullableString, driveId string, expiresAt NullableTime, id string, resourceId string, resourceType string, revision string, revokedAt NullableTime, rotatedAt NullableTime, state string, ) *ShareOut`
 
 NewShareOut instantiates a new ShareOut object
 This constructor will assign default values to properties that have it defined,
@@ -33,51 +34,6 @@ will change when the set of required properties is changed
 NewShareOutWithDefaults instantiates a new ShareOut object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetAccessCount
-
-`func (o *ShareOut) GetAccessCount() int32`
-
-GetAccessCount returns the AccessCount field if non-nil, zero value otherwise.
-
-### GetAccessCountOk
-
-`func (o *ShareOut) GetAccessCountOk() (*int32, bool)`
-
-GetAccessCountOk returns a tuple with the AccessCount field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAccessCount
-
-`func (o *ShareOut) SetAccessCount(v int32)`
-
-SetAccessCount sets AccessCount field to given value.
-
-### HasAccessCount
-
-`func (o *ShareOut) HasAccessCount() bool`
-
-HasAccessCount returns a boolean if a field has been set.
-
-### GetAudience
-
-`func (o *ShareOut) GetAudience() string`
-
-GetAudience returns the Audience field if non-nil, zero value otherwise.
-
-### GetAudienceOk
-
-`func (o *ShareOut) GetAudienceOk() (*string, bool)`
-
-GetAudienceOk returns a tuple with the Audience field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAudience
-
-`func (o *ShareOut) SetAudience(v string)`
-
-SetAudience sets Audience field to given value.
-
 
 ### GetCreatedAt
 
@@ -99,6 +55,56 @@ and a boolean to check if the value has been set.
 SetCreatedAt sets CreatedAt field to given value.
 
 
+### GetCreatedBy
+
+`func (o *ShareOut) GetCreatedBy() string`
+
+GetCreatedBy returns the CreatedBy field if non-nil, zero value otherwise.
+
+### GetCreatedByOk
+
+`func (o *ShareOut) GetCreatedByOk() (*string, bool)`
+
+GetCreatedByOk returns a tuple with the CreatedBy field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCreatedBy
+
+`func (o *ShareOut) SetCreatedBy(v string)`
+
+SetCreatedBy sets CreatedBy field to given value.
+
+
+### SetCreatedByNil
+
+`func (o *ShareOut) SetCreatedByNil(b bool)`
+
+ SetCreatedByNil sets the value for CreatedBy to be an explicit nil
+
+### UnsetCreatedBy
+`func (o *ShareOut) UnsetCreatedBy()`
+
+UnsetCreatedBy ensures that no value is present for CreatedBy, not even an explicit nil
+### GetDriveId
+
+`func (o *ShareOut) GetDriveId() string`
+
+GetDriveId returns the DriveId field if non-nil, zero value otherwise.
+
+### GetDriveIdOk
+
+`func (o *ShareOut) GetDriveIdOk() (*string, bool)`
+
+GetDriveIdOk returns a tuple with the DriveId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDriveId
+
+`func (o *ShareOut) SetDriveId(v string)`
+
+SetDriveId sets DriveId field to given value.
+
+
 ### GetExpiresAt
 
 `func (o *ShareOut) GetExpiresAt() time.Time`
@@ -118,11 +124,6 @@ and a boolean to check if the value has been set.
 
 SetExpiresAt sets ExpiresAt field to given value.
 
-### HasExpiresAt
-
-`func (o *ShareOut) HasExpiresAt() bool`
-
-HasExpiresAt returns a boolean if a field has been set.
 
 ### SetExpiresAtNil
 
@@ -134,26 +135,6 @@ HasExpiresAt returns a boolean if a field has been set.
 `func (o *ShareOut) UnsetExpiresAt()`
 
 UnsetExpiresAt ensures that no value is present for ExpiresAt, not even an explicit nil
-### GetHasPassword
-
-`func (o *ShareOut) GetHasPassword() bool`
-
-GetHasPassword returns the HasPassword field if non-nil, zero value otherwise.
-
-### GetHasPasswordOk
-
-`func (o *ShareOut) GetHasPasswordOk() (*bool, bool)`
-
-GetHasPasswordOk returns a tuple with the HasPassword field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetHasPassword
-
-`func (o *ShareOut) SetHasPassword(v bool)`
-
-SetHasPassword sets HasPassword field to given value.
-
-
 ### GetId
 
 `func (o *ShareOut) GetId() string`
@@ -174,41 +155,6 @@ and a boolean to check if the value has been set.
 SetId sets Id field to given value.
 
 
-### GetLastAccessedAt
-
-`func (o *ShareOut) GetLastAccessedAt() time.Time`
-
-GetLastAccessedAt returns the LastAccessedAt field if non-nil, zero value otherwise.
-
-### GetLastAccessedAtOk
-
-`func (o *ShareOut) GetLastAccessedAtOk() (*time.Time, bool)`
-
-GetLastAccessedAtOk returns a tuple with the LastAccessedAt field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetLastAccessedAt
-
-`func (o *ShareOut) SetLastAccessedAt(v time.Time)`
-
-SetLastAccessedAt sets LastAccessedAt field to given value.
-
-### HasLastAccessedAt
-
-`func (o *ShareOut) HasLastAccessedAt() bool`
-
-HasLastAccessedAt returns a boolean if a field has been set.
-
-### SetLastAccessedAtNil
-
-`func (o *ShareOut) SetLastAccessedAtNil(b bool)`
-
- SetLastAccessedAtNil sets the value for LastAccessedAt to be an explicit nil
-
-### UnsetLastAccessedAt
-`func (o *ShareOut) UnsetLastAccessedAt()`
-
-UnsetLastAccessedAt ensures that no value is present for LastAccessedAt, not even an explicit nil
 ### GetResourceId
 
 `func (o *ShareOut) GetResourceId() string`
@@ -249,24 +195,104 @@ and a boolean to check if the value has been set.
 SetResourceType sets ResourceType field to given value.
 
 
-### GetRole
+### GetRevision
 
-`func (o *ShareOut) GetRole() string`
+`func (o *ShareOut) GetRevision() string`
 
-GetRole returns the Role field if non-nil, zero value otherwise.
+GetRevision returns the Revision field if non-nil, zero value otherwise.
 
-### GetRoleOk
+### GetRevisionOk
 
-`func (o *ShareOut) GetRoleOk() (*string, bool)`
+`func (o *ShareOut) GetRevisionOk() (*string, bool)`
 
-GetRoleOk returns a tuple with the Role field if it's non-nil, zero value otherwise
+GetRevisionOk returns a tuple with the Revision field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetRole
+### SetRevision
 
-`func (o *ShareOut) SetRole(v string)`
+`func (o *ShareOut) SetRevision(v string)`
 
-SetRole sets Role field to given value.
+SetRevision sets Revision field to given value.
+
+
+### GetRevokedAt
+
+`func (o *ShareOut) GetRevokedAt() time.Time`
+
+GetRevokedAt returns the RevokedAt field if non-nil, zero value otherwise.
+
+### GetRevokedAtOk
+
+`func (o *ShareOut) GetRevokedAtOk() (*time.Time, bool)`
+
+GetRevokedAtOk returns a tuple with the RevokedAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRevokedAt
+
+`func (o *ShareOut) SetRevokedAt(v time.Time)`
+
+SetRevokedAt sets RevokedAt field to given value.
+
+
+### SetRevokedAtNil
+
+`func (o *ShareOut) SetRevokedAtNil(b bool)`
+
+ SetRevokedAtNil sets the value for RevokedAt to be an explicit nil
+
+### UnsetRevokedAt
+`func (o *ShareOut) UnsetRevokedAt()`
+
+UnsetRevokedAt ensures that no value is present for RevokedAt, not even an explicit nil
+### GetRotatedAt
+
+`func (o *ShareOut) GetRotatedAt() time.Time`
+
+GetRotatedAt returns the RotatedAt field if non-nil, zero value otherwise.
+
+### GetRotatedAtOk
+
+`func (o *ShareOut) GetRotatedAtOk() (*time.Time, bool)`
+
+GetRotatedAtOk returns a tuple with the RotatedAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRotatedAt
+
+`func (o *ShareOut) SetRotatedAt(v time.Time)`
+
+SetRotatedAt sets RotatedAt field to given value.
+
+
+### SetRotatedAtNil
+
+`func (o *ShareOut) SetRotatedAtNil(b bool)`
+
+ SetRotatedAtNil sets the value for RotatedAt to be an explicit nil
+
+### UnsetRotatedAt
+`func (o *ShareOut) UnsetRotatedAt()`
+
+UnsetRotatedAt ensures that no value is present for RotatedAt, not even an explicit nil
+### GetState
+
+`func (o *ShareOut) GetState() string`
+
+GetState returns the State field if non-nil, zero value otherwise.
+
+### GetStateOk
+
+`func (o *ShareOut) GetStateOk() (*string, bool)`
+
+GetStateOk returns a tuple with the State field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetState
+
+`func (o *ShareOut) SetState(v string)`
+
+SetState sets State field to given value.
 
 
 

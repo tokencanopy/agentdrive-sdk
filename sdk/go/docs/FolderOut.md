@@ -5,22 +5,22 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CreatedAt** | **time.Time** |  |
-**DeletedAt** | Pointer to **NullableTime** |  | [optional]
-**Description** | Pointer to **NullableString** |  | [optional]
+**DeletedAt** | **NullableTime** |  |
 **DriveId** | **string** |  |
-**Etag** | **string** |  |
+**GrantInheritance** | **string** |  |
 **Id** | **string** |  |
-**InheritGrants** | Pointer to **bool** |  | [optional] [default to true]
-**Metageneration** | Pointer to **int32** |  | [optional] [default to 1]
-**Path** | **string** |  |
-**PurgeAt** | Pointer to **NullableTime** |  | [optional]
+**Metadata** | **map[string]interface{}** |  |
+**Name** | **NullableString** |  |
+**ParentId** | **NullableString** |  |
+**Revision** | **string** |  |
+**State** | **string** |  |
 **UpdatedAt** | **time.Time** |  |
 
 ## Methods
 
 ### NewFolderOut
 
-`func NewFolderOut(createdAt time.Time, driveId string, etag string, id string, path string, updatedAt time.Time, ) *FolderOut`
+`func NewFolderOut(createdAt time.Time, deletedAt NullableTime, driveId string, grantInheritance string, id string, metadata map[string]interface{}, name NullableString, parentId NullableString, revision string, state string, updatedAt time.Time, ) *FolderOut`
 
 NewFolderOut instantiates a new FolderOut object
 This constructor will assign default values to properties that have it defined,
@@ -74,11 +74,6 @@ and a boolean to check if the value has been set.
 
 SetDeletedAt sets DeletedAt field to given value.
 
-### HasDeletedAt
-
-`func (o *FolderOut) HasDeletedAt() bool`
-
-HasDeletedAt returns a boolean if a field has been set.
 
 ### SetDeletedAtNil
 
@@ -90,41 +85,6 @@ HasDeletedAt returns a boolean if a field has been set.
 `func (o *FolderOut) UnsetDeletedAt()`
 
 UnsetDeletedAt ensures that no value is present for DeletedAt, not even an explicit nil
-### GetDescription
-
-`func (o *FolderOut) GetDescription() string`
-
-GetDescription returns the Description field if non-nil, zero value otherwise.
-
-### GetDescriptionOk
-
-`func (o *FolderOut) GetDescriptionOk() (*string, bool)`
-
-GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDescription
-
-`func (o *FolderOut) SetDescription(v string)`
-
-SetDescription sets Description field to given value.
-
-### HasDescription
-
-`func (o *FolderOut) HasDescription() bool`
-
-HasDescription returns a boolean if a field has been set.
-
-### SetDescriptionNil
-
-`func (o *FolderOut) SetDescriptionNil(b bool)`
-
- SetDescriptionNil sets the value for Description to be an explicit nil
-
-### UnsetDescription
-`func (o *FolderOut) UnsetDescription()`
-
-UnsetDescription ensures that no value is present for Description, not even an explicit nil
 ### GetDriveId
 
 `func (o *FolderOut) GetDriveId() string`
@@ -145,24 +105,24 @@ and a boolean to check if the value has been set.
 SetDriveId sets DriveId field to given value.
 
 
-### GetEtag
+### GetGrantInheritance
 
-`func (o *FolderOut) GetEtag() string`
+`func (o *FolderOut) GetGrantInheritance() string`
 
-GetEtag returns the Etag field if non-nil, zero value otherwise.
+GetGrantInheritance returns the GrantInheritance field if non-nil, zero value otherwise.
 
-### GetEtagOk
+### GetGrantInheritanceOk
 
-`func (o *FolderOut) GetEtagOk() (*string, bool)`
+`func (o *FolderOut) GetGrantInheritanceOk() (*string, bool)`
 
-GetEtagOk returns a tuple with the Etag field if it's non-nil, zero value otherwise
+GetGrantInheritanceOk returns a tuple with the GrantInheritance field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetEtag
+### SetGrantInheritance
 
-`func (o *FolderOut) SetEtag(v string)`
+`func (o *FolderOut) SetGrantInheritance(v string)`
 
-SetEtag sets Etag field to given value.
+SetGrantInheritance sets GrantInheritance field to given value.
 
 
 ### GetId
@@ -185,111 +145,126 @@ and a boolean to check if the value has been set.
 SetId sets Id field to given value.
 
 
-### GetInheritGrants
+### GetMetadata
 
-`func (o *FolderOut) GetInheritGrants() bool`
+`func (o *FolderOut) GetMetadata() map[string]interface{}`
 
-GetInheritGrants returns the InheritGrants field if non-nil, zero value otherwise.
+GetMetadata returns the Metadata field if non-nil, zero value otherwise.
 
-### GetInheritGrantsOk
+### GetMetadataOk
 
-`func (o *FolderOut) GetInheritGrantsOk() (*bool, bool)`
+`func (o *FolderOut) GetMetadataOk() (*map[string]interface{}, bool)`
 
-GetInheritGrantsOk returns a tuple with the InheritGrants field if it's non-nil, zero value otherwise
+GetMetadataOk returns a tuple with the Metadata field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetInheritGrants
+### SetMetadata
 
-`func (o *FolderOut) SetInheritGrants(v bool)`
+`func (o *FolderOut) SetMetadata(v map[string]interface{})`
 
-SetInheritGrants sets InheritGrants field to given value.
+SetMetadata sets Metadata field to given value.
 
-### HasInheritGrants
 
-`func (o *FolderOut) HasInheritGrants() bool`
+### GetName
 
-HasInheritGrants returns a boolean if a field has been set.
+`func (o *FolderOut) GetName() string`
 
-### GetMetageneration
+GetName returns the Name field if non-nil, zero value otherwise.
 
-`func (o *FolderOut) GetMetageneration() int32`
+### GetNameOk
 
-GetMetageneration returns the Metageneration field if non-nil, zero value otherwise.
+`func (o *FolderOut) GetNameOk() (*string, bool)`
 
-### GetMetagenerationOk
-
-`func (o *FolderOut) GetMetagenerationOk() (*int32, bool)`
-
-GetMetagenerationOk returns a tuple with the Metageneration field if it's non-nil, zero value otherwise
+GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetMetageneration
+### SetName
 
-`func (o *FolderOut) SetMetageneration(v int32)`
+`func (o *FolderOut) SetName(v string)`
 
-SetMetageneration sets Metageneration field to given value.
+SetName sets Name field to given value.
 
-### HasMetageneration
 
-`func (o *FolderOut) HasMetageneration() bool`
+### SetNameNil
 
-HasMetageneration returns a boolean if a field has been set.
+`func (o *FolderOut) SetNameNil(b bool)`
 
-### GetPath
+ SetNameNil sets the value for Name to be an explicit nil
 
-`func (o *FolderOut) GetPath() string`
+### UnsetName
+`func (o *FolderOut) UnsetName()`
 
-GetPath returns the Path field if non-nil, zero value otherwise.
+UnsetName ensures that no value is present for Name, not even an explicit nil
+### GetParentId
 
-### GetPathOk
+`func (o *FolderOut) GetParentId() string`
 
-`func (o *FolderOut) GetPathOk() (*string, bool)`
+GetParentId returns the ParentId field if non-nil, zero value otherwise.
 
-GetPathOk returns a tuple with the Path field if it's non-nil, zero value otherwise
+### GetParentIdOk
+
+`func (o *FolderOut) GetParentIdOk() (*string, bool)`
+
+GetParentIdOk returns a tuple with the ParentId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetPath
+### SetParentId
 
-`func (o *FolderOut) SetPath(v string)`
+`func (o *FolderOut) SetParentId(v string)`
 
-SetPath sets Path field to given value.
+SetParentId sets ParentId field to given value.
 
 
-### GetPurgeAt
+### SetParentIdNil
 
-`func (o *FolderOut) GetPurgeAt() time.Time`
+`func (o *FolderOut) SetParentIdNil(b bool)`
 
-GetPurgeAt returns the PurgeAt field if non-nil, zero value otherwise.
+ SetParentIdNil sets the value for ParentId to be an explicit nil
 
-### GetPurgeAtOk
+### UnsetParentId
+`func (o *FolderOut) UnsetParentId()`
 
-`func (o *FolderOut) GetPurgeAtOk() (*time.Time, bool)`
+UnsetParentId ensures that no value is present for ParentId, not even an explicit nil
+### GetRevision
 
-GetPurgeAtOk returns a tuple with the PurgeAt field if it's non-nil, zero value otherwise
+`func (o *FolderOut) GetRevision() string`
+
+GetRevision returns the Revision field if non-nil, zero value otherwise.
+
+### GetRevisionOk
+
+`func (o *FolderOut) GetRevisionOk() (*string, bool)`
+
+GetRevisionOk returns a tuple with the Revision field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetPurgeAt
+### SetRevision
 
-`func (o *FolderOut) SetPurgeAt(v time.Time)`
+`func (o *FolderOut) SetRevision(v string)`
 
-SetPurgeAt sets PurgeAt field to given value.
+SetRevision sets Revision field to given value.
 
-### HasPurgeAt
 
-`func (o *FolderOut) HasPurgeAt() bool`
+### GetState
 
-HasPurgeAt returns a boolean if a field has been set.
+`func (o *FolderOut) GetState() string`
 
-### SetPurgeAtNil
+GetState returns the State field if non-nil, zero value otherwise.
 
-`func (o *FolderOut) SetPurgeAtNil(b bool)`
+### GetStateOk
 
- SetPurgeAtNil sets the value for PurgeAt to be an explicit nil
+`func (o *FolderOut) GetStateOk() (*string, bool)`
 
-### UnsetPurgeAt
-`func (o *FolderOut) UnsetPurgeAt()`
+GetStateOk returns a tuple with the State field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
 
-UnsetPurgeAt ensures that no value is present for PurgeAt, not even an explicit nil
+### SetState
+
+`func (o *FolderOut) SetState(v string)`
+
+SetState sets State field to given value.
+
+
 ### GetUpdatedAt
 
 `func (o *FolderOut) GetUpdatedAt() time.Time`

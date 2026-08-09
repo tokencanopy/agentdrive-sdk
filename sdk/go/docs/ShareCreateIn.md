@@ -4,16 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ExpiresIn** | Pointer to **NullableInt32** |  | [optional]
-**Password** | Pointer to **NullableString** |  | [optional]
-**Resource** | **string** |  |
-**Role** | Pointer to **string** |  | [optional] [default to "viewer"]
+**ExpiresAt** | Pointer to **NullableTime** |  | [optional]
+**ResourceId** | **string** |  |
+**ResourceType** | **string** |  |
 
 ## Methods
 
 ### NewShareCreateIn
 
-`func NewShareCreateIn(resource string, ) *ShareCreateIn`
+`func NewShareCreateIn(resourceId string, resourceType string, ) *ShareCreateIn`
 
 NewShareCreateIn instantiates a new ShareCreateIn object
 This constructor will assign default values to properties that have it defined,
@@ -28,120 +27,80 @@ NewShareCreateInWithDefaults instantiates a new ShareCreateIn object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetExpiresIn
+### GetExpiresAt
 
-`func (o *ShareCreateIn) GetExpiresIn() int32`
+`func (o *ShareCreateIn) GetExpiresAt() time.Time`
 
-GetExpiresIn returns the ExpiresIn field if non-nil, zero value otherwise.
+GetExpiresAt returns the ExpiresAt field if non-nil, zero value otherwise.
 
-### GetExpiresInOk
+### GetExpiresAtOk
 
-`func (o *ShareCreateIn) GetExpiresInOk() (*int32, bool)`
+`func (o *ShareCreateIn) GetExpiresAtOk() (*time.Time, bool)`
 
-GetExpiresInOk returns a tuple with the ExpiresIn field if it's non-nil, zero value otherwise
+GetExpiresAtOk returns a tuple with the ExpiresAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetExpiresIn
+### SetExpiresAt
 
-`func (o *ShareCreateIn) SetExpiresIn(v int32)`
+`func (o *ShareCreateIn) SetExpiresAt(v time.Time)`
 
-SetExpiresIn sets ExpiresIn field to given value.
+SetExpiresAt sets ExpiresAt field to given value.
 
-### HasExpiresIn
+### HasExpiresAt
 
-`func (o *ShareCreateIn) HasExpiresIn() bool`
+`func (o *ShareCreateIn) HasExpiresAt() bool`
 
-HasExpiresIn returns a boolean if a field has been set.
+HasExpiresAt returns a boolean if a field has been set.
 
-### SetExpiresInNil
+### SetExpiresAtNil
 
-`func (o *ShareCreateIn) SetExpiresInNil(b bool)`
+`func (o *ShareCreateIn) SetExpiresAtNil(b bool)`
 
- SetExpiresInNil sets the value for ExpiresIn to be an explicit nil
+ SetExpiresAtNil sets the value for ExpiresAt to be an explicit nil
 
-### UnsetExpiresIn
-`func (o *ShareCreateIn) UnsetExpiresIn()`
+### UnsetExpiresAt
+`func (o *ShareCreateIn) UnsetExpiresAt()`
 
-UnsetExpiresIn ensures that no value is present for ExpiresIn, not even an explicit nil
-### GetPassword
+UnsetExpiresAt ensures that no value is present for ExpiresAt, not even an explicit nil
+### GetResourceId
 
-`func (o *ShareCreateIn) GetPassword() string`
+`func (o *ShareCreateIn) GetResourceId() string`
 
-GetPassword returns the Password field if non-nil, zero value otherwise.
+GetResourceId returns the ResourceId field if non-nil, zero value otherwise.
 
-### GetPasswordOk
+### GetResourceIdOk
 
-`func (o *ShareCreateIn) GetPasswordOk() (*string, bool)`
+`func (o *ShareCreateIn) GetResourceIdOk() (*string, bool)`
 
-GetPasswordOk returns a tuple with the Password field if it's non-nil, zero value otherwise
+GetResourceIdOk returns a tuple with the ResourceId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetPassword
+### SetResourceId
 
-`func (o *ShareCreateIn) SetPassword(v string)`
+`func (o *ShareCreateIn) SetResourceId(v string)`
 
-SetPassword sets Password field to given value.
+SetResourceId sets ResourceId field to given value.
 
-### HasPassword
 
-`func (o *ShareCreateIn) HasPassword() bool`
+### GetResourceType
 
-HasPassword returns a boolean if a field has been set.
+`func (o *ShareCreateIn) GetResourceType() string`
 
-### SetPasswordNil
+GetResourceType returns the ResourceType field if non-nil, zero value otherwise.
 
-`func (o *ShareCreateIn) SetPasswordNil(b bool)`
+### GetResourceTypeOk
 
- SetPasswordNil sets the value for Password to be an explicit nil
+`func (o *ShareCreateIn) GetResourceTypeOk() (*string, bool)`
 
-### UnsetPassword
-`func (o *ShareCreateIn) UnsetPassword()`
-
-UnsetPassword ensures that no value is present for Password, not even an explicit nil
-### GetResource
-
-`func (o *ShareCreateIn) GetResource() string`
-
-GetResource returns the Resource field if non-nil, zero value otherwise.
-
-### GetResourceOk
-
-`func (o *ShareCreateIn) GetResourceOk() (*string, bool)`
-
-GetResourceOk returns a tuple with the Resource field if it's non-nil, zero value otherwise
+GetResourceTypeOk returns a tuple with the ResourceType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetResource
+### SetResourceType
 
-`func (o *ShareCreateIn) SetResource(v string)`
+`func (o *ShareCreateIn) SetResourceType(v string)`
 
-SetResource sets Resource field to given value.
+SetResourceType sets ResourceType field to given value.
 
-
-### GetRole
-
-`func (o *ShareCreateIn) GetRole() string`
-
-GetRole returns the Role field if non-nil, zero value otherwise.
-
-### GetRoleOk
-
-`func (o *ShareCreateIn) GetRoleOk() (*string, bool)`
-
-GetRoleOk returns a tuple with the Role field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRole
-
-`func (o *ShareCreateIn) SetRole(v string)`
-
-SetRole sets Role field to given value.
-
-### HasRole
-
-`func (o *ShareCreateIn) HasRole() bool`
-
-HasRole returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

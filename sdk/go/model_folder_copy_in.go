@@ -1,7 +1,7 @@
 /*
 AgentDrive
 
-AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
 
 API version: <PINNED>
 */
@@ -19,10 +19,11 @@ import (
 // checks if the FolderCopyIn type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &FolderCopyIn{}
 
-// FolderCopyIn POST /v0/folders/{fld_id}/copy body — duplicate the subtree to a new path. `path` is the target folder path (canonical, trailing slash). Its own schema (vs. reusing `FolderMoveIn`) keeps the copy surface self-documenting in the OpenAPI spec.
+// FolderCopyIn POST /v0/drives/{id}/folders/{folder_id}/copy body.  ``destination_drive_id`` must equal the source drive (or be absent) — cross-drive copy is out of v0 scope and rejected.
 type FolderCopyIn struct {
-	FromMetageneration NullableInt32 `json:"from_metageneration,omitempty"`
-	Path string `json:"path"`
+	DestinationDriveId NullableString `json:"destination_drive_id,omitempty" validate:"regexp=^drv_[a-f0-9]{16}$"`
+	DestinationName string `json:"destination_name"`
+	DestinationParentId string `json:"destination_parent_id" validate:"regexp=^fld_[a-f0-9]{16}$"`
 }
 
 type _FolderCopyIn FolderCopyIn
@@ -31,9 +32,10 @@ type _FolderCopyIn FolderCopyIn
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFolderCopyIn(path string) *FolderCopyIn {
+func NewFolderCopyIn(destinationName string, destinationParentId string) *FolderCopyIn {
 	this := FolderCopyIn{}
-	this.Path = path
+	this.DestinationName = destinationName
+	this.DestinationParentId = destinationParentId
 	return &this
 }
 
@@ -45,70 +47,94 @@ func NewFolderCopyInWithDefaults() *FolderCopyIn {
 	return &this
 }
 
-// GetFromMetageneration returns the FromMetageneration field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *FolderCopyIn) GetFromMetageneration() int32 {
-	if o == nil || IsNil(o.FromMetageneration.Get()) {
-		var ret int32
+// GetDestinationDriveId returns the DestinationDriveId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *FolderCopyIn) GetDestinationDriveId() string {
+	if o == nil || IsNil(o.DestinationDriveId.Get()) {
+		var ret string
 		return ret
 	}
-	return *o.FromMetageneration.Get()
+	return *o.DestinationDriveId.Get()
 }
 
-// GetFromMetagenerationOk returns a tuple with the FromMetageneration field value if set, nil otherwise
+// GetDestinationDriveIdOk returns a tuple with the DestinationDriveId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *FolderCopyIn) GetFromMetagenerationOk() (*int32, bool) {
+func (o *FolderCopyIn) GetDestinationDriveIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.FromMetageneration.Get(), o.FromMetageneration.IsSet()
+	return o.DestinationDriveId.Get(), o.DestinationDriveId.IsSet()
 }
 
-// HasFromMetageneration returns a boolean if a field has been set.
-func (o *FolderCopyIn) HasFromMetageneration() bool {
-	if o != nil && o.FromMetageneration.IsSet() {
+// HasDestinationDriveId returns a boolean if a field has been set.
+func (o *FolderCopyIn) HasDestinationDriveId() bool {
+	if o != nil && o.DestinationDriveId.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetFromMetageneration gets a reference to the given NullableInt32 and assigns it to the FromMetageneration field.
-func (o *FolderCopyIn) SetFromMetageneration(v int32) {
-	o.FromMetageneration.Set(&v)
+// SetDestinationDriveId gets a reference to the given NullableString and assigns it to the DestinationDriveId field.
+func (o *FolderCopyIn) SetDestinationDriveId(v string) {
+	o.DestinationDriveId.Set(&v)
 }
-// SetFromMetagenerationNil sets the value for FromMetageneration to be an explicit nil
-func (o *FolderCopyIn) SetFromMetagenerationNil() {
-	o.FromMetageneration.Set(nil)
-}
-
-// UnsetFromMetageneration ensures that no value is present for FromMetageneration, not even an explicit nil
-func (o *FolderCopyIn) UnsetFromMetageneration() {
-	o.FromMetageneration.Unset()
+// SetDestinationDriveIdNil sets the value for DestinationDriveId to be an explicit nil
+func (o *FolderCopyIn) SetDestinationDriveIdNil() {
+	o.DestinationDriveId.Set(nil)
 }
 
-// GetPath returns the Path field value
-func (o *FolderCopyIn) GetPath() string {
+// UnsetDestinationDriveId ensures that no value is present for DestinationDriveId, not even an explicit nil
+func (o *FolderCopyIn) UnsetDestinationDriveId() {
+	o.DestinationDriveId.Unset()
+}
+
+// GetDestinationName returns the DestinationName field value
+func (o *FolderCopyIn) GetDestinationName() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.Path
+	return o.DestinationName
 }
 
-// GetPathOk returns a tuple with the Path field value
+// GetDestinationNameOk returns a tuple with the DestinationName field value
 // and a boolean to check if the value has been set.
-func (o *FolderCopyIn) GetPathOk() (*string, bool) {
+func (o *FolderCopyIn) GetDestinationNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Path, true
+	return &o.DestinationName, true
 }
 
-// SetPath sets field value
-func (o *FolderCopyIn) SetPath(v string) {
-	o.Path = v
+// SetDestinationName sets field value
+func (o *FolderCopyIn) SetDestinationName(v string) {
+	o.DestinationName = v
+}
+
+// GetDestinationParentId returns the DestinationParentId field value
+func (o *FolderCopyIn) GetDestinationParentId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.DestinationParentId
+}
+
+// GetDestinationParentIdOk returns a tuple with the DestinationParentId field value
+// and a boolean to check if the value has been set.
+func (o *FolderCopyIn) GetDestinationParentIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.DestinationParentId, true
+}
+
+// SetDestinationParentId sets field value
+func (o *FolderCopyIn) SetDestinationParentId(v string) {
+	o.DestinationParentId = v
 }
 
 func (o FolderCopyIn) MarshalJSON() ([]byte, error) {
@@ -121,10 +147,11 @@ func (o FolderCopyIn) MarshalJSON() ([]byte, error) {
 
 func (o FolderCopyIn) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.FromMetageneration.IsSet() {
-		toSerialize["from_metageneration"] = o.FromMetageneration.Get()
+	if o.DestinationDriveId.IsSet() {
+		toSerialize["destination_drive_id"] = o.DestinationDriveId.Get()
 	}
-	toSerialize["path"] = o.Path
+	toSerialize["destination_name"] = o.DestinationName
+	toSerialize["destination_parent_id"] = o.DestinationParentId
 	return toSerialize, nil
 }
 
@@ -133,7 +160,8 @@ func (o *FolderCopyIn) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"path",
+		"destination_name",
+		"destination_parent_id",
 	}
 
 	allProperties := make(map[string]interface{})

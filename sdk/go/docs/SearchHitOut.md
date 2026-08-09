@@ -4,23 +4,21 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ArtId** | **string** |  |
-**ContentType** | **string** |  |
+**ContentType** | **NullableString** |  |
 **DriveId** | **string** |  |
-**FileType** | **string** |  |
-**Labels** | Pointer to **[]string** |  | [optional]
-**Path** | **string** |  |
-**Score** | **float32** |  |
-**Snippet** | **string** |  |
+**Id** | **string** |  |
+**Name** | **string** |  |
+**ParentId** | **NullableString** |  |
+**Rank** | **float32** |  |
+**Snippet** | **string** | HTML-safe highlighted excerpt. The ONLY markup it may contain is the server&#39;s own &lt;mark&gt;...&lt;/mark&gt; highlight pair; artifact content is entity-escaped, so this may be rendered as HTML. |
 **UpdatedAt** | **time.Time** |  |
-**Url** | **string** |  |
-**VersionNumber** | **int32** |  |
+**VersionId** | **NullableString** |  |
 
 ## Methods
 
 ### NewSearchHitOut
 
-`func NewSearchHitOut(artId string, contentType string, driveId string, fileType string, path string, score float32, snippet string, updatedAt time.Time, url string, versionNumber int32, ) *SearchHitOut`
+`func NewSearchHitOut(contentType NullableString, driveId string, id string, name string, parentId NullableString, rank float32, snippet string, updatedAt time.Time, versionId NullableString, ) *SearchHitOut`
 
 NewSearchHitOut instantiates a new SearchHitOut object
 This constructor will assign default values to properties that have it defined,
@@ -34,26 +32,6 @@ will change when the set of required properties is changed
 NewSearchHitOutWithDefaults instantiates a new SearchHitOut object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetArtId
-
-`func (o *SearchHitOut) GetArtId() string`
-
-GetArtId returns the ArtId field if non-nil, zero value otherwise.
-
-### GetArtIdOk
-
-`func (o *SearchHitOut) GetArtIdOk() (*string, bool)`
-
-GetArtIdOk returns a tuple with the ArtId field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetArtId
-
-`func (o *SearchHitOut) SetArtId(v string)`
-
-SetArtId sets ArtId field to given value.
-
 
 ### GetContentType
 
@@ -75,6 +53,16 @@ and a boolean to check if the value has been set.
 SetContentType sets ContentType field to given value.
 
 
+### SetContentTypeNil
+
+`func (o *SearchHitOut) SetContentTypeNil(b bool)`
+
+ SetContentTypeNil sets the value for ContentType to be an explicit nil
+
+### UnsetContentType
+`func (o *SearchHitOut) UnsetContentType()`
+
+UnsetContentType ensures that no value is present for ContentType, not even an explicit nil
 ### GetDriveId
 
 `func (o *SearchHitOut) GetDriveId() string`
@@ -95,89 +83,94 @@ and a boolean to check if the value has been set.
 SetDriveId sets DriveId field to given value.
 
 
-### GetFileType
+### GetId
 
-`func (o *SearchHitOut) GetFileType() string`
+`func (o *SearchHitOut) GetId() string`
 
-GetFileType returns the FileType field if non-nil, zero value otherwise.
+GetId returns the Id field if non-nil, zero value otherwise.
 
-### GetFileTypeOk
+### GetIdOk
 
-`func (o *SearchHitOut) GetFileTypeOk() (*string, bool)`
+`func (o *SearchHitOut) GetIdOk() (*string, bool)`
 
-GetFileTypeOk returns a tuple with the FileType field if it's non-nil, zero value otherwise
+GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetFileType
+### SetId
 
-`func (o *SearchHitOut) SetFileType(v string)`
+`func (o *SearchHitOut) SetId(v string)`
 
-SetFileType sets FileType field to given value.
+SetId sets Id field to given value.
 
 
-### GetLabels
+### GetName
 
-`func (o *SearchHitOut) GetLabels() []string`
+`func (o *SearchHitOut) GetName() string`
 
-GetLabels returns the Labels field if non-nil, zero value otherwise.
+GetName returns the Name field if non-nil, zero value otherwise.
 
-### GetLabelsOk
+### GetNameOk
 
-`func (o *SearchHitOut) GetLabelsOk() (*[]string, bool)`
+`func (o *SearchHitOut) GetNameOk() (*string, bool)`
 
-GetLabelsOk returns a tuple with the Labels field if it's non-nil, zero value otherwise
+GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetLabels
+### SetName
 
-`func (o *SearchHitOut) SetLabels(v []string)`
+`func (o *SearchHitOut) SetName(v string)`
 
-SetLabels sets Labels field to given value.
+SetName sets Name field to given value.
 
-### HasLabels
 
-`func (o *SearchHitOut) HasLabels() bool`
+### GetParentId
 
-HasLabels returns a boolean if a field has been set.
+`func (o *SearchHitOut) GetParentId() string`
 
-### GetPath
+GetParentId returns the ParentId field if non-nil, zero value otherwise.
 
-`func (o *SearchHitOut) GetPath() string`
+### GetParentIdOk
 
-GetPath returns the Path field if non-nil, zero value otherwise.
+`func (o *SearchHitOut) GetParentIdOk() (*string, bool)`
 
-### GetPathOk
-
-`func (o *SearchHitOut) GetPathOk() (*string, bool)`
-
-GetPathOk returns a tuple with the Path field if it's non-nil, zero value otherwise
+GetParentIdOk returns a tuple with the ParentId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetPath
+### SetParentId
 
-`func (o *SearchHitOut) SetPath(v string)`
+`func (o *SearchHitOut) SetParentId(v string)`
 
-SetPath sets Path field to given value.
+SetParentId sets ParentId field to given value.
 
 
-### GetScore
+### SetParentIdNil
 
-`func (o *SearchHitOut) GetScore() float32`
+`func (o *SearchHitOut) SetParentIdNil(b bool)`
 
-GetScore returns the Score field if non-nil, zero value otherwise.
+ SetParentIdNil sets the value for ParentId to be an explicit nil
 
-### GetScoreOk
+### UnsetParentId
+`func (o *SearchHitOut) UnsetParentId()`
 
-`func (o *SearchHitOut) GetScoreOk() (*float32, bool)`
+UnsetParentId ensures that no value is present for ParentId, not even an explicit nil
+### GetRank
 
-GetScoreOk returns a tuple with the Score field if it's non-nil, zero value otherwise
+`func (o *SearchHitOut) GetRank() float32`
+
+GetRank returns the Rank field if non-nil, zero value otherwise.
+
+### GetRankOk
+
+`func (o *SearchHitOut) GetRankOk() (*float32, bool)`
+
+GetRankOk returns a tuple with the Rank field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetScore
+### SetRank
 
-`func (o *SearchHitOut) SetScore(v float32)`
+`func (o *SearchHitOut) SetRank(v float32)`
 
-SetScore sets Score field to given value.
+SetRank sets Rank field to given value.
 
 
 ### GetSnippet
@@ -220,45 +213,35 @@ and a boolean to check if the value has been set.
 SetUpdatedAt sets UpdatedAt field to given value.
 
 
-### GetUrl
+### GetVersionId
 
-`func (o *SearchHitOut) GetUrl() string`
+`func (o *SearchHitOut) GetVersionId() string`
 
-GetUrl returns the Url field if non-nil, zero value otherwise.
+GetVersionId returns the VersionId field if non-nil, zero value otherwise.
 
-### GetUrlOk
+### GetVersionIdOk
 
-`func (o *SearchHitOut) GetUrlOk() (*string, bool)`
+`func (o *SearchHitOut) GetVersionIdOk() (*string, bool)`
 
-GetUrlOk returns a tuple with the Url field if it's non-nil, zero value otherwise
+GetVersionIdOk returns a tuple with the VersionId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetUrl
+### SetVersionId
 
-`func (o *SearchHitOut) SetUrl(v string)`
+`func (o *SearchHitOut) SetVersionId(v string)`
 
-SetUrl sets Url field to given value.
-
-
-### GetVersionNumber
-
-`func (o *SearchHitOut) GetVersionNumber() int32`
-
-GetVersionNumber returns the VersionNumber field if non-nil, zero value otherwise.
-
-### GetVersionNumberOk
-
-`func (o *SearchHitOut) GetVersionNumberOk() (*int32, bool)`
-
-GetVersionNumberOk returns a tuple with the VersionNumber field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetVersionNumber
-
-`func (o *SearchHitOut) SetVersionNumber(v int32)`
-
-SetVersionNumber sets VersionNumber field to given value.
+SetVersionId sets VersionId field to given value.
 
 
+### SetVersionIdNil
+
+`func (o *SearchHitOut) SetVersionIdNil(b bool)`
+
+ SetVersionIdNil sets the value for VersionId to be an explicit nil
+
+### UnsetVersionId
+`func (o *SearchHitOut) UnsetVersionId()`
+
+UnsetVersionId ensures that no value is present for VersionId, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

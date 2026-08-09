@@ -1,13 +1,12 @@
 
 # ValidationErrorResponse
 
-The runtime `VALIDATION_ERROR` response for request parsing failures.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`detail` | [ValidationErrorDetail](ValidationErrorDetail.md)
+`error` | [ValidationErrorResponseError](ValidationErrorResponseError.md)
 
 ## Example
 
@@ -16,7 +15,7 @@ import type { ValidationErrorResponse } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "detail": null,
+  "error": null,
 } satisfies ValidationErrorResponse
 
 console.log(example)

@@ -1,14 +1,15 @@
 
 # FolderCopyIn
 
-POST /v0/folders/{fld_id}/copy body — duplicate the subtree to a new path. `path` is the target folder path (canonical, trailing slash). Its own schema (vs. reusing `FolderMoveIn`) keeps the copy surface self-documenting in the OpenAPI spec.
+POST /v0/drives/{id}/folders/{folder_id}/copy body.  ``destination_drive_id`` must equal the source drive (or be absent) — cross-drive copy is out of v0 scope and rejected.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`fromMetageneration` | number
-`path` | string
+`destinationDriveId` | string
+`destinationName` | string
+`destinationParentId` | string
 
 ## Example
 
@@ -17,8 +18,9 @@ import type { FolderCopyIn } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "fromMetageneration": null,
-  "path": null,
+  "destinationDriveId": null,
+  "destinationName": null,
+  "destinationParentId": null,
 } satisfies FolderCopyIn
 
 console.log(example)

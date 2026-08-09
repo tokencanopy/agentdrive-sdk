@@ -1,7 +1,7 @@
 /*
 AgentDrive
 
-AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
 
 API version: <PINNED>
 */
@@ -12,6 +12,7 @@ package agentdrive
 
 import (
 	"encoding/json"
+	"time"
 	"bytes"
 	"fmt"
 )
@@ -19,12 +20,11 @@ import (
 // checks if the ShareCreateIn type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ShareCreateIn{}
 
-// ShareCreateIn POST /v0/shares body. `resource` is an `art_*`/`fld_*` id or a path. `expires_in` is seconds from now (omit for the default: none for a human creator, a short TTL for an agent). `password` (optional) gates redemption.
+// ShareCreateIn POST /v0/drives/{id}/shares body.
 type ShareCreateIn struct {
-	ExpiresIn NullableInt32 `json:"expires_in,omitempty"`
-	Password NullableString `json:"password,omitempty"`
-	Resource string `json:"resource"`
-	Role *string `json:"role,omitempty"`
+	ExpiresAt NullableTime `json:"expires_at,omitempty"`
+	ResourceId string `json:"resource_id"`
+	ResourceType string `json:"resource_type"`
 }
 
 type _ShareCreateIn ShareCreateIn
@@ -33,11 +33,10 @@ type _ShareCreateIn ShareCreateIn
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewShareCreateIn(resource string) *ShareCreateIn {
+func NewShareCreateIn(resourceId string, resourceType string) *ShareCreateIn {
 	this := ShareCreateIn{}
-	this.Resource = resource
-	var role string = "viewer"
-	this.Role = &role
+	this.ResourceId = resourceId
+	this.ResourceType = resourceType
 	return &this
 }
 
@@ -46,149 +45,97 @@ func NewShareCreateIn(resource string) *ShareCreateIn {
 // but it doesn't guarantee that properties required by API are set
 func NewShareCreateInWithDefaults() *ShareCreateIn {
 	this := ShareCreateIn{}
-	var role string = "viewer"
-	this.Role = &role
 	return &this
 }
 
-// GetExpiresIn returns the ExpiresIn field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ShareCreateIn) GetExpiresIn() int32 {
-	if o == nil || IsNil(o.ExpiresIn.Get()) {
-		var ret int32
+// GetExpiresAt returns the ExpiresAt field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ShareCreateIn) GetExpiresAt() time.Time {
+	if o == nil || IsNil(o.ExpiresAt.Get()) {
+		var ret time.Time
 		return ret
 	}
-	return *o.ExpiresIn.Get()
+	return *o.ExpiresAt.Get()
 }
 
-// GetExpiresInOk returns a tuple with the ExpiresIn field value if set, nil otherwise
+// GetExpiresAtOk returns a tuple with the ExpiresAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ShareCreateIn) GetExpiresInOk() (*int32, bool) {
+func (o *ShareCreateIn) GetExpiresAtOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.ExpiresIn.Get(), o.ExpiresIn.IsSet()
+	return o.ExpiresAt.Get(), o.ExpiresAt.IsSet()
 }
 
-// HasExpiresIn returns a boolean if a field has been set.
-func (o *ShareCreateIn) HasExpiresIn() bool {
-	if o != nil && o.ExpiresIn.IsSet() {
+// HasExpiresAt returns a boolean if a field has been set.
+func (o *ShareCreateIn) HasExpiresAt() bool {
+	if o != nil && o.ExpiresAt.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetExpiresIn gets a reference to the given NullableInt32 and assigns it to the ExpiresIn field.
-func (o *ShareCreateIn) SetExpiresIn(v int32) {
-	o.ExpiresIn.Set(&v)
+// SetExpiresAt gets a reference to the given NullableTime and assigns it to the ExpiresAt field.
+func (o *ShareCreateIn) SetExpiresAt(v time.Time) {
+	o.ExpiresAt.Set(&v)
 }
-// SetExpiresInNil sets the value for ExpiresIn to be an explicit nil
-func (o *ShareCreateIn) SetExpiresInNil() {
-	o.ExpiresIn.Set(nil)
-}
-
-// UnsetExpiresIn ensures that no value is present for ExpiresIn, not even an explicit nil
-func (o *ShareCreateIn) UnsetExpiresIn() {
-	o.ExpiresIn.Unset()
+// SetExpiresAtNil sets the value for ExpiresAt to be an explicit nil
+func (o *ShareCreateIn) SetExpiresAtNil() {
+	o.ExpiresAt.Set(nil)
 }
 
-// GetPassword returns the Password field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ShareCreateIn) GetPassword() string {
-	if o == nil || IsNil(o.Password.Get()) {
-		var ret string
-		return ret
-	}
-	return *o.Password.Get()
+// UnsetExpiresAt ensures that no value is present for ExpiresAt, not even an explicit nil
+func (o *ShareCreateIn) UnsetExpiresAt() {
+	o.ExpiresAt.Unset()
 }
 
-// GetPasswordOk returns a tuple with the Password field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ShareCreateIn) GetPasswordOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.Password.Get(), o.Password.IsSet()
-}
-
-// HasPassword returns a boolean if a field has been set.
-func (o *ShareCreateIn) HasPassword() bool {
-	if o != nil && o.Password.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetPassword gets a reference to the given NullableString and assigns it to the Password field.
-func (o *ShareCreateIn) SetPassword(v string) {
-	o.Password.Set(&v)
-}
-// SetPasswordNil sets the value for Password to be an explicit nil
-func (o *ShareCreateIn) SetPasswordNil() {
-	o.Password.Set(nil)
-}
-
-// UnsetPassword ensures that no value is present for Password, not even an explicit nil
-func (o *ShareCreateIn) UnsetPassword() {
-	o.Password.Unset()
-}
-
-// GetResource returns the Resource field value
-func (o *ShareCreateIn) GetResource() string {
+// GetResourceId returns the ResourceId field value
+func (o *ShareCreateIn) GetResourceId() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.Resource
+	return o.ResourceId
 }
 
-// GetResourceOk returns a tuple with the Resource field value
+// GetResourceIdOk returns a tuple with the ResourceId field value
 // and a boolean to check if the value has been set.
-func (o *ShareCreateIn) GetResourceOk() (*string, bool) {
+func (o *ShareCreateIn) GetResourceIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Resource, true
+	return &o.ResourceId, true
 }
 
-// SetResource sets field value
-func (o *ShareCreateIn) SetResource(v string) {
-	o.Resource = v
+// SetResourceId sets field value
+func (o *ShareCreateIn) SetResourceId(v string) {
+	o.ResourceId = v
 }
 
-// GetRole returns the Role field value if set, zero value otherwise.
-func (o *ShareCreateIn) GetRole() string {
-	if o == nil || IsNil(o.Role) {
+// GetResourceType returns the ResourceType field value
+func (o *ShareCreateIn) GetResourceType() string {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Role
+
+	return o.ResourceType
 }
 
-// GetRoleOk returns a tuple with the Role field value if set, nil otherwise
+// GetResourceTypeOk returns a tuple with the ResourceType field value
 // and a boolean to check if the value has been set.
-func (o *ShareCreateIn) GetRoleOk() (*string, bool) {
-	if o == nil || IsNil(o.Role) {
+func (o *ShareCreateIn) GetResourceTypeOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Role, true
+	return &o.ResourceType, true
 }
 
-// HasRole returns a boolean if a field has been set.
-func (o *ShareCreateIn) HasRole() bool {
-	if o != nil && !IsNil(o.Role) {
-		return true
-	}
-
-	return false
-}
-
-// SetRole gets a reference to the given string and assigns it to the Role field.
-func (o *ShareCreateIn) SetRole(v string) {
-	o.Role = &v
+// SetResourceType sets field value
+func (o *ShareCreateIn) SetResourceType(v string) {
+	o.ResourceType = v
 }
 
 func (o ShareCreateIn) MarshalJSON() ([]byte, error) {
@@ -201,16 +148,11 @@ func (o ShareCreateIn) MarshalJSON() ([]byte, error) {
 
 func (o ShareCreateIn) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.ExpiresIn.IsSet() {
-		toSerialize["expires_in"] = o.ExpiresIn.Get()
+	if o.ExpiresAt.IsSet() {
+		toSerialize["expires_at"] = o.ExpiresAt.Get()
 	}
-	if o.Password.IsSet() {
-		toSerialize["password"] = o.Password.Get()
-	}
-	toSerialize["resource"] = o.Resource
-	if !IsNil(o.Role) {
-		toSerialize["role"] = o.Role
-	}
+	toSerialize["resource_id"] = o.ResourceId
+	toSerialize["resource_type"] = o.ResourceType
 	return toSerialize, nil
 }
 
@@ -219,7 +161,8 @@ func (o *ShareCreateIn) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"resource",
+		"resource_id",
+		"resource_type",
 	}
 
 	allProperties := make(map[string]interface{})

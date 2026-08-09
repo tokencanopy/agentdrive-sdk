@@ -1,7 +1,7 @@
 /*
 AgentDrive
 
-AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
 
 API version: <PINNED>
 */
@@ -20,21 +20,20 @@ import (
 // checks if the GrantOut type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GrantOut{}
 
-// GrantOut A live grant. Audit fields (`granted_by_*`, `on_behalf_of`) are surfaced so a manager can see who shared what.
+// GrantOut struct for GrantOut
 type GrantOut struct {
-	ArtifactsAffected NullableInt32 `json:"artifacts_affected,omitempty"`
 	CreatedAt time.Time `json:"created_at"`
-	ExpiresAt NullableTime `json:"expires_at,omitempty"`
-	GrantedById string `json:"granted_by_id"`
-	GrantedByType string `json:"granted_by_type"`
-	Id string `json:"id"`
-	OnBehalfOf NullableString `json:"on_behalf_of,omitempty"`
-	PrincipalEmail NullableString `json:"principal_email,omitempty"`
-	PrincipalId NullableString `json:"principal_id,omitempty"`
+	DriveId string `json:"drive_id" validate:"regexp=^drv_[a-f0-9]{16}$"`
+	ExpiresAt NullableTime `json:"expires_at"`
+	Id string `json:"id" validate:"regexp=^grn_[a-f0-9]{16}$"`
+	PrincipalId NullableString `json:"principal_id"`
 	PrincipalType string `json:"principal_type"`
 	ResourceId string `json:"resource_id"`
 	ResourceType string `json:"resource_type"`
+	Revision string `json:"revision" validate:"regexp=^rev_[a-f0-9]{16}$"`
+	RevokedAt NullableTime `json:"revoked_at"`
 	Role string `json:"role"`
+	State string `json:"state"`
 }
 
 type _GrantOut GrantOut
@@ -43,16 +42,20 @@ type _GrantOut GrantOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGrantOut(createdAt time.Time, grantedById string, grantedByType string, id string, principalType string, resourceId string, resourceType string, role string) *GrantOut {
+func NewGrantOut(createdAt time.Time, driveId string, expiresAt NullableTime, id string, principalId NullableString, principalType string, resourceId string, resourceType string, revision string, revokedAt NullableTime, role string, state string) *GrantOut {
 	this := GrantOut{}
 	this.CreatedAt = createdAt
-	this.GrantedById = grantedById
-	this.GrantedByType = grantedByType
+	this.DriveId = driveId
+	this.ExpiresAt = expiresAt
 	this.Id = id
+	this.PrincipalId = principalId
 	this.PrincipalType = principalType
 	this.ResourceId = resourceId
 	this.ResourceType = resourceType
+	this.Revision = revision
+	this.RevokedAt = revokedAt
 	this.Role = role
+	this.State = state
 	return &this
 }
 
@@ -62,48 +65,6 @@ func NewGrantOut(createdAt time.Time, grantedById string, grantedByType string, 
 func NewGrantOutWithDefaults() *GrantOut {
 	this := GrantOut{}
 	return &this
-}
-
-// GetArtifactsAffected returns the ArtifactsAffected field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GrantOut) GetArtifactsAffected() int32 {
-	if o == nil || IsNil(o.ArtifactsAffected.Get()) {
-		var ret int32
-		return ret
-	}
-	return *o.ArtifactsAffected.Get()
-}
-
-// GetArtifactsAffectedOk returns a tuple with the ArtifactsAffected field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GrantOut) GetArtifactsAffectedOk() (*int32, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.ArtifactsAffected.Get(), o.ArtifactsAffected.IsSet()
-}
-
-// HasArtifactsAffected returns a boolean if a field has been set.
-func (o *GrantOut) HasArtifactsAffected() bool {
-	if o != nil && o.ArtifactsAffected.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetArtifactsAffected gets a reference to the given NullableInt32 and assigns it to the ArtifactsAffected field.
-func (o *GrantOut) SetArtifactsAffected(v int32) {
-	o.ArtifactsAffected.Set(&v)
-}
-// SetArtifactsAffectedNil sets the value for ArtifactsAffected to be an explicit nil
-func (o *GrantOut) SetArtifactsAffectedNil() {
-	o.ArtifactsAffected.Set(nil)
-}
-
-// UnsetArtifactsAffected ensures that no value is present for ArtifactsAffected, not even an explicit nil
-func (o *GrantOut) UnsetArtifactsAffected() {
-	o.ArtifactsAffected.Unset()
 }
 
 // GetCreatedAt returns the CreatedAt field value
@@ -130,16 +91,42 @@ func (o *GrantOut) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
-// GetExpiresAt returns the ExpiresAt field value if set, zero value otherwise (both if not set or set to explicit null).
+// GetDriveId returns the DriveId field value
+func (o *GrantOut) GetDriveId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.DriveId
+}
+
+// GetDriveIdOk returns a tuple with the DriveId field value
+// and a boolean to check if the value has been set.
+func (o *GrantOut) GetDriveIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.DriveId, true
+}
+
+// SetDriveId sets field value
+func (o *GrantOut) SetDriveId(v string) {
+	o.DriveId = v
+}
+
+// GetExpiresAt returns the ExpiresAt field value
+// If the value is explicit nil, the zero value for time.Time will be returned
 func (o *GrantOut) GetExpiresAt() time.Time {
-	if o == nil || IsNil(o.ExpiresAt.Get()) {
+	if o == nil || o.ExpiresAt.Get() == nil {
 		var ret time.Time
 		return ret
 	}
+
 	return *o.ExpiresAt.Get()
 }
 
-// GetExpiresAtOk returns a tuple with the ExpiresAt field value if set, nil otherwise
+// GetExpiresAtOk returns a tuple with the ExpiresAt field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *GrantOut) GetExpiresAtOk() (*time.Time, bool) {
@@ -149,75 +136,9 @@ func (o *GrantOut) GetExpiresAtOk() (*time.Time, bool) {
 	return o.ExpiresAt.Get(), o.ExpiresAt.IsSet()
 }
 
-// HasExpiresAt returns a boolean if a field has been set.
-func (o *GrantOut) HasExpiresAt() bool {
-	if o != nil && o.ExpiresAt.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetExpiresAt gets a reference to the given NullableTime and assigns it to the ExpiresAt field.
+// SetExpiresAt sets field value
 func (o *GrantOut) SetExpiresAt(v time.Time) {
 	o.ExpiresAt.Set(&v)
-}
-// SetExpiresAtNil sets the value for ExpiresAt to be an explicit nil
-func (o *GrantOut) SetExpiresAtNil() {
-	o.ExpiresAt.Set(nil)
-}
-
-// UnsetExpiresAt ensures that no value is present for ExpiresAt, not even an explicit nil
-func (o *GrantOut) UnsetExpiresAt() {
-	o.ExpiresAt.Unset()
-}
-
-// GetGrantedById returns the GrantedById field value
-func (o *GrantOut) GetGrantedById() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.GrantedById
-}
-
-// GetGrantedByIdOk returns a tuple with the GrantedById field value
-// and a boolean to check if the value has been set.
-func (o *GrantOut) GetGrantedByIdOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.GrantedById, true
-}
-
-// SetGrantedById sets field value
-func (o *GrantOut) SetGrantedById(v string) {
-	o.GrantedById = v
-}
-
-// GetGrantedByType returns the GrantedByType field value
-func (o *GrantOut) GetGrantedByType() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.GrantedByType
-}
-
-// GetGrantedByTypeOk returns a tuple with the GrantedByType field value
-// and a boolean to check if the value has been set.
-func (o *GrantOut) GetGrantedByTypeOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.GrantedByType, true
-}
-
-// SetGrantedByType sets field value
-func (o *GrantOut) SetGrantedByType(v string) {
-	o.GrantedByType = v
 }
 
 // GetId returns the Id field value
@@ -244,100 +165,18 @@ func (o *GrantOut) SetId(v string) {
 	o.Id = v
 }
 
-// GetOnBehalfOf returns the OnBehalfOf field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GrantOut) GetOnBehalfOf() string {
-	if o == nil || IsNil(o.OnBehalfOf.Get()) {
-		var ret string
-		return ret
-	}
-	return *o.OnBehalfOf.Get()
-}
-
-// GetOnBehalfOfOk returns a tuple with the OnBehalfOf field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GrantOut) GetOnBehalfOfOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.OnBehalfOf.Get(), o.OnBehalfOf.IsSet()
-}
-
-// HasOnBehalfOf returns a boolean if a field has been set.
-func (o *GrantOut) HasOnBehalfOf() bool {
-	if o != nil && o.OnBehalfOf.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetOnBehalfOf gets a reference to the given NullableString and assigns it to the OnBehalfOf field.
-func (o *GrantOut) SetOnBehalfOf(v string) {
-	o.OnBehalfOf.Set(&v)
-}
-// SetOnBehalfOfNil sets the value for OnBehalfOf to be an explicit nil
-func (o *GrantOut) SetOnBehalfOfNil() {
-	o.OnBehalfOf.Set(nil)
-}
-
-// UnsetOnBehalfOf ensures that no value is present for OnBehalfOf, not even an explicit nil
-func (o *GrantOut) UnsetOnBehalfOf() {
-	o.OnBehalfOf.Unset()
-}
-
-// GetPrincipalEmail returns the PrincipalEmail field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GrantOut) GetPrincipalEmail() string {
-	if o == nil || IsNil(o.PrincipalEmail.Get()) {
-		var ret string
-		return ret
-	}
-	return *o.PrincipalEmail.Get()
-}
-
-// GetPrincipalEmailOk returns a tuple with the PrincipalEmail field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GrantOut) GetPrincipalEmailOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.PrincipalEmail.Get(), o.PrincipalEmail.IsSet()
-}
-
-// HasPrincipalEmail returns a boolean if a field has been set.
-func (o *GrantOut) HasPrincipalEmail() bool {
-	if o != nil && o.PrincipalEmail.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetPrincipalEmail gets a reference to the given NullableString and assigns it to the PrincipalEmail field.
-func (o *GrantOut) SetPrincipalEmail(v string) {
-	o.PrincipalEmail.Set(&v)
-}
-// SetPrincipalEmailNil sets the value for PrincipalEmail to be an explicit nil
-func (o *GrantOut) SetPrincipalEmailNil() {
-	o.PrincipalEmail.Set(nil)
-}
-
-// UnsetPrincipalEmail ensures that no value is present for PrincipalEmail, not even an explicit nil
-func (o *GrantOut) UnsetPrincipalEmail() {
-	o.PrincipalEmail.Unset()
-}
-
-// GetPrincipalId returns the PrincipalId field value if set, zero value otherwise (both if not set or set to explicit null).
+// GetPrincipalId returns the PrincipalId field value
+// If the value is explicit nil, the zero value for string will be returned
 func (o *GrantOut) GetPrincipalId() string {
-	if o == nil || IsNil(o.PrincipalId.Get()) {
+	if o == nil || o.PrincipalId.Get() == nil {
 		var ret string
 		return ret
 	}
+
 	return *o.PrincipalId.Get()
 }
 
-// GetPrincipalIdOk returns a tuple with the PrincipalId field value if set, nil otherwise
+// GetPrincipalIdOk returns a tuple with the PrincipalId field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *GrantOut) GetPrincipalIdOk() (*string, bool) {
@@ -347,27 +186,9 @@ func (o *GrantOut) GetPrincipalIdOk() (*string, bool) {
 	return o.PrincipalId.Get(), o.PrincipalId.IsSet()
 }
 
-// HasPrincipalId returns a boolean if a field has been set.
-func (o *GrantOut) HasPrincipalId() bool {
-	if o != nil && o.PrincipalId.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetPrincipalId gets a reference to the given NullableString and assigns it to the PrincipalId field.
+// SetPrincipalId sets field value
 func (o *GrantOut) SetPrincipalId(v string) {
 	o.PrincipalId.Set(&v)
-}
-// SetPrincipalIdNil sets the value for PrincipalId to be an explicit nil
-func (o *GrantOut) SetPrincipalIdNil() {
-	o.PrincipalId.Set(nil)
-}
-
-// UnsetPrincipalId ensures that no value is present for PrincipalId, not even an explicit nil
-func (o *GrantOut) UnsetPrincipalId() {
-	o.PrincipalId.Unset()
 }
 
 // GetPrincipalType returns the PrincipalType field value
@@ -442,6 +263,56 @@ func (o *GrantOut) SetResourceType(v string) {
 	o.ResourceType = v
 }
 
+// GetRevision returns the Revision field value
+func (o *GrantOut) GetRevision() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Revision
+}
+
+// GetRevisionOk returns a tuple with the Revision field value
+// and a boolean to check if the value has been set.
+func (o *GrantOut) GetRevisionOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Revision, true
+}
+
+// SetRevision sets field value
+func (o *GrantOut) SetRevision(v string) {
+	o.Revision = v
+}
+
+// GetRevokedAt returns the RevokedAt field value
+// If the value is explicit nil, the zero value for time.Time will be returned
+func (o *GrantOut) GetRevokedAt() time.Time {
+	if o == nil || o.RevokedAt.Get() == nil {
+		var ret time.Time
+		return ret
+	}
+
+	return *o.RevokedAt.Get()
+}
+
+// GetRevokedAtOk returns a tuple with the RevokedAt field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *GrantOut) GetRevokedAtOk() (*time.Time, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.RevokedAt.Get(), o.RevokedAt.IsSet()
+}
+
+// SetRevokedAt sets field value
+func (o *GrantOut) SetRevokedAt(v time.Time) {
+	o.RevokedAt.Set(&v)
+}
+
 // GetRole returns the Role field value
 func (o *GrantOut) GetRole() string {
 	if o == nil {
@@ -466,6 +337,30 @@ func (o *GrantOut) SetRole(v string) {
 	o.Role = v
 }
 
+// GetState returns the State field value
+func (o *GrantOut) GetState() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.State
+}
+
+// GetStateOk returns a tuple with the State field value
+// and a boolean to check if the value has been set.
+func (o *GrantOut) GetStateOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.State, true
+}
+
+// SetState sets field value
+func (o *GrantOut) SetState(v string) {
+	o.State = v
+}
+
 func (o GrantOut) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -476,29 +371,18 @@ func (o GrantOut) MarshalJSON() ([]byte, error) {
 
 func (o GrantOut) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.ArtifactsAffected.IsSet() {
-		toSerialize["artifacts_affected"] = o.ArtifactsAffected.Get()
-	}
 	toSerialize["created_at"] = o.CreatedAt
-	if o.ExpiresAt.IsSet() {
-		toSerialize["expires_at"] = o.ExpiresAt.Get()
-	}
-	toSerialize["granted_by_id"] = o.GrantedById
-	toSerialize["granted_by_type"] = o.GrantedByType
+	toSerialize["drive_id"] = o.DriveId
+	toSerialize["expires_at"] = o.ExpiresAt.Get()
 	toSerialize["id"] = o.Id
-	if o.OnBehalfOf.IsSet() {
-		toSerialize["on_behalf_of"] = o.OnBehalfOf.Get()
-	}
-	if o.PrincipalEmail.IsSet() {
-		toSerialize["principal_email"] = o.PrincipalEmail.Get()
-	}
-	if o.PrincipalId.IsSet() {
-		toSerialize["principal_id"] = o.PrincipalId.Get()
-	}
+	toSerialize["principal_id"] = o.PrincipalId.Get()
 	toSerialize["principal_type"] = o.PrincipalType
 	toSerialize["resource_id"] = o.ResourceId
 	toSerialize["resource_type"] = o.ResourceType
+	toSerialize["revision"] = o.Revision
+	toSerialize["revoked_at"] = o.RevokedAt.Get()
 	toSerialize["role"] = o.Role
+	toSerialize["state"] = o.State
 	return toSerialize, nil
 }
 
@@ -508,13 +392,17 @@ func (o *GrantOut) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"created_at",
-		"granted_by_id",
-		"granted_by_type",
+		"drive_id",
+		"expires_at",
 		"id",
+		"principal_id",
 		"principal_type",
 		"resource_id",
 		"resource_type",
+		"revision",
+		"revoked_at",
 		"role",
+		"state",
 	}
 
 	allProperties := make(map[string]interface{})

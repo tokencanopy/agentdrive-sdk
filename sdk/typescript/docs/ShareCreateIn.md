@@ -1,16 +1,15 @@
 
 # ShareCreateIn
 
-POST /v0/shares body. `resource` is an `art_*`/`fld_*` id or a path. `expires_in` is seconds from now (omit for the default: none for a human creator, a short TTL for an agent). `password` (optional) gates redemption.
+POST /v0/drives/{id}/shares body.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`expiresIn` | number
-`password` | string
-`resource` | string
-`role` | string
+`expiresAt` | Date
+`resourceId` | string
+`resourceType` | string
 
 ## Example
 
@@ -19,10 +18,9 @@ import type { ShareCreateIn } from '@mnexa-ai/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "expiresIn": null,
-  "password": null,
-  "resource": null,
-  "role": null,
+  "expiresAt": null,
+  "resourceId": null,
+  "resourceType": null,
 } satisfies ShareCreateIn
 
 console.log(example)

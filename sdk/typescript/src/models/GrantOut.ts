@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: <PINNED>
  *
@@ -14,18 +14,11 @@
 
 import { mapValues } from '../runtime';
 /**
- * A live grant. Audit fields (`granted_by_*`, `on_behalf_of`) are
- * surfaced so a manager can see who shared what.
+ *
  * @export
  * @interface GrantOut
  */
 export interface GrantOut {
-    /**
-     *
-     * @type {number}
-     * @memberof GrantOut
-     */
-    artifactsAffected?: number | null;
     /**
      *
      * @type {Date}
@@ -34,22 +27,16 @@ export interface GrantOut {
     createdAt: Date;
     /**
      *
+     * @type {string}
+     * @memberof GrantOut
+     */
+    driveId: string;
+    /**
+     *
      * @type {Date}
      * @memberof GrantOut
      */
-    expiresAt?: Date | null;
-    /**
-     *
-     * @type {string}
-     * @memberof GrantOut
-     */
-    grantedById: string;
-    /**
-     *
-     * @type {string}
-     * @memberof GrantOut
-     */
-    grantedByType: string;
+    expiresAt: Date | null;
     /**
      *
      * @type {string}
@@ -61,19 +48,7 @@ export interface GrantOut {
      * @type {string}
      * @memberof GrantOut
      */
-    onBehalfOf?: string | null;
-    /**
-     *
-     * @type {string}
-     * @memberof GrantOut
-     */
-    principalEmail?: string | null;
-    /**
-     *
-     * @type {string}
-     * @memberof GrantOut
-     */
-    principalId?: string | null;
+    principalId: string | null;
     /**
      *
      * @type {GrantOutPrincipalTypeEnum}
@@ -94,10 +69,28 @@ export interface GrantOut {
     resourceType: GrantOutResourceTypeEnum;
     /**
      *
+     * @type {string}
+     * @memberof GrantOut
+     */
+    revision: string;
+    /**
+     *
+     * @type {Date}
+     * @memberof GrantOut
+     */
+    revokedAt: Date | null;
+    /**
+     *
      * @type {GrantOutRoleEnum}
      * @memberof GrantOut
      */
     role: GrantOutRoleEnum;
+    /**
+     *
+     * @type {GrantOutStateEnum}
+     * @memberof GrantOut
+     */
+    state: GrantOutStateEnum;
 }
 
 
@@ -105,10 +98,10 @@ export interface GrantOut {
  * @export
  */
 export const GrantOutPrincipalTypeEnum = {
-    User: 'user',
     Agent: 'agent',
-    Org: 'org',
-    Anyone: 'anyone'
+    User: 'user',
+    Workspace: 'workspace',
+    Public: 'public'
 } as const;
 export type GrantOutPrincipalTypeEnum = typeof GrantOutPrincipalTypeEnum[keyof typeof GrantOutPrincipalTypeEnum];
 
@@ -116,8 +109,9 @@ export type GrantOutPrincipalTypeEnum = typeof GrantOutPrincipalTypeEnum[keyof t
  * @export
  */
 export const GrantOutResourceTypeEnum = {
-    Artifact: 'artifact',
-    Folder: 'folder'
+    Drive: 'drive',
+    Folder: 'folder',
+    Artifact: 'artifact'
 } as const;
 export type GrantOutResourceTypeEnum = typeof GrantOutResourceTypeEnum[keyof typeof GrantOutResourceTypeEnum];
 
@@ -126,11 +120,20 @@ export type GrantOutResourceTypeEnum = typeof GrantOutResourceTypeEnum[keyof typ
  */
 export const GrantOutRoleEnum = {
     Viewer: 'viewer',
-    Commenter: 'commenter',
     Editor: 'editor',
     Manager: 'manager'
 } as const;
 export type GrantOutRoleEnum = typeof GrantOutRoleEnum[keyof typeof GrantOutRoleEnum];
+
+/**
+ * @export
+ */
+export const GrantOutStateEnum = {
+    Active: 'active',
+    Revoked: 'revoked',
+    Expired: 'expired'
+} as const;
+export type GrantOutStateEnum = typeof GrantOutStateEnum[keyof typeof GrantOutStateEnum];
 
 
 /**
@@ -138,13 +141,17 @@ export type GrantOutRoleEnum = typeof GrantOutRoleEnum[keyof typeof GrantOutRole
  */
 export function instanceOfGrantOut(value: object): value is GrantOut {
     if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
-    if ((!('grantedById' in (value as Record<string, any>)) && !('granted_by_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['grantedById'] === undefined && (value as Record<string, any>)['granted_by_id'] === undefined)) return false;
-    if ((!('grantedByType' in (value as Record<string, any>)) && !('granted_by_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['grantedByType'] === undefined && (value as Record<string, any>)['granted_by_type'] === undefined)) return false;
+    if ((!('driveId' in (value as Record<string, any>)) && !('drive_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['driveId'] === undefined && (value as Record<string, any>)['drive_id'] === undefined)) return false;
+    if ((!('expiresAt' in (value as Record<string, any>)) && !('expires_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['expiresAt'] === undefined && (value as Record<string, any>)['expires_at'] === undefined)) return false;
     if (!('id' in value) || value['id'] === undefined) return false;
+    if ((!('principalId' in (value as Record<string, any>)) && !('principal_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['principalId'] === undefined && (value as Record<string, any>)['principal_id'] === undefined)) return false;
     if ((!('principalType' in (value as Record<string, any>)) && !('principal_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['principalType'] === undefined && (value as Record<string, any>)['principal_type'] === undefined)) return false;
     if ((!('resourceId' in (value as Record<string, any>)) && !('resource_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['resourceId'] === undefined && (value as Record<string, any>)['resource_id'] === undefined)) return false;
     if ((!('resourceType' in (value as Record<string, any>)) && !('resource_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['resourceType'] === undefined && (value as Record<string, any>)['resource_type'] === undefined)) return false;
+    if (!('revision' in value) || value['revision'] === undefined) return false;
+    if ((!('revokedAt' in (value as Record<string, any>)) && !('revoked_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['revokedAt'] === undefined && (value as Record<string, any>)['revoked_at'] === undefined)) return false;
     if (!('role' in value) || value['role'] === undefined) return false;
+    if (!('state' in value) || value['state'] === undefined) return false;
     return true;
 }
 
@@ -158,19 +165,18 @@ export function GrantOutFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
 
-        'artifactsAffected': json['artifacts_affected'] === undefined ? undefined : json['artifacts_affected'] === null ? null : json['artifacts_affected'],
         'createdAt': (new Date(json['created_at'])),
-        'expiresAt': json['expires_at'] === undefined ? undefined : json['expires_at'] === null ? null : (new Date(json['expires_at'])),
-        'grantedById': json['granted_by_id'],
-        'grantedByType': json['granted_by_type'],
+        'driveId': json['drive_id'],
+        'expiresAt': (json['expires_at'] == null ? null : new Date(json['expires_at'])),
         'id': json['id'],
-        'onBehalfOf': json['on_behalf_of'] === undefined ? undefined : json['on_behalf_of'] === null ? null : json['on_behalf_of'],
-        'principalEmail': json['principal_email'] === undefined ? undefined : json['principal_email'] === null ? null : json['principal_email'],
-        'principalId': json['principal_id'] === undefined ? undefined : json['principal_id'] === null ? null : json['principal_id'],
+        'principalId': json['principal_id'],
         'principalType': json['principal_type'],
         'resourceId': json['resource_id'],
         'resourceType': json['resource_type'],
+        'revision': json['revision'],
+        'revokedAt': (json['revoked_at'] == null ? null : new Date(json['revoked_at'])),
         'role': json['role'],
+        'state': json['state'],
     };
 }
 
@@ -185,18 +191,17 @@ export function GrantOutToJSONTyped(value?: GrantOut | null, ignoreDiscriminator
 
     return {
 
-        'artifacts_affected': value['artifactsAffected'],
         'created_at': value['createdAt'].toISOString(),
+        'drive_id': value['driveId'],
         'expires_at': value['expiresAt'] == null ? value['expiresAt'] : value['expiresAt'].toISOString(),
-        'granted_by_id': value['grantedById'],
-        'granted_by_type': value['grantedByType'],
         'id': value['id'],
-        'on_behalf_of': value['onBehalfOf'],
-        'principal_email': value['principalEmail'],
         'principal_id': value['principalId'],
         'principal_type': value['principalType'],
         'resource_id': value['resourceId'],
         'resource_type': value['resourceType'],
+        'revision': value['revision'],
+        'revoked_at': value['revokedAt'] == null ? value['revokedAt'] : value['revokedAt'].toISOString(),
         'role': value['role'],
+        'state': value['state'],
     };
 }

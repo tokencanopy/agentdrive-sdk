@@ -1,0 +1,96 @@
+name: SDK acceptance
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Test contract workflow helpers
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Verify contract provenance and generator pin
+        run: python3 -m scripts.check_contract_provenance
+
+      - name: Check OpenAPI backward compatibility
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BASE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          BASE_SHA="${PR_BASE_SHA:-${PUSH_BASE_SHA:-}}"
+          if [ -z "$BASE_SHA" ] || [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ]; then
+            BASE_SHA="$(git rev-parse HEAD^)"
+          fi
+          python3 scripts/check_openapi_compatibility.py \
+            --base "${BASE_SHA}:sdk/openapi.json"
+
+      - name: Regenerate with pinned OpenAPI Generator
+        run: bash scripts/generate-sdks.sh sdk/openapi.json
+
+      - name: Check generated-code freshness
+        run: bash scripts/check-generated-freshness.sh
+
+      - name: Check generated operation coverage
+        run: python3 scripts/check_operation_coverage.py
+
+      - name: Check exact generated Python contract shape
+        run: |
+          python3 scripts/check_python_generated_contract.py
+          python3 scripts/postprocess_python_models.py --check
+          python3 scripts/generate_python_contract_manifest.py --check
+
+      - name: Check generated Python API reference
+        run: python3 scripts/generate_python_api_reference.py --check
+
+  python:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Python SDK and test dependencies
+        run: python -m pip install -e 'sdk/python[dev]'
+      - name: Test generated-client conformance and model policy
+        run: python -m pytest sdk/python/tests quality/python -q
+      - name: Build Python distributions
+        run: python -m build sdk/python
+
+  typescript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: sdk/typescript/package-lock.json
+      - run: npm ci
+        working-directory: sdk/typescript
+      - run: npm run build
+        working-directory: sdk/typescript
+
+  go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: sdk/go/go.mod
+          cache-dependency-path: sdk/go/go.sum
+      - run: go test ./...
+        working-directory: sdk/go
