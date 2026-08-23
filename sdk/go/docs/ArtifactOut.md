@@ -4,32 +4,27 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ContentType** | **string** |  |
+**ContentPreview** | **NullableString** |  |
+**ContentType** | **NullableString** |  |
 **CreatedAt** | **time.Time** |  |
+**DeletedAt** | **NullableTime** |  |
 **DriveId** | **string** |  |
-**EmbeddedAt** | Pointer to **NullableTime** |  | [optional]
-**Etag** | **string** |  |
-**FileType** | **string** |  |
-**Hash** | **string** |  |
+**EffectiveVisibility** | **string** | Server-computed exposure summary, resolved over the artifact&#39;s live grants, its whole folder ancestry, and the drive. &#39;public&#39; when any live grant has principal_type &#39;public&#39;; otherwise &#39;shared&#39; when a live grant names a principal other than the drive&#39;s creator; otherwise &#39;private&#39;. Describes exposure, NOT the caller&#39;s own access. |
+**HeadVersionId** | **NullableString** |  |
 **Id** | **string** |  |
-**IndexedAt** | Pointer to **NullableTime** |  | [optional]
-**Labels** | Pointer to **[]string** |  | [optional]
-**LlmIndex** | Pointer to **map[string]interface{}** |  | [optional]
-**Metadata** | Pointer to **map[string]interface{}** |  | [optional]
-**Metageneration** | Pointer to **int32** |  | [optional] [default to 1]
-**Path** | **string** |  |
-**Permalink** | **string** |  |
-**SizeBytes** | **int32** |  |
-**Source** | Pointer to [**NullableArtifactSource**](ArtifactSource.md) |  | [optional]
+**Labels** | **[]string** |  |
+**Metadata** | **map[string]interface{}** |  |
+**Name** | **string** |  |
+**ParentId** | **string** |  |
+**Revision** | **string** |  |
+**State** | **string** |  |
 **UpdatedAt** | **time.Time** |  |
-**Url** | **string** |  |
-**VersionNumber** | Pointer to **int32** |  | [optional] [default to 1]
 
 ## Methods
 
 ### NewArtifactOut
 
-`func NewArtifactOut(contentType string, createdAt time.Time, driveId string, etag string, fileType string, hash string, id string, path string, permalink string, sizeBytes int32, updatedAt time.Time, url string, ) *ArtifactOut`
+`func NewArtifactOut(contentPreview NullableString, contentType NullableString, createdAt time.Time, deletedAt NullableTime, driveId string, effectiveVisibility string, headVersionId NullableString, id string, labels []string, metadata map[string]interface{}, name string, parentId string, revision string, state string, updatedAt time.Time, ) *ArtifactOut`
 
 NewArtifactOut instantiates a new ArtifactOut object
 This constructor will assign default values to properties that have it defined,
@@ -44,6 +39,36 @@ NewArtifactOutWithDefaults instantiates a new ArtifactOut object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetContentPreview
+
+`func (o *ArtifactOut) GetContentPreview() string`
+
+GetContentPreview returns the ContentPreview field if non-nil, zero value otherwise.
+
+### GetContentPreviewOk
+
+`func (o *ArtifactOut) GetContentPreviewOk() (*string, bool)`
+
+GetContentPreviewOk returns a tuple with the ContentPreview field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetContentPreview
+
+`func (o *ArtifactOut) SetContentPreview(v string)`
+
+SetContentPreview sets ContentPreview field to given value.
+
+
+### SetContentPreviewNil
+
+`func (o *ArtifactOut) SetContentPreviewNil(b bool)`
+
+ SetContentPreviewNil sets the value for ContentPreview to be an explicit nil
+
+### UnsetContentPreview
+`func (o *ArtifactOut) UnsetContentPreview()`
+
+UnsetContentPreview ensures that no value is present for ContentPreview, not even an explicit nil
 ### GetContentType
 
 `func (o *ArtifactOut) GetContentType() string`
@@ -64,6 +89,16 @@ and a boolean to check if the value has been set.
 SetContentType sets ContentType field to given value.
 
 
+### SetContentTypeNil
+
+`func (o *ArtifactOut) SetContentTypeNil(b bool)`
+
+ SetContentTypeNil sets the value for ContentType to be an explicit nil
+
+### UnsetContentType
+`func (o *ArtifactOut) UnsetContentType()`
+
+UnsetContentType ensures that no value is present for ContentType, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *ArtifactOut) GetCreatedAt() time.Time`
@@ -84,6 +119,36 @@ and a boolean to check if the value has been set.
 SetCreatedAt sets CreatedAt field to given value.
 
 
+### GetDeletedAt
+
+`func (o *ArtifactOut) GetDeletedAt() time.Time`
+
+GetDeletedAt returns the DeletedAt field if non-nil, zero value otherwise.
+
+### GetDeletedAtOk
+
+`func (o *ArtifactOut) GetDeletedAtOk() (*time.Time, bool)`
+
+GetDeletedAtOk returns a tuple with the DeletedAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDeletedAt
+
+`func (o *ArtifactOut) SetDeletedAt(v time.Time)`
+
+SetDeletedAt sets DeletedAt field to given value.
+
+
+### SetDeletedAtNil
+
+`func (o *ArtifactOut) SetDeletedAtNil(b bool)`
+
+ SetDeletedAtNil sets the value for DeletedAt to be an explicit nil
+
+### UnsetDeletedAt
+`func (o *ArtifactOut) UnsetDeletedAt()`
+
+UnsetDeletedAt ensures that no value is present for DeletedAt, not even an explicit nil
 ### GetDriveId
 
 `func (o *ArtifactOut) GetDriveId() string`
@@ -104,101 +169,56 @@ and a boolean to check if the value has been set.
 SetDriveId sets DriveId field to given value.
 
 
-### GetEmbeddedAt
+### GetEffectiveVisibility
 
-`func (o *ArtifactOut) GetEmbeddedAt() time.Time`
+`func (o *ArtifactOut) GetEffectiveVisibility() string`
 
-GetEmbeddedAt returns the EmbeddedAt field if non-nil, zero value otherwise.
+GetEffectiveVisibility returns the EffectiveVisibility field if non-nil, zero value otherwise.
 
-### GetEmbeddedAtOk
+### GetEffectiveVisibilityOk
 
-`func (o *ArtifactOut) GetEmbeddedAtOk() (*time.Time, bool)`
+`func (o *ArtifactOut) GetEffectiveVisibilityOk() (*string, bool)`
 
-GetEmbeddedAtOk returns a tuple with the EmbeddedAt field if it's non-nil, zero value otherwise
+GetEffectiveVisibilityOk returns a tuple with the EffectiveVisibility field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetEmbeddedAt
+### SetEffectiveVisibility
 
-`func (o *ArtifactOut) SetEmbeddedAt(v time.Time)`
+`func (o *ArtifactOut) SetEffectiveVisibility(v string)`
 
-SetEmbeddedAt sets EmbeddedAt field to given value.
+SetEffectiveVisibility sets EffectiveVisibility field to given value.
 
-### HasEmbeddedAt
 
-`func (o *ArtifactOut) HasEmbeddedAt() bool`
+### GetHeadVersionId
 
-HasEmbeddedAt returns a boolean if a field has been set.
+`func (o *ArtifactOut) GetHeadVersionId() string`
 
-### SetEmbeddedAtNil
+GetHeadVersionId returns the HeadVersionId field if non-nil, zero value otherwise.
 
-`func (o *ArtifactOut) SetEmbeddedAtNil(b bool)`
+### GetHeadVersionIdOk
 
- SetEmbeddedAtNil sets the value for EmbeddedAt to be an explicit nil
+`func (o *ArtifactOut) GetHeadVersionIdOk() (*string, bool)`
 
-### UnsetEmbeddedAt
-`func (o *ArtifactOut) UnsetEmbeddedAt()`
-
-UnsetEmbeddedAt ensures that no value is present for EmbeddedAt, not even an explicit nil
-### GetEtag
-
-`func (o *ArtifactOut) GetEtag() string`
-
-GetEtag returns the Etag field if non-nil, zero value otherwise.
-
-### GetEtagOk
-
-`func (o *ArtifactOut) GetEtagOk() (*string, bool)`
-
-GetEtagOk returns a tuple with the Etag field if it's non-nil, zero value otherwise
+GetHeadVersionIdOk returns a tuple with the HeadVersionId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetEtag
+### SetHeadVersionId
 
-`func (o *ArtifactOut) SetEtag(v string)`
+`func (o *ArtifactOut) SetHeadVersionId(v string)`
 
-SetEtag sets Etag field to given value.
-
-
-### GetFileType
-
-`func (o *ArtifactOut) GetFileType() string`
-
-GetFileType returns the FileType field if non-nil, zero value otherwise.
-
-### GetFileTypeOk
-
-`func (o *ArtifactOut) GetFileTypeOk() (*string, bool)`
-
-GetFileTypeOk returns a tuple with the FileType field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetFileType
-
-`func (o *ArtifactOut) SetFileType(v string)`
-
-SetFileType sets FileType field to given value.
+SetHeadVersionId sets HeadVersionId field to given value.
 
 
-### GetHash
+### SetHeadVersionIdNil
 
-`func (o *ArtifactOut) GetHash() string`
+`func (o *ArtifactOut) SetHeadVersionIdNil(b bool)`
 
-GetHash returns the Hash field if non-nil, zero value otherwise.
+ SetHeadVersionIdNil sets the value for HeadVersionId to be an explicit nil
 
-### GetHashOk
+### UnsetHeadVersionId
+`func (o *ArtifactOut) UnsetHeadVersionId()`
 
-`func (o *ArtifactOut) GetHashOk() (*string, bool)`
-
-GetHashOk returns a tuple with the Hash field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetHash
-
-`func (o *ArtifactOut) SetHash(v string)`
-
-SetHash sets Hash field to given value.
-
-
+UnsetHeadVersionId ensures that no value is present for HeadVersionId, not even an explicit nil
 ### GetId
 
 `func (o *ArtifactOut) GetId() string`
@@ -219,41 +239,6 @@ and a boolean to check if the value has been set.
 SetId sets Id field to given value.
 
 
-### GetIndexedAt
-
-`func (o *ArtifactOut) GetIndexedAt() time.Time`
-
-GetIndexedAt returns the IndexedAt field if non-nil, zero value otherwise.
-
-### GetIndexedAtOk
-
-`func (o *ArtifactOut) GetIndexedAtOk() (*time.Time, bool)`
-
-GetIndexedAtOk returns a tuple with the IndexedAt field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetIndexedAt
-
-`func (o *ArtifactOut) SetIndexedAt(v time.Time)`
-
-SetIndexedAt sets IndexedAt field to given value.
-
-### HasIndexedAt
-
-`func (o *ArtifactOut) HasIndexedAt() bool`
-
-HasIndexedAt returns a boolean if a field has been set.
-
-### SetIndexedAtNil
-
-`func (o *ArtifactOut) SetIndexedAtNil(b bool)`
-
- SetIndexedAtNil sets the value for IndexedAt to be an explicit nil
-
-### UnsetIndexedAt
-`func (o *ArtifactOut) UnsetIndexedAt()`
-
-UnsetIndexedAt ensures that no value is present for IndexedAt, not even an explicit nil
 ### GetLabels
 
 `func (o *ArtifactOut) GetLabels() []string`
@@ -273,47 +258,7 @@ and a boolean to check if the value has been set.
 
 SetLabels sets Labels field to given value.
 
-### HasLabels
 
-`func (o *ArtifactOut) HasLabels() bool`
-
-HasLabels returns a boolean if a field has been set.
-
-### GetLlmIndex
-
-`func (o *ArtifactOut) GetLlmIndex() map[string]interface{}`
-
-GetLlmIndex returns the LlmIndex field if non-nil, zero value otherwise.
-
-### GetLlmIndexOk
-
-`func (o *ArtifactOut) GetLlmIndexOk() (*map[string]interface{}, bool)`
-
-GetLlmIndexOk returns a tuple with the LlmIndex field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetLlmIndex
-
-`func (o *ArtifactOut) SetLlmIndex(v map[string]interface{})`
-
-SetLlmIndex sets LlmIndex field to given value.
-
-### HasLlmIndex
-
-`func (o *ArtifactOut) HasLlmIndex() bool`
-
-HasLlmIndex returns a boolean if a field has been set.
-
-### SetLlmIndexNil
-
-`func (o *ArtifactOut) SetLlmIndexNil(b bool)`
-
- SetLlmIndexNil sets the value for LlmIndex to be an explicit nil
-
-### UnsetLlmIndex
-`func (o *ArtifactOut) UnsetLlmIndex()`
-
-UnsetLlmIndex ensures that no value is present for LlmIndex, not even an explicit nil
 ### GetMetadata
 
 `func (o *ArtifactOut) GetMetadata() map[string]interface{}`
@@ -333,132 +278,87 @@ and a boolean to check if the value has been set.
 
 SetMetadata sets Metadata field to given value.
 
-### HasMetadata
 
-`func (o *ArtifactOut) HasMetadata() bool`
+### GetName
 
-HasMetadata returns a boolean if a field has been set.
+`func (o *ArtifactOut) GetName() string`
 
-### GetMetageneration
+GetName returns the Name field if non-nil, zero value otherwise.
 
-`func (o *ArtifactOut) GetMetageneration() int32`
+### GetNameOk
 
-GetMetageneration returns the Metageneration field if non-nil, zero value otherwise.
+`func (o *ArtifactOut) GetNameOk() (*string, bool)`
 
-### GetMetagenerationOk
-
-`func (o *ArtifactOut) GetMetagenerationOk() (*int32, bool)`
-
-GetMetagenerationOk returns a tuple with the Metageneration field if it's non-nil, zero value otherwise
+GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetMetageneration
+### SetName
 
-`func (o *ArtifactOut) SetMetageneration(v int32)`
+`func (o *ArtifactOut) SetName(v string)`
 
-SetMetageneration sets Metageneration field to given value.
+SetName sets Name field to given value.
 
-### HasMetageneration
 
-`func (o *ArtifactOut) HasMetageneration() bool`
+### GetParentId
 
-HasMetageneration returns a boolean if a field has been set.
+`func (o *ArtifactOut) GetParentId() string`
 
-### GetPath
+GetParentId returns the ParentId field if non-nil, zero value otherwise.
 
-`func (o *ArtifactOut) GetPath() string`
+### GetParentIdOk
 
-GetPath returns the Path field if non-nil, zero value otherwise.
+`func (o *ArtifactOut) GetParentIdOk() (*string, bool)`
 
-### GetPathOk
-
-`func (o *ArtifactOut) GetPathOk() (*string, bool)`
-
-GetPathOk returns a tuple with the Path field if it's non-nil, zero value otherwise
+GetParentIdOk returns a tuple with the ParentId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetPath
+### SetParentId
 
-`func (o *ArtifactOut) SetPath(v string)`
+`func (o *ArtifactOut) SetParentId(v string)`
 
-SetPath sets Path field to given value.
+SetParentId sets ParentId field to given value.
 
 
-### GetPermalink
+### GetRevision
 
-`func (o *ArtifactOut) GetPermalink() string`
+`func (o *ArtifactOut) GetRevision() string`
 
-GetPermalink returns the Permalink field if non-nil, zero value otherwise.
+GetRevision returns the Revision field if non-nil, zero value otherwise.
 
-### GetPermalinkOk
+### GetRevisionOk
 
-`func (o *ArtifactOut) GetPermalinkOk() (*string, bool)`
+`func (o *ArtifactOut) GetRevisionOk() (*string, bool)`
 
-GetPermalinkOk returns a tuple with the Permalink field if it's non-nil, zero value otherwise
+GetRevisionOk returns a tuple with the Revision field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetPermalink
+### SetRevision
 
-`func (o *ArtifactOut) SetPermalink(v string)`
+`func (o *ArtifactOut) SetRevision(v string)`
 
-SetPermalink sets Permalink field to given value.
+SetRevision sets Revision field to given value.
 
 
-### GetSizeBytes
+### GetState
 
-`func (o *ArtifactOut) GetSizeBytes() int32`
+`func (o *ArtifactOut) GetState() string`
 
-GetSizeBytes returns the SizeBytes field if non-nil, zero value otherwise.
+GetState returns the State field if non-nil, zero value otherwise.
 
-### GetSizeBytesOk
+### GetStateOk
 
-`func (o *ArtifactOut) GetSizeBytesOk() (*int32, bool)`
+`func (o *ArtifactOut) GetStateOk() (*string, bool)`
 
-GetSizeBytesOk returns a tuple with the SizeBytes field if it's non-nil, zero value otherwise
+GetStateOk returns a tuple with the State field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetSizeBytes
+### SetState
 
-`func (o *ArtifactOut) SetSizeBytes(v int32)`
+`func (o *ArtifactOut) SetState(v string)`
 
-SetSizeBytes sets SizeBytes field to given value.
+SetState sets State field to given value.
 
 
-### GetSource
-
-`func (o *ArtifactOut) GetSource() ArtifactSource`
-
-GetSource returns the Source field if non-nil, zero value otherwise.
-
-### GetSourceOk
-
-`func (o *ArtifactOut) GetSourceOk() (*ArtifactSource, bool)`
-
-GetSourceOk returns a tuple with the Source field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetSource
-
-`func (o *ArtifactOut) SetSource(v ArtifactSource)`
-
-SetSource sets Source field to given value.
-
-### HasSource
-
-`func (o *ArtifactOut) HasSource() bool`
-
-HasSource returns a boolean if a field has been set.
-
-### SetSourceNil
-
-`func (o *ArtifactOut) SetSourceNil(b bool)`
-
- SetSourceNil sets the value for Source to be an explicit nil
-
-### UnsetSource
-`func (o *ArtifactOut) UnsetSource()`
-
-UnsetSource ensures that no value is present for Source, not even an explicit nil
 ### GetUpdatedAt
 
 `func (o *ArtifactOut) GetUpdatedAt() time.Time`
@@ -478,51 +378,6 @@ and a boolean to check if the value has been set.
 
 SetUpdatedAt sets UpdatedAt field to given value.
 
-
-### GetUrl
-
-`func (o *ArtifactOut) GetUrl() string`
-
-GetUrl returns the Url field if non-nil, zero value otherwise.
-
-### GetUrlOk
-
-`func (o *ArtifactOut) GetUrlOk() (*string, bool)`
-
-GetUrlOk returns a tuple with the Url field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetUrl
-
-`func (o *ArtifactOut) SetUrl(v string)`
-
-SetUrl sets Url field to given value.
-
-
-### GetVersionNumber
-
-`func (o *ArtifactOut) GetVersionNumber() int32`
-
-GetVersionNumber returns the VersionNumber field if non-nil, zero value otherwise.
-
-### GetVersionNumberOk
-
-`func (o *ArtifactOut) GetVersionNumberOk() (*int32, bool)`
-
-GetVersionNumberOk returns a tuple with the VersionNumber field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetVersionNumber
-
-`func (o *ArtifactOut) SetVersionNumber(v int32)`
-
-SetVersionNumber sets VersionNumber field to given value.
-
-### HasVersionNumber
-
-`func (o *ArtifactOut) HasVersionNumber() bool`
-
-HasVersionNumber returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

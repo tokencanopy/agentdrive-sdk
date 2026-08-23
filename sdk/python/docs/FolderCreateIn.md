@@ -1,12 +1,14 @@
 # FolderCreateIn
 
-PUT /v0/folders/{path} body for the optional metadata params. Empty body is fine — `mkdir` with no description just creates the folder row.
+POST /v0/drives/{id}/folders body.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**description** | **str** |  | [optional]
+**metadata** | **Dict[str, object]** |  | [optional]
+**name** | **str** |  |
+**parent_id** | **str** |  |
 
 ## Example
 

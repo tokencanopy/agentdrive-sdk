@@ -5,19 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**account_footprint** | [**StorageFootprintOut**](StorageFootprintOut.md) |  |
-**egress_bytes** | [**UsageCounterOut**](UsageCounterOut.md) |  |
-**footprint** | [**StorageFootprintOut**](StorageFootprintOut.md) |  |
-**indexed_bytes** | [**UsageCounterOut**](UsageCounterOut.md) |  |
-**indexing_ops** | [**UsageCounterOut**](UsageCounterOut.md) |  |
-**ops_this_month** | [**OperationUsageOut**](OperationUsageOut.md) |  |
-**period** | [**UsagePeriodOut**](UsagePeriodOut.md) |  |
-**retrieval_queries** | [**UsageCounterOut**](UsageCounterOut.md) |  |
-**storage** | [**UsageCounterOut**](UsageCounterOut.md) |  |
-**storage_breakdown** | [**StorageBreakdownOut**](StorageBreakdownOut.md) |  | [optional]
-**tokens_this_month** | [**TokenUsageOut**](TokenUsageOut.md) |  |
-**version_retention** | [**VersionRetentionOut**](VersionRetentionOut.md) |  |
-**writes_this_hour** | [**HourlyUsageCounterOut**](HourlyUsageCounterOut.md) |  |
+**retrieval_bytes** | **int** |  |
+**storage_bytes** | **int** |  |
 
 ## Example
 

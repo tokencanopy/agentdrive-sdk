@@ -1,7 +1,7 @@
 /*
 AgentDrive
 
-AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
 
 API version: <PINNED>
 */
@@ -19,8 +19,9 @@ import (
 // checks if the DriveCreateIn type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &DriveCreateIn{}
 
-// DriveCreateIn POST /v0/drives body. `name` is the user-facing drive label; the creator becomes the owner.
+// DriveCreateIn POST /v0/drives body.
 type DriveCreateIn struct {
+	Metadata map[string]interface{} `json:"metadata,omitempty"`
 	Name string `json:"name"`
 }
 
@@ -42,6 +43,38 @@ func NewDriveCreateIn(name string) *DriveCreateIn {
 func NewDriveCreateInWithDefaults() *DriveCreateIn {
 	this := DriveCreateIn{}
 	return &this
+}
+
+// GetMetadata returns the Metadata field value if set, zero value otherwise.
+func (o *DriveCreateIn) GetMetadata() map[string]interface{} {
+	if o == nil || IsNil(o.Metadata) {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.Metadata
+}
+
+// GetMetadataOk returns a tuple with the Metadata field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DriveCreateIn) GetMetadataOk() (map[string]interface{}, bool) {
+	if o == nil || IsNil(o.Metadata) {
+		return map[string]interface{}{}, false
+	}
+	return o.Metadata, true
+}
+
+// HasMetadata returns a boolean if a field has been set.
+func (o *DriveCreateIn) HasMetadata() bool {
+	if o != nil && !IsNil(o.Metadata) {
+		return true
+	}
+
+	return false
+}
+
+// SetMetadata gets a reference to the given map[string]interface{} and assigns it to the Metadata field.
+func (o *DriveCreateIn) SetMetadata(v map[string]interface{}) {
+	o.Metadata = v
 }
 
 // GetName returns the Name field value
@@ -78,6 +111,9 @@ func (o DriveCreateIn) MarshalJSON() ([]byte, error) {
 
 func (o DriveCreateIn) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if !IsNil(o.Metadata) {
+		toSerialize["metadata"] = o.Metadata
+	}
 	toSerialize["name"] = o.Name
 	return toSerialize, nil
 }

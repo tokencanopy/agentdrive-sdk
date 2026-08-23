@@ -2,7 +2,7 @@
 
 Official developer kit for [**AgentDrive**](https://agentdrive.run) — an artifact store for AI agents. Read, write, and search files by path; share by rendered URL.
 
-AgentDrive is a **remote MCP server** with OAuth 2.1 (PKCE + dynamic client registration). The product is the hosted service at `https://api.agentdrive.run` — this repo holds the **client-side** pieces: language SDKs, the agent Skill, and connector metadata. No server source lives here.
+AgentDrive is a **remote MCP server** with OAuth 2.1 (PKCE + dynamic client registration). The v0 REST data plane is hosted at `https://drive.tokencanopy.com`; this repo holds the **client-side** pieces: language SDKs, the agent Skill, and connector metadata. No server source lives here.
 
 > Listed in the official MCP Registry as [`run.agentdrive/agentdrive`](https://registry.modelcontextprotocol.io/v0.1/servers?search=run.agentdrive/agentdrive).
 
@@ -76,7 +76,7 @@ go get github.com/Mnexa-AI/agentdrive-sdk/sdk/go
 ## Links
 
 - Website: https://agentdrive.run
-- API base: https://api.agentdrive.run · OpenAPI: https://api.agentdrive.run/openapi.json
+- API base: https://drive.tokencanopy.com · OpenAPI: https://drive.tokencanopy.com/openapi.json
 - Docs: [setup](https://agentdrive.run/setup.md) · [auth](https://agentdrive.run/auth.md) · [api](https://agentdrive.run/api.md) · [skill](https://agentdrive.run/agentdrive.md)
 
 ## License

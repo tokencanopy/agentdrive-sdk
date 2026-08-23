@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: <PINNED>
  *
@@ -14,25 +14,37 @@
 
 import { mapValues } from '../runtime';
 /**
- * PUT /v0/folders/{path} body for the optional metadata params.
- * Empty body is fine — `mkdir` with no description just creates the
- * folder row.
+ * POST /v0/drives/{id}/folders body.
  * @export
  * @interface FolderCreateIn
  */
 export interface FolderCreateIn {
     /**
      *
+     * @type {{ [key: string]: any; }}
+     * @memberof FolderCreateIn
+     */
+    metadata?: { [key: string]: any; };
+    /**
+     *
      * @type {string}
      * @memberof FolderCreateIn
      */
-    description?: string | null;
+    name: string;
+    /**
+     *
+     * @type {string}
+     * @memberof FolderCreateIn
+     */
+    parentId: string;
 }
 
 /**
  * Check if a given object implements the FolderCreateIn interface.
  */
 export function instanceOfFolderCreateIn(value: object): value is FolderCreateIn {
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('parentId' in value) || value['parentId'] === undefined) return false;
     return true;
 }
 
@@ -46,7 +58,9 @@ export function FolderCreateInFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
 
-        'description': json['description'] === undefined ? undefined : json['description'] === null ? null : json['description'],
+        'metadata': json['metadata'] == null ? undefined : json['metadata'],
+        'name': json['name'],
+        'parentId': json['parent_id'],
     };
 }
 
@@ -61,6 +75,8 @@ export function FolderCreateInToJSONTyped(value?: FolderCreateIn | null, ignoreD
 
     return {
 
-        'description': value['description'],
+        'metadata': value['metadata'],
+        'name': value['name'],
+        'parent_id': value['parentId'],
     };
 }

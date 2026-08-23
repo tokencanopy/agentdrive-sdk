@@ -2,7 +2,8 @@
 
 REST clients for the AgentDrive API, generated from the reviewed contract
 committed at [`openapi.json`](openapi.json) using pinned OpenAPI Generator
-7.24.0. [`openapi.provenance.json`](openapi.provenance.json) records the exact
+7.16.0. The v0 contract contains 50 operations: 47 authenticated `/v0`
+operations plus three public operations. [`openapi.provenance.json`](openapi.provenance.json) records the exact
 AgentDrive source commit and snapshot digest.
 
 | Language | Directory | Package | Generator |
@@ -34,7 +35,7 @@ generated changes.
 
 ## Authentication
 
-All three clients talk to `https://api.agentdrive.run`. Authenticate with an API
+All three clients talk to `https://drive.tokencanopy.com`. Authenticate with an API
 key (`ad_live_...`) or an OAuth access token as a bearer credential — see
 [`../docs/auth.md`](../docs/auth.md) and [`../docs/api.md`](../docs/api.md).
 

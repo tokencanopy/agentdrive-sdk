@@ -6,8 +6,19 @@ from scripts.prepare_codegen_contract import normalize_for_codegen
 
 
 class PrepareCodegenContractTest(unittest.TestCase):
-    def test_openapi_31_nullable_anyof_is_preserved(self):
+    def test_openapi_31_is_downgraded_for_pinned_generator(self):
         document = {
+            "openapi": "3.1.0",
+            "paths": {},
+        }
+
+        normalized = normalize_for_codegen(document)
+
+        self.assertEqual(normalized["openapi"], "3.0.3")
+
+    def test_openapi_31_nullable_anyof_becomes_nullable_schema(self):
+        document = {
+            "openapi": "3.1.0",
             "paths": {},
             "components": {
                 "schemas": {
@@ -28,10 +39,14 @@ class PrepareCodegenContractTest(unittest.TestCase):
 
         normalized = normalize_for_codegen(document)
 
-        self.assertEqual(normalized, document)
+        self.assertEqual(
+            normalized["components"]["schemas"]["Widget"]["properties"]["label"],
+            {"type": "string", "maxLength": 64, "nullable": True},
+        )
 
-    def test_openapi_31_nullable_type_array_is_preserved(self):
+    def test_openapi_31_nullable_type_array_becomes_nullable_schema(self):
         document = {
+            "openapi": "3.1.0",
             "paths": {},
             "components": {
                 "schemas": {
@@ -45,10 +60,14 @@ class PrepareCodegenContractTest(unittest.TestCase):
 
         normalized = normalize_for_codegen(document)
 
-        self.assertEqual(normalized, document)
+        self.assertEqual(
+            normalized["components"]["schemas"]["Widget"]["properties"]["label"],
+            {"type": "string", "nullable": True},
+        )
 
     def test_object_and_array_defaults_are_removed_but_scalars_remain(self):
         document = {
+            "openapi": "3.1.0",
             "paths": {},
             "components": {
                 "schemas": {
@@ -69,8 +88,9 @@ class PrepareCodegenContractTest(unittest.TestCase):
         self.assertNotIn("default", properties["mapping"])
         self.assertEqual(properties["enabled"]["default"], False)
 
-    def test_openapi_31_const_is_preserved(self):
+    def test_openapi_31_const_becomes_single_value_enum(self):
         document = {
+            "openapi": "3.1.0",
             "paths": {},
             "components": {
                 "schemas": {
@@ -86,7 +106,41 @@ class PrepareCodegenContractTest(unittest.TestCase):
 
         normalized = normalize_for_codegen(document)
 
-        self.assertEqual(normalized, document)
+        self.assertEqual(
+            normalized["components"]["schemas"]["Health"]["properties"]["status"],
+            {"type": "string", "enum": ["ok"]},
+        )
+
+    def test_nullable_reference_is_wrapped_for_openapi_30(self):
+        document = {
+            "openapi": "3.1.0",
+            "paths": {},
+            "components": {
+                "schemas": {
+                    "Widget": {
+                        "type": "object",
+                        "properties": {
+                            "owner": {
+                                "anyOf": [
+                                    {"$ref": "#/components/schemas/Owner"},
+                                    {"type": "null"},
+                                ]
+                            }
+                        },
+                    }
+                }
+            },
+        }
+
+        normalized = normalize_for_codegen(document)
+
+        self.assertEqual(
+            normalized["components"]["schemas"]["Widget"]["properties"]["owner"],
+            {
+                "allOf": [{"$ref": "#/components/schemas/Owner"}],
+                "nullable": True,
+            },
+        )
 
     def test_go_primitive_union_becomes_interface_value(self):
         document = {

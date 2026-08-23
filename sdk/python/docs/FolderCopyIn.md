@@ -1,13 +1,14 @@
 # FolderCopyIn
 
-POST /v0/folders/{fld_id}/copy body — duplicate the subtree to a new path. `path` is the target folder path (canonical, trailing slash). Its own schema (vs. reusing `FolderMoveIn`) keeps the copy surface self-documenting in the OpenAPI spec.
+POST /v0/drives/{id}/folders/{folder_id}/copy body.  ``destination_drive_id`` must equal the source drive (or be absent) — cross-drive copy is out of v0 scope and rejected.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**from_metageneration** | **int** |  | [optional]
-**path** | **str** |  |
+**destination_drive_id** | **str** |  | [optional]
+**destination_name** | **str** |  |
+**destination_parent_id** | **str** |  |
 
 ## Example
 

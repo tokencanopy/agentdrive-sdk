@@ -1,21 +1,21 @@
 # ShareOut
 
-A live share link as seen on list/management — NEVER carries the `share_key` (that is the credential, returned only at mint/rotate).
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**access_count** | **int** |  | [optional] [default to 0]
-**audience** | **str** |  |
 **created_at** | **datetime** |  |
-**expires_at** | **datetime** |  | [optional]
-**has_password** | **bool** |  |
+**created_by** | **str** |  |
+**drive_id** | **str** |  |
+**expires_at** | **datetime** |  |
 **id** | **str** |  |
-**last_accessed_at** | **datetime** |  | [optional]
 **resource_id** | **str** |  |
 **resource_type** | **str** |  |
-**role** | **str** |  |
+**revision** | **str** |  |
+**revoked_at** | **datetime** |  |
+**rotated_at** | **datetime** |  |
+**state** | **str** |  |
 
 ## Example
 

@@ -1,7 +1,7 @@
 /*
 AgentDrive
 
-AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
 
 API version: <PINNED>
 */
@@ -12,16 +12,16 @@ package agentdrive
 
 import (
 	"encoding/json"
+	"bytes"
 	"fmt"
 )
 
 // checks if the ErrorResponse type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ErrorResponse{}
 
-// ErrorResponse Canonical non-validation error envelope emitted by AgentDrive.
+// ErrorResponse struct for ErrorResponse
 type ErrorResponse struct {
-	Detail ErrorDetail `json:"detail"`
-	AdditionalProperties map[string]interface{}
+	Error ErrorResponseError `json:"error"`
 }
 
 type _ErrorResponse ErrorResponse
@@ -30,9 +30,9 @@ type _ErrorResponse ErrorResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewErrorResponse(detail ErrorDetail) *ErrorResponse {
+func NewErrorResponse(error_ ErrorResponseError) *ErrorResponse {
 	this := ErrorResponse{}
-	this.Detail = detail
+	this.Error = error_
 	return &this
 }
 
@@ -44,28 +44,28 @@ func NewErrorResponseWithDefaults() *ErrorResponse {
 	return &this
 }
 
-// GetDetail returns the Detail field value
-func (o *ErrorResponse) GetDetail() ErrorDetail {
+// GetError returns the Error field value
+func (o *ErrorResponse) GetError() ErrorResponseError {
 	if o == nil {
-		var ret ErrorDetail
+		var ret ErrorResponseError
 		return ret
 	}
 
-	return o.Detail
+	return o.Error
 }
 
-// GetDetailOk returns a tuple with the Detail field value
+// GetErrorOk returns a tuple with the Error field value
 // and a boolean to check if the value has been set.
-func (o *ErrorResponse) GetDetailOk() (*ErrorDetail, bool) {
+func (o *ErrorResponse) GetErrorOk() (*ErrorResponseError, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Detail, true
+	return &o.Error, true
 }
 
-// SetDetail sets field value
-func (o *ErrorResponse) SetDetail(v ErrorDetail) {
-	o.Detail = v
+// SetError sets field value
+func (o *ErrorResponse) SetError(v ErrorResponseError) {
+	o.Error = v
 }
 
 func (o ErrorResponse) MarshalJSON() ([]byte, error) {
@@ -78,12 +78,7 @@ func (o ErrorResponse) MarshalJSON() ([]byte, error) {
 
 func (o ErrorResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["detail"] = o.Detail
-
-	for key, value := range o.AdditionalProperties {
-		toSerialize[key] = value
-	}
-
+	toSerialize["error"] = o.Error
 	return toSerialize, nil
 }
 
@@ -92,7 +87,7 @@ func (o *ErrorResponse) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"detail",
+		"error",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -111,20 +106,15 @@ func (o *ErrorResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varErrorResponse := _ErrorResponse{}
 
-	err = json.Unmarshal(data, &varErrorResponse)
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varErrorResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ErrorResponse(varErrorResponse)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "detail")
-		o.AdditionalProperties = additionalProperties
-	}
 
 	return err
 }

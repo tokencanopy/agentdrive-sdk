@@ -1,12 +1,11 @@
 # ErrorResponse
 
-Canonical non-validation error envelope emitted by AgentDrive.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**detail** | [**ErrorDetail**](ErrorDetail.md) |  |
+**error** | [**ErrorResponseError**](ErrorResponseError.md) |  |
 
 ## Example
 

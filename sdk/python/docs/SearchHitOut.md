@@ -5,17 +5,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**art_id** | **str** |  |
 **content_type** | **str** |  |
 **drive_id** | **str** |  |
-**file_type** | **str** |  |
-**labels** | **List[str]** |  | [optional]
-**path** | **str** |  |
-**score** | **float** |  |
-**snippet** | **str** |  |
+**id** | **str** |  |
+**name** | **str** |  |
+**parent_id** | **str** |  |
+**rank** | **float** |  |
+**snippet** | **str** | HTML-safe highlighted excerpt. The ONLY markup it may contain is the server&#39;s own &lt;mark&gt;...&lt;/mark&gt; highlight pair; artifact content is entity-escaped, so this may be rendered as HTML. |
 **updated_at** | **datetime** |  |
-**url** | **str** |  |
-**version_number** | **int** |  |
+**version_id** | **str** |  |
 
 ## Example
 

@@ -5,26 +5,21 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**content_preview** | **str** |  |
 **content_type** | **str** |  |
 **created_at** | **datetime** |  |
+**deleted_at** | **datetime** |  |
 **drive_id** | **str** |  |
-**embedded_at** | **datetime** |  | [optional]
-**etag** | **str** |  |
-**file_type** | **str** |  |
-**hash** | **str** |  |
+**effective_visibility** | **str** | Server-computed exposure summary, resolved over the artifact&#39;s live grants, its whole folder ancestry, and the drive. &#39;public&#39; when any live grant has principal_type &#39;public&#39;; otherwise &#39;shared&#39; when a live grant names a principal other than the drive&#39;s creator; otherwise &#39;private&#39;. Describes exposure, NOT the caller&#39;s own access. |
+**head_version_id** | **str** |  |
 **id** | **str** |  |
-**indexed_at** | **datetime** |  | [optional]
-**labels** | **List[str]** |  | [optional]
-**llm_index** | **Dict[str, object]** |  | [optional]
-**metadata** | **Dict[str, object]** |  | [optional]
-**metageneration** | **int** |  | [optional] [default to 1]
-**path** | **str** |  |
-**permalink** | **str** |  |
-**size_bytes** | **int** |  |
-**source** | [**ArtifactSource**](ArtifactSource.md) |  | [optional]
+**labels** | **List[str]** |  |
+**metadata** | **Dict[str, object]** |  |
+**name** | **str** |  |
+**parent_id** | **str** |  |
+**revision** | **str** |  |
+**state** | **str** |  |
 **updated_at** | **datetime** |  |
-**url** | **str** |  |
-**version_number** | **int** |  | [optional] [default to 1]
 
 ## Example
 

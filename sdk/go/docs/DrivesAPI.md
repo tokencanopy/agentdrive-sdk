@@ -1,96 +1,24 @@
 # \DrivesAPI
 
-All URIs are relative to *https://api.agentdrive.run*
+All URIs are relative to *https://drive.tokencanopy.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateDriveKeyRouteV0DrivesDriveIdKeysPost**](DrivesAPI.md#CreateDriveKeyRouteV0DrivesDriveIdKeysPost) | **Post** /v0/drives/{drive_id}/keys | Create a drive API key
-[**CreateDriveRouteV0DrivesPost**](DrivesAPI.md#CreateDriveRouteV0DrivesPost) | **Post** /v0/drives | Create a drive in your active space
-[**ListDriveKeysRouteV0DrivesDriveIdKeysGet**](DrivesAPI.md#ListDriveKeysRouteV0DrivesDriveIdKeysGet) | **Get** /v0/drives/{drive_id}/keys | List a drive&#39;s API keys
-[**ListDrivesRouteV0DrivesGet**](DrivesAPI.md#ListDrivesRouteV0DrivesGet) | **Get** /v0/drives | List the drives you can see
-[**RenameDriveRouteV0DrivesDriveIdPatch**](DrivesAPI.md#RenameDriveRouteV0DrivesDriveIdPatch) | **Patch** /v0/drives/{drive_id} | Rename a drive you own
-[**RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost**](DrivesAPI.md#RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost) | **Post** /v0/drives/{drive_id}/keys/{key_id}/revoke | Revoke a drive API key
-[**RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost**](DrivesAPI.md#RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost) | **Post** /v0/drives/{drive_id}/keys/{key_id}/rotate | Rotate one API key
+[**DrivesCreate**](DrivesAPI.md#DrivesCreate) | **Post** /v0/drives | Create Drive
+[**DrivesDelete**](DrivesAPI.md#DrivesDelete) | **Delete** /v0/drives/{drive_id} | Delete Drive
+[**DrivesList**](DrivesAPI.md#DrivesList) | **Get** /v0/drives | List Drives
+[**DrivesRead**](DrivesAPI.md#DrivesRead) | **Get** /v0/drives/{drive_id} | Read Drive
+[**DrivesRestore**](DrivesAPI.md#DrivesRestore) | **Post** /v0/drives/{drive_id}/restore | Restore Drive
+[**DrivesUpdate**](DrivesAPI.md#DrivesUpdate) | **Patch** /v0/drives/{drive_id} | Update Drive
+[**DrivesUsage**](DrivesAPI.md#DrivesUsage) | **Get** /v0/drives/{drive_id}/usage | Drive Usage
 
 
 
-## CreateDriveKeyRouteV0DrivesDriveIdKeysPost
+## DrivesCreate
 
-> DriveApiKeyCreateOut CreateDriveKeyRouteV0DrivesDriveIdKeysPost(ctx, driveId).DriveApiKeyCreateIn(driveApiKeyCreateIn).Execute()
+> DriveOut DrivesCreate(ctx).IdempotencyKey(idempotencyKey).DriveCreateIn(driveCreateIn).Authorization(authorization).Execute()
 
-Create a drive API key
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
-)
-
-func main() {
-	driveId := "driveId_example" // string |
-	driveApiKeyCreateIn := *openapiclient.NewDriveApiKeyCreateIn("Label_example") // DriveApiKeyCreateIn |
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DrivesAPI.CreateDriveKeyRouteV0DrivesDriveIdKeysPost(context.Background(), driveId).DriveApiKeyCreateIn(driveApiKeyCreateIn).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DrivesAPI.CreateDriveKeyRouteV0DrivesDriveIdKeysPost``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `CreateDriveKeyRouteV0DrivesDriveIdKeysPost`: DriveApiKeyCreateOut
-	fmt.Fprintf(os.Stdout, "Response from `DrivesAPI.CreateDriveKeyRouteV0DrivesDriveIdKeysPost`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**driveId** | **string** |  |
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiCreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **driveApiKeyCreateIn** | [**DriveApiKeyCreateIn**](DriveApiKeyCreateIn.md) |  |
-
-### Return type
-
-[**DriveApiKeyCreateOut**](DriveApiKeyCreateOut.md)
-
-### Authorization
-
-[BearerAuth](../README.md#BearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: application/json
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## CreateDriveRouteV0DrivesPost
-
-> DriveCreateOut CreateDriveRouteV0DrivesPost(ctx).DriveCreateIn(driveCreateIn).Execute()
-
-Create a drive in your active space
+Create Drive
 
 
 
@@ -107,17 +35,19 @@ import (
 )
 
 func main() {
+	idempotencyKey := "idempotencyKey_example" // string |
 	driveCreateIn := *openapiclient.NewDriveCreateIn("Name_example") // DriveCreateIn |
+	authorization := "authorization_example" // string | Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DrivesAPI.CreateDriveRouteV0DrivesPost(context.Background()).DriveCreateIn(driveCreateIn).Execute()
+	resp, r, err := apiClient.DrivesAPI.DrivesCreate(context.Background()).IdempotencyKey(idempotencyKey).DriveCreateIn(driveCreateIn).Authorization(authorization).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DrivesAPI.CreateDriveRouteV0DrivesPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `DrivesAPI.DrivesCreate``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateDriveRouteV0DrivesPost`: DriveCreateOut
-	fmt.Fprintf(os.Stdout, "Response from `DrivesAPI.CreateDriveRouteV0DrivesPost`: %v\n", resp)
+	// response from `DrivesCreate`: DriveOut
+	fmt.Fprintf(os.Stdout, "Response from `DrivesAPI.DrivesCreate`: %v\n", resp)
 }
 ```
 
@@ -127,226 +57,14 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCreateDriveRouteV0DrivesPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiDrivesCreateRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **idempotencyKey** | **string** |  |
  **driveCreateIn** | [**DriveCreateIn**](DriveCreateIn.md) |  |
-
-### Return type
-
-[**DriveCreateOut**](DriveCreateOut.md)
-
-### Authorization
-
-[BearerAuth](../README.md#BearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: application/json
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## ListDriveKeysRouteV0DrivesDriveIdKeysGet
-
-> DriveApiKeyListOut ListDriveKeysRouteV0DrivesDriveIdKeysGet(ctx, driveId).Cursor(cursor).Limit(limit).Execute()
-
-List a drive's API keys
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
-)
-
-func main() {
-	driveId := "driveId_example" // string |
-	cursor := "cursor_example" // string |  (optional)
-	limit := int32(56) // int32 |  (optional)
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DrivesAPI.ListDriveKeysRouteV0DrivesDriveIdKeysGet(context.Background(), driveId).Cursor(cursor).Limit(limit).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DrivesAPI.ListDriveKeysRouteV0DrivesDriveIdKeysGet``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `ListDriveKeysRouteV0DrivesDriveIdKeysGet`: DriveApiKeyListOut
-	fmt.Fprintf(os.Stdout, "Response from `DrivesAPI.ListDriveKeysRouteV0DrivesDriveIdKeysGet`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**driveId** | **string** |  |
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **cursor** | **string** |  |
- **limit** | **int32** |  |
-
-### Return type
-
-[**DriveApiKeyListOut**](DriveApiKeyListOut.md)
-
-### Authorization
-
-[BearerAuth](../README.md#BearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## ListDrivesRouteV0DrivesGet
-
-> DriveList ListDrivesRouteV0DrivesGet(ctx).Cursor(cursor).Limit(limit).Execute()
-
-List the drives you can see
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
-)
-
-func main() {
-	cursor := "cursor_example" // string |  (optional)
-	limit := int32(56) // int32 |  (optional)
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DrivesAPI.ListDrivesRouteV0DrivesGet(context.Background()).Cursor(cursor).Limit(limit).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DrivesAPI.ListDrivesRouteV0DrivesGet``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `ListDrivesRouteV0DrivesGet`: DriveList
-	fmt.Fprintf(os.Stdout, "Response from `DrivesAPI.ListDrivesRouteV0DrivesGet`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiListDrivesRouteV0DrivesGetRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **cursor** | **string** |  |
- **limit** | **int32** |  |
-
-### Return type
-
-[**DriveList**](DriveList.md)
-
-### Authorization
-
-[BearerAuth](../README.md#BearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## RenameDriveRouteV0DrivesDriveIdPatch
-
-> DriveOut RenameDriveRouteV0DrivesDriveIdPatch(ctx, driveId).DriveRenameIn(driveRenameIn).Execute()
-
-Rename a drive you own
-
-
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
-)
-
-func main() {
-	driveId := "driveId_example" // string |
-	driveRenameIn := *openapiclient.NewDriveRenameIn("Name_example") // DriveRenameIn |
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DrivesAPI.RenameDriveRouteV0DrivesDriveIdPatch(context.Background(), driveId).DriveRenameIn(driveRenameIn).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DrivesAPI.RenameDriveRouteV0DrivesDriveIdPatch``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `RenameDriveRouteV0DrivesDriveIdPatch`: DriveOut
-	fmt.Fprintf(os.Stdout, "Response from `DrivesAPI.RenameDriveRouteV0DrivesDriveIdPatch`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**driveId** | **string** |  |
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiRenameDriveRouteV0DrivesDriveIdPatchRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **driveRenameIn** | [**DriveRenameIn**](DriveRenameIn.md) |  |
+ **authorization** | **string** | Deprecated: redundant with the operation&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. |
 
 ### Return type
 
@@ -354,7 +72,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[BearerAuth](../README.md#BearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -366,11 +84,11 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost
+## DrivesDelete
 
-> RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost(ctx, driveId, keyId).Execute()
+> DriveOut DrivesDelete(ctx, driveId).IdempotencyKey(idempotencyKey).IfMatch(ifMatch).Authorization(authorization).Execute()
 
-Revoke a drive API key
+Delete Drive
 
 
 
@@ -388,15 +106,19 @@ import (
 
 func main() {
 	driveId := "driveId_example" // string |
-	keyId := "keyId_example" // string |
+	idempotencyKey := "idempotencyKey_example" // string |
+	ifMatch := "ifMatch_example" // string |
+	authorization := "authorization_example" // string | Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.DrivesAPI.RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost(context.Background(), driveId, keyId).Execute()
+	resp, r, err := apiClient.DrivesAPI.DrivesDelete(context.Background(), driveId).IdempotencyKey(idempotencyKey).IfMatch(ifMatch).Authorization(authorization).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DrivesAPI.RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `DrivesAPI.DrivesDelete``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `DrivesDelete`: DriveOut
+	fmt.Fprintf(os.Stdout, "Response from `DrivesAPI.DrivesDelete`: %v\n", resp)
 }
 ```
 
@@ -407,25 +129,26 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
 **driveId** | **string** |  |
-**keyId** | **string** |  |
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiRevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiDrivesDeleteRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
-
+ **idempotencyKey** | **string** |  |
+ **ifMatch** | **string** |  |
+ **authorization** | **string** | Deprecated: redundant with the operation&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. |
 
 ### Return type
 
- (empty response body)
+[**DriveOut**](DriveOut.md)
 
 ### Authorization
 
-[BearerAuth](../README.md#BearerAuth)
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -437,11 +160,83 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost
+## DrivesList
 
-> DriveApiKeyCreateOut RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost(ctx, driveId, keyId).Execute()
+> DriveListOut DrivesList(ctx).Lifecycle(lifecycle).Limit(limit).Cursor(cursor).Authorization(authorization).Execute()
 
-Rotate one API key
+List Drives
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+	lifecycle := "lifecycle_example" // string |  (optional) (default to "active")
+	limit := int32(56) // int32 |  (optional)
+	cursor := "cursor_example" // string |  (optional)
+	authorization := "authorization_example" // string | Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DrivesAPI.DrivesList(context.Background()).Lifecycle(lifecycle).Limit(limit).Cursor(cursor).Authorization(authorization).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DrivesAPI.DrivesList``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `DrivesList`: DriveListOut
+	fmt.Fprintf(os.Stdout, "Response from `DrivesAPI.DrivesList`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDrivesListRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **lifecycle** | **string** |  | [default to &quot;active&quot;]
+ **limit** | **int32** |  |
+ **cursor** | **string** |  |
+ **authorization** | **string** | Deprecated: redundant with the operation&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. |
+
+### Return type
+
+[**DriveListOut**](DriveListOut.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## DrivesRead
+
+> DriveOut DrivesRead(ctx, driveId).IfNoneMatch(ifNoneMatch).Authorization(authorization).Execute()
+
+Read Drive
 
 
 
@@ -459,17 +254,18 @@ import (
 
 func main() {
 	driveId := "driveId_example" // string |
-	keyId := "keyId_example" // string |
+	ifNoneMatch := "ifNoneMatch_example" // string |  (optional)
+	authorization := "authorization_example" // string | Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DrivesAPI.RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost(context.Background(), driveId, keyId).Execute()
+	resp, r, err := apiClient.DrivesAPI.DrivesRead(context.Background(), driveId).IfNoneMatch(ifNoneMatch).Authorization(authorization).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DrivesAPI.RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `DrivesAPI.DrivesRead``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost`: DriveApiKeyCreateOut
-	fmt.Fprintf(os.Stdout, "Response from `DrivesAPI.RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost`: %v\n", resp)
+	// response from `DrivesRead`: DriveOut
+	fmt.Fprintf(os.Stdout, "Response from `DrivesAPI.DrivesRead`: %v\n", resp)
 }
 ```
 
@@ -480,25 +276,251 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
 **driveId** | **string** |  |
-**keyId** | **string** |  |
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiRotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiDrivesReadRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
-
+ **ifNoneMatch** | **string** |  |
+ **authorization** | **string** | Deprecated: redundant with the operation&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. |
 
 ### Return type
 
-[**DriveApiKeyCreateOut**](DriveApiKeyCreateOut.md)
+[**DriveOut**](DriveOut.md)
 
 ### Authorization
 
-[BearerAuth](../README.md#BearerAuth)
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## DrivesRestore
+
+> DriveOut DrivesRestore(ctx, driveId).IdempotencyKey(idempotencyKey).IfMatch(ifMatch).Authorization(authorization).Execute()
+
+Restore Drive
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+	driveId := "driveId_example" // string |
+	idempotencyKey := "idempotencyKey_example" // string |
+	ifMatch := "ifMatch_example" // string |
+	authorization := "authorization_example" // string | Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DrivesAPI.DrivesRestore(context.Background(), driveId).IdempotencyKey(idempotencyKey).IfMatch(ifMatch).Authorization(authorization).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DrivesAPI.DrivesRestore``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `DrivesRestore`: DriveOut
+	fmt.Fprintf(os.Stdout, "Response from `DrivesAPI.DrivesRestore`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**driveId** | **string** |  |
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDrivesRestoreRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **idempotencyKey** | **string** |  |
+ **ifMatch** | **string** |  |
+ **authorization** | **string** | Deprecated: redundant with the operation&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. |
+
+### Return type
+
+[**DriveOut**](DriveOut.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## DrivesUpdate
+
+> DriveOut DrivesUpdate(ctx, driveId).IdempotencyKey(idempotencyKey).IfMatch(ifMatch).DriveUpdateIn(driveUpdateIn).Authorization(authorization).Execute()
+
+Update Drive
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+	driveId := "driveId_example" // string |
+	idempotencyKey := "idempotencyKey_example" // string |
+	ifMatch := "ifMatch_example" // string |
+	driveUpdateIn := *openapiclient.NewDriveUpdateIn() // DriveUpdateIn |
+	authorization := "authorization_example" // string | Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DrivesAPI.DrivesUpdate(context.Background(), driveId).IdempotencyKey(idempotencyKey).IfMatch(ifMatch).DriveUpdateIn(driveUpdateIn).Authorization(authorization).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DrivesAPI.DrivesUpdate``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `DrivesUpdate`: DriveOut
+	fmt.Fprintf(os.Stdout, "Response from `DrivesAPI.DrivesUpdate`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**driveId** | **string** |  |
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDrivesUpdateRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **idempotencyKey** | **string** |  |
+ **ifMatch** | **string** |  |
+ **driveUpdateIn** | [**DriveUpdateIn**](DriveUpdateIn.md) |  |
+ **authorization** | **string** | Deprecated: redundant with the operation&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. |
+
+### Return type
+
+[**DriveOut**](DriveOut.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## DrivesUsage
+
+> DriveUsageOut DrivesUsage(ctx, driveId).Authorization(authorization).Execute()
+
+Drive Usage
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+	driveId := "driveId_example" // string |
+	authorization := "authorization_example" // string | Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DrivesAPI.DrivesUsage(context.Background(), driveId).Authorization(authorization).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DrivesAPI.DrivesUsage``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `DrivesUsage`: DriveUsageOut
+	fmt.Fprintf(os.Stdout, "Response from `DrivesAPI.DrivesUsage`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**driveId** | **string** |  |
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDrivesUsageRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **authorization** | **string** | Deprecated: redundant with the operation&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. |
+
+### Return type
+
+[**DriveUsageOut**](DriveUsageOut.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

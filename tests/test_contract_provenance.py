@@ -84,6 +84,20 @@ class ContractProvenanceTest(unittest.TestCase):
                     contract_path, provenance_path, pin_path
                 )
 
+    def test_mutable_generator_tag_fails(self):
+        with tempfile.TemporaryDirectory() as raw:
+            contract_path, provenance_path, pin_path = self._fixture(Path(raw))
+            mutable_image = "openapitools/openapi-generator-cli:v7.16.0"
+            pin_path.write_text(mutable_image + "\n")
+            provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
+            provenance["generator_image"] = mutable_image
+            provenance_path.write_text(json.dumps(provenance), encoding="utf-8")
+
+            with self.assertRaisesRegex(ProvenanceError, "immutable"):
+                check_contract_provenance(
+                    contract_path, provenance_path, pin_path
+                )
+
 
 if __name__ == "__main__":
     unittest.main()

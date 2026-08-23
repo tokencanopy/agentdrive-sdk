@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: <PINNED>
  *
@@ -14,9 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * Folder resource (folders+permalinks design §13). `path` is the
- * canonical leading+trailing-slash form. Access is expressed through
- * grants (permission-sharing-design §4.4), not a folder-level flag.
+ *
  * @export
  * @interface FolderOut
  */
@@ -32,13 +30,7 @@ export interface FolderOut {
      * @type {Date}
      * @memberof FolderOut
      */
-    deletedAt?: Date | null;
-    /**
-     *
-     * @type {string}
-     * @memberof FolderOut
-     */
-    description?: string | null;
+    deletedAt: Date | null;
     /**
      *
      * @type {string}
@@ -50,37 +42,37 @@ export interface FolderOut {
      * @type {string}
      * @memberof FolderOut
      */
-    etag: string;
-    /**
-     *
-     * @type {string}
-     * @memberof FolderOut
-     */
     id: string;
     /**
      *
-     * @type {boolean}
+     * @type {{ [key: string]: any; }}
      * @memberof FolderOut
      */
-    inheritGrants?: boolean;
-    /**
-     *
-     * @type {number}
-     * @memberof FolderOut
-     */
-    metageneration?: number;
+    metadata: { [key: string]: any; };
     /**
      *
      * @type {string}
      * @memberof FolderOut
      */
-    path: string;
+    name: string | null;
     /**
      *
-     * @type {Date}
+     * @type {string}
      * @memberof FolderOut
      */
-    purgeAt?: Date | null;
+    parentId: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof FolderOut
+     */
+    revision: string;
+    /**
+     *
+     * @type {string}
+     * @memberof FolderOut
+     */
+    state: FolderOutStateEnum;
     /**
      *
      * @type {Date}
@@ -89,16 +81,31 @@ export interface FolderOut {
     updatedAt: Date;
 }
 
+
+/**
+ * @export
+ */
+export const FolderOutStateEnum = {
+    Active: 'active',
+    Deleted: 'deleted'
+} as const;
+export type FolderOutStateEnum = typeof FolderOutStateEnum[keyof typeof FolderOutStateEnum];
+
+
 /**
  * Check if a given object implements the FolderOut interface.
  */
 export function instanceOfFolderOut(value: object): value is FolderOut {
-    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
-    if ((!('driveId' in (value as Record<string, any>)) && !('drive_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['driveId'] === undefined && (value as Record<string, any>)['drive_id'] === undefined)) return false;
-    if (!('etag' in value) || value['etag'] === undefined) return false;
+    if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
+    if (!('deletedAt' in value) || value['deletedAt'] === undefined) return false;
+    if (!('driveId' in value) || value['driveId'] === undefined) return false;
     if (!('id' in value) || value['id'] === undefined) return false;
-    if (!('path' in value) || value['path'] === undefined) return false;
-    if ((!('updatedAt' in (value as Record<string, any>)) && !('updated_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['updatedAt'] === undefined && (value as Record<string, any>)['updated_at'] === undefined)) return false;
+    if (!('metadata' in value) || value['metadata'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('parentId' in value) || value['parentId'] === undefined) return false;
+    if (!('revision' in value) || value['revision'] === undefined) return false;
+    if (!('state' in value) || value['state'] === undefined) return false;
+    if (!('updatedAt' in value) || value['updatedAt'] === undefined) return false;
     return true;
 }
 
@@ -113,15 +120,14 @@ export function FolderOutFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     return {
 
         'createdAt': (new Date(json['created_at'])),
-        'deletedAt': json['deleted_at'] === undefined ? undefined : json['deleted_at'] === null ? null : (new Date(json['deleted_at'])),
-        'description': json['description'] === undefined ? undefined : json['description'] === null ? null : json['description'],
+        'deletedAt': (json['deleted_at'] == null ? null : new Date(json['deleted_at'])),
         'driveId': json['drive_id'],
-        'etag': json['etag'],
         'id': json['id'],
-        'inheritGrants': json['inherit_grants'] == null ? undefined : json['inherit_grants'],
-        'metageneration': json['metageneration'] == null ? undefined : json['metageneration'],
-        'path': json['path'],
-        'purgeAt': json['purge_at'] === undefined ? undefined : json['purge_at'] === null ? null : (new Date(json['purge_at'])),
+        'metadata': json['metadata'],
+        'name': json['name'],
+        'parentId': json['parent_id'],
+        'revision': json['revision'],
+        'state': json['state'],
         'updatedAt': (new Date(json['updated_at'])),
     };
 }
@@ -139,14 +145,13 @@ export function FolderOutToJSONTyped(value?: FolderOut | null, ignoreDiscriminat
 
         'created_at': value['createdAt'].toISOString(),
         'deleted_at': value['deletedAt'] == null ? value['deletedAt'] : value['deletedAt'].toISOString(),
-        'description': value['description'],
         'drive_id': value['driveId'],
-        'etag': value['etag'],
         'id': value['id'],
-        'inherit_grants': value['inheritGrants'],
-        'metageneration': value['metageneration'],
-        'path': value['path'],
-        'purge_at': value['purgeAt'] == null ? value['purgeAt'] : value['purgeAt'].toISOString(),
+        'metadata': value['metadata'],
+        'name': value['name'],
+        'parent_id': value['parentId'],
+        'revision': value['revision'],
+        'state': value['state'],
         'updated_at': value['updatedAt'].toISOString(),
     };
 }

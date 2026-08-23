@@ -1,15 +1,14 @@
 # ShareCreateIn
 
-POST /v0/shares body. `resource` is an `art_*`/`fld_*` id or a path. `expires_in` is seconds from now (omit for the default: none for a human creator, a short TTL for an agent). `password` (optional) gates redemption.
+POST /v0/drives/{id}/shares body.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**expires_in** | **int** |  | [optional]
-**password** | **str** |  | [optional]
-**resource** | **str** |  |
-**role** | **str** |  | [optional] [default to 'viewer']
+**expires_at** | **datetime** |  | [optional]
+**resource_id** | **str** |  |
+**resource_type** | **str** |  |
 
 ## Example
 

@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: <PINNED>
  *
@@ -12,7 +12,8 @@
  * Do not edit the class manually.
  */
 
-export const BASE_PATH = "https://api.agentdrive.run".replace(/\/+$/, "");
+
+export const BASE_PATH = "https://drive.tokencanopy.com".replace(/\/+$/, "");
 
 export interface ConfigurationParameters {
     basePath?: string; // override base path
@@ -90,7 +91,7 @@ export const DefaultConfig = new Configuration();
  */
 export class BaseAPI {
 
-    private static readonly jsonRegex = /^(:?application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(:?;.*)?$/i;
+    private static readonly jsonRegex = new RegExp('^(:?application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(:?;.*)?$', 'i');
     private middleware: Middleware[];
 
     constructor(protected configuration = DefaultConfig) {
@@ -260,12 +261,6 @@ export class ResponseError extends Error {
     override name: "ResponseError" = "ResponseError";
     constructor(public response: Response, msg?: string) {
         super(msg);
-
-        // restore prototype chain
-        const actualProto = new.target.prototype;
-        if (Object.setPrototypeOf) {
-            Object.setPrototypeOf(this, actualProto);
-        }
     }
 }
 
@@ -273,12 +268,6 @@ export class FetchError extends Error {
     override name: "FetchError" = "FetchError";
     constructor(public cause: Error, msg?: string) {
         super(msg);
-
-        // restore prototype chain
-        const actualProto = new.target.prototype;
-        if (Object.setPrototypeOf) {
-            Object.setPrototypeOf(this, actualProto);
-        }
     }
 }
 
@@ -286,12 +275,6 @@ export class RequiredError extends Error {
     override name: "RequiredError" = "RequiredError";
     constructor(public field: string, msg?: string) {
         super(msg);
-
-        // restore prototype chain
-        const actualProto = new.target.prototype;
-        if (Object.setPrototypeOf) {
-            Object.setPrototypeOf(this, actualProto);
-        }
     }
 }
 
@@ -367,14 +350,9 @@ export function mapValues(data: any, fn: (item: any) => any) {
     return result;
 }
 
-// Pass-through serializer for `any`-typed properties in form data. See #1877.
-export function anyToJSON(value: any): any {
-    return value;
-}
-
 export function canConsumeForm(consumes: Consume[]): boolean {
     for (const consume of consumes) {
-        if (consume.contentType?.startsWith('multipart/form-data') == true) {
+        if ('multipart/form-data' === consume.contentType) {
             return true;
         }
     }
@@ -451,4 +429,13 @@ export class TextApiResponse {
     async value(): Promise<string> {
         return await this.raw.text();
     };
+}
+
+/**
+ * OpenAPI Generator 7.16 emits this call for free-form multipart objects but
+ * does not emit the corresponding helper. Free-form values are already JSON
+ * compatible, so the deterministic compatibility implementation is identity.
+ */
+export function objectToJSON(value: any): any {
+    return value;
 }

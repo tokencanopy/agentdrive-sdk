@@ -20,7 +20,7 @@ class ImportContractTest(unittest.TestCase):
                     "x-agentdrive-compatibility-policy": 1,
                     "components": {
                         "securitySchemes": {
-                            "BearerAuth": {
+                            "bearerAuth": {
                                 "type": "http",
                                 "scheme": "bearer",
                                 "bearerFormat": "AgentDrive API key or JWT",
@@ -58,8 +58,8 @@ class ImportContractTest(unittest.TestCase):
                 contract["servers"],
                 [
                     {
-                        "url": "https://api.agentdrive.run",
-                        "description": "AgentDrive public API",
+                        "url": "https://drive.tokencanopy.com",
+                        "description": "AgentDrive canonical production API",
                     }
                 ],
             )

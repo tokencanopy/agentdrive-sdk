@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Detail** | [**ValidationErrorDetail**](ValidationErrorDetail.md) |  |
+**Error** | [**ValidationErrorResponseError**](ValidationErrorResponseError.md) |  |
 
 ## Methods
 
 ### NewValidationErrorResponse
 
-`func NewValidationErrorResponse(detail ValidationErrorDetail, ) *ValidationErrorResponse`
+`func NewValidationErrorResponse(error_ ValidationErrorResponseError, ) *ValidationErrorResponse`
 
 NewValidationErrorResponse instantiates a new ValidationErrorResponse object
 This constructor will assign default values to properties that have it defined,
@@ -25,24 +25,24 @@ NewValidationErrorResponseWithDefaults instantiates a new ValidationErrorRespons
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetDetail
+### GetError
 
-`func (o *ValidationErrorResponse) GetDetail() ValidationErrorDetail`
+`func (o *ValidationErrorResponse) GetError() ValidationErrorResponseError`
 
-GetDetail returns the Detail field if non-nil, zero value otherwise.
+GetError returns the Error field if non-nil, zero value otherwise.
 
-### GetDetailOk
+### GetErrorOk
 
-`func (o *ValidationErrorResponse) GetDetailOk() (*ValidationErrorDetail, bool)`
+`func (o *ValidationErrorResponse) GetErrorOk() (*ValidationErrorResponseError, bool)`
 
-GetDetailOk returns a tuple with the Detail field if it's non-nil, zero value otherwise
+GetErrorOk returns a tuple with the Error field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetDetail
+### SetError
 
-`func (o *ValidationErrorResponse) SetDetail(v ValidationErrorDetail)`
+`func (o *ValidationErrorResponse) SetError(v ValidationErrorResponseError)`
 
-SetDetail sets Detail field to given value.
+SetError sets Error field to given value.
 
 
 

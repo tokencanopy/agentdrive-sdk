@@ -1,7 +1,7 @@
 /*
 AgentDrive
 
-AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
 
 API version: <PINNED>
 */
@@ -23,230 +23,62 @@ import (
 // DrivesAPIService DrivesAPI service
 type DrivesAPIService service
 
-type ApiCreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest struct {
+type ApiDrivesCreateRequest struct {
 	ctx context.Context
 	ApiService *DrivesAPIService
-	driveId string
-	driveApiKeyCreateIn *DriveApiKeyCreateIn
+	idempotencyKey *string
+	driveCreateIn *DriveCreateIn
+	authorization *string
 }
 
-func (r ApiCreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest) DriveApiKeyCreateIn(driveApiKeyCreateIn DriveApiKeyCreateIn) ApiCreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest {
-	r.driveApiKeyCreateIn = &driveApiKeyCreateIn
+func (r ApiDrivesCreateRequest) IdempotencyKey(idempotencyKey string) ApiDrivesCreateRequest {
+	r.idempotencyKey = &idempotencyKey
 	return r
 }
 
-func (r ApiCreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest) Execute() (*DriveApiKeyCreateOut, *http.Response, error) {
-	return r.ApiService.CreateDriveKeyRouteV0DrivesDriveIdKeysPostExecute(r)
-}
-
-/*
-CreateDriveKeyRouteV0DrivesDriveIdKeysPost Create a drive API key
-
-Mint a new `ad_live_` key for a drive you manage — a drive may hold several (one per agent/integration). A `label` (a name for the key) is **required**. **Manager only** (404 no-leak otherwise), `full`-scope user token. The raw key is returned **once** — store it now.
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param driveId
- @return ApiCreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest
-*/
-func (a *DrivesAPIService) CreateDriveKeyRouteV0DrivesDriveIdKeysPost(ctx context.Context, driveId string) ApiCreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest {
-	return ApiCreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest{
-		ApiService: a,
-		ctx: ctx,
-		driveId: driveId,
-	}
-}
-
-// Execute executes the request
-//  @return DriveApiKeyCreateOut
-func (a *DrivesAPIService) CreateDriveKeyRouteV0DrivesDriveIdKeysPostExecute(r ApiCreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest) (*DriveApiKeyCreateOut, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *DriveApiKeyCreateOut
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DrivesAPIService.CreateDriveKeyRouteV0DrivesDriveIdKeysPost")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/v0/drives/{drive_id}/keys"
-	localVarPath = strings.Replace(localVarPath, "{"+"drive_id"+"}", url.PathEscape(parameterValueToString(r.driveId, "driveId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.driveApiKeyCreateIn == nil {
-		return localVarReturnValue, nil, reportError("driveApiKeyCreateIn is required and must be specified")
-	}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	// body params
-	localVarPostBody = r.driveApiKeyCreateIn
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 401 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 403 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 404 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 422 {
-			var v ValidationErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 429 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiCreateDriveRouteV0DrivesPostRequest struct {
-	ctx context.Context
-	ApiService *DrivesAPIService
-	driveCreateIn *DriveCreateIn
-}
-
-func (r ApiCreateDriveRouteV0DrivesPostRequest) DriveCreateIn(driveCreateIn DriveCreateIn) ApiCreateDriveRouteV0DrivesPostRequest {
+func (r ApiDrivesCreateRequest) DriveCreateIn(driveCreateIn DriveCreateIn) ApiDrivesCreateRequest {
 	r.driveCreateIn = &driveCreateIn
 	return r
 }
 
-func (r ApiCreateDriveRouteV0DrivesPostRequest) Execute() (*DriveCreateOut, *http.Response, error) {
-	return r.ApiService.CreateDriveRouteV0DrivesPostExecute(r)
+// Deprecated: redundant with the operation&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.
+// Deprecated
+func (r ApiDrivesCreateRequest) Authorization(authorization string) ApiDrivesCreateRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiDrivesCreateRequest) Execute() (*DriveOut, *http.Response, error) {
+	return r.ApiService.DrivesCreateExecute(r)
 }
 
 /*
-CreateDriveRouteV0DrivesPost Create a drive in your active space
+DrivesCreate Create Drive
 
-Create a named drive. Any **member** of the space may create one; the creator becomes its **owner**. Requires a `full`-scope user token. The response carries the drive's `ad_live_` API key **once** (`api_key`) — store it now, it is never returned again (mint more keys via `POST /v0/drives/{id}/keys`).
-
-The target workspace is the user's active organization (`users.default_org`); cross-workspace creation names no other workspace in v0.
-
-A space may hold up to its plan's drive limit (workspaces-v2 §4.6; seat-aware for shared drives). A caller at the limit is blocked with `403 DRIVE_LIMIT_REACHED`; the limit is tier-governed, not a hard cap.
+Create a drive with its structural root folder and creator-manager
+grant(s) in one transaction; idempotent under the ``Idempotency-Key``.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateDriveRouteV0DrivesPostRequest
+ @return ApiDrivesCreateRequest
 */
-func (a *DrivesAPIService) CreateDriveRouteV0DrivesPost(ctx context.Context) ApiCreateDriveRouteV0DrivesPostRequest {
-	return ApiCreateDriveRouteV0DrivesPostRequest{
+func (a *DrivesAPIService) DrivesCreate(ctx context.Context) ApiDrivesCreateRequest {
+	return ApiDrivesCreateRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return DriveCreateOut
-func (a *DrivesAPIService) CreateDriveRouteV0DrivesPostExecute(r ApiCreateDriveRouteV0DrivesPostRequest) (*DriveCreateOut, *http.Response, error) {
+//  @return DriveOut
+func (a *DrivesAPIService) DrivesCreateExecute(r ApiDrivesCreateRequest) (*DriveOut, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *DriveCreateOut
+		localVarReturnValue  *DriveOut
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DrivesAPIService.CreateDriveRouteV0DrivesPost")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DrivesAPIService.DrivesCreate")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -256,6 +88,9 @@ func (a *DrivesAPIService) CreateDriveRouteV0DrivesPostExecute(r ApiCreateDriveR
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.idempotencyKey == nil {
+		return localVarReturnValue, nil, reportError("idempotencyKey is required and must be specified")
+	}
 	if r.driveCreateIn == nil {
 		return localVarReturnValue, nil, reportError("driveCreateIn is required and must be specified")
 	}
@@ -276,6 +111,10 @@ func (a *DrivesAPIService) CreateDriveRouteV0DrivesPostExecute(r ApiCreateDriveR
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "Idempotency-Key", r.idempotencyKey, "simple", "")
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
 	}
 	// body params
 	localVarPostBody = r.driveCreateIn
@@ -301,8 +140,19 @@ func (a *DrivesAPIService) CreateDriveRouteV0DrivesPostExecute(r ApiCreateDriveR
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 401 {
-			var v ErrorResponse
+			var v V0ErrorEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -313,173 +163,7 @@ func (a *DrivesAPIService) CreateDriveRouteV0DrivesPostExecute(r ApiCreateDriveR
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 422 {
-			var v ValidationErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 429 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest struct {
-	ctx context.Context
-	ApiService *DrivesAPIService
-	driveId string
-	cursor *string
-	limit *int32
-}
-
-func (r ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest) Cursor(cursor string) ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest {
-	r.cursor = &cursor
-	return r
-}
-
-func (r ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest) Limit(limit int32) ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest {
-	r.limit = &limit
-	return r
-}
-
-func (r ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest) Execute() (*DriveApiKeyListOut, *http.Response, error) {
-	return r.ApiService.ListDriveKeysRouteV0DrivesDriveIdKeysGetExecute(r)
-}
-
-/*
-ListDriveKeysRouteV0DrivesDriveIdKeysGet List a drive's API keys
-
-List the `ad_live_` keys for a drive you manage (oldest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.
-
-**Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param driveId
- @return ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest
-*/
-func (a *DrivesAPIService) ListDriveKeysRouteV0DrivesDriveIdKeysGet(ctx context.Context, driveId string) ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest {
-	return ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest{
-		ApiService: a,
-		ctx: ctx,
-		driveId: driveId,
-	}
-}
-
-// Execute executes the request
-//  @return DriveApiKeyListOut
-func (a *DrivesAPIService) ListDriveKeysRouteV0DrivesDriveIdKeysGetExecute(r ApiListDriveKeysRouteV0DrivesDriveIdKeysGetRequest) (*DriveApiKeyListOut, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *DriveApiKeyListOut
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DrivesAPIService.ListDriveKeysRouteV0DrivesDriveIdKeysGet")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/v0/drives/{drive_id}/keys"
-	localVarPath = strings.Replace(localVarPath, "{"+"drive_id"+"}", url.PathEscape(parameterValueToString(r.driveId, "driveId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	if r.cursor != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
-	}
-	if r.limit != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 401 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 403 {
-			var v ErrorResponse
+			var v V0ErrorEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -490,7 +174,29 @@ func (a *DrivesAPIService) ListDriveKeysRouteV0DrivesDriveIdKeysGetExecute(r Api
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
-			var v ErrorResponse
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 409 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 412 {
+			var v V0ErrorEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -511,8 +217,30 @@ func (a *DrivesAPIService) ListDriveKeysRouteV0DrivesDriveIdKeysGetExecute(r Api
 					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
+		if localVarHTTPResponse.StatusCode == 428 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 429 {
-			var v ErrorResponse
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v V0ErrorEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -536,71 +264,82 @@ func (a *DrivesAPIService) ListDriveKeysRouteV0DrivesDriveIdKeysGetExecute(r Api
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiListDrivesRouteV0DrivesGetRequest struct {
+type ApiDrivesDeleteRequest struct {
 	ctx context.Context
 	ApiService *DrivesAPIService
-	cursor *string
-	limit *int32
+	driveId string
+	idempotencyKey *string
+	ifMatch *string
+	authorization *string
 }
 
-func (r ApiListDrivesRouteV0DrivesGetRequest) Cursor(cursor string) ApiListDrivesRouteV0DrivesGetRequest {
-	r.cursor = &cursor
+func (r ApiDrivesDeleteRequest) IdempotencyKey(idempotencyKey string) ApiDrivesDeleteRequest {
+	r.idempotencyKey = &idempotencyKey
 	return r
 }
 
-func (r ApiListDrivesRouteV0DrivesGetRequest) Limit(limit int32) ApiListDrivesRouteV0DrivesGetRequest {
-	r.limit = &limit
+func (r ApiDrivesDeleteRequest) IfMatch(ifMatch string) ApiDrivesDeleteRequest {
+	r.ifMatch = &ifMatch
 	return r
 }
 
-func (r ApiListDrivesRouteV0DrivesGetRequest) Execute() (*DriveList, *http.Response, error) {
-	return r.ApiService.ListDrivesRouteV0DrivesGetExecute(r)
+// Deprecated: redundant with the operation&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.
+// Deprecated
+func (r ApiDrivesDeleteRequest) Authorization(authorization string) ApiDrivesDeleteRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiDrivesDeleteRequest) Execute() (*DriveOut, *http.Response, error) {
+	return r.ApiService.DrivesDeleteExecute(r)
 }
 
 /*
-ListDrivesRouteV0DrivesGet List the drives you can see
+DrivesDelete Delete Drive
 
-Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whole active workspace's drive inventory (every owner); a **member** sees only the drives they own. Metadata only — owner, size, timestamps — never a raw API key, and never an authorization to read a drive's contents. A `read`-scope token may call this; mutations require `full`.
-
-**Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
+Soft-delete a drive. Returns 200 with the deleted representation so the
+client has the post-delete revision/ETag for a restore.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiListDrivesRouteV0DrivesGetRequest
+ @param driveId
+ @return ApiDrivesDeleteRequest
 */
-func (a *DrivesAPIService) ListDrivesRouteV0DrivesGet(ctx context.Context) ApiListDrivesRouteV0DrivesGetRequest {
-	return ApiListDrivesRouteV0DrivesGetRequest{
+func (a *DrivesAPIService) DrivesDelete(ctx context.Context, driveId string) ApiDrivesDeleteRequest {
+	return ApiDrivesDeleteRequest{
 		ApiService: a,
 		ctx: ctx,
+		driveId: driveId,
 	}
 }
 
 // Execute executes the request
-//  @return DriveList
-func (a *DrivesAPIService) ListDrivesRouteV0DrivesGetExecute(r ApiListDrivesRouteV0DrivesGetRequest) (*DriveList, *http.Response, error) {
+//  @return DriveOut
+func (a *DrivesAPIService) DrivesDeleteExecute(r ApiDrivesDeleteRequest) (*DriveOut, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
+		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *DriveList
+		localVarReturnValue  *DriveOut
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DrivesAPIService.ListDrivesRouteV0DrivesGet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DrivesAPIService.DrivesDelete")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v0/drives"
+	localVarPath := localBasePath + "/v0/drives/{drive_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"drive_id"+"}", url.PathEscape(parameterValueToString(r.driveId, "driveId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.idempotencyKey == nil {
+		return localVarReturnValue, nil, reportError("idempotencyKey is required and must be specified")
+	}
+	if r.ifMatch == nil {
+		return localVarReturnValue, nil, reportError("ifMatch is required and must be specified")
+	}
 
-	if r.cursor != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
-	}
-	if r.limit != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
-	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -618,163 +357,11 @@ func (a *DrivesAPIService) ListDrivesRouteV0DrivesGetExecute(r ApiListDrivesRout
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "Idempotency-Key", r.idempotencyKey, "simple", "")
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "If-Match", r.ifMatch, "simple", "")
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
 	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 401 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 403 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 422 {
-			var v ValidationErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 429 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiRenameDriveRouteV0DrivesDriveIdPatchRequest struct {
-	ctx context.Context
-	ApiService *DrivesAPIService
-	driveId string
-	driveRenameIn *DriveRenameIn
-}
-
-func (r ApiRenameDriveRouteV0DrivesDriveIdPatchRequest) DriveRenameIn(driveRenameIn DriveRenameIn) ApiRenameDriveRouteV0DrivesDriveIdPatchRequest {
-	r.driveRenameIn = &driveRenameIn
-	return r
-}
-
-func (r ApiRenameDriveRouteV0DrivesDriveIdPatchRequest) Execute() (*DriveOut, *http.Response, error) {
-	return r.ApiService.RenameDriveRouteV0DrivesDriveIdPatchExecute(r)
-}
-
-/*
-RenameDriveRouteV0DrivesDriveIdPatch Rename a drive you own
-
-Rename a drive. **Owner only** — a drive id that isn't yours returns 404 (no-leak). Requires a `full`-scope user token.
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param driveId
- @return ApiRenameDriveRouteV0DrivesDriveIdPatchRequest
-*/
-func (a *DrivesAPIService) RenameDriveRouteV0DrivesDriveIdPatch(ctx context.Context, driveId string) ApiRenameDriveRouteV0DrivesDriveIdPatchRequest {
-	return ApiRenameDriveRouteV0DrivesDriveIdPatchRequest{
-		ApiService: a,
-		ctx: ctx,
-		driveId: driveId,
-	}
-}
-
-// Execute executes the request
-//  @return DriveOut
-func (a *DrivesAPIService) RenameDriveRouteV0DrivesDriveIdPatchExecute(r ApiRenameDriveRouteV0DrivesDriveIdPatchRequest) (*DriveOut, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *DriveOut
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DrivesAPIService.RenameDriveRouteV0DrivesDriveIdPatch")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/v0/drives/{drive_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"drive_id"+"}", url.PathEscape(parameterValueToString(r.driveId, "driveId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.driveRenameIn == nil {
-		return localVarReturnValue, nil, reportError("driveRenameIn is required and must be specified")
-	}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	// body params
-	localVarPostBody = r.driveRenameIn
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -798,7 +385,7 @@ func (a *DrivesAPIService) RenameDriveRouteV0DrivesDriveIdPatchExecute(r ApiRena
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v ErrorResponse
+			var v V0ErrorEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -809,7 +396,7 @@ func (a *DrivesAPIService) RenameDriveRouteV0DrivesDriveIdPatchExecute(r ApiRena
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
-			var v ErrorResponse
+			var v V0ErrorEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -820,7 +407,7 @@ func (a *DrivesAPIService) RenameDriveRouteV0DrivesDriveIdPatchExecute(r ApiRena
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v ErrorResponse
+			var v V0ErrorEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -831,7 +418,7 @@ func (a *DrivesAPIService) RenameDriveRouteV0DrivesDriveIdPatchExecute(r ApiRena
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
-			var v ErrorResponse
+			var v V0ErrorEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -842,7 +429,18 @@ func (a *DrivesAPIService) RenameDriveRouteV0DrivesDriveIdPatchExecute(r ApiRena
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 409 {
-			var v ErrorResponse
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 412 {
+			var v V0ErrorEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -863,8 +461,30 @@ func (a *DrivesAPIService) RenameDriveRouteV0DrivesDriveIdPatchExecute(r ApiRena
 					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
+		if localVarHTTPResponse.StatusCode == 428 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 429 {
-			var v ErrorResponse
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v V0ErrorEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -888,209 +508,93 @@ func (a *DrivesAPIService) RenameDriveRouteV0DrivesDriveIdPatchExecute(r ApiRena
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiRevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest struct {
+type ApiDrivesListRequest struct {
 	ctx context.Context
 	ApiService *DrivesAPIService
-	driveId string
-	keyId string
+	lifecycle *string
+	limit *int32
+	cursor *string
+	authorization *string
 }
 
-func (r ApiRevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest) Execute() (*http.Response, error) {
-	return r.ApiService.RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostExecute(r)
+func (r ApiDrivesListRequest) Lifecycle(lifecycle string) ApiDrivesListRequest {
+	r.lifecycle = &lifecycle
+	return r
+}
+
+func (r ApiDrivesListRequest) Limit(limit int32) ApiDrivesListRequest {
+	r.limit = &limit
+	return r
+}
+
+func (r ApiDrivesListRequest) Cursor(cursor string) ApiDrivesListRequest {
+	r.cursor = &cursor
+	return r
+}
+
+// Deprecated: redundant with the operation&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.
+// Deprecated
+func (r ApiDrivesListRequest) Authorization(authorization string) ApiDrivesListRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiDrivesListRequest) Execute() (*DriveListOut, *http.Response, error) {
+	return r.ApiService.DrivesListExecute(r)
 }
 
 /*
-RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost Revoke a drive API key
+DrivesList List Drives
 
-Revoke one `ad_live_` key of a drive you manage — anything using it loses access immediately. **Manager only** (404 no-leak otherwise), `full`-scope user token. Idempotent: revoking an unknown/already-revoked key returns 204 too (no existence oracle).
+List the actor's workspace drives, newest-first (keyset paginated).
+
+``lifecycle`` (active|deleted|all) exposes soft-deleted drives so a
+manager can read the post-delete revision as the If-Match source for a
+restore. Unknown query parameters are rejected (§6.3).
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param driveId
- @param keyId
- @return ApiRevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest
+ @return ApiDrivesListRequest
 */
-func (a *DrivesAPIService) RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost(ctx context.Context, driveId string, keyId string) ApiRevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest {
-	return ApiRevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest{
+func (a *DrivesAPIService) DrivesList(ctx context.Context) ApiDrivesListRequest {
+	return ApiDrivesListRequest{
 		ApiService: a,
 		ctx: ctx,
-		driveId: driveId,
-		keyId: keyId,
 	}
 }
 
 // Execute executes the request
-func (a *DrivesAPIService) RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostExecute(r ApiRevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest) (*http.Response, error) {
+//  @return DriveListOut
+func (a *DrivesAPIService) DrivesListExecute(r ApiDrivesListRequest) (*DriveListOut, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
+		localVarReturnValue  *DriveListOut
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DrivesAPIService.RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost")
-	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/v0/drives/{drive_id}/keys/{key_id}/revoke"
-	localVarPath = strings.Replace(localVarPath, "{"+"drive_id"+"}", url.PathEscape(parameterValueToString(r.driveId, "driveId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"key_id"+"}", url.PathEscape(parameterValueToString(r.keyId, "keyId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 401 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 403 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 404 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 422 {
-			var v ValidationErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-			return localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 429 {
-			var v ErrorResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
-}
-
-type ApiRotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest struct {
-	ctx context.Context
-	ApiService *DrivesAPIService
-	driveId string
-	keyId string
-}
-
-func (r ApiRotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest) Execute() (*DriveApiKeyCreateOut, *http.Response, error) {
-	return r.ApiService.RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostExecute(r)
-}
-
-/*
-RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost Rotate one API key
-
-Rotate a single `ad_live_` key: revoke `key_id` and mint a replacement that inherits its label. **Only that key** is affected — the drive's other keys keep working. **Manager only** (404 no-leak otherwise), `full`-scope user token. The new key is returned **once** — store it now. A `key_id` that isn't a live key of this drive is a 404.
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param driveId
- @param keyId
- @return ApiRotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest
-*/
-func (a *DrivesAPIService) RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost(ctx context.Context, driveId string, keyId string) ApiRotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest {
-	return ApiRotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest{
-		ApiService: a,
-		ctx: ctx,
-		driveId: driveId,
-		keyId: keyId,
-	}
-}
-
-// Execute executes the request
-//  @return DriveApiKeyCreateOut
-func (a *DrivesAPIService) RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostExecute(r ApiRotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest) (*DriveApiKeyCreateOut, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *DriveApiKeyCreateOut
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DrivesAPIService.RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DrivesAPIService.DrivesList")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v0/drives/{drive_id}/keys/{key_id}/rotate"
-	localVarPath = strings.Replace(localVarPath, "{"+"drive_id"+"}", url.PathEscape(parameterValueToString(r.driveId, "driveId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"key_id"+"}", url.PathEscape(parameterValueToString(r.keyId, "keyId")), -1)
+	localVarPath := localBasePath + "/v0/drives"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.lifecycle != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "lifecycle", r.lifecycle, "form", "")
+	} else {
+		var defaultValue string = "active"
+		r.lifecycle = &defaultValue
+	}
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
+	}
+	if r.cursor != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -1107,6 +611,9 @@ func (a *DrivesAPIService) RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostEx
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
@@ -1130,8 +637,19 @@ func (a *DrivesAPIService) RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostEx
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 401 {
-			var v ErrorResponse
+			var v V0ErrorEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -1142,7 +660,7 @@ func (a *DrivesAPIService) RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostEx
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v ErrorResponse
+			var v V0ErrorEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -1153,7 +671,7 @@ func (a *DrivesAPIService) RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostEx
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
-			var v ErrorResponse
+			var v V0ErrorEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -1175,7 +693,909 @@ func (a *DrivesAPIService) RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostEx
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 429 {
-			var v ErrorResponse
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiDrivesReadRequest struct {
+	ctx context.Context
+	ApiService *DrivesAPIService
+	driveId string
+	ifNoneMatch *string
+	authorization *string
+}
+
+func (r ApiDrivesReadRequest) IfNoneMatch(ifNoneMatch string) ApiDrivesReadRequest {
+	r.ifNoneMatch = &ifNoneMatch
+	return r
+}
+
+// Deprecated: redundant with the operation&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.
+// Deprecated
+func (r ApiDrivesReadRequest) Authorization(authorization string) ApiDrivesReadRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiDrivesReadRequest) Execute() (*DriveOut, *http.Response, error) {
+	return r.ApiService.DrivesReadExecute(r)
+}
+
+/*
+DrivesRead Read Drive
+
+Read one active drive. ETag = quoted revision; matching
+``If-None-Match`` → 304. Deleted and cross-workspace drives are 404.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param driveId
+ @return ApiDrivesReadRequest
+*/
+func (a *DrivesAPIService) DrivesRead(ctx context.Context, driveId string) ApiDrivesReadRequest {
+	return ApiDrivesReadRequest{
+		ApiService: a,
+		ctx: ctx,
+		driveId: driveId,
+	}
+}
+
+// Execute executes the request
+//  @return DriveOut
+func (a *DrivesAPIService) DrivesReadExecute(r ApiDrivesReadRequest) (*DriveOut, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *DriveOut
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DrivesAPIService.DrivesRead")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v0/drives/{drive_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"drive_id"+"}", url.PathEscape(parameterValueToString(r.driveId, "driveId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ifNoneMatch != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "If-None-Match", r.ifNoneMatch, "simple", "")
+	}
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v ValidationErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiDrivesRestoreRequest struct {
+	ctx context.Context
+	ApiService *DrivesAPIService
+	driveId string
+	idempotencyKey *string
+	ifMatch *string
+	authorization *string
+}
+
+func (r ApiDrivesRestoreRequest) IdempotencyKey(idempotencyKey string) ApiDrivesRestoreRequest {
+	r.idempotencyKey = &idempotencyKey
+	return r
+}
+
+func (r ApiDrivesRestoreRequest) IfMatch(ifMatch string) ApiDrivesRestoreRequest {
+	r.ifMatch = &ifMatch
+	return r
+}
+
+// Deprecated: redundant with the operation&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.
+// Deprecated
+func (r ApiDrivesRestoreRequest) Authorization(authorization string) ApiDrivesRestoreRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiDrivesRestoreRequest) Execute() (*DriveOut, *http.Response, error) {
+	return r.ApiService.DrivesRestoreExecute(r)
+}
+
+/*
+DrivesRestore Restore Drive
+
+Restore a soft-deleted drive. If-Match must carry the post-delete
+revision; restoring an already-active drive is 409 CONFLICT.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param driveId
+ @return ApiDrivesRestoreRequest
+*/
+func (a *DrivesAPIService) DrivesRestore(ctx context.Context, driveId string) ApiDrivesRestoreRequest {
+	return ApiDrivesRestoreRequest{
+		ApiService: a,
+		ctx: ctx,
+		driveId: driveId,
+	}
+}
+
+// Execute executes the request
+//  @return DriveOut
+func (a *DrivesAPIService) DrivesRestoreExecute(r ApiDrivesRestoreRequest) (*DriveOut, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *DriveOut
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DrivesAPIService.DrivesRestore")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v0/drives/{drive_id}/restore"
+	localVarPath = strings.Replace(localVarPath, "{"+"drive_id"+"}", url.PathEscape(parameterValueToString(r.driveId, "driveId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.idempotencyKey == nil {
+		return localVarReturnValue, nil, reportError("idempotencyKey is required and must be specified")
+	}
+	if r.ifMatch == nil {
+		return localVarReturnValue, nil, reportError("ifMatch is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "Idempotency-Key", r.idempotencyKey, "simple", "")
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "If-Match", r.ifMatch, "simple", "")
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 409 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 412 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v ValidationErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 428 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiDrivesUpdateRequest struct {
+	ctx context.Context
+	ApiService *DrivesAPIService
+	driveId string
+	idempotencyKey *string
+	ifMatch *string
+	driveUpdateIn *DriveUpdateIn
+	authorization *string
+}
+
+func (r ApiDrivesUpdateRequest) IdempotencyKey(idempotencyKey string) ApiDrivesUpdateRequest {
+	r.idempotencyKey = &idempotencyKey
+	return r
+}
+
+func (r ApiDrivesUpdateRequest) IfMatch(ifMatch string) ApiDrivesUpdateRequest {
+	r.ifMatch = &ifMatch
+	return r
+}
+
+func (r ApiDrivesUpdateRequest) DriveUpdateIn(driveUpdateIn DriveUpdateIn) ApiDrivesUpdateRequest {
+	r.driveUpdateIn = &driveUpdateIn
+	return r
+}
+
+// Deprecated: redundant with the operation&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.
+// Deprecated
+func (r ApiDrivesUpdateRequest) Authorization(authorization string) ApiDrivesUpdateRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiDrivesUpdateRequest) Execute() (*DriveOut, *http.Response, error) {
+	return r.ApiService.DrivesUpdateExecute(r)
+}
+
+/*
+DrivesUpdate Update Drive
+
+Rename / update a drive's metadata. Requires ``Idempotency-Key`` and
+``If-Match`` (428 absent, 412 stale); bumps the revision.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param driveId
+ @return ApiDrivesUpdateRequest
+*/
+func (a *DrivesAPIService) DrivesUpdate(ctx context.Context, driveId string) ApiDrivesUpdateRequest {
+	return ApiDrivesUpdateRequest{
+		ApiService: a,
+		ctx: ctx,
+		driveId: driveId,
+	}
+}
+
+// Execute executes the request
+//  @return DriveOut
+func (a *DrivesAPIService) DrivesUpdateExecute(r ApiDrivesUpdateRequest) (*DriveOut, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPatch
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *DriveOut
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DrivesAPIService.DrivesUpdate")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v0/drives/{drive_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"drive_id"+"}", url.PathEscape(parameterValueToString(r.driveId, "driveId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.idempotencyKey == nil {
+		return localVarReturnValue, nil, reportError("idempotencyKey is required and must be specified")
+	}
+	if r.ifMatch == nil {
+		return localVarReturnValue, nil, reportError("ifMatch is required and must be specified")
+	}
+	if r.driveUpdateIn == nil {
+		return localVarReturnValue, nil, reportError("driveUpdateIn is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "Idempotency-Key", r.idempotencyKey, "simple", "")
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "If-Match", r.ifMatch, "simple", "")
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
+	}
+	// body params
+	localVarPostBody = r.driveUpdateIn
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 409 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 412 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v ValidationErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 428 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiDrivesUsageRequest struct {
+	ctx context.Context
+	ApiService *DrivesAPIService
+	driveId string
+	authorization *string
+}
+
+// Deprecated: redundant with the operation&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.
+// Deprecated
+func (r ApiDrivesUsageRequest) Authorization(authorization string) ApiDrivesUsageRequest {
+	r.authorization = &authorization
+	return r
+}
+
+func (r ApiDrivesUsageRequest) Execute() (*DriveUsageOut, *http.Response, error) {
+	return r.ApiService.DrivesUsageExecute(r)
+}
+
+/*
+DrivesUsage Drive Usage
+
+Byte counters for one active drive: storage is the live sum of its
+versions' sizes; retrieval reads the counter the content-read slice
+maintains (0 until it lands).
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param driveId
+ @return ApiDrivesUsageRequest
+*/
+func (a *DrivesAPIService) DrivesUsage(ctx context.Context, driveId string) ApiDrivesUsageRequest {
+	return ApiDrivesUsageRequest{
+		ApiService: a,
+		ctx: ctx,
+		driveId: driveId,
+	}
+}
+
+// Execute executes the request
+//  @return DriveUsageOut
+func (a *DrivesAPIService) DrivesUsageExecute(r ApiDrivesUsageRequest) (*DriveUsageOut, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *DriveUsageOut
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DrivesAPIService.DrivesUsage")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v0/drives/{drive_id}/usage"
+	localVarPath = strings.Replace(localVarPath, "{"+"drive_id"+"}", url.PathEscape(parameterValueToString(r.driveId, "driveId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.authorization != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "authorization", r.authorization, "simple", "")
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v ValidationErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v V0ErrorEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v V0ErrorEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

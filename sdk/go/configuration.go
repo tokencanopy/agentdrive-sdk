@@ -1,7 +1,7 @@
 /*
 AgentDrive
 
-AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
 
 API version: <PINNED>
 */
@@ -89,12 +89,12 @@ type Configuration struct {
 func NewConfiguration() *Configuration {
 	cfg := &Configuration{
 		DefaultHeader:    make(map[string]string),
-		UserAgent:        "OpenAPI-Generator/1.0.0/go",
+		UserAgent:        "OpenAPI-Generator/0.0.1/go",
 		Debug:            false,
 		Servers:          ServerConfigurations{
 			{
-				URL: "https://api.agentdrive.run",
-				Description: "AgentDrive public API",
+				URL: "https://drive.tokencanopy.com",
+				Description: "AgentDrive canonical production API",
 			},
 		},
 		OperationServers: map[string]ServerConfigurations{
