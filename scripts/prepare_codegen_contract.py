@@ -1,4 +1,4 @@
-"""Prepare the canonical OpenAPI 3.1 contract for deterministic generation."""
+"""Prepare the canonical OpenAPI contract for deterministic SDK generation."""
 
 from __future__ import annotations
 
@@ -17,6 +17,10 @@ def normalize_for_codegen(
     document: Dict[str, Any], *, language: str = "common"
 ) -> Dict[str, Any]:
     normalized = deepcopy(document)
+    # The checked-in contract remains OpenAPI 3.1.  The pinned generator is
+    # intentionally fed a deterministic 3.0.3 representation because it does
+    # not support the 3.1 nullable/const forms used by the server contract.
+    normalized["openapi"] = "3.0.3"
     invalid = sorted(
         path
         for path in normalized.get("paths", {})
@@ -25,10 +29,65 @@ def normalize_for_codegen(
     if invalid:
         raise CodegenContractError(f"non-SDK paths in committed contract: {invalid}")
 
+    def normalize_nullable_anyof(value: Dict[str, Any]) -> None:
+        alternatives = value.get("anyOf")
+        if not isinstance(alternatives, list) or len(alternatives) != 2:
+            return
+        null_branches = [
+            alternative
+            for alternative in alternatives
+            if isinstance(alternative, dict) and alternative == {"type": "null"}
+        ]
+        if len(null_branches) != 1:
+            return
+        non_null = next(
+            alternative
+            for alternative in alternatives
+            if alternative is not null_branches[0]
+        )
+        if not isinstance(non_null, dict):
+            return
+
+        metadata = {key: child for key, child in value.items() if key != "anyOf"}
+        value.clear()
+        value.update(metadata)
+        if set(non_null) == {"$ref"}:
+            # A 3.0 Reference Object cannot carry nullable as a sibling.  An
+            # allOf wrapper keeps the reference valid while preserving the
+            # nullable meaning for the generator.
+            value["allOf"] = [non_null]
+        else:
+            value.update(non_null)
+        value["nullable"] = True
+
     def walk(value: Any) -> None:
         if isinstance(value, dict):
             if isinstance(value.get("default"), (dict, list)):
                 value.pop("default")
+
+            schema_types = value.get("type")
+            if isinstance(schema_types, list):
+                non_null_types = [item for item in schema_types if item != "null"]
+                if len(schema_types) == 2 and len(non_null_types) == 1:
+                    value["type"] = non_null_types[0]
+                    value["nullable"] = True
+                else:
+                    raise CodegenContractError(
+                        "unsupported OpenAPI 3.1 type union: "
+                        f"{schema_types!r}"
+                    )
+
+            if "const" in value:
+                constant = value.pop("const")
+                existing_enum = value.get("enum")
+                if existing_enum is None:
+                    value["enum"] = [constant]
+                elif constant not in existing_enum:
+                    raise CodegenContractError(
+                        "OpenAPI const conflicts with enum: "
+                        f"{constant!r} not in {existing_enum!r}"
+                    )
+
             alternatives = value.get("anyOf")
             if language in {"go", "typescript"} and isinstance(alternatives, list):
                 has_free_form_branch = any(
@@ -48,10 +107,11 @@ def normalize_for_codegen(
                     len(primitive_types) == len(alternatives)
                     and len(non_null) > 1
                 ):
-                    # Generator 7.24 emits references to undefined AnyOf
+                    # The pinned generator emits references to undefined AnyOf
                     # helpers for primitive unions. Go has no native union;
                     # interface{} faithfully accepts every declared branch.
                     value.pop("anyOf")
+            normalize_nullable_anyof(value)
             for child in list(value.values()):
                 walk(child)
         elif isinstance(value, list):

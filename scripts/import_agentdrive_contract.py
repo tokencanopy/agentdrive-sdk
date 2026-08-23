@@ -9,8 +9,8 @@ from pathlib import Path
 from typing import Any, Dict
 
 SDK_SERVER = {
-    "url": "https://api.agentdrive.run",
-    "description": "AgentDrive public API",
+    "url": "https://drive.tokencanopy.com",
+    "description": "AgentDrive canonical production API",
 }
 SOURCE_REPOSITORY = "https://github.com/tokencanopy/agentdrive"
 SOURCE_PATH = "tests/openapi.golden.json"
@@ -43,7 +43,7 @@ def _validate(document: Dict[str, Any]) -> None:
     scheme = (
         document.get("components", {})
         .get("securitySchemes", {})
-        .get("BearerAuth")
+        .get("bearerAuth")
     )
     if (
         not isinstance(scheme, dict)
@@ -51,7 +51,7 @@ def _validate(document: Dict[str, Any]) -> None:
         or scheme.get("scheme") != "bearer"
         or not scheme.get("bearerFormat")
     ):
-        raise ContractImportError("source contract lacks canonical BearerAuth")
+        raise ContractImportError("source contract lacks canonical bearerAuth")
 
     operation_ids = []
     for path_item in document.get("paths", {}).values():

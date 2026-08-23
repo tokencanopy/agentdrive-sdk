@@ -88,7 +88,7 @@ Gemini CLI supports OAuth 2.0 for remote MCP servers. (Note: the consumer Gemini
 For headless use you can authenticate with an API key instead of OAuth — pass it as a bearer token:
 
 ```bash
-curl -H "Authorization: Bearer ad_live_..." https://api.agentdrive.run/v0/...
+curl -H "Authorization: Bearer ad_live_..." https://drive.tokencanopy.com/v0/...
 ```
 
 See [`auth.md`](auth.md) and [`api.md`](api.md) for the full auth model.

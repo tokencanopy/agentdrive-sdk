@@ -17,7 +17,7 @@ against that provenance, and requires the recorded generator image to match
 
 The import changes only the snapshot's deployment-derived `servers` sentinel
 to the separately reviewed public SDK default
-`https://api.agentdrive.run`. It rejects pre-freeze contracts, non-SDK routes,
+`https://drive.tokencanopy.com`. It rejects pre-freeze contracts, non-SDK routes,
 missing Bearer authentication, missing operation IDs, and duplicates.
 
 Every API contract change uses two coordinated reviews:
@@ -26,19 +26,21 @@ Every API contract change uses two coordinated reviews:
 2. This repository imports that exact commit, regenerates all clients, and
    records any generated-client migration notes.
 
-CI regenerates with `openapitools/openapi-generator-cli:v7.24.0`, requires a
+CI regenerates with `openapitools/openapi-generator-cli:v7.16.0`, requires a
 clean diff, checks exact operation coverage in all three languages, and runs
 their tests. The workflow does not fetch production, commit changes, publish
 packages, or deploy anything.
 
-The canonical OpenAPI 3.1 file is unchanged by generation. A tested
-generation-only view removes object/array defaults that produce invalid Go and
-maps multi-type primitive unions to Go's `interface{}` because Generator 7.24
-otherwise emits undefined `AnyOf` helpers. The same view maps a free-form
-nullable value to the language's open value type for Go and TypeScript because
-their templates otherwise emit undefined serializers. Python consumes the
-unmodified union schemas. A final deterministic pass strips generator-owned
-trailing whitespace and excess EOF blank lines.
+The canonical OpenAPI 3.1 file is unchanged by generation. Tested
+generation-only views downgrade the document to OpenAPI 3.0.3, convert 3.1
+nullable and `const` forms, and remove object/array defaults that produce
+invalid Go. They map multi-type primitive unions to Go's `interface{}` because
+the pinned generator otherwise emits undefined `AnyOf` helpers. The same views
+map free-form nullable values to the language's open value type for Go and
+TypeScript. A small tested post-generation compatibility pass qualifies the
+TypeScript generator's free-form multipart `objectToJSON` call and provides an
+identity serializer. A final deterministic pass strips generator-owned trailing
+whitespace and excess EOF blank lines.
 
 Publishing is a separate, explicit release action. Corrected clients should
 receive a version and migration note appropriate to their current stability
