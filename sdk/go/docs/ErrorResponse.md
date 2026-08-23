@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Detail** | [**ErrorDetail**](ErrorDetail.md) |  |
+**Error** | [**ErrorResponseError**](ErrorResponseError.md) |  |
 
 ## Methods
 
 ### NewErrorResponse
 
-`func NewErrorResponse(detail ErrorDetail, ) *ErrorResponse`
+`func NewErrorResponse(error_ ErrorResponseError, ) *ErrorResponse`
 
 NewErrorResponse instantiates a new ErrorResponse object
 This constructor will assign default values to properties that have it defined,
@@ -25,24 +25,24 @@ NewErrorResponseWithDefaults instantiates a new ErrorResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetDetail
+### GetError
 
-`func (o *ErrorResponse) GetDetail() ErrorDetail`
+`func (o *ErrorResponse) GetError() ErrorResponseError`
 
-GetDetail returns the Detail field if non-nil, zero value otherwise.
+GetError returns the Error field if non-nil, zero value otherwise.
 
-### GetDetailOk
+### GetErrorOk
 
-`func (o *ErrorResponse) GetDetailOk() (*ErrorDetail, bool)`
+`func (o *ErrorResponse) GetErrorOk() (*ErrorResponseError, bool)`
 
-GetDetailOk returns a tuple with the Detail field if it's non-nil, zero value otherwise
+GetErrorOk returns a tuple with the Error field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetDetail
+### SetError
 
-`func (o *ErrorResponse) SetDetail(v ErrorDetail)`
+`func (o *ErrorResponse) SetError(v ErrorResponseError)`
 
-SetDetail sets Detail field to given value.
+SetError sets Error field to given value.
 
 
 

@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: <PINNED>
  *
@@ -14,33 +14,40 @@
 
 import { mapValues } from '../runtime';
 /**
- * POST /v0/folders/{fld_id}/copy body — duplicate the subtree to a
- * new path. `path` is the target folder path (canonical, trailing
- * slash). Its own schema (vs. reusing `FolderMoveIn`) keeps the copy
- * surface self-documenting in the OpenAPI spec.
+ * POST /v0/drives/{id}/folders/{folder_id}/copy body.
+ *
+ * ``destination_drive_id`` must equal the source drive (or be absent) —
+ * cross-drive copy is out of v0 scope and rejected.
  * @export
  * @interface FolderCopyIn
  */
 export interface FolderCopyIn {
     /**
      *
-     * @type {number}
+     * @type {string}
      * @memberof FolderCopyIn
      */
-    fromMetageneration?: number | null;
+    destinationDriveId?: string | null;
     /**
      *
      * @type {string}
      * @memberof FolderCopyIn
      */
-    path: string;
+    destinationName: string;
+    /**
+     *
+     * @type {string}
+     * @memberof FolderCopyIn
+     */
+    destinationParentId: string;
 }
 
 /**
  * Check if a given object implements the FolderCopyIn interface.
  */
 export function instanceOfFolderCopyIn(value: object): value is FolderCopyIn {
-    if (!('path' in value) || value['path'] === undefined) return false;
+    if (!('destinationName' in value) || value['destinationName'] === undefined) return false;
+    if (!('destinationParentId' in value) || value['destinationParentId'] === undefined) return false;
     return true;
 }
 
@@ -54,8 +61,9 @@ export function FolderCopyInFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
 
-        'fromMetageneration': json['from_metageneration'] === undefined ? undefined : json['from_metageneration'] === null ? null : json['from_metageneration'],
-        'path': json['path'],
+        'destinationDriveId': json['destination_drive_id'] == null ? undefined : json['destination_drive_id'],
+        'destinationName': json['destination_name'],
+        'destinationParentId': json['destination_parent_id'],
     };
 }
 
@@ -70,7 +78,8 @@ export function FolderCopyInToJSONTyped(value?: FolderCopyIn | null, ignoreDiscr
 
     return {
 
-        'from_metageneration': value['fromMetageneration'],
-        'path': value['path'],
+        'destination_drive_id': value['destinationDriveId'],
+        'destination_name': value['destinationName'],
+        'destination_parent_id': value['destinationParentId'],
     };
 }

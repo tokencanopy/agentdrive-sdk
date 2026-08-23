@@ -4,13 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Description** | Pointer to **NullableString** |  | [optional]
+**Metadata** | Pointer to **map[string]interface{}** |  | [optional]
+**Name** | **string** |  |
+**ParentId** | **string** |  |
 
 ## Methods
 
 ### NewFolderCreateIn
 
-`func NewFolderCreateIn() *FolderCreateIn`
+`func NewFolderCreateIn(name string, parentId string, ) *FolderCreateIn`
 
 NewFolderCreateIn instantiates a new FolderCreateIn object
 This constructor will assign default values to properties that have it defined,
@@ -25,40 +27,70 @@ NewFolderCreateInWithDefaults instantiates a new FolderCreateIn object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetDescription
+### GetMetadata
 
-`func (o *FolderCreateIn) GetDescription() string`
+`func (o *FolderCreateIn) GetMetadata() map[string]interface{}`
 
-GetDescription returns the Description field if non-nil, zero value otherwise.
+GetMetadata returns the Metadata field if non-nil, zero value otherwise.
 
-### GetDescriptionOk
+### GetMetadataOk
 
-`func (o *FolderCreateIn) GetDescriptionOk() (*string, bool)`
+`func (o *FolderCreateIn) GetMetadataOk() (*map[string]interface{}, bool)`
 
-GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
+GetMetadataOk returns a tuple with the Metadata field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetDescription
+### SetMetadata
 
-`func (o *FolderCreateIn) SetDescription(v string)`
+`func (o *FolderCreateIn) SetMetadata(v map[string]interface{})`
 
-SetDescription sets Description field to given value.
+SetMetadata sets Metadata field to given value.
 
-### HasDescription
+### HasMetadata
 
-`func (o *FolderCreateIn) HasDescription() bool`
+`func (o *FolderCreateIn) HasMetadata() bool`
 
-HasDescription returns a boolean if a field has been set.
+HasMetadata returns a boolean if a field has been set.
 
-### SetDescriptionNil
+### GetName
 
-`func (o *FolderCreateIn) SetDescriptionNil(b bool)`
+`func (o *FolderCreateIn) GetName() string`
 
- SetDescriptionNil sets the value for Description to be an explicit nil
+GetName returns the Name field if non-nil, zero value otherwise.
 
-### UnsetDescription
-`func (o *FolderCreateIn) UnsetDescription()`
+### GetNameOk
 
-UnsetDescription ensures that no value is present for Description, not even an explicit nil
+`func (o *FolderCreateIn) GetNameOk() (*string, bool)`
+
+GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetName
+
+`func (o *FolderCreateIn) SetName(v string)`
+
+SetName sets Name field to given value.
+
+
+### GetParentId
+
+`func (o *FolderCreateIn) GetParentId() string`
+
+GetParentId returns the ParentId field if non-nil, zero value otherwise.
+
+### GetParentIdOk
+
+`func (o *FolderCreateIn) GetParentIdOk() (*string, bool)`
+
+GetParentIdOk returns a tuple with the ParentId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetParentId
+
+`func (o *FolderCreateIn) SetParentId(v string)`
+
+SetParentId sets ParentId field to given value.
+
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

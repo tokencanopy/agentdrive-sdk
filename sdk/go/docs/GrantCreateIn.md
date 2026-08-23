@@ -4,16 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ExpiresIn** | Pointer to **NullableInt32** |  | [optional]
-**Principal** | [**GrantPrincipalIn**](GrantPrincipalIn.md) |  |
-**Resource** | **string** |  |
+**ExpiresAt** | Pointer to **NullableTime** |  | [optional]
+**PrincipalId** | Pointer to **NullableString** | Required for &#x60;agent&#x60;, &#x60;user&#x60;, and &#x60;workspace&#x60;; omitted only for &#x60;public&#x60;. For &#x60;agent&#x60; and &#x60;user&#x60; it is checked against that type&#39;s id prefix (&#x60;tcagt_&#x60; / &#x60;tcusr_&#x60;) and a mismatch is &#x60;422 VALIDATION_ERROR&#x60;. The prefix is all AgentDrive asserts: these ids are minted by Hub, so their full shape is not AgentDrive&#39;s to enforce, and a well-formed id naming a principal that does not exist — or belongs to another workspace — is accepted here and simply never matches a token. The rule is conditional on &#x60;principal_type&#x60;, so it is enforced at the boundary rather than expressible as one JSON Schema &#x60;pattern&#x60;. | [optional]
+**PrincipalType** | **string** |  |
+**ResourceId** | **string** |  |
+**ResourceType** | **string** |  |
 **Role** | **string** |  |
 
 ## Methods
 
 ### NewGrantCreateIn
 
-`func NewGrantCreateIn(principal GrantPrincipalIn, resource string, role string, ) *GrantCreateIn`
+`func NewGrantCreateIn(principalType string, resourceId string, resourceType string, role string, ) *GrantCreateIn`
 
 NewGrantCreateIn instantiates a new GrantCreateIn object
 This constructor will assign default values to properties that have it defined,
@@ -28,79 +30,134 @@ NewGrantCreateInWithDefaults instantiates a new GrantCreateIn object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetExpiresIn
+### GetExpiresAt
 
-`func (o *GrantCreateIn) GetExpiresIn() int32`
+`func (o *GrantCreateIn) GetExpiresAt() time.Time`
 
-GetExpiresIn returns the ExpiresIn field if non-nil, zero value otherwise.
+GetExpiresAt returns the ExpiresAt field if non-nil, zero value otherwise.
 
-### GetExpiresInOk
+### GetExpiresAtOk
 
-`func (o *GrantCreateIn) GetExpiresInOk() (*int32, bool)`
+`func (o *GrantCreateIn) GetExpiresAtOk() (*time.Time, bool)`
 
-GetExpiresInOk returns a tuple with the ExpiresIn field if it's non-nil, zero value otherwise
+GetExpiresAtOk returns a tuple with the ExpiresAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetExpiresIn
+### SetExpiresAt
 
-`func (o *GrantCreateIn) SetExpiresIn(v int32)`
+`func (o *GrantCreateIn) SetExpiresAt(v time.Time)`
 
-SetExpiresIn sets ExpiresIn field to given value.
+SetExpiresAt sets ExpiresAt field to given value.
 
-### HasExpiresIn
+### HasExpiresAt
 
-`func (o *GrantCreateIn) HasExpiresIn() bool`
+`func (o *GrantCreateIn) HasExpiresAt() bool`
 
-HasExpiresIn returns a boolean if a field has been set.
+HasExpiresAt returns a boolean if a field has been set.
 
-### SetExpiresInNil
+### SetExpiresAtNil
 
-`func (o *GrantCreateIn) SetExpiresInNil(b bool)`
+`func (o *GrantCreateIn) SetExpiresAtNil(b bool)`
 
- SetExpiresInNil sets the value for ExpiresIn to be an explicit nil
+ SetExpiresAtNil sets the value for ExpiresAt to be an explicit nil
 
-### UnsetExpiresIn
-`func (o *GrantCreateIn) UnsetExpiresIn()`
+### UnsetExpiresAt
+`func (o *GrantCreateIn) UnsetExpiresAt()`
 
-UnsetExpiresIn ensures that no value is present for ExpiresIn, not even an explicit nil
-### GetPrincipal
+UnsetExpiresAt ensures that no value is present for ExpiresAt, not even an explicit nil
+### GetPrincipalId
 
-`func (o *GrantCreateIn) GetPrincipal() GrantPrincipalIn`
+`func (o *GrantCreateIn) GetPrincipalId() string`
 
-GetPrincipal returns the Principal field if non-nil, zero value otherwise.
+GetPrincipalId returns the PrincipalId field if non-nil, zero value otherwise.
 
-### GetPrincipalOk
+### GetPrincipalIdOk
 
-`func (o *GrantCreateIn) GetPrincipalOk() (*GrantPrincipalIn, bool)`
+`func (o *GrantCreateIn) GetPrincipalIdOk() (*string, bool)`
 
-GetPrincipalOk returns a tuple with the Principal field if it's non-nil, zero value otherwise
+GetPrincipalIdOk returns a tuple with the PrincipalId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetPrincipal
+### SetPrincipalId
 
-`func (o *GrantCreateIn) SetPrincipal(v GrantPrincipalIn)`
+`func (o *GrantCreateIn) SetPrincipalId(v string)`
 
-SetPrincipal sets Principal field to given value.
+SetPrincipalId sets PrincipalId field to given value.
 
+### HasPrincipalId
 
-### GetResource
+`func (o *GrantCreateIn) HasPrincipalId() bool`
 
-`func (o *GrantCreateIn) GetResource() string`
+HasPrincipalId returns a boolean if a field has been set.
 
-GetResource returns the Resource field if non-nil, zero value otherwise.
+### SetPrincipalIdNil
 
-### GetResourceOk
+`func (o *GrantCreateIn) SetPrincipalIdNil(b bool)`
 
-`func (o *GrantCreateIn) GetResourceOk() (*string, bool)`
+ SetPrincipalIdNil sets the value for PrincipalId to be an explicit nil
 
-GetResourceOk returns a tuple with the Resource field if it's non-nil, zero value otherwise
+### UnsetPrincipalId
+`func (o *GrantCreateIn) UnsetPrincipalId()`
+
+UnsetPrincipalId ensures that no value is present for PrincipalId, not even an explicit nil
+### GetPrincipalType
+
+`func (o *GrantCreateIn) GetPrincipalType() string`
+
+GetPrincipalType returns the PrincipalType field if non-nil, zero value otherwise.
+
+### GetPrincipalTypeOk
+
+`func (o *GrantCreateIn) GetPrincipalTypeOk() (*string, bool)`
+
+GetPrincipalTypeOk returns a tuple with the PrincipalType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetResource
+### SetPrincipalType
 
-`func (o *GrantCreateIn) SetResource(v string)`
+`func (o *GrantCreateIn) SetPrincipalType(v string)`
 
-SetResource sets Resource field to given value.
+SetPrincipalType sets PrincipalType field to given value.
+
+
+### GetResourceId
+
+`func (o *GrantCreateIn) GetResourceId() string`
+
+GetResourceId returns the ResourceId field if non-nil, zero value otherwise.
+
+### GetResourceIdOk
+
+`func (o *GrantCreateIn) GetResourceIdOk() (*string, bool)`
+
+GetResourceIdOk returns a tuple with the ResourceId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetResourceId
+
+`func (o *GrantCreateIn) SetResourceId(v string)`
+
+SetResourceId sets ResourceId field to given value.
+
+
+### GetResourceType
+
+`func (o *GrantCreateIn) GetResourceType() string`
+
+GetResourceType returns the ResourceType field if non-nil, zero value otherwise.
+
+### GetResourceTypeOk
+
+`func (o *GrantCreateIn) GetResourceTypeOk() (*string, bool)`
+
+GetResourceTypeOk returns a tuple with the ResourceType field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetResourceType
+
+`func (o *GrantCreateIn) SetResourceType(v string)`
+
+SetResourceType sets ResourceType field to given value.
 
 
 ### GetRole

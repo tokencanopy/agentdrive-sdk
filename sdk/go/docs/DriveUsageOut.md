@@ -4,25 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AccountFootprint** | [**StorageFootprintOut**](StorageFootprintOut.md) |  |
-**EgressBytes** | [**UsageCounterOut**](UsageCounterOut.md) |  |
-**Footprint** | [**StorageFootprintOut**](StorageFootprintOut.md) |  |
-**IndexedBytes** | [**UsageCounterOut**](UsageCounterOut.md) |  |
-**IndexingOps** | [**UsageCounterOut**](UsageCounterOut.md) |  |
-**OpsThisMonth** | [**OperationUsageOut**](OperationUsageOut.md) |  |
-**Period** | [**UsagePeriodOut**](UsagePeriodOut.md) |  |
-**RetrievalQueries** | [**UsageCounterOut**](UsageCounterOut.md) |  |
-**Storage** | [**UsageCounterOut**](UsageCounterOut.md) |  |
-**StorageBreakdown** | Pointer to [**NullableStorageBreakdownOut**](StorageBreakdownOut.md) |  | [optional]
-**TokensThisMonth** | [**TokenUsageOut**](TokenUsageOut.md) |  |
-**VersionRetention** | [**VersionRetentionOut**](VersionRetentionOut.md) |  |
-**WritesThisHour** | [**HourlyUsageCounterOut**](HourlyUsageCounterOut.md) |  |
+**RetrievalBytes** | **int32** |  |
+**StorageBytes** | **int32** |  |
 
 ## Methods
 
 ### NewDriveUsageOut
 
-`func NewDriveUsageOut(accountFootprint StorageFootprintOut, egressBytes UsageCounterOut, footprint StorageFootprintOut, indexedBytes UsageCounterOut, indexingOps UsageCounterOut, opsThisMonth OperationUsageOut, period UsagePeriodOut, retrievalQueries UsageCounterOut, storage UsageCounterOut, tokensThisMonth TokenUsageOut, versionRetention VersionRetentionOut, writesThisHour HourlyUsageCounterOut, ) *DriveUsageOut`
+`func NewDriveUsageOut(retrievalBytes int32, storageBytes int32, ) *DriveUsageOut`
 
 NewDriveUsageOut instantiates a new DriveUsageOut object
 This constructor will assign default values to properties that have it defined,
@@ -37,279 +26,44 @@ NewDriveUsageOutWithDefaults instantiates a new DriveUsageOut object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetAccountFootprint
+### GetRetrievalBytes
 
-`func (o *DriveUsageOut) GetAccountFootprint() StorageFootprintOut`
+`func (o *DriveUsageOut) GetRetrievalBytes() int32`
 
-GetAccountFootprint returns the AccountFootprint field if non-nil, zero value otherwise.
+GetRetrievalBytes returns the RetrievalBytes field if non-nil, zero value otherwise.
 
-### GetAccountFootprintOk
+### GetRetrievalBytesOk
 
-`func (o *DriveUsageOut) GetAccountFootprintOk() (*StorageFootprintOut, bool)`
+`func (o *DriveUsageOut) GetRetrievalBytesOk() (*int32, bool)`
 
-GetAccountFootprintOk returns a tuple with the AccountFootprint field if it's non-nil, zero value otherwise
+GetRetrievalBytesOk returns a tuple with the RetrievalBytes field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetAccountFootprint
+### SetRetrievalBytes
 
-`func (o *DriveUsageOut) SetAccountFootprint(v StorageFootprintOut)`
+`func (o *DriveUsageOut) SetRetrievalBytes(v int32)`
 
-SetAccountFootprint sets AccountFootprint field to given value.
+SetRetrievalBytes sets RetrievalBytes field to given value.
 
 
-### GetEgressBytes
+### GetStorageBytes
 
-`func (o *DriveUsageOut) GetEgressBytes() UsageCounterOut`
+`func (o *DriveUsageOut) GetStorageBytes() int32`
 
-GetEgressBytes returns the EgressBytes field if non-nil, zero value otherwise.
+GetStorageBytes returns the StorageBytes field if non-nil, zero value otherwise.
 
-### GetEgressBytesOk
+### GetStorageBytesOk
 
-`func (o *DriveUsageOut) GetEgressBytesOk() (*UsageCounterOut, bool)`
+`func (o *DriveUsageOut) GetStorageBytesOk() (*int32, bool)`
 
-GetEgressBytesOk returns a tuple with the EgressBytes field if it's non-nil, zero value otherwise
+GetStorageBytesOk returns a tuple with the StorageBytes field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetEgressBytes
+### SetStorageBytes
 
-`func (o *DriveUsageOut) SetEgressBytes(v UsageCounterOut)`
+`func (o *DriveUsageOut) SetStorageBytes(v int32)`
 
-SetEgressBytes sets EgressBytes field to given value.
-
-
-### GetFootprint
-
-`func (o *DriveUsageOut) GetFootprint() StorageFootprintOut`
-
-GetFootprint returns the Footprint field if non-nil, zero value otherwise.
-
-### GetFootprintOk
-
-`func (o *DriveUsageOut) GetFootprintOk() (*StorageFootprintOut, bool)`
-
-GetFootprintOk returns a tuple with the Footprint field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetFootprint
-
-`func (o *DriveUsageOut) SetFootprint(v StorageFootprintOut)`
-
-SetFootprint sets Footprint field to given value.
-
-
-### GetIndexedBytes
-
-`func (o *DriveUsageOut) GetIndexedBytes() UsageCounterOut`
-
-GetIndexedBytes returns the IndexedBytes field if non-nil, zero value otherwise.
-
-### GetIndexedBytesOk
-
-`func (o *DriveUsageOut) GetIndexedBytesOk() (*UsageCounterOut, bool)`
-
-GetIndexedBytesOk returns a tuple with the IndexedBytes field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetIndexedBytes
-
-`func (o *DriveUsageOut) SetIndexedBytes(v UsageCounterOut)`
-
-SetIndexedBytes sets IndexedBytes field to given value.
-
-
-### GetIndexingOps
-
-`func (o *DriveUsageOut) GetIndexingOps() UsageCounterOut`
-
-GetIndexingOps returns the IndexingOps field if non-nil, zero value otherwise.
-
-### GetIndexingOpsOk
-
-`func (o *DriveUsageOut) GetIndexingOpsOk() (*UsageCounterOut, bool)`
-
-GetIndexingOpsOk returns a tuple with the IndexingOps field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetIndexingOps
-
-`func (o *DriveUsageOut) SetIndexingOps(v UsageCounterOut)`
-
-SetIndexingOps sets IndexingOps field to given value.
-
-
-### GetOpsThisMonth
-
-`func (o *DriveUsageOut) GetOpsThisMonth() OperationUsageOut`
-
-GetOpsThisMonth returns the OpsThisMonth field if non-nil, zero value otherwise.
-
-### GetOpsThisMonthOk
-
-`func (o *DriveUsageOut) GetOpsThisMonthOk() (*OperationUsageOut, bool)`
-
-GetOpsThisMonthOk returns a tuple with the OpsThisMonth field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetOpsThisMonth
-
-`func (o *DriveUsageOut) SetOpsThisMonth(v OperationUsageOut)`
-
-SetOpsThisMonth sets OpsThisMonth field to given value.
-
-
-### GetPeriod
-
-`func (o *DriveUsageOut) GetPeriod() UsagePeriodOut`
-
-GetPeriod returns the Period field if non-nil, zero value otherwise.
-
-### GetPeriodOk
-
-`func (o *DriveUsageOut) GetPeriodOk() (*UsagePeriodOut, bool)`
-
-GetPeriodOk returns a tuple with the Period field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPeriod
-
-`func (o *DriveUsageOut) SetPeriod(v UsagePeriodOut)`
-
-SetPeriod sets Period field to given value.
-
-
-### GetRetrievalQueries
-
-`func (o *DriveUsageOut) GetRetrievalQueries() UsageCounterOut`
-
-GetRetrievalQueries returns the RetrievalQueries field if non-nil, zero value otherwise.
-
-### GetRetrievalQueriesOk
-
-`func (o *DriveUsageOut) GetRetrievalQueriesOk() (*UsageCounterOut, bool)`
-
-GetRetrievalQueriesOk returns a tuple with the RetrievalQueries field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRetrievalQueries
-
-`func (o *DriveUsageOut) SetRetrievalQueries(v UsageCounterOut)`
-
-SetRetrievalQueries sets RetrievalQueries field to given value.
-
-
-### GetStorage
-
-`func (o *DriveUsageOut) GetStorage() UsageCounterOut`
-
-GetStorage returns the Storage field if non-nil, zero value otherwise.
-
-### GetStorageOk
-
-`func (o *DriveUsageOut) GetStorageOk() (*UsageCounterOut, bool)`
-
-GetStorageOk returns a tuple with the Storage field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetStorage
-
-`func (o *DriveUsageOut) SetStorage(v UsageCounterOut)`
-
-SetStorage sets Storage field to given value.
-
-
-### GetStorageBreakdown
-
-`func (o *DriveUsageOut) GetStorageBreakdown() StorageBreakdownOut`
-
-GetStorageBreakdown returns the StorageBreakdown field if non-nil, zero value otherwise.
-
-### GetStorageBreakdownOk
-
-`func (o *DriveUsageOut) GetStorageBreakdownOk() (*StorageBreakdownOut, bool)`
-
-GetStorageBreakdownOk returns a tuple with the StorageBreakdown field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetStorageBreakdown
-
-`func (o *DriveUsageOut) SetStorageBreakdown(v StorageBreakdownOut)`
-
-SetStorageBreakdown sets StorageBreakdown field to given value.
-
-### HasStorageBreakdown
-
-`func (o *DriveUsageOut) HasStorageBreakdown() bool`
-
-HasStorageBreakdown returns a boolean if a field has been set.
-
-### SetStorageBreakdownNil
-
-`func (o *DriveUsageOut) SetStorageBreakdownNil(b bool)`
-
- SetStorageBreakdownNil sets the value for StorageBreakdown to be an explicit nil
-
-### UnsetStorageBreakdown
-`func (o *DriveUsageOut) UnsetStorageBreakdown()`
-
-UnsetStorageBreakdown ensures that no value is present for StorageBreakdown, not even an explicit nil
-### GetTokensThisMonth
-
-`func (o *DriveUsageOut) GetTokensThisMonth() TokenUsageOut`
-
-GetTokensThisMonth returns the TokensThisMonth field if non-nil, zero value otherwise.
-
-### GetTokensThisMonthOk
-
-`func (o *DriveUsageOut) GetTokensThisMonthOk() (*TokenUsageOut, bool)`
-
-GetTokensThisMonthOk returns a tuple with the TokensThisMonth field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetTokensThisMonth
-
-`func (o *DriveUsageOut) SetTokensThisMonth(v TokenUsageOut)`
-
-SetTokensThisMonth sets TokensThisMonth field to given value.
-
-
-### GetVersionRetention
-
-`func (o *DriveUsageOut) GetVersionRetention() VersionRetentionOut`
-
-GetVersionRetention returns the VersionRetention field if non-nil, zero value otherwise.
-
-### GetVersionRetentionOk
-
-`func (o *DriveUsageOut) GetVersionRetentionOk() (*VersionRetentionOut, bool)`
-
-GetVersionRetentionOk returns a tuple with the VersionRetention field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetVersionRetention
-
-`func (o *DriveUsageOut) SetVersionRetention(v VersionRetentionOut)`
-
-SetVersionRetention sets VersionRetention field to given value.
-
-
-### GetWritesThisHour
-
-`func (o *DriveUsageOut) GetWritesThisHour() HourlyUsageCounterOut`
-
-GetWritesThisHour returns the WritesThisHour field if non-nil, zero value otherwise.
-
-### GetWritesThisHourOk
-
-`func (o *DriveUsageOut) GetWritesThisHourOk() (*HourlyUsageCounterOut, bool)`
-
-GetWritesThisHourOk returns a tuple with the WritesThisHour field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetWritesThisHour
-
-`func (o *DriveUsageOut) SetWritesThisHour(v HourlyUsageCounterOut)`
-
-SetWritesThisHour sets WritesThisHour field to given value.
+SetStorageBytes sets StorageBytes field to given value.
 
 
 

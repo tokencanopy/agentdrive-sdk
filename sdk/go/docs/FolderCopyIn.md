@@ -4,14 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**FromMetageneration** | Pointer to **NullableInt32** |  | [optional]
-**Path** | **string** |  |
+**DestinationDriveId** | Pointer to **NullableString** |  | [optional]
+**DestinationName** | **string** |  |
+**DestinationParentId** | **string** |  |
 
 ## Methods
 
 ### NewFolderCopyIn
 
-`func NewFolderCopyIn(path string, ) *FolderCopyIn`
+`func NewFolderCopyIn(destinationName string, destinationParentId string, ) *FolderCopyIn`
 
 NewFolderCopyIn instantiates a new FolderCopyIn object
 This constructor will assign default values to properties that have it defined,
@@ -26,59 +27,79 @@ NewFolderCopyInWithDefaults instantiates a new FolderCopyIn object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetFromMetageneration
+### GetDestinationDriveId
 
-`func (o *FolderCopyIn) GetFromMetageneration() int32`
+`func (o *FolderCopyIn) GetDestinationDriveId() string`
 
-GetFromMetageneration returns the FromMetageneration field if non-nil, zero value otherwise.
+GetDestinationDriveId returns the DestinationDriveId field if non-nil, zero value otherwise.
 
-### GetFromMetagenerationOk
+### GetDestinationDriveIdOk
 
-`func (o *FolderCopyIn) GetFromMetagenerationOk() (*int32, bool)`
+`func (o *FolderCopyIn) GetDestinationDriveIdOk() (*string, bool)`
 
-GetFromMetagenerationOk returns a tuple with the FromMetageneration field if it's non-nil, zero value otherwise
+GetDestinationDriveIdOk returns a tuple with the DestinationDriveId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetFromMetageneration
+### SetDestinationDriveId
 
-`func (o *FolderCopyIn) SetFromMetageneration(v int32)`
+`func (o *FolderCopyIn) SetDestinationDriveId(v string)`
 
-SetFromMetageneration sets FromMetageneration field to given value.
+SetDestinationDriveId sets DestinationDriveId field to given value.
 
-### HasFromMetageneration
+### HasDestinationDriveId
 
-`func (o *FolderCopyIn) HasFromMetageneration() bool`
+`func (o *FolderCopyIn) HasDestinationDriveId() bool`
 
-HasFromMetageneration returns a boolean if a field has been set.
+HasDestinationDriveId returns a boolean if a field has been set.
 
-### SetFromMetagenerationNil
+### SetDestinationDriveIdNil
 
-`func (o *FolderCopyIn) SetFromMetagenerationNil(b bool)`
+`func (o *FolderCopyIn) SetDestinationDriveIdNil(b bool)`
 
- SetFromMetagenerationNil sets the value for FromMetageneration to be an explicit nil
+ SetDestinationDriveIdNil sets the value for DestinationDriveId to be an explicit nil
 
-### UnsetFromMetageneration
-`func (o *FolderCopyIn) UnsetFromMetageneration()`
+### UnsetDestinationDriveId
+`func (o *FolderCopyIn) UnsetDestinationDriveId()`
 
-UnsetFromMetageneration ensures that no value is present for FromMetageneration, not even an explicit nil
-### GetPath
+UnsetDestinationDriveId ensures that no value is present for DestinationDriveId, not even an explicit nil
+### GetDestinationName
 
-`func (o *FolderCopyIn) GetPath() string`
+`func (o *FolderCopyIn) GetDestinationName() string`
 
-GetPath returns the Path field if non-nil, zero value otherwise.
+GetDestinationName returns the DestinationName field if non-nil, zero value otherwise.
 
-### GetPathOk
+### GetDestinationNameOk
 
-`func (o *FolderCopyIn) GetPathOk() (*string, bool)`
+`func (o *FolderCopyIn) GetDestinationNameOk() (*string, bool)`
 
-GetPathOk returns a tuple with the Path field if it's non-nil, zero value otherwise
+GetDestinationNameOk returns a tuple with the DestinationName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetPath
+### SetDestinationName
 
-`func (o *FolderCopyIn) SetPath(v string)`
+`func (o *FolderCopyIn) SetDestinationName(v string)`
 
-SetPath sets Path field to given value.
+SetDestinationName sets DestinationName field to given value.
+
+
+### GetDestinationParentId
+
+`func (o *FolderCopyIn) GetDestinationParentId() string`
+
+GetDestinationParentId returns the DestinationParentId field if non-nil, zero value otherwise.
+
+### GetDestinationParentIdOk
+
+`func (o *FolderCopyIn) GetDestinationParentIdOk() (*string, bool)`
+
+GetDestinationParentIdOk returns a tuple with the DestinationParentId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDestinationParentId
+
+`func (o *FolderCopyIn) SetDestinationParentId(v string)`
+
+SetDestinationParentId sets DestinationParentId field to given value.
 
 
 

@@ -1,7 +1,7 @@
 /*
 AgentDrive
 
-AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
 
 API version: <PINNED>
 */
@@ -22,12 +22,13 @@ var _ MappedNullable = &VersionOut{}
 
 // VersionOut struct for VersionOut
 type VersionOut struct {
-	ActorName NullableString `json:"actor_name,omitempty"`
-	ArtId string `json:"art_id"`
-	ChangeSummary NullableString `json:"change_summary,omitempty"`
+	ArtifactId string `json:"artifact_id" validate:"regexp=^art_[a-f0-9]{16}$"`
 	ContentType string `json:"content_type"`
 	CreatedAt time.Time `json:"created_at"`
+	CreatedBy NullableString `json:"created_by"`
 	Hash string `json:"hash"`
+	Id string `json:"id" validate:"regexp=^ver_[a-f0-9]{16}$"`
+	ParentVersionId NullableString `json:"parent_version_id"`
 	SizeBytes int32 `json:"size_bytes"`
 	VersionNumber int32 `json:"version_number"`
 }
@@ -38,12 +39,15 @@ type _VersionOut VersionOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewVersionOut(artId string, contentType string, createdAt time.Time, hash string, sizeBytes int32, versionNumber int32) *VersionOut {
+func NewVersionOut(artifactId string, contentType string, createdAt time.Time, createdBy NullableString, hash string, id string, parentVersionId NullableString, sizeBytes int32, versionNumber int32) *VersionOut {
 	this := VersionOut{}
-	this.ArtId = artId
+	this.ArtifactId = artifactId
 	this.ContentType = contentType
 	this.CreatedAt = createdAt
+	this.CreatedBy = createdBy
 	this.Hash = hash
+	this.Id = id
+	this.ParentVersionId = parentVersionId
 	this.SizeBytes = sizeBytes
 	this.VersionNumber = versionNumber
 	return &this
@@ -57,112 +61,28 @@ func NewVersionOutWithDefaults() *VersionOut {
 	return &this
 }
 
-// GetActorName returns the ActorName field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *VersionOut) GetActorName() string {
-	if o == nil || IsNil(o.ActorName.Get()) {
-		var ret string
-		return ret
-	}
-	return *o.ActorName.Get()
-}
-
-// GetActorNameOk returns a tuple with the ActorName field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *VersionOut) GetActorNameOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.ActorName.Get(), o.ActorName.IsSet()
-}
-
-// HasActorName returns a boolean if a field has been set.
-func (o *VersionOut) HasActorName() bool {
-	if o != nil && o.ActorName.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetActorName gets a reference to the given NullableString and assigns it to the ActorName field.
-func (o *VersionOut) SetActorName(v string) {
-	o.ActorName.Set(&v)
-}
-// SetActorNameNil sets the value for ActorName to be an explicit nil
-func (o *VersionOut) SetActorNameNil() {
-	o.ActorName.Set(nil)
-}
-
-// UnsetActorName ensures that no value is present for ActorName, not even an explicit nil
-func (o *VersionOut) UnsetActorName() {
-	o.ActorName.Unset()
-}
-
-// GetArtId returns the ArtId field value
-func (o *VersionOut) GetArtId() string {
+// GetArtifactId returns the ArtifactId field value
+func (o *VersionOut) GetArtifactId() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.ArtId
+	return o.ArtifactId
 }
 
-// GetArtIdOk returns a tuple with the ArtId field value
+// GetArtifactIdOk returns a tuple with the ArtifactId field value
 // and a boolean to check if the value has been set.
-func (o *VersionOut) GetArtIdOk() (*string, bool) {
+func (o *VersionOut) GetArtifactIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.ArtId, true
+	return &o.ArtifactId, true
 }
 
-// SetArtId sets field value
-func (o *VersionOut) SetArtId(v string) {
-	o.ArtId = v
-}
-
-// GetChangeSummary returns the ChangeSummary field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *VersionOut) GetChangeSummary() string {
-	if o == nil || IsNil(o.ChangeSummary.Get()) {
-		var ret string
-		return ret
-	}
-	return *o.ChangeSummary.Get()
-}
-
-// GetChangeSummaryOk returns a tuple with the ChangeSummary field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *VersionOut) GetChangeSummaryOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.ChangeSummary.Get(), o.ChangeSummary.IsSet()
-}
-
-// HasChangeSummary returns a boolean if a field has been set.
-func (o *VersionOut) HasChangeSummary() bool {
-	if o != nil && o.ChangeSummary.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetChangeSummary gets a reference to the given NullableString and assigns it to the ChangeSummary field.
-func (o *VersionOut) SetChangeSummary(v string) {
-	o.ChangeSummary.Set(&v)
-}
-// SetChangeSummaryNil sets the value for ChangeSummary to be an explicit nil
-func (o *VersionOut) SetChangeSummaryNil() {
-	o.ChangeSummary.Set(nil)
-}
-
-// UnsetChangeSummary ensures that no value is present for ChangeSummary, not even an explicit nil
-func (o *VersionOut) UnsetChangeSummary() {
-	o.ChangeSummary.Unset()
+// SetArtifactId sets field value
+func (o *VersionOut) SetArtifactId(v string) {
+	o.ArtifactId = v
 }
 
 // GetContentType returns the ContentType field value
@@ -213,6 +133,32 @@ func (o *VersionOut) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
+// GetCreatedBy returns the CreatedBy field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *VersionOut) GetCreatedBy() string {
+	if o == nil || o.CreatedBy.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.CreatedBy.Get()
+}
+
+// GetCreatedByOk returns a tuple with the CreatedBy field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *VersionOut) GetCreatedByOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CreatedBy.Get(), o.CreatedBy.IsSet()
+}
+
+// SetCreatedBy sets field value
+func (o *VersionOut) SetCreatedBy(v string) {
+	o.CreatedBy.Set(&v)
+}
+
 // GetHash returns the Hash field value
 func (o *VersionOut) GetHash() string {
 	if o == nil {
@@ -235,6 +181,56 @@ func (o *VersionOut) GetHashOk() (*string, bool) {
 // SetHash sets field value
 func (o *VersionOut) SetHash(v string) {
 	o.Hash = v
+}
+
+// GetId returns the Id field value
+func (o *VersionOut) GetId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Id
+}
+
+// GetIdOk returns a tuple with the Id field value
+// and a boolean to check if the value has been set.
+func (o *VersionOut) GetIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Id, true
+}
+
+// SetId sets field value
+func (o *VersionOut) SetId(v string) {
+	o.Id = v
+}
+
+// GetParentVersionId returns the ParentVersionId field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *VersionOut) GetParentVersionId() string {
+	if o == nil || o.ParentVersionId.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.ParentVersionId.Get()
+}
+
+// GetParentVersionIdOk returns a tuple with the ParentVersionId field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *VersionOut) GetParentVersionIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ParentVersionId.Get(), o.ParentVersionId.IsSet()
+}
+
+// SetParentVersionId sets field value
+func (o *VersionOut) SetParentVersionId(v string) {
+	o.ParentVersionId.Set(&v)
 }
 
 // GetSizeBytes returns the SizeBytes field value
@@ -295,16 +291,13 @@ func (o VersionOut) MarshalJSON() ([]byte, error) {
 
 func (o VersionOut) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.ActorName.IsSet() {
-		toSerialize["actor_name"] = o.ActorName.Get()
-	}
-	toSerialize["art_id"] = o.ArtId
-	if o.ChangeSummary.IsSet() {
-		toSerialize["change_summary"] = o.ChangeSummary.Get()
-	}
+	toSerialize["artifact_id"] = o.ArtifactId
 	toSerialize["content_type"] = o.ContentType
 	toSerialize["created_at"] = o.CreatedAt
+	toSerialize["created_by"] = o.CreatedBy.Get()
 	toSerialize["hash"] = o.Hash
+	toSerialize["id"] = o.Id
+	toSerialize["parent_version_id"] = o.ParentVersionId.Get()
 	toSerialize["size_bytes"] = o.SizeBytes
 	toSerialize["version_number"] = o.VersionNumber
 	return toSerialize, nil
@@ -315,10 +308,13 @@ func (o *VersionOut) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"art_id",
+		"artifact_id",
 		"content_type",
 		"created_at",
+		"created_by",
 		"hash",
+		"id",
+		"parent_version_id",
 		"size_bytes",
 		"version_number",
 	}

@@ -1,18 +1,23 @@
 # DriveOut
 
-One drive in a listing — metadata only (workspaces-design §4.2). Carries NO capability and NEVER a raw key. An admin's inventory and a member's owned list both serialize to this shape; `owner_email` is the only owner-identifying field surfaced.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **created_at** | **datetime** |  |
+**created_by** | **str** |  |
+**deleted_at** | **datetime** |  |
 **id** | **str** |  |
+**metadata** | **Dict[str, object]** |  |
 **name** | **str** |  |
-**organization_id** | **str** |  |
-**owner_email** | **str** |  | [optional]
-**owner_user_id** | **str** |  | [optional]
+**retrieval_bytes** | **int** |  |
+**revision** | **str** |  |
+**root_folder_id** | **str** |  |
+**state** | **str** |  |
 **storage_bytes** | **int** |  |
+**updated_at** | **datetime** |  |
+**workspace_id** | **str** |  |
 
 ## Example
 

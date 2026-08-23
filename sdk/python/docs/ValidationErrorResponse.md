@@ -1,12 +1,11 @@
 # ValidationErrorResponse
 
-The runtime `VALIDATION_ERROR` response for request parsing failures.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**detail** | [**ValidationErrorDetail**](ValidationErrorDetail.md) |  |
+**error** | [**ValidationErrorResponseError**](ValidationErrorResponseError.md) |  |
 
 ## Example
 

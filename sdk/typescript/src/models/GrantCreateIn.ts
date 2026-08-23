@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: <PINNED>
  *
@@ -13,43 +13,45 @@
  */
 
 import { mapValues } from '../runtime';
-import type { GrantPrincipalIn } from './GrantPrincipalIn';
-import {
-    GrantPrincipalInFromJSON,
-    GrantPrincipalInFromJSONTyped,
-    GrantPrincipalInToJSON,
-    GrantPrincipalInToJSONTyped,
-} from './GrantPrincipalIn';
-
 /**
- * POST /v0/grants body. `resource` is an `art_*`/`fld_*` id or a path
- * (resolved within the caller's drive). `expires_in` is seconds from now
- * (omit for a permanent grant).
+ * POST /v0/drives/{id}/grants body.
  * @export
  * @interface GrantCreateIn
  */
 export interface GrantCreateIn {
     /**
      *
-     * @type {number}
+     * @type {Date}
      * @memberof GrantCreateIn
      */
-    expiresIn?: number | null;
+    expiresAt?: Date | null;
     /**
-     *
-     * @type {GrantPrincipalIn}
+     * Required for `agent`, `user`, and `workspace`; omitted only for `public`. For `agent` and `user` it is checked against that type's id prefix (`tcagt_` / `tcusr_`) and a mismatch is `422 VALIDATION_ERROR`. The prefix is all AgentDrive asserts: these ids are minted by Hub, so their full shape is not AgentDrive's to enforce, and a well-formed id naming a principal that does not exist — or belongs to another workspace — is accepted here and simply never matches a token. The rule is conditional on `principal_type`, so it is enforced at the boundary rather than expressible as one JSON Schema `pattern`.
+     * @type {string}
      * @memberof GrantCreateIn
      */
-    principal: GrantPrincipalIn;
+    principalId?: string | null;
     /**
      *
      * @type {string}
      * @memberof GrantCreateIn
      */
-    resource: string;
+    principalType: GrantCreateInPrincipalTypeEnum;
     /**
      *
-     * @type {GrantCreateInRoleEnum}
+     * @type {string}
+     * @memberof GrantCreateIn
+     */
+    resourceId: string;
+    /**
+     *
+     * @type {string}
+     * @memberof GrantCreateIn
+     */
+    resourceType: GrantCreateInResourceTypeEnum;
+    /**
+     *
+     * @type {string}
      * @memberof GrantCreateIn
      */
     role: GrantCreateInRoleEnum;
@@ -59,9 +61,29 @@ export interface GrantCreateIn {
 /**
  * @export
  */
+export const GrantCreateInPrincipalTypeEnum = {
+    Agent: 'agent',
+    User: 'user',
+    Workspace: 'workspace',
+    Public: 'public'
+} as const;
+export type GrantCreateInPrincipalTypeEnum = typeof GrantCreateInPrincipalTypeEnum[keyof typeof GrantCreateInPrincipalTypeEnum];
+
+/**
+ * @export
+ */
+export const GrantCreateInResourceTypeEnum = {
+    Drive: 'drive',
+    Folder: 'folder',
+    Artifact: 'artifact'
+} as const;
+export type GrantCreateInResourceTypeEnum = typeof GrantCreateInResourceTypeEnum[keyof typeof GrantCreateInResourceTypeEnum];
+
+/**
+ * @export
+ */
 export const GrantCreateInRoleEnum = {
     Viewer: 'viewer',
-    Commenter: 'commenter',
     Editor: 'editor',
     Manager: 'manager'
 } as const;
@@ -72,8 +94,9 @@ export type GrantCreateInRoleEnum = typeof GrantCreateInRoleEnum[keyof typeof Gr
  * Check if a given object implements the GrantCreateIn interface.
  */
 export function instanceOfGrantCreateIn(value: object): value is GrantCreateIn {
-    if (!('principal' in value) || value['principal'] === undefined) return false;
-    if (!('resource' in value) || value['resource'] === undefined) return false;
+    if (!('principalType' in value) || value['principalType'] === undefined) return false;
+    if (!('resourceId' in value) || value['resourceId'] === undefined) return false;
+    if (!('resourceType' in value) || value['resourceType'] === undefined) return false;
     if (!('role' in value) || value['role'] === undefined) return false;
     return true;
 }
@@ -88,9 +111,11 @@ export function GrantCreateInFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
 
-        'expiresIn': json['expires_in'] === undefined ? undefined : json['expires_in'] === null ? null : json['expires_in'],
-        'principal': GrantPrincipalInFromJSON(json['principal']),
-        'resource': json['resource'],
+        'expiresAt': json['expires_at'] == null ? undefined : (new Date(json['expires_at'])),
+        'principalId': json['principal_id'] == null ? undefined : json['principal_id'],
+        'principalType': json['principal_type'],
+        'resourceId': json['resource_id'],
+        'resourceType': json['resource_type'],
         'role': json['role'],
     };
 }
@@ -106,9 +131,11 @@ export function GrantCreateInToJSONTyped(value?: GrantCreateIn | null, ignoreDis
 
     return {
 
-        'expires_in': value['expiresIn'],
-        'principal': GrantPrincipalInToJSON(value['principal']),
-        'resource': value['resource'],
+        'expires_at': value['expiresAt'] == null ? value['expiresAt'] : value['expiresAt'].toISOString(),
+        'principal_id': value['principalId'],
+        'principal_type': value['principalType'],
+        'resource_id': value['resourceId'],
+        'resource_type': value['resourceType'],
         'role': value['role'],
     };
 }

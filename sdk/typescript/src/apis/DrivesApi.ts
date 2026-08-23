@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: <PINNED>
  *
@@ -12,91 +12,78 @@
  * Do not edit the class manually.
  */
 
+
 import * as runtime from '../runtime';
+import type {
+  DriveCreateIn,
+  DriveListOut,
+  DriveOut,
+  DriveUpdateIn,
+  DriveUsageOut,
+  V0ErrorEnvelope,
+  ValidationErrorResponse,
+} from '../models/index';
 import {
-    type DriveApiKeyCreateIn,
-    DriveApiKeyCreateInFromJSON,
-    DriveApiKeyCreateInToJSON,
-} from '../models/DriveApiKeyCreateIn';
-import {
-    type DriveApiKeyCreateOut,
-    DriveApiKeyCreateOutFromJSON,
-    DriveApiKeyCreateOutToJSON,
-} from '../models/DriveApiKeyCreateOut';
-import {
-    type DriveApiKeyListOut,
-    DriveApiKeyListOutFromJSON,
-    DriveApiKeyListOutToJSON,
-} from '../models/DriveApiKeyListOut';
-import {
-    type DriveCreateIn,
     DriveCreateInFromJSON,
     DriveCreateInToJSON,
-} from '../models/DriveCreateIn';
-import {
-    type DriveCreateOut,
-    DriveCreateOutFromJSON,
-    DriveCreateOutToJSON,
-} from '../models/DriveCreateOut';
-import {
-    type DriveList,
-    DriveListFromJSON,
-    DriveListToJSON,
-} from '../models/DriveList';
-import {
-    type DriveOut,
+    DriveListOutFromJSON,
+    DriveListOutToJSON,
     DriveOutFromJSON,
     DriveOutToJSON,
-} from '../models/DriveOut';
-import {
-    type DriveRenameIn,
-    DriveRenameInFromJSON,
-    DriveRenameInToJSON,
-} from '../models/DriveRenameIn';
-import {
-    type ErrorResponse,
-    ErrorResponseFromJSON,
-    ErrorResponseToJSON,
-} from '../models/ErrorResponse';
-import {
-    type ValidationErrorResponse,
+    DriveUpdateInFromJSON,
+    DriveUpdateInToJSON,
+    DriveUsageOutFromJSON,
+    DriveUsageOutToJSON,
+    V0ErrorEnvelopeFromJSON,
+    V0ErrorEnvelopeToJSON,
     ValidationErrorResponseFromJSON,
     ValidationErrorResponseToJSON,
-} from '../models/ValidationErrorResponse';
+} from '../models/index';
 
-export interface CreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest {
-    driveId: string;
-    driveApiKeyCreateIn: DriveApiKeyCreateIn;
-}
-
-export interface CreateDriveRouteV0DrivesPostRequest {
+export interface DrivesCreateRequest {
+    idempotencyKey: string | null;
     driveCreateIn: DriveCreateIn;
+    authorization?: string | null;
 }
 
-export interface ListDriveKeysRouteV0DrivesDriveIdKeysGetRequest {
+export interface DrivesDeleteRequest {
     driveId: string;
-    cursor?: string | null;
+    idempotencyKey: string | null;
+    ifMatch: string | null;
+    authorization?: string | null;
+}
+
+export interface DrivesListRequest {
+    lifecycle?: string;
     limit?: number | null;
-}
-
-export interface ListDrivesRouteV0DrivesGetRequest {
     cursor?: string | null;
-    limit?: number | null;
+    authorization?: string | null;
 }
 
-export interface RenameDriveRouteV0DrivesDriveIdPatchRequest {
+export interface DrivesReadRequest {
     driveId: string;
-    driveRenameIn: DriveRenameIn;
+    ifNoneMatch?: string | null;
+    authorization?: string | null;
 }
 
-export interface RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest {
+export interface DrivesRestoreRequest {
     driveId: string;
-    keyId: string;
+    idempotencyKey: string | null;
+    ifMatch: string | null;
+    authorization?: string | null;
 }
 
-export interface RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest {
+export interface DrivesUpdateRequest {
     driveId: string;
-    keyId: string;
+    idempotencyKey: string | null;
+    ifMatch: string | null;
+    driveUpdateIn: DriveUpdateIn;
+    authorization?: string | null;
+}
+
+export interface DrivesUsageRequest {
+    driveId: string;
+    authorization?: string | null;
 }
 
 /**
@@ -105,78 +92,21 @@ export interface RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest {
 export class DrivesApi extends runtime.BaseAPI {
 
     /**
-     * Creates request options for createDriveKeyRouteV0DrivesDriveIdKeysPost without sending the request
+     * Create a drive with its structural root folder and creator-manager grant(s) in one transaction; idempotent under the ``Idempotency-Key``.
+     * Create Drive
      */
-    async createDriveKeyRouteV0DrivesDriveIdKeysPostRequestOpts(requestParameters: CreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['driveId'] == null) {
+    async drivesCreateRaw(requestParameters: DrivesCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveOut>> {
+        if (requestParameters['idempotencyKey'] == null) {
             throw new runtime.RequiredError(
-                'driveId',
-                'Required parameter "driveId" was null or undefined when calling createDriveKeyRouteV0DrivesDriveIdKeysPost().'
+                'idempotencyKey',
+                'Required parameter "idempotencyKey" was null or undefined when calling drivesCreate().'
             );
         }
 
-        if (requestParameters['driveApiKeyCreateIn'] == null) {
-            throw new runtime.RequiredError(
-                'driveApiKeyCreateIn',
-                'Required parameter "driveApiKeyCreateIn" was null or undefined when calling createDriveKeyRouteV0DrivesDriveIdKeysPost().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-
-        let urlPath = `/v0/drives/{drive_id}/keys`;
-        urlPath = urlPath.replace('{drive_id}', encodeURIComponent(String(requestParameters['driveId'])));
-
-        return {
-            path: urlPath,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: DriveApiKeyCreateInToJSON(requestParameters['driveApiKeyCreateIn']),
-        };
-    }
-
-    /**
-     * Mint a new `ad_live_` key for a drive you manage — a drive may hold several (one per agent/integration). A `label` (a name for the key) is **required**. **Manager only** (404 no-leak otherwise), `full`-scope user token. The raw key is returned **once** — store it now.
-     * Create a drive API key
-     */
-    async createDriveKeyRouteV0DrivesDriveIdKeysPostRaw(requestParameters: CreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveApiKeyCreateOut>> {
-        const requestOptions = await this.createDriveKeyRouteV0DrivesDriveIdKeysPostRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => DriveApiKeyCreateOutFromJSON(jsonValue));
-    }
-
-    /**
-     * Mint a new `ad_live_` key for a drive you manage — a drive may hold several (one per agent/integration). A `label` (a name for the key) is **required**. **Manager only** (404 no-leak otherwise), `full`-scope user token. The raw key is returned **once** — store it now.
-     * Create a drive API key
-     */
-    async createDriveKeyRouteV0DrivesDriveIdKeysPost(requestParameters: CreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveApiKeyCreateOut> {
-        const response = await this.createDriveKeyRouteV0DrivesDriveIdKeysPostRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Creates request options for createDriveRouteV0DrivesPost without sending the request
-     */
-    async createDriveRouteV0DrivesPostRequestOpts(requestParameters: CreateDriveRouteV0DrivesPostRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['driveCreateIn'] == null) {
             throw new runtime.RequiredError(
                 'driveCreateIn',
-                'Required parameter "driveCreateIn" was null or undefined when calling createDriveRouteV0DrivesPost().'
+                'Required parameter "driveCreateIn" was null or undefined when calling drivesCreate().'
             );
         }
 
@@ -186,9 +116,17 @@ export class DrivesApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (requestParameters['idempotencyKey'] != null) {
+            headerParameters['Idempotency-Key'] = String(requestParameters['idempotencyKey']);
+        }
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
+            const tokenString = await token("bearerAuth", []);
 
             if (tokenString) {
                 headerParameters["Authorization"] = `Bearer ${tokenString}`;
@@ -197,168 +135,49 @@ export class DrivesApi extends runtime.BaseAPI {
 
         let urlPath = `/v0/drives`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: DriveCreateInToJSON(requestParameters['driveCreateIn']),
-        };
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DriveOutFromJSON(jsonValue));
     }
 
     /**
-     * Create a named drive. Any **member** of the space may create one; the creator becomes its **owner**. Requires a `full`-scope user token. The response carries the drive\'s `ad_live_` API key **once** (`api_key`) — store it now, it is never returned again (mint more keys via `POST /v0/drives/{id}/keys`).  The target workspace is the user\'s active organization (`users.default_org`); cross-workspace creation names no other workspace in v0.  A space may hold up to its plan\'s drive limit (workspaces-v2 §4.6; seat-aware for shared drives). A caller at the limit is blocked with `403 DRIVE_LIMIT_REACHED`; the limit is tier-governed, not a hard cap.
-     * Create a drive in your active space
+     * Create a drive with its structural root folder and creator-manager grant(s) in one transaction; idempotent under the ``Idempotency-Key``.
+     * Create Drive
      */
-    async createDriveRouteV0DrivesPostRaw(requestParameters: CreateDriveRouteV0DrivesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveCreateOut>> {
-        const requestOptions = await this.createDriveRouteV0DrivesPostRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => DriveCreateOutFromJSON(jsonValue));
-    }
-
-    /**
-     * Create a named drive. Any **member** of the space may create one; the creator becomes its **owner**. Requires a `full`-scope user token. The response carries the drive\'s `ad_live_` API key **once** (`api_key`) — store it now, it is never returned again (mint more keys via `POST /v0/drives/{id}/keys`).  The target workspace is the user\'s active organization (`users.default_org`); cross-workspace creation names no other workspace in v0.  A space may hold up to its plan\'s drive limit (workspaces-v2 §4.6; seat-aware for shared drives). A caller at the limit is blocked with `403 DRIVE_LIMIT_REACHED`; the limit is tier-governed, not a hard cap.
-     * Create a drive in your active space
-     */
-    async createDriveRouteV0DrivesPost(requestParameters: CreateDriveRouteV0DrivesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveCreateOut> {
-        const response = await this.createDriveRouteV0DrivesPostRaw(requestParameters, initOverrides);
+    async drivesCreate(requestParameters: DrivesCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveOut> {
+        const response = await this.drivesCreateRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Creates request options for listDriveKeysRouteV0DrivesDriveIdKeysGet without sending the request
+     * Soft-delete a drive. Returns 200 with the deleted representation so the client has the post-delete revision/ETag for a restore.
+     * Delete Drive
      */
-    async listDriveKeysRouteV0DrivesDriveIdKeysGetRequestOpts(requestParameters: ListDriveKeysRouteV0DrivesDriveIdKeysGetRequest): Promise<runtime.RequestOpts> {
+    async drivesDeleteRaw(requestParameters: DrivesDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveOut>> {
         if (requestParameters['driveId'] == null) {
             throw new runtime.RequiredError(
                 'driveId',
-                'Required parameter "driveId" was null or undefined when calling listDriveKeysRouteV0DrivesDriveIdKeysGet().'
+                'Required parameter "driveId" was null or undefined when calling drivesDelete().'
             );
         }
 
-        const queryParameters: any = {};
-
-        if (requestParameters['cursor'] != null) {
-            queryParameters['cursor'] = requestParameters['cursor'];
-        }
-
-        if (requestParameters['limit'] != null) {
-            queryParameters['limit'] = requestParameters['limit'];
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-
-        let urlPath = `/v0/drives/{drive_id}/keys`;
-        urlPath = urlPath.replace('{drive_id}', encodeURIComponent(String(requestParameters['driveId'])));
-
-        return {
-            path: urlPath,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        };
-    }
-
-    /**
-     * List the `ad_live_` keys for a drive you manage (oldest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
-     * List a drive\'s API keys
-     */
-    async listDriveKeysRouteV0DrivesDriveIdKeysGetRaw(requestParameters: ListDriveKeysRouteV0DrivesDriveIdKeysGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveApiKeyListOut>> {
-        const requestOptions = await this.listDriveKeysRouteV0DrivesDriveIdKeysGetRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => DriveApiKeyListOutFromJSON(jsonValue));
-    }
-
-    /**
-     * List the `ad_live_` keys for a drive you manage (oldest first, including recently-revoked rows — filter on `revoked_at` for live only). **Manager only** (404 no-leak otherwise). A `read`-scope user token may list (metadata reveals no secret), mirroring `GET /v0/drives`. Metadata only — the raw key is never returned after mint.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
-     * List a drive\'s API keys
-     */
-    async listDriveKeysRouteV0DrivesDriveIdKeysGet(requestParameters: ListDriveKeysRouteV0DrivesDriveIdKeysGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveApiKeyListOut> {
-        const response = await this.listDriveKeysRouteV0DrivesDriveIdKeysGetRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Creates request options for listDrivesRouteV0DrivesGet without sending the request
-     */
-    async listDrivesRouteV0DrivesGetRequestOpts(requestParameters: ListDrivesRouteV0DrivesGetRequest): Promise<runtime.RequestOpts> {
-        const queryParameters: any = {};
-
-        if (requestParameters['cursor'] != null) {
-            queryParameters['cursor'] = requestParameters['cursor'];
-        }
-
-        if (requestParameters['limit'] != null) {
-            queryParameters['limit'] = requestParameters['limit'];
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-
-        let urlPath = `/v0/drives`;
-
-        return {
-            path: urlPath,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        };
-    }
-
-    /**
-     * Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whole active workspace\'s drive inventory (every owner); a **member** sees only the drives they own. Metadata only — owner, size, timestamps — never a raw API key, and never an authorization to read a drive\'s contents. A `read`-scope token may call this; mutations require `full`.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
-     * List the drives you can see
-     */
-    async listDrivesRouteV0DrivesGetRaw(requestParameters: ListDrivesRouteV0DrivesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveList>> {
-        const requestOptions = await this.listDrivesRouteV0DrivesGetRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => DriveListFromJSON(jsonValue));
-    }
-
-    /**
-     * Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whole active workspace\'s drive inventory (every owner); a **member** sees only the drives they own. Metadata only — owner, size, timestamps — never a raw API key, and never an authorization to read a drive\'s contents. A `read`-scope token may call this; mutations require `full`.  **Cursor pagination:** when more results exist, the response carries `next_cursor`. Pass it back as `?cursor=<token>` to fetch the next page; `null` means the listing is complete. `limit` is clamped to [1, 100] (default 50), never rejected.
-     * List the drives you can see
-     */
-    async listDrivesRouteV0DrivesGet(requestParameters: ListDrivesRouteV0DrivesGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveList> {
-        const response = await this.listDrivesRouteV0DrivesGetRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Creates request options for renameDriveRouteV0DrivesDriveIdPatch without sending the request
-     */
-    async renameDriveRouteV0DrivesDriveIdPatchRequestOpts(requestParameters: RenameDriveRouteV0DrivesDriveIdPatchRequest): Promise<runtime.RequestOpts> {
-        if (requestParameters['driveId'] == null) {
+        if (requestParameters['idempotencyKey'] == null) {
             throw new runtime.RequiredError(
-                'driveId',
-                'Required parameter "driveId" was null or undefined when calling renameDriveRouteV0DrivesDriveIdPatch().'
+                'idempotencyKey',
+                'Required parameter "idempotencyKey" was null or undefined when calling drivesDelete().'
             );
         }
 
-        if (requestParameters['driveRenameIn'] == null) {
+        if (requestParameters['ifMatch'] == null) {
             throw new runtime.RequiredError(
-                'driveRenameIn',
-                'Required parameter "driveRenameIn" was null or undefined when calling renameDriveRouteV0DrivesDriveIdPatch().'
+                'ifMatch',
+                'Required parameter "ifMatch" was null or undefined when calling drivesDelete().'
             );
         }
 
@@ -366,11 +185,21 @@ export class DrivesApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        headerParameters['Content-Type'] = 'application/json';
+        if (requestParameters['idempotencyKey'] != null) {
+            headerParameters['Idempotency-Key'] = String(requestParameters['idempotencyKey']);
+        }
+
+        if (requestParameters['ifMatch'] != null) {
+            headerParameters['If-Match'] = String(requestParameters['ifMatch']);
+        }
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
 
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
+            const tokenString = await token("bearerAuth", []);
 
             if (tokenString) {
                 headerParameters["Authorization"] = `Bearer ${tokenString}`;
@@ -378,52 +207,91 @@ export class DrivesApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/v0/drives/{drive_id}`;
-        urlPath = urlPath.replace('{drive_id}', encodeURIComponent(String(requestParameters['driveId'])));
+        urlPath = urlPath.replace(`{${"drive_id"}}`, encodeURIComponent(String(requestParameters['driveId'])));
 
-        return {
+        const response = await this.request({
             path: urlPath,
-            method: 'PATCH',
+            method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-            body: DriveRenameInToJSON(requestParameters['driveRenameIn']),
-        };
-    }
-
-    /**
-     * Rename a drive. **Owner only** — a drive id that isn\'t yours returns 404 (no-leak). Requires a `full`-scope user token.
-     * Rename a drive you own
-     */
-    async renameDriveRouteV0DrivesDriveIdPatchRaw(requestParameters: RenameDriveRouteV0DrivesDriveIdPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveOut>> {
-        const requestOptions = await this.renameDriveRouteV0DrivesDriveIdPatchRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => DriveOutFromJSON(jsonValue));
     }
 
     /**
-     * Rename a drive. **Owner only** — a drive id that isn\'t yours returns 404 (no-leak). Requires a `full`-scope user token.
-     * Rename a drive you own
+     * Soft-delete a drive. Returns 200 with the deleted representation so the client has the post-delete revision/ETag for a restore.
+     * Delete Drive
      */
-    async renameDriveRouteV0DrivesDriveIdPatch(requestParameters: RenameDriveRouteV0DrivesDriveIdPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveOut> {
-        const response = await this.renameDriveRouteV0DrivesDriveIdPatchRaw(requestParameters, initOverrides);
+    async drivesDelete(requestParameters: DrivesDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveOut> {
+        const response = await this.drivesDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Creates request options for revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost without sending the request
+     * List the actor\'s workspace drives, newest-first (keyset paginated).  ``lifecycle`` (active|deleted|all) exposes soft-deleted drives so a manager can read the post-delete revision as the If-Match source for a restore. Unknown query parameters are rejected (§6.3).
+     * List Drives
      */
-    async revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequestOpts(requestParameters: RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest): Promise<runtime.RequestOpts> {
+    async drivesListRaw(requestParameters: DrivesListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveListOut>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['lifecycle'] != null) {
+            queryParameters['lifecycle'] = requestParameters['lifecycle'];
+        }
+
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        if (requestParameters['cursor'] != null) {
+            queryParameters['cursor'] = requestParameters['cursor'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/v0/drives`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DriveListOutFromJSON(jsonValue));
+    }
+
+    /**
+     * List the actor\'s workspace drives, newest-first (keyset paginated).  ``lifecycle`` (active|deleted|all) exposes soft-deleted drives so a manager can read the post-delete revision as the If-Match source for a restore. Unknown query parameters are rejected (§6.3).
+     * List Drives
+     */
+    async drivesList(requestParameters: DrivesListRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveListOut> {
+        const response = await this.drivesListRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Read one active drive. ETag = quoted revision; matching ``If-None-Match`` → 304. Deleted and cross-workspace drives are 404.
+     * Read Drive
+     */
+    async drivesReadRaw(requestParameters: DrivesReadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveOut>> {
         if (requestParameters['driveId'] == null) {
             throw new runtime.RequiredError(
                 'driveId',
-                'Required parameter "driveId" was null or undefined when calling revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost().'
-            );
-        }
-
-        if (requestParameters['keyId'] == null) {
-            throw new runtime.RequiredError(
-                'keyId',
-                'Required parameter "keyId" was null or undefined when calling revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost().'
+                'Required parameter "driveId" was null or undefined when calling drivesRead().'
             );
         }
 
@@ -431,61 +299,68 @@ export class DrivesApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (requestParameters['ifNoneMatch'] != null) {
+            headerParameters['If-None-Match'] = String(requestParameters['ifNoneMatch']);
+        }
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
+            const tokenString = await token("bearerAuth", []);
 
             if (tokenString) {
                 headerParameters["Authorization"] = `Bearer ${tokenString}`;
             }
         }
 
-        let urlPath = `/v0/drives/{drive_id}/keys/{key_id}/revoke`;
-        urlPath = urlPath.replace('{drive_id}', encodeURIComponent(String(requestParameters['driveId'])));
-        urlPath = urlPath.replace('{key_id}', encodeURIComponent(String(requestParameters['keyId'])));
+        let urlPath = `/v0/drives/{drive_id}`;
+        urlPath = urlPath.replace(`{${"drive_id"}}`, encodeURIComponent(String(requestParameters['driveId'])));
 
-        return {
+        const response = await this.request({
             path: urlPath,
-            method: 'POST',
+            method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        };
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DriveOutFromJSON(jsonValue));
     }
 
     /**
-     * Revoke one `ad_live_` key of a drive you manage — anything using it loses access immediately. **Manager only** (404 no-leak otherwise), `full`-scope user token. Idempotent: revoking an unknown/already-revoked key returns 204 too (no existence oracle).
-     * Revoke a drive API key
+     * Read one active drive. ETag = quoted revision; matching ``If-None-Match`` → 304. Deleted and cross-workspace drives are 404.
+     * Read Drive
      */
-    async revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRaw(requestParameters: RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
+    async drivesRead(requestParameters: DrivesReadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveOut> {
+        const response = await this.drivesReadRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
-     * Revoke one `ad_live_` key of a drive you manage — anything using it loses access immediately. **Manager only** (404 no-leak otherwise), `full`-scope user token. Idempotent: revoking an unknown/already-revoked key returns 204 too (no existence oracle).
-     * Revoke a drive API key
+     * Restore a soft-deleted drive. If-Match must carry the post-delete revision; restoring an already-active drive is 409 CONFLICT.
+     * Restore Drive
      */
-    async revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost(requestParameters: RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     * Creates request options for rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost without sending the request
-     */
-    async rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequestOpts(requestParameters: RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest): Promise<runtime.RequestOpts> {
+    async drivesRestoreRaw(requestParameters: DrivesRestoreRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveOut>> {
         if (requestParameters['driveId'] == null) {
             throw new runtime.RequiredError(
                 'driveId',
-                'Required parameter "driveId" was null or undefined when calling rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost().'
+                'Required parameter "driveId" was null or undefined when calling drivesRestore().'
             );
         }
 
-        if (requestParameters['keyId'] == null) {
+        if (requestParameters['idempotencyKey'] == null) {
             throw new runtime.RequiredError(
-                'keyId',
-                'Required parameter "keyId" was null or undefined when calling rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost().'
+                'idempotencyKey',
+                'Required parameter "idempotencyKey" was null or undefined when calling drivesRestore().'
+            );
+        }
+
+        if (requestParameters['ifMatch'] == null) {
+            throw new runtime.RequiredError(
+                'ifMatch',
+                'Required parameter "ifMatch" was null or undefined when calling drivesRestore().'
             );
         }
 
@@ -493,44 +368,180 @@ export class DrivesApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (requestParameters['idempotencyKey'] != null) {
+            headerParameters['Idempotency-Key'] = String(requestParameters['idempotencyKey']);
+        }
+
+        if (requestParameters['ifMatch'] != null) {
+            headerParameters['If-Match'] = String(requestParameters['ifMatch']);
+        }
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
-            const tokenString = await token("BearerAuth", []);
+            const tokenString = await token("bearerAuth", []);
 
             if (tokenString) {
                 headerParameters["Authorization"] = `Bearer ${tokenString}`;
             }
         }
 
-        let urlPath = `/v0/drives/{drive_id}/keys/{key_id}/rotate`;
-        urlPath = urlPath.replace('{drive_id}', encodeURIComponent(String(requestParameters['driveId'])));
-        urlPath = urlPath.replace('{key_id}', encodeURIComponent(String(requestParameters['keyId'])));
+        let urlPath = `/v0/drives/{drive_id}/restore`;
+        urlPath = urlPath.replace(`{${"drive_id"}}`, encodeURIComponent(String(requestParameters['driveId'])));
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        };
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DriveOutFromJSON(jsonValue));
     }
 
     /**
-     * Rotate a single `ad_live_` key: revoke `key_id` and mint a replacement that inherits its label. **Only that key** is affected — the drive\'s other keys keep working. **Manager only** (404 no-leak otherwise), `full`-scope user token. The new key is returned **once** — store it now. A `key_id` that isn\'t a live key of this drive is a 404.
-     * Rotate one API key
+     * Restore a soft-deleted drive. If-Match must carry the post-delete revision; restoring an already-active drive is 409 CONFLICT.
+     * Restore Drive
      */
-    async rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRaw(requestParameters: RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveApiKeyCreateOut>> {
-        const requestOptions = await this.rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequestOpts(requestParameters);
-        const response = await this.request(requestOptions, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => DriveApiKeyCreateOutFromJSON(jsonValue));
+    async drivesRestore(requestParameters: DrivesRestoreRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveOut> {
+        const response = await this.drivesRestoreRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
-     * Rotate a single `ad_live_` key: revoke `key_id` and mint a replacement that inherits its label. **Only that key** is affected — the drive\'s other keys keep working. **Manager only** (404 no-leak otherwise), `full`-scope user token. The new key is returned **once** — store it now. A `key_id` that isn\'t a live key of this drive is a 404.
-     * Rotate one API key
+     * Rename / update a drive\'s metadata. Requires ``Idempotency-Key`` and ``If-Match`` (428 absent, 412 stale); bumps the revision.
+     * Update Drive
      */
-    async rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost(requestParameters: RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveApiKeyCreateOut> {
-        const response = await this.rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRaw(requestParameters, initOverrides);
+    async drivesUpdateRaw(requestParameters: DrivesUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveOut>> {
+        if (requestParameters['driveId'] == null) {
+            throw new runtime.RequiredError(
+                'driveId',
+                'Required parameter "driveId" was null or undefined when calling drivesUpdate().'
+            );
+        }
+
+        if (requestParameters['idempotencyKey'] == null) {
+            throw new runtime.RequiredError(
+                'idempotencyKey',
+                'Required parameter "idempotencyKey" was null or undefined when calling drivesUpdate().'
+            );
+        }
+
+        if (requestParameters['ifMatch'] == null) {
+            throw new runtime.RequiredError(
+                'ifMatch',
+                'Required parameter "ifMatch" was null or undefined when calling drivesUpdate().'
+            );
+        }
+
+        if (requestParameters['driveUpdateIn'] == null) {
+            throw new runtime.RequiredError(
+                'driveUpdateIn',
+                'Required parameter "driveUpdateIn" was null or undefined when calling drivesUpdate().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters['idempotencyKey'] != null) {
+            headerParameters['Idempotency-Key'] = String(requestParameters['idempotencyKey']);
+        }
+
+        if (requestParameters['ifMatch'] != null) {
+            headerParameters['If-Match'] = String(requestParameters['ifMatch']);
+        }
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/v0/drives/{drive_id}`;
+        urlPath = urlPath.replace(`{${"drive_id"}}`, encodeURIComponent(String(requestParameters['driveId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: DriveUpdateInToJSON(requestParameters['driveUpdateIn']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DriveOutFromJSON(jsonValue));
+    }
+
+    /**
+     * Rename / update a drive\'s metadata. Requires ``Idempotency-Key`` and ``If-Match`` (428 absent, 412 stale); bumps the revision.
+     * Update Drive
+     */
+    async drivesUpdate(requestParameters: DrivesUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveOut> {
+        const response = await this.drivesUpdateRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Byte counters for one active drive: storage is the live sum of its versions\' sizes; retrieval reads the counter the content-read slice maintains (0 until it lands).
+     * Drive Usage
+     */
+    async drivesUsageRaw(requestParameters: DrivesUsageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveUsageOut>> {
+        if (requestParameters['driveId'] == null) {
+            throw new runtime.RequiredError(
+                'driveId',
+                'Required parameter "driveId" was null or undefined when calling drivesUsage().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['authorization'] != null) {
+            headerParameters['authorization'] = String(requestParameters['authorization']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/v0/drives/{drive_id}/usage`;
+        urlPath = urlPath.replace(`{${"drive_id"}}`, encodeURIComponent(String(requestParameters['driveId'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DriveUsageOutFromJSON(jsonValue));
+    }
+
+    /**
+     * Byte counters for one active drive: storage is the live sum of its versions\' sizes; retrieval reads the counter the content-read slice maintains (0 until it lands).
+     * Drive Usage
+     */
+    async drivesUsage(requestParameters: DrivesUsageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveUsageOut> {
+        const response = await this.drivesUsageRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

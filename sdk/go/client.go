@@ -1,7 +1,7 @@
 /*
 AgentDrive
 
-AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
 
 API version: <PINNED>
 */
@@ -49,21 +49,35 @@ type APIClient struct {
 
 	// API Services
 
-	AgentAuthAPI *AgentAuthAPIService
+	ArtifactsAPI *ArtifactsAPIService
+
+	ChangesAPI *ChangesAPIService
 
 	DefaultAPI *DefaultAPIService
 
+	DiscoveryAPI *DiscoveryAPIService
+
+	DownloadsAPI *DownloadsAPIService
+
 	DrivesAPI *DrivesAPIService
 
-	McpOauthAPI *McpOauthAPIService
+	FoldersAPI *FoldersAPIService
 
-	McpOauthUiAPI *McpOauthUiAPIService
+	GrantsAPI *GrantsAPIService
 
-	MembersAPI *MembersAPIService
+	NavigationAPI *NavigationAPIService
 
-	TokensAPI *TokensAPIService
+	SearchAPI *SearchAPIService
 
-	WorkspacesAPI *WorkspacesAPIService
+	SharesAPI *SharesAPIService
+
+	SharesRedemptionAPI *SharesRedemptionAPIService
+
+	UploadsAPI *UploadsAPIService
+
+	VersionsAPI *VersionsAPIService
+
+	ViewerSessionsAPI *ViewerSessionsAPIService
 }
 
 type service struct {
@@ -82,14 +96,21 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.common.client = c
 
 	// API Services
-	c.AgentAuthAPI = (*AgentAuthAPIService)(&c.common)
+	c.ArtifactsAPI = (*ArtifactsAPIService)(&c.common)
+	c.ChangesAPI = (*ChangesAPIService)(&c.common)
 	c.DefaultAPI = (*DefaultAPIService)(&c.common)
+	c.DiscoveryAPI = (*DiscoveryAPIService)(&c.common)
+	c.DownloadsAPI = (*DownloadsAPIService)(&c.common)
 	c.DrivesAPI = (*DrivesAPIService)(&c.common)
-	c.McpOauthAPI = (*McpOauthAPIService)(&c.common)
-	c.McpOauthUiAPI = (*McpOauthUiAPIService)(&c.common)
-	c.MembersAPI = (*MembersAPIService)(&c.common)
-	c.TokensAPI = (*TokensAPIService)(&c.common)
-	c.WorkspacesAPI = (*WorkspacesAPIService)(&c.common)
+	c.FoldersAPI = (*FoldersAPIService)(&c.common)
+	c.GrantsAPI = (*GrantsAPIService)(&c.common)
+	c.NavigationAPI = (*NavigationAPIService)(&c.common)
+	c.SearchAPI = (*SearchAPIService)(&c.common)
+	c.SharesAPI = (*SharesAPIService)(&c.common)
+	c.SharesRedemptionAPI = (*SharesRedemptionAPIService)(&c.common)
+	c.UploadsAPI = (*UploadsAPIService)(&c.common)
+	c.VersionsAPI = (*VersionsAPIService)(&c.common)
+	c.ViewerSessionsAPI = (*ViewerSessionsAPIService)(&c.common)
 
 	return c
 }
@@ -460,15 +481,6 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 		*s = string(b)
 		return nil
 	}
-	if r, ok := v.(*io.Reader); ok {
-		*r = bytes.NewReader(b)
-		return nil
-	}
-	// Must stay before the JSON branch: json.Unmarshal would base64-decode into *[]byte.
-	if p, ok := v.(*[]byte); ok {
-		*p = b
-		return nil
-	}
 	if f, ok := v.(*os.File); ok {
 		f, err = os.CreateTemp("", "HttpClientFile")
 		if err != nil {
@@ -522,7 +534,10 @@ func addFile(w *multipart.Writer, fieldName, path string) error {
 	if err != nil {
 		return err
 	}
-	defer file.Close()
+	err = file.Close()
+	if err != nil {
+		return err
+	}
 
 	part, err := w.CreateFormFile(fieldName, filepath.Base(path))
 	if err != nil {

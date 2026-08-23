@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: <PINNED>
  *
@@ -14,10 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * One drive in a listing — metadata only (workspaces-design §4.2).
- * Carries NO capability and NEVER a raw key. An admin's inventory and a
- * member's owned list both serialize to this shape; `owner_email` is the
- * only owner-identifying field surfaced.
+ *
  * @export
  * @interface DriveOut
  */
@@ -33,7 +30,25 @@ export interface DriveOut {
      * @type {string}
      * @memberof DriveOut
      */
+    createdBy: string | null;
+    /**
+     *
+     * @type {Date}
+     * @memberof DriveOut
+     */
+    deletedAt: Date | null;
+    /**
+     *
+     * @type {string}
+     * @memberof DriveOut
+     */
     id: string;
+    /**
+     *
+     * @type {{ [key: string]: any; }}
+     * @memberof DriveOut
+     */
+    metadata: { [key: string]: any; };
     /**
      *
      * @type {string}
@@ -42,39 +57,76 @@ export interface DriveOut {
     name: string;
     /**
      *
-     * @type {string}
+     * @type {number}
      * @memberof DriveOut
      */
-    organizationId: string;
+    retrievalBytes: number;
     /**
      *
      * @type {string}
      * @memberof DriveOut
      */
-    ownerEmail?: string | null;
+    revision: string;
     /**
      *
      * @type {string}
      * @memberof DriveOut
      */
-    ownerUserId?: string | null;
+    rootFolderId: string;
+    /**
+     *
+     * @type {string}
+     * @memberof DriveOut
+     */
+    state: DriveOutStateEnum;
     /**
      *
      * @type {number}
      * @memberof DriveOut
      */
     storageBytes: number;
+    /**
+     *
+     * @type {Date}
+     * @memberof DriveOut
+     */
+    updatedAt: Date;
+    /**
+     *
+     * @type {string}
+     * @memberof DriveOut
+     */
+    workspaceId: string;
 }
+
+
+/**
+ * @export
+ */
+export const DriveOutStateEnum = {
+    Active: 'active',
+    Deleted: 'deleted'
+} as const;
+export type DriveOutStateEnum = typeof DriveOutStateEnum[keyof typeof DriveOutStateEnum];
+
 
 /**
  * Check if a given object implements the DriveOut interface.
  */
 export function instanceOfDriveOut(value: object): value is DriveOut {
-    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
+    if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
+    if (!('createdBy' in value) || value['createdBy'] === undefined) return false;
+    if (!('deletedAt' in value) || value['deletedAt'] === undefined) return false;
     if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('metadata' in value) || value['metadata'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
-    if ((!('organizationId' in (value as Record<string, any>)) && !('organization_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['organizationId'] === undefined && (value as Record<string, any>)['organization_id'] === undefined)) return false;
-    if ((!('storageBytes' in (value as Record<string, any>)) && !('storage_bytes' in (value as Record<string, any>))) || ((value as Record<string, any>)['storageBytes'] === undefined && (value as Record<string, any>)['storage_bytes'] === undefined)) return false;
+    if (!('retrievalBytes' in value) || value['retrievalBytes'] === undefined) return false;
+    if (!('revision' in value) || value['revision'] === undefined) return false;
+    if (!('rootFolderId' in value) || value['rootFolderId'] === undefined) return false;
+    if (!('state' in value) || value['state'] === undefined) return false;
+    if (!('storageBytes' in value) || value['storageBytes'] === undefined) return false;
+    if (!('updatedAt' in value) || value['updatedAt'] === undefined) return false;
+    if (!('workspaceId' in value) || value['workspaceId'] === undefined) return false;
     return true;
 }
 
@@ -89,12 +141,18 @@ export function DriveOutFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     return {
 
         'createdAt': (new Date(json['created_at'])),
+        'createdBy': json['created_by'],
+        'deletedAt': (json['deleted_at'] == null ? null : new Date(json['deleted_at'])),
         'id': json['id'],
+        'metadata': json['metadata'],
         'name': json['name'],
-        'organizationId': json['organization_id'],
-        'ownerEmail': json['owner_email'] === undefined ? undefined : json['owner_email'] === null ? null : json['owner_email'],
-        'ownerUserId': json['owner_user_id'] === undefined ? undefined : json['owner_user_id'] === null ? null : json['owner_user_id'],
+        'retrievalBytes': json['retrieval_bytes'],
+        'revision': json['revision'],
+        'rootFolderId': json['root_folder_id'],
+        'state': json['state'],
         'storageBytes': json['storage_bytes'],
+        'updatedAt': (new Date(json['updated_at'])),
+        'workspaceId': json['workspace_id'],
     };
 }
 
@@ -110,11 +168,17 @@ export function DriveOutToJSONTyped(value?: DriveOut | null, ignoreDiscriminator
     return {
 
         'created_at': value['createdAt'].toISOString(),
+        'created_by': value['createdBy'],
+        'deleted_at': value['deletedAt'] == null ? value['deletedAt'] : value['deletedAt'].toISOString(),
         'id': value['id'],
+        'metadata': value['metadata'],
         'name': value['name'],
-        'organization_id': value['organizationId'],
-        'owner_email': value['ownerEmail'],
-        'owner_user_id': value['ownerUserId'],
+        'retrieval_bytes': value['retrievalBytes'],
+        'revision': value['revision'],
+        'root_folder_id': value['rootFolderId'],
+        'state': value['state'],
         'storage_bytes': value['storageBytes'],
+        'updated_at': value['updatedAt'].toISOString(),
+        'workspace_id': value['workspaceId'],
     };
 }
