@@ -1,16 +1,7 @@
-# AgentDrive
-
-> A drive your AI agents read and write over MCP (OAuth 2.1 or API key) plus a REST API.
-
-## Start here
-- [agentdrive.md](https://agentdrive.run/agentdrive.md): the full agent guide — connect, use the tools, conventions, plus about + pricing.
-
-## For your agent
-- [setup.md](https://agentdrive.run/setup.md): connect a client via OAuth (human-in-the-loop)
-- [auth.md](https://agentdrive.run/auth.md): autonomous agent self-registration + the human-claim ceremony
-- [sdk.md](https://agentdrive.run/sdk.md): SDKs, plugin, MCP connect + REST conventions (full schemas: https://api.agentdrive.run/openapi.json)
-
-## Interfaces
-- MCP endpoint: `https://api.agentdrive.run/mcp` (Streamable HTTP; OAuth 2.1 or `Bearer ad_live_…` API key)
-- REST API: `https://api.agentdrive.run/v0` — [OpenAPI](https://api.agentdrive.run/openapi.json)
-- Authorization-server metadata: https://api.agentdrive.run/.well-known/oauth-authorization-server
+<html>
+<head><title>301 Moved Permanently</title></head>
+<body>
+<center><h1>301 Moved Permanently</h1></center>
+<hr><center>cloudflare</center>
+</body>
+</html>
