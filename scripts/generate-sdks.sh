@@ -84,7 +84,7 @@ generate -i "/local/$TYPESCRIPT_SPEC" -g typescript-fetch -o /local/sdk/typescri
 
 # --- Go -> module: github.com/Mnexa-AI/agentdrive-sdk/sdk/go ---
 generate -i "/local/$GO_SPEC" -g go -o /local/sdk/go \
-  --additional-properties=packageName=agentdrive,isGoSubmodule=true,enumClassPrefix=true,hideGenerationTimestamp=true \
+  --additional-properties=packageName=agentdrive,packageVersion="${VERSION}",isGoSubmodule=true,enumClassPrefix=true,hideGenerationTimestamp=true \
   --git-host="$GIT_HOST" --git-user-id="$GIT_USER" --git-repo-id="$GIT_REPO"
 
 # The generator's Go test stubs import `<repo>/<packageName>` even though this

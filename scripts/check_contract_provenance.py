@@ -59,6 +59,8 @@ def check_contract_provenance(
         raise ProvenanceError(
             "generator_image does not match sdk/openapi-generator-image.txt"
         )
+    if not re.fullmatch(r"[^@\s]+@sha256:[0-9a-f]{64}", generator_image):
+        raise ProvenanceError("generator image must use an immutable sha256 digest")
     if contract.get("servers") != [SDK_SERVER]:
         raise ProvenanceError("SDK contract does not contain the canonical server")
 

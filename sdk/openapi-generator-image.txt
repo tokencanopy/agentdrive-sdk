@@ -1,1 +1,1 @@
-openapitools/openapi-generator-cli:v7.16.0
+openapitools/openapi-generator-cli:v7.16.0@sha256:e56372add5e038753fb91aa1bbb470724ef58382fdfc35082bf1b3e079ce353c

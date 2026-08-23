@@ -26,10 +26,17 @@ Every API contract change uses two coordinated reviews:
 2. This repository imports that exact commit, regenerates all clients, and
    records any generated-client migration notes.
 
-CI regenerates with `openapitools/openapi-generator-cli:v7.16.0`, requires a
-clean diff, checks exact operation coverage in all three languages, and runs
-their tests. The workflow does not fetch production, commit changes, publish
-packages, or deploy anything.
+CI regenerates with the OpenAPI Generator 7.16.0 image pinned to the immutable
+digest in `sdk/openapi-generator-image.txt`, requires a clean diff, checks exact
+operation coverage in all three languages, and runs their tests. The workflow
+does not fetch production, commit changes, publish packages, or deploy
+anything.
+
+The source repository is private, so public SDK CI cannot independently fetch
+`source_repository@source_commit`. The recorded source commit and digest are
+therefore an operator-reviewed cross-repository attestation; the checker
+verifies the committed contract's exact canonical serialization and rejects
+stale or self-inconsistent metadata.
 
 The canonical OpenAPI 3.1 file is unchanged by generation. Tested
 generation-only views downgrade the document to OpenAPI 3.0.3, convert 3.1
