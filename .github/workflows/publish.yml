@@ -2,7 +2,7 @@ name: Publish SDKs
 
 # Publishes the generated SDKs:
 #   - Python  -> PyPI  (agentdrive-sdk)        via OIDC trusted publishing (no token)
-#   - TS      -> npm   (@tokencanopy/agentdrive-sdk) via NPM_TOKEN secret
+#   - TS      -> npm   (@tokencanopy/agentdrive-sdk) via npm trusted publishing
 #   - Go      -> git tag go/vX.Y.Z              (consumed with `go get .../go@vX.Y.Z`)
 #
 # Publishes the version currently baked into the generated package metadata.

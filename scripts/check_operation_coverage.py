@@ -132,8 +132,8 @@ def main() -> None:
     args = parser.parse_args()
     check_operation_coverage(
         args.spec,
-        python_dir=Path("sdk/python/agentdrive_sdk/api"),
-        typescript_dir=Path("sdk/typescript/src/apis"),
+        python_dir=Path("sdk/python/agentdrive_sdk/generated/api"),
+        typescript_dir=Path("sdk/typescript/src/generated/apis"),
         go_dir=Path("sdk/go"),
     )
     print("Generated SDK operation coverage matches the committed contract.")
