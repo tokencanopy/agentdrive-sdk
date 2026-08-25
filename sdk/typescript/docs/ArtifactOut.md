@@ -8,48 +8,42 @@ Name | Type
 ------------ | -------------
 `id` | string
 `driveId` | string
-`path` | string
-`url` | string
-`permalink` | string
+`parentId` | string
+`name` | string
 `contentType` | string
-`fileType` | string
-`sizeBytes` | number
-`hash` | string
-`versionNumber` | number
+`contentPreview` | string
 `labels` | Array&lt;string&gt;
 `metadata` | { [key: string]: any; }
-`source` | [ArtifactSource](ArtifactSource.md)
-`indexedAt` | Date
-`embeddedAt` | Date
+`headVersionId` | string
+`revision` | string
+`state` | string
 `createdAt` | Date
 `updatedAt` | Date
-`llmIndex` | { [key: string]: any; }
+`deletedAt` | Date
+`effectiveVisibility` | string
 
 ## Example
 
 ```typescript
-import type { ArtifactOut } from '@mnexa-ai/agentdrive-sdk'
+import type { ArtifactOut } from '@tokencanopy/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
   "id": null,
   "driveId": null,
-  "path": null,
-  "url": null,
-  "permalink": null,
+  "parentId": null,
+  "name": null,
   "contentType": null,
-  "fileType": null,
-  "sizeBytes": null,
-  "hash": null,
-  "versionNumber": null,
+  "contentPreview": null,
   "labels": null,
   "metadata": null,
-  "source": null,
-  "indexedAt": null,
-  "embeddedAt": null,
+  "headVersionId": null,
+  "revision": null,
+  "state": null,
   "createdAt": null,
   "updatedAt": null,
-  "llmIndex": null,
+  "deletedAt": null,
+  "effectiveVisibility": null,
 } satisfies ArtifactOut
 
 console.log(example)

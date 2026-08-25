@@ -1,7 +1,7 @@
 /*
 AgentDrive
 
-AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
 
 API version: 0.0.1
 */
@@ -20,15 +20,21 @@ import (
 // checks if the DriveOut type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &DriveOut{}
 
-// DriveOut One drive in a listing — metadata only (workspaces-design §4.2). Carries NO capability and NEVER a raw key. An admin's inventory and a member's owned list both serialize to this shape; `owner_email` is the only owner-identifying field surfaced.
+// DriveOut struct for DriveOut
 type DriveOut struct {
-	Id string `json:"id"`
+	Id string `json:"id" validate:"regexp=^drv_[a-f0-9]{16}$"`
+	WorkspaceId string `json:"workspace_id"`
+	CreatedBy NullableString `json:"created_by"`
 	Name string `json:"name"`
-	OrganizationId string `json:"organization_id"`
-	OwnerUserId NullableString `json:"owner_user_id"`
-	OwnerEmail NullableString `json:"owner_email"`
+	Metadata map[string]interface{} `json:"metadata"`
+	Revision string `json:"revision" validate:"regexp=^rev_[a-f0-9]{16}$"`
+	RootFolderId string `json:"root_folder_id"`
 	StorageBytes int32 `json:"storage_bytes"`
+	RetrievalBytes int32 `json:"retrieval_bytes"`
 	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	DeletedAt NullableTime `json:"deleted_at"`
+	State string `json:"state"`
 }
 
 type _DriveOut DriveOut
@@ -37,15 +43,21 @@ type _DriveOut DriveOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDriveOut(id string, name string, organizationId string, ownerUserId NullableString, ownerEmail NullableString, storageBytes int32, createdAt time.Time) *DriveOut {
+func NewDriveOut(id string, workspaceId string, createdBy NullableString, name string, metadata map[string]interface{}, revision string, rootFolderId string, storageBytes int32, retrievalBytes int32, createdAt time.Time, updatedAt time.Time, deletedAt NullableTime, state string) *DriveOut {
 	this := DriveOut{}
 	this.Id = id
+	this.WorkspaceId = workspaceId
+	this.CreatedBy = createdBy
 	this.Name = name
-	this.OrganizationId = organizationId
-	this.OwnerUserId = ownerUserId
-	this.OwnerEmail = ownerEmail
+	this.Metadata = metadata
+	this.Revision = revision
+	this.RootFolderId = rootFolderId
 	this.StorageBytes = storageBytes
+	this.RetrievalBytes = retrievalBytes
 	this.CreatedAt = createdAt
+	this.UpdatedAt = updatedAt
+	this.DeletedAt = deletedAt
+	this.State = state
 	return &this
 }
 
@@ -81,6 +93,56 @@ func (o *DriveOut) SetId(v string) {
 	o.Id = v
 }
 
+// GetWorkspaceId returns the WorkspaceId field value
+func (o *DriveOut) GetWorkspaceId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.WorkspaceId
+}
+
+// GetWorkspaceIdOk returns a tuple with the WorkspaceId field value
+// and a boolean to check if the value has been set.
+func (o *DriveOut) GetWorkspaceIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.WorkspaceId, true
+}
+
+// SetWorkspaceId sets field value
+func (o *DriveOut) SetWorkspaceId(v string) {
+	o.WorkspaceId = v
+}
+
+// GetCreatedBy returns the CreatedBy field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *DriveOut) GetCreatedBy() string {
+	if o == nil || o.CreatedBy.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.CreatedBy.Get()
+}
+
+// GetCreatedByOk returns a tuple with the CreatedBy field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *DriveOut) GetCreatedByOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CreatedBy.Get(), o.CreatedBy.IsSet()
+}
+
+// SetCreatedBy sets field value
+func (o *DriveOut) SetCreatedBy(v string) {
+	o.CreatedBy.Set(&v)
+}
+
 // GetName returns the Name field value
 func (o *DriveOut) GetName() string {
 	if o == nil {
@@ -105,80 +167,76 @@ func (o *DriveOut) SetName(v string) {
 	o.Name = v
 }
 
-// GetOrganizationId returns the OrganizationId field value
-func (o *DriveOut) GetOrganizationId() string {
+// GetMetadata returns the Metadata field value
+func (o *DriveOut) GetMetadata() map[string]interface{} {
+	if o == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+
+	return o.Metadata
+}
+
+// GetMetadataOk returns a tuple with the Metadata field value
+// and a boolean to check if the value has been set.
+func (o *DriveOut) GetMetadataOk() (map[string]interface{}, bool) {
+	if o == nil {
+		return map[string]interface{}{}, false
+	}
+	return o.Metadata, true
+}
+
+// SetMetadata sets field value
+func (o *DriveOut) SetMetadata(v map[string]interface{}) {
+	o.Metadata = v
+}
+
+// GetRevision returns the Revision field value
+func (o *DriveOut) GetRevision() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.OrganizationId
+	return o.Revision
 }
 
-// GetOrganizationIdOk returns a tuple with the OrganizationId field value
+// GetRevisionOk returns a tuple with the Revision field value
 // and a boolean to check if the value has been set.
-func (o *DriveOut) GetOrganizationIdOk() (*string, bool) {
+func (o *DriveOut) GetRevisionOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.OrganizationId, true
+	return &o.Revision, true
 }
 
-// SetOrganizationId sets field value
-func (o *DriveOut) SetOrganizationId(v string) {
-	o.OrganizationId = v
+// SetRevision sets field value
+func (o *DriveOut) SetRevision(v string) {
+	o.Revision = v
 }
 
-// GetOwnerUserId returns the OwnerUserId field value
-// If the value is explicit nil, the zero value for string will be returned
-func (o *DriveOut) GetOwnerUserId() string {
-	if o == nil || o.OwnerUserId.Get() == nil {
+// GetRootFolderId returns the RootFolderId field value
+func (o *DriveOut) GetRootFolderId() string {
+	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return *o.OwnerUserId.Get()
+	return o.RootFolderId
 }
 
-// GetOwnerUserIdOk returns a tuple with the OwnerUserId field value
+// GetRootFolderIdOk returns a tuple with the RootFolderId field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *DriveOut) GetOwnerUserIdOk() (*string, bool) {
+func (o *DriveOut) GetRootFolderIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.OwnerUserId.Get(), o.OwnerUserId.IsSet()
+	return &o.RootFolderId, true
 }
 
-// SetOwnerUserId sets field value
-func (o *DriveOut) SetOwnerUserId(v string) {
-	o.OwnerUserId.Set(&v)
-}
-
-// GetOwnerEmail returns the OwnerEmail field value
-// If the value is explicit nil, the zero value for string will be returned
-func (o *DriveOut) GetOwnerEmail() string {
-	if o == nil || o.OwnerEmail.Get() == nil {
-		var ret string
-		return ret
-	}
-
-	return *o.OwnerEmail.Get()
-}
-
-// GetOwnerEmailOk returns a tuple with the OwnerEmail field value
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *DriveOut) GetOwnerEmailOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.OwnerEmail.Get(), o.OwnerEmail.IsSet()
-}
-
-// SetOwnerEmail sets field value
-func (o *DriveOut) SetOwnerEmail(v string) {
-	o.OwnerEmail.Set(&v)
+// SetRootFolderId sets field value
+func (o *DriveOut) SetRootFolderId(v string) {
+	o.RootFolderId = v
 }
 
 // GetStorageBytes returns the StorageBytes field value
@@ -205,6 +263,30 @@ func (o *DriveOut) SetStorageBytes(v int32) {
 	o.StorageBytes = v
 }
 
+// GetRetrievalBytes returns the RetrievalBytes field value
+func (o *DriveOut) GetRetrievalBytes() int32 {
+	if o == nil {
+		var ret int32
+		return ret
+	}
+
+	return o.RetrievalBytes
+}
+
+// GetRetrievalBytesOk returns a tuple with the RetrievalBytes field value
+// and a boolean to check if the value has been set.
+func (o *DriveOut) GetRetrievalBytesOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.RetrievalBytes, true
+}
+
+// SetRetrievalBytes sets field value
+func (o *DriveOut) SetRetrievalBytes(v int32) {
+	o.RetrievalBytes = v
+}
+
 // GetCreatedAt returns the CreatedAt field value
 func (o *DriveOut) GetCreatedAt() time.Time {
 	if o == nil {
@@ -229,6 +311,80 @@ func (o *DriveOut) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
+// GetUpdatedAt returns the UpdatedAt field value
+func (o *DriveOut) GetUpdatedAt() time.Time {
+	if o == nil {
+		var ret time.Time
+		return ret
+	}
+
+	return o.UpdatedAt
+}
+
+// GetUpdatedAtOk returns a tuple with the UpdatedAt field value
+// and a boolean to check if the value has been set.
+func (o *DriveOut) GetUpdatedAtOk() (*time.Time, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.UpdatedAt, true
+}
+
+// SetUpdatedAt sets field value
+func (o *DriveOut) SetUpdatedAt(v time.Time) {
+	o.UpdatedAt = v
+}
+
+// GetDeletedAt returns the DeletedAt field value
+// If the value is explicit nil, the zero value for time.Time will be returned
+func (o *DriveOut) GetDeletedAt() time.Time {
+	if o == nil || o.DeletedAt.Get() == nil {
+		var ret time.Time
+		return ret
+	}
+
+	return *o.DeletedAt.Get()
+}
+
+// GetDeletedAtOk returns a tuple with the DeletedAt field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *DriveOut) GetDeletedAtOk() (*time.Time, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.DeletedAt.Get(), o.DeletedAt.IsSet()
+}
+
+// SetDeletedAt sets field value
+func (o *DriveOut) SetDeletedAt(v time.Time) {
+	o.DeletedAt.Set(&v)
+}
+
+// GetState returns the State field value
+func (o *DriveOut) GetState() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.State
+}
+
+// GetStateOk returns a tuple with the State field value
+// and a boolean to check if the value has been set.
+func (o *DriveOut) GetStateOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.State, true
+}
+
+// SetState sets field value
+func (o *DriveOut) SetState(v string) {
+	o.State = v
+}
+
 func (o DriveOut) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -240,12 +396,18 @@ func (o DriveOut) MarshalJSON() ([]byte, error) {
 func (o DriveOut) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["id"] = o.Id
+	toSerialize["workspace_id"] = o.WorkspaceId
+	toSerialize["created_by"] = o.CreatedBy.Get()
 	toSerialize["name"] = o.Name
-	toSerialize["organization_id"] = o.OrganizationId
-	toSerialize["owner_user_id"] = o.OwnerUserId.Get()
-	toSerialize["owner_email"] = o.OwnerEmail.Get()
+	toSerialize["metadata"] = o.Metadata
+	toSerialize["revision"] = o.Revision
+	toSerialize["root_folder_id"] = o.RootFolderId
 	toSerialize["storage_bytes"] = o.StorageBytes
+	toSerialize["retrieval_bytes"] = o.RetrievalBytes
 	toSerialize["created_at"] = o.CreatedAt
+	toSerialize["updated_at"] = o.UpdatedAt
+	toSerialize["deleted_at"] = o.DeletedAt.Get()
+	toSerialize["state"] = o.State
 	return toSerialize, nil
 }
 
@@ -255,12 +417,18 @@ func (o *DriveOut) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"id",
+		"workspace_id",
+		"created_by",
 		"name",
-		"organization_id",
-		"owner_user_id",
-		"owner_email",
+		"metadata",
+		"revision",
+		"root_folder_id",
 		"storage_bytes",
+		"retrieval_bytes",
 		"created_at",
+		"updated_at",
+		"deleted_at",
+		"state",
 	}
 
 	allProperties := make(map[string]interface{})

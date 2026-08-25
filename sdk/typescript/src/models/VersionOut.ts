@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: 0.0.1
  * 
@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
 /**
  * 
  * @export
@@ -21,50 +21,38 @@ import { mapValues } from '../runtime';
 export interface VersionOut {
     /**
      * 
-     * @type {string}
-     * @memberof VersionOut
      */
-    artId: string;
+    id: string;
     /**
      * 
-     * @type {number}
-     * @memberof VersionOut
+     */
+    artifactId: string;
+    /**
+     * 
      */
     versionNumber: number;
     /**
      * 
-     * @type {number}
-     * @memberof VersionOut
      */
-    sizeBytes: number;
+    parentVersionId: string | null;
     /**
      * 
-     * @type {string}
-     * @memberof VersionOut
-     */
-    hash: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof VersionOut
      */
     contentType: string;
     /**
      * 
-     * @type {string}
-     * @memberof VersionOut
      */
-    actorName?: string | null;
+    sizeBytes: number;
     /**
      * 
-     * @type {string}
-     * @memberof VersionOut
      */
-    changeSummary?: string | null;
+    hash: string;
     /**
      * 
-     * @type {Date}
-     * @memberof VersionOut
+     */
+    createdBy: string | null;
+    /**
+     * 
      */
     createdAt: Date;
 }
@@ -73,12 +61,15 @@ export interface VersionOut {
  * Check if a given object implements the VersionOut interface.
  */
 export function instanceOfVersionOut(value: object): value is VersionOut {
-    if ((!('artId' in value) && !('art_id' in value)) || (value['artId'] === undefined && value['art_id'] === undefined)) return false;
-    if ((!('versionNumber' in value) && !('version_number' in value)) || (value['versionNumber'] === undefined && value['version_number'] === undefined)) return false;
-    if ((!('sizeBytes' in value) && !('size_bytes' in value)) || (value['sizeBytes'] === undefined && value['size_bytes'] === undefined)) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if ((!('artifactId' in (value as Record<string, any>)) && !('artifact_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['artifactId'] === undefined && (value as Record<string, any>)['artifact_id'] === undefined)) return false;
+    if ((!('versionNumber' in (value as Record<string, any>)) && !('version_number' in (value as Record<string, any>))) || ((value as Record<string, any>)['versionNumber'] === undefined && (value as Record<string, any>)['version_number'] === undefined)) return false;
+    if ((!('parentVersionId' in (value as Record<string, any>)) && !('parent_version_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['parentVersionId'] === undefined && (value as Record<string, any>)['parent_version_id'] === undefined)) return false;
+    if ((!('contentType' in (value as Record<string, any>)) && !('content_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['contentType'] === undefined && (value as Record<string, any>)['content_type'] === undefined)) return false;
+    if ((!('sizeBytes' in (value as Record<string, any>)) && !('size_bytes' in (value as Record<string, any>))) || ((value as Record<string, any>)['sizeBytes'] === undefined && (value as Record<string, any>)['size_bytes'] === undefined)) return false;
     if (!('hash' in value) || value['hash'] === undefined) return false;
-    if ((!('contentType' in value) && !('content_type' in value)) || (value['contentType'] === undefined && value['content_type'] === undefined)) return false;
-    if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
+    if ((!('createdBy' in (value as Record<string, any>)) && !('created_by' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdBy'] === undefined && (value as Record<string, any>)['created_by'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
     return true;
 }
 
@@ -92,14 +83,15 @@ export function VersionOutFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'artId': json['art_id'],
+        'id': json['id'],
+        'artifactId': json['artifact_id'],
         'versionNumber': json['version_number'],
+        'parentVersionId': json['parent_version_id'],
+        'contentType': json['content_type'],
         'sizeBytes': json['size_bytes'],
         'hash': json['hash'],
-        'contentType': json['content_type'],
-        'actorName': json['actor_name'] == null ? undefined : json['actor_name'],
-        'changeSummary': json['change_summary'] == null ? undefined : json['change_summary'],
-        'createdAt': (new Date(json['created_at'])),
+        'createdBy': json['created_by'],
+        'createdAt': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
     };
 }
 
@@ -114,14 +106,15 @@ export function VersionOutToJSONTyped(value?: VersionOut | null, ignoreDiscrimin
 
     return {
         
-        'art_id': value['artId'],
+        'id': value['id'],
+        'artifact_id': value['artifactId'],
         'version_number': value['versionNumber'],
+        'parent_version_id': value['parentVersionId'],
+        'content_type': value['contentType'],
         'size_bytes': value['sizeBytes'],
         'hash': value['hash'],
-        'content_type': value['contentType'],
-        'actor_name': value['actorName'],
-        'change_summary': value['changeSummary'],
-        'created_at': value['createdAt'].toISOString(),
+        'created_by': value['createdBy'],
+        'created_at': value['createdAt'] == null ? value['createdAt'] : serializeDateTime(value['createdAt']),
     };
 }
 

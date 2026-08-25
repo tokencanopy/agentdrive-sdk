@@ -1,7 +1,7 @@
 /*
 AgentDrive
 
-AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
 
 API version: 0.0.1
 */
@@ -20,17 +20,18 @@ import (
 // checks if the FolderOut type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &FolderOut{}
 
-// FolderOut Folder resource (folders+permalinks design §13). `path` is the canonical leading+trailing-slash form. Access is expressed through grants (permission-sharing-design §4.4), not a folder-level flag.
+// FolderOut struct for FolderOut
 type FolderOut struct {
-	Id string `json:"id"`
-	DriveId string `json:"drive_id"`
-	Path string `json:"path"`
-	Description NullableString `json:"description,omitempty"`
-	InheritGrants *bool `json:"inherit_grants,omitempty"`
+	Id string `json:"id" validate:"regexp=^fld_[a-f0-9]{16}$"`
+	DriveId string `json:"drive_id" validate:"regexp=^drv_[a-f0-9]{16}$"`
+	ParentId NullableString `json:"parent_id"`
+	Name NullableString `json:"name"`
+	Metadata map[string]interface{} `json:"metadata"`
+	Revision string `json:"revision" validate:"regexp=^rev_[a-f0-9]{16}$"`
+	State string `json:"state"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
-	DeletedAt NullableTime `json:"deleted_at,omitempty"`
-	PurgeAt NullableTime `json:"purge_at,omitempty"`
+	DeletedAt NullableTime `json:"deleted_at"`
 }
 
 type _FolderOut FolderOut
@@ -39,15 +40,18 @@ type _FolderOut FolderOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFolderOut(id string, driveId string, path string, createdAt time.Time, updatedAt time.Time) *FolderOut {
+func NewFolderOut(id string, driveId string, parentId NullableString, name NullableString, metadata map[string]interface{}, revision string, state string, createdAt time.Time, updatedAt time.Time, deletedAt NullableTime) *FolderOut {
 	this := FolderOut{}
 	this.Id = id
 	this.DriveId = driveId
-	this.Path = path
-	var inheritGrants bool = true
-	this.InheritGrants = &inheritGrants
+	this.ParentId = parentId
+	this.Name = name
+	this.Metadata = metadata
+	this.Revision = revision
+	this.State = state
 	this.CreatedAt = createdAt
 	this.UpdatedAt = updatedAt
+	this.DeletedAt = deletedAt
 	return &this
 }
 
@@ -56,8 +60,6 @@ func NewFolderOut(id string, driveId string, path string, createdAt time.Time, u
 // but it doesn't guarantee that properties required by API are set
 func NewFolderOutWithDefaults() *FolderOut {
 	this := FolderOut{}
-	var inheritGrants bool = true
-	this.InheritGrants = &inheritGrants
 	return &this
 }
 
@@ -109,102 +111,128 @@ func (o *FolderOut) SetDriveId(v string) {
 	o.DriveId = v
 }
 
-// GetPath returns the Path field value
-func (o *FolderOut) GetPath() string {
-	if o == nil {
+// GetParentId returns the ParentId field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *FolderOut) GetParentId() string {
+	if o == nil || o.ParentId.Get() == nil {
 		var ret string
 		return ret
 	}
 
-	return o.Path
+	return *o.ParentId.Get()
 }
 
-// GetPathOk returns a tuple with the Path field value
-// and a boolean to check if the value has been set.
-func (o *FolderOut) GetPathOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Path, true
-}
-
-// SetPath sets field value
-func (o *FolderOut) SetPath(v string) {
-	o.Path = v
-}
-
-// GetDescription returns the Description field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *FolderOut) GetDescription() string {
-	if o == nil || IsNil(o.Description.Get()) {
-		var ret string
-		return ret
-	}
-	return *o.Description.Get()
-}
-
-// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// GetParentIdOk returns a tuple with the ParentId field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *FolderOut) GetDescriptionOk() (*string, bool) {
+func (o *FolderOut) GetParentIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.Description.Get(), o.Description.IsSet()
+	return o.ParentId.Get(), o.ParentId.IsSet()
 }
 
-// HasDescription returns a boolean if a field has been set.
-func (o *FolderOut) HasDescription() bool {
-	if o != nil && o.Description.IsSet() {
-		return true
-	}
-
-	return false
+// SetParentId sets field value
+func (o *FolderOut) SetParentId(v string) {
+	o.ParentId.Set(&v)
 }
 
-// SetDescription gets a reference to the given NullableString and assigns it to the Description field.
-func (o *FolderOut) SetDescription(v string) {
-	o.Description.Set(&v)
-}
-// SetDescriptionNil sets the value for Description to be an explicit nil
-func (o *FolderOut) SetDescriptionNil() {
-	o.Description.Set(nil)
-}
-
-// UnsetDescription ensures that no value is present for Description, not even an explicit nil
-func (o *FolderOut) UnsetDescription() {
-	o.Description.Unset()
-}
-
-// GetInheritGrants returns the InheritGrants field value if set, zero value otherwise.
-func (o *FolderOut) GetInheritGrants() bool {
-	if o == nil || IsNil(o.InheritGrants) {
-		var ret bool
+// GetName returns the Name field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *FolderOut) GetName() string {
+	if o == nil || o.Name.Get() == nil {
+		var ret string
 		return ret
 	}
-	return *o.InheritGrants
+
+	return *o.Name.Get()
 }
 
-// GetInheritGrantsOk returns a tuple with the InheritGrants field value if set, nil otherwise
+// GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *FolderOut) GetInheritGrantsOk() (*bool, bool) {
-	if o == nil || IsNil(o.InheritGrants) {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *FolderOut) GetNameOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.InheritGrants, true
+	return o.Name.Get(), o.Name.IsSet()
 }
 
-// HasInheritGrants returns a boolean if a field has been set.
-func (o *FolderOut) HasInheritGrants() bool {
-	if o != nil && !IsNil(o.InheritGrants) {
-		return true
+// SetName sets field value
+func (o *FolderOut) SetName(v string) {
+	o.Name.Set(&v)
+}
+
+// GetMetadata returns the Metadata field value
+func (o *FolderOut) GetMetadata() map[string]interface{} {
+	if o == nil {
+		var ret map[string]interface{}
+		return ret
 	}
 
-	return false
+	return o.Metadata
 }
 
-// SetInheritGrants gets a reference to the given bool and assigns it to the InheritGrants field.
-func (o *FolderOut) SetInheritGrants(v bool) {
-	o.InheritGrants = &v
+// GetMetadataOk returns a tuple with the Metadata field value
+// and a boolean to check if the value has been set.
+func (o *FolderOut) GetMetadataOk() (map[string]interface{}, bool) {
+	if o == nil {
+		return map[string]interface{}{}, false
+	}
+	return o.Metadata, true
+}
+
+// SetMetadata sets field value
+func (o *FolderOut) SetMetadata(v map[string]interface{}) {
+	o.Metadata = v
+}
+
+// GetRevision returns the Revision field value
+func (o *FolderOut) GetRevision() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Revision
+}
+
+// GetRevisionOk returns a tuple with the Revision field value
+// and a boolean to check if the value has been set.
+func (o *FolderOut) GetRevisionOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Revision, true
+}
+
+// SetRevision sets field value
+func (o *FolderOut) SetRevision(v string) {
+	o.Revision = v
+}
+
+// GetState returns the State field value
+func (o *FolderOut) GetState() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.State
+}
+
+// GetStateOk returns a tuple with the State field value
+// and a boolean to check if the value has been set.
+func (o *FolderOut) GetStateOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.State, true
+}
+
+// SetState sets field value
+func (o *FolderOut) SetState(v string) {
+	o.State = v
 }
 
 // GetCreatedAt returns the CreatedAt field value
@@ -255,16 +283,18 @@ func (o *FolderOut) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
 
-// GetDeletedAt returns the DeletedAt field value if set, zero value otherwise (both if not set or set to explicit null).
+// GetDeletedAt returns the DeletedAt field value
+// If the value is explicit nil, the zero value for time.Time will be returned
 func (o *FolderOut) GetDeletedAt() time.Time {
-	if o == nil || IsNil(o.DeletedAt.Get()) {
+	if o == nil || o.DeletedAt.Get() == nil {
 		var ret time.Time
 		return ret
 	}
+
 	return *o.DeletedAt.Get()
 }
 
-// GetDeletedAtOk returns a tuple with the DeletedAt field value if set, nil otherwise
+// GetDeletedAtOk returns a tuple with the DeletedAt field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *FolderOut) GetDeletedAtOk() (*time.Time, bool) {
@@ -274,69 +304,9 @@ func (o *FolderOut) GetDeletedAtOk() (*time.Time, bool) {
 	return o.DeletedAt.Get(), o.DeletedAt.IsSet()
 }
 
-// HasDeletedAt returns a boolean if a field has been set.
-func (o *FolderOut) HasDeletedAt() bool {
-	if o != nil && o.DeletedAt.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetDeletedAt gets a reference to the given NullableTime and assigns it to the DeletedAt field.
+// SetDeletedAt sets field value
 func (o *FolderOut) SetDeletedAt(v time.Time) {
 	o.DeletedAt.Set(&v)
-}
-// SetDeletedAtNil sets the value for DeletedAt to be an explicit nil
-func (o *FolderOut) SetDeletedAtNil() {
-	o.DeletedAt.Set(nil)
-}
-
-// UnsetDeletedAt ensures that no value is present for DeletedAt, not even an explicit nil
-func (o *FolderOut) UnsetDeletedAt() {
-	o.DeletedAt.Unset()
-}
-
-// GetPurgeAt returns the PurgeAt field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *FolderOut) GetPurgeAt() time.Time {
-	if o == nil || IsNil(o.PurgeAt.Get()) {
-		var ret time.Time
-		return ret
-	}
-	return *o.PurgeAt.Get()
-}
-
-// GetPurgeAtOk returns a tuple with the PurgeAt field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *FolderOut) GetPurgeAtOk() (*time.Time, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.PurgeAt.Get(), o.PurgeAt.IsSet()
-}
-
-// HasPurgeAt returns a boolean if a field has been set.
-func (o *FolderOut) HasPurgeAt() bool {
-	if o != nil && o.PurgeAt.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetPurgeAt gets a reference to the given NullableTime and assigns it to the PurgeAt field.
-func (o *FolderOut) SetPurgeAt(v time.Time) {
-	o.PurgeAt.Set(&v)
-}
-// SetPurgeAtNil sets the value for PurgeAt to be an explicit nil
-func (o *FolderOut) SetPurgeAtNil() {
-	o.PurgeAt.Set(nil)
-}
-
-// UnsetPurgeAt ensures that no value is present for PurgeAt, not even an explicit nil
-func (o *FolderOut) UnsetPurgeAt() {
-	o.PurgeAt.Unset()
 }
 
 func (o FolderOut) MarshalJSON() ([]byte, error) {
@@ -351,21 +321,14 @@ func (o FolderOut) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["id"] = o.Id
 	toSerialize["drive_id"] = o.DriveId
-	toSerialize["path"] = o.Path
-	if o.Description.IsSet() {
-		toSerialize["description"] = o.Description.Get()
-	}
-	if !IsNil(o.InheritGrants) {
-		toSerialize["inherit_grants"] = o.InheritGrants
-	}
+	toSerialize["parent_id"] = o.ParentId.Get()
+	toSerialize["name"] = o.Name.Get()
+	toSerialize["metadata"] = o.Metadata
+	toSerialize["revision"] = o.Revision
+	toSerialize["state"] = o.State
 	toSerialize["created_at"] = o.CreatedAt
 	toSerialize["updated_at"] = o.UpdatedAt
-	if o.DeletedAt.IsSet() {
-		toSerialize["deleted_at"] = o.DeletedAt.Get()
-	}
-	if o.PurgeAt.IsSet() {
-		toSerialize["purge_at"] = o.PurgeAt.Get()
-	}
+	toSerialize["deleted_at"] = o.DeletedAt.Get()
 	return toSerialize, nil
 }
 
@@ -376,9 +339,14 @@ func (o *FolderOut) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"id",
 		"drive_id",
-		"path",
+		"parent_id",
+		"name",
+		"metadata",
+		"revision",
+		"state",
 		"created_at",
 		"updated_at",
+		"deleted_at",
 	}
 
 	allProperties := make(map[string]interface{})

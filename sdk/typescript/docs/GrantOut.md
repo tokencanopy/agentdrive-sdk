@@ -1,46 +1,43 @@
 
 # GrantOut
 
-A live grant. Audit fields (`granted_by_*`, `on_behalf_of`) are surfaced so a manager can see who shared what.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
 `id` | string
+`driveId` | string
 `resourceType` | string
 `resourceId` | string
 `principalType` | string
 `principalId` | string
-`principalEmail` | string
 `role` | string
-`grantedByType` | string
-`grantedById` | string
-`onBehalfOf` | string
-`createdAt` | Date
+`revision` | string
+`state` | string
 `expiresAt` | Date
-`artifactsAffected` | number
+`revokedAt` | Date
+`createdAt` | Date
 
 ## Example
 
 ```typescript
-import type { GrantOut } from '@mnexa-ai/agentdrive-sdk'
+import type { GrantOut } from '@tokencanopy/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
   "id": null,
+  "driveId": null,
   "resourceType": null,
   "resourceId": null,
   "principalType": null,
   "principalId": null,
-  "principalEmail": null,
   "role": null,
-  "grantedByType": null,
-  "grantedById": null,
-  "onBehalfOf": null,
-  "createdAt": null,
+  "revision": null,
+  "state": null,
   "expiresAt": null,
-  "artifactsAffected": null,
+  "revokedAt": null,
+  "createdAt": null,
 } satisfies GrantOut
 
 console.log(example)

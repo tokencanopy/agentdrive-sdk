@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: 0.0.1
  * 
@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
 /**
  * 
  * @export
@@ -21,56 +21,38 @@ import { mapValues } from '../runtime';
 export interface SearchHitOut {
     /**
      * 
-     * @type {string}
-     * @memberof SearchHitOut
+     */
+    id: string;
+    /**
+     * 
      */
     driveId: string;
     /**
      * 
-     * @type {string}
-     * @memberof SearchHitOut
      */
-    path: string;
+    parentId: string | null;
     /**
      * 
-     * @type {string}
-     * @memberof SearchHitOut
      */
-    url: string;
+    name: string;
     /**
      * 
-     * @type {string}
-     * @memberof SearchHitOut
      */
-    contentType: string;
+    versionId: string | null;
     /**
      * 
-     * @type {string}
-     * @memberof SearchHitOut
      */
-    fileType: string;
+    rank: number;
     /**
-     * 
-     * @type {Array<string>}
-     * @memberof SearchHitOut
-     */
-    labels?: Array<string>;
-    /**
-     * 
-     * @type {string}
-     * @memberof SearchHitOut
+     * HTML-safe highlighted excerpt. The ONLY markup it may contain is the server's own <mark>...</mark> highlight pair; artifact content is entity-escaped, so this may be rendered as HTML.
      */
     snippet: string;
     /**
      * 
-     * @type {number}
-     * @memberof SearchHitOut
      */
-    score: number;
+    contentType: string | null;
     /**
      * 
-     * @type {Date}
-     * @memberof SearchHitOut
      */
     updatedAt: Date;
 }
@@ -79,14 +61,15 @@ export interface SearchHitOut {
  * Check if a given object implements the SearchHitOut interface.
  */
 export function instanceOfSearchHitOut(value: object): value is SearchHitOut {
-    if ((!('driveId' in value) && !('drive_id' in value)) || (value['driveId'] === undefined && value['drive_id'] === undefined)) return false;
-    if (!('path' in value) || value['path'] === undefined) return false;
-    if (!('url' in value) || value['url'] === undefined) return false;
-    if ((!('contentType' in value) && !('content_type' in value)) || (value['contentType'] === undefined && value['content_type'] === undefined)) return false;
-    if ((!('fileType' in value) && !('file_type' in value)) || (value['fileType'] === undefined && value['file_type'] === undefined)) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if ((!('driveId' in (value as Record<string, any>)) && !('drive_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['driveId'] === undefined && (value as Record<string, any>)['drive_id'] === undefined)) return false;
+    if ((!('parentId' in (value as Record<string, any>)) && !('parent_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['parentId'] === undefined && (value as Record<string, any>)['parent_id'] === undefined)) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if ((!('versionId' in (value as Record<string, any>)) && !('version_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['versionId'] === undefined && (value as Record<string, any>)['version_id'] === undefined)) return false;
+    if (!('rank' in value) || value['rank'] === undefined) return false;
     if (!('snippet' in value) || value['snippet'] === undefined) return false;
-    if (!('score' in value) || value['score'] === undefined) return false;
-    if ((!('updatedAt' in value) && !('updated_at' in value)) || (value['updatedAt'] === undefined && value['updated_at'] === undefined)) return false;
+    if ((!('contentType' in (value as Record<string, any>)) && !('content_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['contentType'] === undefined && (value as Record<string, any>)['content_type'] === undefined)) return false;
+    if ((!('updatedAt' in (value as Record<string, any>)) && !('updated_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['updatedAt'] === undefined && (value as Record<string, any>)['updated_at'] === undefined)) return false;
     return true;
 }
 
@@ -100,15 +83,15 @@ export function SearchHitOutFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
+        'id': json['id'],
         'driveId': json['drive_id'],
-        'path': json['path'],
-        'url': json['url'],
-        'contentType': json['content_type'],
-        'fileType': json['file_type'],
-        'labels': json['labels'] == null ? undefined : json['labels'],
+        'parentId': json['parent_id'],
+        'name': json['name'],
+        'versionId': json['version_id'],
+        'rank': json['rank'],
         'snippet': json['snippet'],
-        'score': json['score'],
-        'updatedAt': (new Date(json['updated_at'])),
+        'contentType': json['content_type'],
+        'updatedAt': (json['updated_at'] == null ? json['updated_at'] : parseDateTime(json['updated_at'])),
     };
 }
 
@@ -123,15 +106,15 @@ export function SearchHitOutToJSONTyped(value?: SearchHitOut | null, ignoreDiscr
 
     return {
         
+        'id': value['id'],
         'drive_id': value['driveId'],
-        'path': value['path'],
-        'url': value['url'],
-        'content_type': value['contentType'],
-        'file_type': value['fileType'],
-        'labels': value['labels'],
+        'parent_id': value['parentId'],
+        'name': value['name'],
+        'version_id': value['versionId'],
+        'rank': value['rank'],
         'snippet': value['snippet'],
-        'score': value['score'],
-        'updated_at': value['updatedAt'].toISOString(),
+        'content_type': value['contentType'],
+        'updated_at': value['updatedAt'] == null ? value['updatedAt'] : serializeDateTime(value['updatedAt']),
     };
 }
 

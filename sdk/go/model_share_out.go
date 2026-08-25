@@ -1,7 +1,7 @@
 /*
 AgentDrive
 
-AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
 
 API version: 0.0.1
 */
@@ -20,18 +20,19 @@ import (
 // checks if the ShareOut type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &ShareOut{}
 
-// ShareOut A live share link as seen on list/management — NEVER carries the `share_key` (that is the credential, returned only at mint/rotate).
+// ShareOut struct for ShareOut
 type ShareOut struct {
-	Id string `json:"id"`
+	Id string `json:"id" validate:"regexp=^shr_[a-f0-9]{16}$"`
+	DriveId string `json:"drive_id" validate:"regexp=^drv_[a-f0-9]{16}$"`
 	ResourceType string `json:"resource_type"`
 	ResourceId string `json:"resource_id"`
-	Role string `json:"role"`
-	Audience string `json:"audience"`
-	HasPassword bool `json:"has_password"`
+	CreatedBy NullableString `json:"created_by"`
+	Revision string `json:"revision" validate:"regexp=^rev_[a-f0-9]{16}$"`
+	State string `json:"state"`
+	ExpiresAt NullableTime `json:"expires_at"`
+	RevokedAt NullableTime `json:"revoked_at"`
 	CreatedAt time.Time `json:"created_at"`
-	ExpiresAt NullableTime `json:"expires_at,omitempty"`
-	LastAccessedAt NullableTime `json:"last_accessed_at,omitempty"`
-	AccessCount *int32 `json:"access_count,omitempty"`
+	RotatedAt NullableTime `json:"rotated_at"`
 }
 
 type _ShareOut ShareOut
@@ -40,17 +41,19 @@ type _ShareOut ShareOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewShareOut(id string, resourceType string, resourceId string, role string, audience string, hasPassword bool, createdAt time.Time) *ShareOut {
+func NewShareOut(id string, driveId string, resourceType string, resourceId string, createdBy NullableString, revision string, state string, expiresAt NullableTime, revokedAt NullableTime, createdAt time.Time, rotatedAt NullableTime) *ShareOut {
 	this := ShareOut{}
 	this.Id = id
+	this.DriveId = driveId
 	this.ResourceType = resourceType
 	this.ResourceId = resourceId
-	this.Role = role
-	this.Audience = audience
-	this.HasPassword = hasPassword
+	this.CreatedBy = createdBy
+	this.Revision = revision
+	this.State = state
+	this.ExpiresAt = expiresAt
+	this.RevokedAt = revokedAt
 	this.CreatedAt = createdAt
-	var accessCount int32 = 0
-	this.AccessCount = &accessCount
+	this.RotatedAt = rotatedAt
 	return &this
 }
 
@@ -59,8 +62,6 @@ func NewShareOut(id string, resourceType string, resourceId string, role string,
 // but it doesn't guarantee that properties required by API are set
 func NewShareOutWithDefaults() *ShareOut {
 	this := ShareOut{}
-	var accessCount int32 = 0
-	this.AccessCount = &accessCount
 	return &this
 }
 
@@ -86,6 +87,30 @@ func (o *ShareOut) GetIdOk() (*string, bool) {
 // SetId sets field value
 func (o *ShareOut) SetId(v string) {
 	o.Id = v
+}
+
+// GetDriveId returns the DriveId field value
+func (o *ShareOut) GetDriveId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.DriveId
+}
+
+// GetDriveIdOk returns a tuple with the DriveId field value
+// and a boolean to check if the value has been set.
+func (o *ShareOut) GetDriveIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.DriveId, true
+}
+
+// SetDriveId sets field value
+func (o *ShareOut) SetDriveId(v string) {
+	o.DriveId = v
 }
 
 // GetResourceType returns the ResourceType field value
@@ -136,76 +161,130 @@ func (o *ShareOut) SetResourceId(v string) {
 	o.ResourceId = v
 }
 
-// GetRole returns the Role field value
-func (o *ShareOut) GetRole() string {
+// GetCreatedBy returns the CreatedBy field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *ShareOut) GetCreatedBy() string {
+	if o == nil || o.CreatedBy.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.CreatedBy.Get()
+}
+
+// GetCreatedByOk returns a tuple with the CreatedBy field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ShareOut) GetCreatedByOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CreatedBy.Get(), o.CreatedBy.IsSet()
+}
+
+// SetCreatedBy sets field value
+func (o *ShareOut) SetCreatedBy(v string) {
+	o.CreatedBy.Set(&v)
+}
+
+// GetRevision returns the Revision field value
+func (o *ShareOut) GetRevision() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.Role
+	return o.Revision
 }
 
-// GetRoleOk returns a tuple with the Role field value
+// GetRevisionOk returns a tuple with the Revision field value
 // and a boolean to check if the value has been set.
-func (o *ShareOut) GetRoleOk() (*string, bool) {
+func (o *ShareOut) GetRevisionOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Role, true
+	return &o.Revision, true
 }
 
-// SetRole sets field value
-func (o *ShareOut) SetRole(v string) {
-	o.Role = v
+// SetRevision sets field value
+func (o *ShareOut) SetRevision(v string) {
+	o.Revision = v
 }
 
-// GetAudience returns the Audience field value
-func (o *ShareOut) GetAudience() string {
+// GetState returns the State field value
+func (o *ShareOut) GetState() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.Audience
+	return o.State
 }
 
-// GetAudienceOk returns a tuple with the Audience field value
+// GetStateOk returns a tuple with the State field value
 // and a boolean to check if the value has been set.
-func (o *ShareOut) GetAudienceOk() (*string, bool) {
+func (o *ShareOut) GetStateOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Audience, true
+	return &o.State, true
 }
 
-// SetAudience sets field value
-func (o *ShareOut) SetAudience(v string) {
-	o.Audience = v
+// SetState sets field value
+func (o *ShareOut) SetState(v string) {
+	o.State = v
 }
 
-// GetHasPassword returns the HasPassword field value
-func (o *ShareOut) GetHasPassword() bool {
-	if o == nil {
-		var ret bool
+// GetExpiresAt returns the ExpiresAt field value
+// If the value is explicit nil, the zero value for time.Time will be returned
+func (o *ShareOut) GetExpiresAt() time.Time {
+	if o == nil || o.ExpiresAt.Get() == nil {
+		var ret time.Time
 		return ret
 	}
 
-	return o.HasPassword
+	return *o.ExpiresAt.Get()
 }
 
-// GetHasPasswordOk returns a tuple with the HasPassword field value
+// GetExpiresAtOk returns a tuple with the ExpiresAt field value
 // and a boolean to check if the value has been set.
-func (o *ShareOut) GetHasPasswordOk() (*bool, bool) {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ShareOut) GetExpiresAtOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.HasPassword, true
+	return o.ExpiresAt.Get(), o.ExpiresAt.IsSet()
 }
 
-// SetHasPassword sets field value
-func (o *ShareOut) SetHasPassword(v bool) {
-	o.HasPassword = v
+// SetExpiresAt sets field value
+func (o *ShareOut) SetExpiresAt(v time.Time) {
+	o.ExpiresAt.Set(&v)
+}
+
+// GetRevokedAt returns the RevokedAt field value
+// If the value is explicit nil, the zero value for time.Time will be returned
+func (o *ShareOut) GetRevokedAt() time.Time {
+	if o == nil || o.RevokedAt.Get() == nil {
+		var ret time.Time
+		return ret
+	}
+
+	return *o.RevokedAt.Get()
+}
+
+// GetRevokedAtOk returns a tuple with the RevokedAt field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ShareOut) GetRevokedAtOk() (*time.Time, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.RevokedAt.Get(), o.RevokedAt.IsSet()
+}
+
+// SetRevokedAt sets field value
+func (o *ShareOut) SetRevokedAt(v time.Time) {
+	o.RevokedAt.Set(&v)
 }
 
 // GetCreatedAt returns the CreatedAt field value
@@ -232,120 +311,30 @@ func (o *ShareOut) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
-// GetExpiresAt returns the ExpiresAt field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ShareOut) GetExpiresAt() time.Time {
-	if o == nil || IsNil(o.ExpiresAt.Get()) {
+// GetRotatedAt returns the RotatedAt field value
+// If the value is explicit nil, the zero value for time.Time will be returned
+func (o *ShareOut) GetRotatedAt() time.Time {
+	if o == nil || o.RotatedAt.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.ExpiresAt.Get()
+
+	return *o.RotatedAt.Get()
 }
 
-// GetExpiresAtOk returns a tuple with the ExpiresAt field value if set, nil otherwise
+// GetRotatedAtOk returns a tuple with the RotatedAt field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ShareOut) GetExpiresAtOk() (*time.Time, bool) {
+func (o *ShareOut) GetRotatedAtOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.ExpiresAt.Get(), o.ExpiresAt.IsSet()
+	return o.RotatedAt.Get(), o.RotatedAt.IsSet()
 }
 
-// HasExpiresAt returns a boolean if a field has been set.
-func (o *ShareOut) HasExpiresAt() bool {
-	if o != nil && o.ExpiresAt.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetExpiresAt gets a reference to the given NullableTime and assigns it to the ExpiresAt field.
-func (o *ShareOut) SetExpiresAt(v time.Time) {
-	o.ExpiresAt.Set(&v)
-}
-// SetExpiresAtNil sets the value for ExpiresAt to be an explicit nil
-func (o *ShareOut) SetExpiresAtNil() {
-	o.ExpiresAt.Set(nil)
-}
-
-// UnsetExpiresAt ensures that no value is present for ExpiresAt, not even an explicit nil
-func (o *ShareOut) UnsetExpiresAt() {
-	o.ExpiresAt.Unset()
-}
-
-// GetLastAccessedAt returns the LastAccessedAt field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ShareOut) GetLastAccessedAt() time.Time {
-	if o == nil || IsNil(o.LastAccessedAt.Get()) {
-		var ret time.Time
-		return ret
-	}
-	return *o.LastAccessedAt.Get()
-}
-
-// GetLastAccessedAtOk returns a tuple with the LastAccessedAt field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ShareOut) GetLastAccessedAtOk() (*time.Time, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.LastAccessedAt.Get(), o.LastAccessedAt.IsSet()
-}
-
-// HasLastAccessedAt returns a boolean if a field has been set.
-func (o *ShareOut) HasLastAccessedAt() bool {
-	if o != nil && o.LastAccessedAt.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetLastAccessedAt gets a reference to the given NullableTime and assigns it to the LastAccessedAt field.
-func (o *ShareOut) SetLastAccessedAt(v time.Time) {
-	o.LastAccessedAt.Set(&v)
-}
-// SetLastAccessedAtNil sets the value for LastAccessedAt to be an explicit nil
-func (o *ShareOut) SetLastAccessedAtNil() {
-	o.LastAccessedAt.Set(nil)
-}
-
-// UnsetLastAccessedAt ensures that no value is present for LastAccessedAt, not even an explicit nil
-func (o *ShareOut) UnsetLastAccessedAt() {
-	o.LastAccessedAt.Unset()
-}
-
-// GetAccessCount returns the AccessCount field value if set, zero value otherwise.
-func (o *ShareOut) GetAccessCount() int32 {
-	if o == nil || IsNil(o.AccessCount) {
-		var ret int32
-		return ret
-	}
-	return *o.AccessCount
-}
-
-// GetAccessCountOk returns a tuple with the AccessCount field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ShareOut) GetAccessCountOk() (*int32, bool) {
-	if o == nil || IsNil(o.AccessCount) {
-		return nil, false
-	}
-	return o.AccessCount, true
-}
-
-// HasAccessCount returns a boolean if a field has been set.
-func (o *ShareOut) HasAccessCount() bool {
-	if o != nil && !IsNil(o.AccessCount) {
-		return true
-	}
-
-	return false
-}
-
-// SetAccessCount gets a reference to the given int32 and assigns it to the AccessCount field.
-func (o *ShareOut) SetAccessCount(v int32) {
-	o.AccessCount = &v
+// SetRotatedAt sets field value
+func (o *ShareOut) SetRotatedAt(v time.Time) {
+	o.RotatedAt.Set(&v)
 }
 
 func (o ShareOut) MarshalJSON() ([]byte, error) {
@@ -359,21 +348,16 @@ func (o ShareOut) MarshalJSON() ([]byte, error) {
 func (o ShareOut) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["id"] = o.Id
+	toSerialize["drive_id"] = o.DriveId
 	toSerialize["resource_type"] = o.ResourceType
 	toSerialize["resource_id"] = o.ResourceId
-	toSerialize["role"] = o.Role
-	toSerialize["audience"] = o.Audience
-	toSerialize["has_password"] = o.HasPassword
+	toSerialize["created_by"] = o.CreatedBy.Get()
+	toSerialize["revision"] = o.Revision
+	toSerialize["state"] = o.State
+	toSerialize["expires_at"] = o.ExpiresAt.Get()
+	toSerialize["revoked_at"] = o.RevokedAt.Get()
 	toSerialize["created_at"] = o.CreatedAt
-	if o.ExpiresAt.IsSet() {
-		toSerialize["expires_at"] = o.ExpiresAt.Get()
-	}
-	if o.LastAccessedAt.IsSet() {
-		toSerialize["last_accessed_at"] = o.LastAccessedAt.Get()
-	}
-	if !IsNil(o.AccessCount) {
-		toSerialize["access_count"] = o.AccessCount
-	}
+	toSerialize["rotated_at"] = o.RotatedAt.Get()
 	return toSerialize, nil
 }
 
@@ -383,12 +367,16 @@ func (o *ShareOut) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"id",
+		"drive_id",
 		"resource_type",
 		"resource_id",
-		"role",
-		"audience",
-		"has_password",
+		"created_by",
+		"revision",
+		"state",
+		"expires_at",
+		"revoked_at",
 		"created_at",
+		"rotated_at",
 	}
 
 	allProperties := make(map[string]interface{})

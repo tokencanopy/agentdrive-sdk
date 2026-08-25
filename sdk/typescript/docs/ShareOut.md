@@ -1,40 +1,41 @@
 
 # ShareOut
 
-A live share link as seen on list/management — NEVER carries the `share_key` (that is the credential, returned only at mint/rotate).
 
 ## Properties
 
 Name | Type
 ------------ | -------------
 `id` | string
+`driveId` | string
 `resourceType` | string
 `resourceId` | string
-`role` | string
-`audience` | string
-`hasPassword` | boolean
-`createdAt` | Date
+`createdBy` | string
+`revision` | string
+`state` | string
 `expiresAt` | Date
-`lastAccessedAt` | Date
-`accessCount` | number
+`revokedAt` | Date
+`createdAt` | Date
+`rotatedAt` | Date
 
 ## Example
 
 ```typescript
-import type { ShareOut } from '@mnexa-ai/agentdrive-sdk'
+import type { ShareOut } from '@tokencanopy/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
   "id": null,
+  "driveId": null,
   "resourceType": null,
   "resourceId": null,
-  "role": null,
-  "audience": null,
-  "hasPassword": null,
-  "createdAt": null,
+  "createdBy": null,
+  "revision": null,
+  "state": null,
   "expiresAt": null,
-  "lastAccessedAt": null,
-  "accessCount": null,
+  "revokedAt": null,
+  "createdAt": null,
+  "rotatedAt": null,
 } satisfies ShareOut
 
 console.log(example)

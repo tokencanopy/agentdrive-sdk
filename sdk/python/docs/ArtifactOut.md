@@ -7,22 +7,19 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **str** |  | 
 **drive_id** | **str** |  | 
-**path** | **str** |  | 
-**url** | **str** |  | 
-**permalink** | **str** |  | 
+**parent_id** | **str** |  | 
+**name** | **str** |  | 
 **content_type** | **str** |  | 
-**file_type** | **str** |  | 
-**size_bytes** | **int** |  | 
-**hash** | **str** |  | 
-**version_number** | **int** |  | [optional] [default to 1]
-**labels** | **List[str]** |  | [optional] 
-**metadata** | **Dict[str, object]** |  | [optional] 
-**source** | [**ArtifactSource**](ArtifactSource.md) |  | [optional] 
-**indexed_at** | **datetime** |  | [optional] 
-**embedded_at** | **datetime** |  | [optional] 
+**content_preview** | **str** |  | 
+**labels** | **List[str]** |  | 
+**metadata** | **Dict[str, object]** |  | 
+**head_version_id** | **str** |  | 
+**revision** | **str** |  | 
+**state** | **str** |  | 
 **created_at** | **datetime** |  | 
 **updated_at** | **datetime** |  | 
-**llm_index** | **Dict[str, object]** |  | [optional] 
+**deleted_at** | **datetime** |  | 
+**effective_visibility** | **str** | Server-computed exposure summary, resolved over the artifact&#39;s live grants, its whole folder ancestry, and the drive. &#39;public&#39; when any live grant has principal_type &#39;public&#39;; otherwise &#39;shared&#39; when a live grant names a principal other than the drive&#39;s creator; otherwise &#39;private&#39;. Describes exposure, NOT the caller&#39;s own access. | 
 
 ## Example
 

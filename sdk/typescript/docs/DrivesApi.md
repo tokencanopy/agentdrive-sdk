@@ -1,26 +1,26 @@
 # DrivesApi
 
-All URIs are relative to *https://api.agentdrive.run*
+All URIs are relative to *https://drive.tokencanopy.com*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**createDriveKeyRouteV0DrivesDriveIdKeysPost**](DrivesApi.md#createdrivekeyroutev0drivesdriveidkeyspost) | **POST** /v0/drives/{drive_id}/keys | Create a drive API key |
-| [**createDriveRouteV0DrivesPost**](DrivesApi.md#createdriveroutev0drivespost) | **POST** /v0/drives | Create a drive in your active space |
-| [**listDriveKeysRouteV0DrivesDriveIdKeysGet**](DrivesApi.md#listdrivekeysroutev0drivesdriveidkeysget) | **GET** /v0/drives/{drive_id}/keys | List a drive\&#39;s API keys |
-| [**listDrivesRouteV0DrivesGet**](DrivesApi.md#listdrivesroutev0drivesget) | **GET** /v0/drives | List the drives you can see |
-| [**renameDriveRouteV0DrivesDriveIdPatch**](DrivesApi.md#renamedriveroutev0drivesdriveidpatch) | **PATCH** /v0/drives/{drive_id} | Rename a drive you own |
-| [**revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost**](DrivesApi.md#revokedrivekeyroutev0drivesdriveidkeyskeyidrevokepost) | **POST** /v0/drives/{drive_id}/keys/{key_id}/revoke | Revoke a drive API key |
-| [**rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost**](DrivesApi.md#rotateonekeyroutev0drivesdriveidkeyskeyidrotatepost) | **POST** /v0/drives/{drive_id}/keys/{key_id}/rotate | Rotate one API key |
+| [**drivesCreate**](DrivesApi.md#drivescreate) | **POST** /v0/drives | Create Drive |
+| [**drivesDelete**](DrivesApi.md#drivesdelete) | **DELETE** /v0/drives/{drive_id} | Delete Drive |
+| [**drivesList**](DrivesApi.md#driveslist) | **GET** /v0/drives | List Drives |
+| [**drivesRead**](DrivesApi.md#drivesread) | **GET** /v0/drives/{drive_id} | Read Drive |
+| [**drivesRestore**](DrivesApi.md#drivesrestore) | **POST** /v0/drives/{drive_id}/restore | Restore Drive |
+| [**drivesUpdate**](DrivesApi.md#drivesupdate) | **PATCH** /v0/drives/{drive_id} | Update Drive |
+| [**drivesUsage**](DrivesApi.md#drivesusage) | **GET** /v0/drives/{drive_id}/usage | Drive Usage |
 
 
 
-## createDriveKeyRouteV0DrivesDriveIdKeysPost
+## drivesCreate
 
-> DriveApiKeyCreateOut createDriveKeyRouteV0DrivesDriveIdKeysPost(driveId, driveApiKeyCreateIn, authorization)
+> DriveOut drivesCreate(idempotencyKey, driveCreateIn, authorization)
 
-Create a drive API key
+Create Drive
 
-Mint a new &#x60;ad_live_&#x60; key for a drive you manage — a drive may hold several (one per agent/integration). A &#x60;label&#x60; (a name for the key) is **required**. **Manager only** (404 no-leak otherwise), &#x60;full&#x60;-scope user token. The raw key is returned **once** — store it now.
+Create a drive with its structural root folder and creator-manager grant(s) in one transaction; idempotent under the &#x60;&#x60;Idempotency-Key&#x60;&#x60;.
 
 ### Example
 
@@ -28,96 +28,28 @@ Mint a new &#x60;ad_live_&#x60; key for a drive you manage — a drive may hold 
 import {
   Configuration,
   DrivesApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { CreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest } from '@mnexa-ai/agentdrive-sdk';
+} from '@tokencanopy/agentdrive-sdk';
+import type { DrivesCreateRequest } from '@tokencanopy/agentdrive-sdk';
 
 async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DrivesApi();
+  console.log("🚀 Testing @tokencanopy/agentdrive-sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DrivesApi(config);
 
   const body = {
     // string
-    driveId: driveId_example,
-    // DriveApiKeyCreateIn
-    driveApiKeyCreateIn: ...,
-    // string (optional)
-    authorization: authorization_example,
-  } satisfies CreateDriveKeyRouteV0DrivesDriveIdKeysPostRequest;
-
-  try {
-    const data = await api.createDriveKeyRouteV0DrivesDriveIdKeysPost(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **driveId** | `string` |  | [Defaults to `undefined`] |
-| **driveApiKeyCreateIn** | [DriveApiKeyCreateIn](DriveApiKeyCreateIn.md) |  | |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
-
-### Return type
-
-[**DriveApiKeyCreateOut**](DriveApiKeyCreateOut.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/json`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## createDriveRouteV0DrivesPost
-
-> DriveCreateOut createDriveRouteV0DrivesPost(driveCreateIn, authorization)
-
-Create a drive in your active space
-
-Create a named drive. Any **member** of the space may create one; the creator becomes its **owner**. Requires a &#x60;full&#x60;-scope user token. The response carries the drive\&#39;s &#x60;ad_live_&#x60; API key **once** (&#x60;api_key&#x60;) — store it now, it is never returned again (mint more keys via &#x60;POST /v0/drives/{id}/keys&#x60;).  The target workspace is the user\&#39;s active organization (&#x60;users.default_org&#x60;); cross-workspace creation names no other workspace in v0.  A space may hold up to its plan\&#39;s drive limit (workspaces-v2 §4.6; seat-aware for shared drives). A caller at the limit is blocked with &#x60;403 DRIVE_LIMIT_REACHED&#x60;; the limit is tier-governed, not a hard cap.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DrivesApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { CreateDriveRouteV0DrivesPostRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DrivesApi();
-
-  const body = {
+    idempotencyKey: idempotencyKey_example,
     // DriveCreateIn
     driveCreateIn: ...,
-    // string (optional)
+    // string | Deprecated: redundant with the operation\'s `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. (optional)
     authorization: authorization_example,
-  } satisfies CreateDriveRouteV0DrivesPostRequest;
+  } satisfies DrivesCreateRequest;
 
   try {
-    const data = await api.createDriveRouteV0DrivesPost(body);
+    const data = await api.drivesCreate(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -133,221 +65,9 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
+| **idempotencyKey** | `string` |  | [Defaults to `undefined`] |
 | **driveCreateIn** | [DriveCreateIn](DriveCreateIn.md) |  | |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
-
-### Return type
-
-[**DriveCreateOut**](DriveCreateOut.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/json`
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **201** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## listDriveKeysRouteV0DrivesDriveIdKeysGet
-
-> DriveApiKeyListOut listDriveKeysRouteV0DrivesDriveIdKeysGet(driveId, authorization)
-
-List a drive\&#39;s API keys
-
-List the &#x60;ad_live_&#x60; keys for a drive you manage (newest first, including recently-revoked rows — filter on &#x60;revoked_at&#x60; for live only). **Manager only** (404 no-leak otherwise). A &#x60;read&#x60;-scope user token may list (metadata reveals no secret), mirroring &#x60;GET /v0/drives&#x60;. Metadata only — the raw key is never returned after mint.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DrivesApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { ListDriveKeysRouteV0DrivesDriveIdKeysGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DrivesApi();
-
-  const body = {
-    // string
-    driveId: driveId_example,
-    // string (optional)
-    authorization: authorization_example,
-  } satisfies ListDriveKeysRouteV0DrivesDriveIdKeysGetRequest;
-
-  try {
-    const data = await api.listDriveKeysRouteV0DrivesDriveIdKeysGet(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **driveId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
-
-### Return type
-
-[**DriveApiKeyListOut**](DriveApiKeyListOut.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## listDrivesRouteV0DrivesGet
-
-> DriveList listDrivesRouteV0DrivesGet(authorization)
-
-List the drives you can see
-
-Returns drive **metadata** (workspaces-design §4.2): an **admin** sees the whole active workspace\&#39;s drive inventory (every owner); a **member** sees only the drives they own. Metadata only — owner, size, timestamps — never a raw API key, and never an authorization to read a drive\&#39;s contents. A &#x60;read&#x60;-scope token may call this; mutations require &#x60;full&#x60;.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DrivesApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { ListDrivesRouteV0DrivesGetRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DrivesApi();
-
-  const body = {
-    // string (optional)
-    authorization: authorization_example,
-  } satisfies ListDrivesRouteV0DrivesGetRequest;
-
-  try {
-    const data = await api.listDrivesRouteV0DrivesGet(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
-
-### Return type
-
-[**DriveList**](DriveList.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: `application/json`
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-
-## renameDriveRouteV0DrivesDriveIdPatch
-
-> DriveOut renameDriveRouteV0DrivesDriveIdPatch(driveId, driveRenameIn, authorization)
-
-Rename a drive you own
-
-Rename a drive. **Owner only** — a drive id that isn\&#39;t yours returns 404 (no-leak). Requires a &#x60;full&#x60;-scope user token.
-
-### Example
-
-```ts
-import {
-  Configuration,
-  DrivesApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { RenameDriveRouteV0DrivesDriveIdPatchRequest } from '@mnexa-ai/agentdrive-sdk';
-
-async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DrivesApi();
-
-  const body = {
-    // string
-    driveId: driveId_example,
-    // DriveRenameIn
-    driveRenameIn: ...,
-    // string (optional)
-    authorization: authorization_example,
-  } satisfies RenameDriveRouteV0DrivesDriveIdPatchRequest;
-
-  try {
-    const data = await api.renameDriveRouteV0DrivesDriveIdPatch(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **driveId** | `string` |  | [Defaults to `undefined`] |
-| **driveRenameIn** | [DriveRenameIn](DriveRenameIn.md) |  | |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **authorization** | `string` | Deprecated: redundant with the operation\&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -355,7 +75,7 @@ example().catch(console.error);
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -366,19 +86,28 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **201** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  * ETag - Current strong entity tag. <br>  * Location - Canonical URL of the created resource. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The parent or target resource was not found or is not visible. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | A sibling already occupies the name/path, or the idempotency key was reused for a different request. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | If-Match did not match (copy/restore preconditions). |  * X-Request-Id - Request correlation identifier. <br>  * ETag - Current strong entity tag. <br>  |
+| **428** | If-Match is required for this mutation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Missing or invalid bearer token. |  * X-Request-Id - Request correlation identifier. <br>  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  |
+| **403** | Token lacks a required scope. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | Rate limited. |  * X-Request-Id - Request correlation identifier. <br>  * Retry-After - Seconds until the caller should retry. <br>  |
+| **503** | Token verification is temporarily unavailable (the Hub JWKS could not be fetched). This is the API\&#39;s unavailability, not a problem with the presented credential. |  * X-Request-Id - Request correlation identifier. <br>  * Retry-After - Seconds until the caller should retry. <br>  |
+| **400** | Malformed request (invalid query parameter, cursor, or argument). |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost
+## drivesDelete
 
-> revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost(driveId, keyId, authorization)
+> DriveOut drivesDelete(driveId, idempotencyKey, ifMatch, authorization)
 
-Revoke a drive API key
+Delete Drive
 
-Revoke one &#x60;ad_live_&#x60; key of a drive you manage — anything using it loses access immediately. **Manager only** (404 no-leak otherwise), &#x60;full&#x60;-scope user token. Idempotent: revoking an unknown/already-revoked key returns 204 too (no existence oracle).
+Soft-delete a drive. Returns 200 with the deleted representation so the client has the post-delete revision/ETag for a restore.
 
 ### Example
 
@@ -386,24 +115,30 @@ Revoke one &#x60;ad_live_&#x60; key of a drive you manage — anything using it 
 import {
   Configuration,
   DrivesApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest } from '@mnexa-ai/agentdrive-sdk';
+} from '@tokencanopy/agentdrive-sdk';
+import type { DrivesDeleteRequest } from '@tokencanopy/agentdrive-sdk';
 
 async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DrivesApi();
+  console.log("🚀 Testing @tokencanopy/agentdrive-sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DrivesApi(config);
 
   const body = {
     // string
     driveId: driveId_example,
     // string
-    keyId: keyId_example,
-    // string (optional)
+    idempotencyKey: idempotencyKey_example,
+    // string
+    ifMatch: ifMatch_example,
+    // string | Deprecated: redundant with the operation\'s `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. (optional)
     authorization: authorization_example,
-  } satisfies RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePostRequest;
+  } satisfies DrivesDeleteRequest;
 
   try {
-    const data = await api.revokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost(body);
+    const data = await api.drivesDelete(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -420,16 +155,17 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **driveId** | `string` |  | [Defaults to `undefined`] |
-| **keyId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **idempotencyKey** | `string` |  | [Defaults to `undefined`] |
+| **ifMatch** | `string` |  | [Defaults to `undefined`] |
+| **authorization** | `string` | Deprecated: redundant with the operation\&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-`void` (Empty response body)
+[**DriveOut**](DriveOut.md)
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -440,19 +176,28 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **204** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  * ETag - Current strong entity tag. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The resource was not found or is not visible to the caller. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | The mutation conflicts with current state (name/path, lifecycle). |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | If-Match did not match the resource\&#39;s current revision. |  * X-Request-Id - Request correlation identifier. <br>  * ETag - Current strong entity tag. <br>  |
+| **428** | If-Match is required for this mutation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Missing or invalid bearer token. |  * X-Request-Id - Request correlation identifier. <br>  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  |
+| **403** | Token lacks a required scope. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | Rate limited. |  * X-Request-Id - Request correlation identifier. <br>  * Retry-After - Seconds until the caller should retry. <br>  |
+| **503** | Token verification is temporarily unavailable (the Hub JWKS could not be fetched). This is the API\&#39;s unavailability, not a problem with the presented credential. |  * X-Request-Id - Request correlation identifier. <br>  * Retry-After - Seconds until the caller should retry. <br>  |
+| **400** | Malformed request (invalid query parameter, cursor, or argument). |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
-## rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost
+## drivesList
 
-> DriveApiKeyCreateOut rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost(driveId, keyId, authorization)
+> DriveListOut drivesList(lifecycle, limit, cursor, authorization)
 
-Rotate one API key
+List Drives
 
-Rotate a single &#x60;ad_live_&#x60; key: revoke &#x60;key_id&#x60; and mint a replacement that inherits its label. **Only that key** is affected — the drive\&#39;s other keys keep working. **Manager only** (404 no-leak otherwise), &#x60;full&#x60;-scope user token. The new key is returned **once** — store it now. A &#x60;key_id&#x60; that isn\&#39;t a live key of this drive is a 404.
+List the actor\&#39;s workspace drives, newest-first (keyset paginated).  &#x60;&#x60;lifecycle&#x60;&#x60; (active|deleted|all) exposes soft-deleted drives so a manager can read the post-delete revision as the If-Match source for a restore. Unknown query parameters are rejected (§6.3).
 
 ### Example
 
@@ -460,24 +205,115 @@ Rotate a single &#x60;ad_live_&#x60; key: revoke &#x60;key_id&#x60; and mint a r
 import {
   Configuration,
   DrivesApi,
-} from '@mnexa-ai/agentdrive-sdk';
-import type { RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest } from '@mnexa-ai/agentdrive-sdk';
+} from '@tokencanopy/agentdrive-sdk';
+import type { DrivesListRequest } from '@tokencanopy/agentdrive-sdk';
 
 async function example() {
-  console.log("🚀 Testing @mnexa-ai/agentdrive-sdk SDK...");
-  const api = new DrivesApi();
+  console.log("🚀 Testing @tokencanopy/agentdrive-sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DrivesApi(config);
+
+  const body = {
+    // string (optional)
+    lifecycle: lifecycle_example,
+    // number (optional)
+    limit: 56,
+    // string (optional)
+    cursor: cursor_example,
+    // string | Deprecated: redundant with the operation\'s `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. (optional)
+    authorization: authorization_example,
+  } satisfies DrivesListRequest;
+
+  try {
+    const data = await api.drivesList(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **lifecycle** | `string` |  | [Optional] [Defaults to `&#39;active&#39;`] |
+| **limit** | `number` |  | [Optional] [Defaults to `undefined`] |
+| **cursor** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **authorization** | `string` | Deprecated: redundant with the operation\&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**DriveListOut**](DriveListOut.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The resource was not found or is not visible to the caller. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Missing or invalid bearer token. |  * X-Request-Id - Request correlation identifier. <br>  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  |
+| **403** | Token lacks a required scope. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | Rate limited. |  * X-Request-Id - Request correlation identifier. <br>  * Retry-After - Seconds until the caller should retry. <br>  |
+| **503** | Token verification is temporarily unavailable (the Hub JWKS could not be fetched). This is the API\&#39;s unavailability, not a problem with the presented credential. |  * X-Request-Id - Request correlation identifier. <br>  * Retry-After - Seconds until the caller should retry. <br>  |
+| **400** | Malformed request (invalid query parameter, cursor, or argument). |  * X-Request-Id - Request correlation identifier. <br>  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## drivesRead
+
+> DriveOut drivesRead(driveId, ifNoneMatch, authorization)
+
+Read Drive
+
+Read one active drive. ETag &#x3D; quoted revision; matching &#x60;&#x60;If-None-Match&#x60;&#x60; → 304. Deleted and cross-workspace drives are 404.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DrivesApi,
+} from '@tokencanopy/agentdrive-sdk';
+import type { DrivesReadRequest } from '@tokencanopy/agentdrive-sdk';
+
+async function example() {
+  console.log("🚀 Testing @tokencanopy/agentdrive-sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DrivesApi(config);
 
   const body = {
     // string
     driveId: driveId_example,
-    // string
-    keyId: keyId_example,
     // string (optional)
+    ifNoneMatch: ifNoneMatch_example,
+    // string | Deprecated: redundant with the operation\'s `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. (optional)
     authorization: authorization_example,
-  } satisfies RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePostRequest;
+  } satisfies DrivesReadRequest;
 
   try {
-    const data = await api.rotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost(body);
+    const data = await api.drivesRead(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -494,16 +330,16 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **driveId** | `string` |  | [Defaults to `undefined`] |
-| **keyId** | `string` |  | [Defaults to `undefined`] |
-| **authorization** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **ifNoneMatch** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **authorization** | `string` | Deprecated: redundant with the operation\&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-[**DriveApiKeyCreateOut**](DriveApiKeyCreateOut.md)
+[**DriveOut**](DriveOut.md)
 
 ### Authorization
 
-No authorization required
+[bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -514,8 +350,279 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful Response |  -  |
-| **422** | Validation Error |  -  |
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  * ETag - Current strong entity tag. <br>  |
+| **304** | If-None-Match matched. |  * ETag - Current strong entity tag. <br>  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The resource was not found or is not visible to the caller. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Missing or invalid bearer token. |  * X-Request-Id - Request correlation identifier. <br>  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  |
+| **403** | Token lacks a required scope. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | Rate limited. |  * X-Request-Id - Request correlation identifier. <br>  * Retry-After - Seconds until the caller should retry. <br>  |
+| **503** | Token verification is temporarily unavailable (the Hub JWKS could not be fetched). This is the API\&#39;s unavailability, not a problem with the presented credential. |  * X-Request-Id - Request correlation identifier. <br>  * Retry-After - Seconds until the caller should retry. <br>  |
+| **400** | Malformed request (invalid query parameter, cursor, or argument). |  * X-Request-Id - Request correlation identifier. <br>  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## drivesRestore
+
+> DriveOut drivesRestore(driveId, idempotencyKey, ifMatch, authorization)
+
+Restore Drive
+
+Restore a soft-deleted drive. If-Match must carry the post-delete revision; restoring an already-active drive is 409 CONFLICT.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DrivesApi,
+} from '@tokencanopy/agentdrive-sdk';
+import type { DrivesRestoreRequest } from '@tokencanopy/agentdrive-sdk';
+
+async function example() {
+  console.log("🚀 Testing @tokencanopy/agentdrive-sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DrivesApi(config);
+
+  const body = {
+    // string
+    driveId: driveId_example,
+    // string
+    idempotencyKey: idempotencyKey_example,
+    // string
+    ifMatch: ifMatch_example,
+    // string | Deprecated: redundant with the operation\'s `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. (optional)
+    authorization: authorization_example,
+  } satisfies DrivesRestoreRequest;
+
+  try {
+    const data = await api.drivesRestore(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **driveId** | `string` |  | [Defaults to `undefined`] |
+| **idempotencyKey** | `string` |  | [Defaults to `undefined`] |
+| **ifMatch** | `string` |  | [Defaults to `undefined`] |
+| **authorization** | `string` | Deprecated: redundant with the operation\&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**DriveOut**](DriveOut.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  * ETag - Current strong entity tag. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The resource was not found or is not visible to the caller. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | The mutation conflicts with current state (name/path, lifecycle). |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | If-Match did not match the resource\&#39;s current revision. |  * X-Request-Id - Request correlation identifier. <br>  * ETag - Current strong entity tag. <br>  |
+| **428** | If-Match is required for this mutation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Missing or invalid bearer token. |  * X-Request-Id - Request correlation identifier. <br>  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  |
+| **403** | Token lacks a required scope. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | Rate limited. |  * X-Request-Id - Request correlation identifier. <br>  * Retry-After - Seconds until the caller should retry. <br>  |
+| **503** | Token verification is temporarily unavailable (the Hub JWKS could not be fetched). This is the API\&#39;s unavailability, not a problem with the presented credential. |  * X-Request-Id - Request correlation identifier. <br>  * Retry-After - Seconds until the caller should retry. <br>  |
+| **400** | Malformed request (invalid query parameter, cursor, or argument). |  * X-Request-Id - Request correlation identifier. <br>  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## drivesUpdate
+
+> DriveOut drivesUpdate(driveId, idempotencyKey, ifMatch, driveUpdateIn, authorization)
+
+Update Drive
+
+Rename / update a drive\&#39;s metadata. Requires &#x60;&#x60;Idempotency-Key&#x60;&#x60; and &#x60;&#x60;If-Match&#x60;&#x60; (428 absent, 412 stale); bumps the revision.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DrivesApi,
+} from '@tokencanopy/agentdrive-sdk';
+import type { DrivesUpdateRequest } from '@tokencanopy/agentdrive-sdk';
+
+async function example() {
+  console.log("🚀 Testing @tokencanopy/agentdrive-sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DrivesApi(config);
+
+  const body = {
+    // string
+    driveId: driveId_example,
+    // string
+    idempotencyKey: idempotencyKey_example,
+    // string
+    ifMatch: ifMatch_example,
+    // DriveUpdateIn
+    driveUpdateIn: ...,
+    // string | Deprecated: redundant with the operation\'s `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. (optional)
+    authorization: authorization_example,
+  } satisfies DrivesUpdateRequest;
+
+  try {
+    const data = await api.drivesUpdate(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **driveId** | `string` |  | [Defaults to `undefined`] |
+| **idempotencyKey** | `string` |  | [Defaults to `undefined`] |
+| **ifMatch** | `string` |  | [Defaults to `undefined`] |
+| **driveUpdateIn** | [DriveUpdateIn](DriveUpdateIn.md) |  | |
+| **authorization** | `string` | Deprecated: redundant with the operation\&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**DriveOut**](DriveOut.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  * ETag - Current strong entity tag. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The resource was not found or is not visible to the caller. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **409** | The mutation conflicts with current state (name/path, lifecycle). |  * X-Request-Id - Request correlation identifier. <br>  |
+| **412** | If-Match did not match the resource\&#39;s current revision. |  * X-Request-Id - Request correlation identifier. <br>  * ETag - Current strong entity tag. <br>  |
+| **428** | If-Match is required for this mutation. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Missing or invalid bearer token. |  * X-Request-Id - Request correlation identifier. <br>  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  |
+| **403** | Token lacks a required scope. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | Rate limited. |  * X-Request-Id - Request correlation identifier. <br>  * Retry-After - Seconds until the caller should retry. <br>  |
+| **503** | Token verification is temporarily unavailable (the Hub JWKS could not be fetched). This is the API\&#39;s unavailability, not a problem with the presented credential. |  * X-Request-Id - Request correlation identifier. <br>  * Retry-After - Seconds until the caller should retry. <br>  |
+| **400** | Malformed request (invalid query parameter, cursor, or argument). |  * X-Request-Id - Request correlation identifier. <br>  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## drivesUsage
+
+> DriveUsageOut drivesUsage(driveId, authorization)
+
+Drive Usage
+
+Byte counters for one active drive: storage is the live sum of its versions\&#39; sizes; retrieval reads the counter the content-read slice maintains (0 until it lands).
+
+### Example
+
+```ts
+import {
+  Configuration,
+  DrivesApi,
+} from '@tokencanopy/agentdrive-sdk';
+import type { DrivesUsageRequest } from '@tokencanopy/agentdrive-sdk';
+
+async function example() {
+  console.log("🚀 Testing @tokencanopy/agentdrive-sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new DrivesApi(config);
+
+  const body = {
+    // string
+    driveId: driveId_example,
+    // string | Deprecated: redundant with the operation\'s `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. (optional)
+    authorization: authorization_example,
+  } satisfies DrivesUsageRequest;
+
+  try {
+    const data = await api.drivesUsage(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **driveId** | `string` |  | [Defaults to `undefined`] |
+| **authorization** | `string` | Deprecated: redundant with the operation\&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**DriveUsageOut**](DriveUsageOut.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful Response |  * X-Request-Id - Request correlation identifier. <br>  |
+| **422** | Request validation failed. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **404** | The resource was not found or is not visible to the caller. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **401** | Missing or invalid bearer token. |  * X-Request-Id - Request correlation identifier. <br>  * WWW-Authenticate - RFC 6750 bearer authentication challenge. <br>  |
+| **403** | Token lacks a required scope. |  * X-Request-Id - Request correlation identifier. <br>  |
+| **429** | Rate limited. |  * X-Request-Id - Request correlation identifier. <br>  * Retry-After - Seconds until the caller should retry. <br>  |
+| **503** | Token verification is temporarily unavailable (the Hub JWKS could not be fetched). This is the API\&#39;s unavailability, not a problem with the presented credential. |  * X-Request-Id - Request correlation identifier. <br>  * Retry-After - Seconds until the caller should retry. <br>  |
+| **400** | Malformed request (invalid query parameter, cursor, or argument). |  * X-Request-Id - Request correlation identifier. <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

@@ -1,24 +1,22 @@
 # GrantOut
 
-A live grant. Audit fields (`granted_by_*`, `on_behalf_of`) are surfaced so a manager can see who shared what.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **str** |  | 
+**drive_id** | **str** |  | 
 **resource_type** | **str** |  | 
 **resource_id** | **str** |  | 
 **principal_type** | **str** |  | 
-**principal_id** | **str** |  | [optional] 
-**principal_email** | **str** |  | [optional] 
+**principal_id** | **str** |  | 
 **role** | **str** |  | 
-**granted_by_type** | **str** |  | 
-**granted_by_id** | **str** |  | 
-**on_behalf_of** | **str** |  | [optional] 
+**revision** | **str** |  | 
+**state** | **str** |  | 
+**expires_at** | **datetime** |  | 
+**revoked_at** | **datetime** |  | 
 **created_at** | **datetime** |  | 
-**expires_at** | **datetime** |  | [optional] 
-**artifacts_affected** | **int** |  | [optional] 
 
 ## Example
 

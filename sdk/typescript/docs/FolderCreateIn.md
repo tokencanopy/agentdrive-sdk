@@ -1,22 +1,26 @@
 
 # FolderCreateIn
 
-POST /v0/folders/{path}? body for the optional metadata params. Empty body is fine — `mkdir` with no description just creates the folder row.
+POST /v0/drives/{id}/folders body.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`description` | string
+`parentId` | string
+`name` | string
+`metadata` | { [key: string]: any; }
 
 ## Example
 
 ```typescript
-import type { FolderCreateIn } from '@mnexa-ai/agentdrive-sdk'
+import type { FolderCreateIn } from '@tokencanopy/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "description": null,
+  "parentId": null,
+  "name": null,
+  "metadata": null,
 } satisfies FolderCreateIn
 
 console.log(example)

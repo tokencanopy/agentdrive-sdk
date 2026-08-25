@@ -1,15 +1,17 @@
 # GrantCreateIn
 
-POST /v0/grants body. `resource` is an `art_*`/`fld_*` id or a path (resolved within the caller's drive). `expires_in` is seconds from now (omit for a permanent grant).
+POST /v0/drives/{id}/grants body.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**resource** | **str** |  | 
-**principal** | [**GrantPrincipalIn**](GrantPrincipalIn.md) |  | 
+**principal_type** | **str** |  | 
+**principal_id** | **str** | Required for &#x60;agent&#x60;, &#x60;user&#x60;, and &#x60;workspace&#x60;; omitted only for &#x60;public&#x60;. For &#x60;agent&#x60; and &#x60;user&#x60; it is checked against that type&#39;s id prefix (&#x60;tcagt_&#x60; / &#x60;tcusr_&#x60;) and a mismatch is &#x60;422 VALIDATION_ERROR&#x60;. The prefix is all AgentDrive asserts: these ids are minted by Hub, so their full shape is not AgentDrive&#39;s to enforce, and a well-formed id naming a principal that does not exist — or belongs to another workspace — is accepted here and simply never matches a token. The rule is conditional on &#x60;principal_type&#x60;, so it is enforced at the boundary rather than expressible as one JSON Schema &#x60;pattern&#x60;. | [optional] 
+**resource_type** | **str** |  | 
+**resource_id** | **str** |  | 
 **role** | **str** |  | 
-**expires_in** | **int** |  | [optional] 
+**expires_at** | **datetime** |  | [optional] 
 
 ## Example
 

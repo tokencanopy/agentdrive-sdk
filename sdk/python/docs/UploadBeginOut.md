@@ -1,17 +1,12 @@
 # UploadBeginOut
 
-Response of `POST /v0/uploads`. PUT the bytes to `upload_url` (no auth header — the URL is the credential), then `POST .../commit`.
+The one 201 begin response — the only shape carrying ``transfer``.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**upload_id** | **str** |  | 
-**upload_url** | **str** |  | 
-**method** | **str** |  | [optional] [default to 'PUT']
-**headers** | **Dict[str, str]** |  | 
-**expires_at** | **datetime** |  | 
-**max_bytes** | **int** |  | 
+**upload** | [**UploadWithTransferOut**](UploadWithTransferOut.md) |  | 
 
 ## Example
 

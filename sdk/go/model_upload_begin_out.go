@@ -1,7 +1,7 @@
 /*
 AgentDrive
 
-AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
 
 API version: 0.0.1
 */
@@ -12,7 +12,6 @@ package agentdrive
 
 import (
 	"encoding/json"
-	"time"
 	"bytes"
 	"fmt"
 )
@@ -20,14 +19,9 @@ import (
 // checks if the UploadBeginOut type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &UploadBeginOut{}
 
-// UploadBeginOut Response of `POST /v0/uploads`. PUT the bytes to `upload_url` (no auth header — the URL is the credential), then `POST .../commit`.
+// UploadBeginOut The one 201 begin response — the only shape carrying ``transfer``.
 type UploadBeginOut struct {
-	UploadId string `json:"upload_id"`
-	UploadUrl string `json:"upload_url"`
-	Method *string `json:"method,omitempty"`
-	Headers map[string]string `json:"headers"`
-	ExpiresAt time.Time `json:"expires_at"`
-	MaxBytes int32 `json:"max_bytes"`
+	Upload UploadWithTransferOut `json:"upload"`
 }
 
 type _UploadBeginOut UploadBeginOut
@@ -36,15 +30,9 @@ type _UploadBeginOut UploadBeginOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUploadBeginOut(uploadId string, uploadUrl string, headers map[string]string, expiresAt time.Time, maxBytes int32) *UploadBeginOut {
+func NewUploadBeginOut(upload UploadWithTransferOut) *UploadBeginOut {
 	this := UploadBeginOut{}
-	this.UploadId = uploadId
-	this.UploadUrl = uploadUrl
-	var method string = "PUT"
-	this.Method = &method
-	this.Headers = headers
-	this.ExpiresAt = expiresAt
-	this.MaxBytes = maxBytes
+	this.Upload = upload
 	return &this
 }
 
@@ -53,161 +41,31 @@ func NewUploadBeginOut(uploadId string, uploadUrl string, headers map[string]str
 // but it doesn't guarantee that properties required by API are set
 func NewUploadBeginOutWithDefaults() *UploadBeginOut {
 	this := UploadBeginOut{}
-	var method string = "PUT"
-	this.Method = &method
 	return &this
 }
 
-// GetUploadId returns the UploadId field value
-func (o *UploadBeginOut) GetUploadId() string {
+// GetUpload returns the Upload field value
+func (o *UploadBeginOut) GetUpload() UploadWithTransferOut {
 	if o == nil {
-		var ret string
+		var ret UploadWithTransferOut
 		return ret
 	}
 
-	return o.UploadId
+	return o.Upload
 }
 
-// GetUploadIdOk returns a tuple with the UploadId field value
+// GetUploadOk returns a tuple with the Upload field value
 // and a boolean to check if the value has been set.
-func (o *UploadBeginOut) GetUploadIdOk() (*string, bool) {
+func (o *UploadBeginOut) GetUploadOk() (*UploadWithTransferOut, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.UploadId, true
+	return &o.Upload, true
 }
 
-// SetUploadId sets field value
-func (o *UploadBeginOut) SetUploadId(v string) {
-	o.UploadId = v
-}
-
-// GetUploadUrl returns the UploadUrl field value
-func (o *UploadBeginOut) GetUploadUrl() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.UploadUrl
-}
-
-// GetUploadUrlOk returns a tuple with the UploadUrl field value
-// and a boolean to check if the value has been set.
-func (o *UploadBeginOut) GetUploadUrlOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.UploadUrl, true
-}
-
-// SetUploadUrl sets field value
-func (o *UploadBeginOut) SetUploadUrl(v string) {
-	o.UploadUrl = v
-}
-
-// GetMethod returns the Method field value if set, zero value otherwise.
-func (o *UploadBeginOut) GetMethod() string {
-	if o == nil || IsNil(o.Method) {
-		var ret string
-		return ret
-	}
-	return *o.Method
-}
-
-// GetMethodOk returns a tuple with the Method field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *UploadBeginOut) GetMethodOk() (*string, bool) {
-	if o == nil || IsNil(o.Method) {
-		return nil, false
-	}
-	return o.Method, true
-}
-
-// HasMethod returns a boolean if a field has been set.
-func (o *UploadBeginOut) HasMethod() bool {
-	if o != nil && !IsNil(o.Method) {
-		return true
-	}
-
-	return false
-}
-
-// SetMethod gets a reference to the given string and assigns it to the Method field.
-func (o *UploadBeginOut) SetMethod(v string) {
-	o.Method = &v
-}
-
-// GetHeaders returns the Headers field value
-func (o *UploadBeginOut) GetHeaders() map[string]string {
-	if o == nil {
-		var ret map[string]string
-		return ret
-	}
-
-	return o.Headers
-}
-
-// GetHeadersOk returns a tuple with the Headers field value
-// and a boolean to check if the value has been set.
-func (o *UploadBeginOut) GetHeadersOk() (map[string]string, bool) {
-	if o == nil {
-		return map[string]string{}, false
-	}
-	return o.Headers, true
-}
-
-// SetHeaders sets field value
-func (o *UploadBeginOut) SetHeaders(v map[string]string) {
-	o.Headers = v
-}
-
-// GetExpiresAt returns the ExpiresAt field value
-func (o *UploadBeginOut) GetExpiresAt() time.Time {
-	if o == nil {
-		var ret time.Time
-		return ret
-	}
-
-	return o.ExpiresAt
-}
-
-// GetExpiresAtOk returns a tuple with the ExpiresAt field value
-// and a boolean to check if the value has been set.
-func (o *UploadBeginOut) GetExpiresAtOk() (*time.Time, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.ExpiresAt, true
-}
-
-// SetExpiresAt sets field value
-func (o *UploadBeginOut) SetExpiresAt(v time.Time) {
-	o.ExpiresAt = v
-}
-
-// GetMaxBytes returns the MaxBytes field value
-func (o *UploadBeginOut) GetMaxBytes() int32 {
-	if o == nil {
-		var ret int32
-		return ret
-	}
-
-	return o.MaxBytes
-}
-
-// GetMaxBytesOk returns a tuple with the MaxBytes field value
-// and a boolean to check if the value has been set.
-func (o *UploadBeginOut) GetMaxBytesOk() (*int32, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.MaxBytes, true
-}
-
-// SetMaxBytes sets field value
-func (o *UploadBeginOut) SetMaxBytes(v int32) {
-	o.MaxBytes = v
+// SetUpload sets field value
+func (o *UploadBeginOut) SetUpload(v UploadWithTransferOut) {
+	o.Upload = v
 }
 
 func (o UploadBeginOut) MarshalJSON() ([]byte, error) {
@@ -220,14 +78,7 @@ func (o UploadBeginOut) MarshalJSON() ([]byte, error) {
 
 func (o UploadBeginOut) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["upload_id"] = o.UploadId
-	toSerialize["upload_url"] = o.UploadUrl
-	if !IsNil(o.Method) {
-		toSerialize["method"] = o.Method
-	}
-	toSerialize["headers"] = o.Headers
-	toSerialize["expires_at"] = o.ExpiresAt
-	toSerialize["max_bytes"] = o.MaxBytes
+	toSerialize["upload"] = o.Upload
 	return toSerialize, nil
 }
 
@@ -236,11 +87,7 @@ func (o *UploadBeginOut) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"upload_id",
-		"upload_url",
-		"headers",
-		"expires_at",
-		"max_bytes",
+		"upload",
 	}
 
 	allProperties := make(map[string]interface{})

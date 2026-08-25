@@ -6,31 +6,31 @@
 
 Name | Type
 ------------ | -------------
+`id` | string
 `driveId` | string
-`path` | string
-`url` | string
-`contentType` | string
-`fileType` | string
-`labels` | Array&lt;string&gt;
+`parentId` | string
+`name` | string
+`versionId` | string
+`rank` | number
 `snippet` | string
-`score` | number
+`contentType` | string
 `updatedAt` | Date
 
 ## Example
 
 ```typescript
-import type { SearchHitOut } from '@mnexa-ai/agentdrive-sdk'
+import type { SearchHitOut } from '@tokencanopy/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
+  "id": null,
   "driveId": null,
-  "path": null,
-  "url": null,
-  "contentType": null,
-  "fileType": null,
-  "labels": null,
+  "parentId": null,
+  "name": null,
+  "versionId": null,
+  "rank": null,
   "snippet": null,
-  "score": null,
+  "contentType": null,
   "updatedAt": null,
 } satisfies SearchHitOut
 

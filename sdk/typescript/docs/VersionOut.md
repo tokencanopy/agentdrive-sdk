@@ -6,29 +6,31 @@
 
 Name | Type
 ------------ | -------------
-`artId` | string
+`id` | string
+`artifactId` | string
 `versionNumber` | number
+`parentVersionId` | string
+`contentType` | string
 `sizeBytes` | number
 `hash` | string
-`contentType` | string
-`actorName` | string
-`changeSummary` | string
+`createdBy` | string
 `createdAt` | Date
 
 ## Example
 
 ```typescript
-import type { VersionOut } from '@mnexa-ai/agentdrive-sdk'
+import type { VersionOut } from '@tokencanopy/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "artId": null,
+  "id": null,
+  "artifactId": null,
   "versionNumber": null,
+  "parentVersionId": null,
+  "contentType": null,
   "sizeBytes": null,
   "hash": null,
-  "contentType": null,
-  "actorName": null,
-  "changeSummary": null,
+  "createdBy": null,
   "createdAt": null,
 } satisfies VersionOut
 

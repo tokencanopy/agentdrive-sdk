@@ -1,22 +1,24 @@
 
 # DriveCreateIn
 
-POST /v0/drives body. `name` is the user-facing drive label; the creator becomes the owner.
+POST /v0/drives body.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
 `name` | string
+`metadata` | { [key: string]: any; }
 
 ## Example
 
 ```typescript
-import type { DriveCreateIn } from '@mnexa-ai/agentdrive-sdk'
+import type { DriveCreateIn } from '@tokencanopy/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
   "name": null,
+  "metadata": null,
 } satisfies DriveCreateIn
 
 console.log(example)

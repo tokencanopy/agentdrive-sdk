@@ -5,13 +5,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**art_id** | **str** |  | 
+**id** | **str** |  | 
+**artifact_id** | **str** |  | 
 **version_number** | **int** |  | 
+**parent_version_id** | **str** |  | 
+**content_type** | **str** |  | 
 **size_bytes** | **int** |  | 
 **hash** | **str** |  | 
-**content_type** | **str** |  | 
-**actor_name** | **str** |  | [optional] 
-**change_summary** | **str** |  | [optional] 
+**created_by** | **str** |  | 
 **created_at** | **datetime** |  | 
 
 ## Example

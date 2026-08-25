@@ -4,20 +4,21 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ArtId** | **string** |  | 
+**Id** | **string** |  | 
+**ArtifactId** | **string** |  | 
 **VersionNumber** | **int32** |  | 
+**ParentVersionId** | **NullableString** |  | 
+**ContentType** | **string** |  | 
 **SizeBytes** | **int32** |  | 
 **Hash** | **string** |  | 
-**ContentType** | **string** |  | 
-**ActorName** | Pointer to **NullableString** |  | [optional] 
-**ChangeSummary** | Pointer to **NullableString** |  | [optional] 
+**CreatedBy** | **NullableString** |  | 
 **CreatedAt** | **time.Time** |  | 
 
 ## Methods
 
 ### NewVersionOut
 
-`func NewVersionOut(artId string, versionNumber int32, sizeBytes int32, hash string, contentType string, createdAt time.Time, ) *VersionOut`
+`func NewVersionOut(id string, artifactId string, versionNumber int32, parentVersionId NullableString, contentType string, sizeBytes int32, hash string, createdBy NullableString, createdAt time.Time, ) *VersionOut`
 
 NewVersionOut instantiates a new VersionOut object
 This constructor will assign default values to properties that have it defined,
@@ -32,24 +33,44 @@ NewVersionOutWithDefaults instantiates a new VersionOut object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetArtId
+### GetId
 
-`func (o *VersionOut) GetArtId() string`
+`func (o *VersionOut) GetId() string`
 
-GetArtId returns the ArtId field if non-nil, zero value otherwise.
+GetId returns the Id field if non-nil, zero value otherwise.
 
-### GetArtIdOk
+### GetIdOk
 
-`func (o *VersionOut) GetArtIdOk() (*string, bool)`
+`func (o *VersionOut) GetIdOk() (*string, bool)`
 
-GetArtIdOk returns a tuple with the ArtId field if it's non-nil, zero value otherwise
+GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetArtId
+### SetId
 
-`func (o *VersionOut) SetArtId(v string)`
+`func (o *VersionOut) SetId(v string)`
 
-SetArtId sets ArtId field to given value.
+SetId sets Id field to given value.
+
+
+### GetArtifactId
+
+`func (o *VersionOut) GetArtifactId() string`
+
+GetArtifactId returns the ArtifactId field if non-nil, zero value otherwise.
+
+### GetArtifactIdOk
+
+`func (o *VersionOut) GetArtifactIdOk() (*string, bool)`
+
+GetArtifactIdOk returns a tuple with the ArtifactId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetArtifactId
+
+`func (o *VersionOut) SetArtifactId(v string)`
+
+SetArtifactId sets ArtifactId field to given value.
 
 
 ### GetVersionNumber
@@ -70,6 +91,56 @@ and a boolean to check if the value has been set.
 `func (o *VersionOut) SetVersionNumber(v int32)`
 
 SetVersionNumber sets VersionNumber field to given value.
+
+
+### GetParentVersionId
+
+`func (o *VersionOut) GetParentVersionId() string`
+
+GetParentVersionId returns the ParentVersionId field if non-nil, zero value otherwise.
+
+### GetParentVersionIdOk
+
+`func (o *VersionOut) GetParentVersionIdOk() (*string, bool)`
+
+GetParentVersionIdOk returns a tuple with the ParentVersionId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetParentVersionId
+
+`func (o *VersionOut) SetParentVersionId(v string)`
+
+SetParentVersionId sets ParentVersionId field to given value.
+
+
+### SetParentVersionIdNil
+
+`func (o *VersionOut) SetParentVersionIdNil(b bool)`
+
+ SetParentVersionIdNil sets the value for ParentVersionId to be an explicit nil
+
+### UnsetParentVersionId
+`func (o *VersionOut) UnsetParentVersionId()`
+
+UnsetParentVersionId ensures that no value is present for ParentVersionId, not even an explicit nil
+### GetContentType
+
+`func (o *VersionOut) GetContentType() string`
+
+GetContentType returns the ContentType field if non-nil, zero value otherwise.
+
+### GetContentTypeOk
+
+`func (o *VersionOut) GetContentTypeOk() (*string, bool)`
+
+GetContentTypeOk returns a tuple with the ContentType field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetContentType
+
+`func (o *VersionOut) SetContentType(v string)`
+
+SetContentType sets ContentType field to given value.
 
 
 ### GetSizeBytes
@@ -112,96 +183,36 @@ and a boolean to check if the value has been set.
 SetHash sets Hash field to given value.
 
 
-### GetContentType
+### GetCreatedBy
 
-`func (o *VersionOut) GetContentType() string`
+`func (o *VersionOut) GetCreatedBy() string`
 
-GetContentType returns the ContentType field if non-nil, zero value otherwise.
+GetCreatedBy returns the CreatedBy field if non-nil, zero value otherwise.
 
-### GetContentTypeOk
+### GetCreatedByOk
 
-`func (o *VersionOut) GetContentTypeOk() (*string, bool)`
+`func (o *VersionOut) GetCreatedByOk() (*string, bool)`
 
-GetContentTypeOk returns a tuple with the ContentType field if it's non-nil, zero value otherwise
+GetCreatedByOk returns a tuple with the CreatedBy field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetContentType
+### SetCreatedBy
 
-`func (o *VersionOut) SetContentType(v string)`
+`func (o *VersionOut) SetCreatedBy(v string)`
 
-SetContentType sets ContentType field to given value.
+SetCreatedBy sets CreatedBy field to given value.
 
 
-### GetActorName
+### SetCreatedByNil
 
-`func (o *VersionOut) GetActorName() string`
+`func (o *VersionOut) SetCreatedByNil(b bool)`
 
-GetActorName returns the ActorName field if non-nil, zero value otherwise.
+ SetCreatedByNil sets the value for CreatedBy to be an explicit nil
 
-### GetActorNameOk
+### UnsetCreatedBy
+`func (o *VersionOut) UnsetCreatedBy()`
 
-`func (o *VersionOut) GetActorNameOk() (*string, bool)`
-
-GetActorNameOk returns a tuple with the ActorName field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetActorName
-
-`func (o *VersionOut) SetActorName(v string)`
-
-SetActorName sets ActorName field to given value.
-
-### HasActorName
-
-`func (o *VersionOut) HasActorName() bool`
-
-HasActorName returns a boolean if a field has been set.
-
-### SetActorNameNil
-
-`func (o *VersionOut) SetActorNameNil(b bool)`
-
- SetActorNameNil sets the value for ActorName to be an explicit nil
-
-### UnsetActorName
-`func (o *VersionOut) UnsetActorName()`
-
-UnsetActorName ensures that no value is present for ActorName, not even an explicit nil
-### GetChangeSummary
-
-`func (o *VersionOut) GetChangeSummary() string`
-
-GetChangeSummary returns the ChangeSummary field if non-nil, zero value otherwise.
-
-### GetChangeSummaryOk
-
-`func (o *VersionOut) GetChangeSummaryOk() (*string, bool)`
-
-GetChangeSummaryOk returns a tuple with the ChangeSummary field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetChangeSummary
-
-`func (o *VersionOut) SetChangeSummary(v string)`
-
-SetChangeSummary sets ChangeSummary field to given value.
-
-### HasChangeSummary
-
-`func (o *VersionOut) HasChangeSummary() bool`
-
-HasChangeSummary returns a boolean if a field has been set.
-
-### SetChangeSummaryNil
-
-`func (o *VersionOut) SetChangeSummaryNil(b bool)`
-
- SetChangeSummaryNil sets the value for ChangeSummary to be an explicit nil
-
-### UnsetChangeSummary
-`func (o *VersionOut) UnsetChangeSummary()`
-
-UnsetChangeSummary ensures that no value is present for ChangeSummary, not even an explicit nil
+UnsetCreatedBy ensures that no value is present for CreatedBy, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *VersionOut) GetCreatedAt() time.Time`

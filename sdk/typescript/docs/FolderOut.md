@@ -1,7 +1,6 @@
 
 # FolderOut
 
-Folder resource (folders+permalinks design §13). `path` is the canonical leading+trailing-slash form. Access is expressed through grants (permission-sharing-design §4.4), not a folder-level flag.
 
 ## Properties
 
@@ -9,30 +8,32 @@ Name | Type
 ------------ | -------------
 `id` | string
 `driveId` | string
-`path` | string
-`description` | string
-`inheritGrants` | boolean
+`parentId` | string
+`name` | string
+`metadata` | { [key: string]: any; }
+`revision` | string
+`state` | string
 `createdAt` | Date
 `updatedAt` | Date
 `deletedAt` | Date
-`purgeAt` | Date
 
 ## Example
 
 ```typescript
-import type { FolderOut } from '@mnexa-ai/agentdrive-sdk'
+import type { FolderOut } from '@tokencanopy/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
   "id": null,
   "driveId": null,
-  "path": null,
-  "description": null,
-  "inheritGrants": null,
+  "parentId": null,
+  "name": null,
+  "metadata": null,
+  "revision": null,
+  "state": null,
   "createdAt": null,
   "updatedAt": null,
   "deletedAt": null,
-  "purgeAt": null,
 } satisfies FolderOut
 
 console.log(example)

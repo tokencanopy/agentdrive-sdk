@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: 0.0.1
  * 
@@ -12,15 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { ArtifactSource } from './ArtifactSource';
-import {
-    ArtifactSourceFromJSON,
-    ArtifactSourceFromJSONTyped,
-    ArtifactSourceToJSON,
-    ArtifactSourceToJSONTyped,
-} from './ArtifactSource';
-
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
 /**
  * 
  * @export
@@ -29,129 +21,106 @@ import {
 export interface ArtifactOut {
     /**
      * 
-     * @type {string}
-     * @memberof ArtifactOut
      */
     id: string;
     /**
      * 
-     * @type {string}
-     * @memberof ArtifactOut
      */
     driveId: string;
     /**
      * 
-     * @type {string}
-     * @memberof ArtifactOut
      */
-    path: string;
+    parentId: string;
     /**
      * 
-     * @type {string}
-     * @memberof ArtifactOut
      */
-    url: string;
+    name: string;
     /**
      * 
-     * @type {string}
-     * @memberof ArtifactOut
      */
-    permalink: string;
+    contentType: string | null;
     /**
      * 
-     * @type {string}
-     * @memberof ArtifactOut
      */
-    contentType: string;
+    contentPreview: string | null;
     /**
      * 
-     * @type {string}
-     * @memberof ArtifactOut
      */
-    fileType: string;
+    labels: Array<string>;
     /**
      * 
-     * @type {number}
-     * @memberof ArtifactOut
      */
-    sizeBytes: number;
+    metadata: { [key: string]: any; };
     /**
      * 
-     * @type {string}
-     * @memberof ArtifactOut
      */
-    hash: string;
+    headVersionId: string | null;
     /**
      * 
-     * @type {number}
-     * @memberof ArtifactOut
      */
-    versionNumber?: number;
+    revision: string;
     /**
      * 
-     * @type {Array<string>}
-     * @memberof ArtifactOut
      */
-    labels?: Array<string>;
+    state: ArtifactOutStateEnum;
     /**
      * 
-     * @type {{ [key: string]: any; }}
-     * @memberof ArtifactOut
-     */
-    metadata?: { [key: string]: any; };
-    /**
-     * 
-     * @type {ArtifactSource}
-     * @memberof ArtifactOut
-     */
-    source?: ArtifactSource | null;
-    /**
-     * 
-     * @type {Date}
-     * @memberof ArtifactOut
-     */
-    indexedAt?: Date | null;
-    /**
-     * 
-     * @type {Date}
-     * @memberof ArtifactOut
-     */
-    embeddedAt?: Date | null;
-    /**
-     * 
-     * @type {Date}
-     * @memberof ArtifactOut
      */
     createdAt: Date;
     /**
      * 
-     * @type {Date}
-     * @memberof ArtifactOut
      */
     updatedAt: Date;
     /**
      * 
-     * @type {{ [key: string]: any; }}
-     * @memberof ArtifactOut
      */
-    llmIndex?: { [key: string]: any; } | null;
+    deletedAt: Date | null;
+    /**
+     * Server-computed exposure summary, resolved over the artifact's live grants, its whole folder ancestry, and the drive. 'public' when any live grant has principal_type 'public'; otherwise 'shared' when a live grant names a principal other than the drive's creator; otherwise 'private'. Describes exposure, NOT the caller's own access.
+     */
+    effectiveVisibility: ArtifactOutEffectiveVisibilityEnum;
 }
+
+
+/**
+ * @export
+ */
+export const ArtifactOutStateEnum = {
+    Active: 'active',
+    Deleted: 'deleted',
+} as const;
+export type ArtifactOutStateEnum = typeof ArtifactOutStateEnum[keyof typeof ArtifactOutStateEnum];
+
+/**
+ * @export
+ */
+export const ArtifactOutEffectiveVisibilityEnum = {
+    Public: 'public',
+    Shared: 'shared',
+    Private: 'private',
+} as const;
+export type ArtifactOutEffectiveVisibilityEnum = typeof ArtifactOutEffectiveVisibilityEnum[keyof typeof ArtifactOutEffectiveVisibilityEnum];
+
 
 /**
  * Check if a given object implements the ArtifactOut interface.
  */
 export function instanceOfArtifactOut(value: object): value is ArtifactOut {
     if (!('id' in value) || value['id'] === undefined) return false;
-    if ((!('driveId' in value) && !('drive_id' in value)) || (value['driveId'] === undefined && value['drive_id'] === undefined)) return false;
-    if (!('path' in value) || value['path'] === undefined) return false;
-    if (!('url' in value) || value['url'] === undefined) return false;
-    if (!('permalink' in value) || value['permalink'] === undefined) return false;
-    if ((!('contentType' in value) && !('content_type' in value)) || (value['contentType'] === undefined && value['content_type'] === undefined)) return false;
-    if ((!('fileType' in value) && !('file_type' in value)) || (value['fileType'] === undefined && value['file_type'] === undefined)) return false;
-    if ((!('sizeBytes' in value) && !('size_bytes' in value)) || (value['sizeBytes'] === undefined && value['size_bytes'] === undefined)) return false;
-    if (!('hash' in value) || value['hash'] === undefined) return false;
-    if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
-    if ((!('updatedAt' in value) && !('updated_at' in value)) || (value['updatedAt'] === undefined && value['updated_at'] === undefined)) return false;
+    if ((!('driveId' in (value as Record<string, any>)) && !('drive_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['driveId'] === undefined && (value as Record<string, any>)['drive_id'] === undefined)) return false;
+    if ((!('parentId' in (value as Record<string, any>)) && !('parent_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['parentId'] === undefined && (value as Record<string, any>)['parent_id'] === undefined)) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if ((!('contentType' in (value as Record<string, any>)) && !('content_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['contentType'] === undefined && (value as Record<string, any>)['content_type'] === undefined)) return false;
+    if ((!('contentPreview' in (value as Record<string, any>)) && !('content_preview' in (value as Record<string, any>))) || ((value as Record<string, any>)['contentPreview'] === undefined && (value as Record<string, any>)['content_preview'] === undefined)) return false;
+    if (!('labels' in value) || value['labels'] === undefined) return false;
+    if (!('metadata' in value) || value['metadata'] === undefined) return false;
+    if ((!('headVersionId' in (value as Record<string, any>)) && !('head_version_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['headVersionId'] === undefined && (value as Record<string, any>)['head_version_id'] === undefined)) return false;
+    if (!('revision' in value) || value['revision'] === undefined) return false;
+    if (!('state' in value) || value['state'] === undefined) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
+    if ((!('updatedAt' in (value as Record<string, any>)) && !('updated_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['updatedAt'] === undefined && (value as Record<string, any>)['updated_at'] === undefined)) return false;
+    if ((!('deletedAt' in (value as Record<string, any>)) && !('deleted_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['deletedAt'] === undefined && (value as Record<string, any>)['deleted_at'] === undefined)) return false;
+    if ((!('effectiveVisibility' in (value as Record<string, any>)) && !('effective_visibility' in (value as Record<string, any>))) || ((value as Record<string, any>)['effectiveVisibility'] === undefined && (value as Record<string, any>)['effective_visibility'] === undefined)) return false;
     return true;
 }
 
@@ -167,22 +136,19 @@ export function ArtifactOutFromJSONTyped(json: any, ignoreDiscriminator: boolean
         
         'id': json['id'],
         'driveId': json['drive_id'],
-        'path': json['path'],
-        'url': json['url'],
-        'permalink': json['permalink'],
+        'parentId': json['parent_id'],
+        'name': json['name'],
         'contentType': json['content_type'],
-        'fileType': json['file_type'],
-        'sizeBytes': json['size_bytes'],
-        'hash': json['hash'],
-        'versionNumber': json['version_number'] == null ? undefined : json['version_number'],
-        'labels': json['labels'] == null ? undefined : json['labels'],
-        'metadata': json['metadata'] == null ? undefined : json['metadata'],
-        'source': json['source'] == null ? undefined : ArtifactSourceFromJSON(json['source']),
-        'indexedAt': json['indexed_at'] == null ? undefined : (new Date(json['indexed_at'])),
-        'embeddedAt': json['embedded_at'] == null ? undefined : (new Date(json['embedded_at'])),
-        'createdAt': (new Date(json['created_at'])),
-        'updatedAt': (new Date(json['updated_at'])),
-        'llmIndex': json['llm_index'] == null ? undefined : json['llm_index'],
+        'contentPreview': json['content_preview'],
+        'labels': json['labels'],
+        'metadata': json['metadata'],
+        'headVersionId': json['head_version_id'],
+        'revision': json['revision'],
+        'state': json['state'],
+        'createdAt': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
+        'updatedAt': (json['updated_at'] == null ? json['updated_at'] : parseDateTime(json['updated_at'])),
+        'deletedAt': (json['deleted_at'] == null ? null : parseDateTime(json['deleted_at'])),
+        'effectiveVisibility': json['effective_visibility'],
     };
 }
 
@@ -199,22 +165,19 @@ export function ArtifactOutToJSONTyped(value?: ArtifactOut | null, ignoreDiscrim
         
         'id': value['id'],
         'drive_id': value['driveId'],
-        'path': value['path'],
-        'url': value['url'],
-        'permalink': value['permalink'],
+        'parent_id': value['parentId'],
+        'name': value['name'],
         'content_type': value['contentType'],
-        'file_type': value['fileType'],
-        'size_bytes': value['sizeBytes'],
-        'hash': value['hash'],
-        'version_number': value['versionNumber'],
+        'content_preview': value['contentPreview'],
         'labels': value['labels'],
         'metadata': value['metadata'],
-        'source': ArtifactSourceToJSON(value['source']),
-        'indexed_at': value['indexedAt'] == null ? value['indexedAt'] : value['indexedAt'].toISOString(),
-        'embedded_at': value['embeddedAt'] == null ? value['embeddedAt'] : value['embeddedAt'].toISOString(),
-        'created_at': value['createdAt'].toISOString(),
-        'updated_at': value['updatedAt'].toISOString(),
-        'llm_index': value['llmIndex'],
+        'head_version_id': value['headVersionId'],
+        'revision': value['revision'],
+        'state': value['state'],
+        'created_at': value['createdAt'] == null ? value['createdAt'] : serializeDateTime(value['createdAt']),
+        'updated_at': value['updatedAt'] == null ? value['updatedAt'] : serializeDateTime(value['updatedAt']),
+        'deleted_at': value['deletedAt'] == null ? value['deletedAt'] : serializeDateTime(value['deletedAt']),
+        'effective_visibility': value['effectiveVisibility'],
     };
 }
 

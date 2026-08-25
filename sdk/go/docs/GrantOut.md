@@ -5,24 +5,23 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **string** |  | 
+**DriveId** | **string** |  | 
 **ResourceType** | **string** |  | 
 **ResourceId** | **string** |  | 
 **PrincipalType** | **string** |  | 
-**PrincipalId** | Pointer to **NullableString** |  | [optional] 
-**PrincipalEmail** | Pointer to **NullableString** |  | [optional] 
+**PrincipalId** | **NullableString** |  | 
 **Role** | **string** |  | 
-**GrantedByType** | **string** |  | 
-**GrantedById** | **string** |  | 
-**OnBehalfOf** | Pointer to **NullableString** |  | [optional] 
+**Revision** | **string** |  | 
+**State** | **string** |  | 
+**ExpiresAt** | **NullableTime** |  | 
+**RevokedAt** | **NullableTime** |  | 
 **CreatedAt** | **time.Time** |  | 
-**ExpiresAt** | Pointer to **NullableTime** |  | [optional] 
-**ArtifactsAffected** | Pointer to **NullableInt32** |  | [optional] 
 
 ## Methods
 
 ### NewGrantOut
 
-`func NewGrantOut(id string, resourceType string, resourceId string, principalType string, role string, grantedByType string, grantedById string, createdAt time.Time, ) *GrantOut`
+`func NewGrantOut(id string, driveId string, resourceType string, resourceId string, principalType string, principalId NullableString, role string, revision string, state string, expiresAt NullableTime, revokedAt NullableTime, createdAt time.Time, ) *GrantOut`
 
 NewGrantOut instantiates a new GrantOut object
 This constructor will assign default values to properties that have it defined,
@@ -55,6 +54,26 @@ and a boolean to check if the value has been set.
 `func (o *GrantOut) SetId(v string)`
 
 SetId sets Id field to given value.
+
+
+### GetDriveId
+
+`func (o *GrantOut) GetDriveId() string`
+
+GetDriveId returns the DriveId field if non-nil, zero value otherwise.
+
+### GetDriveIdOk
+
+`func (o *GrantOut) GetDriveIdOk() (*string, bool)`
+
+GetDriveIdOk returns a tuple with the DriveId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDriveId
+
+`func (o *GrantOut) SetDriveId(v string)`
+
+SetDriveId sets DriveId field to given value.
 
 
 ### GetResourceType
@@ -136,11 +155,6 @@ and a boolean to check if the value has been set.
 
 SetPrincipalId sets PrincipalId field to given value.
 
-### HasPrincipalId
-
-`func (o *GrantOut) HasPrincipalId() bool`
-
-HasPrincipalId returns a boolean if a field has been set.
 
 ### SetPrincipalIdNil
 
@@ -152,41 +166,6 @@ HasPrincipalId returns a boolean if a field has been set.
 `func (o *GrantOut) UnsetPrincipalId()`
 
 UnsetPrincipalId ensures that no value is present for PrincipalId, not even an explicit nil
-### GetPrincipalEmail
-
-`func (o *GrantOut) GetPrincipalEmail() string`
-
-GetPrincipalEmail returns the PrincipalEmail field if non-nil, zero value otherwise.
-
-### GetPrincipalEmailOk
-
-`func (o *GrantOut) GetPrincipalEmailOk() (*string, bool)`
-
-GetPrincipalEmailOk returns a tuple with the PrincipalEmail field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPrincipalEmail
-
-`func (o *GrantOut) SetPrincipalEmail(v string)`
-
-SetPrincipalEmail sets PrincipalEmail field to given value.
-
-### HasPrincipalEmail
-
-`func (o *GrantOut) HasPrincipalEmail() bool`
-
-HasPrincipalEmail returns a boolean if a field has been set.
-
-### SetPrincipalEmailNil
-
-`func (o *GrantOut) SetPrincipalEmailNil(b bool)`
-
- SetPrincipalEmailNil sets the value for PrincipalEmail to be an explicit nil
-
-### UnsetPrincipalEmail
-`func (o *GrantOut) UnsetPrincipalEmail()`
-
-UnsetPrincipalEmail ensures that no value is present for PrincipalEmail, not even an explicit nil
 ### GetRole
 
 `func (o *GrantOut) GetRole() string`
@@ -207,99 +186,44 @@ and a boolean to check if the value has been set.
 SetRole sets Role field to given value.
 
 
-### GetGrantedByType
+### GetRevision
 
-`func (o *GrantOut) GetGrantedByType() string`
+`func (o *GrantOut) GetRevision() string`
 
-GetGrantedByType returns the GrantedByType field if non-nil, zero value otherwise.
+GetRevision returns the Revision field if non-nil, zero value otherwise.
 
-### GetGrantedByTypeOk
+### GetRevisionOk
 
-`func (o *GrantOut) GetGrantedByTypeOk() (*string, bool)`
+`func (o *GrantOut) GetRevisionOk() (*string, bool)`
 
-GetGrantedByTypeOk returns a tuple with the GrantedByType field if it's non-nil, zero value otherwise
+GetRevisionOk returns a tuple with the Revision field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetGrantedByType
+### SetRevision
 
-`func (o *GrantOut) SetGrantedByType(v string)`
+`func (o *GrantOut) SetRevision(v string)`
 
-SetGrantedByType sets GrantedByType field to given value.
+SetRevision sets Revision field to given value.
 
 
-### GetGrantedById
+### GetState
 
-`func (o *GrantOut) GetGrantedById() string`
+`func (o *GrantOut) GetState() string`
 
-GetGrantedById returns the GrantedById field if non-nil, zero value otherwise.
+GetState returns the State field if non-nil, zero value otherwise.
 
-### GetGrantedByIdOk
+### GetStateOk
 
-`func (o *GrantOut) GetGrantedByIdOk() (*string, bool)`
+`func (o *GrantOut) GetStateOk() (*string, bool)`
 
-GetGrantedByIdOk returns a tuple with the GrantedById field if it's non-nil, zero value otherwise
+GetStateOk returns a tuple with the State field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetGrantedById
+### SetState
 
-`func (o *GrantOut) SetGrantedById(v string)`
+`func (o *GrantOut) SetState(v string)`
 
-SetGrantedById sets GrantedById field to given value.
-
-
-### GetOnBehalfOf
-
-`func (o *GrantOut) GetOnBehalfOf() string`
-
-GetOnBehalfOf returns the OnBehalfOf field if non-nil, zero value otherwise.
-
-### GetOnBehalfOfOk
-
-`func (o *GrantOut) GetOnBehalfOfOk() (*string, bool)`
-
-GetOnBehalfOfOk returns a tuple with the OnBehalfOf field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetOnBehalfOf
-
-`func (o *GrantOut) SetOnBehalfOf(v string)`
-
-SetOnBehalfOf sets OnBehalfOf field to given value.
-
-### HasOnBehalfOf
-
-`func (o *GrantOut) HasOnBehalfOf() bool`
-
-HasOnBehalfOf returns a boolean if a field has been set.
-
-### SetOnBehalfOfNil
-
-`func (o *GrantOut) SetOnBehalfOfNil(b bool)`
-
- SetOnBehalfOfNil sets the value for OnBehalfOf to be an explicit nil
-
-### UnsetOnBehalfOf
-`func (o *GrantOut) UnsetOnBehalfOf()`
-
-UnsetOnBehalfOf ensures that no value is present for OnBehalfOf, not even an explicit nil
-### GetCreatedAt
-
-`func (o *GrantOut) GetCreatedAt() time.Time`
-
-GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
-
-### GetCreatedAtOk
-
-`func (o *GrantOut) GetCreatedAtOk() (*time.Time, bool)`
-
-GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCreatedAt
-
-`func (o *GrantOut) SetCreatedAt(v time.Time)`
-
-SetCreatedAt sets CreatedAt field to given value.
+SetState sets State field to given value.
 
 
 ### GetExpiresAt
@@ -321,11 +245,6 @@ and a boolean to check if the value has been set.
 
 SetExpiresAt sets ExpiresAt field to given value.
 
-### HasExpiresAt
-
-`func (o *GrantOut) HasExpiresAt() bool`
-
-HasExpiresAt returns a boolean if a field has been set.
 
 ### SetExpiresAtNil
 
@@ -337,41 +256,56 @@ HasExpiresAt returns a boolean if a field has been set.
 `func (o *GrantOut) UnsetExpiresAt()`
 
 UnsetExpiresAt ensures that no value is present for ExpiresAt, not even an explicit nil
-### GetArtifactsAffected
+### GetRevokedAt
 
-`func (o *GrantOut) GetArtifactsAffected() int32`
+`func (o *GrantOut) GetRevokedAt() time.Time`
 
-GetArtifactsAffected returns the ArtifactsAffected field if non-nil, zero value otherwise.
+GetRevokedAt returns the RevokedAt field if non-nil, zero value otherwise.
 
-### GetArtifactsAffectedOk
+### GetRevokedAtOk
 
-`func (o *GrantOut) GetArtifactsAffectedOk() (*int32, bool)`
+`func (o *GrantOut) GetRevokedAtOk() (*time.Time, bool)`
 
-GetArtifactsAffectedOk returns a tuple with the ArtifactsAffected field if it's non-nil, zero value otherwise
+GetRevokedAtOk returns a tuple with the RevokedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetArtifactsAffected
+### SetRevokedAt
 
-`func (o *GrantOut) SetArtifactsAffected(v int32)`
+`func (o *GrantOut) SetRevokedAt(v time.Time)`
 
-SetArtifactsAffected sets ArtifactsAffected field to given value.
+SetRevokedAt sets RevokedAt field to given value.
 
-### HasArtifactsAffected
 
-`func (o *GrantOut) HasArtifactsAffected() bool`
+### SetRevokedAtNil
 
-HasArtifactsAffected returns a boolean if a field has been set.
+`func (o *GrantOut) SetRevokedAtNil(b bool)`
 
-### SetArtifactsAffectedNil
+ SetRevokedAtNil sets the value for RevokedAt to be an explicit nil
 
-`func (o *GrantOut) SetArtifactsAffectedNil(b bool)`
+### UnsetRevokedAt
+`func (o *GrantOut) UnsetRevokedAt()`
 
- SetArtifactsAffectedNil sets the value for ArtifactsAffected to be an explicit nil
+UnsetRevokedAt ensures that no value is present for RevokedAt, not even an explicit nil
+### GetCreatedAt
 
-### UnsetArtifactsAffected
-`func (o *GrantOut) UnsetArtifactsAffected()`
+`func (o *GrantOut) GetCreatedAt() time.Time`
 
-UnsetArtifactsAffected ensures that no value is present for ArtifactsAffected, not even an explicit nil
+GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
+
+### GetCreatedAtOk
+
+`func (o *GrantOut) GetCreatedAtOk() (*time.Time, bool)`
+
+GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCreatedAt
+
+`func (o *GrantOut) SetCreatedAt(v time.Time)`
+
+SetCreatedAt sets CreatedAt field to given value.
+
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

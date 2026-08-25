@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: 0.0.1
  * 
@@ -13,70 +13,31 @@
  */
 
 import { mapValues } from '../runtime';
+import type { UploadWithTransferOut } from './UploadWithTransferOut';
+import {
+    UploadWithTransferOutFromJSON,
+    UploadWithTransferOutFromJSONTyped,
+    UploadWithTransferOutToJSON,
+    UploadWithTransferOutToJSONTyped,
+} from './UploadWithTransferOut';
+
 /**
- * Response of `POST /v0/uploads`. PUT the bytes to `upload_url` (no auth
- * header — the URL is the credential), then `POST .../commit`.
+ * The one 201 begin response — the only shape carrying ``transfer``.
  * @export
  * @interface UploadBeginOut
  */
 export interface UploadBeginOut {
     /**
      * 
-     * @type {string}
-     * @memberof UploadBeginOut
      */
-    uploadId: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UploadBeginOut
-     */
-    uploadUrl: string;
-    /**
-     * 
-     * @type {UploadBeginOutMethodEnum}
-     * @memberof UploadBeginOut
-     */
-    method?: UploadBeginOutMethodEnum;
-    /**
-     * 
-     * @type {{ [key: string]: string; }}
-     * @memberof UploadBeginOut
-     */
-    headers: { [key: string]: string; };
-    /**
-     * 
-     * @type {Date}
-     * @memberof UploadBeginOut
-     */
-    expiresAt: Date;
-    /**
-     * 
-     * @type {number}
-     * @memberof UploadBeginOut
-     */
-    maxBytes: number;
+    upload: UploadWithTransferOut;
 }
-
-
-/**
- * @export
- */
-export const UploadBeginOutMethodEnum = {
-    Put: 'PUT'
-} as const;
-export type UploadBeginOutMethodEnum = typeof UploadBeginOutMethodEnum[keyof typeof UploadBeginOutMethodEnum];
-
 
 /**
  * Check if a given object implements the UploadBeginOut interface.
  */
 export function instanceOfUploadBeginOut(value: object): value is UploadBeginOut {
-    if ((!('uploadId' in value) && !('upload_id' in value)) || (value['uploadId'] === undefined && value['upload_id'] === undefined)) return false;
-    if ((!('uploadUrl' in value) && !('upload_url' in value)) || (value['uploadUrl'] === undefined && value['upload_url'] === undefined)) return false;
-    if (!('headers' in value) || value['headers'] === undefined) return false;
-    if ((!('expiresAt' in value) && !('expires_at' in value)) || (value['expiresAt'] === undefined && value['expires_at'] === undefined)) return false;
-    if ((!('maxBytes' in value) && !('max_bytes' in value)) || (value['maxBytes'] === undefined && value['max_bytes'] === undefined)) return false;
+    if (!('upload' in value) || value['upload'] === undefined) return false;
     return true;
 }
 
@@ -90,12 +51,7 @@ export function UploadBeginOutFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'uploadId': json['upload_id'],
-        'uploadUrl': json['upload_url'],
-        'method': json['method'] == null ? undefined : json['method'],
-        'headers': json['headers'],
-        'expiresAt': (new Date(json['expires_at'])),
-        'maxBytes': json['max_bytes'],
+        'upload': UploadWithTransferOutFromJSON(json['upload']),
     };
 }
 
@@ -110,12 +66,7 @@ export function UploadBeginOutToJSONTyped(value?: UploadBeginOut | null, ignoreD
 
     return {
         
-        'upload_id': value['uploadId'],
-        'upload_url': value['uploadUrl'],
-        'method': value['method'],
-        'headers': value['headers'],
-        'expires_at': value['expiresAt'].toISOString(),
-        'max_bytes': value['maxBytes'],
+        'upload': UploadWithTransferOutToJSON(value['upload']),
     };
 }
 

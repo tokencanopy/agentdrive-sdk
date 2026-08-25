@@ -1,28 +1,32 @@
 
 # GrantCreateIn
 
-POST /v0/grants body. `resource` is an `art_*`/`fld_*` id or a path (resolved within the caller\'s drive). `expires_in` is seconds from now (omit for a permanent grant).
+POST /v0/drives/{id}/grants body.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`resource` | string
-`principal` | [GrantPrincipalIn](GrantPrincipalIn.md)
+`principalType` | string
+`principalId` | string
+`resourceType` | string
+`resourceId` | string
 `role` | string
-`expiresIn` | number
+`expiresAt` | Date
 
 ## Example
 
 ```typescript
-import type { GrantCreateIn } from '@mnexa-ai/agentdrive-sdk'
+import type { GrantCreateIn } from '@tokencanopy/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "resource": null,
-  "principal": null,
+  "principalType": null,
+  "principalId": null,
+  "resourceType": null,
+  "resourceId": null,
   "role": null,
-  "expiresIn": null,
+  "expiresAt": null,
 } satisfies GrantCreateIn
 
 console.log(example)

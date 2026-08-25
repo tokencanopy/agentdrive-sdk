@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+	openapiclient "github.com/tokencanopy/agentdrive-sdk/agentdrive"
 )
 
 func Test_agentdrive_DrivesAPIService(t *testing.T) {
@@ -22,13 +22,11 @@ func Test_agentdrive_DrivesAPIService(t *testing.T) {
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
-	t.Run("Test DrivesAPIService CreateDriveKeyRouteV0DrivesDriveIdKeysPost", func(t *testing.T) {
+	t.Run("Test DrivesAPIService DrivesCreate", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		var driveId string
-
-		resp, httpRes, err := apiClient.DrivesAPI.CreateDriveKeyRouteV0DrivesDriveIdKeysPost(context.Background(), driveId).Execute()
+		resp, httpRes, err := apiClient.DrivesAPI.DrivesCreate(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -36,11 +34,13 @@ func Test_agentdrive_DrivesAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test DrivesAPIService CreateDriveRouteV0DrivesPost", func(t *testing.T) {
+	t.Run("Test DrivesAPIService DrivesDelete", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		resp, httpRes, err := apiClient.DrivesAPI.CreateDriveRouteV0DrivesPost(context.Background()).Execute()
+		var driveId string
+
+		resp, httpRes, err := apiClient.DrivesAPI.DrivesDelete(context.Background(), driveId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -48,13 +48,11 @@ func Test_agentdrive_DrivesAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test DrivesAPIService ListDriveKeysRouteV0DrivesDriveIdKeysGet", func(t *testing.T) {
+	t.Run("Test DrivesAPIService DrivesList", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		var driveId string
-
-		resp, httpRes, err := apiClient.DrivesAPI.ListDriveKeysRouteV0DrivesDriveIdKeysGet(context.Background(), driveId).Execute()
+		resp, httpRes, err := apiClient.DrivesAPI.DrivesList(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -62,11 +60,13 @@ func Test_agentdrive_DrivesAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test DrivesAPIService ListDrivesRouteV0DrivesGet", func(t *testing.T) {
+	t.Run("Test DrivesAPIService DrivesRead", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		resp, httpRes, err := apiClient.DrivesAPI.ListDrivesRouteV0DrivesGet(context.Background()).Execute()
+		var driveId string
+
+		resp, httpRes, err := apiClient.DrivesAPI.DrivesRead(context.Background(), driveId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -74,13 +74,13 @@ func Test_agentdrive_DrivesAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test DrivesAPIService RenameDriveRouteV0DrivesDriveIdPatch", func(t *testing.T) {
+	t.Run("Test DrivesAPIService DrivesRestore", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		var driveId string
 
-		resp, httpRes, err := apiClient.DrivesAPI.RenameDriveRouteV0DrivesDriveIdPatch(context.Background(), driveId).Execute()
+		resp, httpRes, err := apiClient.DrivesAPI.DrivesRestore(context.Background(), driveId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -88,28 +88,27 @@ func Test_agentdrive_DrivesAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test DrivesAPIService RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost", func(t *testing.T) {
+	t.Run("Test DrivesAPIService DrivesUpdate", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		var driveId string
-		var keyId string
 
-		httpRes, err := apiClient.DrivesAPI.RevokeDriveKeyRouteV0DrivesDriveIdKeysKeyIdRevokePost(context.Background(), driveId, keyId).Execute()
+		resp, httpRes, err := apiClient.DrivesAPI.DrivesUpdate(context.Background(), driveId).Execute()
 
 		require.Nil(t, err)
+		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test DrivesAPIService RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost", func(t *testing.T) {
+	t.Run("Test DrivesAPIService DrivesUsage", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		var driveId string
-		var keyId string
 
-		resp, httpRes, err := apiClient.DrivesAPI.RotateOneKeyRouteV0DrivesDriveIdKeysKeyIdRotatePost(context.Background(), driveId, keyId).Execute()
+		resp, httpRes, err := apiClient.DrivesAPI.DrivesUsage(context.Background(), driveId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

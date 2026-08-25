@@ -1,7 +1,7 @@
 /*
 AgentDrive
 
-AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
 
 API version: 0.0.1
 */
@@ -22,14 +22,15 @@ var _ MappedNullable = &SearchHitOut{}
 
 // SearchHitOut struct for SearchHitOut
 type SearchHitOut struct {
-	DriveId string `json:"drive_id"`
-	Path string `json:"path"`
-	Url string `json:"url"`
-	ContentType string `json:"content_type"`
-	FileType string `json:"file_type"`
-	Labels []string `json:"labels,omitempty"`
+	Id string `json:"id" validate:"regexp=^art_[a-f0-9]{16}$"`
+	DriveId string `json:"drive_id" validate:"regexp=^drv_[a-f0-9]{16}$"`
+	ParentId NullableString `json:"parent_id"`
+	Name string `json:"name"`
+	VersionId NullableString `json:"version_id"`
+	Rank float32 `json:"rank"`
+	// HTML-safe highlighted excerpt. The ONLY markup it may contain is the server's own <mark>...</mark> highlight pair; artifact content is entity-escaped, so this may be rendered as HTML.
 	Snippet string `json:"snippet"`
-	Score float32 `json:"score"`
+	ContentType NullableString `json:"content_type"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
@@ -39,15 +40,16 @@ type _SearchHitOut SearchHitOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSearchHitOut(driveId string, path string, url string, contentType string, fileType string, snippet string, score float32, updatedAt time.Time) *SearchHitOut {
+func NewSearchHitOut(id string, driveId string, parentId NullableString, name string, versionId NullableString, rank float32, snippet string, contentType NullableString, updatedAt time.Time) *SearchHitOut {
 	this := SearchHitOut{}
+	this.Id = id
 	this.DriveId = driveId
-	this.Path = path
-	this.Url = url
-	this.ContentType = contentType
-	this.FileType = fileType
+	this.ParentId = parentId
+	this.Name = name
+	this.VersionId = versionId
+	this.Rank = rank
 	this.Snippet = snippet
-	this.Score = score
+	this.ContentType = contentType
 	this.UpdatedAt = updatedAt
 	return &this
 }
@@ -58,6 +60,30 @@ func NewSearchHitOut(driveId string, path string, url string, contentType string
 func NewSearchHitOutWithDefaults() *SearchHitOut {
 	this := SearchHitOut{}
 	return &this
+}
+
+// GetId returns the Id field value
+func (o *SearchHitOut) GetId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Id
+}
+
+// GetIdOk returns a tuple with the Id field value
+// and a boolean to check if the value has been set.
+func (o *SearchHitOut) GetIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Id, true
+}
+
+// SetId sets field value
+func (o *SearchHitOut) SetId(v string) {
+	o.Id = v
 }
 
 // GetDriveId returns the DriveId field value
@@ -84,132 +110,104 @@ func (o *SearchHitOut) SetDriveId(v string) {
 	o.DriveId = v
 }
 
-// GetPath returns the Path field value
-func (o *SearchHitOut) GetPath() string {
+// GetParentId returns the ParentId field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *SearchHitOut) GetParentId() string {
+	if o == nil || o.ParentId.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.ParentId.Get()
+}
+
+// GetParentIdOk returns a tuple with the ParentId field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *SearchHitOut) GetParentIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ParentId.Get(), o.ParentId.IsSet()
+}
+
+// SetParentId sets field value
+func (o *SearchHitOut) SetParentId(v string) {
+	o.ParentId.Set(&v)
+}
+
+// GetName returns the Name field value
+func (o *SearchHitOut) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.Path
+	return o.Name
 }
 
-// GetPathOk returns a tuple with the Path field value
+// GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *SearchHitOut) GetPathOk() (*string, bool) {
+func (o *SearchHitOut) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Path, true
+	return &o.Name, true
 }
 
-// SetPath sets field value
-func (o *SearchHitOut) SetPath(v string) {
-	o.Path = v
+// SetName sets field value
+func (o *SearchHitOut) SetName(v string) {
+	o.Name = v
 }
 
-// GetUrl returns the Url field value
-func (o *SearchHitOut) GetUrl() string {
-	if o == nil {
+// GetVersionId returns the VersionId field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *SearchHitOut) GetVersionId() string {
+	if o == nil || o.VersionId.Get() == nil {
 		var ret string
 		return ret
 	}
 
-	return o.Url
+	return *o.VersionId.Get()
 }
 
-// GetUrlOk returns a tuple with the Url field value
+// GetVersionIdOk returns a tuple with the VersionId field value
 // and a boolean to check if the value has been set.
-func (o *SearchHitOut) GetUrlOk() (*string, bool) {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *SearchHitOut) GetVersionIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Url, true
+	return o.VersionId.Get(), o.VersionId.IsSet()
 }
 
-// SetUrl sets field value
-func (o *SearchHitOut) SetUrl(v string) {
-	o.Url = v
+// SetVersionId sets field value
+func (o *SearchHitOut) SetVersionId(v string) {
+	o.VersionId.Set(&v)
 }
 
-// GetContentType returns the ContentType field value
-func (o *SearchHitOut) GetContentType() string {
+// GetRank returns the Rank field value
+func (o *SearchHitOut) GetRank() float32 {
 	if o == nil {
-		var ret string
+		var ret float32
 		return ret
 	}
 
-	return o.ContentType
+	return o.Rank
 }
 
-// GetContentTypeOk returns a tuple with the ContentType field value
+// GetRankOk returns a tuple with the Rank field value
 // and a boolean to check if the value has been set.
-func (o *SearchHitOut) GetContentTypeOk() (*string, bool) {
+func (o *SearchHitOut) GetRankOk() (*float32, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.ContentType, true
+	return &o.Rank, true
 }
 
-// SetContentType sets field value
-func (o *SearchHitOut) SetContentType(v string) {
-	o.ContentType = v
-}
-
-// GetFileType returns the FileType field value
-func (o *SearchHitOut) GetFileType() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.FileType
-}
-
-// GetFileTypeOk returns a tuple with the FileType field value
-// and a boolean to check if the value has been set.
-func (o *SearchHitOut) GetFileTypeOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.FileType, true
-}
-
-// SetFileType sets field value
-func (o *SearchHitOut) SetFileType(v string) {
-	o.FileType = v
-}
-
-// GetLabels returns the Labels field value if set, zero value otherwise.
-func (o *SearchHitOut) GetLabels() []string {
-	if o == nil || IsNil(o.Labels) {
-		var ret []string
-		return ret
-	}
-	return o.Labels
-}
-
-// GetLabelsOk returns a tuple with the Labels field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *SearchHitOut) GetLabelsOk() ([]string, bool) {
-	if o == nil || IsNil(o.Labels) {
-		return nil, false
-	}
-	return o.Labels, true
-}
-
-// HasLabels returns a boolean if a field has been set.
-func (o *SearchHitOut) HasLabels() bool {
-	if o != nil && !IsNil(o.Labels) {
-		return true
-	}
-
-	return false
-}
-
-// SetLabels gets a reference to the given []string and assigns it to the Labels field.
-func (o *SearchHitOut) SetLabels(v []string) {
-	o.Labels = v
+// SetRank sets field value
+func (o *SearchHitOut) SetRank(v float32) {
+	o.Rank = v
 }
 
 // GetSnippet returns the Snippet field value
@@ -236,28 +234,30 @@ func (o *SearchHitOut) SetSnippet(v string) {
 	o.Snippet = v
 }
 
-// GetScore returns the Score field value
-func (o *SearchHitOut) GetScore() float32 {
-	if o == nil {
-		var ret float32
+// GetContentType returns the ContentType field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *SearchHitOut) GetContentType() string {
+	if o == nil || o.ContentType.Get() == nil {
+		var ret string
 		return ret
 	}
 
-	return o.Score
+	return *o.ContentType.Get()
 }
 
-// GetScoreOk returns a tuple with the Score field value
+// GetContentTypeOk returns a tuple with the ContentType field value
 // and a boolean to check if the value has been set.
-func (o *SearchHitOut) GetScoreOk() (*float32, bool) {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *SearchHitOut) GetContentTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Score, true
+	return o.ContentType.Get(), o.ContentType.IsSet()
 }
 
-// SetScore sets field value
-func (o *SearchHitOut) SetScore(v float32) {
-	o.Score = v
+// SetContentType sets field value
+func (o *SearchHitOut) SetContentType(v string) {
+	o.ContentType.Set(&v)
 }
 
 // GetUpdatedAt returns the UpdatedAt field value
@@ -294,16 +294,14 @@ func (o SearchHitOut) MarshalJSON() ([]byte, error) {
 
 func (o SearchHitOut) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	toSerialize["id"] = o.Id
 	toSerialize["drive_id"] = o.DriveId
-	toSerialize["path"] = o.Path
-	toSerialize["url"] = o.Url
-	toSerialize["content_type"] = o.ContentType
-	toSerialize["file_type"] = o.FileType
-	if !IsNil(o.Labels) {
-		toSerialize["labels"] = o.Labels
-	}
+	toSerialize["parent_id"] = o.ParentId.Get()
+	toSerialize["name"] = o.Name
+	toSerialize["version_id"] = o.VersionId.Get()
+	toSerialize["rank"] = o.Rank
 	toSerialize["snippet"] = o.Snippet
-	toSerialize["score"] = o.Score
+	toSerialize["content_type"] = o.ContentType.Get()
 	toSerialize["updated_at"] = o.UpdatedAt
 	return toSerialize, nil
 }
@@ -313,13 +311,14 @@ func (o *SearchHitOut) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
+		"id",
 		"drive_id",
-		"path",
-		"url",
-		"content_type",
-		"file_type",
+		"parent_id",
+		"name",
+		"version_id",
+		"rank",
 		"snippet",
-		"score",
+		"content_type",
 		"updated_at",
 	}
 

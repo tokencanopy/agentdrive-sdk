@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: 0.0.1
  * 
@@ -14,18 +14,19 @@
 
 import { mapValues } from '../runtime';
 /**
- * POST /v0/drives body. `name` is the user-facing drive label; the
- * creator becomes the owner.
+ * POST /v0/drives body.
  * @export
  * @interface DriveCreateIn
  */
 export interface DriveCreateIn {
     /**
      * 
-     * @type {string}
-     * @memberof DriveCreateIn
      */
     name: string;
+    /**
+     * 
+     */
+    metadata?: { [key: string]: any; };
 }
 
 /**
@@ -47,6 +48,7 @@ export function DriveCreateInFromJSONTyped(json: any, ignoreDiscriminator: boole
     return {
         
         'name': json['name'],
+        'metadata': json['metadata'] == null ? undefined : json['metadata'],
     };
 }
 
@@ -62,6 +64,7 @@ export function DriveCreateInToJSONTyped(value?: DriveCreateIn | null, ignoreDis
     return {
         
         'name': value['name'],
+        'metadata': value['metadata'],
     };
 }
 

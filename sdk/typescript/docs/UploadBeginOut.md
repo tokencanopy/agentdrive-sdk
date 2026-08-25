@@ -1,32 +1,22 @@
 
 # UploadBeginOut
 
-Response of `POST /v0/uploads`. PUT the bytes to `upload_url` (no auth header — the URL is the credential), then `POST .../commit`.
+The one 201 begin response — the only shape carrying ``transfer``.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`uploadId` | string
-`uploadUrl` | string
-`method` | string
-`headers` | { [key: string]: string; }
-`expiresAt` | Date
-`maxBytes` | number
+`upload` | [UploadWithTransferOut](UploadWithTransferOut.md)
 
 ## Example
 
 ```typescript
-import type { UploadBeginOut } from '@mnexa-ai/agentdrive-sdk'
+import type { UploadBeginOut } from '@tokencanopy/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "uploadId": null,
-  "uploadUrl": null,
-  "method": null,
-  "headers": null,
-  "expiresAt": null,
-  "maxBytes": null,
+  "upload": null,
 } satisfies UploadBeginOut
 
 console.log(example)

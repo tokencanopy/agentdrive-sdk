@@ -1,12 +1,13 @@
 # DriveCreateIn
 
-POST /v0/drives body. `name` is the user-facing drive label; the creator becomes the owner.
+POST /v0/drives body.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **str** |  | 
+**metadata** | **Dict[str, object]** |  | [optional] 
 
 ## Example
 

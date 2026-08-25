@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * AgentDrive
- * AgentDrive is an agent-focused artifact store: upload by path, share by rendered URL, address by stable permalink. The REST surface is documented here; the rendered viewer + agent claim flow live under `agentdrive.run`.
+ * AgentDrive is an agent-focused artifact store: drive-scoped folders, artifacts, and immutable versions, with local grants, possession-based share links, drive-scoped search, and a cursor-resumable change feed. Bearer-authenticated with Hub-issued product tokens (see /.well-known/oauth-protected-resource); every mutation takes an Idempotency-Key, and existing-state mutations take If-Match.
  *
  * The version of the OpenAPI document: 0.0.1
  * 
@@ -12,71 +12,95 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
 /**
- * One drive in a listing — metadata only (workspaces-design §4.2).
- * Carries NO capability and NEVER a raw key. An admin's inventory and a
- * member's owned list both serialize to this shape; `owner_email` is the
- * only owner-identifying field surfaced.
+ * 
  * @export
  * @interface DriveOut
  */
 export interface DriveOut {
     /**
      * 
-     * @type {string}
-     * @memberof DriveOut
      */
     id: string;
     /**
      * 
-     * @type {string}
-     * @memberof DriveOut
+     */
+    workspaceId: string;
+    /**
+     * 
+     */
+    createdBy: string | null;
+    /**
+     * 
      */
     name: string;
     /**
      * 
-     * @type {string}
-     * @memberof DriveOut
      */
-    organizationId: string;
+    metadata: { [key: string]: any; };
     /**
      * 
-     * @type {string}
-     * @memberof DriveOut
      */
-    ownerUserId: string | null;
+    revision: string;
     /**
      * 
-     * @type {string}
-     * @memberof DriveOut
      */
-    ownerEmail: string | null;
+    rootFolderId: string;
     /**
      * 
-     * @type {number}
-     * @memberof DriveOut
      */
     storageBytes: number;
     /**
      * 
-     * @type {Date}
-     * @memberof DriveOut
+     */
+    retrievalBytes: number;
+    /**
+     * 
      */
     createdAt: Date;
+    /**
+     * 
+     */
+    updatedAt: Date;
+    /**
+     * 
+     */
+    deletedAt: Date | null;
+    /**
+     * 
+     */
+    state: DriveOutStateEnum;
 }
+
+
+/**
+ * @export
+ */
+export const DriveOutStateEnum = {
+    Active: 'active',
+    Deleted: 'deleted',
+} as const;
+export type DriveOutStateEnum = typeof DriveOutStateEnum[keyof typeof DriveOutStateEnum];
+
 
 /**
  * Check if a given object implements the DriveOut interface.
  */
 export function instanceOfDriveOut(value: object): value is DriveOut {
     if (!('id' in value) || value['id'] === undefined) return false;
+    if ((!('workspaceId' in (value as Record<string, any>)) && !('workspace_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['workspaceId'] === undefined && (value as Record<string, any>)['workspace_id'] === undefined)) return false;
+    if ((!('createdBy' in (value as Record<string, any>)) && !('created_by' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdBy'] === undefined && (value as Record<string, any>)['created_by'] === undefined)) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
-    if ((!('organizationId' in value) && !('organization_id' in value)) || (value['organizationId'] === undefined && value['organization_id'] === undefined)) return false;
-    if ((!('ownerUserId' in value) && !('owner_user_id' in value)) || (value['ownerUserId'] === undefined && value['owner_user_id'] === undefined)) return false;
-    if ((!('ownerEmail' in value) && !('owner_email' in value)) || (value['ownerEmail'] === undefined && value['owner_email'] === undefined)) return false;
-    if ((!('storageBytes' in value) && !('storage_bytes' in value)) || (value['storageBytes'] === undefined && value['storage_bytes'] === undefined)) return false;
-    if ((!('createdAt' in value) && !('created_at' in value)) || (value['createdAt'] === undefined && value['created_at'] === undefined)) return false;
+    if (!('metadata' in value) || value['metadata'] === undefined) return false;
+    if (!('revision' in value) || value['revision'] === undefined) return false;
+    if ((!('rootFolderId' in (value as Record<string, any>)) && !('root_folder_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['rootFolderId'] === undefined && (value as Record<string, any>)['root_folder_id'] === undefined)) return false;
+    if ((!('storageBytes' in (value as Record<string, any>)) && !('storage_bytes' in (value as Record<string, any>))) || ((value as Record<string, any>)['storageBytes'] === undefined && (value as Record<string, any>)['storage_bytes'] === undefined)) return false;
+    if ((!('retrievalBytes' in (value as Record<string, any>)) && !('retrieval_bytes' in (value as Record<string, any>))) || ((value as Record<string, any>)['retrievalBytes'] === undefined && (value as Record<string, any>)['retrieval_bytes'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
+    if ((!('updatedAt' in (value as Record<string, any>)) && !('updated_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['updatedAt'] === undefined && (value as Record<string, any>)['updated_at'] === undefined)) return false;
+    if ((!('deletedAt' in (value as Record<string, any>)) && !('deleted_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['deletedAt'] === undefined && (value as Record<string, any>)['deleted_at'] === undefined)) return false;
+    if (!('state' in value) || value['state'] === undefined) return false;
     return true;
 }
 
@@ -91,12 +115,18 @@ export function DriveOutFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     return {
         
         'id': json['id'],
+        'workspaceId': json['workspace_id'],
+        'createdBy': json['created_by'],
         'name': json['name'],
-        'organizationId': json['organization_id'],
-        'ownerUserId': json['owner_user_id'],
-        'ownerEmail': json['owner_email'],
+        'metadata': json['metadata'],
+        'revision': json['revision'],
+        'rootFolderId': json['root_folder_id'],
         'storageBytes': json['storage_bytes'],
-        'createdAt': (new Date(json['created_at'])),
+        'retrievalBytes': json['retrieval_bytes'],
+        'createdAt': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
+        'updatedAt': (json['updated_at'] == null ? json['updated_at'] : parseDateTime(json['updated_at'])),
+        'deletedAt': (json['deleted_at'] == null ? null : parseDateTime(json['deleted_at'])),
+        'state': json['state'],
     };
 }
 
@@ -112,12 +142,18 @@ export function DriveOutToJSONTyped(value?: DriveOut | null, ignoreDiscriminator
     return {
         
         'id': value['id'],
+        'workspace_id': value['workspaceId'],
+        'created_by': value['createdBy'],
         'name': value['name'],
-        'organization_id': value['organizationId'],
-        'owner_user_id': value['ownerUserId'],
-        'owner_email': value['ownerEmail'],
+        'metadata': value['metadata'],
+        'revision': value['revision'],
+        'root_folder_id': value['rootFolderId'],
         'storage_bytes': value['storageBytes'],
-        'created_at': value['createdAt'].toISOString(),
+        'retrieval_bytes': value['retrievalBytes'],
+        'created_at': value['createdAt'] == null ? value['createdAt'] : serializeDateTime(value['createdAt']),
+        'updated_at': value['updatedAt'] == null ? value['updatedAt'] : serializeDateTime(value['updatedAt']),
+        'deleted_at': value['deletedAt'] == null ? value['deletedAt'] : serializeDateTime(value['deletedAt']),
+        'state': value['state'],
     };
 }
 

@@ -4,18 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**UploadId** | **string** |  | 
-**UploadUrl** | **string** |  | 
-**Method** | Pointer to **string** |  | [optional] [default to "PUT"]
-**Headers** | **map[string]string** |  | 
-**ExpiresAt** | **time.Time** |  | 
-**MaxBytes** | **int32** |  | 
+**Upload** | [**UploadWithTransferOut**](UploadWithTransferOut.md) |  | 
 
 ## Methods
 
 ### NewUploadBeginOut
 
-`func NewUploadBeginOut(uploadId string, uploadUrl string, headers map[string]string, expiresAt time.Time, maxBytes int32, ) *UploadBeginOut`
+`func NewUploadBeginOut(upload UploadWithTransferOut, ) *UploadBeginOut`
 
 NewUploadBeginOut instantiates a new UploadBeginOut object
 This constructor will assign default values to properties that have it defined,
@@ -30,129 +25,24 @@ NewUploadBeginOutWithDefaults instantiates a new UploadBeginOut object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetUploadId
+### GetUpload
 
-`func (o *UploadBeginOut) GetUploadId() string`
+`func (o *UploadBeginOut) GetUpload() UploadWithTransferOut`
 
-GetUploadId returns the UploadId field if non-nil, zero value otherwise.
+GetUpload returns the Upload field if non-nil, zero value otherwise.
 
-### GetUploadIdOk
+### GetUploadOk
 
-`func (o *UploadBeginOut) GetUploadIdOk() (*string, bool)`
+`func (o *UploadBeginOut) GetUploadOk() (*UploadWithTransferOut, bool)`
 
-GetUploadIdOk returns a tuple with the UploadId field if it's non-nil, zero value otherwise
+GetUploadOk returns a tuple with the Upload field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetUploadId
+### SetUpload
 
-`func (o *UploadBeginOut) SetUploadId(v string)`
+`func (o *UploadBeginOut) SetUpload(v UploadWithTransferOut)`
 
-SetUploadId sets UploadId field to given value.
-
-
-### GetUploadUrl
-
-`func (o *UploadBeginOut) GetUploadUrl() string`
-
-GetUploadUrl returns the UploadUrl field if non-nil, zero value otherwise.
-
-### GetUploadUrlOk
-
-`func (o *UploadBeginOut) GetUploadUrlOk() (*string, bool)`
-
-GetUploadUrlOk returns a tuple with the UploadUrl field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetUploadUrl
-
-`func (o *UploadBeginOut) SetUploadUrl(v string)`
-
-SetUploadUrl sets UploadUrl field to given value.
-
-
-### GetMethod
-
-`func (o *UploadBeginOut) GetMethod() string`
-
-GetMethod returns the Method field if non-nil, zero value otherwise.
-
-### GetMethodOk
-
-`func (o *UploadBeginOut) GetMethodOk() (*string, bool)`
-
-GetMethodOk returns a tuple with the Method field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetMethod
-
-`func (o *UploadBeginOut) SetMethod(v string)`
-
-SetMethod sets Method field to given value.
-
-### HasMethod
-
-`func (o *UploadBeginOut) HasMethod() bool`
-
-HasMethod returns a boolean if a field has been set.
-
-### GetHeaders
-
-`func (o *UploadBeginOut) GetHeaders() map[string]string`
-
-GetHeaders returns the Headers field if non-nil, zero value otherwise.
-
-### GetHeadersOk
-
-`func (o *UploadBeginOut) GetHeadersOk() (*map[string]string, bool)`
-
-GetHeadersOk returns a tuple with the Headers field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetHeaders
-
-`func (o *UploadBeginOut) SetHeaders(v map[string]string)`
-
-SetHeaders sets Headers field to given value.
-
-
-### GetExpiresAt
-
-`func (o *UploadBeginOut) GetExpiresAt() time.Time`
-
-GetExpiresAt returns the ExpiresAt field if non-nil, zero value otherwise.
-
-### GetExpiresAtOk
-
-`func (o *UploadBeginOut) GetExpiresAtOk() (*time.Time, bool)`
-
-GetExpiresAtOk returns a tuple with the ExpiresAt field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetExpiresAt
-
-`func (o *UploadBeginOut) SetExpiresAt(v time.Time)`
-
-SetExpiresAt sets ExpiresAt field to given value.
-
-
-### GetMaxBytes
-
-`func (o *UploadBeginOut) GetMaxBytes() int32`
-
-GetMaxBytes returns the MaxBytes field if non-nil, zero value otherwise.
-
-### GetMaxBytesOk
-
-`func (o *UploadBeginOut) GetMaxBytesOk() (*int32, bool)`
-
-GetMaxBytesOk returns a tuple with the MaxBytes field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetMaxBytes
-
-`func (o *UploadBeginOut) SetMaxBytes(v int32)`
-
-SetMaxBytes sets MaxBytes field to given value.
+SetUpload sets Upload field to given value.
 
 
 

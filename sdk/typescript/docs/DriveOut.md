@@ -1,34 +1,45 @@
 
 # DriveOut
 
-One drive in a listing — metadata only (workspaces-design §4.2). Carries NO capability and NEVER a raw key. An admin\'s inventory and a member\'s owned list both serialize to this shape; `owner_email` is the only owner-identifying field surfaced.
 
 ## Properties
 
 Name | Type
 ------------ | -------------
 `id` | string
+`workspaceId` | string
+`createdBy` | string
 `name` | string
-`organizationId` | string
-`ownerUserId` | string
-`ownerEmail` | string
+`metadata` | { [key: string]: any; }
+`revision` | string
+`rootFolderId` | string
 `storageBytes` | number
+`retrievalBytes` | number
 `createdAt` | Date
+`updatedAt` | Date
+`deletedAt` | Date
+`state` | string
 
 ## Example
 
 ```typescript
-import type { DriveOut } from '@mnexa-ai/agentdrive-sdk'
+import type { DriveOut } from '@tokencanopy/agentdrive-sdk'
 
 // TODO: Update the object below with actual values
 const example = {
   "id": null,
+  "workspaceId": null,
+  "createdBy": null,
   "name": null,
-  "organizationId": null,
-  "ownerUserId": null,
-  "ownerEmail": null,
+  "metadata": null,
+  "revision": null,
+  "rootFolderId": null,
   "storageBytes": null,
+  "retrievalBytes": null,
   "createdAt": null,
+  "updatedAt": null,
+  "deletedAt": null,
+  "state": null,
 } satisfies DriveOut
 
 console.log(example)

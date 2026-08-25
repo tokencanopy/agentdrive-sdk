@@ -1,6 +1,5 @@
 # FolderOut
 
-Folder resource (folders+permalinks design §13). `path` is the canonical leading+trailing-slash form. Access is expressed through grants (permission-sharing-design §4.4), not a folder-level flag.
 
 ## Properties
 
@@ -8,13 +7,14 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **str** |  | 
 **drive_id** | **str** |  | 
-**path** | **str** |  | 
-**description** | **str** |  | [optional] 
-**inherit_grants** | **bool** |  | [optional] [default to True]
+**parent_id** | **str** |  | 
+**name** | **str** |  | 
+**metadata** | **Dict[str, object]** |  | 
+**revision** | **str** |  | 
+**state** | **str** |  | 
 **created_at** | **datetime** |  | 
 **updated_at** | **datetime** |  | 
-**deleted_at** | **datetime** |  | [optional] 
-**purge_at** | **datetime** |  | [optional] 
+**deleted_at** | **datetime** |  | 
 
 ## Example
 
