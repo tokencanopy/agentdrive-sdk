@@ -8,7 +8,7 @@ set -euo pipefail
 SPEC="${1:-sdk/openapi.json}"
 VERSION="${SDK_VERSION:-0.0.1}"
 GIT_HOST="github.com"
-GIT_USER="Mnexa-AI"
+GIT_USER="tokencanopy"
 GIT_REPO="agentdrive-sdk"
 GEN="npx --yes @openapitools/openapi-generator-cli@latest generate"
 
@@ -61,18 +61,18 @@ $GEN -i "$SPEC" -g python -o sdk/python \
   --additional-properties=packageName=agentdrive_sdk,projectName=agentdrive-sdk,packageVersion="${VERSION}",library=urllib3 \
   --git-host="$GIT_HOST" --git-user-id="$GIT_USER" --git-repo-id="$GIT_REPO"
 
-# --- TypeScript (fetch-based: works in browser + Node, no axios dep) -> npm: @mnexa-ai/agentdrive-sdk ---
+# --- TypeScript (fetch-based: works in browser + Node, no axios dep) -> npm: @tokencanopy/agentdrive-sdk ---
 $GEN -i "$SPEC" -g typescript-fetch -o sdk/typescript \
-  --additional-properties=npmName=@mnexa-ai/agentdrive-sdk,npmVersion="${VERSION}",supportsES6=true,typescriptThreePlus=true \
+  --additional-properties=npmName=@tokencanopy/agentdrive-sdk,npmVersion="${VERSION}",supportsES6=true,typescriptThreePlus=true \
   --git-host="$GIT_HOST" --git-user-id="$GIT_USER" --git-repo-id="$GIT_REPO"
 
-# --- Go -> module: github.com/Mnexa-AI/agentdrive-sdk/sdk/go ---
+# --- Go -> module: github.com/tokencanopy/agentdrive-sdk/sdk/go ---
 $GEN -i "$SPEC" -g go -o sdk/go \
   --additional-properties=packageName=agentdrive,isGoSubmodule=true,enumClassPrefix=true \
   --git-host="$GIT_HOST" --git-user-id="$GIT_USER" --git-repo-id="$GIT_REPO"
 
 # The module must be importable at its location in the monorepo so that
-# `go get github.com/Mnexa-AI/agentdrive-sdk/sdk/go@<tag>` resolves. Version
+# `go get github.com/tokencanopy/agentdrive-sdk/sdk/go@<tag>` resolves. Version
 # tags for this submodule are `sdk/go/vX.Y.Z` (see publish.yml).
 GO_MODULE="${GIT_HOST}/${GIT_USER}/${GIT_REPO}/sdk/go"
 sed -i.bak "1s|^module .*|module ${GO_MODULE}|" sdk/go/go.mod && rm -f sdk/go/go.mod.bak

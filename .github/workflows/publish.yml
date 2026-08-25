@@ -2,7 +2,7 @@ name: Publish SDKs
 
 # Publishes the generated SDKs:
 #   - Python  -> PyPI  (agentdrive-sdk)        via OIDC trusted publishing (no token)
-#   - TS      -> npm   (@mnexa-ai/agentdrive-sdk) via NPM_TOKEN secret
+#   - TS      -> npm   (@tokencanopy/agentdrive-sdk) via NPM_TOKEN secret
 #   - Go      -> git tag go/vX.Y.Z              (consumed with `go get .../go@vX.Y.Z`)
 #
 # Publishes the version currently baked into the generated package metadata.
@@ -60,8 +60,8 @@ jobs:
           npm install
           npm run build
           VERSION="$(node -p "require('./package.json').version")"
-          if npm view "@mnexa-ai/agentdrive-sdk@${VERSION}" version >/dev/null 2>&1; then
-            echo "npm: @mnexa-ai/agentdrive-sdk@${VERSION} already published — skipping."
+          if npm view "@tokencanopy/agentdrive-sdk@${VERSION}" version >/dev/null 2>&1; then
+            echo "npm: @tokencanopy/agentdrive-sdk@${VERSION} already published — skipping."
             exit 0
           fi
           # `npm view` reads a replica that lags the authoritative write path,

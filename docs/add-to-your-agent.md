@@ -22,7 +22,7 @@ On first connect you'll be sent through an OAuth sign-in; after that the agent h
 **Recommended — the plugin** (wires the MCP *and* installs the `agentdrive` skill + `/publish`, `/drive`, `/compile`):
 
 ```bash
-claude plugin marketplace add Mnexa-AI/agentdrive-sdk
+claude plugin marketplace add tokencanopy/agentdrive-sdk
 claude plugin install agentdrive@agentdrive
 ```
 
