@@ -9,8 +9,8 @@ AgentDrive source commit and snapshot digest.
 | Language | Directory | Package | Generator |
 |---|---|---|---|
 | Python | [`python/`](python/) | `agentdrive-sdk` (PyPI) | `python` (urllib3) |
-| TypeScript | [`typescript/`](typescript/) | `@mnexa-ai/agentdrive-sdk` (npm) | `typescript-fetch` |
-| Go | [`go/`](go/) | `github.com/Mnexa-AI/agentdrive-sdk/sdk/go` | `go` |
+| TypeScript | [`typescript/`](typescript/) | `@tokencanopy/agentdrive-sdk` (npm) | `typescript-fetch` |
+| Go | [`go/`](go/) | `github.com/tokencanopy/agentdrive-sdk/sdk/go` | `go` |
 
 ## Regenerating
 
