@@ -1,1 +1,6 @@
-README.md
+# Source and test files are kept in Git but are not part of the runtime SDK.
+src/
+test/
+*.ts
+tsconfig*.json
+.openapi-generator-ignore
