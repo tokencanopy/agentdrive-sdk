@@ -11,17 +11,17 @@ AgentDrive is a **remote MCP server** with OAuth 2.1 (PKCE + dynamic client regi
 The plugin wires the AgentDrive MCP **and** installs the `agentdrive` skill + `/publish`, `/drive`, `/compile`. One command detects your agents (Claude Code, Codex, Cursor) and installs to each:
 
 ```bash
-npx plugins add Mnexa-AI/agentdrive-sdk
+npx plugins add tokencanopy/agentdrive-sdk
 ```
 
 Or per agent:
 
 ```bash
 # Claude Code
-claude plugin marketplace add Mnexa-AI/agentdrive-sdk && claude plugin install agentdrive@agentdrive
+claude plugin marketplace add tokencanopy/agentdrive-sdk && claude plugin install agentdrive@agentdrive
 
 # Codex
-codex plugin marketplace add Mnexa-AI/agentdrive-sdk
+codex plugin marketplace add tokencanopy/agentdrive-sdk
 
 # Cursor
 /add-plugin agentdrive
@@ -65,10 +65,10 @@ Generated reproducibly from the reviewed AgentDrive contract via pinned
 pip install agentdrive-sdk
 
 # TypeScript / Node  (once published)
-npm install @mnexa-ai/agentdrive-sdk
+npm install @tokencanopy/agentdrive-sdk
 
 # Go
-go get github.com/Mnexa-AI/agentdrive-sdk/sdk/go
+go get github.com/tokencanopy/agentdrive-sdk/sdk/go
 ```
 
 > The bare `agentdrive` package on PyPI is the [stdio MCP companion](https://pypi.org/project/agentdrive/); the REST SDK ships as `agentdrive-sdk`.

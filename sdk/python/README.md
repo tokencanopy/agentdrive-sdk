@@ -18,9 +18,9 @@ Python 3.9+
 If the python package is hosted on a repository, you can install directly using:
 
 ```sh
-pip install git+https://github.com/Mnexa-AI/agentdrive-sdk.git
+pip install git+https://github.com/tokencanopy/agentdrive-sdk.git
 ```
-(you may need to run `pip` with root permission: `sudo pip install git+https://github.com/Mnexa-AI/agentdrive-sdk.git`)
+(you may need to run `pip` with root permission: `sudo pip install git+https://github.com/tokencanopy/agentdrive-sdk.git`)
 
 Then import the package:
 ```python

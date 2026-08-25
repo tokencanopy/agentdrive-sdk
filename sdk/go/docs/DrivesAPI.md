@@ -31,7 +31,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+	openapiclient "github.com/tokencanopy/agentdrive-sdk/agentdrive"
 )
 
 func main() {
@@ -101,7 +101,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+	openapiclient "github.com/tokencanopy/agentdrive-sdk/agentdrive"
 )
 
 func main() {
@@ -177,7 +177,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+	openapiclient "github.com/tokencanopy/agentdrive-sdk/agentdrive"
 )
 
 func main() {
@@ -249,7 +249,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+	openapiclient "github.com/tokencanopy/agentdrive-sdk/agentdrive"
 )
 
 func main() {
@@ -323,7 +323,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+	openapiclient "github.com/tokencanopy/agentdrive-sdk/agentdrive"
 )
 
 func main() {
@@ -399,7 +399,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+	openapiclient "github.com/tokencanopy/agentdrive-sdk/agentdrive"
 )
 
 func main() {
@@ -477,7 +477,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+	openapiclient "github.com/tokencanopy/agentdrive-sdk/agentdrive"
 )
 
 func main() {

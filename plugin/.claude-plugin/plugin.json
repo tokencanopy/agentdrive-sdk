@@ -4,7 +4,7 @@
   "description": "Give your agent a drive. Write files by path, get instant public rendered URLs, compile LaTeX to a shareable PDF, and hand work off between agents — over the AgentDrive MCP (OAuth, no API key to paste). Adds /publish, /drive, and /compile.",
   "author": { "name": "AgentDrive", "url": "https://agentdrive.run" },
   "homepage": "https://agentdrive.run",
-  "repository": "https://github.com/Mnexa-AI/agentdrive-sdk",
+  "repository": "https://github.com/tokencanopy/agentdrive-sdk",
   "license": "MIT",
   "keywords": ["mcp", "storage", "artifacts", "publish", "latex", "agent", "handoff"]
 }
