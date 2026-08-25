@@ -22,7 +22,7 @@ go get golang.org/x/net/context
 Put the package under your project folder and add the following in import:
 
 ```go
-import agentdrive "github.com/Mnexa-AI/agentdrive-sdk/agentdrive"
+import agentdrive "github.com/tokencanopy/agentdrive-sdk/agentdrive"
 ```
 
 To use a proxy, set the environment variable `HTTP_PROXY`:

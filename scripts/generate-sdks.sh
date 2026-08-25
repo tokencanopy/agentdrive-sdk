@@ -11,7 +11,7 @@ SPEC="$(python3 "$ROOT/scripts/resolve_repo_path.py" "$ROOT" "$SPEC_INPUT")"
 cd "$ROOT"
 VERSION="${SDK_VERSION:-0.0.1}"
 GIT_HOST="github.com"
-GIT_USER="Mnexa-AI"
+GIT_USER="tokencanopy"
 GIT_REPO="agentdrive-sdk"
 OAG_IMAGE="$(tr -d '\r\n' < "$ROOT/sdk/openapi-generator-image.txt")"
 if [[ -z "$OAG_IMAGE" ]]; then
@@ -77,12 +77,12 @@ generate -i "/local/$SPEC" -g python -o /local/sdk/python \
   --additional-properties=packageName=agentdrive_sdk,projectName=agentdrive-sdk,packageVersion="${VERSION}",library=urllib3,hideGenerationTimestamp=true \
   --git-host="$GIT_HOST" --git-user-id="$GIT_USER" --git-repo-id="$GIT_REPO"
 
-# --- TypeScript (fetch-based: works in browser + Node, no axios dep) -> npm: @mnexa-ai/agentdrive-sdk ---
+# --- TypeScript (fetch-based: works in browser + Node, no axios dep) -> npm: @tokencanopy/agentdrive-sdk ---
 generate -i "/local/$TYPESCRIPT_SPEC" -g typescript-fetch -o /local/sdk/typescript \
-  --additional-properties=npmName=@mnexa-ai/agentdrive-sdk,npmVersion="${VERSION}",supportsES6=true,typescriptThreePlus=true,hideGenerationTimestamp=true \
+  --additional-properties=npmName=@tokencanopy/agentdrive-sdk,npmVersion="${VERSION}",supportsES6=true,typescriptThreePlus=true,hideGenerationTimestamp=true \
   --git-host="$GIT_HOST" --git-user-id="$GIT_USER" --git-repo-id="$GIT_REPO"
 
-# --- Go -> module: github.com/Mnexa-AI/agentdrive-sdk/sdk/go ---
+# --- Go -> module: github.com/tokencanopy/agentdrive-sdk/sdk/go ---
 generate -i "/local/$GO_SPEC" -g go -o /local/sdk/go \
   --additional-properties=packageName=agentdrive,packageVersion="${VERSION}",isGoSubmodule=true,enumClassPrefix=true,hideGenerationTimestamp=true \
   --git-host="$GIT_HOST" --git-user-id="$GIT_USER" --git-repo-id="$GIT_REPO"
@@ -94,7 +94,7 @@ generate -i "/local/$GO_SPEC" -g go -o /local/sdk/go \
 rm -rf "$ROOT/sdk/go/test"
 
 # The module must be importable at its location in the monorepo so that
-# `go get github.com/Mnexa-AI/agentdrive-sdk/sdk/go@<tag>` resolves. Version
+# `go get github.com/tokencanopy/agentdrive-sdk/sdk/go@<tag>` resolves. Version
 # tags for this submodule are `sdk/go/vX.Y.Z` (see publish.yml).
 GO_MODULE="${GIT_HOST}/${GIT_USER}/${GIT_REPO}/sdk/go"
 sed -i.bak "1s|^module .*|module ${GO_MODULE}|" "$ROOT/sdk/go/go.mod"

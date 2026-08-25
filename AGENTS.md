@@ -15,7 +15,7 @@ https://api.agentdrive.run/mcp
 The **plugin** is the richer path — it wires the MCP *and* installs this skill + `/publish`, `/drive`, `/compile`. One command detects your agents (Claude Code, Codex, Cursor) and installs to each:
 
 ```bash
-npx plugins add Mnexa-AI/agentdrive-sdk
+npx plugins add tokencanopy/agentdrive-sdk
 ```
 
 Per-agent commands + raw MCP config (ChatGPT, Gemini, etc.): [`docs/add-to-your-agent.md`](docs/add-to-your-agent.md).

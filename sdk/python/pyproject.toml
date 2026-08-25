@@ -17,7 +17,7 @@ dependencies = [
 ]
 
 [project.urls]
-Repository = "https://github.com/Mnexa-AI/agentdrive-sdk"
+Repository = "https://github.com/tokencanopy/agentdrive-sdk"
 
 [tool.poetry]
 requires-poetry = ">=2.0"

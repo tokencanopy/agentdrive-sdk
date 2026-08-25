@@ -1,4 +1,4 @@
-module github.com/Mnexa-AI/agentdrive-sdk/sdk/go
+module github.com/tokencanopy/agentdrive-sdk/sdk/go
 
 go 1.23
 
