@@ -86,6 +86,11 @@ export const ErrorResponseErrorCodeEnum = {
     RateLimited: 'RATE_LIMITED',
     SearchModeUnavailable: 'SEARCH_MODE_UNAVAILABLE',
     ShareNotFound: 'SHARE_NOT_FOUND',
+    SheetEditLimitExceeded: 'SHEET_EDIT_LIMIT_EXCEEDED',
+    SheetNotFound: 'SHEET_NOT_FOUND',
+    SheetSessionAlreadyCompleted: 'SHEET_SESSION_ALREADY_COMPLETED',
+    SheetSessionExpired: 'SHEET_SESSION_EXPIRED',
+    SheetSessionNotFound: 'SHEET_SESSION_NOT_FOUND',
     SubtreeTooLarge: 'SUBTREE_TOO_LARGE',
     TransferDisabled: 'TRANSFER_DISABLED',
     TransferLimitExceeded: 'TRANSFER_LIMIT_EXCEEDED',
@@ -99,7 +104,10 @@ export const ErrorResponseErrorCodeEnum = {
     ValidationError: 'VALIDATION_ERROR',
     VersionNotFound: 'VERSION_NOT_FOUND',
     ViewerDisabled: 'VIEWER_DISABLED',
-    ViewerSessionNotFound: 'VIEWER_SESSION_NOT_FOUND'
+    ViewerSessionNotFound: 'VIEWER_SESSION_NOT_FOUND',
+    WorkbookNotEditable: 'WORKBOOK_NOT_EDITABLE',
+    WorkbookTooLarge: 'WORKBOOK_TOO_LARGE',
+    WorkbookUnparseable: 'WORKBOOK_UNPARSEABLE'
 } as const;
 export type ErrorResponseErrorCodeEnum = typeof ErrorResponseErrorCodeEnum[keyof typeof ErrorResponseErrorCodeEnum];
 

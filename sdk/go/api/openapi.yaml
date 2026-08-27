@@ -29,6 +29,26 @@ paths:
       summary: Protected-resource metadata (RFC 9728)
       tags:
       - discovery
+  /.well-known/oauth-protected-resource/mcp:
+    get:
+      description: "Path-inserted protected-resource metadata used by MCP OAuth clients.\
+        \ Served by the MCP sidecar when one is configured, because it is the authority\
+        \ on the scope bundle its own tools require; otherwise it falls back to the\
+        \ resource-root document, since `/v0` and `/mcp` share AgentDrive's canonical\
+        \ audience."
+      operationId: oauth_protected_resource_mcp
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                title: Response Oauth Protected Resource Mcp
+                type: object
+          description: Successful Response
+      summary: Protected-resource metadata for the MCP endpoint (RFC 9728)
+      tags:
+      - discovery
   /health:
     get:
       description: |-
@@ -2371,6 +2391,244 @@ paths:
       - artifacts
       x-required-scopes:
       - content:write
+  /v0/drives/{drive_id}/artifacts/{artifact_id}/cells:
+    get:
+      description: |-
+        One rectangle of committed values.
+
+        `range` IS the pagination here: the caller chooses the window and the
+        server caps it, so this needs no cursor. The response is always exactly
+        the rectangle asked for, padded with nulls outside the used range —
+        ragged arrays would put the padding logic in every client instead.
+      operationId: sheet_cells_read
+      parameters:
+      - explode: false
+        in: path
+        name: drive_id
+        required: true
+        schema:
+          title: Drive Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: artifact_id
+        required: true
+        schema:
+          title: Artifact Id
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: sheet
+        required: false
+        schema:
+          nullable: true
+          title: Sheet
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: range
+        required: false
+        schema:
+          nullable: true
+          title: Range
+          type: string
+        style: form
+      - explode: false
+        in: header
+        name: If-None-Match
+        required: false
+        schema:
+          nullable: true
+          title: If-None-Match
+          type: string
+        style: simple
+      - deprecated: true
+        description: "Deprecated: redundant with the operation's `bearerAuth` security\
+          \ requirement, which is how a generated client should learn to authenticate.\
+          \ Scheduled for removal."
+        explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          title: Authorization
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CellRangeOut"
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "304":
+          description: If-None-Match matched.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Malformed request (invalid query parameter, cursor, or argument)."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Missing or invalid bearer token.
+          headers:
+            WWW-Authenticate:
+              description: RFC 6750 bearer authentication challenge.
+              explode: false
+              schema:
+                type: string
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Token lacks a required scope.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: The resource was not found or is not visible to the caller.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "The artifact is not a spreadsheet, or the workbook cannot\
+            \ be edited (WORKBOOK_NOT_EDITABLE). Not 404: the artifact exists and\
+            \ is visible."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "413":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: The requested range exceeds the per-request cell cap.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponse"
+          description: Request validation failed.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Rate limited.
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Token verification is temporarily unavailable (the Hub JWKS\
+            \ could not be fetched). This is the API's unavailability, not a problem\
+            \ with the presented credential."
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - bearerAuth: []
+      summary: Sheet Cells Read
+      tags:
+      - sheets
+      x-required-scopes:
+      - content:read
   /v0/drives/{drive_id}/artifacts/{artifact_id}/content:
     get:
       description: Download the head version's bytes — stream or 307 signed URL.
@@ -3076,6 +3334,1976 @@ paths:
       - artifacts
       x-required-scopes:
       - content:write
+  /v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions:
+    get:
+      description: |-
+        Sessions on this artifact, newest first.
+
+        Artifact-scoped, not drive-scoped. The grant predicate is the
+        declarative `require_local` above rather than a filter written by hand
+        here — which is the whole reason these routes are nested. If you may
+        read the artifact, you may see the sessions open on it (O5).
+      operationId: sheet_sessions_list
+      parameters:
+      - explode: false
+        in: path
+        name: drive_id
+        required: true
+        schema:
+          title: Drive Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: artifact_id
+        required: true
+        schema:
+          title: Artifact Id
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: state
+        required: false
+        schema:
+          nullable: true
+          title: State
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          nullable: true
+          title: Limit
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          nullable: true
+          title: Cursor
+          type: string
+        style: form
+      - deprecated: true
+        description: "Deprecated: redundant with the operation's `bearerAuth` security\
+          \ requirement, which is how a generated client should learn to authenticate.\
+          \ Scheduled for removal."
+        explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          title: Authorization
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                title: Response Sheet Sessions List
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Malformed request (invalid query parameter, cursor, or argument)."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Missing or invalid bearer token.
+          headers:
+            WWW-Authenticate:
+              description: RFC 6750 bearer authentication challenge.
+              explode: false
+              schema:
+                type: string
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Token lacks a required scope.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: The resource was not found or is not visible to the caller.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponse"
+          description: Request validation failed.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Rate limited.
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Token verification is temporarily unavailable (the Hub JWKS\
+            \ could not be fetched). This is the API's unavailability, not a problem\
+            \ with the presented credential."
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - bearerAuth: []
+      summary: Sheet Sessions List
+      tags:
+      - sheets
+      x-required-scopes:
+      - content:read
+    post:
+      description: |-
+        Open an edit session. `If-Match` on the artifact head is required and
+        is captured for completion.
+      operationId: sheet_sessions_create
+      parameters:
+      - explode: false
+        in: path
+        name: drive_id
+        required: true
+        schema:
+          title: Drive Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: artifact_id
+        required: true
+        schema:
+          title: Artifact Id
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: Idempotency-Key
+        required: true
+        schema:
+          nullable: true
+          title: Idempotency-Key
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: If-Match
+        required: false
+        schema:
+          nullable: true
+          title: If-Match
+          type: string
+        style: simple
+      - deprecated: true
+        description: "Deprecated: redundant with the operation's `bearerAuth` security\
+          \ requirement, which is how a generated client should learn to authenticate.\
+          \ Scheduled for removal."
+        explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          title: Authorization
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SessionCreateIn"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                title: Response Sheet Sessions Create
+          description: Successful Response
+          headers:
+            Location:
+              description: Canonical URL of the created resource.
+              explode: false
+              schema:
+                format: uri-reference
+                type: string
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Malformed request (invalid query parameter, cursor, or argument)."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Missing or invalid bearer token.
+          headers:
+            WWW-Authenticate:
+              description: RFC 6750 bearer authentication challenge.
+              explode: false
+              schema:
+                type: string
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Token lacks a required scope.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: The parent or target resource was not found or is not visible.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "A sibling already occupies the name/path, or the idempotency\
+            \ key was reused for a different request."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "412":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: If-Match did not match (copy/restore preconditions).
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponse"
+          description: Request validation failed.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "428":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: If-Match is required for this mutation.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Rate limited.
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Token verification is temporarily unavailable (the Hub JWKS\
+            \ could not be fetched). This is the API's unavailability, not a problem\
+            \ with the presented credential."
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - bearerAuth: []
+      summary: Sheet Sessions Create
+      tags:
+      - sheets
+      x-required-scopes:
+      - content:write
+  /v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions/{session_id}:
+    delete:
+      description: Abandon a session. Nothing is published and the edits go with it.
+      operationId: sheet_sessions_delete
+      parameters:
+      - explode: false
+        in: path
+        name: drive_id
+        required: true
+        schema:
+          title: Drive Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: artifact_id
+        required: true
+        schema:
+          title: Artifact Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: session_id
+        required: true
+        schema:
+          title: Session Id
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: Idempotency-Key
+        required: true
+        schema:
+          nullable: true
+          title: Idempotency-Key
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: If-Match
+        required: true
+        schema:
+          nullable: true
+          title: If-Match
+          type: string
+        style: simple
+      - deprecated: true
+        description: "Deprecated: redundant with the operation's `bearerAuth` security\
+          \ requirement, which is how a generated client should learn to authenticate.\
+          \ Scheduled for removal."
+        explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          title: Authorization
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                title: Response Sheet Sessions Delete
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Malformed request (invalid query parameter, cursor, or argument)."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Missing or invalid bearer token.
+          headers:
+            WWW-Authenticate:
+              description: RFC 6750 bearer authentication challenge.
+              explode: false
+              schema:
+                type: string
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Token lacks a required scope.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: The resource was not found or is not visible to the caller.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "The mutation conflicts with current state (name/path, lifecycle)."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "412":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: If-Match did not match the resource's current revision.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponse"
+          description: Request validation failed.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "428":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: If-Match is required for this mutation.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Rate limited.
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Token verification is temporarily unavailable (the Hub JWKS\
+            \ could not be fetched). This is the API's unavailability, not a problem\
+            \ with the presented credential."
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - bearerAuth: []
+      summary: Sheet Sessions Delete
+      tags:
+      - sheets
+      x-required-scopes:
+      - content:write
+    get:
+      description: |-
+        One session. Reads deliberately do NOT extend the lease, so a polling
+        console can never keep a dead agent's session alive.
+      operationId: sheet_sessions_read
+      parameters:
+      - explode: false
+        in: path
+        name: drive_id
+        required: true
+        schema:
+          title: Drive Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: artifact_id
+        required: true
+        schema:
+          title: Artifact Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: session_id
+        required: true
+        schema:
+          title: Session Id
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: If-None-Match
+        required: false
+        schema:
+          nullable: true
+          title: If-None-Match
+          type: string
+        style: simple
+      - deprecated: true
+        description: "Deprecated: redundant with the operation's `bearerAuth` security\
+          \ requirement, which is how a generated client should learn to authenticate.\
+          \ Scheduled for removal."
+        explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          title: Authorization
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                title: Response Sheet Sessions Read
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "304":
+          description: If-None-Match matched.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Malformed request (invalid query parameter, cursor, or argument)."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Missing or invalid bearer token.
+          headers:
+            WWW-Authenticate:
+              description: RFC 6750 bearer authentication challenge.
+              explode: false
+              schema:
+                type: string
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Token lacks a required scope.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: The resource was not found or is not visible to the caller.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponse"
+          description: Request validation failed.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Rate limited.
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Token verification is temporarily unavailable (the Hub JWKS\
+            \ could not be fetched). This is the API's unavailability, not a problem\
+            \ with the presented credential."
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - bearerAuth: []
+      summary: Sheet Sessions Read
+      tags:
+      - sheets
+      x-required-scopes:
+      - content:read
+  /v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions/{session_id}/cells:
+    get:
+      description: |-
+        Working state: base plus pending edits. Read-your-writes before any
+        completion.
+      operationId: sheet_sessions_read_cells
+      parameters:
+      - explode: false
+        in: path
+        name: drive_id
+        required: true
+        schema:
+          title: Drive Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: artifact_id
+        required: true
+        schema:
+          title: Artifact Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: session_id
+        required: true
+        schema:
+          title: Session Id
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: sheet
+        required: false
+        schema:
+          nullable: true
+          title: Sheet
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: range
+        required: false
+        schema:
+          nullable: true
+          title: Range
+          type: string
+        style: form
+      - deprecated: true
+        description: "Deprecated: redundant with the operation's `bearerAuth` security\
+          \ requirement, which is how a generated client should learn to authenticate.\
+          \ Scheduled for removal."
+        explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          title: Authorization
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                title: Response Sheet Sessions Read Cells
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Malformed request (invalid query parameter, cursor, or argument)."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Missing or invalid bearer token.
+          headers:
+            WWW-Authenticate:
+              description: RFC 6750 bearer authentication challenge.
+              explode: false
+              schema:
+                type: string
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Token lacks a required scope.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: The resource was not found or is not visible to the caller.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponse"
+          description: Request validation failed.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Rate limited.
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Token verification is temporarily unavailable (the Hub JWKS\
+            \ could not be fetched). This is the API's unavailability, not a problem\
+            \ with the presented credential."
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - bearerAuth: []
+      summary: Sheet Sessions Read Cells
+      tags:
+      - sheets
+      x-required-scopes:
+      - content:read
+    post:
+      description: |-
+        Append range writes to the edit log.
+
+        No `If-Match`: the session's captured `base_revision` is the concurrency
+        anchor and completion is where it is enforced. `Idempotency-Key` is what
+        makes a retry safe — without it a retried write landing after a later
+        overlapping write would silently resurrect stale values.
+      operationId: sheet_sessions_write_cells
+      parameters:
+      - explode: false
+        in: path
+        name: drive_id
+        required: true
+        schema:
+          title: Drive Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: artifact_id
+        required: true
+        schema:
+          title: Artifact Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: session_id
+        required: true
+        schema:
+          title: Session Id
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: Idempotency-Key
+        required: true
+        schema:
+          nullable: true
+          title: Idempotency-Key
+          type: string
+        style: simple
+      - deprecated: true
+        description: "Deprecated: redundant with the operation's `bearerAuth` security\
+          \ requirement, which is how a generated client should learn to authenticate.\
+          \ Scheduled for removal."
+        explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          title: Authorization
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WriteCellsIn"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                title: Response Sheet Sessions Write Cells
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Malformed request (invalid query parameter, cursor, or argument)."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Missing or invalid bearer token.
+          headers:
+            WWW-Authenticate:
+              description: RFC 6750 bearer authentication challenge.
+              explode: false
+              schema:
+                type: string
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Token lacks a required scope.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: The parent or target resource was not found or is not visible.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "A sibling already occupies the name/path, or the idempotency\
+            \ key was reused for a different request."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "412":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: If-Match did not match (copy/restore preconditions).
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponse"
+          description: Request validation failed.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "428":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: If-Match is required for this mutation.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Rate limited.
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Token verification is temporarily unavailable (the Hub JWKS\
+            \ could not be fetched). This is the API's unavailability, not a problem\
+            \ with the presented credential."
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - bearerAuth: []
+      summary: Sheet Sessions Write Cells
+      tags:
+      - sheets
+      x-required-scopes:
+      - content:write
+  /v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions/{session_id}/complete:
+    post:
+      description: |-
+        Replay the edit log and publish exactly one version.
+
+        The expensive half — fetch, parse, replay, serialize — runs OUTSIDE the
+        publishing transaction, so a replay failure costs nothing and publishes
+        nothing. Only the fence and the version append are transactional.
+      operationId: sheet_sessions_complete
+      parameters:
+      - explode: false
+        in: path
+        name: drive_id
+        required: true
+        schema:
+          title: Drive Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: artifact_id
+        required: true
+        schema:
+          title: Artifact Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: session_id
+        required: true
+        schema:
+          title: Session Id
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: Idempotency-Key
+        required: true
+        schema:
+          nullable: true
+          title: Idempotency-Key
+          type: string
+        style: simple
+      - deprecated: true
+        description: "Deprecated: redundant with the operation's `bearerAuth` security\
+          \ requirement, which is how a generated client should learn to authenticate.\
+          \ Scheduled for removal."
+        explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          title: Authorization
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CompleteIn"
+        required: true
+      responses:
+        "200":
+          description: "The session had no edits, so no version was published. A byte-identical\
+            \ version would pollute history and consume the per-tier version cap."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "201":
+          content:
+            application/json:
+              schema:
+                title: Response Sheet Sessions Complete
+          description: Successful Response
+          headers:
+            Location:
+              description: Canonical URL of the created resource.
+              explode: false
+              schema:
+                format: uri-reference
+                type: string
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Malformed request (invalid query parameter, cursor, or argument)."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Missing or invalid bearer token.
+          headers:
+            WWW-Authenticate:
+              description: RFC 6750 bearer authentication challenge.
+              explode: false
+              schema:
+                type: string
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Token lacks a required scope.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: The parent or target resource was not found or is not visible.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "A sibling already occupies the name/path, or the idempotency\
+            \ key was reused for a different request."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "412":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: If-Match did not match (copy/restore preconditions).
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponse"
+          description: Request validation failed.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "428":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: If-Match is required for this mutation.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Rate limited.
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Token verification is temporarily unavailable (the Hub JWKS\
+            \ could not be fetched). This is the API's unavailability, not a problem\
+            \ with the presented credential."
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - bearerAuth: []
+      summary: Sheet Sessions Complete
+      tags:
+      - sheets
+      x-required-scopes:
+      - content:write
+  /v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions/{session_id}/edits:
+    get:
+      description: |-
+        The edit log with before-and-after values — the console's diff, and
+        the audit record that survives into version history.
+      operationId: sheet_sessions_list_edits
+      parameters:
+      - explode: false
+        in: path
+        name: drive_id
+        required: true
+        schema:
+          title: Drive Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: artifact_id
+        required: true
+        schema:
+          title: Artifact Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: session_id
+        required: true
+        schema:
+          title: Session Id
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          nullable: true
+          title: Limit
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          nullable: true
+          title: Cursor
+          type: string
+        style: form
+      - deprecated: true
+        description: "Deprecated: redundant with the operation's `bearerAuth` security\
+          \ requirement, which is how a generated client should learn to authenticate.\
+          \ Scheduled for removal."
+        explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          title: Authorization
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                title: Response Sheet Sessions List Edits
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Malformed request (invalid query parameter, cursor, or argument)."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Missing or invalid bearer token.
+          headers:
+            WWW-Authenticate:
+              description: RFC 6750 bearer authentication challenge.
+              explode: false
+              schema:
+                type: string
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Token lacks a required scope.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: The resource was not found or is not visible to the caller.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponse"
+          description: Request validation failed.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Rate limited.
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Token verification is temporarily unavailable (the Hub JWKS\
+            \ could not be fetched). This is the API's unavailability, not a problem\
+            \ with the presented credential."
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - bearerAuth: []
+      summary: Sheet Sessions List Edits
+      tags:
+      - sheets
+      x-required-scopes:
+      - content:read
+  /v0/drives/{drive_id}/artifacts/{artifact_id}/sheets:
+    get:
+      description: |-
+        The workbook's sheets and whether it can be edited.
+
+        One call carries three things a caller needs before opening a session:
+        the structure, the editability verdict, and — as the ETag — the revision
+        that becomes the session's `If-Match`. So opening a session costs one
+        read, not two.
+      operationId: sheets_list
+      parameters:
+      - explode: false
+        in: path
+        name: drive_id
+        required: true
+        schema:
+          title: Drive Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: artifact_id
+        required: true
+        schema:
+          title: Artifact Id
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: If-None-Match
+        required: false
+        schema:
+          nullable: true
+          title: If-None-Match
+          type: string
+        style: simple
+      - deprecated: true
+        description: "Deprecated: redundant with the operation's `bearerAuth` security\
+          \ requirement, which is how a generated client should learn to authenticate.\
+          \ Scheduled for removal."
+        explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          title: Authorization
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SheetIndexOut"
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "304":
+          description: If-None-Match matched.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Malformed request (invalid query parameter, cursor, or argument)."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Missing or invalid bearer token.
+          headers:
+            WWW-Authenticate:
+              description: RFC 6750 bearer authentication challenge.
+              explode: false
+              schema:
+                type: string
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Token lacks a required scope.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: The resource was not found or is not visible to the caller.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "The artifact is not a spreadsheet, or the workbook cannot\
+            \ be edited (WORKBOOK_NOT_EDITABLE). Not 404: the artifact exists and\
+            \ is visible."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "413":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: The requested range exceeds the per-request cell cap.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponse"
+          description: Request validation failed.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Rate limited.
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Token verification is temporarily unavailable (the Hub JWKS\
+            \ could not be fetched). This is the API's unavailability, not a problem\
+            \ with the presented credential."
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - bearerAuth: []
+      summary: Sheets List
+      tags:
+      - sheets
+      x-required-scopes:
+      - content:read
   /v0/drives/{drive_id}/artifacts/{artifact_id}/versions:
     get:
       description: "List the artifact's version trail, newest first (ordinal DESC)."
@@ -3747,6 +5975,251 @@ paths:
       - versions
       x-required-scopes:
       - content:read
+  /v0/drives/{drive_id}/artifacts/{artifact_id}/versions/{version_id}/cells:
+    get:
+      description: |-
+        One rectangle of one version's values.
+
+        What makes a conflict diffable: read the same range from the session's
+        base version and from the new head, and the difference is exactly what
+        landed underneath.
+      operationId: version_cells_read
+      parameters:
+      - explode: false
+        in: path
+        name: drive_id
+        required: true
+        schema:
+          title: Drive Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: artifact_id
+        required: true
+        schema:
+          title: Artifact Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: version_id
+        required: true
+        schema:
+          title: Version Id
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: sheet
+        required: false
+        schema:
+          nullable: true
+          title: Sheet
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: range
+        required: false
+        schema:
+          nullable: true
+          title: Range
+          type: string
+        style: form
+      - explode: false
+        in: header
+        name: If-None-Match
+        required: false
+        schema:
+          nullable: true
+          title: If-None-Match
+          type: string
+        style: simple
+      - deprecated: true
+        description: "Deprecated: redundant with the operation's `bearerAuth` security\
+          \ requirement, which is how a generated client should learn to authenticate.\
+          \ Scheduled for removal."
+        explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          title: Authorization
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CellRangeOut"
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "304":
+          description: If-None-Match matched.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Malformed request (invalid query parameter, cursor, or argument)."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Missing or invalid bearer token.
+          headers:
+            WWW-Authenticate:
+              description: RFC 6750 bearer authentication challenge.
+              explode: false
+              schema:
+                type: string
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Token lacks a required scope.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: The resource was not found or is not visible to the caller.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "The artifact is not a spreadsheet, or the workbook cannot\
+            \ be edited (WORKBOOK_NOT_EDITABLE). Not 404: the artifact exists and\
+            \ is visible."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "413":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: The requested range exceeds the per-request cell cap.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponse"
+          description: Request validation failed.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Rate limited.
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Token verification is temporarily unavailable (the Hub JWKS\
+            \ could not be fetched). This is the API's unavailability, not a problem\
+            \ with the presented credential."
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - bearerAuth: []
+      summary: Version Cells Read
+      tags:
+      - sheets
+      x-required-scopes:
+      - content:read
   /v0/drives/{drive_id}/artifacts/{artifact_id}/versions/{version_id}/content:
     get:
       description: Download one version's immutable bytes — stream or 307.
@@ -4216,6 +6689,233 @@ paths:
       - versions
       x-required-scopes:
       - content:write
+  /v0/drives/{drive_id}/artifacts/{artifact_id}/versions/{version_id}/sheets:
+    get:
+      description: |-
+        One version's sheets and whether that version could be edited.
+
+        The ETag is the VERSION id: a version is immutable, so its parsed
+        contents can never change and its own identity is the strongest
+        validator there is.
+      operationId: version_sheets_list
+      parameters:
+      - explode: false
+        in: path
+        name: drive_id
+        required: true
+        schema:
+          title: Drive Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: artifact_id
+        required: true
+        schema:
+          title: Artifact Id
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: version_id
+        required: true
+        schema:
+          title: Version Id
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: If-None-Match
+        required: false
+        schema:
+          nullable: true
+          title: If-None-Match
+          type: string
+        style: simple
+      - deprecated: true
+        description: "Deprecated: redundant with the operation's `bearerAuth` security\
+          \ requirement, which is how a generated client should learn to authenticate.\
+          \ Scheduled for removal."
+        explode: false
+        in: header
+        name: authorization
+        required: false
+        schema:
+          nullable: true
+          title: Authorization
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SheetIndexOut"
+          description: Successful Response
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "304":
+          description: If-None-Match matched.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Malformed request (invalid query parameter, cursor, or argument)."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Missing or invalid bearer token.
+          headers:
+            WWW-Authenticate:
+              description: RFC 6750 bearer authentication challenge.
+              explode: false
+              schema:
+                type: string
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Token lacks a required scope.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: The resource was not found or is not visible to the caller.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "The artifact is not a spreadsheet, or the workbook cannot\
+            \ be edited (WORKBOOK_NOT_EDITABLE). Not 404: the artifact exists and\
+            \ is visible."
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "413":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: The requested range exceeds the per-request cell cap.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponse"
+          description: Request validation failed.
+          headers:
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: Rate limited.
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V0ErrorEnvelope"
+          description: "Token verification is temporarily unavailable (the Hub JWKS\
+            \ could not be fetched). This is the API's unavailability, not a problem\
+            \ with the presented credential."
+          headers:
+            Retry-After:
+              description: Seconds until the caller should retry.
+              explode: false
+              schema:
+                minimum: 0
+                type: integer
+              style: simple
+            X-Request-Id:
+              description: Request correlation identifier.
+              explode: false
+              schema:
+                type: string
+              style: simple
+      security:
+      - bearerAuth: []
+      summary: Version Sheets List
+      tags:
+      - sheets
+      x-required-scopes:
+      - content:read
   /v0/drives/{drive_id}/artifacts/{artifact_id}/viewer-sessions:
     post:
       description: |-
@@ -11218,6 +13918,70 @@ components:
           type: string
       title: ArtifactUpdateIn
       type: object
+    CellRangeOut:
+      example:
+        values:
+        - - ""
+          - ""
+        - - ""
+          - ""
+        range: range
+        sheet: sheet
+        revision: revision
+      properties:
+        range:
+          title: Range
+          type: string
+        revision:
+          title: Revision
+          type: string
+        sheet:
+          title: Sheet
+          type: string
+        values:
+          items:
+            items: {}
+            type: array
+          title: Values
+          type: array
+      required:
+      - range
+      - revision
+      - sheet
+      - values
+      title: CellRangeOut
+      type: object
+    CellWriteIn:
+      additionalProperties: false
+      example:
+        values:
+        - - ""
+          - ""
+        - - ""
+          - ""
+        range: range
+        sheet: sheet
+      properties:
+        range:
+          minLength: 1
+          title: Range
+          type: string
+        sheet:
+          minLength: 1
+          title: Sheet
+          type: string
+        values:
+          items:
+            items: {}
+            type: array
+          title: Values
+          type: array
+      required:
+      - range
+      - sheet
+      - values
+      title: CellWriteIn
+      type: object
     ChangeActorOut:
       example:
         id: id
@@ -11376,6 +14140,18 @@ components:
       - id
       - type
       title: ChangeResourceOut
+      type: object
+    CompleteIn:
+      additionalProperties: false
+      example:
+        message: message
+      properties:
+        message:
+          maxLength: 500
+          nullable: true
+          title: Message
+          type: string
+      title: CompleteIn
       type: object
     DownloadCapabilityOut:
       additionalProperties: false
@@ -11654,6 +14430,25 @@ components:
       - retrieval_bytes
       - storage_bytes
       title: DriveUsageOut
+      type: object
+    EditabilityOut:
+      description: |-
+        Discriminated, not a boolean plus an optional reason — a client
+        branches on `status` and never reasons about a sometimes-absent field.
+      example:
+        reason: reason
+        status: status
+      properties:
+        reason:
+          nullable: true
+          title: Reason
+          type: string
+        status:
+          title: Status
+          type: string
+      required:
+      - status
+      title: EditabilityOut
       type: object
     EntryListOut:
       example:
@@ -12374,6 +15169,19 @@ components:
       - next_cursor
       title: SearchPageOut
       type: object
+    SessionCreateIn:
+      additionalProperties: false
+      description: POST …/sheet-sessions body.
+      example:
+        lease_seconds: 1
+      properties:
+        lease_seconds:
+          minimum: 1.0
+          nullable: true
+          title: Lease Seconds
+          type: integer
+      title: SessionCreateIn
+      type: object
     ShareCreateIn:
       additionalProperties: false
       description: "POST /v0/drives/{id}/shares body."
@@ -12408,18 +15216,19 @@ components:
         The create/rotate response — the ONLY response carrying the plaintext
         secret.
       example:
-        expires_at: 2000-01-23T04:56:07.000+00:00
-        revoked_at: 2000-01-23T04:56:07.000+00:00
         drive_id: drive_id
         resource_type: artifact
         created_at: 2000-01-23T04:56:07.000+00:00
+        secret: secret
+        created_by: created_by
+        url: url
+        revision: revision
+        expires_at: 2000-01-23T04:56:07.000+00:00
+        revoked_at: 2000-01-23T04:56:07.000+00:00
         resource_id: resource_id
         id: id
-        secret: secret
         state: active
         rotated_at: 2000-01-23T04:56:07.000+00:00
-        created_by: created_by
-        revision: revision
       properties:
         created_at:
           format: date-time
@@ -12479,6 +15288,15 @@ components:
           - revoked
           - expired
           title: State
+          type: string
+        url:
+          description: "The redemption URL for this share, on the public share origin.\
+            \ Present exactly when `secret` is — the URL EMBEDS the secret, so it\
+            \ is a credential and is never returned by list or get, and never stored\
+            \ in the idempotency ledger. A caller cannot compose this itself: the\
+            \ origin is deployment configuration, not something a client can know."
+          nullable: true
+          title: Url
           type: string
       required:
       - created_at
@@ -12614,6 +15432,77 @@ components:
       - rotated_at
       - state
       title: ShareOut
+      type: object
+    SheetIndexOut:
+      description: |-
+        A representation of the workbook, deliberately NOT a paginated
+        collection: sheets are not independently addressable resources and their
+        number is bounded by the file itself. The contract's paginate-everything
+        rule guards collections that grow without limit; this is closer to an
+        artifact's metadata than to a listing.
+      example:
+        workbook:
+          editability:
+            reason: reason
+            status: status
+          cell_count: 5
+          format: format
+          artifact_id: artifact_id
+          revision: revision
+        sheets:
+        - has_formulas: true
+          columns: 0
+          name: name
+          index: 6
+          rows: 1
+        - has_formulas: true
+          columns: 0
+          name: name
+          index: 6
+          rows: 1
+      properties:
+        sheets:
+          items:
+            $ref: "#/components/schemas/SheetOut"
+          title: Sheets
+          type: array
+        workbook:
+          $ref: "#/components/schemas/WorkbookOut"
+      required:
+      - sheets
+      - workbook
+      title: SheetIndexOut
+      type: object
+    SheetOut:
+      example:
+        has_formulas: true
+        columns: 0
+        name: name
+        index: 6
+        rows: 1
+      properties:
+        columns:
+          title: Columns
+          type: integer
+        has_formulas:
+          title: Has Formulas
+          type: boolean
+        index:
+          title: Index
+          type: integer
+        name:
+          title: Name
+          type: string
+        rows:
+          title: Rows
+          type: integer
+      required:
+      - columns
+      - has_formulas
+      - index
+      - name
+      - rows
+      title: SheetOut
       type: object
     UploadBeginOut:
       description: The one 201 begin response — the only shape carrying ``transfer``.
@@ -13143,10 +16032,12 @@ components:
         size_bytes: 0
         artifact_revision: artifact_revision
         content_type: content_type
+        origin_session_id: origin_session_id
         parent_version_id: parent_version_id
         created_at: 2000-01-23T04:56:07.000+00:00
         version_number: 1
         id: id
+        origin_message: origin_message
         artifact_id: artifact_id
         created_by: created_by
         hash: hash
@@ -13179,6 +16070,14 @@ components:
           pattern: "^ver_[a-f0-9]{16}$"
           title: Id
           type: string
+        origin_message:
+          nullable: true
+          title: Origin Message
+          type: string
+        origin_session_id:
+          nullable: true
+          title: Origin Session Id
+          type: string
         parent_version_id:
           nullable: true
           title: Parent Version Id
@@ -13210,19 +16109,23 @@ components:
         items:
         - size_bytes: 0
           content_type: content_type
+          origin_session_id: origin_session_id
           parent_version_id: parent_version_id
           created_at: 2000-01-23T04:56:07.000+00:00
           version_number: 1
           id: id
+          origin_message: origin_message
           artifact_id: artifact_id
           created_by: created_by
           hash: hash
         - size_bytes: 0
           content_type: content_type
+          origin_session_id: origin_session_id
           parent_version_id: parent_version_id
           created_at: 2000-01-23T04:56:07.000+00:00
           version_number: 1
           id: id
+          origin_message: origin_message
           artifact_id: artifact_id
           created_by: created_by
           hash: hash
@@ -13245,10 +16148,12 @@ components:
       example:
         size_bytes: 0
         content_type: content_type
+        origin_session_id: origin_session_id
         parent_version_id: parent_version_id
         created_at: 2000-01-23T04:56:07.000+00:00
         version_number: 1
         id: id
+        origin_message: origin_message
         artifact_id: artifact_id
         created_by: created_by
         hash: hash
@@ -13274,6 +16179,14 @@ components:
         id:
           pattern: "^ver_[a-f0-9]{16}$"
           title: Id
+          type: string
+        origin_message:
+          nullable: true
+          title: Origin Message
+          type: string
+        origin_session_id:
+          nullable: true
+          title: Origin Session Id
           type: string
         parent_version_id:
           nullable: true
@@ -13377,6 +16290,72 @@ components:
       - id
       - version_id
       title: ViewerSessionCreateOut
+      type: object
+    WorkbookOut:
+      example:
+        editability:
+          reason: reason
+          status: status
+        cell_count: 5
+        format: format
+        artifact_id: artifact_id
+        revision: revision
+      properties:
+        artifact_id:
+          title: Artifact Id
+          type: string
+        cell_count:
+          title: Cell Count
+          type: integer
+        editability:
+          $ref: "#/components/schemas/EditabilityOut"
+        format:
+          title: Format
+          type: string
+        revision:
+          title: Revision
+          type: string
+      required:
+      - artifact_id
+      - cell_count
+      - editability
+      - format
+      - revision
+      title: WorkbookOut
+      type: object
+    WriteCellsIn:
+      additionalProperties: false
+      description: |-
+        Batched by design: chatty per-range writes to one workbook are the
+        main source of throttling and unrecoverable partial state (Microsoft's
+        documented Excel-API lesson), so one request carries the whole batch and
+        it applies atomically or not at all.
+      example:
+        writes:
+        - values:
+          - - ""
+            - ""
+          - - ""
+            - ""
+          range: range
+          sheet: sheet
+        - values:
+          - - ""
+            - ""
+          - - ""
+            - ""
+          range: range
+          sheet: sheet
+      properties:
+        writes:
+          items:
+            $ref: "#/components/schemas/CellWriteIn"
+          minItems: 1
+          title: Writes
+          type: array
+      required:
+      - writes
+      title: WriteCellsIn
       type: object
     artifacts_create_request:
       properties:
@@ -13607,6 +16586,11 @@ components:
           - RATE_LIMITED
           - SEARCH_MODE_UNAVAILABLE
           - SHARE_NOT_FOUND
+          - SHEET_EDIT_LIMIT_EXCEEDED
+          - SHEET_NOT_FOUND
+          - SHEET_SESSION_ALREADY_COMPLETED
+          - SHEET_SESSION_EXPIRED
+          - SHEET_SESSION_NOT_FOUND
           - SUBTREE_TOO_LARGE
           - TRANSFER_DISABLED
           - TRANSFER_LIMIT_EXCEEDED
@@ -13621,6 +16605,9 @@ components:
           - VERSION_NOT_FOUND
           - VIEWER_DISABLED
           - VIEWER_SESSION_NOT_FOUND
+          - WORKBOOK_NOT_EDITABLE
+          - WORKBOOK_TOO_LARGE
+          - WORKBOOK_UNPARSEABLE
           type: string
         details:
           description: Error-code-specific context (optional).

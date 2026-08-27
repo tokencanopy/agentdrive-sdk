@@ -19,3 +19,6 @@ sdk/.openapi.clean.json
 
 # OS
 .DS_Store
+
+# Git worktrees for in-repo branches (one per branch, named after it).
+.worktrees/

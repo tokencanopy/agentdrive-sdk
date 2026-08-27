@@ -28,6 +28,8 @@ type VersionOut struct {
 	CreatedBy NullableString `json:"created_by"`
 	Hash string `json:"hash"`
 	Id string `json:"id" validate:"regexp=^ver_[a-f0-9]{16}$"`
+	OriginMessage NullableString `json:"origin_message,omitempty"`
+	OriginSessionId NullableString `json:"origin_session_id,omitempty"`
 	ParentVersionId NullableString `json:"parent_version_id"`
 	SizeBytes int32 `json:"size_bytes"`
 	VersionNumber int32 `json:"version_number"`
@@ -207,6 +209,90 @@ func (o *VersionOut) SetId(v string) {
 	o.Id = v
 }
 
+// GetOriginMessage returns the OriginMessage field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *VersionOut) GetOriginMessage() string {
+	if o == nil || IsNil(o.OriginMessage.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.OriginMessage.Get()
+}
+
+// GetOriginMessageOk returns a tuple with the OriginMessage field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *VersionOut) GetOriginMessageOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.OriginMessage.Get(), o.OriginMessage.IsSet()
+}
+
+// HasOriginMessage returns a boolean if a field has been set.
+func (o *VersionOut) HasOriginMessage() bool {
+	if o != nil && o.OriginMessage.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetOriginMessage gets a reference to the given NullableString and assigns it to the OriginMessage field.
+func (o *VersionOut) SetOriginMessage(v string) {
+	o.OriginMessage.Set(&v)
+}
+// SetOriginMessageNil sets the value for OriginMessage to be an explicit nil
+func (o *VersionOut) SetOriginMessageNil() {
+	o.OriginMessage.Set(nil)
+}
+
+// UnsetOriginMessage ensures that no value is present for OriginMessage, not even an explicit nil
+func (o *VersionOut) UnsetOriginMessage() {
+	o.OriginMessage.Unset()
+}
+
+// GetOriginSessionId returns the OriginSessionId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *VersionOut) GetOriginSessionId() string {
+	if o == nil || IsNil(o.OriginSessionId.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.OriginSessionId.Get()
+}
+
+// GetOriginSessionIdOk returns a tuple with the OriginSessionId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *VersionOut) GetOriginSessionIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.OriginSessionId.Get(), o.OriginSessionId.IsSet()
+}
+
+// HasOriginSessionId returns a boolean if a field has been set.
+func (o *VersionOut) HasOriginSessionId() bool {
+	if o != nil && o.OriginSessionId.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetOriginSessionId gets a reference to the given NullableString and assigns it to the OriginSessionId field.
+func (o *VersionOut) SetOriginSessionId(v string) {
+	o.OriginSessionId.Set(&v)
+}
+// SetOriginSessionIdNil sets the value for OriginSessionId to be an explicit nil
+func (o *VersionOut) SetOriginSessionIdNil() {
+	o.OriginSessionId.Set(nil)
+}
+
+// UnsetOriginSessionId ensures that no value is present for OriginSessionId, not even an explicit nil
+func (o *VersionOut) UnsetOriginSessionId() {
+	o.OriginSessionId.Unset()
+}
+
 // GetParentVersionId returns the ParentVersionId field value
 // If the value is explicit nil, the zero value for string will be returned
 func (o *VersionOut) GetParentVersionId() string {
@@ -297,6 +383,12 @@ func (o VersionOut) ToMap() (map[string]interface{}, error) {
 	toSerialize["created_by"] = o.CreatedBy.Get()
 	toSerialize["hash"] = o.Hash
 	toSerialize["id"] = o.Id
+	if o.OriginMessage.IsSet() {
+		toSerialize["origin_message"] = o.OriginMessage.Get()
+	}
+	if o.OriginSessionId.IsSet() {
+		toSerialize["origin_session_id"] = o.OriginSessionId.Get()
+	}
 	toSerialize["parent_version_id"] = o.ParentVersionId.Get()
 	toSerialize["size_bytes"] = o.SizeBytes
 	toSerialize["version_number"] = o.VersionNumber

@@ -51,4 +51,35 @@ export class DiscoveryApi extends runtime.BaseAPI {
         return await response.value();
     }
 
+    /**
+     * Path-inserted protected-resource metadata used by MCP OAuth clients. Served by the MCP sidecar when one is configured, because it is the authority on the scope bundle its own tools require; otherwise it falls back to the resource-root document, since `/v0` and `/mcp` share AgentDrive\'s canonical audience.
+     * Protected-resource metadata for the MCP endpoint (RFC 9728)
+     */
+    async oauthProtectedResourceMcpRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: any; }>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+
+        let urlPath = `/.well-known/oauth-protected-resource/mcp`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * Path-inserted protected-resource metadata used by MCP OAuth clients. Served by the MCP sidecar when one is configured, because it is the authority on the scope bundle its own tools require; otherwise it falls back to the resource-root document, since `/v0` and `/mcp` share AgentDrive\'s canonical audience.
+     * Protected-resource metadata for the MCP endpoint (RFC 9728)
+     */
+    async oauthProtectedResourceMcp(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: any; }> {
+        const response = await this.oauthProtectedResourceMcpRaw(initOverrides);
+        return await response.value();
+    }
+
 }

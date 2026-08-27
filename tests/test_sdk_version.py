@@ -6,12 +6,12 @@ import unittest
 from pathlib import Path
 
 
-EXPECTED_VERSION = "0.0.1"
+EXPECTED_VERSION = "0.0.2"
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class SdkVersionTest(unittest.TestCase):
-    def test_all_published_sdk_metadata_uses_v0_0_1(self):
+    def test_all_published_sdk_metadata_share_one_version(self):
         python_init = (ROOT / "sdk/python/agentdrive_sdk/__init__.py").read_text()
         python_project = (ROOT / "sdk/python/pyproject.toml").read_text()
         typescript_package = json.loads(

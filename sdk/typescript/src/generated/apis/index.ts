@@ -12,6 +12,7 @@ export * from './NavigationApi';
 export * from './SearchApi';
 export * from './SharesApi';
 export * from './SharesRedemptionApi';
+export * from './SheetsApi';
 export * from './UploadsApi';
 export * from './VersionsApi';
 export * from './ViewerSessionsApi';

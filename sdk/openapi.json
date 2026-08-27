@@ -357,6 +357,68 @@
         "title": "ArtifactUpdateIn",
         "type": "object"
       },
+      "CellRangeOut": {
+        "properties": {
+          "range": {
+            "title": "Range",
+            "type": "string"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "string"
+          },
+          "sheet": {
+            "title": "Sheet",
+            "type": "string"
+          },
+          "values": {
+            "items": {
+              "items": {},
+              "type": "array"
+            },
+            "title": "Values",
+            "type": "array"
+          }
+        },
+        "required": [
+          "sheet",
+          "range",
+          "revision",
+          "values"
+        ],
+        "title": "CellRangeOut",
+        "type": "object"
+      },
+      "CellWriteIn": {
+        "additionalProperties": false,
+        "properties": {
+          "range": {
+            "minLength": 1,
+            "title": "Range",
+            "type": "string"
+          },
+          "sheet": {
+            "minLength": 1,
+            "title": "Sheet",
+            "type": "string"
+          },
+          "values": {
+            "items": {
+              "items": {},
+              "type": "array"
+            },
+            "title": "Values",
+            "type": "array"
+          }
+        },
+        "required": [
+          "sheet",
+          "range",
+          "values"
+        ],
+        "title": "CellWriteIn",
+        "type": "object"
+      },
       "ChangeActorOut": {
         "properties": {
           "id": {
@@ -508,6 +570,25 @@
           "id"
         ],
         "title": "ChangeResourceOut",
+        "type": "object"
+      },
+      "CompleteIn": {
+        "additionalProperties": false,
+        "properties": {
+          "message": {
+            "anyOf": [
+              {
+                "maxLength": 500,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          }
+        },
+        "title": "CompleteIn",
         "type": "object"
       },
       "DownloadCapabilityOut": {
@@ -784,6 +865,31 @@
         "title": "DriveUsageOut",
         "type": "object"
       },
+      "EditabilityOut": {
+        "description": "Discriminated, not a boolean plus an optional reason \u2014 a client\nbranches on `status` and never reasons about a sometimes-absent field.",
+        "properties": {
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "EditabilityOut",
+        "type": "object"
+      },
       "EntryListOut": {
         "properties": {
           "entries": {
@@ -875,6 +981,11 @@
                   "RATE_LIMITED",
                   "SEARCH_MODE_UNAVAILABLE",
                   "SHARE_NOT_FOUND",
+                  "SHEET_EDIT_LIMIT_EXCEEDED",
+                  "SHEET_NOT_FOUND",
+                  "SHEET_SESSION_ALREADY_COMPLETED",
+                  "SHEET_SESSION_EXPIRED",
+                  "SHEET_SESSION_NOT_FOUND",
                   "SUBTREE_TOO_LARGE",
                   "TRANSFER_DISABLED",
                   "TRANSFER_LIMIT_EXCEEDED",
@@ -888,7 +999,10 @@
                   "VALIDATION_ERROR",
                   "VERSION_NOT_FOUND",
                   "VIEWER_DISABLED",
-                  "VIEWER_SESSION_NOT_FOUND"
+                  "VIEWER_SESSION_NOT_FOUND",
+                  "WORKBOOK_NOT_EDITABLE",
+                  "WORKBOOK_TOO_LARGE",
+                  "WORKBOOK_UNPARSEABLE"
                 ],
                 "type": "string"
               },
@@ -1661,6 +1775,26 @@
         "title": "SearchPageOut",
         "type": "object"
       },
+      "SessionCreateIn": {
+        "additionalProperties": false,
+        "description": "POST \u2026/sheet-sessions body.",
+        "properties": {
+          "lease_seconds": {
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lease Seconds"
+          }
+        },
+        "title": "SessionCreateIn",
+        "type": "object"
+      },
       "ShareCreateIn": {
         "additionalProperties": false,
         "description": "POST /v0/drives/{id}/shares body.",
@@ -1802,6 +1936,18 @@
             ],
             "title": "State",
             "type": "string"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The redemption URL for this share, on the public share origin. Present exactly when `secret` is \u2014 the URL EMBEDS the secret, so it is a credential and is never returned by list or get, and never stored in the idempotency ledger. A caller cannot compose this itself: the origin is deployment configuration, not something a client can know.",
+            "title": "Url"
           }
         },
         "required": [
@@ -1954,6 +2100,60 @@
           "rotated_at"
         ],
         "title": "ShareOut",
+        "type": "object"
+      },
+      "SheetIndexOut": {
+        "description": "A representation of the workbook, deliberately NOT a paginated\ncollection: sheets are not independently addressable resources and their\nnumber is bounded by the file itself. The contract's paginate-everything\nrule guards collections that grow without limit; this is closer to an\nartifact's metadata than to a listing.",
+        "properties": {
+          "sheets": {
+            "items": {
+              "$ref": "#/components/schemas/SheetOut"
+            },
+            "title": "Sheets",
+            "type": "array"
+          },
+          "workbook": {
+            "$ref": "#/components/schemas/WorkbookOut"
+          }
+        },
+        "required": [
+          "workbook",
+          "sheets"
+        ],
+        "title": "SheetIndexOut",
+        "type": "object"
+      },
+      "SheetOut": {
+        "properties": {
+          "columns": {
+            "title": "Columns",
+            "type": "integer"
+          },
+          "has_formulas": {
+            "title": "Has Formulas",
+            "type": "boolean"
+          },
+          "index": {
+            "title": "Index",
+            "type": "integer"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "rows": {
+            "title": "Rows",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "index",
+          "rows",
+          "columns",
+          "has_formulas"
+        ],
+        "title": "SheetOut",
         "type": "object"
       },
       "UploadBeginOut": {
@@ -2474,6 +2674,11 @@
                   "RATE_LIMITED",
                   "SEARCH_MODE_UNAVAILABLE",
                   "SHARE_NOT_FOUND",
+                  "SHEET_EDIT_LIMIT_EXCEEDED",
+                  "SHEET_NOT_FOUND",
+                  "SHEET_SESSION_ALREADY_COMPLETED",
+                  "SHEET_SESSION_EXPIRED",
+                  "SHEET_SESSION_NOT_FOUND",
                   "SUBTREE_TOO_LARGE",
                   "TRANSFER_DISABLED",
                   "TRANSFER_LIMIT_EXCEEDED",
@@ -2487,7 +2692,10 @@
                   "VALIDATION_ERROR",
                   "VERSION_NOT_FOUND",
                   "VIEWER_DISABLED",
-                  "VIEWER_SESSION_NOT_FOUND"
+                  "VIEWER_SESSION_NOT_FOUND",
+                  "WORKBOOK_NOT_EDITABLE",
+                  "WORKBOOK_TOO_LARGE",
+                  "WORKBOOK_UNPARSEABLE"
                 ],
                 "type": "string"
               },
@@ -2597,6 +2805,28 @@
             "title": "Id",
             "type": "string"
           },
+          "origin_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Origin Message"
+          },
+          "origin_session_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Origin Session Id"
+          },
           "parent_version_id": {
             "anyOf": [
               {
@@ -2697,6 +2927,28 @@
             "pattern": "^ver_[a-f0-9]{16}$",
             "title": "Id",
             "type": "string"
+          },
+          "origin_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Origin Message"
+          },
+          "origin_session_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Origin Session Id"
           },
           "parent_version_id": {
             "anyOf": [
@@ -2816,6 +3068,57 @@
         ],
         "title": "ViewerSessionCreateOut",
         "type": "object"
+      },
+      "WorkbookOut": {
+        "properties": {
+          "artifact_id": {
+            "title": "Artifact Id",
+            "type": "string"
+          },
+          "cell_count": {
+            "title": "Cell Count",
+            "type": "integer"
+          },
+          "editability": {
+            "$ref": "#/components/schemas/EditabilityOut"
+          },
+          "format": {
+            "title": "Format",
+            "type": "string"
+          },
+          "revision": {
+            "title": "Revision",
+            "type": "string"
+          }
+        },
+        "required": [
+          "artifact_id",
+          "revision",
+          "format",
+          "cell_count",
+          "editability"
+        ],
+        "title": "WorkbookOut",
+        "type": "object"
+      },
+      "WriteCellsIn": {
+        "additionalProperties": false,
+        "description": "Batched by design: chatty per-range writes to one workbook are the\nmain source of throttling and unrecoverable partial state (Microsoft's\ndocumented Excel-API lesson), so one request carries the whole batch and\nit applies atomically or not at all.",
+        "properties": {
+          "writes": {
+            "items": {
+              "$ref": "#/components/schemas/CellWriteIn"
+            },
+            "minItems": 1,
+            "title": "Writes",
+            "type": "array"
+          }
+        },
+        "required": [
+          "writes"
+        ],
+        "title": "WriteCellsIn",
+        "type": "object"
       }
     },
     "securitySchemes": {
@@ -2853,6 +3156,30 @@
           }
         },
         "summary": "Protected-resource metadata (RFC 9728)",
+        "tags": [
+          "discovery"
+        ]
+      }
+    },
+    "/.well-known/oauth-protected-resource/mcp": {
+      "get": {
+        "description": "Path-inserted protected-resource metadata used by MCP OAuth clients. Served by the MCP sidecar when one is configured, because it is the authority on the scope bundle its own tools require; otherwise it falls back to the resource-root document, since `/v0` and `/mcp` share AgentDrive's canonical audience.",
+        "operationId": "oauth_protected_resource_mcp",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Oauth Protected Resource Mcp",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Protected-resource metadata for the MCP endpoint (RFC 9728)",
         "tags": [
           "discovery"
         ]
@@ -6001,6 +6328,323 @@
         ]
       }
     },
+    "/v0/drives/{drive_id}/artifacts/{artifact_id}/cells": {
+      "get": {
+        "description": "One rectangle of committed values.\n\n`range` IS the pagination here: the caller chooses the window and the\nserver caps it, so this needs no cursor. The response is always exactly\nthe rectangle asked for, padded with nulls outside the used range \u2014\nragged arrays would put the padding logic in every client instead.",
+        "operationId": "sheet_cells_read",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "drive_id",
+            "required": true,
+            "schema": {
+              "title": "Drive Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "artifact_id",
+            "required": true,
+            "schema": {
+              "title": "Artifact Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sheet",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sheet"
+            }
+          },
+          {
+            "in": "query",
+            "name": "range",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Range"
+            }
+          },
+          {
+            "in": "header",
+            "name": "If-None-Match",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "If-None-Match"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.",
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CellRangeOut"
+                }
+              }
+            },
+            "description": "Successful Response",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "If-None-Match matched.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Malformed request (invalid query parameter, cursor, or argument).",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing or invalid bearer token.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "RFC 6750 bearer authentication challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token lacks a required scope.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The resource was not found or is not visible to the caller.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The artifact is not a spreadsheet, or the workbook cannot be edited (WORKBOOK_NOT_EDITABLE). Not 404: the artifact exists and is visible.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The requested range exceeds the per-request cell cap.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorResponse"
+                }
+              }
+            },
+            "description": "Request validation failed.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limited.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token verification is temporarily unavailable (the Hub JWKS could not be fetched). This is the API's unavailability, not a problem with the presented credential.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Sheet Cells Read",
+        "tags": [
+          "sheets"
+        ],
+        "x-required-scopes": [
+          "content:read"
+        ]
+      }
+    },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/content": {
       "get": {
         "description": "Download the head version's bytes \u2014 stream or 307 signed URL.",
@@ -6933,6 +7577,2621 @@
         ]
       }
     },
+    "/v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions": {
+      "get": {
+        "description": "Sessions on this artifact, newest first.\n\nArtifact-scoped, not drive-scoped. The grant predicate is the\ndeclarative `require_local` above rather than a filter written by hand\nhere \u2014 which is the whole reason these routes are nested. If you may\nread the artifact, you may see the sessions open on it (O5).",
+        "operationId": "sheet_sessions_list",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "drive_id",
+            "required": true,
+            "schema": {
+              "title": "Drive Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "artifact_id",
+            "required": true,
+            "schema": {
+              "title": "Artifact Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "State"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.",
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Sheet Sessions List"
+                }
+              }
+            },
+            "description": "Successful Response",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Malformed request (invalid query parameter, cursor, or argument).",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing or invalid bearer token.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "RFC 6750 bearer authentication challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token lacks a required scope.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The resource was not found or is not visible to the caller.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorResponse"
+                }
+              }
+            },
+            "description": "Request validation failed.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limited.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token verification is temporarily unavailable (the Hub JWKS could not be fetched). This is the API's unavailability, not a problem with the presented credential.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Sheet Sessions List",
+        "tags": [
+          "sheets"
+        ],
+        "x-required-scopes": [
+          "content:read"
+        ]
+      },
+      "post": {
+        "description": "Open an edit session. `If-Match` on the artifact head is required and\nis captured for completion.",
+        "operationId": "sheet_sessions_create",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "drive_id",
+            "required": true,
+            "schema": {
+              "title": "Drive Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "artifact_id",
+            "required": true,
+            "schema": {
+              "title": "Artifact Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "in": "header",
+            "name": "If-Match",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "If-Match"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.",
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SessionCreateIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Sheet Sessions Create"
+                }
+              }
+            },
+            "description": "Successful Response",
+            "headers": {
+              "Location": {
+                "description": "Canonical URL of the created resource.",
+                "schema": {
+                  "format": "uri-reference",
+                  "type": "string"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Malformed request (invalid query parameter, cursor, or argument).",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing or invalid bearer token.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "RFC 6750 bearer authentication challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token lacks a required scope.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The parent or target resource was not found or is not visible.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "A sibling already occupies the name/path, or the idempotency key was reused for a different request.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "412": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "If-Match did not match (copy/restore preconditions).",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorResponse"
+                }
+              }
+            },
+            "description": "Request validation failed.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "If-Match is required for this mutation.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limited.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token verification is temporarily unavailable (the Hub JWKS could not be fetched). This is the API's unavailability, not a problem with the presented credential.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Sheet Sessions Create",
+        "tags": [
+          "sheets"
+        ],
+        "x-required-scopes": [
+          "content:write"
+        ]
+      }
+    },
+    "/v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions/{session_id}": {
+      "delete": {
+        "description": "Abandon a session. Nothing is published and the edits go with it.",
+        "operationId": "sheet_sessions_delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "drive_id",
+            "required": true,
+            "schema": {
+              "title": "Drive Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "artifact_id",
+            "required": true,
+            "schema": {
+              "title": "Artifact Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "title": "Session Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "in": "header",
+            "name": "If-Match",
+            "required": true,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "If-Match"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.",
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Sheet Sessions Delete"
+                }
+              }
+            },
+            "description": "Successful Response",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Malformed request (invalid query parameter, cursor, or argument).",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing or invalid bearer token.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "RFC 6750 bearer authentication challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token lacks a required scope.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The resource was not found or is not visible to the caller.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The mutation conflicts with current state (name/path, lifecycle).",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "412": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "If-Match did not match the resource's current revision.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorResponse"
+                }
+              }
+            },
+            "description": "Request validation failed.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "If-Match is required for this mutation.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limited.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token verification is temporarily unavailable (the Hub JWKS could not be fetched). This is the API's unavailability, not a problem with the presented credential.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Sheet Sessions Delete",
+        "tags": [
+          "sheets"
+        ],
+        "x-required-scopes": [
+          "content:write"
+        ]
+      },
+      "get": {
+        "description": "One session. Reads deliberately do NOT extend the lease, so a polling\nconsole can never keep a dead agent's session alive.",
+        "operationId": "sheet_sessions_read",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "drive_id",
+            "required": true,
+            "schema": {
+              "title": "Drive Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "artifact_id",
+            "required": true,
+            "schema": {
+              "title": "Artifact Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "title": "Session Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "If-None-Match",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "If-None-Match"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.",
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Sheet Sessions Read"
+                }
+              }
+            },
+            "description": "Successful Response",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "If-None-Match matched.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Malformed request (invalid query parameter, cursor, or argument).",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing or invalid bearer token.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "RFC 6750 bearer authentication challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token lacks a required scope.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The resource was not found or is not visible to the caller.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorResponse"
+                }
+              }
+            },
+            "description": "Request validation failed.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limited.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token verification is temporarily unavailable (the Hub JWKS could not be fetched). This is the API's unavailability, not a problem with the presented credential.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Sheet Sessions Read",
+        "tags": [
+          "sheets"
+        ],
+        "x-required-scopes": [
+          "content:read"
+        ]
+      }
+    },
+    "/v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions/{session_id}/cells": {
+      "get": {
+        "description": "Working state: base plus pending edits. Read-your-writes before any\ncompletion.",
+        "operationId": "sheet_sessions_read_cells",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "drive_id",
+            "required": true,
+            "schema": {
+              "title": "Drive Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "artifact_id",
+            "required": true,
+            "schema": {
+              "title": "Artifact Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "title": "Session Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sheet",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sheet"
+            }
+          },
+          {
+            "in": "query",
+            "name": "range",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Range"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.",
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Sheet Sessions Read Cells"
+                }
+              }
+            },
+            "description": "Successful Response",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Malformed request (invalid query parameter, cursor, or argument).",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing or invalid bearer token.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "RFC 6750 bearer authentication challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token lacks a required scope.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The resource was not found or is not visible to the caller.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorResponse"
+                }
+              }
+            },
+            "description": "Request validation failed.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limited.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token verification is temporarily unavailable (the Hub JWKS could not be fetched). This is the API's unavailability, not a problem with the presented credential.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Sheet Sessions Read Cells",
+        "tags": [
+          "sheets"
+        ],
+        "x-required-scopes": [
+          "content:read"
+        ]
+      },
+      "post": {
+        "description": "Append range writes to the edit log.\n\nNo `If-Match`: the session's captured `base_revision` is the concurrency\nanchor and completion is where it is enforced. `Idempotency-Key` is what\nmakes a retry safe \u2014 without it a retried write landing after a later\noverlapping write would silently resurrect stale values.",
+        "operationId": "sheet_sessions_write_cells",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "drive_id",
+            "required": true,
+            "schema": {
+              "title": "Drive Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "artifact_id",
+            "required": true,
+            "schema": {
+              "title": "Artifact Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "title": "Session Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.",
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WriteCellsIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Sheet Sessions Write Cells"
+                }
+              }
+            },
+            "description": "Successful Response",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Malformed request (invalid query parameter, cursor, or argument).",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing or invalid bearer token.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "RFC 6750 bearer authentication challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token lacks a required scope.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The parent or target resource was not found or is not visible.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "A sibling already occupies the name/path, or the idempotency key was reused for a different request.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "412": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "If-Match did not match (copy/restore preconditions).",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorResponse"
+                }
+              }
+            },
+            "description": "Request validation failed.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "If-Match is required for this mutation.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limited.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token verification is temporarily unavailable (the Hub JWKS could not be fetched). This is the API's unavailability, not a problem with the presented credential.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Sheet Sessions Write Cells",
+        "tags": [
+          "sheets"
+        ],
+        "x-required-scopes": [
+          "content:write"
+        ]
+      }
+    },
+    "/v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions/{session_id}/complete": {
+      "post": {
+        "description": "Replay the edit log and publish exactly one version.\n\nThe expensive half \u2014 fetch, parse, replay, serialize \u2014 runs OUTSIDE the\npublishing transaction, so a replay failure costs nothing and publishes\nnothing. Only the fence and the version append are transactional.",
+        "operationId": "sheet_sessions_complete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "drive_id",
+            "required": true,
+            "schema": {
+              "title": "Drive Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "artifact_id",
+            "required": true,
+            "schema": {
+              "title": "Artifact Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "title": "Session Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.",
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompleteIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The session had no edits, so no version was published. A byte-identical version would pollute history and consume the per-tier version cap.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Sheet Sessions Complete"
+                }
+              }
+            },
+            "description": "Successful Response",
+            "headers": {
+              "Location": {
+                "description": "Canonical URL of the created resource.",
+                "schema": {
+                  "format": "uri-reference",
+                  "type": "string"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Malformed request (invalid query parameter, cursor, or argument).",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing or invalid bearer token.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "RFC 6750 bearer authentication challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token lacks a required scope.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The parent or target resource was not found or is not visible.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "A sibling already occupies the name/path, or the idempotency key was reused for a different request.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "412": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "If-Match did not match (copy/restore preconditions).",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorResponse"
+                }
+              }
+            },
+            "description": "Request validation failed.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "428": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "If-Match is required for this mutation.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limited.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token verification is temporarily unavailable (the Hub JWKS could not be fetched). This is the API's unavailability, not a problem with the presented credential.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Sheet Sessions Complete",
+        "tags": [
+          "sheets"
+        ],
+        "x-required-scopes": [
+          "content:write"
+        ]
+      }
+    },
+    "/v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions/{session_id}/edits": {
+      "get": {
+        "description": "The edit log with before-and-after values \u2014 the console's diff, and\nthe audit record that survives into version history.",
+        "operationId": "sheet_sessions_list_edits",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "drive_id",
+            "required": true,
+            "schema": {
+              "title": "Drive Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "artifact_id",
+            "required": true,
+            "schema": {
+              "title": "Artifact Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "title": "Session Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.",
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Sheet Sessions List Edits"
+                }
+              }
+            },
+            "description": "Successful Response",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Malformed request (invalid query parameter, cursor, or argument).",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing or invalid bearer token.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "RFC 6750 bearer authentication challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token lacks a required scope.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The resource was not found or is not visible to the caller.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorResponse"
+                }
+              }
+            },
+            "description": "Request validation failed.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limited.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token verification is temporarily unavailable (the Hub JWKS could not be fetched). This is the API's unavailability, not a problem with the presented credential.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Sheet Sessions List Edits",
+        "tags": [
+          "sheets"
+        ],
+        "x-required-scopes": [
+          "content:read"
+        ]
+      }
+    },
+    "/v0/drives/{drive_id}/artifacts/{artifact_id}/sheets": {
+      "get": {
+        "description": "The workbook's sheets and whether it can be edited.\n\nOne call carries three things a caller needs before opening a session:\nthe structure, the editability verdict, and \u2014 as the ETag \u2014 the revision\nthat becomes the session's `If-Match`. So opening a session costs one\nread, not two.",
+        "operationId": "sheets_list",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "drive_id",
+            "required": true,
+            "schema": {
+              "title": "Drive Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "artifact_id",
+            "required": true,
+            "schema": {
+              "title": "Artifact Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "If-None-Match",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "If-None-Match"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.",
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SheetIndexOut"
+                }
+              }
+            },
+            "description": "Successful Response",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "If-None-Match matched.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Malformed request (invalid query parameter, cursor, or argument).",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing or invalid bearer token.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "RFC 6750 bearer authentication challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token lacks a required scope.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The resource was not found or is not visible to the caller.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The artifact is not a spreadsheet, or the workbook cannot be edited (WORKBOOK_NOT_EDITABLE). Not 404: the artifact exists and is visible.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The requested range exceeds the per-request cell cap.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorResponse"
+                }
+              }
+            },
+            "description": "Request validation failed.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limited.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token verification is temporarily unavailable (the Hub JWKS could not be fetched). This is the API's unavailability, not a problem with the presented credential.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Sheets List",
+        "tags": [
+          "sheets"
+        ],
+        "x-required-scopes": [
+          "content:read"
+        ]
+      }
+    },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/versions": {
       "get": {
         "description": "List the artifact's version trail, newest first (ordinal DESC).",
@@ -7846,6 +11105,332 @@
         ]
       }
     },
+    "/v0/drives/{drive_id}/artifacts/{artifact_id}/versions/{version_id}/cells": {
+      "get": {
+        "description": "One rectangle of one version's values.\n\nWhat makes a conflict diffable: read the same range from the session's\nbase version and from the new head, and the difference is exactly what\nlanded underneath.",
+        "operationId": "version_cells_read",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "drive_id",
+            "required": true,
+            "schema": {
+              "title": "Drive Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "artifact_id",
+            "required": true,
+            "schema": {
+              "title": "Artifact Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "version_id",
+            "required": true,
+            "schema": {
+              "title": "Version Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sheet",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sheet"
+            }
+          },
+          {
+            "in": "query",
+            "name": "range",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Range"
+            }
+          },
+          {
+            "in": "header",
+            "name": "If-None-Match",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "If-None-Match"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.",
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CellRangeOut"
+                }
+              }
+            },
+            "description": "Successful Response",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "If-None-Match matched.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Malformed request (invalid query parameter, cursor, or argument).",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing or invalid bearer token.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "RFC 6750 bearer authentication challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token lacks a required scope.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The resource was not found or is not visible to the caller.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The artifact is not a spreadsheet, or the workbook cannot be edited (WORKBOOK_NOT_EDITABLE). Not 404: the artifact exists and is visible.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The requested range exceeds the per-request cell cap.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorResponse"
+                }
+              }
+            },
+            "description": "Request validation failed.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limited.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token verification is temporarily unavailable (the Hub JWKS could not be fetched). This is the API's unavailability, not a problem with the presented credential.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Version Cells Read",
+        "tags": [
+          "sheets"
+        ],
+        "x-required-scopes": [
+          "content:read"
+        ]
+      }
+    },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/versions/{version_id}/content": {
       "get": {
         "description": "Download one version's immutable bytes \u2014 stream or 307.",
@@ -8462,6 +12047,300 @@
         ],
         "x-required-scopes": [
           "content:write"
+        ]
+      }
+    },
+    "/v0/drives/{drive_id}/artifacts/{artifact_id}/versions/{version_id}/sheets": {
+      "get": {
+        "description": "One version's sheets and whether that version could be edited.\n\nThe ETag is the VERSION id: a version is immutable, so its parsed\ncontents can never change and its own identity is the strongest\nvalidator there is.",
+        "operationId": "version_sheets_list",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "drive_id",
+            "required": true,
+            "schema": {
+              "title": "Drive Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "artifact_id",
+            "required": true,
+            "schema": {
+              "title": "Artifact Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "version_id",
+            "required": true,
+            "schema": {
+              "title": "Version Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "If-None-Match",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "If-None-Match"
+            }
+          },
+          {
+            "deprecated": true,
+            "description": "Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.",
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SheetIndexOut"
+                }
+              }
+            },
+            "description": "Successful Response",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "If-None-Match matched.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Malformed request (invalid query parameter, cursor, or argument).",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Missing or invalid bearer token.",
+            "headers": {
+              "WWW-Authenticate": {
+                "description": "RFC 6750 bearer authentication challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token lacks a required scope.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The resource was not found or is not visible to the caller.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The artifact is not a spreadsheet, or the workbook cannot be edited (WORKBOOK_NOT_EDITABLE). Not 404: the artifact exists and is visible.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "The requested range exceeds the per-request cell cap.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationErrorResponse"
+                }
+              }
+            },
+            "description": "Request validation failed.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Rate limited.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/V0ErrorEnvelope"
+                }
+              }
+            },
+            "description": "Token verification is temporarily unavailable (the Hub JWKS could not be fetched). This is the API's unavailability, not a problem with the presented credential.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds until the caller should retry.",
+                "schema": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request correlation identifier.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Version Sheets List",
+        "tags": [
+          "sheets"
+        ],
+        "x-required-scopes": [
+          "content:read"
         ]
       }
     },

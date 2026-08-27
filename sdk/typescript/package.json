@@ -1,6 +1,6 @@
 {
   "name": "@tokencanopy/agentdrive-sdk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "OpenAPI client for @tokencanopy/agentdrive-sdk",
   "author": "OpenAPI-Generator",
   "repository": {

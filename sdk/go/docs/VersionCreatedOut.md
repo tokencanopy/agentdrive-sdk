@@ -11,6 +11,8 @@ Name | Type | Description | Notes
 **CreatedBy** | **NullableString** |  |
 **Hash** | **string** |  |
 **Id** | **string** |  |
+**OriginMessage** | Pointer to **NullableString** |  | [optional]
+**OriginSessionId** | Pointer to **NullableString** |  | [optional]
 **ParentVersionId** | **NullableString** |  |
 **SizeBytes** | **int32** |  |
 **VersionNumber** | **int32** |  |
@@ -184,6 +186,76 @@ and a boolean to check if the value has been set.
 SetId sets Id field to given value.
 
 
+### GetOriginMessage
+
+`func (o *VersionCreatedOut) GetOriginMessage() string`
+
+GetOriginMessage returns the OriginMessage field if non-nil, zero value otherwise.
+
+### GetOriginMessageOk
+
+`func (o *VersionCreatedOut) GetOriginMessageOk() (*string, bool)`
+
+GetOriginMessageOk returns a tuple with the OriginMessage field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOriginMessage
+
+`func (o *VersionCreatedOut) SetOriginMessage(v string)`
+
+SetOriginMessage sets OriginMessage field to given value.
+
+### HasOriginMessage
+
+`func (o *VersionCreatedOut) HasOriginMessage() bool`
+
+HasOriginMessage returns a boolean if a field has been set.
+
+### SetOriginMessageNil
+
+`func (o *VersionCreatedOut) SetOriginMessageNil(b bool)`
+
+ SetOriginMessageNil sets the value for OriginMessage to be an explicit nil
+
+### UnsetOriginMessage
+`func (o *VersionCreatedOut) UnsetOriginMessage()`
+
+UnsetOriginMessage ensures that no value is present for OriginMessage, not even an explicit nil
+### GetOriginSessionId
+
+`func (o *VersionCreatedOut) GetOriginSessionId() string`
+
+GetOriginSessionId returns the OriginSessionId field if non-nil, zero value otherwise.
+
+### GetOriginSessionIdOk
+
+`func (o *VersionCreatedOut) GetOriginSessionIdOk() (*string, bool)`
+
+GetOriginSessionIdOk returns a tuple with the OriginSessionId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOriginSessionId
+
+`func (o *VersionCreatedOut) SetOriginSessionId(v string)`
+
+SetOriginSessionId sets OriginSessionId field to given value.
+
+### HasOriginSessionId
+
+`func (o *VersionCreatedOut) HasOriginSessionId() bool`
+
+HasOriginSessionId returns a boolean if a field has been set.
+
+### SetOriginSessionIdNil
+
+`func (o *VersionCreatedOut) SetOriginSessionIdNil(b bool)`
+
+ SetOriginSessionIdNil sets the value for OriginSessionId to be an explicit nil
+
+### UnsetOriginSessionId
+`func (o *VersionCreatedOut) UnsetOriginSessionId()`
+
+UnsetOriginSessionId ensures that no value is present for OriginSessionId, not even an explicit nil
 ### GetParentVersionId
 
 `func (o *VersionCreatedOut) GetParentVersionId() string`

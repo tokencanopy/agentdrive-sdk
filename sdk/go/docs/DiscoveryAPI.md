@@ -5,6 +5,7 @@ All URIs are relative to *https://drive.tokencanopy.com*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**OauthProtectedResource**](DiscoveryAPI.md#OauthProtectedResource) | **Get** /.well-known/oauth-protected-resource | Protected-resource metadata (RFC 9728)
+[**OauthProtectedResourceMcp**](DiscoveryAPI.md#OauthProtectedResourceMcp) | **Get** /.well-known/oauth-protected-resource/mcp | Protected-resource metadata for the MCP endpoint (RFC 9728)
 
 
 
@@ -49,6 +50,67 @@ This endpoint does not need any parameter.
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiOauthProtectedResourceRequest struct via the builder pattern
+
+
+### Return type
+
+**map[string]interface{}**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## OauthProtectedResourceMcp
+
+> map[string]interface{} OauthProtectedResourceMcp(ctx).Execute()
+
+Protected-resource metadata for the MCP endpoint (RFC 9728)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/tokencanopy/agentdrive-sdk/agentdrive"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DiscoveryAPI.OauthProtectedResourceMcp(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DiscoveryAPI.OauthProtectedResourceMcp``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `OauthProtectedResourceMcp`: map[string]interface{}
+	fmt.Fprintf(os.Stdout, "Response from `DiscoveryAPI.OauthProtectedResourceMcp`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiOauthProtectedResourceMcpRequest struct via the builder pattern
 
 
 ### Return type

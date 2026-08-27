@@ -35,6 +35,8 @@ type ShareCreateOut struct {
 	// Plaintext share secret. Present only on first execution of a create or rotate; null on idempotent replay — rotate to obtain a new secret.
 	Secret NullableString `json:"secret,omitempty"`
 	State string `json:"state"`
+	// The redemption URL for this share, on the public share origin. Present exactly when `secret` is — the URL EMBEDS the secret, so it is a credential and is never returned by list or get, and never stored in the idempotency ledger. A caller cannot compose this itself: the origin is deployment configuration, not something a client can know.
+	Url NullableString `json:"url,omitempty"`
 }
 
 type _ShareCreateOut ShareCreateOut
@@ -381,6 +383,48 @@ func (o *ShareCreateOut) SetState(v string) {
 	o.State = v
 }
 
+// GetUrl returns the Url field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ShareCreateOut) GetUrl() string {
+	if o == nil || IsNil(o.Url.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.Url.Get()
+}
+
+// GetUrlOk returns a tuple with the Url field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *ShareCreateOut) GetUrlOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Url.Get(), o.Url.IsSet()
+}
+
+// HasUrl returns a boolean if a field has been set.
+func (o *ShareCreateOut) HasUrl() bool {
+	if o != nil && o.Url.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetUrl gets a reference to the given NullableString and assigns it to the Url field.
+func (o *ShareCreateOut) SetUrl(v string) {
+	o.Url.Set(&v)
+}
+// SetUrlNil sets the value for Url to be an explicit nil
+func (o *ShareCreateOut) SetUrlNil() {
+	o.Url.Set(nil)
+}
+
+// UnsetUrl ensures that no value is present for Url, not even an explicit nil
+func (o *ShareCreateOut) UnsetUrl() {
+	o.Url.Unset()
+}
+
 func (o ShareCreateOut) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -405,6 +449,9 @@ func (o ShareCreateOut) ToMap() (map[string]interface{}, error) {
 		toSerialize["secret"] = o.Secret.Get()
 	}
 	toSerialize["state"] = o.State
+	if o.Url.IsSet() {
+		toSerialize["url"] = o.Url.Get()
+	}
 	return toSerialize, nil
 }
 
