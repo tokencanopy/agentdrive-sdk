@@ -86,4 +86,4 @@ __all__ = list(_generated_all) + [
     "split_parent_path",
 ]
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"

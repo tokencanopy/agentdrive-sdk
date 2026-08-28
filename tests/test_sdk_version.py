@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 
-EXPECTED_VERSION = "0.0.2"
+EXPECTED_VERSION = "0.0.3"
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -21,6 +21,7 @@ class SdkVersionTest(unittest.TestCase):
             (ROOT / "sdk/typescript/package-lock.json").read_text()
         )
         go_readme = (ROOT / "sdk/go/README.md").read_text()
+        generate_script = (ROOT / "scripts/generate-sdks.sh").read_text()
 
         self.assertRegex(python_init, rf'__version__ = "{re.escape(EXPECTED_VERSION)}"')
         self.assertRegex(
@@ -33,6 +34,18 @@ class SdkVersionTest(unittest.TestCase):
             go_readme,
             re.compile(
                 rf'^- Package version: {re.escape(EXPECTED_VERSION)}$',
+                re.MULTILINE,
+            ),
+        )
+        # The generator's own default, which CI regenerates with because it
+        # sets no SDK_VERSION. Left behind, every committed metadata file says
+        # the new version and regeneration rewrites them to the old one -- so
+        # the freshness check fails and names generated files rather than the
+        # one stale default that caused it.
+        self.assertRegex(
+            generate_script,
+            re.compile(
+                rf'^VERSION="\$\{{SDK_VERSION:-{re.escape(EXPECTED_VERSION)}\}}"$',
                 re.MULTILINE,
             ),
         )
