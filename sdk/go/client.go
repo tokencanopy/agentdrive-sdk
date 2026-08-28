@@ -73,6 +73,8 @@ type APIClient struct {
 
 	SharesRedemptionAPI *SharesRedemptionAPIService
 
+	SheetsAPI *SheetsAPIService
+
 	UploadsAPI *UploadsAPIService
 
 	VersionsAPI *VersionsAPIService
@@ -108,6 +110,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.SearchAPI = (*SearchAPIService)(&c.common)
 	c.SharesAPI = (*SharesAPIService)(&c.common)
 	c.SharesRedemptionAPI = (*SharesRedemptionAPIService)(&c.common)
+	c.SheetsAPI = (*SheetsAPIService)(&c.common)
 	c.UploadsAPI = (*UploadsAPIService)(&c.common)
 	c.VersionsAPI = (*VersionsAPIService)(&c.common)
 	c.ViewerSessionsAPI = (*ViewerSessionsAPIService)(&c.common)

@@ -67,6 +67,18 @@ export interface VersionCreatedOut {
      * @type {string}
      * @memberof VersionCreatedOut
      */
+    originMessage?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof VersionCreatedOut
+     */
+    originSessionId?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof VersionCreatedOut
+     */
     parentVersionId: string | null;
     /**
      *
@@ -116,6 +128,8 @@ export function VersionCreatedOutFromJSONTyped(json: any, ignoreDiscriminator: b
         'createdBy': json['created_by'],
         'hash': json['hash'],
         'id': json['id'],
+        'originMessage': json['origin_message'] == null ? undefined : json['origin_message'],
+        'originSessionId': json['origin_session_id'] == null ? undefined : json['origin_session_id'],
         'parentVersionId': json['parent_version_id'],
         'sizeBytes': json['size_bytes'],
         'versionNumber': json['version_number'],
@@ -140,6 +154,8 @@ export function VersionCreatedOutToJSONTyped(value?: VersionCreatedOut | null, i
         'created_by': value['createdBy'],
         'hash': value['hash'],
         'id': value['id'],
+        'origin_message': value['originMessage'],
+        'origin_session_id': value['originSessionId'],
         'parent_version_id': value['parentVersionId'],
         'size_bytes': value['sizeBytes'],
         'version_number': value['versionNumber'],

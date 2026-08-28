@@ -16,6 +16,7 @@ Name | Type | Description | Notes
 **RotatedAt** | **NullableTime** |  |
 **Secret** | Pointer to **NullableString** | Plaintext share secret. Present only on first execution of a create or rotate; null on idempotent replay — rotate to obtain a new secret. | [optional]
 **State** | **string** |  |
+**Url** | Pointer to **NullableString** | The redemption URL for this share, on the public share origin. Present exactly when &#x60;secret&#x60; is — the URL EMBEDS the secret, so it is a credential and is never returned by list or get, and never stored in the idempotency ledger. A caller cannot compose this itself: the origin is deployment configuration, not something a client can know. | [optional]
 
 ## Methods
 
@@ -331,5 +332,40 @@ and a boolean to check if the value has been set.
 SetState sets State field to given value.
 
 
+### GetUrl
+
+`func (o *ShareCreateOut) GetUrl() string`
+
+GetUrl returns the Url field if non-nil, zero value otherwise.
+
+### GetUrlOk
+
+`func (o *ShareCreateOut) GetUrlOk() (*string, bool)`
+
+GetUrlOk returns a tuple with the Url field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUrl
+
+`func (o *ShareCreateOut) SetUrl(v string)`
+
+SetUrl sets Url field to given value.
+
+### HasUrl
+
+`func (o *ShareCreateOut) HasUrl() bool`
+
+HasUrl returns a boolean if a field has been set.
+
+### SetUrlNil
+
+`func (o *ShareCreateOut) SetUrlNil(b bool)`
+
+ SetUrlNil sets the value for Url to be an explicit nil
+
+### UnsetUrl
+`func (o *ShareCreateOut) UnsetUrl()`
+
+UnsetUrl ensures that no value is present for Url, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

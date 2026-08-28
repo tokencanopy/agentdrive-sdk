@@ -40,7 +40,8 @@ class ShareCreateOut(BaseModel):
     rotated_at: Optional[datetime]
     secret: Optional[StrictStr] = Field(default=None, description="Plaintext share secret. Present only on first execution of a create or rotate; null on idempotent replay — rotate to obtain a new secret.")
     state: StrictStr
-    __properties: ClassVar[List[str]] = ["created_at", "created_by", "drive_id", "expires_at", "id", "resource_id", "resource_type", "revision", "revoked_at", "rotated_at", "secret", "state"]
+    url: Optional[StrictStr] = Field(default=None, description="The redemption URL for this share, on the public share origin. Present exactly when `secret` is — the URL EMBEDS the secret, so it is a credential and is never returned by list or get, and never stored in the idempotency ledger. A caller cannot compose this itself: the origin is deployment configuration, not something a client can know.")
+    __properties: ClassVar[List[str]] = ["created_at", "created_by", "drive_id", "expires_at", "id", "resource_id", "resource_type", "revision", "revoked_at", "rotated_at", "secret", "state", "url"]
 
     @field_validator('drive_id')
     def drive_id_validate_regular_expression(cls, value):
@@ -141,6 +142,11 @@ class ShareCreateOut(BaseModel):
         if self.secret is None and "secret" in self.model_fields_set:
             _dict['secret'] = None
 
+        # set to None if url (nullable) is None
+        # and model_fields_set contains the field
+        if self.url is None and "url" in self.model_fields_set:
+            _dict['url'] = None
+
         return _dict
 
     @classmethod
@@ -164,6 +170,7 @@ class ShareCreateOut(BaseModel):
             "revoked_at": obj.get("revoked_at"),
             "rotated_at": obj.get("rotated_at"),
             "secret": obj.get("secret"),
-            "state": obj.get("state")
+            "state": obj.get("state"),
+            "url": obj.get("url")
         })
         return _obj

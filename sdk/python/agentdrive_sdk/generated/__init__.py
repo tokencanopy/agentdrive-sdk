@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 # Define package exports
 __all__ = [
@@ -30,6 +30,7 @@ __all__ = [
     "SearchApi",
     "SharesApi",
     "SharesRedemptionApi",
+    "SheetsApi",
     "UploadsApi",
     "VersionsApi",
     "ViewerSessionsApi",
@@ -47,10 +48,13 @@ __all__ = [
     "ArtifactListOut",
     "ArtifactOut",
     "ArtifactUpdateIn",
+    "CellRangeOut",
+    "CellWriteIn",
     "ChangeActorOut",
     "ChangeOut",
     "ChangePageOut",
     "ChangeResourceOut",
+    "CompleteIn",
     "DownloadCapabilitiesCreateRequest",
     "DownloadCapabilitiesCreateRequestTarget",
     "DownloadCapabilitiesCreateRequestTargetOneOf",
@@ -63,6 +67,7 @@ __all__ = [
     "DriveOut",
     "DriveUpdateIn",
     "DriveUsageOut",
+    "EditabilityOut",
     "EntriesInner",
     "EntryListOut",
     "ErrorResponse",
@@ -84,10 +89,13 @@ __all__ = [
     "LookupOut",
     "SearchHitOut",
     "SearchPageOut",
+    "SessionCreateIn",
     "ShareCreateIn",
     "ShareCreateOut",
     "ShareListOut",
     "ShareOut",
+    "SheetIndexOut",
+    "SheetOut",
     "Target",
     "UploadBeginOut",
     "UploadChecksumOut",
@@ -119,6 +127,8 @@ __all__ = [
     "VersionOut",
     "ViewerSessionCreateIn",
     "ViewerSessionCreateOut",
+    "WorkbookOut",
+    "WriteCellsIn",
 ]
 
 # import apis into sdk package
@@ -134,6 +144,7 @@ from agentdrive_sdk.generated.api.navigation_api import NavigationApi as Navigat
 from agentdrive_sdk.generated.api.search_api import SearchApi as SearchApi
 from agentdrive_sdk.generated.api.shares_api import SharesApi as SharesApi
 from agentdrive_sdk.generated.api.shares_redemption_api import SharesRedemptionApi as SharesRedemptionApi
+from agentdrive_sdk.generated.api.sheets_api import SheetsApi as SheetsApi
 from agentdrive_sdk.generated.api.uploads_api import UploadsApi as UploadsApi
 from agentdrive_sdk.generated.api.versions_api import VersionsApi as VersionsApi
 from agentdrive_sdk.generated.api.viewer_sessions_api import ViewerSessionsApi as ViewerSessionsApi
@@ -155,10 +166,13 @@ from agentdrive_sdk.generated.models.artifact_entry_out import ArtifactEntryOut 
 from agentdrive_sdk.generated.models.artifact_list_out import ArtifactListOut as ArtifactListOut
 from agentdrive_sdk.generated.models.artifact_out import ArtifactOut as ArtifactOut
 from agentdrive_sdk.generated.models.artifact_update_in import ArtifactUpdateIn as ArtifactUpdateIn
+from agentdrive_sdk.generated.models.cell_range_out import CellRangeOut as CellRangeOut
+from agentdrive_sdk.generated.models.cell_write_in import CellWriteIn as CellWriteIn
 from agentdrive_sdk.generated.models.change_actor_out import ChangeActorOut as ChangeActorOut
 from agentdrive_sdk.generated.models.change_out import ChangeOut as ChangeOut
 from agentdrive_sdk.generated.models.change_page_out import ChangePageOut as ChangePageOut
 from agentdrive_sdk.generated.models.change_resource_out import ChangeResourceOut as ChangeResourceOut
+from agentdrive_sdk.generated.models.complete_in import CompleteIn as CompleteIn
 from agentdrive_sdk.generated.models.download_capabilities_create_request import DownloadCapabilitiesCreateRequest as DownloadCapabilitiesCreateRequest
 from agentdrive_sdk.generated.models.download_capabilities_create_request_target import DownloadCapabilitiesCreateRequestTarget as DownloadCapabilitiesCreateRequestTarget
 from agentdrive_sdk.generated.models.download_capabilities_create_request_target_one_of import DownloadCapabilitiesCreateRequestTargetOneOf as DownloadCapabilitiesCreateRequestTargetOneOf
@@ -171,6 +185,7 @@ from agentdrive_sdk.generated.models.drive_list_out import DriveListOut as Drive
 from agentdrive_sdk.generated.models.drive_out import DriveOut as DriveOut
 from agentdrive_sdk.generated.models.drive_update_in import DriveUpdateIn as DriveUpdateIn
 from agentdrive_sdk.generated.models.drive_usage_out import DriveUsageOut as DriveUsageOut
+from agentdrive_sdk.generated.models.editability_out import EditabilityOut as EditabilityOut
 from agentdrive_sdk.generated.models.entries_inner import EntriesInner as EntriesInner
 from agentdrive_sdk.generated.models.entry_list_out import EntryListOut as EntryListOut
 from agentdrive_sdk.generated.models.error_response import ErrorResponse as ErrorResponse
@@ -192,10 +207,13 @@ from agentdrive_sdk.generated.models.health_out import HealthOut as HealthOut
 from agentdrive_sdk.generated.models.lookup_out import LookupOut as LookupOut
 from agentdrive_sdk.generated.models.search_hit_out import SearchHitOut as SearchHitOut
 from agentdrive_sdk.generated.models.search_page_out import SearchPageOut as SearchPageOut
+from agentdrive_sdk.generated.models.session_create_in import SessionCreateIn as SessionCreateIn
 from agentdrive_sdk.generated.models.share_create_in import ShareCreateIn as ShareCreateIn
 from agentdrive_sdk.generated.models.share_create_out import ShareCreateOut as ShareCreateOut
 from agentdrive_sdk.generated.models.share_list_out import ShareListOut as ShareListOut
 from agentdrive_sdk.generated.models.share_out import ShareOut as ShareOut
+from agentdrive_sdk.generated.models.sheet_index_out import SheetIndexOut as SheetIndexOut
+from agentdrive_sdk.generated.models.sheet_out import SheetOut as SheetOut
 from agentdrive_sdk.generated.models.target import Target as Target
 from agentdrive_sdk.generated.models.upload_begin_out import UploadBeginOut as UploadBeginOut
 from agentdrive_sdk.generated.models.upload_checksum_out import UploadChecksumOut as UploadChecksumOut
@@ -227,3 +245,5 @@ from agentdrive_sdk.generated.models.version_list_out import VersionListOut as V
 from agentdrive_sdk.generated.models.version_out import VersionOut as VersionOut
 from agentdrive_sdk.generated.models.viewer_session_create_in import ViewerSessionCreateIn as ViewerSessionCreateIn
 from agentdrive_sdk.generated.models.viewer_session_create_out import ViewerSessionCreateOut as ViewerSessionCreateOut
+from agentdrive_sdk.generated.models.workbook_out import WorkbookOut as WorkbookOut
+from agentdrive_sdk.generated.models.write_cells_in import WriteCellsIn as WriteCellsIn

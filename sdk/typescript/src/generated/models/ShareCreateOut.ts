@@ -92,6 +92,12 @@ export interface ShareCreateOut {
      * @memberof ShareCreateOut
      */
     state: ShareCreateOutStateEnum;
+    /**
+     * The redemption URL for this share, on the public share origin. Present exactly when `secret` is — the URL EMBEDS the secret, so it is a credential and is never returned by list or get, and never stored in the idempotency ledger. A caller cannot compose this itself: the origin is deployment configuration, not something a client can know.
+     * @type {string}
+     * @memberof ShareCreateOut
+     */
+    url?: string | null;
 }
 
 
@@ -156,6 +162,7 @@ export function ShareCreateOutFromJSONTyped(json: any, ignoreDiscriminator: bool
         'rotatedAt': (json['rotated_at'] == null ? null : new Date(json['rotated_at'])),
         'secret': json['secret'] == null ? undefined : json['secret'],
         'state': json['state'],
+        'url': json['url'] == null ? undefined : json['url'],
     };
 }
 
@@ -182,5 +189,6 @@ export function ShareCreateOutToJSONTyped(value?: ShareCreateOut | null, ignoreD
         'rotated_at': value['rotatedAt'] == null ? value['rotatedAt'] : value['rotatedAt'].toISOString(),
         'secret': value['secret'],
         'state': value['state'],
+        'url': value['url'],
     };
 }

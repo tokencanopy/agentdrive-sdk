@@ -34,10 +34,12 @@ class VersionOut(BaseModel):
     created_by: Optional[StrictStr]
     hash: StrictStr
     id: Annotated[str, Field(strict=True)]
+    origin_message: Optional[StrictStr] = None
+    origin_session_id: Optional[StrictStr] = None
     parent_version_id: Optional[StrictStr]
     size_bytes: Annotated[int, Field(strict=True, ge=0)]
     version_number: Annotated[int, Field(strict=True, ge=1)]
-    __properties: ClassVar[List[str]] = ["artifact_id", "content_type", "created_at", "created_by", "hash", "id", "parent_version_id", "size_bytes", "version_number"]
+    __properties: ClassVar[List[str]] = ["artifact_id", "content_type", "created_at", "created_by", "hash", "id", "origin_message", "origin_session_id", "parent_version_id", "size_bytes", "version_number"]
 
     @field_validator('artifact_id')
     def artifact_id_validate_regular_expression(cls, value):
@@ -97,6 +99,16 @@ class VersionOut(BaseModel):
         if self.created_by is None and "created_by" in self.model_fields_set:
             _dict['created_by'] = None
 
+        # set to None if origin_message (nullable) is None
+        # and model_fields_set contains the field
+        if self.origin_message is None and "origin_message" in self.model_fields_set:
+            _dict['origin_message'] = None
+
+        # set to None if origin_session_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.origin_session_id is None and "origin_session_id" in self.model_fields_set:
+            _dict['origin_session_id'] = None
+
         # set to None if parent_version_id (nullable) is None
         # and model_fields_set contains the field
         if self.parent_version_id is None and "parent_version_id" in self.model_fields_set:
@@ -120,6 +132,8 @@ class VersionOut(BaseModel):
             "created_by": obj.get("created_by"),
             "hash": obj.get("hash"),
             "id": obj.get("id"),
+            "origin_message": obj.get("origin_message"),
+            "origin_session_id": obj.get("origin_session_id"),
             "parent_version_id": obj.get("parent_version_id"),
             "size_bytes": obj.get("size_bytes"),
             "version_number": obj.get("version_number")
