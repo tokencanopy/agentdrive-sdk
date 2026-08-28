@@ -1,6 +1,6 @@
 [project]
 name = "agentdrive_sdk"
-version = "0.0.2"
+version = "0.0.3"
 description = "AgentDrive"
 authors = [
   {name = "OpenAPI Generator Community",email = "team@openapitools.org"},

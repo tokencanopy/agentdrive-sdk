@@ -16,11 +16,13 @@ import type {
     ShareCreateOut,
     ShareListOut,
     ShareOut,
+    UploadBeginOut,
     UploadSessionOut,
     UploadsCreateRequest,
     VersionListOut,
     VersionOut,
 } from '../generated/models';
+import { UploadBeginOutFromJSON, UploadSessionOutFromJSON } from '../generated/models';
 import type { ChangesListRequest } from '../generated/apis/ChangesApi';
 import type { DriveSearchRequest } from '../generated/apis/SearchApi';
 import type { AgentDriveClient } from './client';
@@ -486,9 +488,36 @@ export class ShareResource {
 export class UploadResource {
     constructor(private readonly client: AgentDriveClient) {}
 
-    begin(driveId: string, request: UploadsCreateRequest, options: { revision?: string; idempotencyKey?: string } = {}): Promise<UploadSessionOut> {
+    /**
+     * Begin an upload session.
+     *
+     * Deserializes the response HERE, by status, instead of calling the
+     * generated `uploadsCreate`. The endpoint has two different success
+     * schemas -- 201 is `UploadBeginOut`, which carries the one-time
+     * `transfer` target, and 200 is the idempotent replay `UploadSessionOut`,
+     * which deliberately cannot carry it. `typescript-fetch` emits a single
+     * deserializer per operation and picked the 200 one, so every fresh begin
+     * was parsed by a model with no `transfer` field and the signed upload URL
+     * was silently dropped. Since the service discloses that target EXACTLY
+     * ONCE, the URL was then unrecoverable: re-reading the session only sets
+     * `restart_required`. That made direct upload impossible through this SDK.
+     *
+     * The Python generator emits a per-status `response_types_map` and gets
+     * this right, which is why only TypeScript was affected.
+     *
+     * Not fixed by widening the schemas: `UploadSessionOut` is documented
+     * server-side as "structurally incapable of carrying the bearer target",
+     * and that property is worth more than the convenience of one return type.
+     */
+    begin(driveId: string, request: UploadsCreateRequest, options: { revision?: string; idempotencyKey?: string } = {}): Promise<UploadBeginOut | UploadSessionOut> {
         const idempotencyKey = options.idempotencyKey ?? newIdempotencyKey();
-        return this.client.invoke('uploads_create', () => this.client.generated.uploads.uploadsCreate({ driveId, ifMatch: options.revision == null ? undefined : strongIfMatch(options.revision), idempotencyKey, uploadsCreateRequest: request }));
+        return this.client.invoke('uploads_create', async () => {
+            const response = await this.client.generated.uploads.uploadsCreateRaw({ driveId, ifMatch: options.revision == null ? undefined : strongIfMatch(options.revision), idempotencyKey, uploadsCreateRequest: request });
+            // `value()` would apply the generated (wrong) transformer; the body
+            // is still unread here because JSONApiResponse only reads it there.
+            const body = await response.raw.json();
+            return response.raw.status === 201 ? UploadBeginOutFromJSON(body) : UploadSessionOutFromJSON(body);
+        });
     }
 
     read(driveId: string, uploadId: string, ifNoneMatch?: string): Promise<UploadSessionOut> {
