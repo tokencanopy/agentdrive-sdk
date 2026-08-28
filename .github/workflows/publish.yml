@@ -49,11 +49,21 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
           registry-url: "https://registry.npmjs.org"
-      # Trusted publishing needs npm >= 11.5.1; Node 20 ships an older npm.
+      # Trusted publishing needs npm >= 11.5.1, so the npm that ships with
+      # Node may be too old and gets upgraded here.
+      #
+      # Both halves of this are deliberate. Node is 24 rather than 20 because
+      # npm@latest reached 12, which requires
+      # `^22.22.2 || ^24.15.0 || >=26.0.0` — on Node 20 the upgrade below
+      # aborted with `notsup` and the 0.0.2 release failed at this step. And
+      # the upgrade is bounded to ^11 rather than `latest` because `latest`
+      # is what moved: an unbounded install re-breaks this job the day npm 13
+      # raises its floor past whatever Node is pinned above. ^11.5.1 states
+      # the requirement the comment already describes.
       - name: Upgrade npm for OIDC trusted publishing
-        run: npm install -g npm@latest
+        run: npm install -g "npm@^11.5.1"
       - name: Build & publish (OIDC, no token)
         working-directory: sdk/typescript
         run: |
