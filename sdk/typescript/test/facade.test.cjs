@@ -248,3 +248,73 @@ test('cursor iteration preserves opaque cursors and respects maxPages', async ()
     assert.deepEqual(seen, [undefined, 'opaque:two']);
     assert.deepEqual(values, ['one', 'two']);
 });
+
+function syntheticUpload(extra = {}) {
+    return {
+        id: 'upld_synthetic',
+        drive_id: 'drv_synthetic',
+        state: 'active',
+        target: { kind: 'artifact', parent_folder_id: 'fld_synthetic_root', name: 'book.xlsx' },
+        content: {
+            size_bytes: 5381,
+            media_type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            checksum: { algorithm: 'crc32c', value: 'AAAAAA==' },
+        },
+        expires_at: '2026-01-01T04:00:00Z',
+        target_disclosed: true,
+        restart_required: false,
+        result: null,
+        failure: null,
+        cleanup: { state: 'none' },
+        ...extra,
+    };
+}
+
+const SYNTHETIC_TRANSFER = {
+    chunk_protocol: 'gcs-xml-resumable',
+    initiation: { url: 'https://storage.invalid/synthetic-resumable-target', method: 'POST', headers: {} },
+    chunks: { method: 'PUT', headers: {}, min_bytes: 262144 },
+};
+
+function uploadClient(status, body) {
+    return new AgentDriveClient({
+        baseUrl: 'https://drive.invalid',
+        tokenProvider: new StaticTokenProvider('synthetic'),
+        fetchApi: async () => jsonResponse(status, body),
+    });
+}
+
+const BEGIN_REQUEST = {
+    target: { kind: 'artifact', parentFolderId: 'fld_synthetic_root', name: 'book.xlsx' },
+    content: {
+        sizeBytes: 5381,
+        mediaType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        checksum: { algorithm: 'crc32c', value: 'AAAAAA==' },
+    },
+};
+
+// The 201 is the ONLY response that ever carries the signed upload target, and
+// the service discloses it exactly once -- a dropped `transfer` is not a
+// degraded result, it is an unrecoverable one. The generated client picks a
+// single deserializer per operation and chose the 200's `UploadSessionOut`,
+// which has no `transfer` field, so every fresh begin silently lost the URL
+// and direct upload could not work at all.
+test('begin surfaces the one-time transfer target from a 201', async () => {
+    const client = uploadClient(201, { upload: syntheticUpload({ transfer: SYNTHETIC_TRANSFER }) });
+    const result = await client.uploads.begin('drv_synthetic', BEGIN_REQUEST);
+    assert.equal(
+        result.upload.transfer.initiation.url,
+        'https://storage.invalid/synthetic-resumable-target',
+    );
+    assert.equal(result.upload.transfer.chunkProtocol, 'gcs-xml-resumable');
+});
+
+// The idempotent replay deliberately cannot carry the target: server-side
+// `UploadSessionOut` is documented as "structurally incapable" of it. Parsing a
+// 200 with the 201's model would invent a field the wire never sent.
+test('begin does not invent a transfer target on a 200 replay', async () => {
+    const client = uploadClient(200, { upload: syntheticUpload({ restart_required: true }) });
+    const result = await client.uploads.begin('drv_synthetic', BEGIN_REQUEST);
+    assert.equal(result.upload.transfer, undefined);
+    assert.equal(result.upload.id, 'upld_synthetic');
+});
