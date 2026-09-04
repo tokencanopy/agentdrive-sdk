@@ -1,6 +1,6 @@
 # AgentDrive — SDKs, Skills & Connector
 
-Official developer kit for [**AgentDrive**](https://agentdrive.run) — an artifact store for AI agents. Read, write, and search files by path; share by rendered URL.
+Official developer kit for [**AgentDrive**](https://tokencanopy.com) — an artifact store for AI agents. Read, write, and search files by path; share by rendered URL.
 
 AgentDrive is a **remote MCP server** with OAuth 2.1 (PKCE + dynamic client registration). The v0 REST data plane is hosted at `https://drive.tokencanopy.com`; this repo holds the **client-side** pieces: language SDKs, the agent Skill, and connector metadata. No server source lives here.
 
@@ -35,11 +35,11 @@ For agents without a plugin system, add the remote MCP directly:
 
 | Agent | How |
 |---|---|
-| **Claude** (Desktop/web) | Settings → Connectors → Add custom connector → `https://api.agentdrive.run/mcp` |
-| **ChatGPT** | Settings → Apps & Connectors → Developer Mode → Add connector → `https://api.agentdrive.run/mcp` (OAuth) |
+| **Claude** (Desktop/web) | Settings → Connectors → Add custom connector → `https://drive.mcp.tokencanopy.com/mcp` |
+| **ChatGPT** | Settings → Apps & Connectors → Developer Mode → Add connector → `https://drive.mcp.tokencanopy.com/mcp` (OAuth) |
 | **Codex** | `codex mcp add` (streamable HTTP) → `codex mcp login agentdrive` |
 | **Gemini CLI** | Add to `settings.json` under `mcpServers` |
-| **Claude Code** | `claude mcp add --transport http agentdrive https://api.agentdrive.run/mcp` |
+| **Claude Code** | `claude mcp add --transport http agentdrive https://drive.mcp.tokencanopy.com/mcp` |
 
 Full paste-ready blocks: [`docs/add-to-your-agent.md`](docs/add-to-your-agent.md). Cross-agent instructions: [`AGENTS.md`](AGENTS.md).
 
@@ -75,9 +75,9 @@ go get github.com/tokencanopy/agentdrive-sdk/sdk/go
 
 ## Links
 
-- Website: https://agentdrive.run
+- Website: https://tokencanopy.com
 - API base: https://drive.tokencanopy.com · OpenAPI: https://drive.tokencanopy.com/openapi.json
-- Docs: [setup](https://agentdrive.run/setup.md) · [auth](https://agentdrive.run/auth.md) · [api](https://agentdrive.run/api.md) · [skill](https://agentdrive.run/agentdrive.md)
+- Docs: [setup](docs/setup.md) · [auth](docs/auth.md) · [api](docs/api.md) · [skill](plugin/skills/agentdrive/SKILL.md)
 
 ## License
 

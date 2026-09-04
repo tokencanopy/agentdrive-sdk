@@ -100,7 +100,7 @@ jobs:
           VERSION="${RAW#v}"
           TAG="sdk/go/v${VERSION}"
           git config user.name  "agentdrive-bot"
-          git config user.email "support@agentdrive.run"
+          git config user.email "hello@mnexa.ai"
           if git rev-parse "$TAG" >/dev/null 2>&1; then
             echo "Tag $TAG already exists."
           else
