@@ -1,94 +1,154 @@
 # Add AgentDrive to your agent
 
-AgentDrive is a **remote MCP server** — one HTTPS endpoint, OAuth 2.1 (PKCE + dynamic client registration). The same endpoint works across every MCP client:
+AgentDrive is a remote MCP server (streamable HTTP, OAuth 2.1 PKCE, no API key):
 
 ```
-https://api.agentdrive.run/mcp
+https://drive.mcp.tokencanopy.com/mcp
 ```
-
-On first connect you'll be sent through an OAuth sign-in; after that the agent has access to your drive. No API key to paste for the OAuth flow.
 
 ---
 
-## Claude (Desktop / web)
+## Claude Code
 
-1. **Settings → Connectors → Add custom connector**
-2. Name: `AgentDrive`
-3. URL: `https://api.agentdrive.run/mcp`
-4. Sign in when prompted.
-
-## Claude Code (CLI)
-
-**Recommended — the plugin** (wires the MCP *and* installs the `agentdrive` skill + `/publish`, `/drive`, `/compile`):
+Install via marketplace:
 
 ```bash
 claude plugin marketplace add tokencanopy/agentdrive-sdk
 claude plugin install agentdrive@agentdrive
 ```
 
-**MCP only** (no skill/commands):
+Direct MCP:
 
 ```bash
-claude mcp add --transport http agentdrive https://api.agentdrive.run/mcp
+claude mcp add --transport http agentdrive https://drive.mcp.tokencanopy.com/mcp
 ```
 
-Either way, Claude Code opens the OAuth flow on first tool use — no API key to paste.
+## Claude Desktop/web
 
-## ChatGPT
+1. **Settings → Connectors → Add custom connector**
+2. Name: `AgentDrive`
+3. URL: `https://drive.mcp.tokencanopy.com/mcp`
+4. Sign in when prompted.
 
-Requires **Developer Mode** (Plus / Pro / Team / Enterprise).
+## Codex
 
-1. **Settings → Apps & Connectors → Advanced → Developer Mode** (toggle on)
-2. **Add new connector**
-3. Name: `AgentDrive` · MCP Server URL: `https://api.agentdrive.run/mcp`
-4. Authentication: **OAuth** → "I trust this application."
-
-ChatGPT supports remote (HTTPS) MCP servers only — which is exactly what AgentDrive is.
-
-## Codex (CLI)
-
-Codex supports remote streamable-HTTP MCP servers with OAuth.
+Install via marketplace:
 
 ```bash
-codex mcp add        # choose streamable HTTP, url = https://api.agentdrive.run/mcp, auth = OAuth
-codex mcp login agentdrive
+codex plugin marketplace add tokencanopy/agentdrive-sdk
 ```
 
-Or edit `~/.codex/config.toml`:
+Direct remote MCP (`~/.codex/config.toml`):
 
 ```toml
 [mcp_servers.agentdrive]
-url = "https://api.agentdrive.run/mcp"
-# optional: bind tokens to the resource (RFC 8707)
-# oauth_resource = "https://api.agentdrive.run/mcp"
+url = "https://drive.mcp.tokencanopy.com/mcp"
+auth = "oauth"
+enabled = true
 ```
 
-then `codex mcp login agentdrive`.
+Then:
 
-## Gemini CLI
+```bash
+codex mcp login agentdrive
+```
 
-Add to your Gemini CLI `settings.json`:
+## Cursor
+
+Direct MCP config (`.cursor/mcp.json` or `~/.cursor/mcp.json`):
 
 ```json
 {
   "mcpServers": {
     "agentdrive": {
-      "httpUrl": "https://api.agentdrive.run/mcp"
+      "type": "streamable-http",
+      "url": "https://drive.mcp.tokencanopy.com/mcp"
     }
   }
 }
 ```
 
-Gemini CLI supports OAuth 2.0 for remote MCP servers. (Note: the consumer Gemini app only supports a curated set of partner connectors today — the CLI, the Gemini SDK, and Gemini Enterprise are the self-serve paths.)
+Cursor also supports Agent Plugins 1.0.
 
----
+## VS Code / Copilot
 
-## API key alternative (non-OAuth clients / scripts)
+Direct MCP config (`.vscode/mcp.json` — note the key is `servers`, not `mcpServers`):
 
-For headless use you can authenticate with an API key instead of OAuth — pass it as a bearer token:
-
-```bash
-curl -H "Authorization: Bearer ad_live_..." https://drive.tokencanopy.com/v0/...
+```json
+{
+  "servers": {
+    "agentdrive": {
+      "type": "http",
+      "url": "https://drive.mcp.tokencanopy.com/mcp"
+    }
+  }
+}
 ```
 
-See [`auth.md`](auth.md) and [`api.md`](api.md) for the full auth model.
+## Windsurf
+
+Direct MCP config (`~/.codeium/windsurf/mcp_config.json`) — note the key is `serverUrl`:
+
+```json
+{
+  "mcpServers": {
+    "agentdrive": {
+      "serverUrl": "https://drive.mcp.tokencanopy.com/mcp"
+    }
+  }
+}
+```
+
+## Gemini CLI
+
+Direct MCP config (`~/.gemini/settings.json` or `.gemini/settings.json`) — note the key is `httpUrl`:
+
+```json
+{
+  "mcpServers": {
+    "agentdrive": {
+      "httpUrl": "https://drive.mcp.tokencanopy.com/mcp"
+    }
+  }
+}
+```
+
+## Zed
+
+Zed's native `context_servers` support for remote streamable-HTTP servers is
+still inconsistent across releases. The reliable path is the `mcp-remote` stdio
+bridge, which also handles the OAuth flow:
+
+```json
+{
+  "context_servers": {
+    "agentdrive": {
+      "source": "custom",
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://drive.mcp.tokencanopy.com/mcp"]
+    }
+  }
+}
+```
+
+If your Zed build accepts a direct `url` under `context_servers`, that works too
+and skips the bridge.
+
+## Any Agent Plugins 1.0 client
+
+This repo ships an [Agent Plugins 1.0](https://agent-plugins.org) plugin at
+`plugin/`, so any conformant client can load it directly from a checkout — no
+per-vendor configuration. The standard's two files are `plugin/plugin.json`
+(manifest) and `plugin/mcp.json` (MCP servers); skills live at
+`plugin/skills/<name>/SKILL.md`. The standard defines no OAuth fields
+deliberately: authorization discovery and credential storage are client-managed,
+which is why none of the configs above carry a token.
+
+## MCP Registry
+
+The published entry is `run.agentdrive/agentdrive`. Its namespace is still rooted
+in `agentdrive.run`, a domain that has been retired and now redirects, so the
+listing needs either a republish in place (DNS-verified against that domain) or a
+move to a `tokencanopy.com`-verified namespace. Until that is done, treat
+`connector/server.json` in this repo — not the registry listing — as the source
+of truth for the endpoint.

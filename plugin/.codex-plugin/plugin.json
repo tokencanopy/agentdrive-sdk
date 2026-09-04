@@ -1,0 +1,28 @@
+{
+  "name": "agentdrive",
+  "version": "0.1.0",
+  "description": "Give your agent a drive: write files by path, get instant public rendered URLs, compile LaTeX to a shareable PDF, hand off work between agents.",
+  "author": {
+    "name": "Mnexa, Inc.",
+    "email": "hello@mnexa.ai",
+    "url": "https://tokencanopy.com"
+  },
+  "homepage": "https://tokencanopy.com",
+  "repository": "https://github.com/tokencanopy/agentdrive-sdk",
+  "license": "MIT",
+  "keywords": [
+    "storage",
+    "files",
+    "artifacts",
+    "mcp"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./mcp.json",
+  "interface": {
+    "displayName": "AgentDrive",
+    "shortDescription": "Artifact store for AI agents",
+    "longDescription": "Artifact store for AI agents — read, write, and search files by path; share by rendered URL.",
+    "category": "Coding",
+    "websiteURL": "https://tokencanopy.com"
+  }
+}

@@ -5,7 +5,7 @@
   "description": "Give your agent a drive: write files by path, get instant public rendered URLs, compile LaTeX to a shareable PDF, hand off work between agents.",
   "author": {
     "name": "AgentDrive",
-    "url": "https://agentdrive.run"
+    "url": "https://tokencanopy.com"
   },
   "license": "MIT",
   "keywords": ["mcp", "storage", "artifacts", "publish", "latex", "cursor"],
