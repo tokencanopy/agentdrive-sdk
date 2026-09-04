@@ -3,7 +3,7 @@
   "name": "agentdrive",
   "owner": {
     "name": "AgentDrive",
-    "email": "support@agentdrive.run"
+    "email": "hello@mnexa.ai"
   },
   "metadata": {
     "description": "AgentDrive — the drive your agent writes to. Instant public rendered URLs, agentic LaTeX compile, multi-agent handoff.",
@@ -15,8 +15,8 @@
       "source": "./plugin",
       "category": "productivity",
       "description": "Wire the AgentDrive MCP (OAuth, no API key) + the agentdrive skill + /publish, /drive, /compile. Write files by path, get instant public rendered URLs, compile LaTeX to a shareable PDF, hand off work between agents.",
-      "author": { "name": "AgentDrive", "url": "https://agentdrive.run" },
-      "homepage": "https://agentdrive.run"
+      "author": { "name": "AgentDrive", "url": "https://tokencanopy.com" },
+      "homepage": "https://tokencanopy.com"
     }
   ]
 }

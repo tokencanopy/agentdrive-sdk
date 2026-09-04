@@ -4,11 +4,11 @@
   "title": "AgentDrive",
   "description": "Artifact store for AI agents — read, write, and search files by path; share by rendered URL.",
   "version": "0.0.1",
-  "websiteUrl": "https://agentdrive.run",
+  "websiteUrl": "https://tokencanopy.com",
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://api.agentdrive.run/mcp"
+      "url": "https://drive.mcp.tokencanopy.com/mcp"
     }
   ]
 }
