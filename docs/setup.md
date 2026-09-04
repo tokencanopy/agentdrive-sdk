@@ -29,4 +29,4 @@ For agent use, connect directly to the remote MCP endpoint (streamable HTTP, OAu
 https://drive.mcp.tokencanopy.com/mcp
 ```
 
-For configuration guides and paste-ready blocks for Claude, ChatGPT, Codex, Cursor, Gemini, and other agents, see [docs/add-to-your-agent.md](add-to-your-agent.md).
+For configuration guides and paste-ready blocks for Claude, ChatGPT, Codex, Cursor, Gemini, and other agents, see [the plugin repo's add-to-your-agent guide](https://github.com/tokencanopy/agentdrive-plugin/blob/main/docs/add-to-your-agent.md).

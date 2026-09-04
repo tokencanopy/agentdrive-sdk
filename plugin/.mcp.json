@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "agentdrive": {
-      "type": "http",
-      "url": "https://drive.mcp.tokencanopy.com/mcp"
-    }
-  }
-}
