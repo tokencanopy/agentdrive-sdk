@@ -3,7 +3,7 @@
   "name": "run.agentdrive/agentdrive",
   "title": "AgentDrive",
   "description": "Artifact store for AI agents — read, write, and search files by path; share by rendered URL.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "websiteUrl": "https://tokencanopy.com",
   "remotes": [
     {
