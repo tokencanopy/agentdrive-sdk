@@ -100,6 +100,7 @@ export interface GrantOut {
 export const GrantOutPrincipalTypeEnum = {
     Agent: 'agent',
     User: 'user',
+    Service: 'service',
     Workspace: 'workspace',
     Public: 'public'
 } as const;

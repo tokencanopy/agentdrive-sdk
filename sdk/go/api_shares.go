@@ -272,7 +272,7 @@ type ApiSharesListRequest struct {
 	ctx context.Context
 	ApiService *SharesAPIService
 	driveId string
-	lifecycle *string
+	state *string
 	limit *int32
 	cursor *string
 	resourceType *string
@@ -280,8 +280,8 @@ type ApiSharesListRequest struct {
 	authorization *string
 }
 
-func (r ApiSharesListRequest) Lifecycle(lifecycle string) ApiSharesListRequest {
-	r.lifecycle = &lifecycle
+func (r ApiSharesListRequest) State(state string) ApiSharesListRequest {
+	r.state = &state
 	return r
 }
 
@@ -363,11 +363,11 @@ func (a *SharesAPIService) SharesListExecute(r ApiSharesListRequest) (*ShareList
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if r.lifecycle != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "lifecycle", r.lifecycle, "form", "")
+	if r.state != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "state", r.state, "form", "")
 	} else {
 		var defaultValue string = "active"
-		r.lifecycle = &defaultValue
+		r.state = &defaultValue
 	}
 	if r.limit != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")

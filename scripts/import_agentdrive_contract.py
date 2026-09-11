@@ -12,14 +12,19 @@ SDK_SERVER = {
     "url": "https://drive.tokencanopy.com",
     "description": "AgentDrive canonical production API",
 }
-SOURCE_REPOSITORY = "https://github.com/tokencanopy/agentdrive"
-SOURCE_PATH = "tests/openapi.golden.json"
+# AgentDrive's source moved into the tokencanopy monorepo in the 2026-08-29
+# port; the contract it publishes moved with it. The old coordinates named a
+# repository that no longer hosts the file, so every provenance record
+# written after the port pointed at nothing.
+SOURCE_REPOSITORY = "https://github.com/tokencanopy/tokencanopy"
+SOURCE_PATH = "apps/drive/tests/openapi.golden.json"
 GENERATOR_IMAGE = (
     Path(__file__).resolve().parents[1] / "sdk/openapi-generator-image.txt"
 ).read_text(encoding="utf-8").strip()
 HTTP_METHODS = frozenset(
     {"get", "put", "post", "delete", "patch", "head", "options", "trace"}
 )
+SUPPORTED_POLICY_VERSION = 2
 
 
 class ContractImportError(ValueError):
@@ -27,8 +32,14 @@ class ContractImportError(ValueError):
 
 
 def _validate(document: Dict[str, Any]) -> None:
-    if document.get("x-agentdrive-compatibility-policy") != 1:
-        raise ContractImportError("source contract lacks compatibility policy version 1")
+    # Pinned to the policy the importer understands, not to a floor: a bump
+    # is AgentDrive changing the rules its contract is judged by, which is a
+    # decision to read before the SDK carries the contract downstream.
+    if document.get("x-agentdrive-compatibility-policy") != SUPPORTED_POLICY_VERSION:
+        raise ContractImportError(
+            "source contract is not compatibility policy version "
+            f"{SUPPORTED_POLICY_VERSION}"
+        )
     if document.get("servers") != ["<DEPLOYMENT-DERIVED>"]:
         raise ContractImportError("source contract lacks the deployment-derived server sentinel")
 

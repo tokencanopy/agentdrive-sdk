@@ -1144,7 +1144,7 @@ class FoldersApi:
     def folders_list(
         self,
         drive_id: StrictStr,
-        lifecycle: Optional[StrictStr] = None,
+        state: Optional[StrictStr] = None,
         limit: Optional[StrictInt] = None,
         cursor: Optional[StrictStr] = None,
         parent_id: Optional[StrictStr] = None,
@@ -1165,12 +1165,12 @@ class FoldersApi:
     ) -> FolderListOut:
         """List Folders
 
-        List the drive's folders, newest-first (keyset paginated).  ``lifecycle`` (active|deleted|all) exposes soft-deleted folders so the post-delete revision can be read as the If-Match source for a restore. ``parent_id`` / ``name`` are exact-match filters. Unknown query parameters are rejected (§6.3).
+        List the drive's folders, newest-first (keyset paginated).  ``state`` (active|deleted|all) exposes soft-deleted folders so the post-delete revision can be read as the If-Match source for a restore. ``parent_id`` / ``name`` are exact-match filters. Unknown query parameters are rejected (§6.3).
 
         :param drive_id: (required)
         :type drive_id: str
-        :param lifecycle:
-        :type lifecycle: str
+        :param state:
+        :type state: str
         :param limit:
         :type limit: int
         :param cursor:
@@ -1205,7 +1205,7 @@ class FoldersApi:
 
         _param = self._folders_list_serialize(
             drive_id=drive_id,
-            lifecycle=lifecycle,
+            state=state,
             limit=limit,
             cursor=cursor,
             parent_id=parent_id,
@@ -1242,7 +1242,7 @@ class FoldersApi:
     def folders_list_with_http_info(
         self,
         drive_id: StrictStr,
-        lifecycle: Optional[StrictStr] = None,
+        state: Optional[StrictStr] = None,
         limit: Optional[StrictInt] = None,
         cursor: Optional[StrictStr] = None,
         parent_id: Optional[StrictStr] = None,
@@ -1263,12 +1263,12 @@ class FoldersApi:
     ) -> ApiResponse[FolderListOut]:
         """List Folders
 
-        List the drive's folders, newest-first (keyset paginated).  ``lifecycle`` (active|deleted|all) exposes soft-deleted folders so the post-delete revision can be read as the If-Match source for a restore. ``parent_id`` / ``name`` are exact-match filters. Unknown query parameters are rejected (§6.3).
+        List the drive's folders, newest-first (keyset paginated).  ``state`` (active|deleted|all) exposes soft-deleted folders so the post-delete revision can be read as the If-Match source for a restore. ``parent_id`` / ``name`` are exact-match filters. Unknown query parameters are rejected (§6.3).
 
         :param drive_id: (required)
         :type drive_id: str
-        :param lifecycle:
-        :type lifecycle: str
+        :param state:
+        :type state: str
         :param limit:
         :type limit: int
         :param cursor:
@@ -1303,7 +1303,7 @@ class FoldersApi:
 
         _param = self._folders_list_serialize(
             drive_id=drive_id,
-            lifecycle=lifecycle,
+            state=state,
             limit=limit,
             cursor=cursor,
             parent_id=parent_id,
@@ -1340,7 +1340,7 @@ class FoldersApi:
     def folders_list_without_preload_content(
         self,
         drive_id: StrictStr,
-        lifecycle: Optional[StrictStr] = None,
+        state: Optional[StrictStr] = None,
         limit: Optional[StrictInt] = None,
         cursor: Optional[StrictStr] = None,
         parent_id: Optional[StrictStr] = None,
@@ -1361,12 +1361,12 @@ class FoldersApi:
     ) -> RESTResponseType:
         """List Folders
 
-        List the drive's folders, newest-first (keyset paginated).  ``lifecycle`` (active|deleted|all) exposes soft-deleted folders so the post-delete revision can be read as the If-Match source for a restore. ``parent_id`` / ``name`` are exact-match filters. Unknown query parameters are rejected (§6.3).
+        List the drive's folders, newest-first (keyset paginated).  ``state`` (active|deleted|all) exposes soft-deleted folders so the post-delete revision can be read as the If-Match source for a restore. ``parent_id`` / ``name`` are exact-match filters. Unknown query parameters are rejected (§6.3).
 
         :param drive_id: (required)
         :type drive_id: str
-        :param lifecycle:
-        :type lifecycle: str
+        :param state:
+        :type state: str
         :param limit:
         :type limit: int
         :param cursor:
@@ -1401,7 +1401,7 @@ class FoldersApi:
 
         _param = self._folders_list_serialize(
             drive_id=drive_id,
-            lifecycle=lifecycle,
+            state=state,
             limit=limit,
             cursor=cursor,
             parent_id=parent_id,
@@ -1433,7 +1433,7 @@ class FoldersApi:
     def _folders_list_serialize(
         self,
         drive_id,
-        lifecycle,
+        state,
         limit,
         cursor,
         parent_id,
@@ -1463,9 +1463,9 @@ class FoldersApi:
         if drive_id is not None:
             _path_params['drive_id'] = drive_id
         # process the query parameters
-        if lifecycle is not None:
+        if state is not None:
 
-            _query_params.append(('lifecycle', lifecycle))
+            _query_params.append(('state', state))
 
         if limit is not None:
 

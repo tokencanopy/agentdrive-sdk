@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## ChangesList
 
-> ChangePageOut ChangesList(ctx, driveId).Limit(limit).Start(start).Cursor(cursor).Type_(type_).Authorization(authorization).Execute()
+> ChangePageOut ChangesList(ctx, driveId).Limit(limit).Start(start).Cursor(cursor).Type_(type_).Order(order).Authorization(authorization).Execute()
 
 List Changes
 
@@ -34,11 +34,12 @@ func main() {
 	start := "start_example" // string |  (optional)
 	cursor := "cursor_example" // string |  (optional)
 	type_ := "type__example" // string |  (optional)
+	order := "order_example" // string |  (optional)
 	authorization := "authorization_example" // string | Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ChangesAPI.ChangesList(context.Background(), driveId).Limit(limit).Start(start).Cursor(cursor).Type_(type_).Authorization(authorization).Execute()
+	resp, r, err := apiClient.ChangesAPI.ChangesList(context.Background(), driveId).Limit(limit).Start(start).Cursor(cursor).Type_(type_).Order(order).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ChangesAPI.ChangesList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -68,6 +69,7 @@ Name | Type | Description  | Notes
  **start** | **string** |  |
  **cursor** | **string** |  |
  **type_** | **string** |  |
+ **order** | **string** |  |
  **authorization** | **string** | Deprecated: redundant with the operation&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. |
 
 ### Return type

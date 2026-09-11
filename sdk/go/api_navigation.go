@@ -107,6 +107,9 @@ EntriesList List Entries
 
 List one folder's direct children across the shared namespace.
 
+``state`` (active|deleted|all) exposes soft-deleted entries, matching
+every other v0 collection. Unknown query parameters are rejected.
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param driveId
  @return ApiEntriesListRequest

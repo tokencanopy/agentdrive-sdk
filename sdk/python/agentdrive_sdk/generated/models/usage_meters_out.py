@@ -17,23 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar, Dict, List
-from typing_extensions import Annotated
-from agentdrive_sdk.generated.models.effective_limits_out import EffectiveLimitsOut
-from agentdrive_sdk.generated.models.usage_meters_out import UsageMetersOut
+from agentdrive_sdk.generated.models.usage_meter_out import UsageMeterOut
 from typing import Optional, Set
 from typing_extensions import Self
 
-class DriveUsageOut(BaseModel):
+class UsageMetersOut(BaseModel):
     """
-    DriveUsageOut
+    UsageMetersOut
     """ # noqa: E501
-    effective_limits: EffectiveLimitsOut
-    meters: UsageMetersOut
-    retrieval_bytes: Annotated[int, Field(strict=True, ge=0)]
-    storage_bytes: Annotated[int, Field(strict=True, ge=0)]
-    __properties: ClassVar[List[str]] = ["effective_limits", "meters", "retrieval_bytes", "storage_bytes"]
+    drive_storage: UsageMeterOut
+    workspace_download_day: UsageMeterOut
+    workspace_download_month: UsageMeterOut
+    workspace_storage: UsageMeterOut
+    __properties: ClassVar[List[str]] = ["drive_storage", "workspace_download_day", "workspace_download_month", "workspace_storage"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -53,7 +51,7 @@ class DriveUsageOut(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of DriveUsageOut from a JSON string"""
+        """Create an instance of UsageMetersOut from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,17 +72,23 @@ class DriveUsageOut(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of effective_limits
-        if self.effective_limits:
-            _dict['effective_limits'] = self.effective_limits.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of meters
-        if self.meters:
-            _dict['meters'] = self.meters.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of drive_storage
+        if self.drive_storage:
+            _dict['drive_storage'] = self.drive_storage.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of workspace_download_day
+        if self.workspace_download_day:
+            _dict['workspace_download_day'] = self.workspace_download_day.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of workspace_download_month
+        if self.workspace_download_month:
+            _dict['workspace_download_month'] = self.workspace_download_month.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of workspace_storage
+        if self.workspace_storage:
+            _dict['workspace_storage'] = self.workspace_storage.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of DriveUsageOut from a dict"""
+        """Create an instance of UsageMetersOut from a dict"""
         if obj is None:
             return None
 
@@ -92,9 +96,9 @@ class DriveUsageOut(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "effective_limits": EffectiveLimitsOut.from_dict(obj["effective_limits"]) if obj.get("effective_limits") is not None else None,
-            "meters": UsageMetersOut.from_dict(obj["meters"]) if obj.get("meters") is not None else None,
-            "retrieval_bytes": obj.get("retrieval_bytes"),
-            "storage_bytes": obj.get("storage_bytes")
+            "drive_storage": UsageMeterOut.from_dict(obj["drive_storage"]) if obj.get("drive_storage") is not None else None,
+            "workspace_download_day": UsageMeterOut.from_dict(obj["workspace_download_day"]) if obj.get("workspace_download_day") is not None else None,
+            "workspace_download_month": UsageMeterOut.from_dict(obj["workspace_download_month"]) if obj.get("workspace_download_month") is not None else None,
+            "workspace_storage": UsageMeterOut.from_dict(obj["workspace_storage"]) if obj.get("workspace_storage") is not None else None
         })
         return _obj

@@ -436,6 +436,7 @@
             "enum": [
               "agent",
               "user",
+              "service",
               "system"
             ],
             "title": "Type",
@@ -848,19 +849,30 @@
         "type": "object"
       },
       "DriveUsageOut": {
+        "additionalProperties": false,
         "properties": {
+          "effective_limits": {
+            "$ref": "#/components/schemas/EffectiveLimitsOut"
+          },
+          "meters": {
+            "$ref": "#/components/schemas/UsageMetersOut"
+          },
           "retrieval_bytes": {
+            "minimum": 0.0,
             "title": "Retrieval Bytes",
             "type": "integer"
           },
           "storage_bytes": {
+            "minimum": 0.0,
             "title": "Storage Bytes",
             "type": "integer"
           }
         },
         "required": [
           "storage_bytes",
-          "retrieval_bytes"
+          "retrieval_bytes",
+          "meters",
+          "effective_limits"
         ],
         "title": "DriveUsageOut",
         "type": "object"
@@ -888,6 +900,39 @@
           "status"
         ],
         "title": "EditabilityOut",
+        "type": "object"
+      },
+      "EffectiveLimitsOut": {
+        "additionalProperties": false,
+        "properties": {
+          "max_file_bytes": {
+            "exclusiveMinimum": 0.0,
+            "title": "Max File Bytes",
+            "type": "integer"
+          },
+          "max_inline_file_bytes": {
+            "exclusiveMinimum": 0.0,
+            "title": "Max Inline File Bytes",
+            "type": "integer"
+          },
+          "share_default_ttl_seconds": {
+            "exclusiveMinimum": 0.0,
+            "title": "Share Default Ttl Seconds",
+            "type": "integer"
+          },
+          "share_max_ttl_seconds": {
+            "exclusiveMinimum": 0.0,
+            "title": "Share Max Ttl Seconds",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "max_file_bytes",
+          "max_inline_file_bytes",
+          "share_default_ttl_seconds",
+          "share_max_ttl_seconds"
+        ],
+        "title": "EffectiveLimitsOut",
         "type": "object"
       },
       "EntryListOut": {
@@ -946,6 +991,7 @@
                   "AUTHENTICATION_REQUIRED",
                   "AUTH_UNAVAILABLE",
                   "BAD_REQUEST",
+                  "BANDWIDTH_LIMIT_EXCEEDED",
                   "CHANGE_CURSOR_EXPIRED",
                   "CHECKSUM_MISMATCH",
                   "CONFLICT",
@@ -1357,13 +1403,14 @@
                 "type": "null"
               }
             ],
-            "description": "Required for `agent`, `user`, and `workspace`; omitted only for `public`. For `agent` and `user` it is checked against that type's id prefix (`tcagt_` / `tcusr_`) and a mismatch is `422 VALIDATION_ERROR`. The prefix is all AgentDrive asserts: these ids are minted by Hub, so their full shape is not AgentDrive's to enforce, and a well-formed id naming a principal that does not exist \u2014 or belongs to another workspace \u2014 is accepted here and simply never matches a token. The rule is conditional on `principal_type`, so it is enforced at the boundary rather than expressible as one JSON Schema `pattern`.",
+            "description": "Required for `agent`, `user`, `service`, and `workspace`; omitted only for `public`. For `agent`, `user`, and `service` it is checked against that type's id prefix (`tcagt_` / `tcusr_` / `tcsvc_`) and a mismatch is `422 VALIDATION_ERROR`. The prefix is all AgentDrive asserts: these ids are minted by Hub, so their full shape is not AgentDrive's to enforce, and a well-formed id naming a principal that does not exist \u2014 or belongs to another workspace \u2014 is accepted here and simply never matches a token. The rule is conditional on `principal_type`, so it is enforced at the boundary rather than expressible as one JSON Schema `pattern`.",
             "title": "Principal Id"
           },
           "principal_type": {
             "enum": [
               "agent",
               "user",
+              "service",
               "workspace",
               "public"
             ],
@@ -1475,6 +1522,7 @@
             "enum": [
               "agent",
               "user",
+              "service",
               "workspace",
               "public"
             ],
@@ -2625,6 +2673,88 @@
         "title": "UploadWithTransferOut",
         "type": "object"
       },
+      "UsageMeterOut": {
+        "additionalProperties": false,
+        "properties": {
+          "limit": {
+            "exclusiveMinimum": 0.0,
+            "title": "Limit",
+            "type": "integer"
+          },
+          "remaining": {
+            "minimum": 0.0,
+            "title": "Remaining",
+            "type": "integer"
+          },
+          "reserved": {
+            "minimum": 0.0,
+            "title": "Reserved",
+            "type": "integer"
+          },
+          "reset_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reset At"
+          },
+          "scope": {
+            "enum": [
+              "workspace",
+              "drive",
+              "principal",
+              "share"
+            ],
+            "title": "Scope",
+            "type": "string"
+          },
+          "used": {
+            "minimum": 0.0,
+            "title": "Used",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "scope",
+          "used",
+          "reserved",
+          "limit",
+          "remaining",
+          "reset_at"
+        ],
+        "title": "UsageMeterOut",
+        "type": "object"
+      },
+      "UsageMetersOut": {
+        "additionalProperties": false,
+        "properties": {
+          "drive_storage": {
+            "$ref": "#/components/schemas/UsageMeterOut"
+          },
+          "workspace_download_day": {
+            "$ref": "#/components/schemas/UsageMeterOut"
+          },
+          "workspace_download_month": {
+            "$ref": "#/components/schemas/UsageMeterOut"
+          },
+          "workspace_storage": {
+            "$ref": "#/components/schemas/UsageMeterOut"
+          }
+        },
+        "required": [
+          "drive_storage",
+          "workspace_storage",
+          "workspace_download_day",
+          "workspace_download_month"
+        ],
+        "title": "UsageMetersOut",
+        "type": "object"
+      },
       "V0ErrorEnvelope": {
         "properties": {
           "error": {
@@ -2639,6 +2769,7 @@
                   "AUTHENTICATION_REQUIRED",
                   "AUTH_UNAVAILABLE",
                   "BAD_REQUEST",
+                  "BANDWIDTH_LIMIT_EXCEEDED",
                   "CHANGE_CURSOR_EXPIRED",
                   "CHECKSUM_MISMATCH",
                   "CONFLICT",
@@ -3163,7 +3294,7 @@
     },
     "/.well-known/oauth-protected-resource/mcp": {
       "get": {
-        "description": "Path-inserted protected-resource metadata used by MCP OAuth clients. Served by the MCP sidecar when one is configured, because it is the authority on the scope bundle its own tools require; otherwise it falls back to the resource-root document, since `/v0` and `/mcp` share AgentDrive's canonical audience.",
+        "description": "Path-inserted protected-resource metadata for the hosted MCP transport. It names a DIFFERENT resource from the root document \u2014 `<origin>/mcp`, with the separately maintained MCP scope list \u2014 and is served by the MCP sidecar, which is the authority on its own tool set. Deployments with no sidecar answer 404: there is no `/mcp` resource to describe.",
         "operationId": "oauth_protected_resource_mcp",
         "responses": {
           "200": {
@@ -3265,16 +3396,16 @@
     },
     "/v0/drives": {
       "get": {
-        "description": "List the actor's workspace drives, newest-first (keyset paginated).\n\n``lifecycle`` (active|deleted|all) exposes soft-deleted drives so a\nmanager can read the post-delete revision as the If-Match source for a\nrestore. Unknown query parameters are rejected (\u00a76.3).",
+        "description": "List the actor's workspace drives, newest-first (keyset paginated).\n\n``state`` (active|deleted|all) exposes soft-deleted drives so a\nmanager can read the post-delete revision as the If-Match source for a\nrestore. Unknown query parameters are rejected (\u00a76.3).",
         "operationId": "drives_list",
         "parameters": [
           {
             "in": "query",
-            "name": "lifecycle",
+            "name": "state",
             "required": false,
             "schema": {
               "default": "active",
-              "title": "Lifecycle",
+              "title": "State",
               "type": "string"
             }
           },
@@ -3506,7 +3637,8 @@
         ],
         "x-required-scopes": [
           "drives:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       },
       "post": {
         "description": "Create a drive with its structural root folder and creator-manager\ngrant(s) in one transaction; idempotent under the ``Idempotency-Key``.",
@@ -3807,7 +3939,8 @@
         ],
         "x-required-scopes": [
           "drives:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}": {
@@ -4118,7 +4251,8 @@
         ],
         "x-required-scopes": [
           "drives:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       },
       "get": {
         "description": "Read one active drive. ETag = quoted revision; matching\n``If-None-Match`` \u2192 304. Deleted and cross-workspace drives are 404.",
@@ -4368,7 +4502,8 @@
         ],
         "x-required-scopes": [
           "drives:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       },
       "patch": {
         "description": "Rename / update a drive's metadata. Requires ``Idempotency-Key`` and\n``If-Match`` (428 absent, 412 stale); bumps the revision.",
@@ -4687,12 +4822,13 @@
         ],
         "x-required-scopes": [
           "drives:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/artifacts": {
       "get": {
-        "description": "List the drive's artifacts, newest-first (keyset paginated).\n\n``lifecycle`` (active|deleted|all) exposes soft-deleted artifacts.\n``parent_id`` / ``name`` / ``content_type`` / ``label`` are exact-match\nfilters; ``updated_after`` / ``updated_before`` are inclusive bounds.\nUnknown query parameters are rejected.",
+        "description": "List the drive's artifacts, newest-first (keyset paginated).\n\n``state`` (active|deleted|all) exposes soft-deleted artifacts.\n``parent_id`` / ``name`` / ``content_type`` / ``label`` are exact-match\nfilters; ``updated_after`` / ``updated_before`` are inclusive bounds.\nUnknown query parameters are rejected.",
         "operationId": "artifacts_list",
         "parameters": [
           {
@@ -4706,11 +4842,11 @@
           },
           {
             "in": "query",
-            "name": "lifecycle",
+            "name": "state",
             "required": false,
             "schema": {
               "default": "active",
-              "title": "Lifecycle",
+              "title": "State",
               "type": "string"
             }
           },
@@ -5040,7 +5176,8 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       },
       "post": {
         "description": "Create one artifact with inline content \u2014 multipart only.\n\nMultipart only (415 for a JSON body). Parts: parent_id, name, metadata, content (bytes), content_type, sha256. parent_id, name, and content are required.",
@@ -5418,7 +5555,8 @@
         ],
         "x-required-scopes": [
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}": {
@@ -5738,7 +5876,8 @@
         ],
         "x-required-scopes": [
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       },
       "get": {
         "description": "Read one active artifact. ``If-None-Match`` short-circuits to 304.",
@@ -5997,7 +6136,8 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       },
       "patch": {
         "description": "Rename / move / set metadata or labels. At least one field required.",
@@ -6325,7 +6465,8 @@
         ],
         "x-required-scopes": [
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/cells": {
@@ -6642,7 +6783,8 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/content": {
@@ -6916,7 +7058,8 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/copy": {
@@ -7254,7 +7397,8 @@
         "x-required-scopes": [
           "content:read",
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/restore": {
@@ -7574,7 +7718,8 @@
         ],
         "x-required-scopes": [
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions": {
@@ -7844,7 +7989,8 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       },
       "post": {
         "description": "Open an edit session. `If-Match` on the artifact head is required and\nis captured for completion.",
@@ -8167,7 +8313,8 @@
         ],
         "x-required-scopes": [
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions/{session_id}": {
@@ -8484,7 +8631,8 @@
         ],
         "x-required-scopes": [
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       },
       "get": {
         "description": "One session. Reads deliberately do NOT extend the lease, so a polling\nconsole can never keep a dead agent's session alive.",
@@ -8740,7 +8888,8 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions/{session_id}/cells": {
@@ -9003,7 +9152,8 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       },
       "post": {
         "description": "Append range writes to the edit log.\n\nNo `If-Match`: the session's captured `base_revision` is the concurrency\nanchor and completion is where it is enforced. `Idempotency-Key` is what\nmakes a retry safe \u2014 without it a retried write landing after a later\noverlapping write would silently resurrect stale values.",
@@ -9312,7 +9462,8 @@
         ],
         "x-required-scopes": [
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions/{session_id}/complete": {
@@ -9641,7 +9792,8 @@
         ],
         "x-required-scopes": [
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions/{session_id}/edits": {
@@ -9904,7 +10056,8 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/sheets": {
@@ -10189,7 +10342,8 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/versions": {
@@ -10443,7 +10597,8 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       },
       "post": {
         "description": "Append one immutable version and rotate the artifact head.\n\nMultipart only (415 for a JSON body). Parts: content (bytes), content_type, sha256. content is required; name, parent_id, and metadata are not accepted here.",
@@ -10832,7 +10987,8 @@
         ],
         "x-required-scopes": [
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/versions/{version_id}": {
@@ -11102,7 +11258,8 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/versions/{version_id}/cells": {
@@ -11428,7 +11585,8 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/versions/{version_id}/content": {
@@ -11711,7 +11869,8 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/versions/{version_id}/restore": {
@@ -12047,7 +12206,8 @@
         ],
         "x-required-scopes": [
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/versions/{version_id}/sheets": {
@@ -12341,7 +12501,8 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/artifacts/{artifact_id}/viewer-sessions": {
@@ -12649,7 +12810,7 @@
     },
     "/v0/drives/{drive_id}/changes": {
       "get": {
-        "description": "Pull one page of changes. Exactly one of ``start`` or ``cursor``.\n\n``type`` is an optional comma-separated allow-list of exact event-type\nstrings (e.g. ``type=folder.created,artifact.updated`` for content only, or\n``type=grant.created,grant.updated,grant.revoked`` for grant events). A\ncomma-list \u2014 not a single value or a ``grant.*`` glob \u2014 because the useful\nsync queries (\"content only\", \"all permission events\") are SETS of exact\ntypes, and exact-match keeps the filter's meaning independent of the dotted\nnaming (\u00a76.3: unknown params are rejected; unknown type VALUES 400 here).\nPermission types requested by a non-manager are silently empty (the\nmanager filter still applies), never an existence oracle.",
+        "description": "Pull one page of changes. Exactly one of ``start`` or ``cursor``.\n\n``order`` selects the direction of the walk and accompanies ``start``, never\na ``cursor`` \u2014 a cursor already carries the direction it was minted for, so\nrepeating it could only ever contradict it.\n\n``oldest`` (the default) is the resumable sync walk: forward from the\nposition, and a drained cursor re-presented later picks up what committed\nsince. ``newest`` is a browse walk for a history screen: it captures the\nhead and walks down toward the retention floor, newest row first. Because\nnew events land ABOVE a captured head, a drained descending cursor stays\ndrained \u2014 a reader checking for new activity captures the head again. That\nis also why ``order=newest`` takes only ``start=now``: ``beginning`` names\nthe far end of a walk that already ends there.\n\n``type`` is an optional comma-separated allow-list of exact event-type\nstrings (e.g. ``type=folder.created,artifact.updated`` for content only, or\n``type=grant.created,grant.updated,grant.revoked`` for grant events). A\ncomma-list \u2014 not a single value or a ``grant.*`` glob \u2014 because the useful\nsync queries (\"content only\", \"all permission events\") are SETS of exact\ntypes, and exact-match keeps the filter's meaning independent of the dotted\nnaming (\u00a76.3: unknown params are rejected; unknown type VALUES 400 here).\nPermission types requested by a non-manager are silently empty (the\nmanager filter still applies), never an existence oracle.",
         "operationId": "changes_list",
         "parameters": [
           {
@@ -12727,6 +12888,26 @@
                 }
               ],
               "title": "Type"
+            }
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "oldest",
+                    "newest"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Order"
             }
           },
           {
@@ -12943,7 +13124,8 @@
         ],
         "x-required-scopes": [
           "changes:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/download-capabilities": {
@@ -13258,12 +13440,13 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/entries": {
       "get": {
-        "description": "List one folder's direct children across the shared namespace.",
+        "description": "List one folder's direct children across the shared namespace.\n\n``state`` (active|deleted|all) exposes soft-deleted entries, matching\nevery other v0 collection. Unknown query parameters are rejected.",
         "operationId": "entries_list",
         "parameters": [
           {
@@ -13620,12 +13803,13 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/folders": {
       "get": {
-        "description": "List the drive's folders, newest-first (keyset paginated).\n\n``lifecycle`` (active|deleted|all) exposes soft-deleted folders so the\npost-delete revision can be read as the If-Match source for a restore.\n``parent_id`` / ``name`` are exact-match filters. Unknown query parameters\nare rejected (\u00a76.3).",
+        "description": "List the drive's folders, newest-first (keyset paginated).\n\n``state`` (active|deleted|all) exposes soft-deleted folders so the\npost-delete revision can be read as the If-Match source for a restore.\n``parent_id`` / ``name`` are exact-match filters. Unknown query parameters\nare rejected (\u00a76.3).",
         "operationId": "folders_list",
         "parameters": [
           {
@@ -13639,11 +13823,11 @@
           },
           {
             "in": "query",
-            "name": "lifecycle",
+            "name": "state",
             "required": false,
             "schema": {
               "default": "active",
-              "title": "Lifecycle",
+              "title": "State",
               "type": "string"
             }
           },
@@ -13907,7 +14091,8 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       },
       "post": {
         "description": "Create one folder under `parent_id`; idempotent under the\n``Idempotency-Key``.",
@@ -14217,7 +14402,8 @@
         ],
         "x-required-scopes": [
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/folders/{folder_id}": {
@@ -14547,7 +14733,8 @@
         ],
         "x-required-scopes": [
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       },
       "get": {
         "description": "Read one active folder. ETag = quoted revision; matching\n``If-None-Match`` \u2192 304. Deleted and cross-workspace folders are 404.",
@@ -14806,7 +14993,8 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       },
       "patch": {
         "description": "Rename / move / update a folder's metadata. Requires\n``Idempotency-Key`` and ``If-Match`` (428 absent, 412 stale); bumps the\nrevision.",
@@ -15134,7 +15322,8 @@
         ],
         "x-required-scopes": [
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/folders/{folder_id}/copy": {
@@ -15472,7 +15661,8 @@
         "x-required-scopes": [
           "content:read",
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/folders/{folder_id}/restore": {
@@ -15792,7 +15982,8 @@
         ],
         "x-required-scopes": [
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/grants": {
@@ -15811,11 +16002,11 @@
           },
           {
             "in": "query",
-            "name": "lifecycle",
+            "name": "state",
             "required": false,
             "schema": {
               "default": "active",
-              "title": "Lifecycle",
+              "title": "State",
               "type": "string"
             }
           },
@@ -16095,7 +16286,8 @@
         ],
         "x-required-scopes": [
           "sharing:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       },
       "post": {
         "description": "Grant one principal a role on a drive, folder, or artifact.",
@@ -16405,7 +16597,8 @@
         ],
         "x-required-scopes": [
           "sharing:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/grants/{grant_id}": {
@@ -16725,7 +16918,8 @@
         ],
         "x-required-scopes": [
           "sharing:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       },
       "get": {
         "description": "Read one grant in the drive.",
@@ -16984,7 +17178,8 @@
         ],
         "x-required-scopes": [
           "sharing:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       },
       "patch": {
         "description": "Change a grant's role or expiry under If-Match.",
@@ -17312,7 +17507,8 @@
         ],
         "x-required-scopes": [
           "sharing:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/lookup": {
@@ -17550,7 +17746,8 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/restore": {
@@ -17861,7 +18058,8 @@
         ],
         "x-required-scopes": [
           "drives:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/search": {
@@ -18213,7 +18411,8 @@
         ],
         "x-required-scopes": [
           "content:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/shares": {
@@ -18232,11 +18431,11 @@
           },
           {
             "in": "query",
-            "name": "lifecycle",
+            "name": "state",
             "required": false,
             "schema": {
               "default": "active",
-              "title": "Lifecycle",
+              "title": "State",
               "type": "string"
             }
           },
@@ -18500,7 +18699,8 @@
         ],
         "x-required-scopes": [
           "sharing:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       },
       "post": {
         "description": "Mint a read-only bearer link. The response carries the plaintext\nsecret \u2014 the only response that does.",
@@ -18810,7 +19010,8 @@
         ],
         "x-required-scopes": [
           "sharing:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/shares/{share_id}": {
@@ -19130,7 +19331,8 @@
         ],
         "x-required-scopes": [
           "sharing:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       },
       "get": {
         "description": "Read one share's management representation (no secret).",
@@ -19389,7 +19591,8 @@
         ],
         "x-required-scopes": [
           "sharing:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/shares/{share_id}/rotate": {
@@ -19709,7 +19912,8 @@
         ],
         "x-required-scopes": [
           "sharing:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/uploads": {
@@ -20214,7 +20418,8 @@
         ],
         "x-required-scopes": [
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/uploads/{upload_id}": {
@@ -20552,7 +20757,8 @@
         ],
         "x-required-scopes": [
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       },
       "get": {
         "description": "Non-secret recovery state (\u00a75.3). Never a target, coordinate,\nprincipal, reservation, continuation, or provider diagnostic.\n\nIdempotency-Key is not part of this read's contract (manifest idempotency_class: not_required): a supplied key plays no role and creates no idempotency record.",
@@ -20829,7 +21035,8 @@
         ],
         "x-required-scopes": [
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/uploads/{upload_id}/complete": {
@@ -21182,12 +21389,13 @@
         ],
         "x-required-scopes": [
           "content:write"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     },
     "/v0/drives/{drive_id}/usage": {
       "get": {
-        "description": "Byte counters for one active drive: storage is the live sum of its\nversions' sizes; retrieval reads the counter the content-read slice\nmaintains (0 until it lands).",
+        "description": "Usage counters, current storage and download meters, and the effective\nfile/share limits for one active drive. The snapshot includes committed\nand reserved bytes so clients can show capacity already in flight.",
         "operationId": "drives_usage",
         "parameters": [
           {
@@ -21395,7 +21603,8 @@
         ],
         "x-required-scopes": [
           "usage:read"
-        ]
+        ],
+        "x-stability-level": "beta"
       }
     }
   },
@@ -21405,5 +21614,5 @@
       "url": "https://drive.tokencanopy.com"
     }
   ],
-  "x-agentdrive-compatibility-policy": 1
+  "x-agentdrive-compatibility-policy": 2
 }

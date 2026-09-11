@@ -162,7 +162,7 @@ Name | Type | Description  | Notes
 
 ## DrivesList
 
-> DriveListOut DrivesList(ctx).Lifecycle(lifecycle).Limit(limit).Cursor(cursor).Authorization(authorization).Execute()
+> DriveListOut DrivesList(ctx).State(state).Limit(limit).Cursor(cursor).Authorization(authorization).Execute()
 
 List Drives
 
@@ -181,14 +181,14 @@ import (
 )
 
 func main() {
-	lifecycle := "lifecycle_example" // string |  (optional) (default to "active")
+	state := "state_example" // string |  (optional) (default to "active")
 	limit := int32(56) // int32 |  (optional)
 	cursor := "cursor_example" // string |  (optional)
 	authorization := "authorization_example" // string | Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DrivesAPI.DrivesList(context.Background()).Lifecycle(lifecycle).Limit(limit).Cursor(cursor).Authorization(authorization).Execute()
+	resp, r, err := apiClient.DrivesAPI.DrivesList(context.Background()).State(state).Limit(limit).Cursor(cursor).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DrivesAPI.DrivesList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -209,7 +209,7 @@ Other parameters are passed through a pointer to a apiDrivesListRequest struct v
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **lifecycle** | **string** |  | [default to &quot;active&quot;]
+ **state** | **string** |  | [default to &quot;active&quot;]
  **limit** | **int32** |  |
  **cursor** | **string** |  |
  **authorization** | **string** | Deprecated: redundant with the operation&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal. |

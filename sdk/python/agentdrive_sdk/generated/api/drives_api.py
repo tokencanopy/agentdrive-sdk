@@ -716,7 +716,7 @@ class DrivesApi:
     @validate_call
     def drives_list(
         self,
-        lifecycle: Optional[StrictStr] = None,
+        state: Optional[StrictStr] = None,
         limit: Optional[StrictInt] = None,
         cursor: Optional[StrictStr] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.")] = None,
@@ -735,10 +735,10 @@ class DrivesApi:
     ) -> DriveListOut:
         """List Drives
 
-        List the actor's workspace drives, newest-first (keyset paginated).  ``lifecycle`` (active|deleted|all) exposes soft-deleted drives so a manager can read the post-delete revision as the If-Match source for a restore. Unknown query parameters are rejected (§6.3).
+        List the actor's workspace drives, newest-first (keyset paginated).  ``state`` (active|deleted|all) exposes soft-deleted drives so a manager can read the post-delete revision as the If-Match source for a restore. Unknown query parameters are rejected (§6.3).
 
-        :param lifecycle:
-        :type lifecycle: str
+        :param state:
+        :type state: str
         :param limit:
         :type limit: int
         :param cursor:
@@ -768,7 +768,7 @@ class DrivesApi:
         """ # noqa: E501
 
         _param = self._drives_list_serialize(
-            lifecycle=lifecycle,
+            state=state,
             limit=limit,
             cursor=cursor,
             authorization=authorization,
@@ -802,7 +802,7 @@ class DrivesApi:
     @validate_call
     def drives_list_with_http_info(
         self,
-        lifecycle: Optional[StrictStr] = None,
+        state: Optional[StrictStr] = None,
         limit: Optional[StrictInt] = None,
         cursor: Optional[StrictStr] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.")] = None,
@@ -821,10 +821,10 @@ class DrivesApi:
     ) -> ApiResponse[DriveListOut]:
         """List Drives
 
-        List the actor's workspace drives, newest-first (keyset paginated).  ``lifecycle`` (active|deleted|all) exposes soft-deleted drives so a manager can read the post-delete revision as the If-Match source for a restore. Unknown query parameters are rejected (§6.3).
+        List the actor's workspace drives, newest-first (keyset paginated).  ``state`` (active|deleted|all) exposes soft-deleted drives so a manager can read the post-delete revision as the If-Match source for a restore. Unknown query parameters are rejected (§6.3).
 
-        :param lifecycle:
-        :type lifecycle: str
+        :param state:
+        :type state: str
         :param limit:
         :type limit: int
         :param cursor:
@@ -854,7 +854,7 @@ class DrivesApi:
         """ # noqa: E501
 
         _param = self._drives_list_serialize(
-            lifecycle=lifecycle,
+            state=state,
             limit=limit,
             cursor=cursor,
             authorization=authorization,
@@ -888,7 +888,7 @@ class DrivesApi:
     @validate_call
     def drives_list_without_preload_content(
         self,
-        lifecycle: Optional[StrictStr] = None,
+        state: Optional[StrictStr] = None,
         limit: Optional[StrictInt] = None,
         cursor: Optional[StrictStr] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.")] = None,
@@ -907,10 +907,10 @@ class DrivesApi:
     ) -> RESTResponseType:
         """List Drives
 
-        List the actor's workspace drives, newest-first (keyset paginated).  ``lifecycle`` (active|deleted|all) exposes soft-deleted drives so a manager can read the post-delete revision as the If-Match source for a restore. Unknown query parameters are rejected (§6.3).
+        List the actor's workspace drives, newest-first (keyset paginated).  ``state`` (active|deleted|all) exposes soft-deleted drives so a manager can read the post-delete revision as the If-Match source for a restore. Unknown query parameters are rejected (§6.3).
 
-        :param lifecycle:
-        :type lifecycle: str
+        :param state:
+        :type state: str
         :param limit:
         :type limit: int
         :param cursor:
@@ -940,7 +940,7 @@ class DrivesApi:
         """ # noqa: E501
 
         _param = self._drives_list_serialize(
-            lifecycle=lifecycle,
+            state=state,
             limit=limit,
             cursor=cursor,
             authorization=authorization,
@@ -969,7 +969,7 @@ class DrivesApi:
 
     def _drives_list_serialize(
         self,
-        lifecycle,
+        state,
         limit,
         cursor,
         authorization,
@@ -995,9 +995,9 @@ class DrivesApi:
 
         # process the path parameters
         # process the query parameters
-        if lifecycle is not None:
+        if state is not None:
 
-            _query_params.append(('lifecycle', lifecycle))
+            _query_params.append(('state', state))
 
         if limit is not None:
 
@@ -2081,7 +2081,7 @@ class DrivesApi:
     ) -> DriveUsageOut:
         """Drive Usage
 
-        Byte counters for one active drive: storage is the live sum of its versions' sizes; retrieval reads the counter the content-read slice maintains (0 until it lands).
+        Usage counters, current storage and download meters, and the effective file/share limits for one active drive. The snapshot includes committed and reserved bytes so clients can show capacity already in flight.
 
         :param drive_id: (required)
         :type drive_id: str
@@ -2159,7 +2159,7 @@ class DrivesApi:
     ) -> ApiResponse[DriveUsageOut]:
         """Drive Usage
 
-        Byte counters for one active drive: storage is the live sum of its versions' sizes; retrieval reads the counter the content-read slice maintains (0 until it lands).
+        Usage counters, current storage and download meters, and the effective file/share limits for one active drive. The snapshot includes committed and reserved bytes so clients can show capacity already in flight.
 
         :param drive_id: (required)
         :type drive_id: str
@@ -2237,7 +2237,7 @@ class DrivesApi:
     ) -> RESTResponseType:
         """Drive Usage
 
-        Byte counters for one active drive: storage is the live sum of its versions' sizes; retrieval reads the counter the content-read slice maintains (0 until it lands).
+        Usage counters, current storage and download meters, and the effective file/share limits for one active drive. The snapshot includes committed and reserved bytes so clients can show capacity already in flight.
 
         :param drive_id: (required)
         :type drive_id: str

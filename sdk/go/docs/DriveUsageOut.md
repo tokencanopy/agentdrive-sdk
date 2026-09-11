@@ -4,6 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**EffectiveLimits** | [**EffectiveLimitsOut**](EffectiveLimitsOut.md) |  |
+**Meters** | [**UsageMetersOut**](UsageMetersOut.md) |  |
 **RetrievalBytes** | **int32** |  |
 **StorageBytes** | **int32** |  |
 
@@ -11,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewDriveUsageOut
 
-`func NewDriveUsageOut(retrievalBytes int32, storageBytes int32, ) *DriveUsageOut`
+`func NewDriveUsageOut(effectiveLimits EffectiveLimitsOut, meters UsageMetersOut, retrievalBytes int32, storageBytes int32, ) *DriveUsageOut`
 
 NewDriveUsageOut instantiates a new DriveUsageOut object
 This constructor will assign default values to properties that have it defined,
@@ -25,6 +27,46 @@ will change when the set of required properties is changed
 NewDriveUsageOutWithDefaults instantiates a new DriveUsageOut object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetEffectiveLimits
+
+`func (o *DriveUsageOut) GetEffectiveLimits() EffectiveLimitsOut`
+
+GetEffectiveLimits returns the EffectiveLimits field if non-nil, zero value otherwise.
+
+### GetEffectiveLimitsOk
+
+`func (o *DriveUsageOut) GetEffectiveLimitsOk() (*EffectiveLimitsOut, bool)`
+
+GetEffectiveLimitsOk returns a tuple with the EffectiveLimits field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEffectiveLimits
+
+`func (o *DriveUsageOut) SetEffectiveLimits(v EffectiveLimitsOut)`
+
+SetEffectiveLimits sets EffectiveLimits field to given value.
+
+
+### GetMeters
+
+`func (o *DriveUsageOut) GetMeters() UsageMetersOut`
+
+GetMeters returns the Meters field if non-nil, zero value otherwise.
+
+### GetMetersOk
+
+`func (o *DriveUsageOut) GetMetersOk() (*UsageMetersOut, bool)`
+
+GetMetersOk returns a tuple with the Meters field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMeters
+
+`func (o *DriveUsageOut) SetMeters(v UsageMetersOut)`
+
+SetMeters sets Meters field to given value.
+
 
 ### GetRetrievalBytes
 

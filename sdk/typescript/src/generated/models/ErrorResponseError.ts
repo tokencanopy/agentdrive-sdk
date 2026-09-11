@@ -51,6 +51,7 @@ export const ErrorResponseErrorCodeEnum = {
     AuthenticationRequired: 'AUTHENTICATION_REQUIRED',
     AuthUnavailable: 'AUTH_UNAVAILABLE',
     BadRequest: 'BAD_REQUEST',
+    BandwidthLimitExceeded: 'BANDWIDTH_LIMIT_EXCEEDED',
     ChangeCursorExpired: 'CHANGE_CURSOR_EXPIRED',
     ChecksumMismatch: 'CHECKSUM_MISMATCH',
     Conflict: 'CONFLICT',

@@ -5,7 +5,11 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.import_agentdrive_contract import ContractImportError, import_contract
+from scripts.import_agentdrive_contract import (
+    SUPPORTED_POLICY_VERSION,
+    ContractImportError,
+    import_contract,
+)
 
 
 class ImportContractTest(unittest.TestCase):
@@ -17,7 +21,7 @@ class ImportContractTest(unittest.TestCase):
                     "openapi": "3.1.0",
                     "info": {"title": "AgentDrive", "version": "<PINNED>"},
                     "servers": ["<DEPLOYMENT-DERIVED>"],
-                    "x-agentdrive-compatibility-policy": 1,
+                    "x-agentdrive-compatibility-policy": SUPPORTED_POLICY_VERSION,
                     "components": {
                         "securitySchemes": {
                             "bearerAuth": {
@@ -66,7 +70,7 @@ class ImportContractTest(unittest.TestCase):
             metadata = json.loads(provenance.read_text(encoding="utf-8"))
             self.assertEqual(metadata["source_commit"], "abc123")
             self.assertEqual(
-                metadata["source_path"], "tests/openapi.golden.json"
+                metadata["source_path"], "apps/drive/tests/openapi.golden.json"
             )
             self.assertIn("source_sha256", metadata)
 

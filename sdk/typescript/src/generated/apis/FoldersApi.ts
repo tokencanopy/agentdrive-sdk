@@ -70,7 +70,7 @@ export interface FoldersDeleteRequest {
 
 export interface FoldersListRequest {
     driveId: string;
-    lifecycle?: string;
+    state?: string;
     limit?: number | null;
     cursor?: string | null;
     parentId?: string | null;
@@ -349,7 +349,7 @@ export class FoldersApi extends runtime.BaseAPI {
     }
 
     /**
-     * List the drive\'s folders, newest-first (keyset paginated).  ``lifecycle`` (active|deleted|all) exposes soft-deleted folders so the post-delete revision can be read as the If-Match source for a restore. ``parent_id`` / ``name`` are exact-match filters. Unknown query parameters are rejected (§6.3).
+     * List the drive\'s folders, newest-first (keyset paginated).  ``state`` (active|deleted|all) exposes soft-deleted folders so the post-delete revision can be read as the If-Match source for a restore. ``parent_id`` / ``name`` are exact-match filters. Unknown query parameters are rejected (§6.3).
      * List Folders
      */
     async foldersListRaw(requestParameters: FoldersListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FolderListOut>> {
@@ -362,8 +362,8 @@ export class FoldersApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
-        if (requestParameters['lifecycle'] != null) {
-            queryParameters['lifecycle'] = requestParameters['lifecycle'];
+        if (requestParameters['state'] != null) {
+            queryParameters['state'] = requestParameters['state'];
         }
 
         if (requestParameters['limit'] != null) {
@@ -411,7 +411,7 @@ export class FoldersApi extends runtime.BaseAPI {
     }
 
     /**
-     * List the drive\'s folders, newest-first (keyset paginated).  ``lifecycle`` (active|deleted|all) exposes soft-deleted folders so the post-delete revision can be read as the If-Match source for a restore. ``parent_id`` / ``name`` are exact-match filters. Unknown query parameters are rejected (§6.3).
+     * List the drive\'s folders, newest-first (keyset paginated).  ``state`` (active|deleted|all) exposes soft-deleted folders so the post-delete revision can be read as the If-Match source for a restore. ``parent_id`` / ``name`` are exact-match filters. Unknown query parameters are rejected (§6.3).
      * List Folders
      */
     async foldersList(requestParameters: FoldersListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FolderListOut> {

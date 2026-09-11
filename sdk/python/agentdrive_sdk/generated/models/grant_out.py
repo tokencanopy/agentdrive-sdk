@@ -59,8 +59,8 @@ class GrantOut(BaseModel):
     @field_validator('principal_type')
     def principal_type_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in set(['agent', 'user', 'workspace', 'public']):
-            raise ValueError("must be one of enum values ('agent', 'user', 'workspace', 'public')")
+        if value not in set(['agent', 'user', 'service', 'workspace', 'public']):
+            raise ValueError("must be one of enum values ('agent', 'user', 'service', 'workspace', 'public')")
         return value
 
     @field_validator('resource_type')

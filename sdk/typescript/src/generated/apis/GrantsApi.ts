@@ -46,7 +46,7 @@ export interface GrantsCreateRequest {
 
 export interface GrantsListRequest {
     driveId: string;
-    lifecycle?: string;
+    state?: string;
     limit?: number | null;
     cursor?: string | null;
     resourceType?: string | null;
@@ -170,8 +170,8 @@ export class GrantsApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
-        if (requestParameters['lifecycle'] != null) {
-            queryParameters['lifecycle'] = requestParameters['lifecycle'];
+        if (requestParameters['state'] != null) {
+            queryParameters['state'] = requestParameters['state'];
         }
 
         if (requestParameters['limit'] != null) {

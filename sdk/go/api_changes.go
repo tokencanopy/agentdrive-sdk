@@ -31,6 +31,7 @@ type ApiChangesListRequest struct {
 	start *string
 	cursor *string
 	type_ *string
+	order *string
 	authorization *string
 }
 
@@ -54,6 +55,11 @@ func (r ApiChangesListRequest) Type_(type_ string) ApiChangesListRequest {
 	return r
 }
 
+func (r ApiChangesListRequest) Order(order string) ApiChangesListRequest {
+	r.order = &order
+	return r
+}
+
 // Deprecated: redundant with the operation&#39;s &#x60;bearerAuth&#x60; security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.
 // Deprecated
 func (r ApiChangesListRequest) Authorization(authorization string) ApiChangesListRequest {
@@ -69,6 +75,19 @@ func (r ApiChangesListRequest) Execute() (*ChangePageOut, *http.Response, error)
 ChangesList List Changes
 
 Pull one page of changes. Exactly one of ``start`` or ``cursor``.
+
+``order`` selects the direction of the walk and accompanies ``start``, never
+a ``cursor`` — a cursor already carries the direction it was minted for, so
+repeating it could only ever contradict it.
+
+``oldest`` (the default) is the resumable sync walk: forward from the
+position, and a drained cursor re-presented later picks up what committed
+since. ``newest`` is a browse walk for a history screen: it captures the
+head and walks down toward the retention floor, newest row first. Because
+new events land ABOVE a captured head, a drained descending cursor stays
+drained — a reader checking for new activity captures the head again. That
+is also why ``order=newest`` takes only ``start=now``: ``beginning`` names
+the far end of a walk that already ends there.
 
 ``type`` is an optional comma-separated allow-list of exact event-type
 strings (e.g. ``type=folder.created,artifact.updated`` for content only, or
@@ -125,6 +144,9 @@ func (a *ChangesAPIService) ChangesListExecute(r ApiChangesListRequest) (*Change
 	}
 	if r.type_ != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "type", r.type_, "form", "")
+	}
+	if r.order != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "order", r.order, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

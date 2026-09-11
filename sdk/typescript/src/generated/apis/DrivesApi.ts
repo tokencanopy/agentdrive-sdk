@@ -54,7 +54,7 @@ export interface DrivesDeleteRequest {
 }
 
 export interface DrivesListRequest {
-    lifecycle?: string;
+    state?: string;
     limit?: number | null;
     cursor?: string | null;
     authorization?: string | null;
@@ -229,14 +229,14 @@ export class DrivesApi extends runtime.BaseAPI {
     }
 
     /**
-     * List the actor\'s workspace drives, newest-first (keyset paginated).  ``lifecycle`` (active|deleted|all) exposes soft-deleted drives so a manager can read the post-delete revision as the If-Match source for a restore. Unknown query parameters are rejected (§6.3).
+     * List the actor\'s workspace drives, newest-first (keyset paginated).  ``state`` (active|deleted|all) exposes soft-deleted drives so a manager can read the post-delete revision as the If-Match source for a restore. Unknown query parameters are rejected (§6.3).
      * List Drives
      */
     async drivesListRaw(requestParameters: DrivesListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveListOut>> {
         const queryParameters: any = {};
 
-        if (requestParameters['lifecycle'] != null) {
-            queryParameters['lifecycle'] = requestParameters['lifecycle'];
+        if (requestParameters['state'] != null) {
+            queryParameters['state'] = requestParameters['state'];
         }
 
         if (requestParameters['limit'] != null) {
@@ -275,7 +275,7 @@ export class DrivesApi extends runtime.BaseAPI {
     }
 
     /**
-     * List the actor\'s workspace drives, newest-first (keyset paginated).  ``lifecycle`` (active|deleted|all) exposes soft-deleted drives so a manager can read the post-delete revision as the If-Match source for a restore. Unknown query parameters are rejected (§6.3).
+     * List the actor\'s workspace drives, newest-first (keyset paginated).  ``state`` (active|deleted|all) exposes soft-deleted drives so a manager can read the post-delete revision as the If-Match source for a restore. Unknown query parameters are rejected (§6.3).
      * List Drives
      */
     async drivesList(requestParameters: DrivesListRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveListOut> {
@@ -495,7 +495,7 @@ export class DrivesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Byte counters for one active drive: storage is the live sum of its versions\' sizes; retrieval reads the counter the content-read slice maintains (0 until it lands).
+     * Usage counters, current storage and download meters, and the effective file/share limits for one active drive. The snapshot includes committed and reserved bytes so clients can show capacity already in flight.
      * Drive Usage
      */
     async drivesUsageRaw(requestParameters: DrivesUsageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriveUsageOut>> {
@@ -537,7 +537,7 @@ export class DrivesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Byte counters for one active drive: storage is the live sum of its versions\' sizes; retrieval reads the counter the content-read slice maintains (0 until it lands).
+     * Usage counters, current storage and download meters, and the effective file/share limits for one active drive. The snapshot includes committed and reserved bytes so clients can show capacity already in flight.
      * Drive Usage
      */
     async drivesUsage(requestParameters: DrivesUsageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DriveUsageOut> {

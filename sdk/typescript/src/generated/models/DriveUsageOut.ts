@@ -13,12 +13,39 @@
  */
 
 import { mapValues } from '../runtime';
+import type { EffectiveLimitsOut } from './EffectiveLimitsOut';
+import {
+    EffectiveLimitsOutFromJSON,
+    EffectiveLimitsOutFromJSONTyped,
+    EffectiveLimitsOutToJSON,
+    EffectiveLimitsOutToJSONTyped,
+} from './EffectiveLimitsOut';
+import type { UsageMetersOut } from './UsageMetersOut';
+import {
+    UsageMetersOutFromJSON,
+    UsageMetersOutFromJSONTyped,
+    UsageMetersOutToJSON,
+    UsageMetersOutToJSONTyped,
+} from './UsageMetersOut';
+
 /**
  *
  * @export
  * @interface DriveUsageOut
  */
 export interface DriveUsageOut {
+    /**
+     *
+     * @type {EffectiveLimitsOut}
+     * @memberof DriveUsageOut
+     */
+    effectiveLimits: EffectiveLimitsOut;
+    /**
+     *
+     * @type {UsageMetersOut}
+     * @memberof DriveUsageOut
+     */
+    meters: UsageMetersOut;
     /**
      *
      * @type {number}
@@ -37,6 +64,8 @@ export interface DriveUsageOut {
  * Check if a given object implements the DriveUsageOut interface.
  */
 export function instanceOfDriveUsageOut(value: object): value is DriveUsageOut {
+    if (!('effectiveLimits' in value) || value['effectiveLimits'] === undefined) return false;
+    if (!('meters' in value) || value['meters'] === undefined) return false;
     if (!('retrievalBytes' in value) || value['retrievalBytes'] === undefined) return false;
     if (!('storageBytes' in value) || value['storageBytes'] === undefined) return false;
     return true;
@@ -52,6 +81,8 @@ export function DriveUsageOutFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
 
+        'effectiveLimits': EffectiveLimitsOutFromJSON(json['effective_limits']),
+        'meters': UsageMetersOutFromJSON(json['meters']),
         'retrievalBytes': json['retrieval_bytes'],
         'storageBytes': json['storage_bytes'],
     };
@@ -68,6 +99,8 @@ export function DriveUsageOutToJSONTyped(value?: DriveUsageOut | null, ignoreDis
 
     return {
 
+        'effective_limits': EffectiveLimitsOutToJSON(value['effectiveLimits']),
+        'meters': UsageMetersOutToJSON(value['meters']),
         'retrieval_bytes': value['retrievalBytes'],
         'storage_bytes': value['storageBytes'],
     };

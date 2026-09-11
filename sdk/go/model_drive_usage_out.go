@@ -21,6 +21,8 @@ var _ MappedNullable = &DriveUsageOut{}
 
 // DriveUsageOut struct for DriveUsageOut
 type DriveUsageOut struct {
+	EffectiveLimits EffectiveLimitsOut `json:"effective_limits"`
+	Meters UsageMetersOut `json:"meters"`
 	RetrievalBytes int32 `json:"retrieval_bytes"`
 	StorageBytes int32 `json:"storage_bytes"`
 }
@@ -31,8 +33,10 @@ type _DriveUsageOut DriveUsageOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDriveUsageOut(retrievalBytes int32, storageBytes int32) *DriveUsageOut {
+func NewDriveUsageOut(effectiveLimits EffectiveLimitsOut, meters UsageMetersOut, retrievalBytes int32, storageBytes int32) *DriveUsageOut {
 	this := DriveUsageOut{}
+	this.EffectiveLimits = effectiveLimits
+	this.Meters = meters
 	this.RetrievalBytes = retrievalBytes
 	this.StorageBytes = storageBytes
 	return &this
@@ -44,6 +48,54 @@ func NewDriveUsageOut(retrievalBytes int32, storageBytes int32) *DriveUsageOut {
 func NewDriveUsageOutWithDefaults() *DriveUsageOut {
 	this := DriveUsageOut{}
 	return &this
+}
+
+// GetEffectiveLimits returns the EffectiveLimits field value
+func (o *DriveUsageOut) GetEffectiveLimits() EffectiveLimitsOut {
+	if o == nil {
+		var ret EffectiveLimitsOut
+		return ret
+	}
+
+	return o.EffectiveLimits
+}
+
+// GetEffectiveLimitsOk returns a tuple with the EffectiveLimits field value
+// and a boolean to check if the value has been set.
+func (o *DriveUsageOut) GetEffectiveLimitsOk() (*EffectiveLimitsOut, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.EffectiveLimits, true
+}
+
+// SetEffectiveLimits sets field value
+func (o *DriveUsageOut) SetEffectiveLimits(v EffectiveLimitsOut) {
+	o.EffectiveLimits = v
+}
+
+// GetMeters returns the Meters field value
+func (o *DriveUsageOut) GetMeters() UsageMetersOut {
+	if o == nil {
+		var ret UsageMetersOut
+		return ret
+	}
+
+	return o.Meters
+}
+
+// GetMetersOk returns a tuple with the Meters field value
+// and a boolean to check if the value has been set.
+func (o *DriveUsageOut) GetMetersOk() (*UsageMetersOut, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Meters, true
+}
+
+// SetMeters sets field value
+func (o *DriveUsageOut) SetMeters(v UsageMetersOut) {
+	o.Meters = v
 }
 
 // GetRetrievalBytes returns the RetrievalBytes field value
@@ -104,6 +156,8 @@ func (o DriveUsageOut) MarshalJSON() ([]byte, error) {
 
 func (o DriveUsageOut) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	toSerialize["effective_limits"] = o.EffectiveLimits
+	toSerialize["meters"] = o.Meters
 	toSerialize["retrieval_bytes"] = o.RetrievalBytes
 	toSerialize["storage_bytes"] = o.StorageBytes
 	return toSerialize, nil
@@ -114,6 +168,8 @@ func (o *DriveUsageOut) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
+		"effective_limits",
+		"meters",
 		"retrieval_bytes",
 		"storage_bytes",
 	}
