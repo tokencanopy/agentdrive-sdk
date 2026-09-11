@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 
-EXPECTED_VERSION = "0.0.3"
+EXPECTED_VERSION = "0.1.0"
 ROOT = Path(__file__).resolve().parents[1]
 
 
