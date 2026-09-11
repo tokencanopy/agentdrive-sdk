@@ -29,7 +29,7 @@ class GrantCreateIn(BaseModel):
     POST /v0/drives/{id}/grants body.
     """ # noqa: E501
     expires_at: Optional[datetime] = None
-    principal_id: Optional[StrictStr] = Field(default=None, description="Required for `agent`, `user`, and `workspace`; omitted only for `public`. For `agent` and `user` it is checked against that type's id prefix (`tcagt_` / `tcusr_`) and a mismatch is `422 VALIDATION_ERROR`. The prefix is all AgentDrive asserts: these ids are minted by Hub, so their full shape is not AgentDrive's to enforce, and a well-formed id naming a principal that does not exist — or belongs to another workspace — is accepted here and simply never matches a token. The rule is conditional on `principal_type`, so it is enforced at the boundary rather than expressible as one JSON Schema `pattern`.")
+    principal_id: Optional[StrictStr] = Field(default=None, description="Required for `agent`, `user`, `service`, and `workspace`; omitted only for `public`. For `agent`, `user`, and `service` it is checked against that type's id prefix (`tcagt_` / `tcusr_` / `tcsvc_`) and a mismatch is `422 VALIDATION_ERROR`. The prefix is all AgentDrive asserts: these ids are minted by Hub, so their full shape is not AgentDrive's to enforce, and a well-formed id naming a principal that does not exist — or belongs to another workspace — is accepted here and simply never matches a token. The rule is conditional on `principal_type`, so it is enforced at the boundary rather than expressible as one JSON Schema `pattern`.")
     principal_type: StrictStr
     resource_id: Annotated[str, Field(min_length=1, strict=True)]
     resource_type: StrictStr
@@ -39,8 +39,8 @@ class GrantCreateIn(BaseModel):
     @field_validator('principal_type')
     def principal_type_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in set(['agent', 'user', 'workspace', 'public']):
-            raise ValueError("must be one of enum values ('agent', 'user', 'workspace', 'public')")
+        if value not in set(['agent', 'user', 'service', 'workspace', 'public']):
+            raise ValueError("must be one of enum values ('agent', 'user', 'service', 'workspace', 'public')")
         return value
 
     @field_validator('resource_type')

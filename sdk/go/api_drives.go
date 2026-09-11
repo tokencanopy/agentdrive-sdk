@@ -511,14 +511,14 @@ func (a *DrivesAPIService) DrivesDeleteExecute(r ApiDrivesDeleteRequest) (*Drive
 type ApiDrivesListRequest struct {
 	ctx context.Context
 	ApiService *DrivesAPIService
-	lifecycle *string
+	state *string
 	limit *int32
 	cursor *string
 	authorization *string
 }
 
-func (r ApiDrivesListRequest) Lifecycle(lifecycle string) ApiDrivesListRequest {
-	r.lifecycle = &lifecycle
+func (r ApiDrivesListRequest) State(state string) ApiDrivesListRequest {
+	r.state = &state
 	return r
 }
 
@@ -548,7 +548,7 @@ DrivesList List Drives
 
 List the actor's workspace drives, newest-first (keyset paginated).
 
-``lifecycle`` (active|deleted|all) exposes soft-deleted drives so a
+``state`` (active|deleted|all) exposes soft-deleted drives so a
 manager can read the post-delete revision as the If-Match source for a
 restore. Unknown query parameters are rejected (§6.3).
 
@@ -583,11 +583,11 @@ func (a *DrivesAPIService) DrivesListExecute(r ApiDrivesListRequest) (*DriveList
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if r.lifecycle != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "lifecycle", r.lifecycle, "form", "")
+	if r.state != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "state", r.state, "form", "")
 	} else {
 		var defaultValue string = "active"
-		r.lifecycle = &defaultValue
+		r.state = &defaultValue
 	}
 	if r.limit != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")
@@ -1448,9 +1448,9 @@ func (r ApiDrivesUsageRequest) Execute() (*DriveUsageOut, *http.Response, error)
 /*
 DrivesUsage Drive Usage
 
-Byte counters for one active drive: storage is the live sum of its
-versions' sizes; retrieval reads the counter the content-read slice
-maintains (0 until it lands).
+Usage counters, current storage and download meters, and the effective
+file/share limits for one active drive. The snapshot includes committed
+and reserved bytes so clients can show capacity already in flight.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param driveId

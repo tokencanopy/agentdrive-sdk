@@ -1076,7 +1076,7 @@ type ApiArtifactsListRequest struct {
 	ctx context.Context
 	ApiService *ArtifactsAPIService
 	driveId string
-	lifecycle *string
+	state *string
 	limit *int32
 	cursor *string
 	parentId *string
@@ -1088,8 +1088,8 @@ type ApiArtifactsListRequest struct {
 	authorization *string
 }
 
-func (r ApiArtifactsListRequest) Lifecycle(lifecycle string) ApiArtifactsListRequest {
-	r.lifecycle = &lifecycle
+func (r ApiArtifactsListRequest) State(state string) ApiArtifactsListRequest {
+	r.state = &state
 	return r
 }
 
@@ -1149,7 +1149,7 @@ ArtifactsList List Artifacts
 
 List the drive's artifacts, newest-first (keyset paginated).
 
-``lifecycle`` (active|deleted|all) exposes soft-deleted artifacts.
+``state`` (active|deleted|all) exposes soft-deleted artifacts.
 ``parent_id`` / ``name`` / ``content_type`` / ``label`` are exact-match
 filters; ``updated_after`` / ``updated_before`` are inclusive bounds.
 Unknown query parameters are rejected.
@@ -1188,11 +1188,11 @@ func (a *ArtifactsAPIService) ArtifactsListExecute(r ApiArtifactsListRequest) (*
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if r.lifecycle != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "lifecycle", r.lifecycle, "form", "")
+	if r.state != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "state", r.state, "form", "")
 	} else {
 		var defaultValue string = "active"
-		r.lifecycle = &defaultValue
+		r.state = &defaultValue
 	}
 	if r.limit != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")

@@ -90,7 +90,7 @@ Name | Type | Description  | Notes
 
 ## SharesList
 
-> ShareListOut SharesList(ctx, driveId).Lifecycle(lifecycle).Limit(limit).Cursor(cursor).ResourceType(resourceType).ResourceId(resourceId).Authorization(authorization).Execute()
+> ShareListOut SharesList(ctx, driveId).State(state).Limit(limit).Cursor(cursor).ResourceType(resourceType).ResourceId(resourceId).Authorization(authorization).Execute()
 
 List Shares
 
@@ -110,7 +110,7 @@ import (
 
 func main() {
 	driveId := "driveId_example" // string |
-	lifecycle := "lifecycle_example" // string |  (optional) (default to "active")
+	state := "state_example" // string |  (optional) (default to "active")
 	limit := int32(56) // int32 |  (optional)
 	cursor := "cursor_example" // string |  (optional)
 	resourceType := "resourceType_example" // string |  (optional)
@@ -119,7 +119,7 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.SharesAPI.SharesList(context.Background(), driveId).Lifecycle(lifecycle).Limit(limit).Cursor(cursor).ResourceType(resourceType).ResourceId(resourceId).Authorization(authorization).Execute()
+	resp, r, err := apiClient.SharesAPI.SharesList(context.Background(), driveId).State(state).Limit(limit).Cursor(cursor).ResourceType(resourceType).ResourceId(resourceId).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `SharesAPI.SharesList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -145,7 +145,7 @@ Other parameters are passed through a pointer to a apiSharesListRequest struct v
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **lifecycle** | **string** |  | [default to &quot;active&quot;]
+ **state** | **string** |  | [default to &quot;active&quot;]
  **limit** | **int32** |  |
  **cursor** | **string** |  |
  **resourceType** | **string** |  |

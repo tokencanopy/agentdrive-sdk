@@ -31,11 +31,11 @@ paths:
       - discovery
   /.well-known/oauth-protected-resource/mcp:
     get:
-      description: "Path-inserted protected-resource metadata used by MCP OAuth clients.\
-        \ Served by the MCP sidecar when one is configured, because it is the authority\
-        \ on the scope bundle its own tools require; otherwise it falls back to the\
-        \ resource-root document, since `/v0` and `/mcp` share AgentDrive's canonical\
-        \ audience."
+      description: "Path-inserted protected-resource metadata for the hosted MCP transport.\
+        \ It names a DIFFERENT resource from the root document — `<origin>/mcp`, with\
+        \ the separately maintained MCP scope list — and is served by the MCP sidecar,\
+        \ which is the authority on its own tool set. Deployments with no sidecar\
+        \ answer 404: there is no `/mcp` resource to describe."
       operationId: oauth_protected_resource_mcp
       responses:
         "200":
@@ -139,18 +139,18 @@ paths:
       description: |-
         List the actor's workspace drives, newest-first (keyset paginated).
 
-        ``lifecycle`` (active|deleted|all) exposes soft-deleted drives so a
+        ``state`` (active|deleted|all) exposes soft-deleted drives so a
         manager can read the post-delete revision as the If-Match source for a
         restore. Unknown query parameters are rejected (§6.3).
       operationId: drives_list
       parameters:
       - explode: true
         in: query
-        name: lifecycle
+        name: state
         required: false
         schema:
           default: active
-          title: Lifecycle
+          title: State
           type: string
         style: form
       - explode: true
@@ -318,6 +318,7 @@ paths:
       - drives
       x-required-scopes:
       - drives:read
+      x-stability-level: beta
     post:
       description: |-
         Create a drive with its structural root folder and creator-manager
@@ -545,6 +546,7 @@ paths:
       - drives
       x-required-scopes:
       - drives:write
+      x-stability-level: beta
   /v0/drives/{drive_id}:
     delete:
       description: |-
@@ -776,6 +778,7 @@ paths:
       - drives
       x-required-scopes:
       - drives:write
+      x-stability-level: beta
     get:
       description: |-
         Read one active drive. ETag = quoted revision; matching
@@ -967,6 +970,7 @@ paths:
       - drives
       x-required-scopes:
       - drives:read
+      x-stability-level: beta
     patch:
       description: |-
         Rename / update a drive's metadata. Requires ``Idempotency-Key`` and
@@ -1203,12 +1207,13 @@ paths:
       - drives
       x-required-scopes:
       - drives:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/artifacts:
     get:
       description: |-
         List the drive's artifacts, newest-first (keyset paginated).
 
-        ``lifecycle`` (active|deleted|all) exposes soft-deleted artifacts.
+        ``state`` (active|deleted|all) exposes soft-deleted artifacts.
         ``parent_id`` / ``name`` / ``content_type`` / ``label`` are exact-match
         filters; ``updated_after`` / ``updated_before`` are inclusive bounds.
         Unknown query parameters are rejected.
@@ -1224,11 +1229,11 @@ paths:
         style: simple
       - explode: true
         in: query
-        name: lifecycle
+        name: state
         required: false
         schema:
           default: active
-          title: Lifecycle
+          title: State
           type: string
         style: form
       - explode: true
@@ -1452,6 +1457,7 @@ paths:
       - artifacts
       x-required-scopes:
       - content:read
+      x-stability-level: beta
     post:
       description: |-
         Create one artifact with inline content — multipart only.
@@ -1715,6 +1721,7 @@ paths:
       - artifacts
       x-required-scopes:
       - content:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/artifacts/{artifact_id}:
     delete:
       description: Soft-delete one artifact (its versions stay).
@@ -1952,6 +1959,7 @@ paths:
       - artifacts
       x-required-scopes:
       - content:write
+      x-stability-level: beta
     get:
       description: Read one active artifact. ``If-None-Match`` short-circuits to 304.
       operationId: artifacts_read
@@ -2149,6 +2157,7 @@ paths:
       - artifacts
       x-required-scopes:
       - content:read
+      x-stability-level: beta
     patch:
       description: Rename / move / set metadata or labels. At least one field required.
       operationId: artifacts_update
@@ -2391,6 +2400,7 @@ paths:
       - artifacts
       x-required-scopes:
       - content:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/artifacts/{artifact_id}/cells:
     get:
       description: |-
@@ -2629,6 +2639,7 @@ paths:
       - sheets
       x-required-scopes:
       - content:read
+      x-stability-level: beta
   /v0/drives/{drive_id}/artifacts/{artifact_id}/content:
     get:
       description: Download the head version's bytes — stream or 307 signed URL.
@@ -2838,6 +2849,7 @@ paths:
       - artifacts
       x-required-scopes:
       - content:read
+      x-stability-level: beta
   /v0/drives/{drive_id}/artifacts/{artifact_id}/copy:
     post:
       description: |-
@@ -3097,6 +3109,7 @@ paths:
       x-required-scopes:
       - content:read
       - content:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/artifacts/{artifact_id}/restore:
     post:
       description: Restore a soft-deleted artifact atomically.
@@ -3334,6 +3347,7 @@ paths:
       - artifacts
       x-required-scopes:
       - content:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions:
     get:
       description: |-
@@ -3535,6 +3549,7 @@ paths:
       - sheets
       x-required-scopes:
       - content:read
+      x-stability-level: beta
     post:
       description: |-
         Open an edit session. `If-Match` on the artifact head is required and
@@ -3775,6 +3790,7 @@ paths:
       - sheets
       x-required-scopes:
       - content:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions/{session_id}:
     delete:
       description: Abandon a session. Nothing is published and the edits go with it.
@@ -4008,6 +4024,7 @@ paths:
       - sheets
       x-required-scopes:
       - content:write
+      x-stability-level: beta
     get:
       description: |-
         One session. Reads deliberately do NOT extend the lease, so a polling
@@ -4203,6 +4220,7 @@ paths:
       - sheets
       x-required-scopes:
       - content:read
+      x-stability-level: beta
   /v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions/{session_id}/cells:
     get:
       description: |-
@@ -4399,6 +4417,7 @@ paths:
       - sheets
       x-required-scopes:
       - content:read
+      x-stability-level: beta
     post:
       description: |-
         Append range writes to the edit log.
@@ -4635,6 +4654,7 @@ paths:
       - sheets
       x-required-scopes:
       - content:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions/{session_id}/complete:
     post:
       description: |-
@@ -4888,6 +4908,7 @@ paths:
       - sheets
       x-required-scopes:
       - content:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/artifacts/{artifact_id}/sheet-sessions/{session_id}/edits:
     get:
       description: |-
@@ -5084,6 +5105,7 @@ paths:
       - sheets
       x-required-scopes:
       - content:read
+      x-stability-level: beta
   /v0/drives/{drive_id}/artifacts/{artifact_id}/sheets:
     get:
       description: |-
@@ -5304,6 +5326,7 @@ paths:
       - sheets
       x-required-scopes:
       - content:read
+      x-stability-level: beta
   /v0/drives/{drive_id}/artifacts/{artifact_id}/versions:
     get:
       description: "List the artifact's version trail, newest first (ordinal DESC)."
@@ -5490,6 +5513,7 @@ paths:
       - versions
       x-required-scopes:
       - content:read
+      x-stability-level: beta
     post:
       description: |-
         Append one immutable version and rotate the artifact head.
@@ -5769,6 +5793,7 @@ paths:
       - versions
       x-required-scopes:
       - content:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/artifacts/{artifact_id}/versions/{version_id}:
     get:
       description: Read one immutable version.
@@ -5975,6 +6000,7 @@ paths:
       - versions
       x-required-scopes:
       - content:read
+      x-stability-level: beta
   /v0/drives/{drive_id}/artifacts/{artifact_id}/versions/{version_id}/cells:
     get:
       description: |-
@@ -6220,6 +6246,7 @@ paths:
       - sheets
       x-required-scopes:
       - content:read
+      x-stability-level: beta
   /v0/drives/{drive_id}/artifacts/{artifact_id}/versions/{version_id}/content:
     get:
       description: Download one version's immutable bytes — stream or 307.
@@ -6437,6 +6464,7 @@ paths:
       - versions
       x-required-scopes:
       - content:read
+      x-stability-level: beta
   /v0/drives/{drive_id}/artifacts/{artifact_id}/versions/{version_id}/restore:
     post:
       description: Restore a historical version as a NEW head version (no byte copy).
@@ -6689,6 +6717,7 @@ paths:
       - versions
       x-required-scopes:
       - content:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/artifacts/{artifact_id}/versions/{version_id}/sheets:
     get:
       description: |-
@@ -6916,6 +6945,7 @@ paths:
       - sheets
       x-required-scopes:
       - content:read
+      x-stability-level: beta
   /v0/drives/{drive_id}/artifacts/{artifact_id}/viewer-sessions:
     post:
       description: |-
@@ -7149,6 +7179,19 @@ paths:
       description: |-
         Pull one page of changes. Exactly one of ``start`` or ``cursor``.
 
+        ``order`` selects the direction of the walk and accompanies ``start``, never
+        a ``cursor`` — a cursor already carries the direction it was minted for, so
+        repeating it could only ever contradict it.
+
+        ``oldest`` (the default) is the resumable sync walk: forward from the
+        position, and a drained cursor re-presented later picks up what committed
+        since. ``newest`` is a browse walk for a history screen: it captures the
+        head and walks down toward the retention floor, newest row first. Because
+        new events land ABOVE a captured head, a drained descending cursor stays
+        drained — a reader checking for new activity captures the head again. That
+        is also why ``order=newest`` takes only ``start=now``: ``beginning`` names
+        the far end of a walk that already ends there.
+
         ``type`` is an optional comma-separated allow-list of exact event-type
         strings (e.g. ``type=folder.created,artifact.updated`` for content only, or
         ``type=grant.created,grant.updated,grant.revoked`` for grant events). A
@@ -7205,6 +7248,18 @@ paths:
         schema:
           nullable: true
           title: Type
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: order
+        required: false
+        schema:
+          enum:
+          - oldest
+          - newest
+          nullable: true
+          title: Order
           type: string
         style: form
       - deprecated: true
@@ -7371,6 +7426,7 @@ paths:
       - changes
       x-required-scopes:
       - changes:read
+      x-stability-level: beta
   /v0/drives/{drive_id}/download-capabilities:
     post:
       description: |-
@@ -7576,9 +7632,14 @@ paths:
       - downloads
       x-required-scopes:
       - content:read
+      x-stability-level: beta
   /v0/drives/{drive_id}/entries:
     get:
-      description: List one folder's direct children across the shared namespace.
+      description: |-
+        List one folder's direct children across the shared namespace.
+
+        ``state`` (active|deleted|all) exposes soft-deleted entries, matching
+        every other v0 collection. Unknown query parameters are rejected.
       operationId: entries_list
       parameters:
       - explode: false
@@ -7827,12 +7888,13 @@ paths:
       - navigation
       x-required-scopes:
       - content:read
+      x-stability-level: beta
   /v0/drives/{drive_id}/folders:
     get:
       description: |-
         List the drive's folders, newest-first (keyset paginated).
 
-        ``lifecycle`` (active|deleted|all) exposes soft-deleted folders so the
+        ``state`` (active|deleted|all) exposes soft-deleted folders so the
         post-delete revision can be read as the If-Match source for a restore.
         ``parent_id`` / ``name`` are exact-match filters. Unknown query parameters
         are rejected (§6.3).
@@ -7848,11 +7910,11 @@ paths:
         style: simple
       - explode: true
         in: query
-        name: lifecycle
+        name: state
         required: false
         schema:
           default: active
-          title: Lifecycle
+          title: State
           type: string
         style: form
       - explode: true
@@ -8038,6 +8100,7 @@ paths:
       - folders
       x-required-scopes:
       - content:read
+      x-stability-level: beta
     post:
       description: |-
         Create one folder under `parent_id`; idempotent under the
@@ -8273,6 +8336,7 @@ paths:
       - folders
       x-required-scopes:
       - content:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/folders/{folder_id}:
     delete:
       description: |-
@@ -8524,6 +8588,7 @@ paths:
       - folders
       x-required-scopes:
       - content:write
+      x-stability-level: beta
     get:
       description: |-
         Read one active folder. ETag = quoted revision; matching
@@ -8723,6 +8788,7 @@ paths:
       - folders
       x-required-scopes:
       - content:read
+      x-stability-level: beta
     patch:
       description: |-
         Rename / move / update a folder's metadata. Requires
@@ -8968,6 +9034,7 @@ paths:
       - folders
       x-required-scopes:
       - content:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/folders/{folder_id}/copy:
     post:
       description: |-
@@ -9229,6 +9296,7 @@ paths:
       x-required-scopes:
       - content:read
       - content:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/folders/{folder_id}/restore:
     post:
       description: |-
@@ -9469,6 +9537,7 @@ paths:
       - folders
       x-required-scopes:
       - content:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/grants:
     get:
       description: |-
@@ -9508,11 +9577,11 @@ paths:
         style: simple
       - explode: true
         in: query
-        name: lifecycle
+        name: state
         required: false
         schema:
           default: active
-          title: Lifecycle
+          title: State
           type: string
         style: form
       - explode: true
@@ -9707,6 +9776,7 @@ paths:
       - grants
       x-required-scopes:
       - sharing:read
+      x-stability-level: beta
     post:
       description: "Grant one principal a role on a drive, folder, or artifact."
       operationId: grants_create
@@ -9940,6 +10010,7 @@ paths:
       - grants
       x-required-scopes:
       - sharing:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/grants/{grant_id}:
     delete:
       description: "Revoke a grant (soft, sets revoked_at) under If-Match."
@@ -10177,6 +10248,7 @@ paths:
       - grants
       x-required-scopes:
       - sharing:write
+      x-stability-level: beta
     get:
       description: Read one grant in the drive.
       operationId: grants_read
@@ -10374,6 +10446,7 @@ paths:
       - grants
       x-required-scopes:
       - sharing:read
+      x-stability-level: beta
     patch:
       description: Change a grant's role or expiry under If-Match.
       operationId: grants_update
@@ -10616,6 +10689,7 @@ paths:
       - grants
       x-required-scopes:
       - sharing:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/lookup:
     get:
       description: Resolve a complete root-relative path to one stable resource id.
@@ -10793,6 +10867,7 @@ paths:
       - navigation
       x-required-scopes:
       - content:read
+      x-stability-level: beta
   /v0/drives/{drive_id}/restore:
     post:
       description: |-
@@ -11024,6 +11099,7 @@ paths:
       - drives
       x-required-scopes:
       - drives:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/search:
     get:
       description: |-
@@ -11282,6 +11358,7 @@ paths:
       - search
       x-required-scopes:
       - content:read
+      x-stability-level: beta
   /v0/drives/{drive_id}/shares:
     get:
       description: |-
@@ -11306,11 +11383,11 @@ paths:
         style: simple
       - explode: true
         in: query
-        name: lifecycle
+        name: state
         required: false
         schema:
           default: active
-          title: Lifecycle
+          title: State
           type: string
         style: form
       - explode: true
@@ -11496,6 +11573,7 @@ paths:
       - shares
       x-required-scopes:
       - sharing:read
+      x-stability-level: beta
     post:
       description: |-
         Mint a read-only bearer link. The response carries the plaintext
@@ -11731,6 +11809,7 @@ paths:
       - shares
       x-required-scopes:
       - sharing:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/shares/{share_id}:
     delete:
       description: "Revoke a share (soft, sets revoked_at) under If-Match."
@@ -11968,6 +12047,7 @@ paths:
       - shares
       x-required-scopes:
       - sharing:write
+      x-stability-level: beta
     get:
       description: Read one share's management representation (no secret).
       operationId: shares_read
@@ -12165,6 +12245,7 @@ paths:
       - shares
       x-required-scopes:
       - sharing:read
+      x-stability-level: beta
   /v0/drives/{drive_id}/shares/{share_id}/rotate:
     post:
       description: |-
@@ -12404,6 +12485,7 @@ paths:
       - shares
       x-required-scopes:
       - sharing:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/uploads:
     post:
       description: |-
@@ -12711,6 +12793,7 @@ paths:
       - uploads
       x-required-scopes:
       - content:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/uploads/{upload_id}:
     delete:
       description: |-
@@ -12966,6 +13049,7 @@ paths:
       - uploads
       x-required-scopes:
       - content:write
+      x-stability-level: beta
     get:
       description: |-
         Non-secret recovery state (§5.3). Never a target, coordinate,
@@ -13181,6 +13265,7 @@ paths:
       - uploads
       x-required-scopes:
       - content:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/uploads/{upload_id}/complete:
     post:
       description: |-
@@ -13454,12 +13539,13 @@ paths:
       - uploads
       x-required-scopes:
       - content:write
+      x-stability-level: beta
   /v0/drives/{drive_id}/usage:
     get:
       description: |-
-        Byte counters for one active drive: storage is the live sum of its
-        versions' sizes; retrieval reads the counter the content-read slice
-        maintains (0 until it lands).
+        Usage counters, current storage and download meters, and the effective
+        file/share limits for one active drive. The snapshot includes committed
+        and reserved bytes so clients can show capacity already in flight.
       operationId: drives_usage
       parameters:
       - explode: false
@@ -13617,6 +13703,7 @@ paths:
       - drives
       x-required-scopes:
       - usage:read
+      x-stability-level: beta
 components:
   schemas:
     ArtifactCopyIn:
@@ -13995,6 +14082,7 @@ components:
           enum:
           - agent
           - user
+          - service
           - system
           title: Type
           type: string
@@ -14416,17 +14504,60 @@ components:
       title: DriveUpdateIn
       type: object
     DriveUsageOut:
+      additionalProperties: false
       example:
-        storage_bytes: 6
+        effective_limits:
+          share_default_ttl_seconds: 1
+          share_max_ttl_seconds: 5
+          max_file_bytes: 0
+          max_inline_file_bytes: 6
+        storage_bytes: 0
+        meters:
+          workspace_storage:
+            reserved: 0
+            scope: workspace
+            limit: 5
+            used: 0
+            reset_at: 2000-01-23T04:56:07.000+00:00
+            remaining: 0
+          workspace_download_day:
+            reserved: 0
+            scope: workspace
+            limit: 5
+            used: 0
+            reset_at: 2000-01-23T04:56:07.000+00:00
+            remaining: 0
+          drive_storage:
+            reserved: 0
+            scope: workspace
+            limit: 5
+            used: 0
+            reset_at: 2000-01-23T04:56:07.000+00:00
+            remaining: 0
+          workspace_download_month:
+            reserved: 0
+            scope: workspace
+            limit: 5
+            used: 0
+            reset_at: 2000-01-23T04:56:07.000+00:00
+            remaining: 0
         retrieval_bytes: 0
       properties:
+        effective_limits:
+          $ref: "#/components/schemas/EffectiveLimitsOut"
+        meters:
+          $ref: "#/components/schemas/UsageMetersOut"
         retrieval_bytes:
+          minimum: 0.0
           title: Retrieval Bytes
           type: integer
         storage_bytes:
+          minimum: 0.0
           title: Storage Bytes
           type: integer
       required:
+      - effective_limits
+      - meters
       - retrieval_bytes
       - storage_bytes
       title: DriveUsageOut
@@ -14449,6 +14580,33 @@ components:
       required:
       - status
       title: EditabilityOut
+      type: object
+    EffectiveLimitsOut:
+      additionalProperties: false
+      example:
+        share_default_ttl_seconds: 1
+        share_max_ttl_seconds: 5
+        max_file_bytes: 0
+        max_inline_file_bytes: 6
+      properties:
+        max_file_bytes:
+          title: Max File Bytes
+          type: integer
+        max_inline_file_bytes:
+          title: Max Inline File Bytes
+          type: integer
+        share_default_ttl_seconds:
+          title: Share Default Ttl Seconds
+          type: integer
+        share_max_ttl_seconds:
+          title: Share Max Ttl Seconds
+          type: integer
+      required:
+      - max_file_bytes
+      - max_inline_file_bytes
+      - share_default_ttl_seconds
+      - share_max_ttl_seconds
+      title: EffectiveLimitsOut
       type: object
     EntryListOut:
       example:
@@ -14786,15 +14944,16 @@ components:
           title: Expires At
           type: string
         principal_id:
-          description: "Required for `agent`, `user`, and `workspace`; omitted only\
-            \ for `public`. For `agent` and `user` it is checked against that type's\
-            \ id prefix (`tcagt_` / `tcusr_`) and a mismatch is `422 VALIDATION_ERROR`.\
-            \ The prefix is all AgentDrive asserts: these ids are minted by Hub, so\
-            \ their full shape is not AgentDrive's to enforce, and a well-formed id\
-            \ naming a principal that does not exist — or belongs to another workspace\
-            \ — is accepted here and simply never matches a token. The rule is conditional\
-            \ on `principal_type`, so it is enforced at the boundary rather than expressible\
-            \ as one JSON Schema `pattern`."
+          description: "Required for `agent`, `user`, `service`, and `workspace`;\
+            \ omitted only for `public`. For `agent`, `user`, and `service` it is\
+            \ checked against that type's id prefix (`tcagt_` / `tcusr_` / `tcsvc_`)\
+            \ and a mismatch is `422 VALIDATION_ERROR`. The prefix is all AgentDrive\
+            \ asserts: these ids are minted by Hub, so their full shape is not AgentDrive's\
+            \ to enforce, and a well-formed id naming a principal that does not exist\
+            \ — or belongs to another workspace — is accepted here and simply never\
+            \ matches a token. The rule is conditional on `principal_type`, so it\
+            \ is enforced at the boundary rather than expressible as one JSON Schema\
+            \ `pattern`."
           nullable: true
           title: Principal Id
           type: string
@@ -14802,6 +14961,7 @@ components:
           enum:
           - agent
           - user
+          - service
           - workspace
           - public
           title: Principal Type
@@ -14914,6 +15074,7 @@ components:
           enum:
           - agent
           - user
+          - service
           - workspace
           - public
           title: Principal Type
@@ -15995,6 +16156,100 @@ components:
       - transfer
       title: UploadWithTransferOut
       type: object
+    UsageMeterOut:
+      additionalProperties: false
+      example:
+        reserved: 0
+        scope: workspace
+        limit: 5
+        used: 0
+        reset_at: 2000-01-23T04:56:07.000+00:00
+        remaining: 0
+      properties:
+        limit:
+          title: Limit
+          type: integer
+        remaining:
+          minimum: 0.0
+          title: Remaining
+          type: integer
+        reserved:
+          minimum: 0.0
+          title: Reserved
+          type: integer
+        reset_at:
+          format: date-time
+          nullable: true
+          title: Reset At
+          type: string
+        scope:
+          enum:
+          - workspace
+          - drive
+          - principal
+          - share
+          title: Scope
+          type: string
+        used:
+          minimum: 0.0
+          title: Used
+          type: integer
+      required:
+      - limit
+      - remaining
+      - reserved
+      - reset_at
+      - scope
+      - used
+      title: UsageMeterOut
+      type: object
+    UsageMetersOut:
+      additionalProperties: false
+      example:
+        workspace_storage:
+          reserved: 0
+          scope: workspace
+          limit: 5
+          used: 0
+          reset_at: 2000-01-23T04:56:07.000+00:00
+          remaining: 0
+        workspace_download_day:
+          reserved: 0
+          scope: workspace
+          limit: 5
+          used: 0
+          reset_at: 2000-01-23T04:56:07.000+00:00
+          remaining: 0
+        drive_storage:
+          reserved: 0
+          scope: workspace
+          limit: 5
+          used: 0
+          reset_at: 2000-01-23T04:56:07.000+00:00
+          remaining: 0
+        workspace_download_month:
+          reserved: 0
+          scope: workspace
+          limit: 5
+          used: 0
+          reset_at: 2000-01-23T04:56:07.000+00:00
+          remaining: 0
+      properties:
+        drive_storage:
+          $ref: "#/components/schemas/UsageMeterOut"
+        workspace_download_day:
+          $ref: "#/components/schemas/UsageMeterOut"
+        workspace_download_month:
+          $ref: "#/components/schemas/UsageMeterOut"
+        workspace_storage:
+          $ref: "#/components/schemas/UsageMeterOut"
+      required:
+      - drive_storage
+      - workspace_download_day
+      - workspace_download_month
+      - workspace_storage
+      title: UsageMetersOut
+      type: object
     V0ErrorEnvelope:
       example:
         error:
@@ -16551,6 +16806,7 @@ components:
           - AUTHENTICATION_REQUIRED
           - AUTH_UNAVAILABLE
           - BAD_REQUEST
+          - BANDWIDTH_LIMIT_EXCEEDED
           - CHANGE_CURSOR_EXPIRED
           - CHECKSUM_MISMATCH
           - CONFLICT
@@ -16681,4 +16937,4 @@ components:
         \ (RFC 9728)."
       scheme: bearer
       type: http
-x-agentdrive-compatibility-policy: 1
+x-agentdrive-compatibility-policy: 2

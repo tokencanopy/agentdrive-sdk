@@ -33,8 +33,8 @@ class ChangeActorOut(BaseModel):
     @field_validator('type')
     def type_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in set(['agent', 'user', 'system']):
-            raise ValueError("must be one of enum values ('agent', 'user', 'system')")
+        if value not in set(['agent', 'user', 'service', 'system']):
+            raise ValueError("must be one of enum values ('agent', 'user', 'service', 'system')")
         return value
 
     model_config = ConfigDict(

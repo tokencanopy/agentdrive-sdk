@@ -88,26 +88,26 @@ class DriveResource(_Resource):
     def list(
         self,
         *,
-        lifecycle: str = "active",
+        state: str = "active",
         limit: int | None = None,
         cursor: str | None = None,
     ) -> Any:
         return self.client._invoke(
             "drives_list",
-            {"lifecycle": lifecycle, "limit": limit, "cursor": cursor},
+            {"state": state, "limit": limit, "cursor": cursor},
         ).data
 
     def iter_pages(
         self,
         *,
-        lifecycle: str = "active",
+        state: str = "active",
         limit: int | None = None,
         cursor: str | None = None,
         max_pages: int | None = None,
     ) -> CursorPages[Any]:
         return self.client._pages(
             lambda next_cursor: _page_from(
-                self.list(lifecycle=lifecycle, limit=limit, cursor=next_cursor), "items"
+                self.list(state=state, limit=limit, cursor=next_cursor), "items"
             ),
             cursor=cursor,
             max_pages=max_pages,
@@ -258,7 +258,7 @@ class FolderResource(_Resource):
         self,
         drive_id: str,
         *,
-        lifecycle: str = "active",
+        state: str = "active",
         limit: int | None = None,
         cursor: str | None = None,
         parent_id: str | None = None,
@@ -268,7 +268,7 @@ class FolderResource(_Resource):
             "folders_list",
             {
                 "drive_id": drive_id,
-                "lifecycle": lifecycle,
+                "state": state,
                 "limit": limit,
                 "cursor": cursor,
                 "parent_id": parent_id,
@@ -459,7 +459,7 @@ class ArtifactResource(_Resource):
         self,
         drive_id: str,
         *,
-        lifecycle: str = "active",
+        state: str = "active",
         limit: int | None = None,
         cursor: str | None = None,
         parent_id: str | None = None,
@@ -473,7 +473,7 @@ class ArtifactResource(_Resource):
             "artifacts_list",
             {
                 "drive_id": drive_id,
-                "lifecycle": lifecycle,
+                "state": state,
                 "limit": limit,
                 "cursor": cursor,
                 "parent_id": parent_id,

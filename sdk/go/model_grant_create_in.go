@@ -23,7 +23,7 @@ var _ MappedNullable = &GrantCreateIn{}
 // GrantCreateIn POST /v0/drives/{id}/grants body.
 type GrantCreateIn struct {
 	ExpiresAt NullableTime `json:"expires_at,omitempty"`
-	// Required for `agent`, `user`, and `workspace`; omitted only for `public`. For `agent` and `user` it is checked against that type's id prefix (`tcagt_` / `tcusr_`) and a mismatch is `422 VALIDATION_ERROR`. The prefix is all AgentDrive asserts: these ids are minted by Hub, so their full shape is not AgentDrive's to enforce, and a well-formed id naming a principal that does not exist — or belongs to another workspace — is accepted here and simply never matches a token. The rule is conditional on `principal_type`, so it is enforced at the boundary rather than expressible as one JSON Schema `pattern`.
+	// Required for `agent`, `user`, `service`, and `workspace`; omitted only for `public`. For `agent`, `user`, and `service` it is checked against that type's id prefix (`tcagt_` / `tcusr_` / `tcsvc_`) and a mismatch is `422 VALIDATION_ERROR`. The prefix is all AgentDrive asserts: these ids are minted by Hub, so their full shape is not AgentDrive's to enforce, and a well-formed id naming a principal that does not exist — or belongs to another workspace — is accepted here and simply never matches a token. The rule is conditional on `principal_type`, so it is enforced at the boundary rather than expressible as one JSON Schema `pattern`.
 	PrincipalId NullableString `json:"principal_id,omitempty"`
 	PrincipalType string `json:"principal_type"`
 	ResourceId string `json:"resource_id"`

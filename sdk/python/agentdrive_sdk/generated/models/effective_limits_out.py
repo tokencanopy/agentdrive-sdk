@@ -17,23 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, StrictInt
 from typing import Any, ClassVar, Dict, List
-from typing_extensions import Annotated
-from agentdrive_sdk.generated.models.effective_limits_out import EffectiveLimitsOut
-from agentdrive_sdk.generated.models.usage_meters_out import UsageMetersOut
 from typing import Optional, Set
 from typing_extensions import Self
 
-class DriveUsageOut(BaseModel):
+class EffectiveLimitsOut(BaseModel):
     """
-    DriveUsageOut
+    EffectiveLimitsOut
     """ # noqa: E501
-    effective_limits: EffectiveLimitsOut
-    meters: UsageMetersOut
-    retrieval_bytes: Annotated[int, Field(strict=True, ge=0)]
-    storage_bytes: Annotated[int, Field(strict=True, ge=0)]
-    __properties: ClassVar[List[str]] = ["effective_limits", "meters", "retrieval_bytes", "storage_bytes"]
+    max_file_bytes: StrictInt
+    max_inline_file_bytes: StrictInt
+    share_default_ttl_seconds: StrictInt
+    share_max_ttl_seconds: StrictInt
+    __properties: ClassVar[List[str]] = ["max_file_bytes", "max_inline_file_bytes", "share_default_ttl_seconds", "share_max_ttl_seconds"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -53,7 +50,7 @@ class DriveUsageOut(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of DriveUsageOut from a JSON string"""
+        """Create an instance of EffectiveLimitsOut from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,17 +71,11 @@ class DriveUsageOut(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of effective_limits
-        if self.effective_limits:
-            _dict['effective_limits'] = self.effective_limits.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of meters
-        if self.meters:
-            _dict['meters'] = self.meters.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of DriveUsageOut from a dict"""
+        """Create an instance of EffectiveLimitsOut from a dict"""
         if obj is None:
             return None
 
@@ -92,9 +83,9 @@ class DriveUsageOut(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "effective_limits": EffectiveLimitsOut.from_dict(obj["effective_limits"]) if obj.get("effective_limits") is not None else None,
-            "meters": UsageMetersOut.from_dict(obj["meters"]) if obj.get("meters") is not None else None,
-            "retrieval_bytes": obj.get("retrieval_bytes"),
-            "storage_bytes": obj.get("storage_bytes")
+            "max_file_bytes": obj.get("max_file_bytes"),
+            "max_inline_file_bytes": obj.get("max_inline_file_bytes"),
+            "share_default_ttl_seconds": obj.get("share_default_ttl_seconds"),
+            "share_max_ttl_seconds": obj.get("share_max_ttl_seconds")
         })
         return _obj

@@ -299,7 +299,7 @@ class DiscoveryApi:
     ) -> Dict[str, object]:
         """Protected-resource metadata for the MCP endpoint (RFC 9728)
 
-        Path-inserted protected-resource metadata used by MCP OAuth clients. Served by the MCP sidecar when one is configured, because it is the authority on the scope bundle its own tools require; otherwise it falls back to the resource-root document, since `/v0` and `/mcp` share AgentDrive's canonical audience.
+        Path-inserted protected-resource metadata for the hosted MCP transport. It names a DIFFERENT resource from the root document — `<origin>/mcp`, with the separately maintained MCP scope list — and is served by the MCP sidecar, which is the authority on its own tool set. Deployments with no sidecar answer 404: there is no `/mcp` resource to describe.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -362,7 +362,7 @@ class DiscoveryApi:
     ) -> ApiResponse[Dict[str, object]]:
         """Protected-resource metadata for the MCP endpoint (RFC 9728)
 
-        Path-inserted protected-resource metadata used by MCP OAuth clients. Served by the MCP sidecar when one is configured, because it is the authority on the scope bundle its own tools require; otherwise it falls back to the resource-root document, since `/v0` and `/mcp` share AgentDrive's canonical audience.
+        Path-inserted protected-resource metadata for the hosted MCP transport. It names a DIFFERENT resource from the root document — `<origin>/mcp`, with the separately maintained MCP scope list — and is served by the MCP sidecar, which is the authority on its own tool set. Deployments with no sidecar answer 404: there is no `/mcp` resource to describe.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -425,7 +425,7 @@ class DiscoveryApi:
     ) -> RESTResponseType:
         """Protected-resource metadata for the MCP endpoint (RFC 9728)
 
-        Path-inserted protected-resource metadata used by MCP OAuth clients. Served by the MCP sidecar when one is configured, because it is the authority on the scope bundle its own tools require; otherwise it falls back to the resource-root document, since `/v0` and `/mcp` share AgentDrive's canonical audience.
+        Path-inserted protected-resource metadata for the hosted MCP transport. It names a DIFFERENT resource from the root document — `<origin>/mcp`, with the separately maintained MCP scope list — and is served by the MCP sidecar, which is the authority on its own tool set. Deployments with no sidecar answer 404: there is no `/mcp` resource to describe.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

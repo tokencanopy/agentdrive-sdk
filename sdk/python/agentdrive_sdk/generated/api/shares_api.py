@@ -395,7 +395,7 @@ class SharesApi:
     def shares_list(
         self,
         drive_id: StrictStr,
-        lifecycle: Optional[StrictStr] = None,
+        state: Optional[StrictStr] = None,
         limit: Optional[StrictInt] = None,
         cursor: Optional[StrictStr] = None,
         resource_type: Optional[StrictStr] = None,
@@ -420,8 +420,8 @@ class SharesApi:
 
         :param drive_id: (required)
         :type drive_id: str
-        :param lifecycle:
-        :type lifecycle: str
+        :param state:
+        :type state: str
         :param limit:
         :type limit: int
         :param cursor:
@@ -456,7 +456,7 @@ class SharesApi:
 
         _param = self._shares_list_serialize(
             drive_id=drive_id,
-            lifecycle=lifecycle,
+            state=state,
             limit=limit,
             cursor=cursor,
             resource_type=resource_type,
@@ -493,7 +493,7 @@ class SharesApi:
     def shares_list_with_http_info(
         self,
         drive_id: StrictStr,
-        lifecycle: Optional[StrictStr] = None,
+        state: Optional[StrictStr] = None,
         limit: Optional[StrictInt] = None,
         cursor: Optional[StrictStr] = None,
         resource_type: Optional[StrictStr] = None,
@@ -518,8 +518,8 @@ class SharesApi:
 
         :param drive_id: (required)
         :type drive_id: str
-        :param lifecycle:
-        :type lifecycle: str
+        :param state:
+        :type state: str
         :param limit:
         :type limit: int
         :param cursor:
@@ -554,7 +554,7 @@ class SharesApi:
 
         _param = self._shares_list_serialize(
             drive_id=drive_id,
-            lifecycle=lifecycle,
+            state=state,
             limit=limit,
             cursor=cursor,
             resource_type=resource_type,
@@ -591,7 +591,7 @@ class SharesApi:
     def shares_list_without_preload_content(
         self,
         drive_id: StrictStr,
-        lifecycle: Optional[StrictStr] = None,
+        state: Optional[StrictStr] = None,
         limit: Optional[StrictInt] = None,
         cursor: Optional[StrictStr] = None,
         resource_type: Optional[StrictStr] = None,
@@ -616,8 +616,8 @@ class SharesApi:
 
         :param drive_id: (required)
         :type drive_id: str
-        :param lifecycle:
-        :type lifecycle: str
+        :param state:
+        :type state: str
         :param limit:
         :type limit: int
         :param cursor:
@@ -652,7 +652,7 @@ class SharesApi:
 
         _param = self._shares_list_serialize(
             drive_id=drive_id,
-            lifecycle=lifecycle,
+            state=state,
             limit=limit,
             cursor=cursor,
             resource_type=resource_type,
@@ -684,7 +684,7 @@ class SharesApi:
     def _shares_list_serialize(
         self,
         drive_id,
-        lifecycle,
+        state,
         limit,
         cursor,
         resource_type,
@@ -714,9 +714,9 @@ class SharesApi:
         if drive_id is not None:
             _path_params['drive_id'] = drive_id
         # process the query parameters
-        if lifecycle is not None:
+        if state is not None:
 
-            _query_params.append(('lifecycle', lifecycle))
+            _query_params.append(('state', state))
 
         if limit is not None:
 

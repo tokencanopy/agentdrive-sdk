@@ -65,18 +65,18 @@ type EntryListOptions = {
 export class DriveResource {
     constructor(private readonly client: AgentDriveClient) {}
 
-    list(options: PageOptions & { lifecycle?: string } = {}): Promise<DriveListOut> {
-        return this.client.invoke('drives_list', () => this.client.generated.drives.drivesList({ lifecycle: options.lifecycle ?? 'active', limit: options.limit, cursor: options.cursor }));
+    list(options: PageOptions & { state?: string } = {}): Promise<DriveListOut> {
+        return this.client.invoke('drives_list', () => this.client.generated.drives.drivesList({ state: options.state ?? 'active', limit: options.limit, cursor: options.cursor }));
     }
 
-    iterPages(options: PageOptions & { lifecycle?: string } = {}): AsyncGenerator<Page<DriveOut>, void, undefined> {
+    iterPages(options: PageOptions & { state?: string } = {}): AsyncGenerator<Page<DriveOut>, void, undefined> {
         return cursorPages(async (cursor) => {
             const response = await this.list({ ...options, cursor });
             return { items: response.items, nextCursor: response.nextCursor, raw: response };
         }, options);
     }
 
-    iterItems(options: PageOptions & { lifecycle?: string } = {}): AsyncGenerator<DriveOut, void, undefined> {
+    iterItems(options: PageOptions & { state?: string } = {}): AsyncGenerator<DriveOut, void, undefined> {
         return cursorItems(this.iterPages(options));
     }
 
@@ -145,18 +145,18 @@ export class EntryResource {
 export class FolderResource {
     constructor(private readonly client: AgentDriveClient) {}
 
-    list(driveId: string, options: PageOptions & { lifecycle?: string; parentId?: string; name?: string } = {}) {
-        return this.client.invoke('folders_list', () => this.client.generated.folders.foldersList({ driveId, lifecycle: options.lifecycle ?? 'active', limit: options.limit, cursor: options.cursor, parentId: options.parentId, name: options.name }));
+    list(driveId: string, options: PageOptions & { state?: string; parentId?: string; name?: string } = {}) {
+        return this.client.invoke('folders_list', () => this.client.generated.folders.foldersList({ driveId, state: options.state ?? 'active', limit: options.limit, cursor: options.cursor, parentId: options.parentId, name: options.name }));
     }
 
-    iterPages(driveId: string, options: PageOptions & { lifecycle?: string; parentId?: string; name?: string } = {}): AsyncGenerator<Page<FolderOut>, void, undefined> {
+    iterPages(driveId: string, options: PageOptions & { state?: string; parentId?: string; name?: string } = {}): AsyncGenerator<Page<FolderOut>, void, undefined> {
         return cursorPages(async (cursor) => {
             const response = await this.list(driveId, { ...options, cursor });
             return { items: response.items, nextCursor: response.nextCursor, raw: response };
         }, options);
     }
 
-    iterItems(driveId: string, options: PageOptions & { lifecycle?: string; parentId?: string; name?: string } = {}): AsyncGenerator<FolderOut, void, undefined> {
+    iterItems(driveId: string, options: PageOptions & { state?: string; parentId?: string; name?: string } = {}): AsyncGenerator<FolderOut, void, undefined> {
         return cursorItems(this.iterPages(driveId, options));
     }
 
@@ -219,18 +219,18 @@ export class FolderResource {
 export class ArtifactResource {
     constructor(private readonly client: AgentDriveClient) {}
 
-    list(driveId: string, options: PageOptions & { lifecycle?: string; parentId?: string; name?: string; contentType?: string; label?: string; updatedAfter?: Date; updatedBefore?: Date } = {}) {
-        return this.client.invoke('artifacts_list', () => this.client.generated.artifacts.artifactsList({ driveId, lifecycle: options.lifecycle ?? 'active', limit: options.limit, cursor: options.cursor, parentId: options.parentId, name: options.name, contentType: options.contentType, label: options.label, updatedAfter: options.updatedAfter, updatedBefore: options.updatedBefore }));
+    list(driveId: string, options: PageOptions & { state?: string; parentId?: string; name?: string; contentType?: string; label?: string; updatedAfter?: Date; updatedBefore?: Date } = {}) {
+        return this.client.invoke('artifacts_list', () => this.client.generated.artifacts.artifactsList({ driveId, state: options.state ?? 'active', limit: options.limit, cursor: options.cursor, parentId: options.parentId, name: options.name, contentType: options.contentType, label: options.label, updatedAfter: options.updatedAfter, updatedBefore: options.updatedBefore }));
     }
 
-    iterPages(driveId: string, options: PageOptions & { lifecycle?: string; parentId?: string; name?: string; contentType?: string; label?: string; updatedAfter?: Date; updatedBefore?: Date } = {}): AsyncGenerator<Page<ArtifactOut>, void, undefined> {
+    iterPages(driveId: string, options: PageOptions & { state?: string; parentId?: string; name?: string; contentType?: string; label?: string; updatedAfter?: Date; updatedBefore?: Date } = {}): AsyncGenerator<Page<ArtifactOut>, void, undefined> {
         return cursorPages(async (cursor) => {
             const response = await this.list(driveId, { ...options, cursor });
             return { items: response.items, nextCursor: response.nextCursor, raw: response };
         }, options);
     }
 
-    iterItems(driveId: string, options: PageOptions & { lifecycle?: string; parentId?: string; name?: string; contentType?: string; label?: string; updatedAfter?: Date; updatedBefore?: Date } = {}): AsyncGenerator<ArtifactOut, void, undefined> {
+    iterItems(driveId: string, options: PageOptions & { state?: string; parentId?: string; name?: string; contentType?: string; label?: string; updatedAfter?: Date; updatedBefore?: Date } = {}): AsyncGenerator<ArtifactOut, void, undefined> {
         return cursorItems(this.iterPages(driveId, options));
     }
 
@@ -412,18 +412,18 @@ export class ChangeResource {
 export class GrantResource {
     constructor(private readonly client: AgentDriveClient) {}
 
-    list(driveId: string, options: PageOptions & { lifecycle?: string; resourceType?: string; resourceId?: string; principalType?: string } = {}): Promise<GrantListOut> {
-        return this.client.invoke('grants_list', () => this.client.generated.grants.grantsList({ driveId, lifecycle: options.lifecycle ?? 'active', limit: options.limit, cursor: options.cursor, resourceType: options.resourceType, resourceId: options.resourceId, principalType: options.principalType }));
+    list(driveId: string, options: PageOptions & { state?: string; resourceType?: string; resourceId?: string; principalType?: string } = {}): Promise<GrantListOut> {
+        return this.client.invoke('grants_list', () => this.client.generated.grants.grantsList({ driveId, state: options.state ?? 'active', limit: options.limit, cursor: options.cursor, resourceType: options.resourceType, resourceId: options.resourceId, principalType: options.principalType }));
     }
 
-    iterPages(driveId: string, options: PageOptions & { lifecycle?: string; resourceType?: string; resourceId?: string; principalType?: string } = {}): AsyncGenerator<Page<GrantOut>, void, undefined> {
+    iterPages(driveId: string, options: PageOptions & { state?: string; resourceType?: string; resourceId?: string; principalType?: string } = {}): AsyncGenerator<Page<GrantOut>, void, undefined> {
         return cursorPages(async (cursor) => {
             const response = await this.list(driveId, { ...options, cursor });
             return { items: response.items, nextCursor: response.nextCursor, raw: response };
         }, options);
     }
 
-    iterItems(driveId: string, options: PageOptions & { lifecycle?: string; resourceType?: string; resourceId?: string; principalType?: string } = {}) {
+    iterItems(driveId: string, options: PageOptions & { state?: string; resourceType?: string; resourceId?: string; principalType?: string } = {}) {
         return cursorItems(this.iterPages(driveId, options));
     }
 
@@ -450,18 +450,18 @@ export class GrantResource {
 export class ShareResource {
     constructor(private readonly client: AgentDriveClient) {}
 
-    list(driveId: string, options: PageOptions & { lifecycle?: string; resourceType?: string; resourceId?: string } = {}): Promise<ShareListOut> {
-        return this.client.invoke('shares_list', () => this.client.generated.shares.sharesList({ driveId, lifecycle: options.lifecycle ?? 'active', limit: options.limit, cursor: options.cursor, resourceType: options.resourceType, resourceId: options.resourceId }));
+    list(driveId: string, options: PageOptions & { state?: string; resourceType?: string; resourceId?: string } = {}): Promise<ShareListOut> {
+        return this.client.invoke('shares_list', () => this.client.generated.shares.sharesList({ driveId, state: options.state ?? 'active', limit: options.limit, cursor: options.cursor, resourceType: options.resourceType, resourceId: options.resourceId }));
     }
 
-    iterPages(driveId: string, options: PageOptions & { lifecycle?: string; resourceType?: string; resourceId?: string } = {}): AsyncGenerator<Page<ShareOut>, void, undefined> {
+    iterPages(driveId: string, options: PageOptions & { state?: string; resourceType?: string; resourceId?: string } = {}): AsyncGenerator<Page<ShareOut>, void, undefined> {
         return cursorPages(async (cursor) => {
             const response = await this.list(driveId, { ...options, cursor });
             return { items: response.items, nextCursor: response.nextCursor, raw: response };
         }, options);
     }
 
-    iterItems(driveId: string, options: PageOptions & { lifecycle?: string; resourceType?: string; resourceId?: string } = {}) {
+    iterItems(driveId: string, options: PageOptions & { state?: string; resourceType?: string; resourceId?: string } = {}) {
         return cursorItems(this.iterPages(driveId, options));
     }
 

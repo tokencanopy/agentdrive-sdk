@@ -47,6 +47,7 @@ class ChangesApi:
         start: Optional[StrictStr] = None,
         cursor: Optional[StrictStr] = None,
         type: Optional[StrictStr] = None,
+        order: Optional[StrictStr] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.")] = None,
         _request_timeout: Union[
             None,
@@ -63,7 +64,7 @@ class ChangesApi:
     ) -> ChangePageOut:
         """List Changes
 
-        Pull one page of changes. Exactly one of ``start`` or ``cursor``.  ``type`` is an optional comma-separated allow-list of exact event-type strings (e.g. ``type=folder.created,artifact.updated`` for content only, or ``type=grant.created,grant.updated,grant.revoked`` for grant events). A comma-list — not a single value or a ``grant.*`` glob — because the useful sync queries (\"content only\", \"all permission events\") are SETS of exact types, and exact-match keeps the filter's meaning independent of the dotted naming (§6.3: unknown params are rejected; unknown type VALUES 400 here). Permission types requested by a non-manager are silently empty (the manager filter still applies), never an existence oracle.
+        Pull one page of changes. Exactly one of ``start`` or ``cursor``.  ``order`` selects the direction of the walk and accompanies ``start``, never a ``cursor`` — a cursor already carries the direction it was minted for, so repeating it could only ever contradict it.  ``oldest`` (the default) is the resumable sync walk: forward from the position, and a drained cursor re-presented later picks up what committed since. ``newest`` is a browse walk for a history screen: it captures the head and walks down toward the retention floor, newest row first. Because new events land ABOVE a captured head, a drained descending cursor stays drained — a reader checking for new activity captures the head again. That is also why ``order=newest`` takes only ``start=now``: ``beginning`` names the far end of a walk that already ends there.  ``type`` is an optional comma-separated allow-list of exact event-type strings (e.g. ``type=folder.created,artifact.updated`` for content only, or ``type=grant.created,grant.updated,grant.revoked`` for grant events). A comma-list — not a single value or a ``grant.*`` glob — because the useful sync queries (\"content only\", \"all permission events\") are SETS of exact types, and exact-match keeps the filter's meaning independent of the dotted naming (§6.3: unknown params are rejected; unknown type VALUES 400 here). Permission types requested by a non-manager are silently empty (the manager filter still applies), never an existence oracle.
 
         :param drive_id: (required)
         :type drive_id: str
@@ -75,6 +76,8 @@ class ChangesApi:
         :type cursor: str
         :param type:
         :type type: str
+        :param order:
+        :type order: str
         :param authorization: Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -105,6 +108,7 @@ class ChangesApi:
             start=start,
             cursor=cursor,
             type=type,
+            order=order,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -142,6 +146,7 @@ class ChangesApi:
         start: Optional[StrictStr] = None,
         cursor: Optional[StrictStr] = None,
         type: Optional[StrictStr] = None,
+        order: Optional[StrictStr] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.")] = None,
         _request_timeout: Union[
             None,
@@ -158,7 +163,7 @@ class ChangesApi:
     ) -> ApiResponse[ChangePageOut]:
         """List Changes
 
-        Pull one page of changes. Exactly one of ``start`` or ``cursor``.  ``type`` is an optional comma-separated allow-list of exact event-type strings (e.g. ``type=folder.created,artifact.updated`` for content only, or ``type=grant.created,grant.updated,grant.revoked`` for grant events). A comma-list — not a single value or a ``grant.*`` glob — because the useful sync queries (\"content only\", \"all permission events\") are SETS of exact types, and exact-match keeps the filter's meaning independent of the dotted naming (§6.3: unknown params are rejected; unknown type VALUES 400 here). Permission types requested by a non-manager are silently empty (the manager filter still applies), never an existence oracle.
+        Pull one page of changes. Exactly one of ``start`` or ``cursor``.  ``order`` selects the direction of the walk and accompanies ``start``, never a ``cursor`` — a cursor already carries the direction it was minted for, so repeating it could only ever contradict it.  ``oldest`` (the default) is the resumable sync walk: forward from the position, and a drained cursor re-presented later picks up what committed since. ``newest`` is a browse walk for a history screen: it captures the head and walks down toward the retention floor, newest row first. Because new events land ABOVE a captured head, a drained descending cursor stays drained — a reader checking for new activity captures the head again. That is also why ``order=newest`` takes only ``start=now``: ``beginning`` names the far end of a walk that already ends there.  ``type`` is an optional comma-separated allow-list of exact event-type strings (e.g. ``type=folder.created,artifact.updated`` for content only, or ``type=grant.created,grant.updated,grant.revoked`` for grant events). A comma-list — not a single value or a ``grant.*`` glob — because the useful sync queries (\"content only\", \"all permission events\") are SETS of exact types, and exact-match keeps the filter's meaning independent of the dotted naming (§6.3: unknown params are rejected; unknown type VALUES 400 here). Permission types requested by a non-manager are silently empty (the manager filter still applies), never an existence oracle.
 
         :param drive_id: (required)
         :type drive_id: str
@@ -170,6 +175,8 @@ class ChangesApi:
         :type cursor: str
         :param type:
         :type type: str
+        :param order:
+        :type order: str
         :param authorization: Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -200,6 +207,7 @@ class ChangesApi:
             start=start,
             cursor=cursor,
             type=type,
+            order=order,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -237,6 +245,7 @@ class ChangesApi:
         start: Optional[StrictStr] = None,
         cursor: Optional[StrictStr] = None,
         type: Optional[StrictStr] = None,
+        order: Optional[StrictStr] = None,
         authorization: Annotated[Optional[StrictStr], Field(description="Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.")] = None,
         _request_timeout: Union[
             None,
@@ -253,7 +262,7 @@ class ChangesApi:
     ) -> RESTResponseType:
         """List Changes
 
-        Pull one page of changes. Exactly one of ``start`` or ``cursor``.  ``type`` is an optional comma-separated allow-list of exact event-type strings (e.g. ``type=folder.created,artifact.updated`` for content only, or ``type=grant.created,grant.updated,grant.revoked`` for grant events). A comma-list — not a single value or a ``grant.*`` glob — because the useful sync queries (\"content only\", \"all permission events\") are SETS of exact types, and exact-match keeps the filter's meaning independent of the dotted naming (§6.3: unknown params are rejected; unknown type VALUES 400 here). Permission types requested by a non-manager are silently empty (the manager filter still applies), never an existence oracle.
+        Pull one page of changes. Exactly one of ``start`` or ``cursor``.  ``order`` selects the direction of the walk and accompanies ``start``, never a ``cursor`` — a cursor already carries the direction it was minted for, so repeating it could only ever contradict it.  ``oldest`` (the default) is the resumable sync walk: forward from the position, and a drained cursor re-presented later picks up what committed since. ``newest`` is a browse walk for a history screen: it captures the head and walks down toward the retention floor, newest row first. Because new events land ABOVE a captured head, a drained descending cursor stays drained — a reader checking for new activity captures the head again. That is also why ``order=newest`` takes only ``start=now``: ``beginning`` names the far end of a walk that already ends there.  ``type`` is an optional comma-separated allow-list of exact event-type strings (e.g. ``type=folder.created,artifact.updated`` for content only, or ``type=grant.created,grant.updated,grant.revoked`` for grant events). A comma-list — not a single value or a ``grant.*`` glob — because the useful sync queries (\"content only\", \"all permission events\") are SETS of exact types, and exact-match keeps the filter's meaning independent of the dotted naming (§6.3: unknown params are rejected; unknown type VALUES 400 here). Permission types requested by a non-manager are silently empty (the manager filter still applies), never an existence oracle.
 
         :param drive_id: (required)
         :type drive_id: str
@@ -265,6 +274,8 @@ class ChangesApi:
         :type cursor: str
         :param type:
         :type type: str
+        :param order:
+        :type order: str
         :param authorization: Deprecated: redundant with the operation's `bearerAuth` security requirement, which is how a generated client should learn to authenticate. Scheduled for removal.
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -295,6 +306,7 @@ class ChangesApi:
             start=start,
             cursor=cursor,
             type=type,
+            order=order,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -327,6 +339,7 @@ class ChangesApi:
         start,
         cursor,
         type,
+        order,
         authorization,
         _request_auth,
         _content_type,
@@ -367,6 +380,10 @@ class ChangesApi:
         if type is not None:
 
             _query_params.append(('type', type))
+
+        if order is not None:
+
+            _query_params.append(('order', order))
 
         # process the header parameters
         if authorization is not None:

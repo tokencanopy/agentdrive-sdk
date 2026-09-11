@@ -17,23 +17,31 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
-from typing import Any, ClassVar, Dict, List
+from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
+from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
-from agentdrive_sdk.generated.models.effective_limits_out import EffectiveLimitsOut
-from agentdrive_sdk.generated.models.usage_meters_out import UsageMetersOut
 from typing import Optional, Set
 from typing_extensions import Self
 
-class DriveUsageOut(BaseModel):
+class UsageMeterOut(BaseModel):
     """
-    DriveUsageOut
+    UsageMeterOut
     """ # noqa: E501
-    effective_limits: EffectiveLimitsOut
-    meters: UsageMetersOut
-    retrieval_bytes: Annotated[int, Field(strict=True, ge=0)]
-    storage_bytes: Annotated[int, Field(strict=True, ge=0)]
-    __properties: ClassVar[List[str]] = ["effective_limits", "meters", "retrieval_bytes", "storage_bytes"]
+    limit: StrictInt
+    remaining: Annotated[int, Field(strict=True, ge=0)]
+    reserved: Annotated[int, Field(strict=True, ge=0)]
+    reset_at: Optional[datetime]
+    scope: StrictStr
+    used: Annotated[int, Field(strict=True, ge=0)]
+    __properties: ClassVar[List[str]] = ["limit", "remaining", "reserved", "reset_at", "scope", "used"]
+
+    @field_validator('scope')
+    def scope_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in set(['workspace', 'drive', 'principal', 'share']):
+            raise ValueError("must be one of enum values ('workspace', 'drive', 'principal', 'share')")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -53,7 +61,7 @@ class DriveUsageOut(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of DriveUsageOut from a JSON string"""
+        """Create an instance of UsageMeterOut from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,17 +82,16 @@ class DriveUsageOut(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of effective_limits
-        if self.effective_limits:
-            _dict['effective_limits'] = self.effective_limits.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of meters
-        if self.meters:
-            _dict['meters'] = self.meters.to_dict()
+        # set to None if reset_at (nullable) is None
+        # and model_fields_set contains the field
+        if self.reset_at is None and "reset_at" in self.model_fields_set:
+            _dict['reset_at'] = None
+
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of DriveUsageOut from a dict"""
+        """Create an instance of UsageMeterOut from a dict"""
         if obj is None:
             return None
 
@@ -92,9 +99,11 @@ class DriveUsageOut(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "effective_limits": EffectiveLimitsOut.from_dict(obj["effective_limits"]) if obj.get("effective_limits") is not None else None,
-            "meters": UsageMetersOut.from_dict(obj["meters"]) if obj.get("meters") is not None else None,
-            "retrieval_bytes": obj.get("retrieval_bytes"),
-            "storage_bytes": obj.get("storage_bytes")
+            "limit": obj.get("limit"),
+            "remaining": obj.get("remaining"),
+            "reserved": obj.get("reserved"),
+            "reset_at": obj.get("reset_at"),
+            "scope": obj.get("scope"),
+            "used": obj.get("used")
         })
         return _obj

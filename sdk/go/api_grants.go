@@ -271,7 +271,7 @@ type ApiGrantsListRequest struct {
 	ctx context.Context
 	ApiService *GrantsAPIService
 	driveId string
-	lifecycle *string
+	state *string
 	limit *int32
 	cursor *string
 	resourceType *string
@@ -280,8 +280,8 @@ type ApiGrantsListRequest struct {
 	authorization *string
 }
 
-func (r ApiGrantsListRequest) Lifecycle(lifecycle string) ApiGrantsListRequest {
-	r.lifecycle = &lifecycle
+func (r ApiGrantsListRequest) State(state string) ApiGrantsListRequest {
+	r.state = &state
 	return r
 }
 
@@ -383,11 +383,11 @@ func (a *GrantsAPIService) GrantsListExecute(r ApiGrantsListRequest) (*GrantList
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if r.lifecycle != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "lifecycle", r.lifecycle, "form", "")
+	if r.state != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "state", r.state, "form", "")
 	} else {
 		var defaultValue string = "active"
-		r.lifecycle = &defaultValue
+		r.state = &defaultValue
 	}
 	if r.limit != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")

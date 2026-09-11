@@ -1541,7 +1541,7 @@ class ArtifactsApi:
     def artifacts_list(
         self,
         drive_id: StrictStr,
-        lifecycle: Optional[StrictStr] = None,
+        state: Optional[StrictStr] = None,
         limit: Optional[StrictInt] = None,
         cursor: Optional[StrictStr] = None,
         parent_id: Optional[StrictStr] = None,
@@ -1566,12 +1566,12 @@ class ArtifactsApi:
     ) -> ArtifactListOut:
         """List Artifacts
 
-        List the drive's artifacts, newest-first (keyset paginated).  ``lifecycle`` (active|deleted|all) exposes soft-deleted artifacts. ``parent_id`` / ``name`` / ``content_type`` / ``label`` are exact-match filters; ``updated_after`` / ``updated_before`` are inclusive bounds. Unknown query parameters are rejected.
+        List the drive's artifacts, newest-first (keyset paginated).  ``state`` (active|deleted|all) exposes soft-deleted artifacts. ``parent_id`` / ``name`` / ``content_type`` / ``label`` are exact-match filters; ``updated_after`` / ``updated_before`` are inclusive bounds. Unknown query parameters are rejected.
 
         :param drive_id: (required)
         :type drive_id: str
-        :param lifecycle:
-        :type lifecycle: str
+        :param state:
+        :type state: str
         :param limit:
         :type limit: int
         :param cursor:
@@ -1614,7 +1614,7 @@ class ArtifactsApi:
 
         _param = self._artifacts_list_serialize(
             drive_id=drive_id,
-            lifecycle=lifecycle,
+            state=state,
             limit=limit,
             cursor=cursor,
             parent_id=parent_id,
@@ -1655,7 +1655,7 @@ class ArtifactsApi:
     def artifacts_list_with_http_info(
         self,
         drive_id: StrictStr,
-        lifecycle: Optional[StrictStr] = None,
+        state: Optional[StrictStr] = None,
         limit: Optional[StrictInt] = None,
         cursor: Optional[StrictStr] = None,
         parent_id: Optional[StrictStr] = None,
@@ -1680,12 +1680,12 @@ class ArtifactsApi:
     ) -> ApiResponse[ArtifactListOut]:
         """List Artifacts
 
-        List the drive's artifacts, newest-first (keyset paginated).  ``lifecycle`` (active|deleted|all) exposes soft-deleted artifacts. ``parent_id`` / ``name`` / ``content_type`` / ``label`` are exact-match filters; ``updated_after`` / ``updated_before`` are inclusive bounds. Unknown query parameters are rejected.
+        List the drive's artifacts, newest-first (keyset paginated).  ``state`` (active|deleted|all) exposes soft-deleted artifacts. ``parent_id`` / ``name`` / ``content_type`` / ``label`` are exact-match filters; ``updated_after`` / ``updated_before`` are inclusive bounds. Unknown query parameters are rejected.
 
         :param drive_id: (required)
         :type drive_id: str
-        :param lifecycle:
-        :type lifecycle: str
+        :param state:
+        :type state: str
         :param limit:
         :type limit: int
         :param cursor:
@@ -1728,7 +1728,7 @@ class ArtifactsApi:
 
         _param = self._artifacts_list_serialize(
             drive_id=drive_id,
-            lifecycle=lifecycle,
+            state=state,
             limit=limit,
             cursor=cursor,
             parent_id=parent_id,
@@ -1769,7 +1769,7 @@ class ArtifactsApi:
     def artifacts_list_without_preload_content(
         self,
         drive_id: StrictStr,
-        lifecycle: Optional[StrictStr] = None,
+        state: Optional[StrictStr] = None,
         limit: Optional[StrictInt] = None,
         cursor: Optional[StrictStr] = None,
         parent_id: Optional[StrictStr] = None,
@@ -1794,12 +1794,12 @@ class ArtifactsApi:
     ) -> RESTResponseType:
         """List Artifacts
 
-        List the drive's artifacts, newest-first (keyset paginated).  ``lifecycle`` (active|deleted|all) exposes soft-deleted artifacts. ``parent_id`` / ``name`` / ``content_type`` / ``label`` are exact-match filters; ``updated_after`` / ``updated_before`` are inclusive bounds. Unknown query parameters are rejected.
+        List the drive's artifacts, newest-first (keyset paginated).  ``state`` (active|deleted|all) exposes soft-deleted artifacts. ``parent_id`` / ``name`` / ``content_type`` / ``label`` are exact-match filters; ``updated_after`` / ``updated_before`` are inclusive bounds. Unknown query parameters are rejected.
 
         :param drive_id: (required)
         :type drive_id: str
-        :param lifecycle:
-        :type lifecycle: str
+        :param state:
+        :type state: str
         :param limit:
         :type limit: int
         :param cursor:
@@ -1842,7 +1842,7 @@ class ArtifactsApi:
 
         _param = self._artifacts_list_serialize(
             drive_id=drive_id,
-            lifecycle=lifecycle,
+            state=state,
             limit=limit,
             cursor=cursor,
             parent_id=parent_id,
@@ -1878,7 +1878,7 @@ class ArtifactsApi:
     def _artifacts_list_serialize(
         self,
         drive_id,
-        lifecycle,
+        state,
         limit,
         cursor,
         parent_id,
@@ -1912,9 +1912,9 @@ class ArtifactsApi:
         if drive_id is not None:
             _path_params['drive_id'] = drive_id
         # process the query parameters
-        if lifecycle is not None:
+        if state is not None:
 
-            _query_params.append(('lifecycle', lifecycle))
+            _query_params.append(('state', state))
 
         if limit is not None:
 

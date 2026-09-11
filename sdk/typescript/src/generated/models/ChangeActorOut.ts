@@ -40,6 +40,7 @@ export interface ChangeActorOut {
 export const ChangeActorOutTypeEnum = {
     Agent: 'agent',
     User: 'user',
+    Service: 'service',
     System: 'system'
 } as const;
 export type ChangeActorOutTypeEnum = typeof ChangeActorOutTypeEnum[keyof typeof ChangeActorOutTypeEnum];

@@ -800,7 +800,7 @@ type ApiFoldersListRequest struct {
 	ctx context.Context
 	ApiService *FoldersAPIService
 	driveId string
-	lifecycle *string
+	state *string
 	limit *int32
 	cursor *string
 	parentId *string
@@ -808,8 +808,8 @@ type ApiFoldersListRequest struct {
 	authorization *string
 }
 
-func (r ApiFoldersListRequest) Lifecycle(lifecycle string) ApiFoldersListRequest {
-	r.lifecycle = &lifecycle
+func (r ApiFoldersListRequest) State(state string) ApiFoldersListRequest {
+	r.state = &state
 	return r
 }
 
@@ -849,7 +849,7 @@ FoldersList List Folders
 
 List the drive's folders, newest-first (keyset paginated).
 
-``lifecycle`` (active|deleted|all) exposes soft-deleted folders so the
+``state`` (active|deleted|all) exposes soft-deleted folders so the
 post-delete revision can be read as the If-Match source for a restore.
 ``parent_id`` / ``name`` are exact-match filters. Unknown query parameters
 are rejected (§6.3).
@@ -888,11 +888,11 @@ func (a *FoldersAPIService) FoldersListExecute(r ApiFoldersListRequest) (*Folder
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	if r.lifecycle != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "lifecycle", r.lifecycle, "form", "")
+	if r.state != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "state", r.state, "form", "")
 	} else {
 		var defaultValue string = "active"
-		r.lifecycle = &defaultValue
+		r.state = &defaultValue
 	}
 	if r.limit != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "form", "")

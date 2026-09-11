@@ -71,7 +71,7 @@ class NavigationApi:
     ) -> EntryListOut:
         """List Entries
 
-        List one folder's direct children across the shared namespace.
+        List one folder's direct children across the shared namespace.  ``state`` (active|deleted|all) exposes soft-deleted entries, matching every other v0 collection. Unknown query parameters are rejected.
 
         :param drive_id: (required)
         :type drive_id: str
@@ -189,7 +189,7 @@ class NavigationApi:
     ) -> ApiResponse[EntryListOut]:
         """List Entries
 
-        List one folder's direct children across the shared namespace.
+        List one folder's direct children across the shared namespace.  ``state`` (active|deleted|all) exposes soft-deleted entries, matching every other v0 collection. Unknown query parameters are rejected.
 
         :param drive_id: (required)
         :type drive_id: str
@@ -307,7 +307,7 @@ class NavigationApi:
     ) -> RESTResponseType:
         """List Entries
 
-        List one folder's direct children across the shared namespace.
+        List one folder's direct children across the shared namespace.  ``state`` (active|deleted|all) exposes soft-deleted entries, matching every other v0 collection. Unknown query parameters are rejected.
 
         :param drive_id: (required)
         :type drive_id: str

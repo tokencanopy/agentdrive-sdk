@@ -254,7 +254,7 @@ Name | Type | Description  | Notes
 
 ## FoldersList
 
-> FolderListOut FoldersList(ctx, driveId).Lifecycle(lifecycle).Limit(limit).Cursor(cursor).ParentId(parentId).Name(name).Authorization(authorization).Execute()
+> FolderListOut FoldersList(ctx, driveId).State(state).Limit(limit).Cursor(cursor).ParentId(parentId).Name(name).Authorization(authorization).Execute()
 
 List Folders
 
@@ -274,7 +274,7 @@ import (
 
 func main() {
 	driveId := "driveId_example" // string |
-	lifecycle := "lifecycle_example" // string |  (optional) (default to "active")
+	state := "state_example" // string |  (optional) (default to "active")
 	limit := int32(56) // int32 |  (optional)
 	cursor := "cursor_example" // string |  (optional)
 	parentId := "parentId_example" // string |  (optional)
@@ -283,7 +283,7 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.FoldersAPI.FoldersList(context.Background(), driveId).Lifecycle(lifecycle).Limit(limit).Cursor(cursor).ParentId(parentId).Name(name).Authorization(authorization).Execute()
+	resp, r, err := apiClient.FoldersAPI.FoldersList(context.Background(), driveId).State(state).Limit(limit).Cursor(cursor).ParentId(parentId).Name(name).Authorization(authorization).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `FoldersAPI.FoldersList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -309,7 +309,7 @@ Other parameters are passed through a pointer to a apiFoldersListRequest struct 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **lifecycle** | **string** |  | [default to &quot;active&quot;]
+ **state** | **string** |  | [default to &quot;active&quot;]
  **limit** | **int32** |  |
  **cursor** | **string** |  |
  **parentId** | **string** |  |
